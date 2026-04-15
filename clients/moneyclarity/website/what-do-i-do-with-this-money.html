@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Do I Do With This Money? — Money Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --td:#0a2e2a;--tmu:#4a8a82;--tl:#7ab8b0;
+  --teal-dark:#0a2e2a;--teal-mid:#0d3d38;--teal-pale:#e0f5f2;
+  --orange:#ff5500;--orange-light:#ff7733;--orange-pale:#fff2ec;
+  --cream:#f8fffe;--white:#fff;--border:rgba(10,46,42,0.14);
+}
+html,body{margin:0;padding:0;background:var(--cream);}
+#app{font-family:'Source Sans 3',sans-serif;min-height:100vh;max-width:420px;margin:0 auto;}
+.sc{display:none;min-height:100vh;flex-direction:column;animation:fu 0.3s ease;}
+.sc.on{display:flex;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.lbg{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:52px 28px 36px;text-align:center;position:relative;overflow:hidden;}
+.lbg::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.topline{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff5500 35%,#ff5500 65%,transparent);}
+.wm{font-family:'Lora',serif;font-size:16px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:24px;position:relative;z-index:1;}
+.wm-m{color:rgba(255,255,255,0.9);}.wm-c{color:#ff5500;}
+.lh{font-family:'Lora',serif;font-size:30px;font-weight:500;color:#fff;line-height:1.22;margin-bottom:14px;position:relative;z-index:1;}
+.lh em{color:#ff5500;font-style:italic;}
+.ldiv{width:36px;height:2px;background:#ff5500;margin:0 auto 18px;border-radius:2px;opacity:0.8;position:relative;z-index:1;}
+.lsub{font-size:16px;color:rgba(255,255,255,0.58);line-height:1.7;max-width:300px;margin-bottom:10px;font-weight:300;position:relative;z-index:1;}
+.reassure{font-size:14px;color:rgba(255,255,255,0.35);font-style:italic;font-family:'Lora',serif;margin-bottom:26px;position:relative;z-index:1;line-height:1.6;max-width:280px;}
+.btn-p{background:#ff5500;color:#fff;border:none;border-radius:12px;font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:500;padding:16px 32px;cursor:pointer;width:100%;max-width:310px;box-shadow:0 6px 24px rgba(255,85,0,0.38);transition:background 0.2s,transform 0.1s;position:relative;z-index:1;}
+.btn-p:hover{background:#ff7733;}
+.btn-p:active{transform:scale(0.98);}
+.micro{font-size:13px;color:rgba(255,255,255,0.28);margin-top:10px;position:relative;z-index:1;}
+.qh{background:var(--teal-dark);padding:16px 22px 12px;}
+.pt{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:9px;}
+.pf{height:100%;background:#ff5500;border-radius:2px;transition:width 0.4s ease;}
+.qm{display:flex;justify-content:space-between;}
+.ql{font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;}
+.qp{font-size:12px;color:#ff7733;font-weight:500;}
+.qb{flex:1;background:var(--cream);padding:26px 20px 20px;display:flex;flex-direction:column;}
+.qt{font-family:'Lora',serif;font-size:23px;font-weight:500;color:var(--td);line-height:1.3;margin-bottom:8px;}
+.qsub{font-size:15px;color:var(--tmu);margin-bottom:18px;font-weight:300;line-height:1.55;}
+.qnote{font-size:13px;color:var(--tl);font-style:italic;font-family:'Lora',serif;margin-top:10px;line-height:1.6;}
+.iw{position:relative;}
+.csym{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--tmu);pointer-events:none;}
+.inf{border:2px solid var(--border);border-radius:10px;padding:13px 16px;font-family:'Source Sans 3',sans-serif;font-size:18px;color:var(--td);width:100%;outline:none;background:#fff;transition:border-color 0.2s;}
+.inf:focus{border-color:#ff5500;}
+.hp{padding-left:30px;}
+.os{display:flex;flex-direction:column;gap:9px;}
+.ob{background:#fff;border:2px solid var(--border);border-radius:12px;padding:13px 16px;text-align:left;font-family:'Source Sans 3',sans-serif;font-size:15px;color:var(--td);cursor:pointer;transition:border-color 0.18s,background 0.18s;display:flex;align-items:center;gap:12px;line-height:1.4;}
+.ob:hover{border-color:#ff5500;background:var(--orange-pale);}
+.ob.sel{border-color:#ff5500;background:var(--orange-pale);font-weight:500;}
+.oc{width:17px;height:17px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:background 0.18s,border-color 0.18s;}
+.ob.sel .oc{background:#ff5500;border-color:#ff5500;}
+.nr{display:flex;gap:10px;margin-top:auto;padding-top:18px;}
+.bb{border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--tmu);font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px 18px;cursor:pointer;}
+.bn{flex:1;background:var(--teal-dark);color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:13px;cursor:pointer;transition:background 0.2s;}
+.bn:hover{background:var(--teal-mid);}
+.ew{background:var(--cream);flex:1;display:flex;flex-direction:column;padding:26px 20px 22px;}
+.eh{background:var(--teal-dark);border-radius:14px;padding:22px 20px;margin-bottom:22px;text-align:center;position:relative;overflow:hidden;}
+.eh::after{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,85,0,0.09);}
+.eht{font-family:'Lora',serif;font-size:21px;color:#fff;margin-bottom:7px;font-weight:500;position:relative;z-index:1;line-height:1.3;}
+.ehs{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;font-weight:300;position:relative;z-index:1;}
+.fl2{font-size:12px;font-weight:500;color:var(--tmu);letter-spacing:0.06em;text-transform:uppercase;display:block;margin-bottom:6px;}
+.fg{margin-bottom:12px;}
+.pv{font-size:12px;color:var(--tl);text-align:center;line-height:1.65;margin-top:13px;font-weight:300;}
+.rw{background:var(--cream);flex:1;display:flex;flex-direction:column;}
+.rh{padding:24px 20px 20px;background:var(--teal-dark);}
+.re{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#ff7733;margin-bottom:4px;}
+.rht{font-family:'Lora',serif;font-size:22px;color:#fff;font-weight:500;line-height:1.25;}
+.rtl{font-family:'Lora',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.25);margin-top:4px;}
+.rb{padding:16px 14px;display:flex;flex-direction:column;gap:12px;}
+.cd{background:#fff;border-radius:13px;border:1px solid rgba(10,46,42,0.1);padding:16px;}
+.ce{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:10px;}
+.money-type{background:var(--teal-dark);border-radius:13px;padding:18px;}
+.mt-eye{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:6px;}
+.mt-name{font-family:'Lora',serif;font-size:17px;color:#fff;font-weight:500;margin-bottom:8px;line-height:1.3;}
+.mt-desc{font-size:14px;color:rgba(255,255,255,0.58);line-height:1.6;font-weight:300;}
+.priority-card{background:#ff5500;border-radius:13px;padding:18px;}
+.pc-eye{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:rgba(255,255,255,0.55);margin-bottom:5px;}
+.pc-frame{font-size:13px;color:rgba(255,255,255,0.65);font-style:italic;border-left:2px solid rgba(255,255,255,0.3);padding-left:11px;margin-bottom:10px;line-height:1.6;}
+.pc-rec{font-family:'Lora',serif;font-size:18px;color:#fff;line-height:1.4;font-weight:500;}
+.step-list{display:flex;flex-direction:column;gap:11px;}
+.step-item{display:flex;gap:12px;align-items:flex-start;}
+.step-num{width:24px;height:24px;border-radius:50%;background:#ff5500;color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.step-text{font-size:14px;color:var(--td);line-height:1.6;font-weight:300;padding-top:2px;}
+.wl{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.wl li{display:flex;gap:10px;font-size:14px;color:var(--td);line-height:1.6;font-weight:300;}
+.wd{width:12px;height:2px;background:#ff5500;flex-shrink:0;margin-top:10px;border-radius:1px;}
+.ac{background:var(--teal-pale);border-radius:13px;padding:16px;border:1px solid rgba(0,184,160,0.2);}
+.at{font-family:'Lora',serif;font-size:14px;color:var(--teal-dark);line-height:1.8;font-style:italic;}
+.tina-card{background:var(--teal-dark);border-radius:13px;padding:18px;}
+.tc-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:10px;}
+.tc-text{font-family:'Lora',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.72);line-height:1.8;}
+.tc-sig{font-size:12px;color:rgba(255,255,255,0.3);margin-top:10px;font-weight:300;}
+.sc-cta{background:var(--orange-pale);border:2px solid rgba(255,85,0,0.18);border-radius:13px;padding:18px;text-align:center;}
+.sc-eye{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:7px;}
+.sc-h{font-family:'Lora',serif;font-size:18px;font-weight:500;color:var(--td);margin-bottom:7px;line-height:1.3;}
+.sc-sub{font-size:14px;color:var(--tmu);font-weight:300;line-height:1.6;margin-bottom:16px;}
+.sc-btn{background:#ff5500;color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:14px;width:100%;cursor:pointer;}
+.bs2{background:#fff;color:var(--teal-dark);border:2px solid var(--border);border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px;cursor:pointer;text-align:center;width:100%;}
+.back-link{display:block;text-align:center;font-size:12px;color:var(--tmu);margin-top:10px;text-decoration:none;font-weight:300;padding-bottom:6px;}
+.back-link span{color:#ff5500;}
+.ft{font-size:11px;color:var(--tl);text-align:center;padding:12px 18px;line-height:1.6;font-weight:300;}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="sc on" id="s0">
+  <div class="lbg">
+    <div class="topline"></div>
+    <div class="wm"><span class="wm-m">Money</span><span class="wm-c">Clarity</span></div>
+    <h1 class="lh">I have money.<br>I don't know what<br>to do with <em>it.</em></h1>
+    <div class="ldiv"></div>
+    <p class="lsub">A settlement. An inheritance. An IRA you've never had to manage. The fear of getting it wrong is real. This tool gives you a clear first step — not a full investment plan.</p>
+    <p class="reassure">You don't have to decide everything right now. You just need to know where to start.</p>
+    <button class="btn-p" onclick="gt(1)">Help Me Figure This Out</button>
+    <p class="micro">Free. Private. Under 60 seconds.</p>
+  </div>
+  <div class="ft" style="background:var(--teal-dark);color:rgba(255,255,255,0.18);">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s1">
+  <div class="qh"><div class="pt"><div class="pf" style="width:20%"></div></div><div class="qm"><span class="ql">What kind of money</span><span class="qp">Step 1 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is the money you're not sure what to do with?</h2>
+    <p class="qsub">Pick the one that best describes what you have.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'type','A divorce settlement or asset division','settlement')"><div class="oc"></div>A divorce settlement or asset division</button>
+      <button class="ob" onclick="so(this,'type','An inheritance or life insurance payout','inheritance')"><div class="oc"></div>An inheritance or life insurance payout</button>
+      <button class="ob" onclick="so(this,'type','A retirement account I now manage alone','retirement-account')"><div class="oc"></div>A retirement account I now manage alone (IRA, 401k)</button>
+      <button class="ob" onclick="so(this,'type','A combination of the above','combination')"><div class="oc"></div>A combination of the above</button>
+    </div>
+    <p class="qnote">All of these are different types of money with different rules. Your first step depends on which one you have.</p>
+    <div class="nr"><button class="bb" onclick="gt(0)">Back</button><button class="bn" onclick="nq(1,2,'type')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s2">
+  <div class="qh"><div class="pt"><div class="pf" style="width:40%"></div></div><div class="qm"><span class="ql">How much</span><span class="qp">Step 2 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">Roughly how much money are we talking about?</h2>
+    <p class="qsub">Approximate is completely fine. This shapes your options.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'amount','Under $50,000','low')"><div class="oc"></div>Under $50,000</button>
+      <button class="ob" onclick="so(this,'amount','$50,000 – $200,000','mid-low')"><div class="oc"></div>$50,000 – $200,000</button>
+      <button class="ob" onclick="so(this,'amount','$200,000 – $500,000','mid')"><div class="oc"></div>$200,000 – $500,000</button>
+      <button class="ob" onclick="so(this,'amount','$500,000 – $1 million','high')"><div class="oc"></div>$500,000 – $1 million</button>
+      <button class="ob" onclick="so(this,'amount','Over $1 million','very-high')"><div class="oc"></div>Over $1 million</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(1)">Back</button><button class="bn" onclick="nq(2,3,'amount')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s3">
+  <div class="qh"><div class="pt"><div class="pf" style="width:60%"></div></div><div class="qm"><span class="ql">Your timeline</span><span class="qp">Step 3 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">How soon do you need this money to support your life?</h2>
+    <p class="qsub">This is the most important factor in what you do with it.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'timeline','I need it now — it\'s part of my monthly income','now')"><div class="oc"></div>I need it now — it's part of what I live on</button>
+      <button class="ob" onclick="so(this,'timeline','Within 1–3 years','soon')"><div class="oc"></div>Within 1–3 years</button>
+      <button class="ob" onclick="so(this,'timeline','In 3–10 years','medium')"><div class="oc"></div>In 3–10 years</button>
+      <button class="ob" onclick="so(this,'timeline','Not for at least 10 years','long')"><div class="oc"></div>Not for at least 10 years</button>
+      <button class="ob" onclick="so(this,'timeline','I\'m not sure','unsure')"><div class="oc"></div>I'm not sure yet</button>
+    </div>
+    <p class="qnote">If you're genuinely not sure, that's important information too.</p>
+    <div class="nr"><button class="bb" onclick="gt(2)">Back</button><button class="bn" onclick="nq(3,4,'timeline')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s4">
+  <div class="qh"><div class="pt"><div class="pf" style="width:80%"></div></div><div class="qm"><span class="ql">Your biggest fear</span><span class="qp">Step 4 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What scares you most about this money?</h2>
+    <p class="qsub">The fear underneath the question matters. Pick the one that's really there.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'fear','Losing it — making a bad investment','losing-it')"><div class="oc"></div>Losing it — making a bad investment and having nothing left</button>
+      <button class="ob" onclick="so(this,'fear','It sitting in the wrong place doing nothing','sitting')"><div class="oc"></div>It sitting in the wrong place and doing nothing for me</button>
+      <button class="ob" onclick="so(this,'fear','Being taken advantage of by a financial advisor','advisor')"><div class="oc"></div>Being taken advantage of by an advisor I can't evaluate</button>
+      <button class="ob" onclick="so(this,'fear','Making a decision before I\'m ready','too-soon')"><div class="oc"></div>Making an irreversible decision before I'm ready</button>
+    </div>
+    <p class="qnote">All of these are legitimate fears. Your first step is shaped by which one is yours.</p>
+    <div class="nr"><button class="bb" onclick="gt(3)">Back</button><button class="bn" onclick="gt(5)">See My First Step</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s5">
+  <div class="ew">
+    <div class="eh">
+      <h2 class="eht" id="email-h">Your first step is ready.</h2>
+      <p class="ehs">Not a full investment plan — the single most important thing to do first, based on what you have and what you're afraid of.</p>
+    </div>
+    <div class="fg"><label class="fl2">First name</label><input type="text" class="inf" id="in2" placeholder="Your first name" oninput="A.firstName=this.value;updateEmail()"></div>
+    <div class="fg"><label class="fl2">Email address</label><input type="email" class="inf" id="ie" placeholder="you@example.com" oninput="A.email=this.value"></div>
+    <button class="btn-p" style="max-width:100%;margin-top:4px" onclick="sr()" id="show-btn">Show Me My First Step</button>
+    <p class="pv">Educational guidance only. Private and never shared.</p>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s6">
+  <div class="rw">
+    <div class="rh" style="background:#0a2e2a">
+      <p class="re" id="rey">Your first step</p>
+      <h2 class="rht" id="rht">What Do I Do With This Money?</h2>
+      <p class="rtl">Money Clarity — Know where you stand.</p>
+    </div>
+    <div class="rb">
+
+      <div class="money-type">
+        <div class="mt-eye">What kind of money you have</div>
+        <div class="mt-name" id="money-type-name"></div>
+        <div class="mt-desc" id="money-type-desc"></div>
+      </div>
+
+      <div class="priority-card">
+        <div class="pc-eye">Your single most important first step</div>
+        <div class="pc-frame">Before any investment decisions, before any advisor meetings:</div>
+        <div class="pc-rec" id="first-step"></div>
+      </div>
+
+      <div class="cd">
+        <div class="ce">What to do in the next 30 days</div>
+        <div class="step-list" id="step-list"></div>
+      </div>
+
+      <div class="cd">
+        <div class="ce">What not to do</div>
+        <ul class="wl" id="dont-list"></ul>
+      </div>
+
+      <div class="ac">
+        <div class="ce" style="color:var(--teal-mid)">On your specific fear</div>
+        <p class="at" id="fear-response"></p>
+      </div>
+
+      <div class="tina-card">
+        <div class="tc-label">From Tina</div>
+        <div class="tc-text" id="tina-note"></div>
+        <div class="tc-sig">— Tina Singh · Founder, Money Clarity · 25 years Wall Street</div>
+      </div>
+
+      
+      <div style="background:#0a2e2a;border-radius:13px;padding:18px;text-align:center;margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;">Watch this</div>
+        <h3 style="font-family:'Lora',serif;font-size:17px;color:#fff;margin-bottom:6px;font-weight:500;line-height:1.35;">Take the first step</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:14px;font-weight:300;">A short message from Tina before you begin.</p>
+        <div style="width:100%;max-width:220px;margin:0 auto;border-radius:10px;overflow:hidden;aspect-ratio:9/16;">
+          <iframe src="https://www.veed.io/embed/b65ac4e1-cd18-4b8e-b814-f433a91bb26b?watermark=0&color=&sharing=1&title=0" width="100%" height="100%" frameborder="0" title="Tina Singh — Take The First Step" webkitallowfullscreen mozallowfullscreen allowfullscreen style="display:block;"></iframe>
+        </div>
+      </div>
+      <div class="sc-cta">
+        <div class="sc-eye">Ongoing support</div>
+        <h3 class="sc-h">You don't have to figure the rest out alone.</h3>
+        <p class="sc-sub">Monthly guidance and someone in your corner as you navigate these decisions — from $27/month.</p>
+        
+      <button class="bs2" onclick="window.location.href='MoneyClarityGuide.pdf'">Download My Plan</button>
+      <button class="sc-btn" onclick="window.location.href='subscribe.html'">Learn About Ongoing Support</button>
+      </div>
+
+      <a href="life-changed.html" class="back-link">← Back to <span>Everything Just Changed</span></a>
+    </div>
+    <div class="ft">Educational purposes only. Not financial advice. Always work with qualified professionals for decisions of this magnitude. © 2026 moneyclarity.me</div>
+  </div>
+</div>
+
+</div>
+<script>
+const A={type:'',typeKey:'',amount:'',amountKey:'',timeline:'',timelineKey:'',fear:'',fearKey:'',firstName:'',email:''};
+function gt(n){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById('s'+n).classList.add('on');window.scrollTo(0,0);}
+function so(el,f,v,k){el.closest('.os').querySelectorAll('.ob').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');A[f]=v;A[f+'Key']=k;}
+function nq(c,nx,f){
+  if(!A[f]){alert('Please make a selection to continue.');return;}
+  gt(nx);
+}
+function updateEmail(){
+  const n=A.firstName.trim(),btn=document.getElementById('show-btn');
+  if(n){document.getElementById('email-h').textContent=n+', your first step is ready.';btn.textContent='Show '+n+"'s First Step";}
+  else{document.getElementById('email-h').textContent='Your first step is ready.';btn.textContent='Show Me My First Step';}
+}
+function sr(){
+  const n=A.firstName.trim(),e=A.email.trim();
+  if(!n){alert('Please enter your first name.');return;}
+  if(!e||!e.includes('@')){alert('Please enter a valid email.');return;}
+  fetch('https://primary-production-5fdce.up.railway.app/webhook/moneyclarity-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({firstName:n,email:e,quizType:'what-do-i-do-with-this-money',quizData:{typeKey:A.typeKey,amountKey:A.amountKey,timelineKey:A.timelineKey,fearKey:A.fearKey},source:'moneyclarity.me'})}).catch(()=>{});
+
+  const{typeKey,amountKey,timelineKey,fearKey}=A;
+  const large=['high','very-high'].includes(amountKey);
+  const needNow=timelineKey==='now';
+  const needSoon=timelineKey==='soon';
+
+  document.getElementById('rey').textContent=n+"'s first step";
+  document.getElementById('rht').textContent='What '+n+' Does With This Money';
+
+  const typeNames={
+    settlement:{name:'A divorce settlement or asset division',desc:'This money was likely a mix of different assets — cash, retirement accounts, property proceeds. Each has different tax treatment and different rules. Understanding exactly what you received and its tax status is step one before anything else.'},
+    inheritance:{name:'An inheritance or life insurance payout',desc:'Life insurance proceeds are generally tax-free, which is important. Inherited retirement accounts have specific rules about when you must withdraw money. Cash or investment inheritances have their own considerations. These are different pools of money with different first steps.'},
+    'retirement-account':{name:'A retirement account you now manage alone',desc:'If this is an IRA or 401k you\'re rolling over, timing and how you move it matters significantly. Handled correctly it\'s seamless. Handled incorrectly, a mandatory 20% withholding applies and you could face taxes and penalties.'},
+    combination:{name:'A combination of different money types',desc:'This is the most complex situation — because different types of money have completely different rules, tax treatments, and timelines. The first step is separating them mentally and understanding each one before making any decisions about any of them.'},
+  };
+  const t=typeNames[typeKey]||typeNames.combination;
+  document.getElementById('money-type-name').textContent=t.name;
+  document.getElementById('money-type-desc').textContent=t.desc;
+
+  let firstStep,steps,donts,fearResponse,tinaNote;
+
+  if(typeKey==='retirement-account'){
+    firstStep='Do not touch this money or withdraw it until you fully understand the rollover rules — the wrong move triggers taxes and penalties that cannot be undone.';
+    steps=['Contact the account custodian and ask specifically: "What are my options for this account and what are the tax implications of each?"','If rolling over a 401k, do a direct trustee-to-trustee rollover — never accept a check made out to you.','Talk to a fee-only financial advisor or CPA before making any decisions about a retirement account rollover.'];
+    donts=['Do not withdraw money from a retirement account without understanding the tax implications — they can be significant.','Do not let anyone pressure you into moving this money quickly. There is almost never a genuine urgency.','Do not roll this into an annuity without fully understanding the fees and restrictions first.'];
+  } else if(needNow){
+    firstStep='Put this money somewhere safe and accessible immediately — a high-yield savings account or money market — while you take 60–90 days to understand your options clearly.';
+    steps=['Open a high-yield savings account if you don\'t already have one. Your money earns something while you think.','Calculate exactly how much you need per month from this money to cover your life.','Then, and only then, meet with a fee-only advisor to discuss options for the remainder.'];
+    donts=['Do not invest money you need within the next 12 months. Markets can drop and may not recover in time.','Do not let the money sit in a regular checking account — it should at minimum be earning interest.','Do not make long-term investment decisions with money you need short-term.'];
+  } else if(large){
+    firstStep='Before making any investment decisions, put this money in a safe place and take 90 days to interview at least two fee-only financial advisors — not commission-based ones.';
+    steps=['Park the money in a high-yield savings account or money market fund while you decide. This is not a permanent decision — it\'s a bridge.','Interview at least two fee-only advisors (search NAPFA.org). Ask each one: "How are you compensated?" Anyone who earns commissions on what they sell you has a different incentive than you do.','Understand the tax treatment of what you have before investing. Capital gains, ordinary income, and tax-free money are taxed completely differently.'];
+    donts=['Do not invest a large lump sum all at once without a plan. Dollar-cost averaging — investing in pieces over time — reduces your timing risk.','Do not work with any advisor you didn\'t choose yourself and interview independently.','Do not make any irreversible decisions — annuities, illiquid investments — within the first year.'];
+  } else {
+    firstStep='Put this money in a high-yield savings account first — earning 4–5% with no risk — while you take 30–60 days to understand your options clearly.';
+    steps=['Open a high-yield savings account at an online bank (Ally, Marcus, or similar). Your money should be earning something while you think.','After 30 days, assess: do you still need this money within 3 years? If yes, keep it accessible. If no, then consider investing.','If you decide to invest, start with a low-cost index fund in a brokerage account — not an advisor product — as your baseline.'];
+    donts=['Do not invest money you might need in the next 1–3 years.','Do not let this money sit in a regular checking account doing nothing.','Do not say yes to any financial product you don\'t fully understand.'];
+  }
+
+  const fearResponses={
+    'losing-it':`"The fear of losing money is completely rational — and the best protection against it is not finding the perfect investment, it's understanding exactly what you have, keeping money you need soon out of the market, and moving slowly with what you don't. Slow is safe."`,
+    'sitting':`"Money sitting in a savings account earning 4–5% is not doing nothing. It's doing the right thing while you get clear. The mistake most people make is moving too fast, not too slow. Give yourself 90 days."`,
+    'advisor':`"This fear is well-founded. The solution is fee-only advisors who charge flat fees or hourly rates — not commissions on products. Search NAPFA.org for fee-only advisors in your area. Interview two before choosing one."`,
+    'too-soon':`"You're right that some decisions can be hard to undo. The good news: putting money in a savings account while you decide is completely reversible. Most investing decisions are reversible. The ones that aren't — annuities, certain insurance products — are exactly the ones to take the most time on."`,
+  };
+  fearResponse=fearResponses[fearKey]||fearResponses['too-soon'];
+
+  tinaNote=typeKey==='retirement-account'
+    ?`"Retirement account rollovers are one of the most common places I've seen costly mistakes happen — not from bad intentions, but from moving too fast or not asking the right questions. A direct trustee-to-trustee rollover done correctly is completely seamless and tax-free. Done incorrectly, it becomes taxable income. This is one area where slowing down by even two weeks to ask the right questions can save you tens of thousands of dollars."`
+    :large
+      ?`"When the amount of money is significant, the most important thing you can do is slow down. Not because you need to be afraid of it — but because you deserve to understand your options fully before choosing one. The right advisor will tell you the same thing. Anyone pushing you to decide quickly is telling you something important about themselves."`
+      :`"I've seen many women in this situation make the same mistake: they feel pressure to do something with the money immediately, as if letting it sit is irresponsible. It's not. Putting it somewhere safe while you get clear is the responsible choice. You have more time than it feels like you do."`;
+
+  document.getElementById('first-step').textContent=firstStep;
+  document.getElementById('step-list').innerHTML=steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`).join('');
+  document.getElementById('dont-list').innerHTML=donts.map(d=>`<li><div class="wd"></div><span>${d}</span></li>`).join('');
+  document.getElementById('fear-response').textContent=fearResponse;
+  document.getElementById('tina-note').textContent=tinaNote;
+  gt(6);
+}
+</script>
+</body>
+</html>

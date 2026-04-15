@@ -1,0 +1,78 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-04-04",
+  "brands": [
+    {"name": "Gummy Gurl", "focus": "THC edibles, gummies, cookies, specialty products"},
+    {"name": "Nature Gurl", "focus": "Pet wellness CBD products"},
+    {"name": "Lifted Labs", "focus": "Functional edibles, mushroom products, hot cocoa"},
+    {"name": "Phyto Kinetics", "focus": "Sleep support, CBD/CBN wellness products"},
+    {"name": "Good Karma", "focus": "CBD tinctures, sleep gummies, caffeine gummies, topicals"},
+    {"name": "Rize", "focus": "Mushroom gummies and chocolate"}
+  ],
+  "faq": {
+    "general": [
+      {"q": "What brands do you carry?", "a": "We offer Gummy Gurl, Nature Gurl, Lifted Labs, Phyto Kinetics, Good Karma, and Rize. Each focuses on different product types including edibles, pet wellness, functional products, and alternative experiences."},
+      {"q": "Are your products legal?", "a": "Our products are federally compliant under the 2018 Farm Bill (containing less than 0.3% Delta-9 THC by dry weight). Laws vary by state, and some products may not be available in certain locations."},
+      {"q": "Are your products lab tested?", "a": "Yes. All products are third-party lab tested for potency, purity, and safety. Lab reports (COAs) are available on our website at /lab-results."},
+      {"q": "What is a COA?", "a": "A Certificate of Analysis is a lab report that verifies cannabinoid content and confirms the product is free of harmful contaminants like pesticides, heavy metals, and solvents."},
+      {"q": "Are your products FDA approved?", "a": "No. These products have not been evaluated by the FDA and are not intended to diagnose, treat, cure, or prevent any disease."},
+      {"q": "How old do I need to be?", "a": "You must be 21+ to purchase THC products."}
+    ],
+    "delta8": [
+      {"q": "What is Delta-8 THC?", "a": "Delta-8 THC is a cannabinoid derived from hemp. It produces mild psychoactive effects, typically more relaxing and less intense than Delta-9 THC."},
+      {"q": "What does Delta-8 feel like?", "a": "Relaxation, mild euphoria, stress relief, body calm without heavy mental fog."},
+      {"q": "Will Delta-8 get me high?", "a": "Yes, but generally a milder, smoother high compared to Delta-9."},
+      {"q": "How long does Delta-8 take to kick in?", "a": "Edibles: 30-90 minutes. Peak effects: 2-4 hours. Total duration: 4-8 hours."},
+      {"q": "How much Delta-8 should I take?", "a": "Beginner: 5-10mg. Intermediate: 10-25mg. Experienced: 25mg+. Always start low and increase gradually."}
+    ],
+    "delta9": [
+      {"q": "What is Delta-9 THC?", "a": "Delta-9 is the primary psychoactive compound in cannabis. Hemp-derived Delta-9 is legal if it remains below 0.3% by dry weight."},
+      {"q": "Is Delta-9 stronger than Delta-8?", "a": "Yes. Delta-9 is generally more potent with stronger psychoactive effects."},
+      {"q": "How long does Delta-9 last?", "a": "Onset: 30-90 minutes (edibles). Duration: 4-8+ hours."},
+      {"q": "Can I take Delta-8 and Delta-9 together?", "a": "Yes. Many products combine both for a balanced effect (Delta-8 for body relaxation, Delta-9 for mental uplift)."}
+    ],
+    "safety": [
+      {"q": "What happens if I take too much THC?", "a": "Anxiety, drowsiness, dry mouth, increased heart rate. Effects are temporary. Stay hydrated and rest."},
+      {"q": "Can I drive after taking THC?", "a": "No. Do not operate vehicles or machinery after consuming THC products."},
+      {"q": "Will this show up on a drug test?", "a": "Yes. Delta-8 and Delta-9 may both trigger a positive drug test."}
+    ],
+    "cbd": [
+      {"q": "What is CBD?", "a": "CBD (Cannabidiol) is a non-psychoactive compound found in hemp that supports relaxation, recovery, and overall wellness."},
+      {"q": "Will CBD get me high?", "a": "No. CBD is non-intoxicating."},
+      {"q": "What does CBD help with?", "a": "Stress management, sleep support, recovery, and general wellness."},
+      {"q": "Can I take CBD with THC?", "a": "Yes. CBD can help balance THC effects and reduce intensity."}
+    ],
+    "mushrooms": [
+      {"q": "Are your mushroom products psychedelic?", "a": "No. Our mushroom products are legal alternatives and do not contain psilocybin."},
+      {"q": "What do your mushroom gummies do?", "a": "Mood elevation, relaxation, mild euphoric experience, sensory enhancement."},
+      {"q": "How long do mushroom products take to work?", "a": "Onset: 30-90 minutes. Duration: 4-6 hours."}
+    ],
+    "pets": [
+      {"q": "Are your pet products safe?", "a": "Yes. Our pet products are formulated specifically for animals with safe, appropriate levels of CBD."},
+      {"q": "What do pet CBD products help with?", "a": "Anxiety, joint support, calmness, and general wellness."},
+      {"q": "Will CBD make my pet high?", "a": "No. CBD is non-psychoactive."},
+      {"q": "How much should I give my pet?", "a": "Follow product dosing instructions based on your pet's weight."}
+    ],
+    "shipping": [
+      {"q": "Do you ship nationwide?", "a": "We ship to states where our products are legally allowed. Flat rate $8 shipping, free on orders over $99."},
+      {"q": "How long does shipping take?", "a": "Processing: 1-2 business days. Shipping: 2-5 business days."},
+      {"q": "Can I track my order?", "a": "Yes. Tracking information is provided once your order ships."},
+      {"q": "Can I cancel my order?", "a": "Orders can only be canceled before they are processed."}
+    ],
+    "subscriptions": [
+      {"q": "What is Subscribe & Save?", "a": "Our subscription program lets you receive products on a recurring basis and save 10% on every order."},
+      {"q": "What discount do I get?", "a": "Subscribers receive 10% off on recurring orders."},
+      {"q": "Can I change or cancel my subscription?", "a": "Yes. You can manage, pause, or cancel anytime through your account at /account."},
+      {"q": "What frequencies are available?", "a": "Every 2 weeks, monthly, every 2 months, or every 3 months."}
+    ]
+  },
+  "guided_selling": {
+    "new_customer": ["Start with low-dose gummies (5-10mg)", "Try a balanced D8/D9 product", "Consider bundles to explore options"],
+    "strongest": ["High-dose gummies (100mg+ per piece)", "FUBAR Gummies (1000mg total)", "10,000mg THC Gummies pack", "Magnum 2000mg"],
+    "mild_chill": ["Low-dose Delta-8 gummies", "CBD + THC blends", "5mg Midnight Bluezzz Sleep Gummies"],
+    "strong": ["FUBAR Gummies", "Magnum 2000mg", "10,000mg pack", "Delta-9 dominant products"],
+    "sleep": ["CBN Sleep Gummy with Melatonin", "Midnight Bluezzz Sleep Gummies", "CBD Sleep Tincture", "CBN Sleep Tincture"],
+    "pet": ["Peanut Butter Soft Chews", "Beef Liver Pet Treats", "Chicken Chips Pet Treats"]
+  },
+  "restricted_states": ["Alabama","Alaska","California","Colorado","Connecticut","Delaware","Hawaii","Idaho","Iowa","Louisiana","Massachusetts","Michigan","Minnesota","Mississippi","Montana","Nevada","New Hampshire","New York","North Dakota","Oregon","Rhode Island","Utah","Vermont","Virginia","Washington","West Virginia"]
+}

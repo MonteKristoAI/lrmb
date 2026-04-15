@@ -1,0 +1,103 @@
+{
+  "domain": "seo-score",
+  "version": "1.0",
+  "created": "2026-04-14",
+  "description": "Binary pass/fail criteria for SEO page score optimization loop",
+  "criteria": [
+    {
+      "id": "seo_001",
+      "name": "title_tag_optimized",
+      "description": "Title tag is 50-60 characters, includes primary keyword, front-loaded",
+      "check": "title_length >= 50 AND title_length <= 60 AND title_has_keyword",
+      "weight": 2,
+      "category": "on_page",
+      "hard_gate": false
+    },
+    {
+      "id": "seo_002",
+      "name": "meta_description_present",
+      "description": "Meta description is 150-160 chars, compelling, includes keyword",
+      "check": "meta_desc_length >= 150 AND meta_desc_length <= 160",
+      "weight": 2,
+      "category": "on_page",
+      "hard_gate": false
+    },
+    {
+      "id": "seo_003",
+      "name": "heading_hierarchy_valid",
+      "description": "Exactly one H1, H2-H6 follow logical hierarchy with no skipped levels",
+      "check": "h1_count == 1 AND heading_skip_count == 0",
+      "weight": 2,
+      "category": "on_page",
+      "hard_gate": false
+    },
+    {
+      "id": "seo_004",
+      "name": "schema_markup_present",
+      "description": "At least one JSON-LD schema block present and valid",
+      "check": "jsonld_count >= 1 AND jsonld_valid == true",
+      "weight": 2,
+      "category": "technical",
+      "hard_gate": true
+    },
+    {
+      "id": "seo_005",
+      "name": "og_tags_complete",
+      "description": "Open Graph tags present: og:title, og:description, og:image, og:url",
+      "check": "og_title AND og_description AND og_image AND og_url",
+      "weight": 1,
+      "category": "technical",
+      "hard_gate": false
+    },
+    {
+      "id": "seo_006",
+      "name": "canonical_tag_present",
+      "description": "Canonical tag present and self-referencing",
+      "check": "has_canonical == true",
+      "weight": 1,
+      "category": "technical",
+      "hard_gate": false
+    },
+    {
+      "id": "seo_007",
+      "name": "images_have_alt_text",
+      "description": "All images have descriptive alt text",
+      "check": "images_missing_alt == 0",
+      "weight": 1,
+      "category": "images",
+      "hard_gate": false
+    },
+    {
+      "id": "seo_008",
+      "name": "keyword_density_natural",
+      "description": "Primary keyword density between 1-3%, no stuffing",
+      "check": "keyword_density >= 1.0 AND keyword_density <= 3.0",
+      "weight": 2,
+      "category": "on_page",
+      "hard_gate": true
+    },
+    {
+      "id": "seo_009",
+      "name": "internal_links_sufficient",
+      "description": "At least 3 internal links with descriptive anchor text",
+      "check": "internal_link_count >= 3",
+      "weight": 1,
+      "category": "on_page",
+      "hard_gate": false
+    },
+    {
+      "id": "seo_010",
+      "name": "no_category_regression",
+      "description": "No SEO score category drops below baseline value",
+      "check": "all_categories_stable == true",
+      "weight": 3,
+      "category": "guard_rail",
+      "hard_gate": true
+    }
+  ],
+  "scoring": {
+    "max_score": 10,
+    "pass_threshold": 7,
+    "hard_gate_count": 3
+  }
+}

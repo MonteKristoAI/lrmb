@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | EV</title>
+  <meta name="robots" content="noindex">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        'ev-orange': { 500: '#FF5A00', 400: '#FF7A33', 600: '#CC4800' },
+        'ev-dark': { 900: '#050A14', 800: '#0A1128', 700: '#111B36', 600: '#1A2744' },
+        'ev-blue': { 500: '#007BFF', 400: '#3395FF' }
+      },
+      fontFamily: { heading: ['Space Grotesk', 'sans-serif'], body: ['DM Sans', 'sans-serif'] }
+    }}
+  }
+  </script>
+  <script defer src="https://unpkg.com/lucide@0.468.0"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="https://www.evcam.com/assets/fav/favicon-32x32.png">
+</head>
+<body class="bg-ev-dark-900 text-gray-200 font-body">
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(5,10,20,0.6);backdrop-filter:blur(8px)">
+    <div class="container flex items-center justify-between py-4">
+      <a href="index.html" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+          <span class="text-white font-heading font-bold text-lg">EV</span>
+        </div>
+        <span class="font-heading font-semibold text-white text-lg hidden sm:inline">The Visual Analytics Company</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
+        <a href="index.html" class="hover:text-ev-orange-500 transition-colors">Home</a>
+        <a href="solutions.html" class="hover:text-ev-orange-500 transition-colors">Solutions</a>
+        <a href="technology.html" class="hover:text-ev-orange-500 transition-colors">Technology</a>
+        <a href="case-studies.html" class="hover:text-ev-orange-500 transition-colors">Case Studies</a>
+        <a href="about.html" class="hover:text-ev-orange-500 transition-colors">About</a>
+        <a href="blog/" class="hover:text-ev-orange-500 transition-colors">Blog</a>
+        <a href="contact.html" class="hover:text-ev-orange-500 transition-colors">Contact</a>
+      </nav>
+      <div class="hidden lg:flex items-center gap-3">
+        <a href="index.html#booking" class="btn btn-primary btn-sm">Book a Demo</a>
+      </div>
+      <button id="menu-toggle" class="lg:hidden text-white" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="fixed inset-0 bg-ev-dark-900/98 z-50 flex flex-col p-6 transform translate-x-full opacity-0 transition-all duration-300 lg:hidden" style="backdrop-filter:blur(16px)">
+      <div class="flex justify-between items-center mb-10">
+        <span class="font-heading font-semibold text-white text-lg">EV</span>
+        <button id="menu-close" class="text-white" aria-label="Close menu"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <nav class="flex flex-col gap-6 text-lg font-medium">
+        <a href="index.html" class="text-gray-300 hover:text-ev-orange-500">Home</a>
+        <a href="solutions.html" class="text-gray-300 hover:text-ev-orange-500">Solutions</a>
+        <a href="technology.html" class="text-gray-300 hover:text-ev-orange-500">Technology</a>
+        <a href="case-studies.html" class="text-gray-300 hover:text-ev-orange-500">Case Studies</a>
+        <a href="about.html" class="text-gray-300 hover:text-ev-orange-500">About</a>
+        <a href="blog/" class="text-gray-300 hover:text-ev-orange-500">Blog</a>
+        <a href="contact.html" class="text-gray-300 hover:text-ev-orange-500">Contact</a>
+      </nav>
+      <div class="mt-auto"><a href="index.html#booking" class="btn btn-primary w-full">Book a Demo</a></div>
+    </div>
+  </header>
+
+  <!-- ============ 404 CONTENT ============ -->
+  <main id="main-content" class="section-photo min-h-screen flex items-center justify-center relative" style="padding-top:5rem">
+    <div class="section-bg fade-center">
+      <img src="img/headers/mcsv-header3.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.4);">
+    </div>
+    <div class="absolute inset-0 z-[1] bg-circuit"></div>
+    <div class="absolute inset-0 z-[1]" style="background: radial-gradient(ellipse at 50% 50%, rgba(255,90,0,0.03), transparent 50%);"></div>
+    <div class="section-content container text-center py-20">
+      <p class="font-heading font-bold text-transparent bg-clip-text text-glow" style="font-size:clamp(6rem,12vw,10rem);line-height:1;background-image:linear-gradient(135deg,#FF5A00,#FF7A33,#CC4800)">404</p>
+      <h1 class="font-heading text-white text-3xl md:text-4xl font-bold mt-4">Page Not Found</h1>
+      <p class="text-gray-400 mt-4 max-w-md mx-auto text-lg">The page you are looking for does not exist or has been moved.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+        <a href="index.html" class="btn btn-primary btn-lg">
+          <i data-lucide="home" class="w-4 h-4"></i>
+          Back to Home
+        </a>
+        <a href="contact.html" class="btn btn-outline btn-lg">
+          <i data-lucide="mail" class="w-4 h-4"></i>
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="section-photo border-t border-white/5">
+    <div class="container py-16">
+      <div class="grid md:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+              <span class="text-white font-heading font-bold text-lg">EV</span>
+            </div>
+            <span class="font-heading font-semibold text-white">The Visual Analytics Company</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed">25 years of pioneering downhole video technology and visual analytics for the global energy industry.</p>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Solutions</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="solutions.html" class="hover:text-ev-orange-500 transition-colors">Visual Analytics</a></li>
+            <li><a href="solutions.html" class="hover:text-ev-orange-500 transition-colors">Pipeline Inspection</a></li>
+            <li><a href="solutions.html" class="hover:text-ev-orange-500 transition-colors">AIVA Platform</a></li>
+            <li><a href="solutions.html" class="hover:text-ev-orange-500 transition-colors">ClearVision</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Company</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="about.html" class="hover:text-ev-orange-500 transition-colors">About EV</a></li>
+            <li><a href="case-studies.html" class="hover:text-ev-orange-500 transition-colors">Case Studies</a></li>
+            <li><a href="blog/" class="hover:text-ev-orange-500 transition-colors">Blog</a></li>
+            <li><a href="contact.html" class="hover:text-ev-orange-500 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Contact</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ev-orange-400 flex-shrink-0"></i>Aberdeenshire, Scotland</li>
+            <li><a href="tel:+447525916610" class="flex items-center gap-2 hover:text-ev-orange-500 transition-colors"><i data-lucide="phone" class="w-4 h-4 text-ev-orange-400"></i>+44 7525 916610</a></li>
+            <li><a href="mailto:info@evcam.com" class="flex items-center gap-2 hover:text-ev-orange-500 transition-colors"><i data-lucide="mail" class="w-4 h-4 text-ev-orange-400"></i>info@evcam.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/5 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>&copy; 2026 EV. The Visual Analytics Company. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="javascript:void(0)" title="Coming Soon" class="hover:text-ev-orange-500 transition-colors">Privacy Policy</a>
+          <a href="javascript:void(0)" title="Coming Soon" class="hover:text-ev-orange-500 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/components.js"></script>
+</body>
+</html>

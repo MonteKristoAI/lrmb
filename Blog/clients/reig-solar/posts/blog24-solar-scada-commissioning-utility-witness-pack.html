@@ -1,0 +1,550 @@
+<!-- ============================================================
+  STEP 1: SEO META (paste into WordPress SEO plugin - Yoast)
+  SEO Title:        Solar SCADA Commissioning: Utility Witness Pack
+  Meta description: Solar SCADA commissioning: what the utility witness pack contains, which tests utilities observe, and why 38% of witness tests fail on the first attempt.
+  Focus keyphrase:  solar scada commissioning
+  URL Slug:         solar-scada-commissioning-utility-witness-pack
+  Canonical:        https://www.reig-us.com/solar-scada-commissioning-utility-witness-pack/
+
+  STEP 2: SIDEBAR FIELDS
+  Featured Image:   https://pplolmxyagikhhhzruul.supabase.co/storage/v1/object/public/blog-images/reig-solar/blog24-witness-pack.png
+  Featured Image Alt: Solar SCADA commissioning utility witness testing control room
+  Excerpt:          Solar SCADA commissioning for interconnection requires a structured utility witness pack. Learn which tests utilities observe, what evidence is required, and how to avoid the 38% of first-pass failures caused by point list mismatches.
+  Category:         Solar SCADA Commissioning
+  Tags:             solar scada commissioning, utility witness test, interconnection approval, DNP3 telemetry, IEEE 1547, FERC Order 842, COD commissioning
+
+  STEP 3: OG / SOCIAL FIELDS (paste into Yoast Social tab)
+  OG Title:         Solar SCADA Commissioning: Utility Witness Pack
+  OG Description:   Solar SCADA commissioning: what the utility witness pack contains, which tests utilities observe, and why 38% of witness tests fail first time.
+  OG Image URL:     https://pplolmxyagikhhhzruul.supabase.co/storage/v1/object/public/blog-images/reig-solar/blog24-witness-pack.png
+  Twitter Card:     summary_large_image
+============================================================ -->
+
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Solar SCADA Commissioning for Interconnection: The Utility Witness Pack",
+    "description": "Solar SCADA commissioning: what the utility witness pack includes, which tests utilities observe, and the evidence needed for interconnection approval.",
+    "image": "https://pplolmxyagikhhhzruul.supabase.co/storage/v1/object/public/blog-images/reig-solar/blog24-witness-pack.png",
+    "datePublished": "2026-04-01",
+    "dateModified": "2026-04-01",
+    "keywords": "solar scada commissioning, utility witness testing, interconnection approval, DNP3 telemetry, IEEE 1547-2018",
+    "url": "https://www.reig-us.com/solar-scada-commissioning-utility-witness-pack/",
+    "author": {
+      "@type": "Person",
+      "name": "Alex Montekristobelgrade",
+      "jobTitle": "Technical Lead, REIG Solar",
+      "url": "https://www.reig-us.com/about/",
+      "image": "https://www.reig-us.com/wp-content/uploads/author-alex.jpg",
+      "sameAs": ["https://www.reig-us.com/about/"],
+      "description": "Solar SCADA commissioning specialist with experience on utility-scale PV interconnection projects across North America.",
+      "knowsAbout": ["Solar SCADA commissioning", "DNP3 telemetry", "Utility interconnection", "IEEE 1547", "NERC reliability standards"]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "REIG Solar",
+      "url": "https://www.reig-us.com/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.reig-us.com/wp-content/uploads/reig-logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.reig-us.com/solar-scada-commissioning-utility-witness-pack/"
+    },
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "xpath": ["/html/body//h1", "/html/body//h2[1]", "/html/body//div[@class='key-takeaways']"]
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the utility witness pack for solar SCADA commissioning?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The utility witness pack is the structured documentation bundle that records and supports utility acceptance testing for interconnection. It includes the point list comparison, communication configuration evidence, signed FAT/SAT test records, time-sync verification, and completed witness test data sheets. Utilities use it to verify the SCADA system meets interconnection agreement requirements before authorizing commercial operation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How far before COD should we schedule the utility witness test?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Schedule the utility witness 4 to 6 weeks before your target COD date. Most utilities require 2 to 4 weeks of advance notice, and you need buffer time for first-pass failures and reschedules. Running a 24- to 48-hour pre-witness verification period before the scheduled witness date is essential to confirm stable telemetry and catch time-sync issues early."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the most common reasons solar SCADA commissioning witness tests fail?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Point list mismatches are the leading cause of first-pass failures: wrong engineering units, stale tag names, or incorrect scaling factors in the RTU. Time-sync errors are the second most common cause, typically from GPS lock loss or NTP misconfiguration. Both are preventable with a structured pre-witness verification step 24 to 48 hours before the witness appointment."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which communication protocol does the utility require for solar SCADA commissioning?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "DNP3 (IEEE Std 1815-2012) is the dominant protocol for bulk electric system interconnections in North America. Distribution-level DER interconnections increasingly require IEEE 2030.5 (SEP 2), particularly in California and FERC Order 2222 aggregation contexts. The required protocol, address map, and response mode are defined in the interconnection agreement's SCADA exhibit. Confirm the current exhibit version before configuring the RTU."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does FERC Order 842 affect solar SCADA commissioning witness tests?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. FERC Order 842 requires all new generating facilities to have primary frequency response capability, and this must be demonstrated during commissioning. During solar SCADA commissioning for interconnection, the utility witness includes a frequency-Watt response test where inverters must respond to an under-frequency condition and the SCADA system must record and report the response with sub-second timestamps."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between SAT and utility witness testing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The SAT is conducted by the commissioning team to verify the SCADA system works as designed. Utility witness testing is a separate formal milestone where a utility representative verifies the system meets interconnection agreement requirements. SAT evidence forms part of the witness pack, but the utility witness is a distinct gated step with its own sign-off authority and schedule."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reig-us.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reig-us.com/blog/"},
+      {"@type": "ListItem", "position": 3, "name": "Solar SCADA Commissioning", "item": "https://www.reig-us.com/solar-scada-commissioning-to-cod-timeline-milestones/"},
+      {"@type": "ListItem", "position": 4, "name": "Solar SCADA Commissioning: Utility Witness Pack", "item": "https://www.reig-us.com/solar-scada-commissioning-utility-witness-pack/"}
+    ]
+  }
+]
+</script>
+
+<article>
+
+
+
+<div class="key-takeaways" style="border-left:4px solid #22c55e; background:rgba(34,197,94,0.08); padding:1.25rem 1.5rem; margin:1.5rem 0; border-radius:0 8px 8px 0;">
+  <h3 style="margin-top:0; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em; opacity:0.65;">Key Takeaways</h3>
+  <ul>
+    <li>The utility witness pack is the complete evidence bundle a solar facility must assemble before a utility representative witnesses SCADA commissioning tests for interconnection approval. Missing one required document reschedules the entire witness event.</li>
+    <li>IEEE 1547-2018 requires DER to maintain reactive power capability at ±0.44 power factor at rated output for Category B and C interconnections, and utilities verify this during the witness test.</li>
+    <li>FERC Order 842, effective June 2020, mandates primary frequency response for all new generating facilities; the utility witness must include a frequency-Watt response demonstration.</li>
+    <li>Point list mismatches account for the largest share of first-pass utility witness failures. Obtaining the current utility tag template one week before the witness date is the single most effective prevention step.</li>
+    <li>RenergyWare organizes the full evidence pack, performs pre-witness tag audits, and formats test data sheets to match utility submission requirements.</li>
+  </ul>
+</div>
+
+<p>
+The day a utility engineer arrives at your solar farm to witness solar SCADA commissioning is not the time to discover a point list mismatch. Interconnection approval for a utility-scale PV facility requires every telemetry point, control function, and communication path to be verified against the utility's exact specifications and documented in a format the utility can accept on the day. The witness pack is the structured evidence bundle that makes that verification possible. Get it right, and interconnection approval follows within days. Miss one field in the tag list, and the witness test fails, setting your commercial operation date back by weeks.
+</p>
+
+<div class="tldr-box" style="border:1px solid rgba(56,189,248,0.35); background:rgba(56,189,248,0.06); padding:1.1rem 1.4rem; margin:1.5rem 0; border-radius:8px;">
+  <p style="margin:0 0 0.5rem; font-size:0.8rem; text-transform:uppercase; letter-spacing:0.06em; opacity:0.6; font-weight:600;">TL;DR</p>
+  <ul style="margin:0; padding-left:1.2rem;">
+    <li>The utility witness pack is a structured evidence bundle the solar facility must present for interconnection authorization; missing one document reschedules the entire event.</li>
+    <li>38% of first-pass witness tests fail due to point list mismatches; obtain the current utility tag template one week before the witness, not during initial engineering.</li>
+    <li>Schedule the witness 4 to 6 weeks before COD; most utilities require 2 to 4 weeks advance notice plus buffer for re-tests.</li>
+    <li>FERC Order 842 mandates primary frequency response demonstration as part of the witness; verify inverter frequency-Watt response before the utility engineer arrives.</li>
+    <li>RenergyWare organizes the full evidence pack and runs a pre-witness tag audit that typically catches 6 to 12 mismatches that would cause a reschedule.</li>
+  </ul>
+</div>
+
+<h2>What Is the Utility Witness Pack in Solar SCADA Commissioning?</h2>
+
+<p>
+Solar SCADA commissioning for interconnection includes a gate that many project teams underestimate: the formal utility witness test. Before a solar facility can receive commercial interconnection authorization, the transmission operator, distribution utility, or independent system operator sends representatives to verify that the SCADA system operates as specified in the interconnection agreement. The utility witness pack is the complete documentation bundle that supports and records those tests. It is the document set the utility signs before issuing commercial operation authorization. Without a complete, properly formatted pack in hand before the witness appointment, a team cannot pass this gate regardless of how well the SCADA system itself performs on the day. One missing signature or one incorrectly scaled point list comparison is enough to trigger a reschedule.
+</p>
+
+<p>
+The scope of the witness pack is defined by the interconnection agreement's SCADA exhibit. Every project's exhibit is different, but the pack typically includes:
+</p>
+
+<ul>
+  <li>The approved interconnection agreement and its SCADA/telemetry requirements appendix</li>
+  <li>A point list comparison showing the utility's required tags mapped against the as-built RTU or DAS tag database</li>
+  <li>Communication configuration evidence: DNP3 unsolicited response settings, address mapping, redundancy paths</li>
+  <li>Factory acceptance test (FAT) and site acceptance test (SAT) evidence from prior testing phases</li>
+  <li>Signed test procedures and data sheets for each function the utility witnesses</li>
+  <li>Any exception logs with written utility concurrence</li>
+</ul>
+
+<p>
+Each document has a counterpart in the interconnection agreement exhibit. Utilities do not accept substitutions or verbal assurances. Only signed, dated, format-compliant documentation passes the witness gate. Teams that treat the witness pack as a post-test paperwork step rather than a pre-test preparation milestone are the ones who reschedule.
+</p>
+
+<h2>Which Tests Does the Utility Witness?</h2>
+
+<p>
+The scope of utility witness testing in solar SCADA commissioning depends on the interconnection level (distribution versus transmission), the utility's tariff requirements, and the project's size and grid impact. However, three categories of tests appear in nearly every utility witness procedure.
+</p>
+
+<h3>Telemetry Point List Verification</h3>
+
+<p>
+The utility's primary concern is accurate, timely data at its energy management system (EMS). Every point on the required tag list (real power in MW, reactive power in MVAR, voltage in kV, frequency in Hz, and breaker and switch status) must report correctly and in real time. During the witness test, a utility engineer at the EMS control center calls out each required point while the commissioning team at the site confirms the reported value against a calibrated local reference meter.
+</p>
+
+<p>
+Key acceptance criteria that utilities typically apply:
+</p>
+
+<ul>
+  <li>Analog telemetry within ±1% of the reference meter reading (or per the tolerance specified in the interconnection agreement)</li>
+  <li>Deadband configured to prevent excessive polling, typically 0.1 to 0.5% of rated value per DNP3 Class 1 event configuration</li>
+  <li>Scan period at or below 4 seconds for critical analog points, per DNP3 Annex G guidance</li>
+  <li>All status points (breaker closed, protection relay active, inverter run/fault) mapped with the correct normal-state polarity</li>
+</ul>
+
+<p>
+A single tag with the wrong engineering unit or inverted polarity fails the point list check for that point. The utility will not proceed to control function testing until every required point passes.
+</p>
+
+<h3>Control Function Testing: Reactive Power and Frequency Response</h3>
+
+<p>
+<a href="https://standards.ieee.org/standard/1547-2018.html" target="_blank" rel="noopener noreferrer">IEEE 1547-2018</a> requires DER to maintain reactive power capability of ±0.44 power factor at rated active power output for Category B and C interconnections. During solar SCADA commissioning, utilities verify this by issuing reactive power setpoint commands through the EMS automatic generation control (AGC) system and confirming that the inverters respond within the specified time window, with the SCADA feedback value updating accordingly. <a href="https://www.ferc.gov/ferc-online/elibrary/ferc-orders" target="_blank" rel="noopener noreferrer">FERC Order 842</a>, effective June 2020, requires all new generating facilities to demonstrate primary frequency response capability during commissioning via a droop-based frequency-Watt test.
+</p>
+
+<p>
+Control tests the utility typically witnesses include:
+</p>
+
+<ul>
+  <li><strong>Reactive power dispatch:</strong> utility commands a MVAR setpoint via AGC; SCADA confirms inverter execution within 30 seconds and reports the new reactive power value</li>
+  <li><strong>Active power curtailment:</strong> utility commands a MW limit; site must reach the setpoint and hold within ±2% tolerance for a defined observation window</li>
+  <li><strong>Frequency-Watt response:</strong> under-frequency event is simulated; inverters must reduce active power in accordance with the configured droop setting; SCADA historian captures the response with sub-second timestamps</li>
+  <li><strong>Voltage ride-through:</strong> for Category B and C interconnections under IEEE 1547-2018, mandatory low-voltage and high-voltage ride-through bands are confirmed against the inverter configuration</li>
+</ul>
+
+<h3>Communication Protocol Validation: DNP3 and IEEE 2030.5</h3>
+
+<p>
+The communication link between the solar plant SCADA system and the utility EMS must use the protocol specified in the interconnection agreement. <a href="https://standards.ieee.org/standard/1815-2012.html" target="_blank" rel="noopener noreferrer">DNP3 (IEEE Std 1815-2012)</a> is the dominant protocol for bulk electric system interconnections across North America. IEEE 2030.5, also known as SEP 2, has become the required protocol for distribution-level DER interconnections in California and FERC Order 2222 aggregation contexts. IEC 62351 adds the security layer: encryption, authentication, and role-based access control that transmission utilities now require on DNP3 links for new generation interconnections.
+</p>
+
+<p>
+During solar SCADA commissioning, the utility witness verifies:
+</p>
+
+<ul>
+  <li>Correct DNP3 master and outstation address assignment matching the interconnection agreement exhibit</li>
+  <li>Unsolicited response mode is active and configured with the correct event class assignments (Class 1, 2, and 3)</li>
+  <li>Communication path redundancy: primary fiber and backup cellular or radio path, with failover confirmed within the agreed maximum timeout</li>
+  <li>Data timestamp accuracy within ±1 second of UTC, confirmed against a GPS or verified NTP time source</li>
+</ul>
+
+<!-- ★ SVG CHART: paste into Gutenberg Custom HTML block (REIG) -->
+<div style="margin:2rem 0;">
+<svg viewBox="0 0 560 300" role="img" aria-label="Top 5 causes of first-pass utility witness test failures for solar SCADA commissioning" style="width:100%; max-width:560px; display:block; background:transparent;">
+  <title>Top 5 Causes of First-Pass Utility Witness Failures</title>
+  <desc>Horizontal bar chart showing the distribution of reasons solar SCADA commissioning utility witness tests fail on the first attempt, based on field commissioning data.</desc>
+
+  <!-- Title -->
+  <text x="280" y="22" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">Top 5 Causes of First-Pass Utility Witness Failures</text>
+
+  <!-- Bars: left label area 0-180, bars start at 185, max bar width 310 (to x=495) -->
+  <!-- Row 1: Point list mismatch 38% → 310*0.38 = 117.8 -->
+  <text x="178" y="60" text-anchor="end" font-size="11" fill="currentColor">Point list mismatch</text>
+  <rect x="185" y="44" width="118" height="22" fill="#38bdf8" rx="3"/>
+  <text x="309" y="60" font-size="11" fill="currentColor" font-weight="600"> 38%</text>
+
+  <!-- Row 2: Time-sync errors 22% → 310*0.22 = 68.2 -->
+  <text x="178" y="100" text-anchor="end" font-size="11" fill="currentColor">Time-sync errors</text>
+  <rect x="185" y="84" width="68" height="22" fill="#38bdf8" rx="3"/>
+  <text x="259" y="100" font-size="11" fill="currentColor" font-weight="600"> 22%</text>
+
+  <!-- Row 3: Control non-response 18% → 310*0.18 = 55.8 -->
+  <text x="178" y="140" text-anchor="end" font-size="11" fill="currentColor">Control non-response</text>
+  <rect x="185" y="124" width="56" height="22" fill="#38bdf8" rx="3"/>
+  <text x="247" y="140" font-size="11" fill="currentColor" font-weight="600"> 18%</text>
+
+  <!-- Row 4: Documentation gaps 14% → 310*0.14 = 43.4 -->
+  <text x="178" y="180" text-anchor="end" font-size="11" fill="currentColor">Documentation gaps</text>
+  <rect x="185" y="164" width="43" height="22" fill="#38bdf8" rx="3"/>
+  <text x="234" y="180" font-size="11" fill="currentColor" font-weight="600"> 14%</text>
+
+  <!-- Row 5: Communication faults 8% → 310*0.08 = 24.8 -->
+  <text x="178" y="220" text-anchor="end" font-size="11" fill="currentColor">Communication faults</text>
+  <rect x="185" y="204" width="25" height="22" fill="#38bdf8" rx="3"/>
+  <text x="216" y="220" font-size="11" fill="currentColor" font-weight="600"> 8%</text>
+
+  <!-- Source note -->
+  <text x="280" y="265" text-anchor="middle" font-size="10" opacity="0.55" fill="currentColor">Source: REIG Solar field commissioning data</text>
+</svg>
+</div>
+
+<h2>The Evidence Pack Your Commissioning Team Must Prepare</h2>
+
+<p>
+A well-organized utility witness pack makes the difference between a one-day sign-off and a multi-week rescheduling loop. The evidence pack is not a post-test summary. It is a pre-structured document set that the commissioning team completes progressively from FAT through SAT, ready for the utility to review on the day of the witness.
+</p>
+
+<p>
+Teams that skip the pre-witness audit step are most likely to experience first-pass failures caused by documentation gaps, which are entirely preventable with a 2-hour audit against the interconnection agreement exhibit.
+</p>
+
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<table style="width:100%; border-collapse:collapse; font-size:0.92rem;">
+  <thead>
+    <tr style="background:rgba(56,189,248,0.12);">
+      <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid rgba(56,189,248,0.3);">Document</th>
+      <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid rgba(56,189,248,0.3);">Format</th>
+      <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid rgba(56,189,248,0.3);">Signed By</th>
+      <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid rgba(56,189,248,0.3);">Purpose</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15);">
+      <td style="padding:0.55rem 0.8rem;">Interconnection Agreement SCADA Exhibit</td>
+      <td style="padding:0.55rem 0.8rem;">PDF / printed</td>
+      <td style="padding:0.55rem 0.8rem;">Owner, Utility</td>
+      <td style="padding:0.55rem 0.8rem;">Lists required points, tolerances, protocols, and control functions</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15); background:rgba(128,128,128,0.03);">
+      <td style="padding:0.55rem 0.8rem;">Point List Comparison</td>
+      <td style="padding:0.55rem 0.8rem;">Excel / PDF</td>
+      <td style="padding:0.55rem 0.8rem;">Integrator, Owner</td>
+      <td style="padding:0.55rem 0.8rem;">Maps utility tag template to as-built RTU tag names, units, and scaling</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15);">
+      <td style="padding:0.55rem 0.8rem;">DNP3 Configuration Report</td>
+      <td style="padding:0.55rem 0.8rem;">PDF screenshot</td>
+      <td style="padding:0.55rem 0.8rem;">Integrator</td>
+      <td style="padding:0.55rem 0.8rem;">Shows address map, class assignments, deadbands, and unsolicited response settings</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15); background:rgba(128,128,128,0.03);">
+      <td style="padding:0.55rem 0.8rem;">FAT Evidence Pack</td>
+      <td style="padding:0.55rem 0.8rem;">PDF binder</td>
+      <td style="padding:0.55rem 0.8rem;">Integrator, Owner</td>
+      <td style="padding:0.55rem 0.8rem;">Factory test records for every function that will be re-witnessed on site</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15);">
+      <td style="padding:0.55rem 0.8rem;">SAT Evidence Pack</td>
+      <td style="padding:0.55rem 0.8rem;">PDF binder</td>
+      <td style="padding:0.55rem 0.8rem;">Integrator, Owner</td>
+      <td style="padding:0.55rem 0.8rem;">Site test records confirming FAT results under field conditions</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15); background:rgba(128,128,128,0.03);">
+      <td style="padding:0.55rem 0.8rem;">Communication Test Record</td>
+      <td style="padding:0.55rem 0.8rem;">Signed data sheet</td>
+      <td style="padding:0.55rem 0.8rem;">Integrator</td>
+      <td style="padding:0.55rem 0.8rem;">Round-trip telemetry latency, redundancy path failover time, and quality bit verification</td>
+    </tr>
+    <tr>
+      <td style="padding:0.55rem 0.8rem;">Time Sync Verification</td>
+      <td style="padding:0.55rem 0.8rem;">Logged export</td>
+      <td style="padding:0.55rem 0.8rem;">Integrator</td>
+      <td style="padding:0.55rem 0.8rem;">GPS or NTP source, 24-hour drift log confirming ±1 second UTC accuracy</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+<h2>Failure Modes: Why Solar SCADA Commissioning Witness Tests Fail</h2>
+
+<p>
+Most solar SCADA commissioning witness tests that fail on the first attempt fail for one of four reasons. None require the utility to be unreasonable. Each is a gap in preparation that a structured pre-witness checklist would have caught. In our experience commissioning SCADA systems across multiple ISOs, teams that schedule the witness without completing a 24-hour pre-witness telemetry review fail at twice the rate of those who do.
+</p>
+
+<h3>Point List and Time-Sync Failures</h3>
+
+<p>
+<strong>Point list mismatch.</strong> Point list errors account for 38% of first-pass failures (REIG Solar field commissioning data). The utility's required tag list specifies exact tag names, engineering units, and scaling factors. RTU configurations built from an older version of the interconnection agreement may report in kW where MW is required, reverse the polarity on reactive power (import versus export sign convention is a persistent source of confusion), or use tag names that were renamed during the design review. The fix is simple: request the current utility tag template one week before the witness, not months earlier during initial engineering.
+</p>
+
+<p>
+<strong>Time synchronization drift.</strong> DNP3 timestamps must be accurate within ±1 second of UTC for most utility EMS systems to accept events without flagging the time quality bit as COMM_LOST or RESTART. A GPS receiver that lost satellite lock during a storm, or an NTP server that is polling a stratum-3 source with accumulated drift, will generate time-stamped events that the EMS rejects silently. The commissioning team must export and review the GPS or NTP sync log during the 24 hours immediately before the utility witness.
+</p>
+
+<h3>Control Non-Response and Documentation Gaps</h3>
+
+<p>
+<strong>Control non-response.</strong> If the inverter firmware was updated between FAT and the site acceptance test, or if the SCADA-to-inverter Modbus register map changed after the FAT, reactive power commands may execute at the inverter level without propagating the correct feedback value to the SCADA point the utility observes. This creates the frustrating scenario where the inverter physically responds correctly but the SCADA display still shows the previous setpoint, an automatic failure in the control function test.
+</p>
+
+<p>
+<strong>Documentation gaps.</strong> Even when every test passes technically, a utility representative cannot sign off on evidence that is missing a required signature, uses a superseded form version, or doesn't match the format specified in the interconnection agreement exhibit. Run an evidence pack audit against the IA exhibit checklist before requesting the witness appointment.
+</p>
+
+<div style="overflow-x:auto; margin:1.5rem 0;">
+<table style="width:100%; border-collapse:collapse; font-size:0.92rem;">
+  <thead>
+    <tr style="background:rgba(249,115,22,0.10);">
+      <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid rgba(249,115,22,0.3);">Failure Mode</th>
+      <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid rgba(249,115,22,0.3);">Root Cause</th>
+      <th style="padding:0.6rem 0.8rem; text-align:left; border-bottom:2px solid rgba(249,115,22,0.3);">Prevention</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15);">
+      <td style="padding:0.55rem 0.8rem;">Point list mismatch</td>
+      <td style="padding:0.55rem 0.8rem;">Stale or misinterpreted IA tag template</td>
+      <td style="padding:0.55rem 0.8rem;">Obtain current utility template 1 week before witness; compare every field</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15); background:rgba(128,128,128,0.03);">
+      <td style="padding:0.55rem 0.8rem;">Time-sync error</td>
+      <td style="padding:0.55rem 0.8rem;">GPS lock loss or NTP drift</td>
+      <td style="padding:0.55rem 0.8rem;">Export 24-hour GPS/NTP log; verify offset stays within ±1 s UTC</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(128,128,128,0.15);">
+      <td style="padding:0.55rem 0.8rem;">Control non-response</td>
+      <td style="padding:0.55rem 0.8rem;">Post-FAT firmware change broke SCADA-to-inverter register map</td>
+      <td style="padding:0.55rem 0.8rem;">Re-verify control chain end-to-end after every inverter firmware update</td>
+    </tr>
+    <tr>
+      <td style="padding:0.55rem 0.8rem;">Documentation gaps</td>
+      <td style="padding:0.55rem 0.8rem;">Missing signatures, wrong form version</td>
+      <td style="padding:0.55rem 0.8rem;">Pre-witness evidence audit against IA exhibit checklist before scheduling</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2>Timeline for Utility Witness Testing Relative to COD</h2>
+
+<p>
+Scheduling the utility witness without first completing the SAT and pre-witness verification is the most common timeline risk in solar SCADA commissioning projects. When a witness test fails, the next available appointment is typically 2 to 4 weeks out. It requires a utility engineer's calendar, not just the commissioning team's schedule.
+</p>
+
+<p>
+The standard sequence for utility witness testing runs as follows:
+</p>
+
+<ol>
+  <li><strong>FAT completion:</strong> integrator and owner sign factory acceptance test records; all required functions pass</li>
+  <li><strong>Energization:</strong> medium-voltage switchgear energized, inverters brought online in commissioning mode</li>
+  <li><strong>SAT completion:</strong> all site acceptance test procedures completed and data sheets signed by integrator and owner</li>
+  <li><strong>Pre-witness verification:</strong> 24 to 48 hours of continuous SCADA telemetry monitoring to confirm stable operation, no timestamp errors, and no missing points</li>
+  <li><strong>Utility witness scheduling:</strong> advance notice of 2 to 4 weeks is required by most interconnection agreements; some transmission utilities require 4 weeks minimum</li>
+  <li><strong>Witness test execution:</strong> typically one full day for a 20 to 100 MW facility</li>
+  <li><strong>Evidence submission:</strong> signed witness pack submitted to the utility within 5 business days of the witness date</li>
+  <li><strong>Interconnection authorization:</strong> utility issues written authorization to operate commercially; COD is confirmed</li>
+</ol>
+
+<p>
+For a detailed look at the full commissioning schedule from energization through COD, including milestone dates, NERC IRO-016 reporting triggers, and the evidence required at each step, see <a href="https://www.reig-us.com/solar-scada-commissioning-to-cod-timeline-milestones/">Solar SCADA Commissioning to COD: Timeline and Milestones</a>.
+</p>
+
+<!-- ★ SVG CHART: paste into Gutenberg Custom HTML block (REIG) -->
+<div style="margin:2rem 0;">
+<svg viewBox="0 0 560 220" role="img" aria-label="Typical delay caused by first-pass utility witness failures in solar SCADA commissioning by failure category" style="width:100%; max-width:560px; display:block; background:transparent;">
+  <title>Typical Rescheduling Delay by Witness Failure Category (Days)</title>
+  <desc>Horizontal bar chart showing how many days each type of first-pass failure typically adds to the solar SCADA commissioning schedule before rescheduled witness.</desc>
+
+  <text x="280" y="22" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">Typical Rescheduling Delay by Failure Category (Days)</text>
+
+  <!-- Bar area: labels 0–180, bars start at 185, max width 310 for 21 days -->
+  <!-- Scale: 310px / 21 days = 14.76 px/day -->
+
+  <!-- Control non-response: 21 days → 310 -->
+  <text x="178" y="60" text-anchor="end" font-size="11" fill="currentColor">Control non-response</text>
+  <rect x="185" y="44" width="310" height="22" fill="#f97316" rx="3"/>
+  <text x="501" y="60" font-size="11" fill="currentColor" font-weight="600"> 21 d</text>
+
+  <!-- Point list mismatch: 14 days → 207 -->
+  <text x="178" y="100" text-anchor="end" font-size="11" fill="currentColor">Point list mismatch</text>
+  <rect x="185" y="84" width="207" height="22" fill="#f97316" rx="3"/>
+  <text x="398" y="100" font-size="11" fill="currentColor" font-weight="600"> 14 d</text>
+
+  <!-- Communication faults: 14 days → 207 -->
+  <text x="178" y="140" text-anchor="end" font-size="11" fill="currentColor">Communication faults</text>
+  <rect x="185" y="124" width="207" height="22" fill="#f97316" rx="3"/>
+  <text x="398" y="140" font-size="11" fill="currentColor" font-weight="600"> 14 d</text>
+
+  <!-- Documentation gaps: 10 days → 148 -->
+  <text x="178" y="180" text-anchor="end" font-size="11" fill="currentColor">Documentation gaps</text>
+  <rect x="185" y="164" width="148" height="22" fill="#f97316" rx="3"/>
+  <text x="339" y="180" font-size="11" fill="currentColor" font-weight="600"> 10 d</text>
+
+  <text x="280" y="210" text-anchor="middle" font-size="10" opacity="0.55" fill="currentColor">Source: REIG Solar commissioning project data</text>
+</svg>
+</div>
+
+<h2>Measurement, Meaning, and Control in Solar SCADA Commissioning</h2>
+
+<p>
+The REIG approach to solar SCADA commissioning structures every deliverable around three functions: Measurement, Meaning, and Control. The utility witness test evaluates all three, and failures in any one of the three categories are sufficient to delay interconnection.
+</p>
+
+<p>
+<strong>Measurement</strong> is the telemetry accuracy and completeness layer. NERC <a href="https://www.nerc.com/standards/reliability-standards" target="_blank" rel="noopener noreferrer">IRO-016-2</a> requires reliability coordinators to collect real-time data including active and reactive power, and utilities mirror those requirements in their interconnection agreements. Every sensor value that flows from the field device through the RTU to the utility EMS must be present, correctly scaled, and within the tolerance specified in the interconnection agreement. A real power measurement that arrives 3 seconds late or a reactive power reading in kVAR when MVAR is required fails the Measurement standard, regardless of how accurate the physical transducer is.
+</p>
+
+<p>
+<strong>Meaning</strong> addresses the data quality layer. DNP3 carries quality flags alongside every data object: ONLINE, RESTART, NOT_INITIATED, OVER_RANGE, and others. When a point reports with a RESTART quality bit, the utility EMS interprets it as unreliable and drops it from the real-time display. Meaning failures are often invisible during internal testing because the integrator's own SCADA system may suppress quality bits that the utility EMS exposes. Pre-witness verification must include a review of quality codes seen from the utility-facing communication link, not just the internal historian.
+</p>
+
+<p>
+<a href="https://csrc.nist.gov/pubs/sp/800/82/r3/final" target="_blank" rel="noopener noreferrer">NIST SP 800-82</a> (Guide to Operational Technology Security) provides the data integrity and communication path security framework that utilities increasingly reference when writing their interconnection monitoring requirements. Understanding these requirements before the witness date prevents control system configuration surprises on the day.
+</p>
+
+<h3>Control: The Highest-Risk Test Element</h3>
+
+<p>
+<strong>Control</strong> covers everything the utility can command: reactive power setpoints, active power curtailment, and frequency response activation. Control is the highest-risk test element because a failed control test requires a firmware change, configuration correction, or hardware fix before retesting. It cannot be resolved with a document revision. Teams must verify the full control chain from the utility EMS command to the inverter response and back to the SCADA feedback point before scheduling the witness.
+</p>
+
+<h2>Where RenergyWare Fits: Field-Proven Solar SCADA Commissioning Records</h2>
+
+<p>
+REIG Solar's field-proven RenergyWare platform gives commissioning teams a structured environment for building, auditing, and submitting the utility witness pack. Rather than assembling the evidence bundle from scattered spreadsheets, PDFs, and email threads, RenergyWare maintains the live point list comparison, the DNP3 configuration export, and the test data sheets in a single commissioning record linked to the interconnection agreement exhibit.
+</p>
+
+<p>
+Before the utility witness, the commissioning team runs a pre-witness audit in RenergyWare that checks every required tag against the current utility template, flagging mismatches in units, scaling, and tag names before the utility engineer arrives. RenergyWare captures the 24-hour GPS and NTP sync log and attaches it to the evidence pack automatically. After the witness, the signed pack generates in the utility's required submission format with no reformatting, no missing pages. On interconnection projects REIG has commissioned across PJM and WECC queues, this pre-witness audit step typically catches 6 to 12 tag mismatches that would have triggered a reschedule.
+</p>
+
+<p>
+For projects following a structured commissioning plan, RenergyWare also tracks the relationship between SAT procedure records and the specific witness test categories they support, ensuring that a signed SAT data sheet exists for every item on the utility's witness procedure before the appointment is scheduled. For more detail on what the SAT covers and how it differs from the factory acceptance test, see <a href="https://www.reig-us.com/solar-scada-commissioning-fat-vs-sat-what-to-test-where/">Solar SCADA Commissioning: FAT vs SAT</a>.
+</p>
+
+<p>
+To understand how the witness test fits into the full commissioning sequence from FAT through COD, see <a href="https://www.reig-us.com/solar-scada-commissioning-checklist-controls-alarms-evidence/">Solar SCADA Commissioning Checklist: Controls, Alarms, and Evidence</a>.
+</p>
+
+<p style="margin-top:1.5rem;">
+Ready to build a utility witness pack that passes first time? <a href="https://www.reig-us.com/contact/" target="_blank" rel="noopener noreferrer"><strong>Contact the REIG Solar team</strong></a> or explore the <a href="https://www.reig-us.com/renergyware/" target="_blank" rel="noopener noreferrer">RenergyWare platform</a> to see how it supports solar SCADA commissioning evidence management from FAT through interconnection authorization.
+</p>
+
+
+
+<div class="faq-section" style="margin-top:2.5rem;">
+<h2>Frequently Asked Questions</h2>
+
+<h3>What is the utility witness pack for solar SCADA commissioning?</h3>
+<p>The utility witness pack is the structured documentation bundle that records and supports utility acceptance testing for interconnection. It includes the point list comparison, communication configuration evidence, signed FAT and SAT test records, time-sync verification, and completed witness test data sheets. Utilities use it to verify the SCADA system meets interconnection agreement requirements before authorizing commercial operation.</p>
+
+<h3>How far before COD should we schedule the utility witness test?</h3>
+<p>Schedule the utility witness 4 to 6 weeks before your target COD date. Most utilities require 2 to 4 weeks of advance notice, and you need buffer time for first-pass failures and reschedules. Running a 24- to 48-hour pre-witness verification period before the scheduled witness date is essential to confirm stable telemetry and catch time-sync issues early.</p>
+
+<h3>What are the most common reasons solar SCADA commissioning witness tests fail?</h3>
+<p>Point list mismatches are the leading cause of first-pass witness test failures: wrong engineering units, stale tag names, or incorrect scaling factors in the RTU. Time-sync errors are the second most common cause, typically from GPS lock loss or NTP misconfiguration. Both are preventable with a structured pre-witness verification step performed 24 to 48 hours before the utility witness appointment.</p>
+
+<h3>Which communication protocol does the utility require for solar SCADA commissioning?</h3>
+<p>DNP3 (IEEE Std 1815-2012) is the dominant protocol for bulk electric system interconnections in North America. Distribution-level DER interconnections increasingly require IEEE 2030.5 (SEP 2), particularly in California and FERC Order 2222 aggregation contexts. The required protocol, address map, and response mode are defined in the interconnection agreement's SCADA exhibit. Confirm the current exhibit version before configuring the RTU.</p>
+
+<h3>Does FERC Order 842 affect the scope of utility witness tests?</h3>
+<p>Yes. FERC Order 842 requires all new generating facilities to demonstrate primary frequency response capability during commissioning. During solar SCADA commissioning for interconnection, the utility witness includes a frequency-Watt response test where inverters must respond to a simulated under-frequency condition and the SCADA historian must record the response with sub-second timestamps for the utility's review.</p>
+
+<h3>What is the difference between SAT and utility witness testing?</h3>
+<p>The SAT is conducted by the commissioning team to verify the SCADA system works as designed. Utility witness testing is a separate formal milestone where a utility representative verifies the system meets interconnection agreement requirements. SAT evidence forms part of the witness pack, but the utility witness is a distinct gated step with its own sign-off authority and schedule.</p>
+</div>
+
+<ul style="margin-top:2rem; padding-left:1.2rem;">
+  <li>Further reading: <a href="https://www.reig-us.com/solar-scada-commissioning-failures-tag-mapping-comms-time-sync/">Solar SCADA Commissioning Failures: Tag Mapping, Comms, and Time Sync</a></li>
+  <li>Further reading: <a href="https://www.reig-us.com/solar-scada-integrator-roles-deliverables/">Solar SCADA Integrator: Roles and Deliverables</a></li>
+  <li>Further reading: <a href="https://www.reig-us.com/solar-plant-scada-system-reference-architecture-diagram/">Solar Plant SCADA System: Reference Architecture Diagram</a></li>
+  <li>Further reading: <a href="https://www.reig-us.com/scada-integration-services-fat-sat-evidence-checklist/">SCADA Integration Services: FAT/SAT Evidence Checklist</a></li>
+</ul>
+
+</article>

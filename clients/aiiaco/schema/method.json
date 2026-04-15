@@ -1,0 +1,62 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://aiiaco.com/method/#webpage",
+      "url": "https://aiiaco.com/method/",
+      "name": "The AIIA Method - Our 4-Phase AI Implementation Framework",
+      "description": "AIIA's proven 4-phase framework for AI integration: Find, Implement, Measure, and Expand. A structured approach that takes businesses from opportunity identification to scaled AI deployment.",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Find Phase",
+          "description": "Identify high-impact AI opportunities within your existing business processes - pinpointing where automation and intelligence deliver measurable ROI fastest."
+        },
+        {
+          "@type": "Thing",
+          "name": "Implement Phase",
+          "description": "Deploy custom AI integrations and automations tailored to your tech stack, team workflows, and business objectives - with zero disruption to live operations."
+        },
+        {
+          "@type": "Thing",
+          "name": "Measure Phase",
+          "description": "Track performance against defined success metrics - time saved, cost reduced, revenue influenced - so every AI investment is accountable and visible."
+        },
+        {
+          "@type": "Thing",
+          "name": "Expand Phase",
+          "description": "Scale proven AI systems across more teams, departments, and use cases - compounding returns as the organization builds internal AI fluency."
+        }
+      ],
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/method/#breadcrumb"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/method/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "The AIIA Method",
+          "item": "https://aiiaco.com/method/"
+        }
+      ]
+    }
+  ]
+}

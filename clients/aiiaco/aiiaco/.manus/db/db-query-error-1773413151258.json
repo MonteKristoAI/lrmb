@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, email, company, phone, industry, lead_source, call_track, call_duration_seconds, conversation_id, conversation_summary, pain_points, wants, current_solutions, lead_brief, diagnostic_snapshot, status, email_status, created_at FROM leads WHERE LOWER(name) LIKE '%jjinco%' OR LOWER(name) LIKE '%jinco%' OR LOWER(email) LIKE '%jjinco%' OR LOWER(email) LIKE '%jinco%' ORDER BY created_at DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, company, phone, industry, lead_source, call_track, call_duration_seconds, conversation_id, conversation_summary, pain_points, wants, current_solutions, lead_brief, diagnostic_snapshot, status, email_status, created_at FROM leads WHERE LOWER(name) LIKE '%jjinco%' OR LOWER(name) LIKE '%jinco%' OR LOWER(email) LIKE '%jjinco%' OR LOWER(email) LIKE '%jinco%' ORDER BY created_at DESC LIMIT 5;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'lead_source' in 'field list'"
+  ]
+}

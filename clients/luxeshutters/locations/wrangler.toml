@@ -1,0 +1,7 @@
+name = "luxeshutters-proxy"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Route: luxeshutters.com.au/* (handles both /blog/* and /location-slugs/*)
+# Deploy: wrangler deploy
+# Test: wrangler dev

@@ -1,0 +1,11 @@
+# Cloudflare Worker config for Entourage Gummies blog reverse proxy.
+# Deploy with: npx wrangler deploy
+name = "entouragess-blog-proxy"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+# Route (set in Cloudflare dashboard > Workers Routes after deploy):
+#   getentouragegummies.com/blog/*  ->  entouragess-blog-proxy
+#
+# Before the custom domain is bound, the raw blog is reachable at:
+#   https://entouragess-blog.pages.dev/

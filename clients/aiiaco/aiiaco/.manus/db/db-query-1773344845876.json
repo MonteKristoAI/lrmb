@@ -1,0 +1,18 @@
+{
+  "query": "SELECT id, name, email, conversationId, status, emailStatus FROM leads WHERE id = 90009;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, conversationId, status, emailStatus FROM leads WHERE id = 90009;",
+  "rows": [
+    {
+      "id": "90009",
+      "name": "about",
+      "email": "nh@gate13sal.com",
+      "conversationId": "conv_4501kkf8cwwaer69v5aeqyy4wbny",
+      "status": "diagnostic_ready",
+      "emailStatus": "sent"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tconversationId\tstatus\temailStatus\n90009\tabout\tnh@gate13sal.com\tconv_4501kkf8cwwaer69v5aeqyy4wbny\tdiagnostic_ready\tsent\n",
+  "stderr": "",
+  "execution_time_ms": 365
+}

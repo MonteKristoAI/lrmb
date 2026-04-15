@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bridge Hospice - Hero Level 100</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: #060c18; color: #f0ece4; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+
+  /* ================================================================
+     CONCEPT A: "SACRED GROUND"
+     Immersive photo hero with cinematic color grade,
+     multi-layer parallax fade, atmospheric grain,
+     and scroll-driven reveal
+     ================================================================ */
+  .sacred {
+    position: relative;
+    min-height: 300vh; /* Extended scrollable hero */
+  }
+
+  /* --- Sticky viewport container --- */
+  .sacred-viewport {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* --- Photo layer with cinematic grade --- */
+  .sacred-photo {
+    position: absolute;
+    inset: -40px; /* Slight oversize for parallax room */
+    background-image: url('https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=1920&q=85');
+    background-size: cover;
+    background-position: center 30%;
+    filter: saturate(0.4) brightness(0.45) contrast(1.1);
+    transform: scale(1.05);
+    transition: transform 8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sacred:hover .sacred-photo {
+    transform: scale(1.0);
+  }
+
+  /* --- Multi-layer overlay system --- */
+  .sacred-overlay-1 {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 0%, rgba(6,12,24,0.5) 100%);
+  }
+  .sacred-overlay-2 {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(6,12,24,0.3) 0%,
+      rgba(6,12,24,0.1) 20%,
+      transparent 40%,
+      rgba(6,12,24,0.15) 70%,
+      rgba(6,12,24,0.95) 92%,
+      rgba(6,12,24,1) 100%
+    );
+  }
+  .sacred-overlay-3 {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(15,29,51,0.6) 0%, transparent 50%, rgba(15,29,51,0.3) 100%);
+  }
+  /* Color tint - warm golden hour */
+  .sacred-overlay-tint {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 60% 35%, rgba(200,169,110,0.06) 0%, transparent 70%);
+    mix-blend-mode: soft-light;
+  }
+
+  /* --- Film grain --- */
+  .sacred-grain {
+    position: absolute; inset: 0;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 128px 128px;
+    pointer-events: none;
+  }
+
+  /* --- Nav --- */
+  .sacred-nav {
+    position: absolute; top: 0; left: 0; right: 0; z-index: 50;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 56px;
+  }
+  .sacred-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem; font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgba(240,236,228,0.9);
+  }
+  .sacred-logo em { font-style: italic; color: #c8a96e; font-weight: 400; }
+  .sacred-nav-links {
+    display: flex; gap: 36px;
+    font-size: 0.72rem; letter-spacing: 0.06em;
+    color: rgba(240,236,228,0.45);
+  }
+  .sacred-nav-links a { color: inherit; text-decoration: none; transition: color 0.4s; position: relative; }
+  .sacred-nav-links a::after {
+    content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+    height: 1px; background: #c8a96e; transform: scaleX(0); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sacred-nav-links a:hover { color: rgba(240,236,228,0.9); }
+  .sacred-nav-links a:hover::after { transform: scaleX(1); }
+  .sacred-nav-phone {
+    font-size: 0.72rem; color: #c8a96e; letter-spacing: 0.05em;
+    padding: 10px 24px;
+    border: 1px solid rgba(200,169,110,0.25);
+    border-radius: 6px;
+    transition: all 0.4s;
+  }
+  .sacred-nav-phone:hover {
+    background: rgba(200,169,110,0.08);
+    border-color: rgba(200,169,110,0.5);
+  }
+
+  /* --- Central content --- */
+  .sacred-center {
+    position: absolute; inset: 0; z-index: 20;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 0 32px;
+  }
+
+  .sacred-eyebrow {
+    font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase;
+    color: #c8a96e;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: revealSoft 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+  }
+
+  .sacred-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+  }
+  .sacred-h1 .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(40px);
+    filter: blur(8px);
+    animation: wordReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .sacred-h1 .w1 { animation-delay: 0.5s; }
+  .sacred-h1 .w2 { animation-delay: 0.65s; }
+  .sacred-h1 .w3 { animation-delay: 0.8s; }
+  .sacred-h1 .br { display: block; }
+  .sacred-h1 .w4 { animation-delay: 1.1s; color: #c8a96e; font-style: italic; font-weight: 400; }
+  .sacred-h1 .w5 { animation-delay: 1.25s; color: #c8a96e; font-style: italic; font-weight: 400; }
+
+  @keyframes wordReveal {
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+  @keyframes revealSoft {
+    to { opacity: 1; }
+  }
+
+  .sacred-sub {
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+    line-height: 1.8;
+    color: rgba(240,236,228,0.5);
+    max-width: 540px;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: revealSoft 1.2s ease 1.6s forwards;
+  }
+
+  .sacred-ctas {
+    display: flex; gap: 16px; align-items: center;
+    opacity: 0;
+    animation: revealSoft 1s ease 2s forwards;
+  }
+  .sacred-btn-primary {
+    background: linear-gradient(135deg, #c8a96e 0%, #a88a55 100%);
+    color: #0a0e18;
+    padding: 16px 36px;
+    border-radius: 8px;
+    font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.03em;
+    box-shadow:
+      0 2px 8px rgba(200,169,110,0.3),
+      0 8px 32px rgba(200,169,110,0.15),
+      0 0 80px rgba(200,169,110,0.06);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  .sacred-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 4px 12px rgba(200,169,110,0.4),
+      0 12px 40px rgba(200,169,110,0.2),
+      0 0 100px rgba(200,169,110,0.1);
+  }
+  .sacred-btn-ghost {
+    color: rgba(240,236,228,0.55);
+    padding: 16px 32px;
+    font-size: 0.82rem; font-weight: 400;
+    letter-spacing: 0.03em;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.4s;
+    cursor: pointer;
+  }
+  .sacred-btn-ghost:hover { color: #c8a96e; }
+  .sacred-btn-ghost .arr {
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sacred-btn-ghost:hover .arr { transform: translateX(4px); }
+
+  /* --- Bottom scroll indicator --- */
+  .sacred-scroll {
+    position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+    z-index: 30;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    opacity: 0;
+    animation: revealSoft 1s ease 2.5s forwards;
+  }
+  .sacred-scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(180deg, #c8a96e, transparent);
+    animation: scrollDrip 2.5s ease-in-out infinite;
+  }
+  @keyframes scrollDrip {
+    0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    30% { opacity: 0.6; transform: scaleY(1); }
+    60% { opacity: 0.6; transform: scaleY(1); transform-origin: bottom; }
+    100% { opacity: 0; transform: scaleY(0); transform-origin: bottom; }
+  }
+  .sacred-scroll-text {
+    font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(200,169,110,0.35);
+  }
+
+  /* ================================================================
+     SECTION 2: Stats — revealed as you scroll past hero
+     ================================================================ */
+  .sacred-stats {
+    position: relative; z-index: 40;
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    background: rgba(10,14,24,0.98);
+    border-top: 1px solid rgba(200,169,110,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    backdrop-filter: blur(20px);
+  }
+  .sacred-stat {
+    padding: 36px 20px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.03);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.5s;
+    cursor: default;
+  }
+  .sacred-stat:last-child { border-right: none; }
+  .sacred-stat::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 0; height: 2px; background: #c8a96e;
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sacred-stat:hover::before { width: 100%; }
+  .sacred-stat:hover { background: rgba(200,169,110,0.03); }
+  .ss-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 500; color: #c8a96e;
+    margin-bottom: 6px;
+  }
+  .ss-label {
+    font-size: 0.68rem; color: rgba(240,236,228,0.45);
+    letter-spacing: 0.06em;
+  }
+
+  /* ================================================================
+     SECTION 3: Signature Programs — editorial two-panel
+     ================================================================ */
+  .sacred-programs {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 50vh;
+  }
+  .sp-panel {
+    position: relative;
+    padding: 64px 56px;
+    display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+  }
+  /* Valor panel */
+  .sp-valor {
+    background:
+      linear-gradient(135deg, rgba(15,29,51,0.95) 0%, rgba(20,40,65,0.9) 100%);
+    border-right: 1px solid rgba(255,255,255,0.04);
+  }
+  .sp-valor::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1579547945413-497e1b99dac0?w=800&q=70');
+    background-size: cover; background-position: center;
+    filter: saturate(0.2) brightness(0.2);
+    opacity: 0;
+    transition: opacity 0.8s;
+  }
+  .sp-valor:hover::before { opacity: 1; }
+
+  /* Dave's Wish panel */
+  .sp-daves {
+    background:
+      linear-gradient(135deg, rgba(20,15,10,0.95) 0%, rgba(35,25,18,0.9) 100%);
+  }
+  .sp-daves::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=800&q=70');
+    background-size: cover; background-position: center;
+    filter: saturate(0.2) brightness(0.15);
+    opacity: 0;
+    transition: opacity 0.8s;
+  }
+  .sp-daves:hover::before { opacity: 1; }
+
+  .sp-content { position: relative; z-index: 2; }
+  .sp-overline {
+    font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: #c8a96e; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .sp-overline::before {
+    content: ''; width: 24px; height: 1px; background: #c8a96e; opacity: 0.4;
+  }
+  .sp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+    font-weight: 400; line-height: 1.25;
+    margin-bottom: 16px;
+  }
+  .sp-desc {
+    font-size: 0.82rem; line-height: 1.8;
+    color: rgba(240,236,228,0.45);
+    max-width: 420px; margin-bottom: 24px;
+  }
+  .sp-link {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #c8a96e;
+    transition: gap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .sp-panel:hover .sp-link { gap: 16px; }
+
+  /* ================================================================
+     SECTION 4: Trust ribbon
+     ================================================================ */
+  .sacred-trust {
+    display: flex; align-items: center; justify-content: center;
+    gap: 56px; padding: 36px 48px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.01);
+  }
+  .st-label {
+    font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(240,236,228,0.2); white-space: nowrap;
+    padding-right: 32px;
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .st-items { display: flex; gap: 40px; align-items: center; }
+  .st-item {
+    display: flex; align-items: center; gap: 10px;
+    opacity: 0.3; transition: opacity 0.4s;
+  }
+  .st-item:hover { opacity: 0.7; }
+  .st-badge {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(200,169,110,0.1);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.5rem; font-weight: 700; color: #c8a96e;
+    background: rgba(200,169,110,0.03);
+  }
+  .st-name {
+    font-size: 0.62rem; color: rgba(240,236,228,0.4);
+    line-height: 1.3;
+  }
+  .st-name strong { display: block; color: rgba(240,236,228,0.6); font-weight: 500; }
+
+  /* ================================================================
+     FOOTER NOTE
+     ================================================================ */
+  .note {
+    padding: 80px 48px;
+    max-width: 680px; margin: 0 auto;
+    text-align: center;
+  }
+  .note p {
+    font-size: 0.75rem; color: rgba(240,236,228,0.25);
+    line-height: 1.9;
+  }
+  .note strong { color: rgba(240,236,228,0.4); }
+
+  /* ================================================================
+     DIVIDER
+     ================================================================ */
+  .concept-divider {
+    padding: 80px 0;
+    text-align: center;
+    border-top: 1px solid rgba(200,169,110,0.06);
+    border-bottom: 1px solid rgba(200,169,110,0.06);
+    background: linear-gradient(180deg, #060c18, #0a1020, #060c18);
+  }
+  .concept-divider span {
+    font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase;
+    color: rgba(200,169,110,0.25);
+  }
+
+  /* ================================================================
+     CONCEPT B: "GOLDEN HOUR"
+     Split asymmetric with editorial typography,
+     photo reveal on scroll, floating elements
+     ================================================================ */
+  .golden {
+    position: relative;
+    background: #060c18;
+  }
+
+  .golden-hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+
+  /* Left editorial */
+  .golden-left {
+    display: flex; flex-direction: column;
+    justify-content: center;
+    padding: 80px 64px 80px 56px;
+    position: relative;
+    z-index: 10;
+  }
+  .gl-badges { display: flex; gap: 8px; margin-bottom: 32px; flex-wrap: wrap; }
+  .gl-badge {
+    font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 7px 16px; border-radius: 100px;
+    border: 1px solid rgba(200,169,110,0.15);
+    color: rgba(200,169,110,0.7);
+    background: rgba(200,169,110,0.03);
+  }
+
+  .golden-h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .golden-h1 em {
+    font-style: italic; font-weight: 400;
+    color: #c8a96e;
+    display: block;
+  }
+
+  .golden-desc {
+    font-size: 0.95rem; line-height: 1.85;
+    color: rgba(240,236,228,0.45);
+    max-width: 440px;
+    margin-bottom: 36px;
+    font-weight: 300;
+  }
+
+  .golden-ctas { display: flex; gap: 14px; align-items: center; margin-bottom: 48px; }
+  .g-btn-main {
+    background: linear-gradient(135deg, #c8a96e, #a88a55);
+    color: #0a0e18; padding: 15px 32px; border-radius: 8px;
+    font-size: 0.8rem; font-weight: 600;
+    box-shadow: 0 4px 24px rgba(200,169,110,0.25);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .g-btn-main:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 36px rgba(200,169,110,0.3);
+  }
+  .g-btn-outline {
+    border: 1px solid rgba(240,236,228,0.12);
+    color: rgba(240,236,228,0.6);
+    padding: 15px 32px; border-radius: 8px;
+    font-size: 0.8rem;
+    backdrop-filter: blur(8px);
+    cursor: pointer;
+    transition: all 0.4s;
+  }
+  .g-btn-outline:hover {
+    border-color: rgba(200,169,110,0.3);
+    color: #c8a96e;
+  }
+
+  /* Quick access links */
+  .golden-quick {
+    display: flex; gap: 28px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .gq-item {
+    display: flex; align-items: center; gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .gq-item:hover .gq-text { color: #c8a96e; }
+  .gq-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: rgba(200,169,110,0.05);
+    border: 1px solid rgba(200,169,110,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem;
+    transition: all 0.4s;
+  }
+  .gq-item:hover .gq-icon {
+    background: rgba(200,169,110,0.1);
+    border-color: rgba(200,169,110,0.2);
+  }
+  .gq-text { font-size: 0.68rem; color: rgba(240,236,228,0.35); transition: color 0.3s; }
+
+  /* Right photo with complex fade */
+  .golden-right {
+    position: relative;
+    overflow: hidden;
+  }
+  .golden-photo {
+    position: absolute;
+    inset: -20px;
+    background-image: url('https://images.unsplash.com/photo-1576765608535-5f04d1e3f289?w=1200&q=80');
+    background-size: cover;
+    background-position: center 20%;
+    filter: saturate(0.35) brightness(0.55) contrast(1.05);
+    transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .golden-hero:hover .golden-photo {
+    filter: saturate(0.5) brightness(0.6) contrast(1.05);
+    transform: scale(1.02);
+  }
+  /* Multi-directional fade */
+  .golden-fade-left {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, #060c18 0%, rgba(6,12,24,0.7) 20%, transparent 50%);
+  }
+  .golden-fade-bottom {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(6,12,24,0.3) 0%, transparent 30%, transparent 70%, #060c18 100%);
+  }
+  .golden-fade-top {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(6,12,24,0.5) 0%, transparent 25%);
+  }
+  /* Warm vignette */
+  .golden-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 70% at 60% 40%, transparent 30%, rgba(6,12,24,0.4) 100%);
+  }
+  /* Gold tint overlay */
+  .golden-tint {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(200,169,110,0.04), transparent 60%);
+    mix-blend-mode: overlay;
+  }
+
+  /* Floating testimonial card on photo */
+  .golden-float-card {
+    position: absolute;
+    bottom: 48px; right: 48px;
+    z-index: 20;
+    background: rgba(6,12,24,0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(200,169,110,0.1);
+    border-radius: 12px;
+    padding: 24px 28px;
+    max-width: 280px;
+    opacity: 0;
+    animation: floatCardIn 1s cubic-bezier(0.16, 1, 0.3, 1) 2.5s forwards;
+  }
+  @keyframes floatCardIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .gfc-stars { color: #c8a96e; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 8px; }
+  .gfc-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: rgba(240,236,228,0.7);
+    margin-bottom: 12px;
+  }
+  .gfc-author { font-size: 0.62rem; color: rgba(240,236,228,0.35); }
+
+  /* Stats ribbon below hero */
+  .golden-stats {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(200,169,110,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+  }
+  .gs-item {
+    padding: 40px 24px; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.03);
+    position: relative; overflow: hidden;
+    transition: background 0.5s;
+    cursor: default;
+  }
+  .gs-item:last-child { border-right: none; }
+  .gs-item::after {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 2px; background: linear-gradient(90deg, transparent, #c8a96e, transparent);
+    transform: scaleX(0); transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .gs-item:hover { background: rgba(200,169,110,0.02); }
+  .gs-item:hover::after { transform: scaleX(1); }
+  .gs-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 500; color: #c8a96e;
+    margin-bottom: 6px;
+  }
+  .gs-label { font-size: 0.68rem; color: rgba(240,236,228,0.4); letter-spacing: 0.05em; }
+  .gs-sub { font-size: 0.6rem; color: rgba(240,236,228,0.2); margin-top: 6px; line-height: 1.4; }
+
+  /* Valor + Dave's Wish editorial */
+  .golden-programs {
+    display: grid; grid-template-columns: 1fr 1fr;
+  }
+  .gp-card {
+    position: relative; padding: 56px;
+    display: flex; flex-direction: column; justify-content: center;
+    overflow: hidden;
+    border-right: 1px solid rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.03);
+    transition: all 0.6s;
+    cursor: pointer;
+    min-height: 300px;
+  }
+  .gp-card:last-child { border-right: none; }
+  .gp-card::before {
+    content: ''; position: absolute; inset: 0;
+    opacity: 0; transition: opacity 0.8s;
+  }
+  .gp-valor::before {
+    background: linear-gradient(135deg, rgba(15,29,51,0.9), rgba(20,35,55,0.85));
+    background-image: url('https://images.unsplash.com/photo-1579547945413-497e1b99dac0?w=600&q=60');
+    background-size: cover; filter: saturate(0.15) brightness(0.15);
+  }
+  .gp-daves::before {
+    background-image: url('https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?w=600&q=60');
+    background-size: cover; filter: saturate(0.15) brightness(0.12);
+  }
+  .gp-card:hover::before { opacity: 1; }
+  .gp-inner { position: relative; z-index: 2; }
+  .gp-over {
+    font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase;
+    color: #c8a96e; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .gp-over::before { content: ''; width: 20px; height: 1px; background: rgba(200,169,110,0.4); }
+  .gp-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 400; line-height: 1.3;
+    margin-bottom: 12px;
+  }
+  .gp-desc { font-size: 0.78rem; color: rgba(240,236,228,0.4); line-height: 1.7; margin-bottom: 20px; max-width: 380px; }
+  .gp-link {
+    font-size: 0.68rem; color: #c8a96e; letter-spacing: 0.1em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: gap 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .gp-card:hover .gp-link { gap: 14px; }
+
+  /* Trust bar */
+  .golden-trust {
+    display: flex; align-items: center; justify-content: center;
+    gap: 48px; padding: 32px 48px;
+    border-top: 1px solid rgba(255,255,255,0.03);
+    background: rgba(255,255,255,0.008);
+  }
+  .gt-sep {
+    font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(240,236,228,0.15); white-space: nowrap;
+    padding-right: 24px;
+    border-right: 1px solid rgba(255,255,255,0.04);
+  }
+  .gt-items { display: flex; gap: 32px; }
+  .gt-item {
+    display: flex; align-items: center; gap: 8px;
+    opacity: 0.25; transition: opacity 0.4s;
+  }
+  .gt-item:hover { opacity: 0.6; }
+  .gt-icon {
+    width: 36px; height: 36px; border-radius: 6px;
+    border: 1px solid rgba(200,169,110,0.08);
+    background: rgba(200,169,110,0.02);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.45rem; font-weight: 700; color: #c8a96e;
+  }
+  .gt-text { font-size: 0.6rem; color: rgba(240,236,228,0.35); }
+</style>
+</head>
+<body>
+
+<!-- ========== CONCEPT A: "SACRED GROUND" ========== -->
+<div style="position:sticky;top:0;z-index:200;background:rgba(6,12,24,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,169,110,0.1);padding:14px 48px;display:flex;justify-content:space-between;align-items:center;">
+  <div style="font-family:'Playfair Display',serif;font-size:1rem;">Concept A: <em style="color:#c8a96e;font-style:italic;">"Sacred Ground"</em></div>
+  <div style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,169,110,0.5);">Immersive · Cinematic · Full-Bleed Photo</div>
+</div>
+
+<div class="sacred">
+  <div class="sacred-viewport">
+    <div class="sacred-photo"></div>
+    <div class="sacred-overlay-1"></div>
+    <div class="sacred-overlay-2"></div>
+    <div class="sacred-overlay-3"></div>
+    <div class="sacred-overlay-tint"></div>
+    <div class="sacred-grain"></div>
+
+    <div class="sacred-nav">
+      <div class="sacred-logo">Bridge <em>Hospice</em></div>
+      <div class="sacred-nav-links">
+        <a href="#">Services</a>
+        <a href="#">Valor</a>
+        <a href="#">Dave's Wish</a>
+        <a href="#">About</a>
+        <a href="#">Referral</a>
+        <a href="#">Blog</a>
+      </div>
+      <div class="sacred-nav-phone">806-993-3900</div>
+    </div>
+
+    <div class="sacred-center">
+      <div class="sacred-eyebrow">Lubbock's Most Trusted Hospice · Est. 2019</div>
+      <h1 class="sacred-h1">
+        <span class="word w1">Compassionate</span>
+        <span class="word w2">Care.</span>
+        <span class="word w3">Dignified</span>
+        <span class="word w3" style="animation-delay:0.95s">Support.</span>
+        <span class="br"></span>
+        <span class="word w4">A Bridge</span>
+        <span class="word w5">to Peace.</span>
+      </h1>
+      <p class="sacred-sub">Physician-led, 24/7 end-of-life care that honors every life and every family. Serving Lubbock and surrounding communities with an interdisciplinary team of 25+ caregivers.</p>
+      <div class="sacred-ctas">
+        <div class="sacred-btn-primary">Call 806-993-3900</div>
+        <div class="sacred-btn-ghost">Request a Consultation <span class="arr">→</span></div>
+      </div>
+    </div>
+
+    <div class="sacred-scroll">
+      <div class="sacred-scroll-line"></div>
+      <div class="sacred-scroll-text">Discover Our Care</div>
+    </div>
+  </div>
+</div>
+
+<div class="sacred-stats">
+  <div class="sacred-stat"><div class="ss-num">24/7</div><div class="ss-label">Care Available</div></div>
+  <div class="sacred-stat"><div class="ss-num">5×</div><div class="ss-label">Best of the West</div></div>
+  <div class="sacred-stat"><div class="ss-num">25+</div><div class="ss-label">Team Members</div></div>
+  <div class="sacred-stat"><div class="ss-num">7+</div><div class="ss-label">Years Serving</div></div>
+  <div class="sacred-stat"><div class="ss-num">100%</div><div class="ss-label">Dave's Wish Direct</div></div>
+</div>
+
+<div class="sacred-programs">
+  <div class="sp-panel sp-valor">
+    <div class="sp-content">
+      <div class="sp-overline">Veterans Division</div>
+      <div class="sp-title">Valor: Serving Those<br>Who Served Us</div>
+      <div class="sp-desc">Trauma-informed, military-aware hospice care. Led by Dr. Larry Warmoth, MD (Texas Air National Guard). Specialized support for veterans and their families.</div>
+      <div class="sp-link">Learn About Valor →</div>
+    </div>
+  </div>
+  <div class="sp-panel sp-daves">
+    <div class="sp-content">
+      <div class="sp-overline">Nonprofit Outreach</div>
+      <div class="sp-title">Dave's Wish: Bridging<br>the Gap With Hope</div>
+      <div class="sp-desc">Honoring David Wayne Schuchard's legacy. 100% of donations go directly to Lubbock County hospice patients for groceries, rent, utilities, and comfort.</div>
+      <div class="sp-link">Continue Dave's Legacy →</div>
+    </div>
+  </div>
+</div>
+
+<div class="sacred-trust">
+  <div class="st-label">Accredited & Recognized</div>
+  <div class="st-items">
+    <div class="st-item"><div class="st-badge">CHAP</div><div class="st-name"><strong>CHAP Certified</strong>Healthcare Accreditation</div></div>
+    <div class="st-item"><div class="st-badge">WBE</div><div class="st-name"><strong>Women Owned</strong>Certified Business</div></div>
+    <div class="st-item"><div class="st-badge">AFC</div><div class="st-name"><strong>Age-Friendly</strong>Care Certified</div></div>
+    <div class="st-item"><div class="st-badge">★×5</div><div class="st-name"><strong>Best of the West</strong>2022—2026</div></div>
+  </div>
+</div>
+
+<!-- ========== DIVIDER ========== -->
+<div class="concept-divider"><span>↓ &nbsp; Concept B Below &nbsp; ↓</span></div>
+
+<!-- ========== CONCEPT B: "GOLDEN HOUR" ========== -->
+<div style="position:sticky;top:0;z-index:200;background:rgba(6,12,24,0.95);backdrop-filter:blur(12px);border-bottom:1px solid rgba(200,169,110,0.1);padding:14px 48px;display:flex;justify-content:space-between;align-items:center;">
+  <div style="font-family:'Playfair Display',serif;font-size:1rem;">Concept B: <em style="color:#c8a96e;font-style:italic;">"Golden Hour"</em></div>
+  <div style="font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(200,169,110,0.5);">Asymmetric · Editorial · Floating Card</div>
+</div>
+
+<div class="golden">
+  <div class="golden-hero">
+    <div class="golden-left">
+      <div class="gl-badges">
+        <div class="gl-badge">5× Best of the West</div>
+        <div class="gl-badge">CHAP Certified</div>
+        <div class="gl-badge">24/7 Care</div>
+      </div>
+      <h1 class="golden-h1">
+        Where Every Life<br>Is Honored With
+        <em>Dignity & Grace</em>
+      </h1>
+      <p class="golden-desc">Bridge Hospice provides physician-led, round-the-clock end-of-life care across Lubbock and surrounding communities. Pain management, emotional support, veteran programs, and a nonprofit arm that gives 100% directly to families in need.</p>
+      <div class="golden-ctas">
+        <div class="g-btn-main">Call 806-993-3900</div>
+        <div class="g-btn-outline">Request Consultation</div>
+      </div>
+      <div class="golden-quick">
+        <div class="gq-item">
+          <div class="gq-icon">🏥</div>
+          <div class="gq-text">Services</div>
+        </div>
+        <div class="gq-item">
+          <div class="gq-icon">🎖️</div>
+          <div class="gq-text">Veterans</div>
+        </div>
+        <div class="gq-item">
+          <div class="gq-icon">📋</div>
+          <div class="gq-text">Referral</div>
+        </div>
+        <div class="gq-item">
+          <div class="gq-icon">💛</div>
+          <div class="gq-text">Donate</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="golden-right">
+      <div class="golden-photo"></div>
+      <div class="golden-fade-left"></div>
+      <div class="golden-fade-bottom"></div>
+      <div class="golden-fade-top"></div>
+      <div class="golden-vignette"></div>
+      <div class="golden-tint"></div>
+
+      <div class="golden-float-card">
+        <div class="gfc-stars">★★★★★</div>
+        <div class="gfc-quote">"Bridge Hospice made the hardest time in our lives bearable. They treated Mom with such dignity."</div>
+        <div class="gfc-author">— Family of a Bridge Hospice patient</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="golden-stats">
+    <div class="gs-item">
+      <div class="gs-num">24/7</div>
+      <div class="gs-label">Always Available</div>
+      <div class="gs-sub">Round-the-clock care & support</div>
+    </div>
+    <div class="gs-item">
+      <div class="gs-num">12+</div>
+      <div class="gs-label">Care Services</div>
+      <div class="gs-sub">From pain management to spiritual care</div>
+    </div>
+    <div class="gs-item">
+      <div class="gs-num">25+</div>
+      <div class="gs-label">Dedicated Team</div>
+      <div class="gs-sub">Nurses, physicians, chaplains, volunteers</div>
+    </div>
+    <div class="gs-item">
+      <div class="gs-num">5×</div>
+      <div class="gs-label">Best of the West</div>
+      <div class="gs-sub">Lubbock's most recognized hospice</div>
+    </div>
+  </div>
+
+  <div class="golden-programs">
+    <div class="gp-card gp-valor">
+      <div class="gp-inner">
+        <div class="gp-over">Veterans Division</div>
+        <div class="gp-title">Valor: Serving Those<br>Who Served Us</div>
+        <div class="gp-desc">Trauma-informed, military-aware end-of-life care led by Dr. Larry Warmoth, MD (Texas Air National Guard). Specialized support for those who served.</div>
+        <div class="gp-link">Learn About Valor →</div>
+      </div>
+    </div>
+    <div class="gp-card gp-daves">
+      <div class="gp-inner">
+        <div class="gp-over">Nonprofit Outreach</div>
+        <div class="gp-title">Dave's Wish: Bridging<br>the Gap With Hope</div>
+        <div class="gp-desc">100% of donations go directly to Lubbock County hospice patients — groceries, rent, utilities, transportation, and comfort items. Continuing Dave's legacy.</div>
+        <div class="gp-link">Continue His Legacy →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="golden-trust">
+    <div class="gt-sep">Trusted & Accredited</div>
+    <div class="gt-items">
+      <div class="gt-item"><div class="gt-icon">CHAP</div><div class="gt-text">Healthcare Accreditation</div></div>
+      <div class="gt-item"><div class="gt-icon">WBE</div><div class="gt-text">Women Owned</div></div>
+      <div class="gt-item"><div class="gt-icon">AFC</div><div class="gt-text">Age-Friendly Care</div></div>
+      <div class="gt-item"><div class="gt-icon">★5</div><div class="gt-text">Best of the West</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="note">
+  <p>
+    <strong>Level 100 hero concepts for Bridge Hospice.</strong><br><br>
+    <strong>Concept A "Sacred Ground"</strong> — Full-viewport cinematic photo (elderly couple, hands held, warm light). 4-layer overlay system (radial vignette + directional gradient + color shift + warm tint). Film grain texture. Floating light orbs. Words reveal one by one with blur-to-sharp spring animation. Photo slowly zooms out on hover. Scroll indicator drips gold. Stats and programs below are part of the extended hero zone.<br><br>
+    <strong>Concept B "Golden Hour"</strong> — Asymmetric split. Left: editorial typography with badge pills + quick access icons. Right: full-bleed photo with 5-layer fade system (left fade, top fade, bottom fade, vignette, gold tint overlay). A floating glass testimonial card slides in after 2.5s. Stats with animated gold underline on hover. Program cards reveal background photos on hover. Everything breathes.<br><br>
+    Real Bridge Hospice photography replaces stock photos in production. All animations are live in this preview.
+  </p>
+</div>
+
+</body>
+</html>

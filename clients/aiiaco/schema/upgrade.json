@@ -1,0 +1,57 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://aiiaco.com/upgrade/#webpage",
+      "url": "https://aiiaco.com/upgrade/",
+      "name": "Upgrade Your AI Implementation | AIIA Co",
+      "description": "Ready to move beyond experimentation? AIIA's upgrade path takes businesses from scattered AI tools to a unified, measurable AI integration - deployed by specialists, not generalists.",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "AI Implementation Upgrade",
+        "description": "A structured upgrade path for businesses that have dabbled in AI but need a disciplined, results-driven integration to capture real ROI."
+      },
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/upgrade/#breadcrumb"
+      },
+      "potentialAction": {
+        "@type": "ReserveAction",
+        "name": "Book an AI Upgrade Consultation",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://aiiaco.com/upgrade/",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/upgrade/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Upgrade",
+          "item": "https://aiiaco.com/upgrade/"
+        }
+      ]
+    }
+  ]
+}

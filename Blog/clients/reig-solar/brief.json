@@ -1,0 +1,158 @@
+{
+  "client": "reig-solar",
+  "last_distilled": "2026-04-01",
+  "rebuild_if_changed": ["FEEDBACK.md", "STYLE.md", "BRAND.md", "CLIENT.md"],
+
+  "identity": {
+    "company": "Renewable Energy Integration Group, LLC",
+    "persona": "reig-solar",
+    "cms": "wordpress",
+    "seo_plugin": "Yoast",
+    "website": "https://reig-us.com",
+    "author_byline": "By Alex Montekristobelgrade, REIG Solar Technical Team",
+    "ceo": "Brian Otto",
+    "product": "RenergyWare — field-proven NEMA 4 / UL-listed SCADA + DAS enclosures",
+    "review_doc_id": "1JZXXwh6e1z7t4uIdVeQgzI8j68SAEwGEN2eQ36W7XE8",
+    "airtable_base": "appZaD3T174afBSaq",
+    "airtable_requests_table": "tblyq7MN2svfMrZNy",
+    "airtable_generated_table": "tbl3yijxMg5P58Q6c"
+  },
+
+  "seo_limits": {
+    "title_min_chars": 45,
+    "title_max_chars": 55,
+    "meta_max_chars": 154,
+    "meta_target": "145–154 chars",
+    "ENFORCEMENT": "HARD BLOCKER — count characters exactly before marking any post done. Title outside 45–55 = blocker. Meta ≥ 155 = blocker. No exceptions."
+  },
+
+  "voice": {
+    "type": "Technical authority — SCADA/DAS specialist writing for utility-scale solar professionals",
+    "feel": "Experienced SCADA engineer explaining field-proven process to a smart project manager who needs to make decisions. Technical, precise, evidence-driven. Never marketing.",
+    "rules": [
+      "Open with a specific failure mode or problem — never a definition",
+      "Apply Measurement, Meaning, Control framework to every commissioning post",
+      "Cite at least 2–3 external standards (IEC, NIST, IEEE, NERC) per post",
+      "Every technical claim backed by a named standard or REIG field experience",
+      "State outcomes as facts: 'This ensures data is defensible' — not 'This will help you'",
+      "Use named specifics: 'NERC CIP-007 requires patches within 35 days' — not 'regulations require'",
+      "Include a dedicated Failure Modes section in every post",
+      "Tables for every comparison, checklist, and deliverable list — readers scan",
+      "Declare target audience in every post: 'for project managers, commissioning leads, SCADA engineers, and O&M teams'",
+      "Position RenergyWare as 'field-proven' — exact descriptor, never omit"
+    ]
+  },
+
+  "brand_phrases": [
+    "commissioning-ready",
+    "day one",
+    "end-to-end",
+    "device to historian",
+    "mystery data gaps",
+    "online but wrong",
+    "the two truths",
+    "COD",
+    "O&M-ready turnover",
+    "testable point list",
+    "defensible",
+    "witness testing",
+    "POI",
+    "rework",
+    "evidence-based",
+    "field-first",
+    "Measurement, Meaning, Control",
+    "Completeness, Accuracy, Latency"
+  ],
+
+  "dont": [
+    "delve", "tapestry", "nuanced", "realm", "landscape (metaphorical)", "multifaceted", "pivotal",
+    "utilize", "facilitate", "elucidate", "harness (metaphorical)", "comprehensive (generic)",
+    "robust", "seamless", "cutting-edge", "transformative (generic)", "innovative (generic)",
+    "dynamic", "agile", "game-changer", "unlock (metaphorical)", "revolutionize",
+    "crucial", "moreover", "furthermore", "in conclusion", "it's worth noting", "it's important to note",
+    "dive deep", "streamline", "leverage (metaphorical)", "synergy", "holistic",
+    "ensure (as filler)", "optimize (without specifics)", "efficient (without specifics)"
+  ],
+
+  "required_elements": [
+    "SEO Title: 50–60 chars exactly — count characters before finalizing",
+    "Meta description: < 155 chars (target 145–154) — count characters before finalizing",
+    "Focus keyword in: SEO title, meta description, H1, first paragraph, ≥30% of H2+H3 headings, ≥1 image alt",
+    "Keyword density: 0.65%–0.9% — calculate exact occurrences ÷ word count before marking done",
+    "Author byline immediately after H1 (visible in HTML body)",
+    "Key Takeaways box (5 bullets — 2+ must cite a standard or statistic with source inline)",
+    "Measurement, Meaning, Control framework referenced in every post",
+    "Failure Modes section — dedicated section, never omit",
+    "At least 1–2 comparison tables with <thead> markup",
+    "SVG charts: ALL text labels verified to fit their container before saving — no overflow allowed",
+    "FAQ: 5–6 Q&A pairs, 40–60 words each, fully self-contained answers",
+    "Where REIG fits section — 1–2 paragraphs, always mentions 'commissioning-ready'",
+    "CTA: RenergyWare (https://reig-us.com/renergyware/) and/or Contact (https://reig-us.com/contact/)",
+    "Further reading: 4 internal links — none duplicating body links, all from SITEMAP.md",
+    "References section: at least 2–3 external standards with full citations",
+    "3–5 internal links verified against SITEMAP.md — no same-batch linking"
+  ],
+
+  "cta_products": {
+    "technical_reference": {
+      "name": "RenergyWare",
+      "url": "https://reig-us.com/renergyware/",
+      "descriptor": "field-proven — always use this exact word"
+    },
+    "all_posts": {
+      "name": "Contact REIG",
+      "url": "https://reig-us.com/contact/"
+    }
+  },
+
+  "internal_link_rules": {
+    "format": "/blog/{slug} — relative path only, no full domain",
+    "source": "SITEMAP.md is the ONLY valid source of slugs",
+    "no_same_batch_linking": true,
+    "minimum": 3,
+    "maximum": 5
+  },
+
+  "external_link_rules": {
+    "verification": "Fetch EVERY external link via WebFetch before delivery — zero broken or wrong-page links",
+    "ieee_format": "Always use stable URL: standards.ieee.org/standard/XXXX-YYYY.html — NEVER use internal doc ID URLs like /ieee/1815/5925/",
+    "nerc_format": "nerc.com/pa/Stand/Pages/ — may return 403 from scrapers but URL is valid; keep as-is",
+    "standards_check": "When fetching IEEE/IEC standards, verify the page title matches the expected standard number and topic",
+    "failure_action": "If a standards link is broken or wrong: find correct URL, replace, re-verify before saving"
+  },
+
+  "svg_rules": {
+    "viewbox_default": "0 0 560 320 — expand height if content requires",
+    "colors": ["#f97316 (orange)", "#38bdf8 (blue)", "#a78bfa (purple)", "#22c55e (green)", "#fb923c (amber)"],
+    "label_placement": "Bar labels ALWAYS outside bars unless bar width > (char_count × 7px). Default: outside right. Never assume text fits — calculate.",
+    "accessibility": "Every SVG requires: role='img', aria-label, <title>, <desc>",
+    "text_overflow_check": "MANDATORY pre-save: scan every text element. If label extends beyond bar or viewBox edge, fix before saving.",
+    "chart_type_rotation": "Never repeat chart type in same post: horizontal bar → grouped bar → lollipop → Gantt → line → radar"
+  },
+
+  "preferred_sources": [
+    "NIST SP 800-82 Rev. 2 — SCADA cybersecurity (nvlpubs.nist.gov)",
+    "NREL PV O&M Best Practices 3rd Ed. — monitoring and O&M (nrel.gov)",
+    "IEEE 1547-2018 — grid interconnection (standards.ieee.org/standard/1547-2018.html)",
+    "IEC 61724-1 — PV monitoring, performance ratio (iec.ch)",
+    "ANSI/ISA-18.2 — alarm management (isa.org)",
+    "IEC 62682 — alarm systems (iec.ch)",
+    "ISA/IEC 62443 — OT cybersecurity (isa.org)",
+    "NERC CIP standards — nerc.com/pa/Stand/Pages/CIPStandards.aspx",
+    "IEEE 1815-2012 — DNP3 (standards.ieee.org/standard/1815-2012.html)",
+    "FOA OSP installation guidance — thefoa.org (fiber installation)"
+  ],
+
+  "off_limits": [
+    "Consumer or residential solar",
+    "Implying REIG is a generalist contractor",
+    "Competitor brand names",
+    "Specific cost/price claims without value grounding",
+    "ERCOT-specific rules presented as universal grid requirements"
+  ],
+
+  "last_feedback": [
+    "2026-04-01 NON-NEGOTIABLE: SEO Title strictly 50–60 chars. Meta description strictly < 155 chars. SVG labels must never overflow. All external links verified via WebFetch. Quality parity with BreathMastery posts is required.",
+    "2026-03-28 Inferred from full blog analysis: Every post uses Measurement/Meaning/Control framework. FAQ always 5–6 pairs. 'RenergyWare' always 'field-proven'. CTAs always practical and non-salesy. Never name competitors. Posts target 'project managers, commissioning leads, SCADA engineers, and O&M teams'."
+  ]
+}

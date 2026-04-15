@@ -1,0 +1,31 @@
+{
+  "query": "SELECT * FROM leads WHERE LOWER(name) LIKE '%maria%' ORDER BY createdAt DESC LIMIT 10;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT * FROM leads WHERE LOWER(name) LIKE '%maria%' ORDER BY createdAt DESC LIMIT 10;",
+  "rows": [
+    {
+      "id": "30001",
+      "type": "intake",
+      "name": "Maria L Castronovo",
+      "email": "alliedbestsellers@gmail.com",
+      "company": "Alliedbestsellers",
+      "phone": "5149099983",
+      "industry": "NULL",
+      "engagementModel": "NULL",
+      "annualRevenue": "NULL",
+      "message": "NULL",
+      "status": "new",
+      "createdAt": "2026-03-07 21:04:44",
+      "updatedAt": "2026-03-07 21:06:59",
+      "investmentType": "NULL",
+      "budgetRange": "NULL",
+      "problemCategory": "We're growing but can't scale without adding headcount",
+      "problemDetail": "NULL",
+      "callPreference": "afternoon",
+      "leadSource": "Navbar — Request Upgrade"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\ttype\tname\temail\tcompany\tphone\tindustry\tengagementModel\tannualRevenue\tmessage\tstatus\tcreatedAt\tupdatedAt\tinvestmentType\tbudgetRange\tproblemCategory\tproblemDetail\tcallPreference\tleadSource\n30001\tintake\tMaria L Castronovo\talliedbestsellers@gmail.com\tAlliedbestsellers\t5149099983\tNULL\tNULL\tNULL\tNULL\tnew\t2026-03-07 21:04:44\t2026-03-07 21:06:59\tNULL\tNULL\tWe're growing but can't scale without adding headcount\tNULL\tafternoon\tNavbar — Request Upgrade\n",
+  "stderr": "",
+  "execution_time_ms": 352
+}

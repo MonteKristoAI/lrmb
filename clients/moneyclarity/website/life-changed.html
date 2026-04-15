@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Everything Just Changed — Money Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal-dark:#0a2e2a;--teal-mid:#0d3d38;--teal-pale:#e0f5f2;--teal-bright:#00b8a0;
+  --orange:#ff5500;--orange-light:#ff7733;--orange-pale:#fff2ec;
+  --cream:#f8fffe;--white:#fff;
+  --td:#0a2e2a;--tm:#1a4a44;--tmu:#4a8a82;--tl:#7ab8b0;
+  --border:rgba(10,46,42,0.14);
+}
+html,body{margin:0;padding:0;background:var(--cream);}
+#app{font-family:'Source Sans 3',sans-serif;background:var(--cream);min-height:100vh;max-width:420px;margin:0 auto;}
+.sc{display:none;min-height:100vh;flex-direction:column;animation:fu 0.35s ease;}
+.sc.on{display:flex;}
+@keyframes fu{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LANDING ── */
+.lbg{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:52px 28px 36px;text-align:center;position:relative;overflow:hidden;}
+.lbg::before{content:'';position:absolute;top:-100px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,85,0,0.07);}
+.lbg::after{content:'';position:absolute;bottom:-80px;left:-80px;width:260px;height:260px;border-radius:50%;background:rgba(0,184,160,0.06);}
+.topline{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff5500 35%,#ff5500 65%,transparent);}
+.wm{font-family:'Lora',serif;font-size:16px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:28px;position:relative;z-index:1;}
+.wm-m{color:rgba(255,255,255,0.9);}.wm-c{color:#ff5500;}
+
+/* Photo */
+.photo-wrap{position:relative;margin-bottom:22px;z-index:1;display:inline-block;}
+.photo{width:120px;height:120px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid rgba(255,255,255,0.15);box-shadow:0 0 0 4px rgba(255,85,0,0.2),0 8px 28px rgba(0,0,0,0.35);}
+.photo-badge{position:absolute;bottom:2px;right:-10px;background:#ff5500;color:#fff;font-size:10px;font-weight:500;padding:4px 10px;border-radius:20px;white-space:nowrap;box-shadow:0 2px 8px rgba(255,85,0,0.4);}
+
+/* Headlines */
+.lh1{font-family:'Lora',serif;font-size:32px;font-weight:500;color:#fff;line-height:1.22;margin-bottom:16px;position:relative;z-index:1;}
+.lh1 em{color:#ff5500;font-style:italic;}
+.ldiv{width:36px;height:2px;background:#ff5500;margin:0 auto 18px;border-radius:2px;opacity:0.8;position:relative;z-index:1;}
+.lsub{font-size:17px;color:rgba(255,255,255,0.62);line-height:1.7;max-width:310px;margin-bottom:0;font-weight:300;position:relative;z-index:1;}
+
+/* Tina voice strip */
+.tina-voice{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09);border-radius:14px;margin:22px 0 26px;padding:18px 20px;text-align:left;position:relative;z-index:1;}
+.tv-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;}
+.tv-text{font-family:'Lora',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.75);line-height:1.7;}
+.tv-sig{font-size:12px;color:rgba(255,255,255,0.3);margin-top:10px;font-weight:300;}
+
+.btn-p{background:#ff5500;color:#fff;border:none;border-radius:12px;font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:500;padding:17px 32px;cursor:pointer;width:100%;max-width:320px;box-shadow:0 6px 28px rgba(255,85,0,0.38);transition:background 0.2s,transform 0.1s;position:relative;z-index:1;}
+.btn-p:hover{background:#ff7733;}
+.btn-p:active{transform:scale(0.98);}
+.micro{font-size:13px;color:rgba(255,255,255,0.28);margin-top:11px;font-weight:300;position:relative;z-index:1;line-height:1.6;}
+
+/* ── QUESTION CHROME ── */
+.qh{background:var(--teal-dark);padding:16px 22px 12px;}
+.pt{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:9px;}
+.pf{height:100%;background:#ff5500;border-radius:2px;transition:width 0.4s ease;}
+.qm{display:flex;justify-content:space-between;}
+.ql{font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;}
+.qp{font-size:12px;color:#ff7733;font-weight:500;}
+
+/* ── QUESTION BODY ── */
+.qb{flex:1;background:var(--cream);padding:28px 20px 20px;display:flex;flex-direction:column;}
+.qt{font-family:'Lora',serif;font-size:23px;font-weight:500;color:var(--td);line-height:1.32;margin-bottom:8px;}
+.qsub{font-size:15px;color:var(--tmu);margin-bottom:20px;font-weight:300;line-height:1.55;}
+.qnote{font-size:13px;color:var(--tl);font-style:italic;font-family:'Lora',serif;margin-top:12px;line-height:1.6;}
+.iw{position:relative;}
+.csym{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--tmu);pointer-events:none;}
+.inf{border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-family:'Source Sans 3',sans-serif;font-size:18px;color:var(--td);width:100%;outline:none;background:#fff;transition:border-color 0.2s;}
+.inf:focus{border-color:#ff5500;}
+.hp{padding-left:30px;}
+.os{display:flex;flex-direction:column;gap:10px;}
+.ob{background:#fff;border:2px solid var(--border);border-radius:12px;padding:14px 16px;text-align:left;font-family:'Source Sans 3',sans-serif;font-size:15px;color:var(--td);cursor:pointer;transition:border-color 0.18s,background 0.18s;display:flex;align-items:center;gap:12px;line-height:1.45;}
+.ob:hover{border-color:#ff5500;background:var(--orange-pale);}
+.ob.sel{border-color:#ff5500;background:var(--orange-pale);font-weight:500;}
+.oc{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:background 0.18s,border-color 0.18s;}
+.ob.sel .oc{background:#ff5500;border-color:#ff5500;}
+.nr{display:flex;gap:10px;margin-top:auto;padding-top:20px;}
+.bb{border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--tmu);font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px 18px;cursor:pointer;}
+.bn{flex:1;background:var(--teal-dark);color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:13px;cursor:pointer;transition:background 0.2s,transform 0.1s;}
+.bn:hover{background:var(--teal-mid);}
+.bn:active{transform:scale(0.98);}
+
+/* ── PREVIEW ── */
+.pw{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;padding:40px 26px 30px;position:relative;overflow:hidden;}
+.pw::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;background:rgba(255,85,0,0.07);}
+.pe{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#ff7733;margin-bottom:6px;}
+.pname{font-family:'Lora',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.4);margin-bottom:12px;}
+.pi{font-family:'Lora',serif;font-size:21px;color:#fff;line-height:1.55;font-weight:400;margin-bottom:10px;position:relative;z-index:1;}
+.tension{font-size:15px;color:rgba(255,255,255,0.52);font-style:italic;font-family:'Lora',serif;margin-bottom:24px;line-height:1.6;position:relative;z-index:1;}
+.bc2{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:20px;position:relative;overflow:hidden;}
+.br2 div{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin-bottom:7px;}
+.br2 div:nth-child(2){width:75%;}.br2 div:nth-child(3){width:50%;}
+.bo2{position:absolute;inset:0;background:rgba(5,20,18,0.72);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;border-radius:12px;}
+.lk{width:36px;height:36px;background:rgba(255,85,0,0.15);border:1.5px solid rgba(255,85,0,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ff7733;font-size:16px;}
+.ll{font-size:13px;color:rgba(255,255,255,0.38);}
+.pn2{font-size:14px;color:rgba(255,255,255,0.38);text-align:center;margin-bottom:18px;font-weight:300;line-height:1.6;}
+.pw-tl{font-family:'Lora',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.16);text-align:center;margin-top:14px;}
+.dl{display:flex;gap:5px;justify-content:center;margin:14px 0;}
+.dl span{width:6px;height:6px;background:#ff5500;border-radius:50%;animation:dp 1.2s ease-in-out infinite;}
+.dl span:nth-child(2){animation-delay:0.2s;}.dl span:nth-child(3){animation-delay:0.4s;}
+@keyframes dp{0%,100%{opacity:0.25;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
+
+/* ── EMAIL ── */
+.ew{background:var(--cream);flex:1;display:flex;flex-direction:column;padding:28px 20px 22px;}
+.eh{background:var(--teal-dark);border-radius:14px;padding:24px 20px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden;}
+.eh::after{content:'';position:absolute;bottom:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.eht{font-family:'Lora',serif;font-size:22px;color:#fff;margin-bottom:8px;font-weight:500;position:relative;z-index:1;line-height:1.3;}
+.ehs{font-size:14px;color:rgba(255,255,255,0.52);line-height:1.65;font-weight:300;position:relative;z-index:1;}
+.etl{font-family:'Lora',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.2);margin-top:10px;position:relative;z-index:1;}
+.fl2{font-size:12px;font-weight:500;color:var(--tmu);letter-spacing:0.06em;text-transform:uppercase;display:block;margin-bottom:6px;}
+.fg{margin-bottom:13px;}
+.pv{font-size:12px;color:var(--tl);text-align:center;line-height:1.7;margin-top:14px;font-weight:300;}
+
+/* ── RESULTS ── */
+.rw{background:var(--cream);flex:1;display:flex;flex-direction:column;}
+.rh{padding:26px 20px 22px;}
+.re{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#ff7733;margin-bottom:5px;}
+.rht{font-family:'Lora',serif;font-size:22px;color:#fff;font-weight:500;line-height:1.25;}
+.rtl{font-family:'Lora',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.25);margin-top:5px;}
+.rb{padding:16px 14px;display:flex;flex-direction:column;gap:12px;}
+.cd{background:#fff;border-radius:13px;border:1px solid rgba(10,46,42,0.1);padding:16px;}
+.ce{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:11px;}
+
+/* First priority card */
+.priority-card{background:var(--teal-dark);border-radius:13px;padding:20px;position:relative;overflow:hidden;}
+.priority-card::before{content:'';position:absolute;top:-40px;right:-40px;width:130px;height:130px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.pc-eye{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:6px;}
+.pc-name{font-family:'Lora',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.55);margin-bottom:10px;display:block;}
+.pc-frame{font-size:14px;color:rgba(255,255,255,0.6);font-style:italic;border-left:2px solid rgba(255,85,0,0.5);padding-left:12px;margin-bottom:12px;line-height:1.6;}
+.pc-rec{font-family:'Lora',serif;font-size:19px;color:#fff;line-height:1.4;font-weight:500;position:relative;z-index:1;}
+
+/* Checklist */
+.checklist{display:flex;flex-direction:column;gap:11px;}
+.check-item{display:flex;gap:12px;align-items:flex-start;}
+.check-num{width:22px;height:22px;border-radius:50%;background:#ff5500;color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.check-body{flex:1;}
+.check-text{font-size:14px;color:var(--td);line-height:1.55;font-weight:300;}
+.check-urgent{font-size:11px;color:#ff5500;font-weight:500;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-top:3px;}
+
+/* Don't list */
+.wl{list-style:none;display:flex;flex-direction:column;gap:11px;}
+.wl li{display:flex;gap:10px;font-size:14px;color:var(--td);line-height:1.6;font-weight:300;}
+.wd{width:12px;height:2px;background:#ff5500;flex-shrink:0;margin-top:10px;border-radius:1px;}
+
+/* Guidance */
+.ac{background:var(--teal-pale);border-radius:13px;padding:16px;border:1px solid rgba(0,184,160,0.2);}
+.ac-ctx{font-size:12px;font-weight:500;color:var(--teal-mid);margin-bottom:8px;font-family:'Source Sans 3',sans-serif;line-height:1.55;}
+.at{font-family:'Lora',serif;font-size:14px;color:var(--teal-dark);line-height:1.8;font-style:italic;}
+
+/* Tina note */
+.tina-card{background:var(--teal-dark);border-radius:13px;padding:20px;position:relative;overflow:hidden;}
+.tina-card::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,85,0,0.07);}
+.tc-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;position:relative;z-index:1;}
+.tc-photo{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid rgba(255,85,0,0.3);flex-shrink:0;}
+.tc-photo-init{width:44px;height:44px;border-radius:50%;background:#ff5500;display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:16px;color:#fff;flex-shrink:0;}
+.tc-name{font-family:'Lora',serif;font-size:14px;color:#fff;font-weight:500;}
+.tc-title{font-size:11px;color:rgba(255,255,255,0.38);font-weight:300;margin-top:2px;}
+.tc-label{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:10px;position:relative;z-index:1;}
+.tc-text{font-family:'Lora',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.75);line-height:1.8;position:relative;z-index:1;}
+
+/* Video */
+.vid-card{background:var(--teal-dark);border-radius:13px;padding:18px;text-align:center;}
+.vid-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;}
+.vid-h{font-family:'Lora',serif;font-size:17px;color:#fff;margin-bottom:6px;font-weight:500;line-height:1.35;}
+.vid-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:14px;font-weight:300;}
+.vc{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;height:84px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.pr2{width:38px;height:38px;border-radius:50%;background:rgba(255,85,0,0.15);border:1.5px solid rgba(255,85,0,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pt3{width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #ff7733;margin-left:3px;}
+.vl2{font-size:13px;color:rgba(255,255,255,0.35);text-align:left;line-height:1.5;}
+
+/* Support CTA */
+.support-cta{background:var(--orange-pale);border:2px solid rgba(255,85,0,0.2);border-radius:13px;padding:20px;text-align:center;}
+.sc-eye{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:8px;}
+.sc-h{font-family:'Lora',serif;font-size:19px;font-weight:500;color:var(--td);margin-bottom:8px;line-height:1.3;}
+.sc-sub{font-size:14px;color:var(--tmu);font-weight:300;line-height:1.6;margin-bottom:18px;}
+.sc-btn{background:#ff5500;color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:16px;font-weight:500;padding:15px;width:100%;cursor:pointer;box-shadow:0 4px 16px rgba(255,85,0,0.28);}
+.bs2{background:#fff;color:var(--teal-dark);border:2px solid var(--border);border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px;cursor:pointer;text-align:center;width:100%;}
+.sc-btn:hover{background:#ff7733;}
+.sc-tl{font-size:12px;color:var(--tl);margin-top:10px;font-weight:300;font-style:italic;font-family:'Lora',serif;}
+
+.ft{font-size:11px;color:var(--tl);text-align:center;padding:12px 18px;line-height:1.6;font-weight:300;}
+.ftd{font-size:11px;color:rgba(255,255,255,0.18);text-align:center;padding:12px 18px;background:var(--teal-dark);}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- S0: LANDING -->
+<div class="sc on" id="s0">
+  <div class="lbg">
+    <div class="topline"></div>
+    <div class="wm"><span class="wm-m">Money</span><span class="wm-c">Clarity</span></div>
+    <div class="photo-wrap">
+      <img class="photo" src="Tina_headshot_crop.jpg" alt="Tina Singh">
+      <div class="photo-badge">25 yrs Wall Street</div>
+    </div>
+    <h1 class="lh1">Your Financial Life<br>Just Changed.<br><em>Now What?</em></h1>
+    <div class="ldiv"></div>
+    <p class="lsub">Whether you're going through a divorce or lost a spouse, this is one of the hardest financial moments you'll face. You don't have to figure it out alone.</p>
+    <div class="tina-voice">
+      <div class="tv-label">From Tina</div>
+      <div class="tv-text">"I've experienced both divorce and loss — and survived both. I know what it feels like to suddenly be responsible for financial decisions you never had to make before, while everything else is falling apart. The first thing I needed — and didn't have — was someone to tell me clearly where I stood. That's what this is."</div>
+      <div class="tv-sig">— Tina Singh · 25 years Wall Street · Founder, Money Clarity</div>
+    </div>
+    <button class="btn-p" onclick="gt(1)">👉 Start Here</button>
+    <p class="micro">Free. Private. No financial jargon.<br>Takes under 60 seconds.</p>
+  </div>
+  <div class="ft" style="background:var(--teal-dark);color:rgba(255,255,255,0.18);">This tool is for educational purposes only and does not constitute financial advice.</div>
+</div>
+
+<!-- S1: WHAT HAPPENED -->
+<div class="sc" id="s1">
+  <div class="qh"><div class="pt"><div class="pf" style="width:20%"></div></div><div class="qm"><span class="ql">First — tell me what happened</span><span class="qp">Step 1 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What are you navigating right now?</h2>
+    <p class="qsub">There's no right or wrong place to be. Just tell me where you are.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'event','I am going through a divorce','divorce')"><div class="oc"></div>I'm in the middle of a divorce — it's not over yet</button>
+      <button class="ob" onclick="so(this,'event','My divorce was finalized recently','post-divorce')"><div class="oc"></div>My divorce is final — I'm trying to figure out what's next</button>
+      <button class="ob" onclick="so(this,'event','I recently lost my spouse or partner','loss')"><div class="oc"></div>I recently lost my spouse or partner — everything feels uncertain</button>
+      <button class="ob" onclick="so(this,'event','I lost my spouse more than a year ago','post-loss')"><div class="oc"></div>I lost my spouse more than a year ago — I'm still sorting things out</button>
+    </div>
+    <p class="qnote">Wherever you are in this — you're in the right place.</p>
+    <div class="nr"><button class="bb" onclick="gt(0)">Back</button><button class="bn" onclick="nq(1,2,'event')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<!-- S2: AGE -->
+<div class="sc" id="s2">
+  <div class="qh"><div class="pt"><div class="pf" style="width:40%"></div></div><div class="qm"><span class="ql">A little about you</span><span class="qp">Step 2 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">How old are you?</h2>
+    <p class="qsub">Your age shapes your options and your timeline — there's no wrong answer.</p>
+    <input type="number" class="inf" id="ia" placeholder="e.g. 54" min="25" max="85" oninput="A.age=this.value">
+    <div class="nr"><button class="bb" onclick="gt(1)">Back</button><button class="bn" onclick="nq(2,3,'age')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<!-- S3: INCOME -->
+<div class="sc" id="s3">
+  <div class="qh"><div class="pt"><div class="pf" style="width:60%"></div></div><div class="qm"><span class="ql">Your income</span><span class="qp">Step 3 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is your income right now?</h2>
+    <p class="qsub">Even if it has changed — or you're not sure what it will be going forward. Approximate is completely fine.</p>
+    <div class="iw"><span class="csym">$</span><input type="number" class="inf hp" id="ii" placeholder="e.g. 60,000" min="0" oninput="A.income=parseFloat(this.value)||0"></div>
+    <p class="qnote">If your income is in transition right now, use your best current estimate.</p>
+    <div class="nr"><button class="bb" onclick="gt(2)">Back</button><button class="bn" onclick="nq(3,4,'income')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<!-- S4: ASSETS -->
+<div class="sc" id="s4">
+  <div class="qh"><div class="pt"><div class="pf" style="width:80%"></div></div><div class="qm"><span class="ql">What you have</span><span class="qp">Step 4 of 5</span></div></div>
+  <div class="qb">
+    <h2 class="qt">How would you describe the money and assets you currently have — or think you have?</h2>
+    <p class="qsub">This might feel uncertain right now. Pick the one that feels closest.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'assets','Very little — under $25,000','very-low')"><div class="oc"></div>Very little — under $25,000</button>
+      <button class="ob" onclick="so(this,'assets','Some — $25,000 to $150,000','low')"><div class="oc"></div>Some — $25,000 to $150,000</button>
+      <button class="ob" onclick="so(this,'assets','A moderate amount — $150,000 to $500,000','mid')"><div class="oc"></div>A moderate amount — $150,000 to $500,000</button>
+      <button class="ob" onclick="so(this,'assets','Significant — over $500,000','high')"><div class="oc"></div>Significant — over $500,000</button>
+      <button class="ob" onclick="so(this,'assets','I honestly don\'t know what I have access to yet','unsure')"><div class="oc"></div>I honestly don't know what I have access to yet</button>
+    </div>
+    <p class="qnote">Not knowing is more common than you'd think. It's exactly what this is built for.</p>
+    <div class="nr"><button class="bb" onclick="gt(3)">Back</button><button class="bn" onclick="nq(4,5,'assets')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<!-- S5: FEAR -->
+<div class="sc" id="s5">
+  <div class="qh"><div class="pt"><div class="pf" style="width:95%"></div></div><div class="qm"><span class="ql">What's keeping you up</span><span class="qp">Last one</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is the financial fear that's taking up the most space right now?</h2>
+    <p class="qsub">Be honest. This is just between you and this tool.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'concern','I don\'t even know what accounts or assets exist','what-i-have')"><div class="oc"></div>I don't even know what accounts or assets exist</button>
+      <button class="ob" onclick="so(this,'concern','I don\'t know if I can support myself financially on my own','support-myself')"><div class="oc"></div>I don't know if I can support myself on my own</button>
+      <button class="ob" onclick="so(this,'concern','I have money but I have no idea what to do with it','what-to-do')"><div class="oc"></div>I have money but no idea what to do with it</button>
+      <button class="ob" onclick="so(this,'concern','I\'m terrified of making a financial mistake I can\'t undo','no-mistake')"><div class="oc"></div>I'm terrified of making a mistake I can't undo</button>
+    </div>
+    <p class="qnote">All of these are valid. All of them are addressable. Let's start with yours.</p>
+    <div class="nr"><button class="bb" onclick="gt(4)">Back</button><button class="bn" onclick="sp()">Show Me Where I Stand</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<!-- S6: PREVIEW -->
+<div class="sc" id="s6">
+  <div class="pw">
+    <p class="pe">Before we go inside</p>
+    <p class="pname" id="pname"></p>
+    <p class="pi" id="pt2"></p>
+    <p class="tension" id="tension"></p>
+    <div class="bc2">
+      <div class="br2"><div></div><div></div><div></div></div>
+      <div class="bo2"><div class="lk">&#128274;</div><div class="ll">Your picture is inside</div></div>
+    </div>
+    <p class="pn2">Your immediate checklist, what not to do, and a personal note from Tina — all inside. Enter your name and email to unlock it.</p>
+    <button class="btn-p" style="max-width:100%" onclick="gt(7)">I'm Ready — Show Me</button>
+    <div class="dl"><span></span><span></span><span></span></div>
+    <div class="pw-tl">Money Clarity &mdash; Know where you stand.</div>
+  </div>
+  <div class="ftd">Educational purposes only. Not financial advice.</div>
+</div>
+
+<!-- S7: EMAIL -->
+<div class="sc" id="s7">
+  <div class="ew">
+    <div class="eh">
+      <h2 class="eht" id="email-h">You took the first step.</h2>
+      <p class="ehs">That takes courage. Enter your name and email and I'll show you exactly where you stand — and what to do first. No sales pitch. No pressure.</p>
+      <p class="etl">Private. Secure. Educational only.</p>
+    </div>
+    <div class="fg"><label class="fl2">Your first name</label><input type="text" class="inf" id="in2" placeholder="Your first name" oninput="A.firstName=this.value;updateEmail()"></div>
+    <div class="fg"><label class="fl2">Email address</label><input type="email" class="inf" id="ie" placeholder="you@example.com" oninput="A.email=this.value"></div>
+    <button class="btn-p" style="max-width:100%;margin-top:4px" onclick="sr()" id="show-btn">Show Me Where I Stand</button>
+    <p class="pv">This is educational guidance, not financial advice.<br>Your information is completely private and never shared.</p>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<!-- S8: RESULTS -->
+<div class="sc" id="s8">
+  <div class="rw">
+    <div class="rh" id="rh" style="background:#0a2e2a">
+      <p class="re" id="rey"></p>
+      <h2 class="rht" id="rht">Your Financial Clarity</h2>
+      <p class="rtl">Know where you stand.</p>
+    </div>
+    <div class="rb">
+
+      <div class="priority-card">
+        <div class="pc-eye">Start here — your single most important move</div>
+        <span class="pc-name" id="pc-name"></span>
+        <div class="pc-frame" id="pc-frame"></div>
+        <div class="pc-rec" id="pc-rec"></div>
+      </div>
+
+      <div class="cd">
+        <div class="ce">Your immediate checklist</div>
+        <div class="checklist" id="checklist"></div>
+      </div>
+
+      <div class="cd">
+        <div class="ce">What not to do right now</div>
+        <ul class="wl" id="dont-list"></ul>
+      </div>
+
+      <div class="ac">
+        <div class="ac-ctx" id="ac-ctx"></div>
+        <div class="ce" style="color:var(--teal-mid)">A note on your situation</div>
+        <p class="at" id="guidance"></p>
+      </div>
+
+      <div class="tina-card">
+        <div class="tc-top">
+          <img class="tc-photo" src="Tina_headshot_crop.jpg" alt="Tina Singh" onerror="this.style.display='none';document.getElementById('tc-init').style.display='flex'">
+          <div class="tc-photo-init" id="tc-init" style="display:none">T</div>
+          <div>
+            <div class="tc-name">Tina Singh</div>
+            <div class="tc-title">Founder, Money Clarity · 25 years Wall Street</div>
+          </div>
+        </div>
+        <div class="tc-label">A personal note</div>
+        <div class="tc-text" id="tina-note"></div>
+      </div>
+
+      <div class="vid-card">
+        <div class="vid-label">Watch this</div>
+        <h3 class="vid-h" id="vid-title">Tina explains what to do first</h3>
+        <p class="vid-sub">A calm, clear walkthrough — filmed specifically for your situation.</p>
+        <div style="width:100%;max-width:220px;margin:0 auto;border-radius:10px;overflow:hidden;aspect-ratio:9/16;" id="vid-wrap">
+        </div>
+      </div>
+
+      
+      <div id="next-tools" style="display:none;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:10px;margin-top:4px;">Go deeper — your next steps</div>
+        <div id="next-tool-1" style="background:#fff;border-radius:13px;border:2px solid rgba(255,85,0,0.25);overflow:hidden;margin-bottom:10px;cursor:pointer;" onclick="window.location.href=document.getElementById('next-tool-1').dataset.url">
+          <div style="padding:14px 16px;">
+            <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:4px;" id="nt1-tag"></div>
+            <div style="font-family:'Lora',serif;font-size:17px;font-weight:500;color:#0a2e2a;line-height:1.25;margin-bottom:4px;" id="nt1-title"></div>
+            <div style="font-size:13px;color:#4a8a82;line-height:1.5;font-weight:300;" id="nt1-desc"></div>
+          </div>
+          <div style="padding:9px 16px;background:#f8fffe;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(10,46,42,0.1);">
+            <div style="font-size:11px;color:#7ab8b0;font-weight:300;">Takes under 60 seconds</div>
+            <div style="background:#ff5500;color:#fff;border-radius:7px;font-size:12px;font-weight:500;padding:6px 14px;">Start →</div>
+          </div>
+        </div>
+        <div id="next-tool-2" style="background:#fff;border-radius:13px;border:2px solid rgba(10,46,42,0.14);overflow:hidden;margin-bottom:10px;cursor:pointer;" onclick="window.location.href=document.getElementById('next-tool-2').dataset.url">
+          <div style="padding:14px 16px;">
+            <div style="font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:4px;" id="nt2-tag"></div>
+            <div style="font-family:'Lora',serif;font-size:17px;font-weight:500;color:#0a2e2a;line-height:1.25;margin-bottom:4px;" id="nt2-title"></div>
+            <div style="font-size:13px;color:#4a8a82;line-height:1.5;font-weight:300;" id="nt2-desc"></div>
+          </div>
+          <div style="padding:9px 16px;background:#f8fffe;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(10,46,42,0.1);">
+            <div style="font-size:11px;color:#7ab8b0;font-weight:300;">Takes under 60 seconds</div>
+            <div style="background:#ff5500;color:#fff;border-radius:7px;font-size:12px;font-weight:500;padding:6px 14px;">Start →</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="support-cta">
+        <div class="sc-eye">Monthly support</div>
+        <h3 class="sc-h" id="support-h">You don't have to navigate this alone.</h3>
+        <p class="sc-sub" id="support-sub">Get ongoing guidance, monthly clarity check-ins, and someone in your corner every step of the way — from $27/month.</p>
+        
+      <button class="bs2" onclick="window.location.href='MoneyClarityGuide.pdf'">Download My Plan</button>
+      <button class="sc-btn" onclick="window.location.href='subscribe.html'">Learn About Ongoing Support</button>
+        <div class="sc-tl">Cancel anytime. No contracts. No pressure.</div>
+      </div>
+
+    </div>
+    <div class="ft">This tool is for educational purposes only and does not constitute financial advice. Always work with qualified legal and financial professionals for decisions of this magnitude. © 2026 moneyclarity.me</div>
+  </div>
+</div>
+
+</div>
+<script>
+const A={event:'',eventKey:'',age:null,income:0,assets:'',assetsKey:'',concern:'',concernKey:'',firstName:'',email:''};
+
+function gt(n){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById('s'+n).classList.add('on');window.scrollTo(0,0);}
+function so(el,f,v,k){el.closest('.os').querySelectorAll('.ob').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');A[f]=v;A[f+'Key']=k;}
+function nq(c,nx,f){
+  const v=A[f];
+  if(!v&&v!==0){alert('Please make a selection to continue.');return;}
+  if(f==='age'&&(!A.age||A.age<25||A.age>85)){alert('Please enter a valid age.');return;}
+  if(f==='income'&&A.income<0){alert('Please enter your income.');return;}
+  gt(nx);
+}
+
+function isDivorce(){return['divorce','post-divorce'].includes(A.eventKey);}
+function isRecent(){return['divorce','loss'].includes(A.eventKey);}
+
+function updateEmail(){
+  const n=A.firstName.trim();
+  const btn=document.getElementById('show-btn');
+  if(n){
+    document.getElementById('email-h').textContent=n+', you took the first step.';
+    btn.textContent='Show '+n+"'s Picture";
+  } else {
+    document.getElementById('email-h').textContent='You took the first step.';
+    btn.textContent='Show Me Where I Stand';
+  }
+}
+
+function gl(){
+  const n=A.firstName.trim()||'you';
+  const an=parseInt(A.age)||52;
+  const div=isDivorce();
+  const recent=isRecent();
+  const unsure=A.assetsKey==='unsure';
+  let priority,frame,checklist,donts,guidance,tinaNote,preview,tension,headerBg,supportH,supportSub;
+
+  if(div){
+    headerBg='#0a1f2e';
+    preview='Right now the most urgent thing is not what to do with your money. It\'s making sure you know what you have — before decisions get made that you can\'t undo.';
+    tension='Many women come out of divorce with less than they should have — not because of bad lawyers, but because they didn\'t know the full financial picture going in. That changes today.';
+    priority=unsure
+      ?'Get a complete picture of every asset and account before a single decision is finalized'
+      :'Protect what is yours — and get completely clear on what that is before the process goes any further';
+    frame='The most important financial move right now is not investing, not planning — it is knowing. You cannot protect what you cannot see.';
+    checklist=[
+      {text:'Get your name removed from every joint loan, credit card, and line of credit — and get his name removed from yours. A divorce decree does not release you from joint debt. Creditors don\'t care what the judge said. If your name is on it, you are liable.',urgent:'Critical — do this before anything else'},
+      {text:'Make a complete list of every financial account — joint and individual. Bank, investment, retirement, pension.',urgent:'Do this first — this week'},
+      {text:'Do not close joint accounts or move significant assets without guidance from your attorney.',urgent:'Critical — do not skip this'},
+      {text:'Open an individual bank account in your name only, if you don\'t already have one.',urgent:'Do this week'},
+      {text:'Get copies of your last 3 years of tax returns. Both spouses should have access to these.',urgent:'This week'},
+      {text:'Find a fee-only financial advisor — one who charges a flat fee, not commissions — before the process concludes.',urgent:'Before you sign anything'},
+    ];
+    donts=[
+      'Do not assume a divorce decree protects you from joint debt. It does not. Three, five, even ten years later — if your name is still on a loan and he stops paying, that becomes your problem. Remove your name. Get it in writing.',
+      'Do not make major financial decisions or investments while the divorce is still in process. The dust needs to settle first.',
+      'Do not assume the financial picture you were aware of is the complete picture. Get everything documented.',
+      'Do not let anyone — including well-meaning family — pressure you into financial decisions before you\'re ready.',
+    ];
+    guidance=`${n.charAt(0).toUpperCase()+n.slice(1)}, the financial side of a divorce is one of the most consequential things you will ever navigate — and most women do it without enough information. At ${an}, what is decided in this process will shape the next chapter of your life significantly. The single most valuable thing you can do right now is get complete visibility on every asset, account, and financial obligation before any agreements are made. You don't need to know what to do with it all yet. You just need to know it exists and what it's worth. That's step one. Everything else builds from there.`;
+    tinaNote=`"I've been through divorce. And three years after mine was final, I had to file for bankruptcy — because I was still liable for debt that had my name on it. The decree didn't protect me. The creditor didn't care what the judge said. I learned the hard way what I'm telling you now: get your name off every joint loan, every joint card, every joint line of credit — and get his name off yours. Do it before anything else. That one step could save you years of damage."`;
+    supportH="You don't have to navigate this alone.";
+    supportSub="Monthly guidance, clarity check-ins, and someone in your corner through every step of what comes next — from $27/month.";
+
+  } else {
+    headerBg='#0a2e2a';
+    preview=recent
+      ?'You don\'t have to make any financial decisions right now. But you do need to know what you have — before someone else makes those decisions for you.'
+      :'The financial fog that follows loss is real. But the longer key decisions go unaddressed, the fewer options remain. Let\'s get clear on where you actually stand.';
+    tension=recent
+      ?'People will push you toward financial decisions before you\'re ready — family, advisors, institutions. Knowing where you stand gives you the power to say: not yet.'
+      :'Waiting feels safer than deciding. But clarity now creates options that won\'t exist later.';
+    priority=unsure
+      ?'Start by understanding exactly what you have — without any pressure to do anything with it yet'
+      :recent
+        ?'Give yourself permission to pause — and use that pause to get a complete picture of what you now have and what you will need'
+        :'Get a clear, honest picture of your full financial situation — what you have, what it costs you to live, and what you need going forward';
+    frame=recent
+      ?'There is no financial urgency right now — no matter what anyone tells you. Your first job is to understand what is there, not to act on it.'
+      :'The financial decisions you make in the wake of a loss have long-term consequences. Clarity before action — always.';
+    checklist=recent?[
+      {text:'Locate and list every financial account your spouse had — bank, investment, retirement, life insurance, pension.',urgent:'Start here — this week'},
+      {text:'Do not make any permanent financial decisions for at least 6 to 12 months if the loss was recent.',urgent:'Give yourself this time'},
+      {text:'Contact the Social Security Administration to understand any survivor benefits you may be entitled to.',urgent:'This month'},
+      {text:'Find a fee-only financial advisor — one who charges flat fees, not commissions on products they sell you.',urgent:'Before making any major decisions'},
+      {text:'Review beneficiary designations on your own accounts — they may need to be updated.',urgent:'This month'},
+    ]:[
+      {text:'Get a complete picture of all your assets and accounts — what you have, where it is, what it\'s worth.',urgent:'Start here'},
+      {text:'Understand your monthly income going forward — Social Security, pension, investment withdrawals.',urgent:'This month'},
+      {text:'Review beneficiary designations and account ownership on everything you hold.',urgent:'This month'},
+      {text:'Find a fee-only financial advisor if you haven\'t already — someone who works for you, not on commission.',urgent:'When you\'re ready'},
+      {text:'Make a simple budget based on your actual income and expenses — many people have never done this solo.',urgent:'This quarter'},
+    ];
+    donts=recent?[
+      'Do not let anyone — family, advisors, institutions — pressure you into financial decisions before you are ready. Grief is not a timeline.',
+      'Do not make permanent decisions with inherited or newly accessible money until you fully understand your complete financial picture.',
+      'Do not ignore financial accounts and decisions indefinitely — avoidance has real costs. Set a gentle timeline for yourself.',
+    ]:[
+      'Do not continue to avoid major financial decisions — the longer they wait, the harder they become and the fewer options you have.',
+      'Do not make investment decisions based on what you think your spouse would have wanted. Make them based on what you actually need.',
+      'Do not work with an advisor who earns commissions on products — find a fee-only advisor who is paid to work for you.',
+    ];
+    guidance=`${n.charAt(0).toUpperCase()+n.slice(1)}, ${recent?'the loss of a spouse is the most disorienting experience most people ever face — and then, almost immediately, the financial decisions start coming. Accounts to transfer. Benefits to claim. Advisors calling. Family members offering opinions.':'navigating the financial aftermath of loss takes longer than most people expect — and many important decisions get delayed or made in the wrong order.'}. At ${an}, ${recent?'you don\'t need to act quickly. You need to act correctly — when you are ready, with complete information.':'the decisions you make now will significantly shape your financial security going forward. Getting a clear, honest picture of where you stand is the foundation everything else builds on.'}`;
+    tinaNote=recent
+      ?`"I've experienced loss too. I know that the financial decisions don't stop coming just because you're in the middle of grief. I know what it feels like to be handed paperwork you don't understand, by people you're not sure you can trust, at the worst possible time. You don't have to decide anything today. But you do need to know where you stand. I built this because I needed it — and nobody had built it yet."`
+      :`"Even after time has passed, the financial fog that follows loss is real. I know that from personal experience. The longer important decisions go unaddressed, the fewer options remain — but that doesn't mean you've missed your window. You haven't. Getting clear now still matters. That's what this is for."`;
+    supportH=recent?'You don\'t have to figure this out alone.':'Ongoing clarity as you move forward.';
+    supportSub=recent
+      ?'Grief and major financial decisions shouldn\'t happen at the same time. Get ongoing guidance and someone in your corner as you navigate what comes next — from $27/month.'
+      :'Monthly clarity, guidance, and support as you take the next steps forward — from $27/month.';
+  }
+
+  return{priority,frame,checklist,donts,guidance,tinaNote,preview,tension,headerBg,supportH,supportSub};
+}
+
+function sp(){
+  if(!A.concernKey){alert('Please make a selection to continue.');return;}
+  const L=gl();
+  document.getElementById('pname').textContent=A.firstName?'A read for you, '+A.firstName+':':'';
+  document.getElementById('pt2').textContent=L.preview;
+  document.getElementById('tension').textContent=L.tension;
+  gt(6);
+}
+
+function sr(){
+  const n=A.firstName.trim(),e=A.email.trim();
+  if(!n){alert('Please enter your first name.');return;}
+  if(!e||!e.includes('@')){alert('Please enter a valid email address.');return;}
+  fetch('https://primary-production-5fdce.up.railway.app/webhook/moneyclarity-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({firstName:n,email:e,quizType:'life-changed',quizData:{eventKey:A.eventKey,assetsKey:A.assetsKey,concernKey:A.concernKey},source:'moneyclarity.me'})}).catch(()=>{});
+  const L=gl();
+  document.getElementById('rh').style.background=L.headerBg;
+  document.getElementById('rey').textContent=n+"'s Financial Picture";
+  document.getElementById('rht').textContent='Where '+n+' Stands';
+  document.getElementById('pc-name').textContent="Here's where to start, "+n+":";
+  document.getElementById('pc-frame').textContent=L.frame;
+  document.getElementById('pc-rec').textContent=L.priority;
+  document.getElementById('checklist').innerHTML=L.checklist.map((c,i)=>`
+    <div class="check-item">
+      <div class="check-num">${i+1}</div>
+      <div class="check-body">
+        <div class="check-text">${c.text}</div>
+        <span class="check-urgent">${c.urgent}</span>
+      </div>
+    </div>`).join('');
+  document.getElementById('dont-list').innerHTML=L.donts.map(d=>`<li><div class="wd"></div><span>${d}</span></li>`).join('');
+  document.getElementById('ac-ctx').textContent=isDivorce()
+    ?'The financial decisions made during divorce are among the most consequential of your life. This guidance is educational — not legal or financial advice. Please work with qualified attorneys and financial professionals.'
+    :'Financial decisions made in the wake of loss deserve time and care. This guidance is educational — not legal or financial advice. Please work with qualified professionals for decisions of this magnitude.';
+  document.getElementById('guidance').textContent=L.guidance;
+  document.getElementById('tina-note').textContent=L.tinaNote;
+  document.getElementById('support-h').textContent=L.supportH;
+  document.getElementById('support-sub').textContent=L.supportSub;
+  const divSrc='https://www.veed.io/embed/befe7ad4-f1a5-4615-ab74-8bd20d37ff21?watermark=0&color=&sharing=1&title=0';
+  const lossSrc='https://www.veed.io/embed/6ee43438-0081-459b-a98a-27b8aa285ab0?watermark=0&color=&sharing=1&title=0';
+  const vidSrc=isDivorce()?divSrc:lossSrc;
+  const vidTitle=isDivorce()?'Tina explains what to do after divorce':'Tina explains what to do after loss';
+  document.getElementById('vid-title').textContent=vidTitle;
+  document.getElementById('vid-wrap').innerHTML=`<iframe src="${vidSrc}" width="100%" height="100%" frameborder="0" title="${vidTitle}" webkitallowfullscreen mozallowfullscreen allowfullscreen style="display:block;"></iframe>`;
+  document.getElementById('next-tools').style.display='block';
+  const t1=document.getElementById('next-tool-1');
+  const t2=document.getElementById('next-tool-2');
+  if(isDivorce()){
+    t1.dataset.url='can-i-support-myself.html';
+    document.getElementById('nt1-tag').textContent='Next step — divorce';
+    document.getElementById('nt1-title').textContent='Can I support myself on my own?';
+    document.getElementById('nt1-desc').textContent='Your income vs. your expenses — a clear honest answer.';
+  } else {
+    t1.dataset.url='will-i-be-okay.html';
+    document.getElementById('nt1-tag').textContent='Next step — loss';
+    document.getElementById('nt1-title').textContent='Will I be okay financially?';
+    document.getElementById('nt1-desc').textContent='Income, expenses, assets — a clear picture of your stability.';
+  }
+  t2.dataset.url='what-do-i-do-with-this-money.html';
+  document.getElementById('nt2-tag').textContent='For everyone';
+  document.getElementById('nt2-title').textContent='What do I do with this money?';
+  document.getElementById('nt2-desc').textContent='Settlement, inheritance, or retirement account — your single most important first step.';
+  gt(8);
+}
+</script>
+</body>
+</html>

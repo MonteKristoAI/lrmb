@@ -1,0 +1,84 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://aiiaco.com/models/#webpage",
+      "url": "https://aiiaco.com/models/",
+      "name": "AI Engagement Models - Service Tiers | AIIA Co",
+      "description": "Three engagement models for AI integration: a focused starter implementation, a full deployment, and an ongoing partnership. Choose the model that matches your current stage.",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/models/#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "https://aiiaco.com/models/#offercatalog"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "OfferCatalog",
+      "@id": "https://aiiaco.com/models/#offercatalog",
+      "name": "AIIA Engagement Models",
+      "description": "Structured service tiers for AI integration - from initial implementation to long-term AI partnership.",
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "@id": "https://aiiaco.com/models/#tier-1",
+          "name": "Starter Implementation",
+          "description": "A focused, scoped AI integration targeting one high-impact process. Ideal for organizations beginning their AI journey or validating AI ROI before broader rollout.",
+          "seller": {
+            "@id": "https://aiiaco.com/#organization"
+          },
+          "url": "https://aiiaco.com/models/"
+        },
+        {
+          "@type": "Offer",
+          "@id": "https://aiiaco.com/models/#tier-2",
+          "name": "Full Deployment",
+          "description": "End-to-end AI implementation across multiple business functions. Includes discovery, integration, workflow automation, and team enablement - delivered as a complete transformation engagement.",
+          "seller": {
+            "@id": "https://aiiaco.com/#organization"
+          },
+          "url": "https://aiiaco.com/models/"
+        },
+        {
+          "@type": "Offer",
+          "@id": "https://aiiaco.com/models/#tier-3",
+          "name": "Ongoing AI Partnership",
+          "description": "A retained engagement for organizations that want continuous AI expansion - new use cases, system optimization, and strategic AI leadership as the technology and business evolve.",
+          "seller": {
+            "@id": "https://aiiaco.com/#organization"
+          },
+          "url": "https://aiiaco.com/models/"
+        }
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/models/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Engagement Models",
+          "item": "https://aiiaco.com/models/"
+        }
+      ]
+    }
+  ]
+}

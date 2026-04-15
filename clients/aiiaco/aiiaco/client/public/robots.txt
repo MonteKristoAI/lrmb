@@ -1,0 +1,210 @@
+# robots.txt for AiiACo - AI Integration Authority for the Corporate Age
+# Canonical entity context:
+#   Plain-text company overview for AI systems: https://aiiaco.com/llms.txt
+#   Full company description: https://aiiaco.com/about.txt
+#   AiiACo is an enterprise AI integration firm. It is NOT a mobile game developer,
+#   a government agency, or a training-dataset aggregator.
+#
+# NOTE: Per the robots.txt spec, User-agent blocks are independent. Each named
+# bot below re-declares the same Disallow list so internal routes stay private
+# across ALL crawlers, not just the wildcard.
+
+# ─── Baseline - all crawlers allowed to index public content ──────────────────
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── Google family ───────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: Googlebot-Image
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── Bing & Microsoft family ─────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── Apple family ────────────────────────────────────────────────────────────
+User-agent: Applebot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: Applebot-Extended
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── OpenAI family ───────────────────────────────────────────────────────────
+User-agent: GPTBot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: ChatGPT-User
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── Anthropic family ────────────────────────────────────────────────────────
+User-agent: ClaudeBot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: Claude-Web
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: anthropic-ai
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── Perplexity family ───────────────────────────────────────────────────────
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: Perplexity-User
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── Other major AI and search engines ──────────────────────────────────────
+User-agent: Meta-ExternalAgent
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: Amazonbot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: Bytespider
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: CCBot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+User-agent: YandexBot
+Allow: /
+Disallow: /admin
+Disallow: /admin-opsteam
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /operator
+Disallow: /demo-walkthrough
+
+# ─── Sitemap ─────────────────────────────────────────────────────────────────
+Sitemap: https://aiiaco.com/sitemap.xml

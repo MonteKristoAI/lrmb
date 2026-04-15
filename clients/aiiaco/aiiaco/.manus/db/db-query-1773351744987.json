@@ -1,0 +1,9 @@
+{
+  "query": "UPDATE leads SET status = 'abandoned', emailStatus = 'not_applicable' WHERE name IN ('anything to', 'about', 'it exactly', 'other problems') AND id IN (90010, 90007, 90002, 90009);\nUPDATE leads SET status = 'incomplete', emailStatus = 'not_applicable' WHERE id = 90006;\nUPDATE leads SET status = 'abandoned', emailStatus = 'not_applicable' WHERE id = 90008;\nUPDATE leads SET email = 'mm.elite@outlook.com' WHERE id = 90006;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute UPDATE leads SET status = 'abandoned', emailStatus = 'not_applicable' WHERE name IN ('anything to', 'about', 'it exactly', 'other problems') AND id IN (90010, 90007, 90002, 90009);\nUPDATE leads SET status = 'incomplete', emailStatus = 'not_applicable' WHERE id = 90006;\nUPDATE leads SET status = 'abandoned', emailStatus = 'not_applicable' WHERE id = 90008;\nUPDATE leads SET email = 'mm.elite@outlook.com' WHERE id = 90006;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 550
+}

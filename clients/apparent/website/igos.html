@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>igOS - Intelligent Grid Operating System | Apparent</title>
+  <meta name="description" content="igOS is a cloud-based, machine learning energy platform that monitors, communicates, and manages energy in real-time. Grid edge intelligence, autonomous load balancing, and digitization of energy data.">
+  <link rel="canonical" href="https://www.apparent.com/igos.html">
+
+  <!-- OG -->
+  <meta property="og:title" content="igOS - Intelligent Grid Operating System | Apparent">
+  <meta property="og:description" content="A cloud-based, machine learning energy platform that monitors, communicates, and manages energy in real-time.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.apparent.com/igos.html">
+  <meta property="og:image" content="images/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="igOS - Intelligent Grid Operating System | Apparent">
+  <meta name="twitter:description" content="Cloud-based ML energy platform for real-time grid management. 40+ patents, Made in USA.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="images/logo-small.webp">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            energy: { 50:'#FFF8ED', 100:'#FFEDD5', 200:'#FED7AA', 300:'#FDBA74', 400:'#FB923C', 500:'#F97316', 600:'#EA580C', 700:'#C2410C' },
+            electric: { 50:'#EFF6FF', 100:'#DBEAFE', 400:'#60A5FA', 500:'#3B82F6', 600:'#2563EB', 900:'#1E3A5F' },
+            solar: { 400:'#FACC15', 500:'#EAB308' },
+            midnight: { 50:'#F8FAFC', 100:'#F1F5F9', 200:'#E2E8F0', 300:'#CBD5E1', 400:'#94A3B8', 500:'#64748B', 600:'#475569', 700:'#334155', 800:'#1E293B', 900:'#0F172A', 950:'#020617' },
+            cream: '#FAFAF8'
+          },
+          fontFamily: {
+            heading: ['Outfit', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-body text-midnight-950 bg-white overflow-x-hidden antialiased">
+
+  <!-- Skip to content -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-energy-500 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold">Skip to content</a>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ============================================
+       STICKY GLASS HEADER
+       ============================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 header-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center shrink-0" aria-label="Apparent Home">
+          <img src="images/logo.webp" alt="Apparent" class="h-10 w-auto" width="160" height="40">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+          <!-- Products mega dropdown -->
+          <div id="mega-trigger" class="relative">
+            <a href="exel.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors flex items-center gap-1">
+              Products <i data-lucide="chevron-down" class="w-3.5 h-3.5 opacity-50"></i>
+            </a>
+            <div id="mega-dropdown" class="mega-dropdown w-[420px]">
+              <div class="bg-midnight-900/95 backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5 shadow-2xl">
+                <div class="space-y-1">
+                  <a href="exel.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-energy-500/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="flame" class="w-5 h-5 text-energy-400"></i></div>
+                    <div>
+                      <div class="text-sm font-semibold text-white group-hover:text-energy-400 transition-colors">eXeL Solar Water Heater</div>
+                      <div class="text-xs text-white/60 mt-0.5">Patented hybrid solar water heating for homes and businesses</div>
+                    </div>
+                  </a>
+                  <a href="igos.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-electric-500/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="cpu" class="w-5 h-5 text-electric-400"></i></div>
+                    <div>
+                      <div class="text-sm font-semibold text-white group-hover:text-electric-400 transition-colors">igOS Platform</div>
+                      <div class="text-xs text-white/60 mt-0.5">Intelligent Grid Operating System powered by machine learning</div>
+                    </div>
+                  </a>
+                  <a href="data-centers.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-solar-400/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="server" class="w-5 h-5 text-solar-400"></i></div>
+                    <div>
+                      <div class="text-sm font-semibold text-white group-hover:text-solar-400 transition-colors">Data Center Solutions</div>
+                      <div class="text-xs text-white/60 mt-0.5">Enterprise-grade energy management for data centers</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="igos.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Technology</a>
+          <a href="about.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">About</a>
+          <a href="blog/" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Blog</a>
+          <a href="contact.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        <!-- CTA -->
+        <div class="hidden lg:block">
+          <a href="contact.html" class="magnetic-wrap">
+            <span class="btn-energy text-sm px-5 py-2.5">Get a Quote</span>
+          </a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu" aria-expanded="false">
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-opacity duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 top-20 bg-midnight-950/98 backdrop-blur-xl z-40">
+      <nav class="flex flex-col items-center justify-center h-full gap-8 text-xl" aria-label="Mobile navigation">
+        <a href="exel.html" class="text-white/80 hover:text-white font-medium transition-colors">eXeL Water Heater</a>
+        <a href="igos.html" class="text-white/80 hover:text-white font-medium transition-colors">Technology</a>
+        <a href="data-centers.html" class="text-white/80 hover:text-white font-medium transition-colors">Data Centers</a>
+        <a href="about.html" class="text-white/80 hover:text-white font-medium transition-colors">About</a>
+        <a href="contact.html" class="text-white/80 hover:text-white font-medium transition-colors">Contact</a>
+        <a href="contact.html" class="btn-energy mt-4">Get a Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================
+         SECTION 1: CINEMATIC DARK HERO
+         ============================================ -->
+    <section class="subpage-hero photo-section relative min-h-[80vh] flex items-center justify-center" aria-label="igOS Hero">
+      <!-- Photo Background — tech-circuit with heavy center overlay -->
+      <div class="photo-section-bg photo-tint-cool">
+        <img src="images/hero/tech-circuit.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="eager" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay" style="background: radial-gradient(ellipse 80% 70% at 50% 45%, rgba(2,6,23,0.88) 0%, rgba(2,6,23,0.7) 45%, rgba(2,6,23,0.5) 75%, rgba(2,6,23,0.7) 100%);"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-midnight-950/60 via-transparent to-midnight-950 z-[3]"></div>
+
+      <!-- Content -->
+      <div class="relative z-10 max-w-4xl mx-auto px-6 text-center photo-section-content">
+        <div class="w-16 h-[2px] mx-auto mb-8 reveal" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500)); background-size: 200% 100%; animation: gradientShift 3s ease infinite;" aria-hidden="true"></div>
+        <p class="section-label-light mb-6 reveal" style="color: var(--electric-400);">Platform</p>
+        <h1 class="font-heading font-bold text-white mb-6 split-text" style="font-size: var(--text-display);">
+          Intelligent Grid Operating System
+        </h1>
+        <p class="text-white/65 text-lg max-w-2xl mx-auto reveal reveal-delay-1">
+          A cloud-based, machine learning energy platform that monitors, communicates, and manages energy in real-time.
+        </p>
+        <div class="mt-10 reveal reveal-delay-2">
+          <a href="contact.html" class="magnetic-wrap inline-block">
+            <span class="btn-energy text-base px-8 py-4">Schedule a Platform Demo <i data-lucide="arrow-right" class="w-5 h-5"></i></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 2: PLATFORM OVERVIEW - ENERGY FLOW
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-40 relative noise" style="background: var(--midnight-950);" aria-labelledby="platform-heading">
+      <div class="photo-section-bg photo-tint-warm">
+        <img src="images/hero/energy-landscape.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay" style="background: radial-gradient(ellipse 90% 80% at 50% 40%, rgba(2,6,23,0.9) 0%, rgba(2,6,23,0.75) 50%, rgba(2,6,23,0.65) 100%);"></div>
+
+      <div class="max-w-6xl mx-auto px-6 relative z-10 photo-section-content">
+        <div class="text-center mb-16">
+          <p class="section-label-light reveal" style="color: var(--energy-400);">Platform Overview</p>
+          <h2 id="platform-heading" class="font-heading font-bold text-white mt-4 reveal reveal-delay-1" style="font-size: var(--text-h1);">
+            Intelligent Energy Orchestration
+          </h2>
+          <div class="w-16 h-[2px] mx-auto mt-4 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));" aria-hidden="true"></div>
+          <p class="text-white/55 mt-4 max-w-2xl mx-auto reveal reveal-delay-2">
+            igOS sits at the center of your energy ecosystem, dynamically balancing generation, storage, consumption, and grid interaction in real-time.
+          </p>
+        </div>
+
+        <!-- PRODUCTION-GRADE SVG (5 nodes) with glass backdrop + card nodes + traveling dots -->
+        <div class="reveal reveal-delay-3 max-w-4xl mx-auto">
+          <div class="rounded-3xl overflow-hidden" style="background: rgba(2,6,23,0.75); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); padding: 40px 28px 36px;">
+            <p class="text-center text-white/60 text-xs font-semibold tracking-[0.15em] uppercase mb-5">Energy Flow Architecture</p>
+
+            <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg" class="w-full h-auto" role="img" aria-label="igOS energy flow: Solar, Grid, Home, Battery, Data Center connected through igOS hub">
+              <defs>
+                <filter id="n-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+                <filter id="c-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="10" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+              </defs>
+
+              <!-- Flow lines -->
+              <path d="M 155 80 Q 280 80 345 165" fill="none" stroke="#FB923C" stroke-width="2.5" class="energy-flow-line" opacity="0.6"/>
+              <path d="M 645 80 Q 520 80 455 165" fill="none" stroke="#60A5FA" stroke-width="2.5" class="energy-flow-line" opacity="0.6"/>
+              <path d="M 345 225 Q 280 290 175 310" fill="none" stroke="#22C55E" stroke-width="2.5" class="energy-flow-line" opacity="0.5"/>
+              <path d="M 455 225 Q 520 290 625 310" fill="none" stroke="#EAB308" stroke-width="2.5" class="energy-flow-line" opacity="0.5"/>
+              <path d="M 400 240 Q 400 320 400 350" fill="none" stroke="#A78BFA" stroke-width="2.5" class="energy-flow-line" opacity="0.5"/>
+
+              <!-- Traveling dots -->
+              <circle r="4" fill="#FB923C" opacity="0.9"><animateMotion dur="3s" repeatCount="indefinite" path="M155,80 Q280,80 345,165"/></circle>
+              <circle r="4" fill="#60A5FA" opacity="0.9"><animateMotion dur="3.5s" repeatCount="indefinite" path="M645,80 Q520,80 455,165"/></circle>
+              <circle r="3.5" fill="#22C55E" opacity="0.8"><animateMotion dur="4s" repeatCount="indefinite" path="M345,225 Q280,290 175,310"/></circle>
+              <circle r="3.5" fill="#EAB308" opacity="0.8"><animateMotion dur="4.5s" repeatCount="indefinite" path="M455,225 Q520,290 625,310"/></circle>
+              <circle r="3" fill="#A78BFA" opacity="0.8"><animateMotion dur="3s" repeatCount="indefinite" path="M400,240 Q400,320 400,350"/></circle>
+
+              <!-- SOLAR -->
+              <g filter="url(#n-glow)"><rect x="100" y="30" width="110" height="90" rx="16" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.5)" stroke-width="1.5"/></g>
+              <circle cx="155" cy="58" r="12" fill="rgba(249,115,22,0.3)" stroke="#FB923C" stroke-width="1.5"/>
+              <circle cx="155" cy="58" r="4" fill="#FB923C"/>
+              <text x="155" y="88" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Solar</text>
+              <text x="155" y="105" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Generation</text>
+
+              <!-- GRID -->
+              <g filter="url(#n-glow)"><rect x="590" y="30" width="110" height="90" rx="16" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/></g>
+              <polygon points="649,48 641,63 647,63 641,78 655,58 648,58" fill="#60A5FA" opacity="0.9"/>
+              <text x="645" y="88" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Grid</text>
+              <text x="645" y="105" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Supply</text>
+
+              <!-- igOS CENTER -->
+              <g filter="url(#c-glow)"><circle cx="400" cy="195" r="58" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.7)" stroke-width="2.5"/></g>
+              <circle cx="400" cy="195" r="42" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.35)" stroke-width="1"/>
+              <text x="400" y="189" fill="white" font-size="24" text-anchor="middle" font-family="Outfit" font-weight="800">igOS</text>
+              <text x="400" y="208" fill="rgba(255,255,255,0.7)" font-size="11" text-anchor="middle" font-family="DM Sans">Intelligence Hub</text>
+              <circle cx="400" cy="195" r="58" fill="none" stroke="rgba(249,115,22,0.3)" stroke-width="2"><animate attributeName="r" values="58;78;58" dur="2.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" repeatCount="indefinite"/></circle>
+              <circle cx="400" cy="195" r="58" fill="none" stroke="rgba(249,115,22,0.15)" stroke-width="1"><animate attributeName="r" values="58;95;58" dur="3.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.2;0;0.2" dur="3.5s" repeatCount="indefinite"/></circle>
+
+              <!-- HOME -->
+              <g filter="url(#n-glow)"><rect x="120" y="275" width="110" height="80" rx="16" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.5)" stroke-width="1.5"/></g>
+              <polygon points="175,292 163,303 168,303 168,315 182,315 182,303 187,303" fill="#22C55E" opacity="0.7"/>
+              <text x="175" y="335" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Home</text>
+              <text x="175" y="348" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Consumption</text>
+
+              <!-- BATTERY -->
+              <g filter="url(#n-glow)"><rect x="570" y="275" width="110" height="80" rx="16" fill="rgba(234,179,8,0.15)" stroke="rgba(234,179,8,0.5)" stroke-width="1.5"/></g>
+              <rect x="617" y="290" width="16" height="24" rx="3" fill="none" stroke="#EAB308" stroke-width="1.5"/>
+              <rect x="622" y="287" width="6" height="3" rx="1" fill="#EAB308"/>
+              <rect x="620" y="302" width="10" height="8" rx="1" fill="rgba(234,179,8,0.5)"/>
+              <text x="625" y="332" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Battery</text>
+              <text x="625" y="345" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Storage</text>
+
+              <!-- DATA CENTER -->
+              <g filter="url(#n-glow)"><rect x="345" y="340" width="110" height="55" rx="14" fill="rgba(139,92,246,0.15)" stroke="rgba(139,92,246,0.5)" stroke-width="1.5"/></g>
+              <rect x="385" y="350" width="14" height="10" rx="2" fill="none" stroke="#A78BFA" stroke-width="1.5"/>
+              <rect x="402" y="350" width="14" height="10" rx="2" fill="none" stroke="#A78BFA" stroke-width="1.5"/>
+              <circle cx="392" cy="363" r="1" fill="#A78BFA"/><circle cx="396" cy="363" r="1" fill="#A78BFA"/>
+              <circle cx="409" cy="363" r="1" fill="#A78BFA"/><circle cx="413" cy="363" r="1" fill="#A78BFA"/>
+              <text x="400" y="383" fill="white" font-size="13" text-anchor="middle" font-family="Outfit" font-weight="700">Data Center</text>
+
+              <!-- Labels -->
+              <rect x="205" y="110" width="80" height="26" rx="13" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.4)" stroke-width="1"/>
+              <text x="245" y="128" fill="#FB923C" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">DC Power</text>
+              <rect x="515" y="110" width="72" height="26" rx="13" fill="rgba(59,130,246,0.2)" stroke="rgba(59,130,246,0.4)" stroke-width="1"/>
+              <text x="551" y="128" fill="#60A5FA" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">AC Grid</text>
+              <rect x="220" y="255" width="80" height="26" rx="13" fill="rgba(34,197,94,0.2)" stroke="rgba(34,197,94,0.4)" stroke-width="1"/>
+              <text x="260" y="273" fill="#22C55E" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">Load Mgmt</text>
+              <rect x="500" y="255" width="72" height="26" rx="13" fill="rgba(234,179,8,0.2)" stroke="rgba(234,179,8,0.4)" stroke-width="1"/>
+              <text x="536" y="273" fill="#EAB308" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">Charge</text>
+              <rect x="340" y="315" width="72" height="22" rx="11" fill="rgba(139,92,246,0.2)" stroke="rgba(139,92,246,0.4)" stroke-width="1"/>
+              <text x="376" y="330" fill="#A78BFA" font-size="10" text-anchor="middle" font-family="DM Sans" font-weight="600">Cooling</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 3: FOUR CAPABILITIES
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-40 relative noise" style="background: var(--midnight-950);" aria-labelledby="capabilities-heading">
+      <div class="photo-section-bg photo-tint-cool">
+        <img src="images/hero/datacenter-dark.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay photo-overlay-dark-heavy"></div>
+
+      <div class="max-w-6xl mx-auto px-6 relative z-10 photo-section-content">
+        <div class="text-center mb-16">
+          <p class="section-label-light reveal" style="color: var(--electric-400);">Core Capabilities</p>
+          <h2 id="capabilities-heading" class="font-heading font-bold text-white mt-4 reveal reveal-delay-1" style="font-size: var(--text-h1);">
+            What igOS Delivers
+          </h2>
+          <div class="w-16 h-[2px] mx-auto mt-4 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));" aria-hidden="true"></div>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Card 1: Grid Edge Intelligence -->
+          <div class="gradient-border-card reveal reveal-delay-1">
+            <div class="p-1">
+              <div class="bg-midnight-950 rounded-[18px] overflow-hidden">
+                <div class="relative h-48 overflow-hidden">
+                  <img src="images/technology/grid-substation.webp" alt="Grid substation infrastructure" class="w-full h-full object-cover opacity-60" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-midnight-950 via-midnight-950/40 to-transparent"></div>
+                </div>
+                <div class="p-8 pt-4">
+                  <div class="w-12 h-12 rounded-xl bg-energy-500/10 flex items-center justify-center mb-4">
+                    <i data-lucide="network" class="w-6 h-6 text-energy-400"></i>
+                  </div>
+                  <h3 class="font-heading font-semibold text-white text-xl mb-3">Grid Edge Intelligence</h3>
+                  <p class="text-white/55 text-sm leading-relaxed">Autonomous, dynamic balancing of behind-the-meter generation and load in real-time. igOS makes intelligent decisions at the grid edge without centralized control latency.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Real-Time Energy Management -->
+          <div class="gradient-border-card reveal reveal-delay-2">
+            <div class="p-1">
+              <div class="bg-midnight-950 rounded-[18px] overflow-hidden">
+                <div class="relative h-48 overflow-hidden">
+                  <img src="images/technology/ai-chip.webp" alt="AI processing chip" class="w-full h-full object-cover opacity-60" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-midnight-950 via-midnight-950/40 to-transparent"></div>
+                </div>
+                <div class="p-8 pt-4">
+                  <div class="w-12 h-12 rounded-xl bg-electric-500/10 flex items-center justify-center mb-4">
+                    <i data-lucide="gauge" class="w-6 h-6 text-electric-400"></i>
+                  </div>
+                  <h3 class="font-heading font-semibold text-white text-xl mb-3">Real-Time Energy Management</h3>
+                  <p class="text-white/55 text-sm leading-relaxed">Sub-second bi-directional control to optimize available energy and use. Every watt is accounted for, routed, and managed with precision that traditional systems cannot match.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Digitization -->
+          <div class="gradient-border-card reveal reveal-delay-3">
+            <div class="p-1">
+              <div class="bg-midnight-950 rounded-[18px] overflow-hidden">
+                <div class="relative h-48 overflow-hidden">
+                  <img src="images/technology/digitization.webp" alt="Digital data visualization" class="w-full h-full object-cover opacity-60" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-midnight-950 via-midnight-950/40 to-transparent"></div>
+                </div>
+                <div class="p-8 pt-4">
+                  <div class="w-12 h-12 rounded-xl bg-solar-400/10 flex items-center justify-center mb-4">
+                    <i data-lucide="bar-chart-3" class="w-6 h-6 text-solar-400"></i>
+                  </div>
+                  <h3 class="font-heading font-semibold text-white text-xl mb-3">Digitization</h3>
+                  <p class="text-white/55 text-sm leading-relaxed">Real-time data packets made available to grid operators for enhanced decision making. igOS transforms analog energy flows into actionable digital intelligence.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4: Flexible & Scalable -->
+          <div class="gradient-border-card reveal reveal-delay-4">
+            <div class="p-1">
+              <div class="bg-midnight-950 rounded-[18px] overflow-hidden">
+                <div class="relative h-48 overflow-hidden">
+                  <img src="images/technology/particles-bg.webp" alt="Network particle visualization" class="w-full h-full object-cover opacity-60" loading="lazy">
+                  <div class="absolute inset-0 bg-gradient-to-t from-midnight-950 via-midnight-950/40 to-transparent"></div>
+                </div>
+                <div class="p-8 pt-4">
+                  <div class="w-12 h-12 rounded-xl bg-energy-500/10 flex items-center justify-center mb-4">
+                    <i data-lucide="puzzle" class="w-6 h-6 text-energy-400"></i>
+                  </div>
+                  <h3 class="font-heading font-semibold text-white text-xl mb-3">Flexible &amp; Scalable</h3>
+                  <p class="text-white/55 text-sm leading-relaxed">Plug-and-play capabilities enable addition of new resources without added costs. Whether you manage ten homes or ten thousand, igOS scales with your portfolio.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 4: AI INTEGRATION CYCLE
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-40 relative noise" style="background: var(--midnight-950);" aria-labelledby="ai-heading">
+      <div class="photo-section-bg photo-tint-warm">
+        <img src="images/hero/solar-golden-hour.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay" style="background: radial-gradient(ellipse 90% 80% at 50% 40%, rgba(2,6,23,0.92) 0%, rgba(2,6,23,0.78) 50%, rgba(2,6,23,0.65) 100%);"></div>
+
+      <div class="gradient-divider-animated mb-20" aria-hidden="true"></div>
+      <div class="max-w-6xl mx-auto px-6 relative z-10 photo-section-content">
+        <div class="text-center mb-16">
+          <p class="section-label-light reveal" style="color: var(--energy-400);">Machine Learning</p>
+          <h2 id="ai-heading" class="font-heading font-bold text-white mt-4 reveal reveal-delay-1" style="font-size: var(--text-h1);">
+            The Power of AI Integration
+          </h2>
+          <div class="w-16 h-[2px] mx-auto mt-4 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));" aria-hidden="true"></div>
+          <p class="text-white/55 mt-4 max-w-2xl mx-auto reveal reveal-delay-2">
+            igOS continuously learns and improves through a four-phase optimization cycle that runs autonomously across every connected device.
+          </p>
+        </div>
+
+        <!-- AI Cycle - 4 Steps -->
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Step 1: Monitor -->
+          <div class="glass-card p-8 text-center reveal reveal-delay-1 relative" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.12);">
+            <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-energy-500 text-white font-heading font-bold text-sm flex items-center justify-center">1</div>
+            <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-energy-500/10 flex items-center justify-center">
+              <i data-lucide="monitor" class="w-8 h-8 text-energy-400"></i>
+            </div>
+            <h3 class="font-heading font-semibold text-white text-lg mb-2">Monitor</h3>
+            <p class="text-white/55 text-sm">Continuous observation of all energy sources, loads, and grid conditions in real-time.</p>
+          </div>
+
+          <!-- Step 2: Test -->
+          <div class="glass-card p-8 text-center reveal reveal-delay-2 relative" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.12);">
+            <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-electric-500 text-white font-heading font-bold text-sm flex items-center justify-center">2</div>
+            <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-electric-500/10 flex items-center justify-center">
+              <i data-lucide="flask-conical" class="w-8 h-8 text-electric-400"></i>
+            </div>
+            <h3 class="font-heading font-semibold text-white text-lg mb-2">Test</h3>
+            <p class="text-white/55 text-sm">Run predictive simulations against current conditions to identify optimal configurations.</p>
+          </div>
+
+          <!-- Step 3: Collect Data -->
+          <div class="glass-card p-8 text-center reveal reveal-delay-3 relative" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.12);">
+            <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-solar-400 text-midnight-950 font-heading font-bold text-sm flex items-center justify-center">3</div>
+            <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-solar-400/10 flex items-center justify-center">
+              <i data-lucide="database" class="w-8 h-8 text-solar-400"></i>
+            </div>
+            <h3 class="font-heading font-semibold text-white text-lg mb-2">Collect Data</h3>
+            <p class="text-white/55 text-sm">Aggregate performance metrics and environmental data to build a comprehensive learning dataset.</p>
+          </div>
+
+          <!-- Step 4: Retune & Improve -->
+          <div class="glass-card p-8 text-center reveal reveal-delay-4 relative" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.12);">
+            <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-energy-500 text-white font-heading font-bold text-sm flex items-center justify-center">4</div>
+            <div class="w-16 h-16 mx-auto mb-5 rounded-2xl bg-energy-500/10 flex items-center justify-center">
+              <i data-lucide="settings" class="w-8 h-8 text-energy-400"></i>
+            </div>
+            <h3 class="font-heading font-semibold text-white text-lg mb-2">Retune &amp; Improve</h3>
+            <p class="text-white/55 text-sm">Apply ML-driven adjustments to system parameters, continuously improving efficiency and reliability.</p>
+          </div>
+        </div>
+
+        <!-- Cycle arrow connector (visual) -->
+        <div class="hidden lg:flex justify-center mt-8 reveal reveal-delay-5">
+          <div class="flex items-center gap-3 text-white/50">
+            <i data-lucide="repeat" class="w-5 h-5 text-energy-400"></i>
+            <span class="text-sm text-white/55 font-heading">Continuous optimization cycle</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 5: TECHNOLOGY HERO IMAGE
+         ============================================ -->
+    <section class="photo-section relative min-h-[60vh] flex items-center justify-center overflow-hidden" style="background: var(--midnight-950);" aria-label="Technology vision">
+      <!-- Photo Background -->
+      <div class="photo-section-bg photo-tint-dramatic">
+        <img src="images/hero/wind-turbines.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay" style="background: linear-gradient(180deg, rgba(2,6,23,0.6) 0%, rgba(2,6,23,0.5) 40%, rgba(2,6,23,0.5) 60%, rgba(2,6,23,0.7) 100%);"></div>
+
+      <div class="relative z-10 max-w-4xl mx-auto px-6 text-center py-32 photo-section-content">
+        <div class="w-16 h-[2px] mx-auto mb-6" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));" aria-hidden="true"></div>
+        <h2 class="font-heading font-bold text-white split-text reveal" style="font-size: var(--text-hero);">
+          Technology Fueled by Ingenuity
+        </h2>
+        <p class="text-white/65 mt-6 max-w-xl mx-auto reveal reveal-delay-1">
+          Built on 40+ patents and decades of energy research, igOS represents a fundamentally new approach to grid management.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 6: CTA
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-40 relative overflow-hidden" style="background: var(--midnight-950);" aria-labelledby="cta-heading">
+      <div class="photo-section-bg photo-tint-dramatic">
+        <img src="images/hero/sunrise-energy.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay" style="background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(2,6,23,0.85) 0%, rgba(2,6,23,0.7) 50%, rgba(2,6,23,0.6) 100%);"></div>
+      <div class="noise absolute inset-0 pointer-events-none z-[2]"></div>
+
+      <div class="max-w-3xl mx-auto px-6 text-center relative z-10 photo-section-content">
+        <div class="w-16 h-[2px] mx-auto mb-6" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));" aria-hidden="true"></div>
+        <h2 id="cta-heading" class="font-heading font-bold text-white reveal" style="font-size: var(--text-h1);">
+          Schedule a Platform Demo
+        </h2>
+        <p class="text-white/55 mt-4 max-w-xl mx-auto reveal reveal-delay-1">
+          See how igOS can transform your energy infrastructure. Our team will walk you through a live demo tailored to your use case.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 reveal reveal-delay-2">
+          <a href="contact.html" class="magnetic-wrap">
+            <span class="btn-energy text-base px-8 py-4">Request a Demo <i data-lucide="arrow-right" class="w-5 h-5"></i></span>
+          </a>
+          <a href="mailto:sales@apparent.com" class="btn-ghost text-base px-8 py-4">
+            <i data-lucide="mail" class="w-5 h-5"></i> sales@apparent.com
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         CONTACT BAND
+         ============================================ -->
+    <section class="photo-section py-20 relative noise" style="background: var(--midnight-950);" aria-label="Contact information">
+      <div class="photo-section-bg">
+        <img src="images/hero/energy-landscape.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true" style="opacity: 0.08; filter: grayscale(80%) brightness(0.4);">
+      </div>
+
+      <div class="gradient-divider-animated mb-20" aria-hidden="true"></div>
+      <div class="max-w-4xl mx-auto px-6 text-center relative z-10 photo-section-content">
+        <h2 class="font-heading font-bold text-white mb-8 reveal" style="font-size: var(--text-h2);">
+          Ready to power the future?
+        </h2>
+        <div class="flex flex-wrap justify-center gap-6 reveal reveal-delay-1">
+          <a href="mailto:sales@apparent.com" class="glass-pill hover:border-energy-500/30">
+            <i data-lucide="mail" class="w-4 h-4 text-energy-400"></i> sales@apparent.com
+          </a>
+          <span class="glass-pill">
+            <i data-lucide="map-pin" class="w-4 h-4 text-energy-400"></i> 5 Hamilton Landing, Suite 160, Novato, CA
+          </span>
+          <div class="flex items-center gap-3">
+            <a href="https://www.linkedin.com/company/apparent-inc/" class="glass-pill hover:border-electric-500/30" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <i data-lucide="linkedin" class="w-4 h-4 text-electric-400"></i>
+            </a>
+            <a href="https://www.instagram.com/apparentinc/" class="glass-pill hover:border-energy-500/30" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <i data-lucide="instagram" class="w-4 h-4 text-energy-400"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       MEGA FOOTER
+       ============================================ -->
+  <footer class="bg-midnight-950 border-t border-white/[0.04] pt-16 pb-8" role="contentinfo">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <!-- Brand -->
+        <div>
+          <img src="images/logo.webp" alt="Apparent" class="h-8 mb-4" width="128" height="32" loading="lazy">
+          <p class="text-white/55 text-sm leading-relaxed">Science backed. Data driven. Future focused. Leveraging science to solve the world's energy problems.</p>
+        </div>
+
+        <!-- Products -->
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Products</h3>
+          <ul class="space-y-2.5">
+            <li><a href="exel.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">eXeL Solar Water Heater</a></li>
+            <li><a href="igos.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">igOS Platform</a></li>
+            <li><a href="data-centers.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">Data Center Solutions</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Company</h3>
+          <ul class="space-y-2.5">
+            <li><a href="about.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">About Us</a></li>
+            <li><a href="about.html#leadership" class="text-white/40 hover:text-white/70 text-sm transition-colors">Leadership</a></li>
+            <li><a href="contact.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Connect -->
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Connect</h3>
+          <ul class="space-y-2.5">
+            <li><a href="mailto:sales@apparent.com" class="text-white/40 hover:text-white/70 text-sm transition-colors">sales@apparent.com</a></li>
+            <li><a href="https://www.linkedin.com/company/apparent-inc/" class="text-white/40 hover:text-white/70 text-sm transition-colors" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/apparentinc/" class="text-white/40 hover:text-white/70 text-sm transition-colors" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-white/[0.04] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-white/50 text-xs">&copy; 2026 Apparent Inc. All rights reserved.</p>
+        <p class="text-white/50 text-xs">5 Hamilton Landing, Suite 160, Novato, CA 94949</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE CTA BAR -->
+  <div class="mobile-cta-bar" aria-label="Quick actions">
+    <a href="tel:+14155551234" class="btn-ghost flex-1 text-center text-sm py-3"><i data-lucide="phone" class="w-4 h-4 inline mr-1"></i> Call</a>
+    <a href="contact.html" class="btn-energy flex-1 text-center text-sm py-3">Get a Quote</a>
+  </div>
+
+  <!-- JS -->
+  <script src="js/main.js"></script>
+  <script src="js/review-modal.js"></script>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+  </script>
+
+  <!-- JSON-LD: SoftwareApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "igOS - Intelligent Grid Operating System",
+    "applicationCategory": "Energy Management Software",
+    "operatingSystem": "Cloud-based",
+    "description": "A cloud-based, machine learning energy platform that monitors, communicates, and manages energy in real-time. Grid edge intelligence, autonomous load balancing, and digitization of energy data.",
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/InStock",
+      "priceCurrency": "USD"
+    },
+    "creator": {
+      "@type": "Organization",
+      "name": "Apparent Inc.",
+      "url": "https://www.apparent.com"
+    }
+  }
+  </script>
+</body>
+</html>

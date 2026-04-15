@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DPROMPT | AI Operations Orchestration for Field Service | Deploy Pros</title>
+  <meta name="description" content="DPROMPT is the AI operations orchestration layer that automates technician confirmations, detects no-show risks, handles rescheduling intelligence, and escalates to dispatch in real time.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://deploypros.com/dprompt">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="DPROMPT | AI Operations Orchestration for Field Service">
+  <meta property="og:description" content="The operations orchestration layer that sits between your dispatch system and the field workforce - confirming technicians, detecting risks early, and keeping jobs on track automatically.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://deploypros.com/dprompt">
+  <meta property="og:image" content="https://deploypros.com/images/dprompt-og.png">
+  <meta property="og:site_name" content="Deploy Pros">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="DPROMPT | AI Operations Orchestration for Field Service">
+  <meta name="twitter:description" content="Automate technician confirmations, detect no-show risks, and keep field service jobs on track with AI.">
+
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "DPROMPT",
+    "applicationCategory": "BusinessApplication",
+    "operatingSystem": "Web",
+    "description": "AI operations orchestration layer for field service management. Automates technician confirmations, detects no-show risks, and provides real-time dispatch intelligence.",
+    "url": "https://deploypros.com/dprompt",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "Contact for pricing"
+    },
+    "provider": {
+      "@type": "Organization",
+      "name": "Deploy Pros",
+      "url": "https://deploypros.com"
+    }
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Lucide Icons (pinned) -->
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+
+  <!-- DPROMPT gradient mesh (only page-specific CSS) -->
+  <style>
+  .hero--dprompt { background: #080E1A; }
+  .hero--dprompt::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 50%, rgba(108,92,231,0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(0,212,255,0.1) 0%, transparent 40%),
+      radial-gradient(ellipse at 50% 80%, rgba(108,92,231,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  </style>
+</head>
+<body>
+
+  <!-- Skip to Content -->
+  <a class="skip-to-content" href="#main-content">Skip to content</a>
+
+  <!-- ========== HEADER ========== -->
+  <header class="header" role="banner">
+    <div class="container">
+      <a href="index.html" class="header-logo" aria-label="Deploy Pros Home">
+        <span class="header-logo-text">Deploy<span>Pros</span></span>
+      </a>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="services.html">Services</a>
+        <a href="dprompt.html" class="active">DPROMPT</a>
+        <a href="case-studies.html">Case Studies</a>
+        <a href="blog.html">Blog</a>
+        <a href="contact.html" class="nav-cta">Get Started</a>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav -->
+  <nav class="mobile-nav" aria-label="Mobile navigation">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="services.html">Services</a>
+    <a href="dprompt.html">DPROMPT</a>
+    <a href="case-studies.html">Case Studies</a>
+    <a href="blog.html">Blog</a>
+    <a href="contact.html">Get Started</a>
+  </nav>
+
+  <main id="main-content">
+
+    <!-- ========== SECTION 1: HERO ========== -->
+    <section class="hero hero--dprompt relative">
+      <div class="hero-grid"></div>
+
+      <div class="container relative text-center">
+        <div class="hero-content flex flex-col items-center mx-auto" aria-label="DPROMPT Hero">
+
+          <div class="section-badge hero-enter">
+            <span class="dot"></span>
+            AI Operations Orchestration
+          </div>
+
+          <h1 class="text-hero text-gradient hero-enter">DPROMPT</h1>
+
+          <p class="hero-enter mt-6" aria-label="Tagline">
+            <span class="text-on-dark-muted section-subtitle text-center mx-auto">
+              The AI orchestration layer that confirms technicians, prevents no-shows, and feeds structured data back to dispatch in real time.
+            </span>
+          </p>
+
+          <div class="flex gap-4 mt-8 hero-enter flex-wrap justify-center">
+            <a href="#demo" class="btn btn-primary btn-lg">
+              Request a Demo
+              <i data-lucide="arrow-right" class="icon-md"></i>
+            </a>
+            <a href="#how-it-works" class="btn btn-ghost btn-lg">
+              <i data-lucide="play-circle" class="icon-md"></i>
+              Watch How It Works
+            </a>
+          </div>
+
+          <!-- Floating Dashboard Mockup -->
+          <div class="mt-12 w-full hero-enter" aria-label="Dashboard preview">
+            <div class="perspective-tilt dashboard-mockup mx-auto" >
+              <div class="dashboard-chrome">
+                <span class="chrome-dot chrome-dot--red"></span>
+                <span class="chrome-dot chrome-dot--yellow"></span>
+                <span class="chrome-dot chrome-dot--green"></span>
+                <span class="chrome-url">app.dprompt.ai/dashboard</span>
+              </div>
+              <div class="dashboard-body">
+                <div class="dashboard-metrics">
+                  <div class="metric-card">
+                    <div class="metric-card-label">Total Calls</div>
+                    <div class="metric-card-value">19</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-card-label">Transferred</div>
+                    <div class="metric-card-value text-pulse">1</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-card-label">Confirmed</div>
+                    <div class="metric-card-value text-electric">8</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-card-label">Voice Mail</div>
+                    <div class="metric-card-value">2</div>
+                  </div>
+                  <div class="metric-card">
+                    <div class="metric-card-label">Hangup</div>
+                    <div class="metric-card-value">6</div>
+                  </div>
+                </div>
+                <table class="dashboard-table">
+                  <thead>
+                    <tr>
+                      <th>Technician</th>
+                      <th>Phone</th>
+                      <th>Work Order</th>
+                      <th>Date</th>
+                      <th>Status</th>
+                      <th>Outcome</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Marcus Johnson</td>
+                      <td>(512) ***-4821</td>
+                      <td>WO-88412</td>
+                      <td>Apr 09</td>
+                      <td><span class="status-badge status-badge--success">Completed</span></td>
+                      <td>Tech confirmed</td>
+                    </tr>
+                    <tr>
+                      <td>Sarah Chen</td>
+                      <td>(713) ***-9037</td>
+                      <td>WO-88419</td>
+                      <td>Apr 09</td>
+                      <td><span class="status-badge status-badge--info">Completed</span></td>
+                      <td>Tech confirmed</td>
+                    </tr>
+                    <tr>
+                      <td>David Ramirez</td>
+                      <td>(469) ***-2215</td>
+                      <td>WO-88423</td>
+                      <td>Apr 09</td>
+                      <td><span class="status-badge status-badge--danger">Wrong person</span></td>
+                      <td>Escalated to dispatch</td>
+                    </tr>
+                    <tr>
+                      <td>Amy Patel</td>
+                      <td>(214) ***-7744</td>
+                      <td>WO-88431</td>
+                      <td>Apr 09</td>
+                      <td><span class="status-badge status-badge--warning">Voice mail</span></td>
+                      <td>Callback scheduled</td>
+                    </tr>
+                    <tr>
+                      <td>James Wilson</td>
+                      <td>(832) ***-1156</td>
+                      <td>WO-88445</td>
+                      <td>Apr 09</td>
+                      <td><span class="status-badge status-badge--success">Completed</span></td>
+                      <td>Tech confirmed</td>
+                    </tr>
+                    <tr>
+                      <td>Lisa Thompson</td>
+                      <td>(972) ***-6683</td>
+                      <td>WO-88452</td>
+                      <td>Apr 09</td>
+                      <td><span class="status-badge status-badge--info">Completed</span></td>
+                      <td>Tech confirmed</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 2: PROBLEM NARRATIVE ========== -->
+    <section class="section section--dark" id="how-it-works">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-badge"><span class="dot"></span> The Problem</span>
+          <h2>The Difference Is Measured in Hours, Not Minutes</h2>
+          <p class="section-subtitle mx-auto">Every missed confirmation cascades into lost revenue, frustrated customers, and scrambling dispatchers. Here is what that looks like.</p>
+        </div>
+
+        <div class="content-split reveal-stagger">
+          <!-- Without DPROMPT -->
+          <div class="card-glass reveal">
+            <div class="flex items-center gap-3 mb-6">
+              <i data-lucide="x-circle" class="icon-lg"></i>
+              <h3 class="mb-0">Without DPROMPT</h3>
+            </div>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="clock" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>08:00 AM</h4>
+                  <p class="text-on-dark-muted">Work order dispatched to Tech #4412</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="clock" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>09:30 AM</h4>
+                  <p class="text-on-dark-muted">No confirmation received</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="clock" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>10:15 AM</h4>
+                  <p class="text-on-dark-muted">Tech does not arrive at site</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="clock" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>10:45 AM</h4>
+                  <p class="text-on-dark-muted">Customer calls dispatch, frustrated</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="clock" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>11:00 AM</h4>
+                  <p class="text-on-dark-muted">Dispatcher scrambles for replacement</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="clock" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>11:30 AM</h4>
+                  <p class="text-on-dark-muted">Replacement tech dispatched 3 hours late</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6">
+              <p class="flex items-center gap-2">
+                <i data-lucide="alert-triangle" class="icon-sm"></i>
+                <strong>Result:</strong> Lost revenue, angry customer, wasted resources
+              </p>
+            </div>
+          </div>
+
+          <!-- With DPROMPT -->
+          <div class="card-glass reveal">
+            <div class="flex items-center gap-3 mb-6">
+              <i data-lucide="check-circle-2" class="icon-lg"></i>
+              <h3 class="mb-0">With DPROMPT</h3>
+            </div>
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="zap" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>08:00 AM</h4>
+                  <p class="text-on-dark-muted">Work order dispatched, DPROMPT initiates pre-call</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="zap" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>08:02 AM</h4>
+                  <p class="text-on-dark-muted">AI confirms Tech #4412 via voice call</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="zap" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>08:03 AM</h4>
+                  <p class="text-on-dark-muted">Tech confirms: "On my way, ETA 9:15 AM"</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="zap" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>09:10 AM</h4>
+                  <p class="text-on-dark-muted">DPROMPT detects potential delay, alerts dispatch</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="zap" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>09:15 AM</h4>
+                  <p class="text-on-dark-muted">Tech arrives on time, site staff notified</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="zap" class="icon-sm"></i>
+                </div>
+                <div>
+                  <h4>09:45 AM</h4>
+                  <p class="text-on-dark-muted">Job completed, data captured automatically</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-6">
+              <p class="flex items-center gap-2">
+                <i data-lucide="check-circle-2" class="icon-sm"></i>
+                <strong>Result:</strong> On-time arrival, happy customer, structured data
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 3: ARCHITECTURE DIAGRAM ========== -->
+    <section class="section section--gradient">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-badge"><span class="dot"></span> Architecture</span>
+          <h2>How DPROMPT Fits Into Your Operations</h2>
+          <p class="section-subtitle mx-auto">One orchestration layer between your ticketing system and the field. No rip-and-replace required.</p>
+        </div>
+
+        <!-- Architecture Flow — Visual Pipeline -->
+        <div class="arch-pipeline reveal">
+
+          <!-- Layer 1: Input Systems -->
+          <div class="arch-layer">
+            <div class="arch-layer-label">Input</div>
+            <div class="arch-layer-cards">
+              <div class="arch-card">
+                <i data-lucide="server" class="icon-md"></i>
+                <span>ServiceNow</span>
+              </div>
+              <div class="arch-card">
+                <i data-lucide="server" class="icon-md"></i>
+                <span>FieldEdge</span>
+              </div>
+              <div class="arch-card">
+                <i data-lucide="server" class="icon-md"></i>
+                <span>ConnectWise</span>
+              </div>
+              <div class="arch-card">
+                <i data-lucide="server" class="icon-md"></i>
+                <span>Corrigo</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Arrow Down -->
+          <div class="arch-arrow">
+            <i data-lucide="chevron-down" class="icon-lg"></i>
+          </div>
+
+          <!-- Layer 2: DPROMPT Engine (hero) -->
+          <div class="arch-layer arch-layer--hero">
+            <div class="arch-engine">
+              <div class="arch-engine-icon">
+                <i data-lucide="cpu" class="icon-xl"></i>
+              </div>
+              <div>
+                <div class="arch-engine-title">DPROMPT</div>
+                <div class="arch-engine-sub">Field Operations Orchestration Engine</div>
+              </div>
+            </div>
+            <div class="arch-engine-features">
+              <span class="arch-feature-tag"><i data-lucide="phone-call" class="icon-sm"></i> Voice AI</span>
+              <span class="arch-feature-tag"><i data-lucide="message-square" class="icon-sm"></i> SMS</span>
+              <span class="arch-feature-tag"><i data-lucide="shield-alert" class="icon-sm"></i> Risk Scoring</span>
+              <span class="arch-feature-tag"><i data-lucide="refresh-cw" class="icon-sm"></i> Auto-Reschedule</span>
+            </div>
+          </div>
+
+          <!-- Arrow Down Split -->
+          <div class="arch-arrow-split">
+            <div class="arch-arrow"><i data-lucide="chevron-down" class="icon-lg"></i></div>
+            <div class="arch-arrow"><i data-lucide="chevron-down" class="icon-lg"></i></div>
+          </div>
+
+          <!-- Layer 3: Output -->
+          <div class="arch-layer">
+            <div class="arch-layer-cards arch-layer-cards--2">
+              <div class="arch-card arch-card--output">
+                <i data-lucide="layout-dashboard" class="icon-lg text-electric"></i>
+                <div>
+                  <strong>Dispatch Dashboard</strong>
+                  <span class="arch-card-sub">Real-time confirmation status, risk alerts, technician tracking</span>
+                </div>
+              </div>
+              <div class="arch-card arch-card--output">
+                <i data-lucide="hard-hat" class="icon-lg text-electric"></i>
+                <div>
+                  <strong>Field Technicians</strong>
+                  <span class="arch-card-sub">Confirmed, tracked, connected to dispatch in real time</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 4: CAPABILITIES ========== -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-badge"><span class="dot"></span> Capabilities</span>
+          <h2>What DPROMPT Does</h2>
+          <p class="section-subtitle mx-auto">Five capabilities that turn field service dispatch from reactive chaos into proactive precision.</p>
+        </div>
+
+        <div class="cap-list">
+
+          <!-- Capability 1 -->
+          <div class="cap-item reveal">
+            <div class="cap-number">01</div>
+            <div class="cap-icon cap-icon--electric"><i data-lucide="phone-call" class="icon-xl"></i></div>
+            <div class="cap-body">
+              <h3>Technician Confirmation</h3>
+              <p>Automatically confirm every technician before every job via AI-powered voice calls and SMS. No more manual phone trees or unanswered texts. Every confirmation generates structured data.</p>
+              <div class="cap-stats">
+                <div class="cap-stat"><span class="cap-stat-val">99%+</span> contact rate</div>
+                <div class="cap-stat"><span class="cap-stat-val">&lt; 4 min</span> avg processing</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Capability 2 -->
+          <div class="cap-item reveal">
+            <div class="cap-number">02</div>
+            <div class="cap-icon cap-icon--warning"><i data-lucide="shield-alert" class="icon-xl"></i></div>
+            <div class="cap-body">
+              <h3>No-Show Prevention</h3>
+              <p>Detect risk signals early and escalate before failures impact customers. Pattern recognition across historical data flags potential issues 2+ hours before the arrival window.</p>
+              <div class="cap-stats">
+                <div class="cap-stat"><span class="cap-stat-val">40%</span> reduction in no-shows</div>
+                <div class="cap-stat"><span class="cap-stat-val">2+ hrs</span> early warning</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Capability 3 -->
+          <div class="cap-item reveal">
+            <div class="cap-number">03</div>
+            <div class="cap-icon cap-icon--pulse"><i data-lucide="calendar-clock" class="icon-xl"></i></div>
+            <div class="cap-body">
+              <h3>Reschedule Intelligence</h3>
+              <p>When a technician cannot make it, DPROMPT surfaces the conflict, identifies the nearest qualified backup, and initiates the swap automatically. Zero manual dispatcher intervention required.</p>
+              <div class="cap-stats">
+                <div class="cap-stat"><span class="cap-stat-val">Auto</span> backup matching</div>
+                <div class="cap-stat"><span class="cap-stat-val">0</span> manual steps</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Capability 4 -->
+          <div class="cap-item reveal">
+            <div class="cap-number">04</div>
+            <div class="cap-icon cap-icon--danger"><i data-lucide="bell-ring" class="icon-xl"></i></div>
+            <div class="cap-body">
+              <h3>Dispatch Escalation</h3>
+              <p>Rule-based triggers notify dispatch teams when jobs are at risk. Set thresholds by job priority, geography, or client tier. Escalation paths route alerts to the right person every time.</p>
+              <div class="cap-stats">
+                <div class="cap-stat"><span class="cap-stat-val">Real-time</span> alerts</div>
+                <div class="cap-stat"><span class="cap-stat-val">Custom</span> escalation rules</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Capability 5 -->
+          <div class="cap-item reveal">
+            <div class="cap-number">05</div>
+            <div class="cap-icon cap-icon--success"><i data-lucide="database" class="icon-xl"></i></div>
+            <div class="cap-body">
+              <h3>Operational Data</h3>
+              <p>Every technician interaction becomes structured intelligence. Call outcomes, confirmation rates, response patterns, and reliability scores feed directly into your operational reporting.</p>
+              <div class="cap-stats">
+                <div class="cap-stat"><span class="cap-stat-val">100%</span> data capture</div>
+                <div class="cap-stat"><span class="cap-stat-val">API</span> export ready</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 5: DASHBOARD DEEP DIVE ========== -->
+    <section class="section section--gradient">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-badge"><span class="dot"></span> Dashboard</span>
+          <h2>See Everything in Real Time</h2>
+          <p class="section-subtitle mx-auto">The Call Results Dashboard gives you instant visibility into confirmations, transfers, callbacks, and issues across every active work order.</p>
+        </div>
+
+        <!-- Full dashboard mockup -->
+        <div class="reveal mx-auto" aria-label="Full dashboard preview">
+          <div class="dashboard-mockup">
+            <div class="dashboard-chrome">
+              <span class="chrome-dot chrome-dot--red"></span>
+              <span class="chrome-dot chrome-dot--yellow"></span>
+              <span class="chrome-dot chrome-dot--green"></span>
+              <span class="chrome-url">app.dprompt.ai/dashboard/call-results</span>
+            </div>
+            <div class="dashboard-body">
+              <div class="flex justify-between items-center mb-6">
+                <div>
+                  <h3 class="mb-0">Call Results Dashboard</h3>
+                  <p class="text-on-dark-muted">Today, April 9, 2026</p>
+                </div>
+                <div class="flex gap-2">
+                  <span class="status-badge status-badge--info">Live</span>
+                </div>
+              </div>
+              <div class="dashboard-metrics">
+                <div class="metric-card">
+                  <div class="metric-card-label">Total Calls</div>
+                  <div class="metric-card-value">19</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-card-label">Transferred</div>
+                  <div class="metric-card-value text-pulse">1</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-card-label">Confirmed</div>
+                  <div class="metric-card-value text-electric">8</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-card-label">Voice Mail</div>
+                  <div class="metric-card-value">2</div>
+                </div>
+                <div class="metric-card">
+                  <div class="metric-card-label">Hangup</div>
+                  <div class="metric-card-value">6</div>
+                </div>
+              </div>
+              <table class="dashboard-table">
+                <thead>
+                  <tr>
+                    <th>Technician</th>
+                    <th>Phone</th>
+                    <th>Work Order</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Outcome</th>
+                    <th>Recording</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Marcus Johnson</td>
+                    <td>(512) ***-4821</td>
+                    <td>WO-88412</td>
+                    <td>Apr 09</td>
+                    <td><span class="status-badge status-badge--success">Completed</span></td>
+                    <td>Tech confirmed</td>
+                    <td><i data-lucide="play" class="icon-sm text-electric"></i></td>
+                  </tr>
+                  <tr>
+                    <td>Sarah Chen</td>
+                    <td>(713) ***-9037</td>
+                    <td>WO-88419</td>
+                    <td>Apr 09</td>
+                    <td><span class="status-badge status-badge--info">Completed</span></td>
+                    <td>Tech confirmed</td>
+                    <td><i data-lucide="play" class="icon-sm text-electric"></i></td>
+                  </tr>
+                  <tr>
+                    <td>David Ramirez</td>
+                    <td>(469) ***-2215</td>
+                    <td>WO-88423</td>
+                    <td>Apr 09</td>
+                    <td><span class="status-badge status-badge--danger">Wrong person</span></td>
+                    <td>Escalated to dispatch</td>
+                    <td><i data-lucide="play" class="icon-sm text-electric"></i></td>
+                  </tr>
+                  <tr>
+                    <td>Amy Patel</td>
+                    <td>(214) ***-7744</td>
+                    <td>WO-88431</td>
+                    <td>Apr 09</td>
+                    <td><span class="status-badge status-badge--warning">Voice mail</span></td>
+                    <td>Callback scheduled</td>
+                    <td><i data-lucide="play" class="icon-sm text-electric"></i></td>
+                  </tr>
+                  <tr>
+                    <td>James Wilson</td>
+                    <td>(832) ***-1156</td>
+                    <td>WO-88445</td>
+                    <td>Apr 09</td>
+                    <td><span class="status-badge status-badge--success">Completed</span></td>
+                    <td>Tech confirmed</td>
+                    <td><i data-lucide="play" class="icon-sm text-electric"></i></td>
+                  </tr>
+                  <tr>
+                    <td>Lisa Thompson</td>
+                    <td>(972) ***-6683</td>
+                    <td>WO-88452</td>
+                    <td>Apr 09</td>
+                    <td><span class="status-badge status-badge--info">Completed</span></td>
+                    <td>Tech confirmed</td>
+                    <td><i data-lucide="play" class="icon-sm text-electric"></i></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard feature cards -->
+        <div class="grid grid-4 gap-6 mt-12 reveal-stagger">
+          <div class="card-glass text-center reveal">
+            <div class="flex items-center justify-center mb-4">
+              <i data-lucide="radio" class="icon-lg text-electric"></i>
+            </div>
+            <h4>Live Call Tracking</h4>
+            <p class="text-on-dark-muted">Monitor every confirmation call in real time as DPROMPT works through your daily roster.</p>
+          </div>
+          <div class="card-glass text-center reveal">
+            <div class="flex items-center justify-center mb-4">
+              <i data-lucide="palette" class="icon-lg text-electric"></i>
+            </div>
+            <h4>Status Intelligence</h4>
+            <p class="text-on-dark-muted">Color-coded outcomes for instant decision making. See confirmed, at-risk, and failed confirmations at a glance.</p>
+          </div>
+          <div class="card-glass text-center reveal">
+            <div class="flex items-center justify-center mb-4">
+              <i data-lucide="mic" class="icon-lg text-pulse"></i>
+            </div>
+            <h4>Recording Access</h4>
+            <p class="text-on-dark-muted">Every call recorded and linked to the work order. Review conversations for quality, compliance, or dispute resolution.</p>
+          </div>
+          <div class="card-glass text-center reveal">
+            <div class="flex items-center justify-center mb-4">
+              <i data-lucide="upload" class="icon-lg text-electric"></i>
+            </div>
+            <h4>Export &amp; Integrate</h4>
+            <p class="text-on-dark-muted">Push data to your dispatch system automatically. CSV exports, API webhooks, and native integrations available.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 6: COMPARISON ========== -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-badge"><span class="dot"></span> Comparison</span>
+          <h2>DPROMPT vs. Manual Operations</h2>
+          <p class="section-subtitle mx-auto">Side-by-side: what your dispatch team handles today versus what DPROMPT automates.</p>
+        </div>
+
+        <div class="cmp-grid reveal">
+          <!-- Row headers -->
+          <div class="cmp-col-header cmp-col-header--bad">
+            <i data-lucide="x-circle" class="icon-lg"></i>
+            <span>Manual Process</span>
+          </div>
+          <div class="cmp-col-header cmp-col-header--good">
+            <i data-lucide="check-circle" class="icon-lg"></i>
+            <span>With DPROMPT</span>
+          </div>
+
+          <!-- Row 1 -->
+          <div class="cmp-label">Technician Confirmation</div>
+          <div class="cmp-cell cmp-cell--bad">Phone calls by staff</div>
+          <div class="cmp-cell cmp-cell--good">Automated AI voice + SMS</div>
+
+          <!-- Row 2 -->
+          <div class="cmp-label">No-Show Detection</div>
+          <div class="cmp-cell cmp-cell--bad">Discovered at job site</div>
+          <div class="cmp-cell cmp-cell--good">Predicted 2+ hours early</div>
+
+          <!-- Row 3 -->
+          <div class="cmp-label">Reschedule Handling</div>
+          <div class="cmp-cell cmp-cell--bad">Manual rebooking via calls</div>
+          <div class="cmp-cell cmp-cell--good">Auto-detected, dispatch notified</div>
+
+          <!-- Row 4 -->
+          <div class="cmp-label">Data Capture</div>
+          <div class="cmp-cell cmp-cell--bad">Scattered notes and emails</div>
+          <div class="cmp-cell cmp-cell--good">Structured operational data</div>
+
+          <!-- Row 5 -->
+          <div class="cmp-label">Escalation</div>
+          <div class="cmp-cell cmp-cell--bad">Reactive, after impact</div>
+          <div class="cmp-cell cmp-cell--good">Proactive, rule-based triggers</div>
+
+          <!-- Row 6 -->
+          <div class="cmp-label">Cost per Confirmation</div>
+          <div class="cmp-cell cmp-cell--bad">$4 - $8 per manual call</div>
+          <div class="cmp-cell cmp-cell--good">Under $0.50 per AI interaction</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 7: ROI CALCULATOR ========== -->
+    <section class="section section--dark">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-badge"><span class="dot"></span> ROI</span>
+          <h2>Calculate Your Savings</h2>
+          <p class="section-subtitle mx-auto">Adjust the sliders to see how DPROMPT impacts your bottom line based on your current field service volume.</p>
+        </div>
+        <div id="roi-calculator" class="roi-calculator reveal mx-auto">
+          <div class="roi-slider-group">
+            <div class="roi-slider-label">
+              <span>Monthly Technician Visits</span>
+              <span class="roi-slider-value" id="roi-visits-value">1,000</span>
+            </div>
+            <input type="range" id="roi-visits" min="100" max="10000" value="1000" step="50" aria-label="Monthly technician visits">
+          </div>
+          <div class="roi-slider-group">
+            <div class="roi-slider-label">
+              <span>Current No-Show Rate</span>
+              <span class="roi-slider-value" id="roi-rate-value">12%</span>
+            </div>
+            <input type="range" id="roi-rate" min="5" max="25" value="12" step="1" aria-label="Current no-show rate percentage">
+          </div>
+          <div class="roi-results">
+            <div class="roi-result-card">
+              <p class="text-on-dark-muted mb-4">Missed Visits Prevented</p>
+              <div class="roi-result-value" id="roi-prevented">120</div>
+              <p class="text-on-dark-muted mt-4">per month</p>
+            </div>
+            <div class="roi-result-card">
+              <p class="text-on-dark-muted mb-4">Estimated Monthly Savings</p>
+              <div class="roi-result-value" id="roi-savings">$18,000</div>
+              <p class="text-on-dark-muted mt-4">at $150/missed visit</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 8: INTEGRATIONS ========== -->
+    <section class="section section--gradient">
+      <div class="container">
+        <div class="section-header reveal">
+          <span class="section-badge"><span class="dot"></span> Integrations</span>
+          <h2>Works With Your Stack</h2>
+          <p class="section-subtitle mx-auto">DPROMPT connects to the tools you already use via REST API. No migration required.</p>
+        </div>
+
+        <div class="marquee-wrapper reveal">
+          <div class="marquee-track integ-marquee">
+            <!-- Set 1 -->
+            <div class="integ-pill"><i data-lucide="server" class="icon-md"></i><strong>ServiceNow</strong><span>FSM</span></div>
+            <div class="integ-pill"><i data-lucide="wrench" class="icon-md"></i><strong>FieldEdge</strong><span>Dispatch</span></div>
+            <div class="integ-pill"><i data-lucide="monitor" class="icon-md"></i><strong>ConnectWise</strong><span>PSA</span></div>
+            <div class="integ-pill"><i data-lucide="cloud" class="icon-md"></i><strong>Salesforce</strong><span>Field Service</span></div>
+            <div class="integ-pill"><i data-lucide="database" class="icon-md"></i><strong>SAP</strong><span>Enterprise</span></div>
+            <div class="integ-pill"><i data-lucide="building-2" class="icon-md"></i><strong>Oracle</strong><span>Field Service</span></div>
+            <div class="integ-pill"><i data-lucide="settings" class="icon-md"></i><strong>Corrigo</strong><span>Facilities</span></div>
+            <div class="integ-pill integ-pill--api"><i data-lucide="code" class="icon-md"></i><strong>REST API</strong><span>Custom</span></div>
+            <!-- Set 2 (duplicate for seamless loop) -->
+            <div class="integ-pill"><i data-lucide="server" class="icon-md"></i><strong>ServiceNow</strong><span>FSM</span></div>
+            <div class="integ-pill"><i data-lucide="wrench" class="icon-md"></i><strong>FieldEdge</strong><span>Dispatch</span></div>
+            <div class="integ-pill"><i data-lucide="monitor" class="icon-md"></i><strong>ConnectWise</strong><span>PSA</span></div>
+            <div class="integ-pill"><i data-lucide="cloud" class="icon-md"></i><strong>Salesforce</strong><span>Field Service</span></div>
+            <div class="integ-pill"><i data-lucide="database" class="icon-md"></i><strong>SAP</strong><span>Enterprise</span></div>
+            <div class="integ-pill"><i data-lucide="building-2" class="icon-md"></i><strong>Oracle</strong><span>Field Service</span></div>
+            <div class="integ-pill"><i data-lucide="settings" class="icon-md"></i><strong>Corrigo</strong><span>Facilities</span></div>
+            <div class="integ-pill integ-pill--api"><i data-lucide="code" class="icon-md"></i><strong>REST API</strong><span>Custom</span></div>
+          </div>
+        </div>
+
+        <p class="text-center text-on-dark-muted mt-6 reveal" style="font-size: var(--text-sm);">
+          Don't see your platform? We support any system with API or flat-file export.
+        </p>
+      </div>
+    </section>
+
+    <!-- ========== SECTION 9: DEMO REQUEST FORM ========== -->
+    <section class="section section--dark" id="demo">
+      <div class="container">
+        <div class="content-split">
+          <!-- Left: Form -->
+          <div class="reveal">
+            <span class="section-badge"><span class="dot"></span> Request Demo</span>
+            <h2 class="text-left">Get Started with DPROMPT</h2>
+            <form id="demo-form" class="mt-8">
+              <div class="form-group">
+                <label class="form-label text-on-dark" for="demo-name">Full Name</label>
+                <input type="text" id="demo-name" name="name" class="form-input form-input--dark" placeholder="John Smith" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label text-on-dark" for="demo-phone">Phone Number</label>
+                <input type="tel" id="demo-phone" name="phone" class="form-input form-input--dark" placeholder="(555) 123-4567">
+              </div>
+              <div class="form-group">
+                <label class="form-label text-on-dark" for="demo-email">Work Email</label>
+                <input type="email" id="demo-email" name="email" class="form-input form-input--dark" placeholder="john@company.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label text-on-dark" for="demo-company">Company</label>
+                <input type="text" id="demo-company" name="company" class="form-input form-input--dark" placeholder="Acme Field Services">
+              </div>
+              <div class="form-group">
+                <label class="form-label text-on-dark" for="demo-message">Message (optional)</label>
+                <textarea id="demo-message" name="message" class="form-textarea form-input--dark" placeholder="Tell us about your current dispatch workflow..." rows="4"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg w-full mt-4">
+                Request a Demo
+                <i data-lucide="arrow-right" class="icon-md"></i>
+              </button>
+            </form>
+          </div>
+
+          <!-- Right: Trust messaging -->
+          <div class="reveal">
+            <h3>See DPROMPT in Action</h3>
+            <p class="text-on-dark-muted mt-4 mb-8">
+              In 15 minutes, we will show you how confirmations, transfers, and callbacks are automated using your workflow. No generic slide decks. You will see DPROMPT working with data that looks like yours.
+            </p>
+
+            <img src="images/tech-workspace.jpg" alt="Deploy Pros operations center showing DPROMPT dashboard on multiple screens" loading="lazy" class="mb-8 rounded-lg">
+
+            <div class="feature-list">
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="check-circle-2" class="icon-sm"></i>
+                </div>
+                <div>
+                  <p class="text-on-dark-muted">No commitment required</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="check-circle-2" class="icon-sm"></i>
+                </div>
+                <div>
+                  <p class="text-on-dark-muted">See your own data in action</p>
+                </div>
+              </div>
+              <div class="feature-item">
+                <div class="feature-icon">
+                  <i data-lucide="check-circle-2" class="icon-sm"></i>
+                </div>
+                <div>
+                  <p class="text-on-dark-muted">Live demo with our team</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="card-glass mt-10">
+              <h4>Average Time to Deploy</h4>
+              <div class="roi-result-value">2 Weeks</div>
+              <p class="text-on-dark-muted mt-4">From signed agreement to live in production</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========== FOOTER ========== -->
+  <footer class="footer" role="contentinfo">
+    <div class="footer-grid-bg"></div>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="header-logo" aria-label="Deploy Pros Home">
+            <span class="header-logo-text">Deploy<span>Pros</span></span>
+          </a>
+          <p>Technology-forward IT field services company specializing in AI-powered operations and nationwide coverage.</p>
+          <div class="footer-socials">
+            <a href="#" class="footer-social-link" aria-label="LinkedIn">
+              <i data-lucide="linkedin" class="icon-sm"></i>
+            </a>
+            <a href="#" class="footer-social-link" aria-label="Twitter">
+              <i data-lucide="twitter" class="icon-sm"></i>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-heading">Company</h4>
+          <nav class="footer-links">
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="case-studies.html">Case Studies</a>
+            <a href="blog.html">Blog</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Product</h4>
+          <nav class="footer-links">
+            <a href="dprompt.html">DPROMPT</a>
+            <a href="#demo">Request Demo</a>
+            <a href="#">Documentation</a>
+            <a href="#">API Reference</a>
+          </nav>
+        </div>
+        <div>
+          <h4 class="footer-heading">Contact</h4>
+          <nav class="footer-links">
+            <a href="contact.html">Get in Touch</a>
+            <a href="tel:+12145550100">(214) 555-0100</a>
+            <a href="mailto:info@deploypros.com">info@deploypros.com</a>
+          </nav>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Deploy Pros. All rights reserved.</span>
+        <div class="flex gap-6">
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile CTA Bar -->
+  <div class="mobile-cta-bar">
+    <a href="tel:+12145550100" class="cta-call">
+      <i data-lucide="phone" class="icon-sm"></i>
+      Call Us
+    </a>
+    <a href="#demo" class="cta-book">
+      <i data-lucide="calendar" class="icon-sm"></i>
+      Request Demo
+    </a>
+  </div>
+
+  <!-- Chatbot Button -->
+  <button class="chatbot-btn" aria-label="Open chat">
+    <i data-lucide="message-circle"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="js/shared.js"></script>
+  <script src="js/dprompt-calc.js" defer></script>
+  <script src="js/chatbot-widget.js" defer></script>
+  <script>document.addEventListener('DOMContentLoaded', function() { if (typeof lucide !== 'undefined') lucide.createIcons(); });</script>
+
+  <!-- Stacking cards scroll effect -->
+  <script>
+  (function() {
+    var cards = document.querySelectorAll('.cap-item');
+    if (!cards.length) return;
+
+    function onScroll() {
+      var headerH = 80 + 20; // header + offset
+      cards.forEach(function(card, i) {
+        var rect = card.getBoundingClientRect();
+        var nextCard = cards[i + 1];
+        if (nextCard) {
+          var nextRect = nextCard.getBoundingClientRect();
+          // When next card reaches the sticky position, current card is "past"
+          if (nextRect.top <= headerH + 10) {
+            card.classList.add('is-past');
+          } else {
+            card.classList.remove('is-past');
+          }
+        }
+      });
+    }
+
+    var ticking = false;
+    window.addEventListener('scroll', function() {
+      if (!ticking) {
+        requestAnimationFrame(function() { onScroll(); ticking = false; });
+        ticking = true;
+      }
+    }, { passive: true });
+  })();
+  </script>
+</body>
+</html>

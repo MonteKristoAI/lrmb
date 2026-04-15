@@ -1,0 +1,20 @@
+{
+  "query": "SELECT id, username, displayName FROM admin_users LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, username, displayName FROM admin_users LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "username": "montehuedechristo",
+      "displayName": "Monte"
+    },
+    {
+      "id": "30001",
+      "username": "aiiaco",
+      "displayName": "AiiA"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tusername\tdisplayName\n1\tmontehuedechristo\tMonte\n30001\taiiaco\tAiiA\n",
+  "stderr": "",
+  "execution_time_ms": 536
+}

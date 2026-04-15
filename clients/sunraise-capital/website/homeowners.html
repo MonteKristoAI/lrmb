@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homeowners - Solar Savings Without the Sales Pitch | SunRaise Capital</title>
+  <meta name="description" content="Design your solar system in minutes. Upload your address, connect utility data, and see personalized savings instantly. No sales calls, no pressure, no obligation.">
+  <link rel="canonical" href="https://www.sunraisecapital.com/homeowners.html">
+
+  <!-- OG -->
+  <meta property="og:title" content="Homeowners - Solar Savings Without the Sales Pitch | SunRaise Capital">
+  <meta property="og:description" content="Design your solar system in minutes. Upload your address, connect utility data, and see personalized savings instantly. No sales calls, no pressure, no obligation.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sunraisecapital.com/homeowners.html">
+  <meta property="og:image" content="images/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Homeowners - Solar Savings Without the Sales Pitch | SunRaise Capital">
+  <meta name="twitter:description" content="Design your solar system in minutes. Upload your address, connect utility data, and see personalized savings instantly.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+
+  <!-- Fonts: Plus Jakarta Sans (headings) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,400&family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 50:'#f0f3f9', 100:'#dce3ef', 200:'#b8c7df', 300:'#8da5c8', 400:'#6583ad', 500:'#4a6891', 600:'#395177', 700:'#2d4061', 800:'#1a2d4d', 900:'#0f1d33', 950:'#080e1a' },
+            sun: { 50:'#fef9ee', 100:'#fdf0d3', 200:'#fbe0a6', 300:'#f8cb6e', 400:'#f5b235', 500:'#e8971a', 600:'#cc7a0e', 700:'#a95d0f', 800:'#8a4a13', 900:'#723d13' },
+            cream: '#FAFAF7'
+          },
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-body text-navy-950 bg-white overflow-x-hidden antialiased">
+
+  <!-- ============================================
+       STICKY HEADER (same as homepage)
+       ============================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 header-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 shrink-0">
+          <img src="images/logo-light.png" alt="SunRaise Capital" class="h-10 w-auto">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1">
+          <a href="index.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">Home</a>
+          <!-- Platform mega dropdown -->
+          <div id="mega-trigger" class="relative">
+            <a href="platform.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors flex items-center gap-1">
+              Platform
+              <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <!-- Mega dropdown panel -->
+            <div id="mega-dropdown" class="mega-dropdown bg-white rounded-2xl shadow-2xl border border-navy-100 p-6" style="width:680px;">
+              <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;">
+                <a href="capital-partners.html" class="group p-4 rounded-xl hover:bg-cream transition-colors">
+                  <div class="w-10 h-10 rounded-lg bg-navy-800 text-white flex items-center justify-center mb-3">
+                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                  </div>
+                  <h4 class="font-heading font-semibold text-navy-900 group-hover:text-sun-500 transition-colors">Capital Partners</h4>
+                  <p class="text-sm text-navy-600 mt-1">Deploy capital with embedded return discipline</p>
+                </a>
+                <a href="installer-partners.html" class="group p-4 rounded-xl hover:bg-cream transition-colors">
+                  <div class="w-10 h-10 rounded-lg bg-sky-600 text-white flex items-center justify-center mb-3">
+                    <i data-lucide="wrench" class="w-5 h-5"></i>
+                  </div>
+                  <h4 class="font-heading font-semibold text-navy-900 group-hover:text-sun-500 transition-colors">Installer Partners</h4>
+                  <p class="text-sm text-navy-600 mt-1">Close more deals, get funded faster</p>
+                </a>
+                <a href="homeowners.html" class="group p-4 rounded-xl hover:bg-cream transition-colors">
+                  <div class="w-10 h-10 rounded-lg bg-sun-500 text-white flex items-center justify-center mb-3">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                  </div>
+                  <h4 class="font-heading font-semibold text-navy-900 group-hover:text-sun-500 transition-colors">Homeowners</h4>
+                  <p class="text-sm text-navy-600 mt-1">Design your solar system in minutes</p>
+                </a>
+              </div>
+              <div class="mt-4 pt-4 border-t border-navy-100">
+                <a href="platform.html" class="flex items-center gap-2 text-sm font-medium text-navy-600 hover:text-sun-500 transition-colors">
+                  <i data-lucide="layers" class="w-4 h-4"></i>
+                  Explore the full platform
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a href="about.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">About</a>
+          <a href="blog/index.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">Blog</a>
+          <a href="contact.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        <!-- CTA -->
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="#start" class="px-6 py-2.5 rounded-full bg-sun-500 text-white text-sm font-semibold btn-glow">
+            Start Your Solar Design
+          </a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button id="menu-toggle" class="lg:hidden p-2 text-white" aria-expanded="false" aria-label="Menu">
+          <div class="flex flex-col gap-1.5">
+            <span class="menu-bar w-6 h-0.5 bg-current transition-transform"></span>
+            <span class="menu-bar w-6 h-0.5 bg-current transition-opacity"></span>
+            <span class="menu-bar w-6 h-0.5 bg-current transition-transform"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-navy-950/98 backdrop-blur-xl min-h-screen px-6 py-8">
+      <nav class="flex flex-col gap-1">
+        <a href="index.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Home</a>
+        <a href="capital-partners.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Capital Partners</a>
+        <a href="installer-partners.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Installer Partners</a>
+        <a href="homeowners.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Homeowners</a>
+        <a href="platform.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Platform</a>
+        <a href="about.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">About</a>
+        <a href="blog/index.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Blog</a>
+        <a href="contact.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Contact</a>
+        <a href="#start" class="mt-6 py-3 px-6 rounded-full bg-sun-500 text-white text-center font-semibold btn-glow">Start Your Solar Design</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ============================================
+       SECTION 1: MINI HERO
+       ============================================ -->
+  <section class="relative flex items-center overflow-hidden pt-32 pb-20 lg:pt-40 lg:pb-28" style="background:#040810;">
+    <!-- Hero-style photo: modern home with solar -->
+    <div class="absolute inset-0 z-0">
+      <img src="images/solar-rooftop-home.jpg" alt="" class="w-full h-full object-cover" loading="eager" style="opacity:0.25; filter: saturate(0.5) brightness(0.6);">
+    </div>
+    <div class="absolute inset-0 z-0" style="background: radial-gradient(ellipse 60% 50% at 50% 45%, rgba(12,25,55,0.4) 0%, rgba(4,8,16,0.6) 60%, rgba(4,8,16,0.94) 100%), linear-gradient(180deg, rgba(8,15,38,0.7) 0%, rgba(6,12,30,0.4) 30%, rgba(5,10,28,0.45) 70%, rgba(4,8,16,0.96) 100%);"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-center relative z-10">
+      <!-- Badge -->
+      <div class="hero-animate hero-animate-1 inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sun-500/20 border border-sun-400/30 text-sun-300 text-sm font-medium mb-6">
+        <i data-lucide="home" class="w-4 h-4"></i>
+        HOMEOWNERS
+      </div>
+
+      <!-- Headline -->
+      <h1 class="hero-animate hero-animate-2 font-heading font-bold text-white leading-[1.1] mb-6" style="font-size: var(--text-hero)">
+        Design Your Solar System<br class="hidden sm:block"> in Minutes.
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="hero-animate hero-animate-3 text-navy-300 max-w-2xl mx-auto mb-10" style="font-size: var(--text-lg); line-height: 1.7;">
+        Upload your address, connect utility data, see personalized savings instantly. No sales calls, no pressure, no obligation.
+      </p>
+
+      <!-- CTA -->
+      <div class="hero-animate hero-animate-4">
+        <a href="#start" class="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-sun-500 text-white font-semibold btn-glow text-base tracking-wide">
+          <i data-lucide="sun" class="w-5 h-5"></i>
+          Start Your Solar Design
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 2: A DIFFERENT EXPERIENCE
+       ============================================ -->
+  <section class="py-14 lg:py-18 bg-sun-50 bg-photo bg-photo-cream relative" style="--bg: url(images/solar-panels-rows.jpg)">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 reveal">
+        <span class="badge badge-sun mb-4">A Different Experience</span>
+        <h2 class="font-heading font-bold text-navy-950 mb-4" style="font-size: var(--text-h2)">
+          Solar Without the Sales Tactics
+        </h2>
+        <p class="text-navy-500 max-w-2xl mx-auto" style="font-size: var(--text-body)">
+          Most solar companies start with a sales call. We start with your data.
+        </p>
+      </div>
+
+      <div class="reveal grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+        <!-- Traditional Solar Sales (left) -->
+        <div class="p-8 rounded-2xl bg-white border border-red-100 relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-red-400 to-red-300"></div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-red-50 text-red-500 flex items-center justify-center">
+              <i data-lucide="x-circle" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-lg text-navy-900">Traditional Solar Sales</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-red-100 text-red-500 flex items-center justify-center shrink-0">
+                <i data-lucide="x" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Pushy sales calls before you see any numbers</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-red-100 text-red-500 flex items-center justify-center shrink-0">
+                <i data-lucide="x" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Hidden fees buried in fine print</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-red-100 text-red-500 flex items-center justify-center shrink-0">
+                <i data-lucide="x" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">High-pressure tactics to close on the spot</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-red-100 text-red-500 flex items-center justify-center shrink-0">
+                <i data-lucide="x" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Opaque pricing that changes with every conversation</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-red-100 text-red-500 flex items-center justify-center shrink-0">
+                <i data-lucide="x" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Surprise escalators you learn about years later</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- The SunRaise Way (right) -->
+        <div class="p-8 rounded-2xl bg-white border border-green-100 relative overflow-hidden shadow-lg">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-500 to-emerald-400"></div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 rounded-xl bg-green-50 text-green-600 flex items-center justify-center">
+              <i data-lucide="check-circle" class="w-5 h-5"></i>
+            </div>
+            <h3 class="font-heading font-bold text-lg text-navy-900">The SunRaise Way</h3>
+          </div>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                <i data-lucide="check" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">No sales calls required to see your savings</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                <i data-lucide="check" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Transparent pricing with no hidden fees</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                <i data-lucide="check" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Savings calculated from your actual utility data</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                <i data-lucide="check" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Zero obligation, zero pressure, zero commitment</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <span class="mt-0.5 w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0">
+                <i data-lucide="check" class="w-3 h-3"></i>
+              </span>
+              <span class="text-navy-600">Fixed 2.99% escalator disclosed upfront</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================
+       SECTION 3: PATH TO SOLAR (Process)
+       ============================================ -->
+  <section id="process" class="relative py-16 lg:py-24 overflow-hidden" style="background:#060a10;">
+    <!-- Photo background -->
+    <div class="absolute inset-0 z-0">
+      <img src="images/solar-rooftop-home.jpg" alt="" class="w-full h-full object-cover" loading="lazy" style="opacity:0.15; filter: saturate(0.4) brightness(0.5);">
+    </div>
+    <div class="absolute inset-0 z-0" style="background: radial-gradient(ellipse 60% 50% at 50% 40%, rgba(15,30,65,0.45) 0%, rgba(8,14,30,0.7) 60%, rgba(5,10,22,0.96) 100%);"></div>
+
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-14 reveal">
+        <p class="text-sun-400 font-semibold text-sm tracking-wide mb-3 uppercase" style="letter-spacing:0.1em; text-align:center; max-width:none; margin-left:auto; margin-right:auto;">How It Works</p>
+        <h2 class="font-heading font-bold text-white mb-5" style="font-size: clamp(1.75rem, 3.5vw, 2.75rem); letter-spacing: -0.03em;">
+          Your Path to Solar
+        </h2>
+        <p class="text-white/70 max-w-xl mx-auto text-base leading-relaxed">
+          Four simple steps. No sales calls, no back-and-forth, no waiting for quotes. You stay in control from start to finish.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <!-- Step 1 -->
+        <div class="reveal reveal-delay-1 group rounded-2xl p-6 lg:p-7 border border-white/[0.1] transition-all hover:border-sun-500/20 hover:bg-white/[0.03]" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(8px);">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-sun-500/10 border border-sun-500/20 text-sun-400 flex items-center justify-center font-heading font-bold text-sm">01</div>
+            <div class="h-px flex-1 bg-gradient-to-r from-sun-500/20 to-transparent"></div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-4 group-hover:bg-sun-500/10 transition-colors">
+            <i data-lucide="map-pin" class="w-5 h-5 text-sun-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-base mb-2">Upload Your Address</h3>
+          <p class="text-white/65 text-sm leading-relaxed">Enter your home address. We pull satellite imagery and roof data to map your solar potential.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="reveal reveal-delay-2 group rounded-2xl p-6 lg:p-7 border border-white/[0.1] transition-all hover:border-sun-500/20 hover:bg-white/[0.03]" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(8px);">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-sun-500/10 border border-sun-500/20 text-sun-400 flex items-center justify-center font-heading font-bold text-sm">02</div>
+            <div class="h-px flex-1 bg-gradient-to-r from-sun-500/20 to-transparent"></div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-4 group-hover:bg-sun-500/10 transition-colors">
+            <i data-lucide="plug-zap" class="w-5 h-5 text-sun-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-base mb-2">Connect Utility Data</h3>
+          <p class="text-white/65 text-sm leading-relaxed">Link your utility account so we can see exactly what you pay today and calculate real savings.</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="reveal reveal-delay-3 group rounded-2xl p-6 lg:p-7 border border-white/[0.1] transition-all hover:border-sun-500/20 hover:bg-white/[0.03]" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(8px);">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-sun-500/10 border border-sun-500/20 text-sun-400 flex items-center justify-center font-heading font-bold text-sm">03</div>
+            <div class="h-px flex-1 bg-gradient-to-r from-sun-500/20 to-transparent"></div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-4 group-hover:bg-sun-500/10 transition-colors">
+            <i data-lucide="calculator" class="w-5 h-5 text-sun-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-base mb-2">See Personalized Savings</h3>
+          <p class="text-white/65 text-sm leading-relaxed">Get a clear breakdown of your day-one savings, monthly payment, and long-term financial benefit.</p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="reveal reveal-delay-4 group rounded-2xl p-6 lg:p-7 border border-white/[0.1] transition-all hover:border-sun-500/20 hover:bg-white/[0.03]" style="background: rgba(255,255,255,0.02); backdrop-filter: blur(8px);">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="w-10 h-10 rounded-xl bg-sun-500/10 border border-sun-500/20 text-sun-400 flex items-center justify-center font-heading font-bold text-sm">04</div>
+            <div class="h-px flex-1 bg-gradient-to-r from-sun-500/20 to-transparent"></div>
+          </div>
+          <div class="w-11 h-11 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center mb-4 group-hover:bg-sun-500/10 transition-colors">
+            <i data-lucide="check-circle" class="w-5 h-5 text-sun-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-base mb-2">Choose Your Plan</h3>
+          <p class="text-white/65 text-sm leading-relaxed">Pick the option that fits your budget. No pressure, no deadlines. Move forward when you are ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================
+       SECTION 4: SAVINGS PROTECTION
+       ============================================ -->
+  <section id="savings" class="py-14 lg:py-18 bg-sun-50 relative">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <span class="badge badge-sun mb-4">Your Savings</span>
+          <h2 class="font-heading font-bold text-navy-950 mb-4" style="font-size: var(--text-h2)">
+            Your Savings Grow Every Year
+          </h2>
+          <p class="text-navy-600 mb-6 leading-relaxed">
+            Your utility company raises rates every year. On average, electricity prices go up 3-5% annually, and in some states much faster. That means the amount you pay keeps climbing with no end in sight.
+          </p>
+          <p class="text-navy-600 mb-6 leading-relaxed">
+            With SunRaise, your solar rate starts <strong>10-20% below</strong> what you pay today, and it only increases by a fixed 2.99% each year. Because utility rates rise faster than your solar rate, the gap between what you would have paid and what you actually pay gets wider every year.
+          </p>
+          <p class="text-navy-600 mb-8 leading-relaxed">
+            That widening gap is money that stays in your pocket.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-6 text-sm text-navy-400">
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-0.5 bg-sky-500 rounded"></span> Utility Rate Projection
+            </span>
+            <span class="flex items-center gap-2">
+              <span class="w-3 h-0.5 bg-sun-500 rounded"></span> Your SunRaise Rate
+            </span>
+          </div>
+        </div>
+
+        <div class="reveal reveal-delay-2">
+          <!-- Animated SVG chart (same as homepage) -->
+          <div class="chart-container noise" style="padding: 24px 28px 20px;">
+            <!-- Legend row - matches reference image -->
+            <div class="flex flex-wrap items-center gap-6 mb-6 text-xs">
+              <span class="flex items-center gap-2">
+                <span class="inline-block w-6 h-[3px] bg-navy-800 rounded-full" style="background:#1a2d4d;"></span>
+                <span class="text-white/60 font-medium">Utility Rate Projection</span>
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="inline-block w-6 h-[3px] rounded-full" style="background:#e8971a;"></span>
+                <span class="text-white/60 font-medium">SunRaise 2.99% Escalator</span>
+              </span>
+            </div>
+
+            <svg viewBox="0 0 600 310" class="w-full" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+              <defs>
+                <linearGradient id="area-grad-ho" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(232,151,26,0.10)"/>
+                  <stop offset="100%" stop-color="rgba(232,151,26,0.01)"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Y-axis label -->
+              <text x="50" y="28" text-anchor="end" fill="rgba(255,255,255,0.45)" font-size="11" font-family="Inter" font-weight="500">$/kWh</text>
+
+              <!-- Horizontal grid + Y labels -->
+              <line x1="60" y1="260" x2="556" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <line x1="60" y1="195" x2="556" y2="195" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="60" y1="130" x2="556" y2="130" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <text x="52" y="264" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">0</text>
+              <text x="52" y="199" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">10</text>
+              <text x="52" y="134" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">20</text>
+              <text x="52" y="69" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">30</text>
+
+              <!-- Vertical axis -->
+              <line x1="60" y1="42" x2="60" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+              <!-- X-axis: every year 2020-2030 -->
+              <text x="60" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2020</text>
+              <text x="109.6" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2021</text>
+              <text x="159.2" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2022</text>
+              <text x="208.8" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2023</text>
+              <text x="258.4" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2024</text>
+              <text x="308" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2025</text>
+              <text x="357.6" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2026</text>
+              <text x="407.2" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2027</text>
+              <text x="456.8" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2028</text>
+              <text x="506.4" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2029</text>
+              <text x="556" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2030</text>
+
+              <!-- "Year" label -->
+              <text x="308" y="300" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="10" font-family="Inter">Year</text>
+
+              <!-- Shaded area between lines (2025-2030 only, where SunRaise line exists) -->
+              <path d="M308,150 L357.6,137 L407.2,124 L456.8,111 L506.4,94 L556,78
+                       L556,158 L506.4,161 L456.8,164 L407.2,166 L357.6,169 L308,172 Z"
+                    fill="url(#area-grad-ho)"/>
+
+              <!-- "Your Savings" label in shaded area -->
+              <text x="420" y="145" fill="rgba(232,151,26,0.25)" font-size="11" font-weight="600" letter-spacing="0.08em" text-anchor="middle" font-family="Plus Jakarta Sans, Inter, sans-serif">YOUR SAVINGS</text>
+
+              <!-- Utility rate line: 2020-2030, gradual then steep -->
+              <polyline class="chart-line-animate"
+                points="60,169 109.6,167 159.2,164 208.8,161 258.4,157 308,150 357.6,137 407.2,124 456.8,111 506.4,94 556,78"
+                fill="none" stroke="#60A5FA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- SunRaise line: 2025-2030 only (starts at ~20% below utility at 2025) -->
+              <polyline class="chart-line-animate"
+                points="308,172 357.6,169 407.2,166 456.8,164 506.4,161 556,158"
+                fill="none" stroke="#e8971a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation-delay: 0.4s"/>
+
+              <!-- -20% annotation at 2025 with arrow -->
+              <rect x="276" y="125" width="56" height="22" rx="4" fill="#e8971a"/>
+              <text x="304" y="140" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Plus Jakarta Sans, Inter, sans-serif">-20%</text>
+              <!-- Arrow from badge down to SunRaise point -->
+              <line x1="308" y1="148" x2="308" y2="170" stroke="#e8971a" stroke-width="1.5"/>
+              <polygon points="304,170 308,177 312,170" fill="#e8971a"/>
+
+              <!-- -33.79% annotation at 2030 with arrow -->
+              <rect x="516" y="53" width="78" height="22" rx="4" fill="#e8971a"/>
+              <text x="555" y="68" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Plus Jakarta Sans, Inter, sans-serif">-33.79%</text>
+              <!-- Arrow from badge down to SunRaise point -->
+              <line x1="556" y1="76" x2="556" y2="155" stroke="#e8971a" stroke-width="1.5"/>
+              <polygon points="552,155 556,162 560,155" fill="#e8971a"/>
+
+              <!-- Data points -->
+              <circle cx="308" cy="150" r="5" fill="#60A5FA"/>
+              <circle cx="308" cy="150" r="9" fill="#60A5FA" opacity="0.1"/>
+              <circle cx="308" cy="172" r="5" fill="#e8971a"/>
+              <circle cx="308" cy="172" r="9" fill="#e8971a" opacity="0.1"/>
+              <circle cx="556" cy="78" r="5" fill="#60A5FA"/>
+              <circle cx="556" cy="78" r="9" fill="#60A5FA" opacity="0.1"/>
+              <circle cx="556" cy="158" r="5" fill="#e8971a"/>
+              <circle cx="556" cy="158" r="9" fill="#e8971a" opacity="0.1"/>
+            </svg>
+
+            <p class="text-white/30 text-[10px] mt-5 leading-relaxed italic">The chart above illustrates the increasing savings differential for customers. Starting with ~20% Day-One Savings in 2025, the gap between SunRaise's fixed escalator and rising utility rates significantly widens by 2030.</p>
+            <p class="text-white/25 text-[9px] mt-3 leading-relaxed"><strong class="text-white/35 font-semibold">Source:</strong> U.S. Energy Information Administration, Residential Electricity Prices (Table EPA_02_07). ICF, Impact of Rapid Demand Growth on U.S. Electricity Rates (2024).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 5: CONTRACT CLARITY
+       ============================================ -->
+  <section class="py-14 lg:py-18 bg-white bg-photo bg-photo-right relative" style="--bg: url(images/solar-tech-abstract.jpg)">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 reveal">
+        <span class="badge badge-sun mb-4">Transparency</span>
+        <h2 class="font-heading font-bold text-navy-950 mb-4" style="font-size: var(--text-h2)">
+          No Fine Print. No Surprises.
+        </h2>
+        <p class="text-navy-500 max-w-2xl mx-auto" style="font-size: var(--text-body)">
+          Every SunRaise contract is written in plain language. Here is exactly what you can count on.
+        </p>
+      </div>
+
+      <div class="reveal grid sm:grid-cols-2 gap-6">
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-sun-50 border border-sun-100">
+          <div class="w-10 h-10 rounded-xl bg-sun-500 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="font-heading font-semibold text-navy-950 mb-1">No Hidden Fees</h4>
+            <p class="text-sm text-navy-500">Your monthly payment is your total cost. No maintenance charges, no monitoring fees, no surprise line items.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-sun-50 border border-sun-100">
+          <div class="w-10 h-10 rounded-xl bg-sun-500 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="font-heading font-semibold text-navy-950 mb-1">Fixed 2.99% Escalator</h4>
+            <p class="text-sm text-navy-500">You know exactly how your rate changes every year. It is written into the contract on day one and never changes.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-sun-50 border border-sun-100">
+          <div class="w-10 h-10 rounded-xl bg-sun-500 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="font-heading font-semibold text-navy-950 mb-1">Clear Contract Terms</h4>
+            <p class="text-sm text-navy-500">Every detail is spelled out upfront. Contract length, monthly payment, escalator, maintenance responsibility. All of it.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-sun-50 border border-sun-100">
+          <div class="w-10 h-10 rounded-xl bg-sun-500 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="font-heading font-semibold text-navy-950 mb-1">No Sales Pressure</h4>
+            <p class="text-sm text-navy-500">Take all the time you need. Review the numbers, talk it over with your family, ask questions. There is no expiration date.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-sun-50 border border-sun-100">
+          <div class="w-10 h-10 rounded-xl bg-sun-500 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="font-heading font-semibold text-navy-950 mb-1">Transferable Agreement</h4>
+            <p class="text-sm text-navy-500">If you sell your home, the solar agreement transfers to the new owner. It can actually make your home more attractive to buyers.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 p-6 rounded-2xl bg-sun-50 border border-sun-100">
+          <div class="w-10 h-10 rounded-xl bg-sun-500 text-white flex items-center justify-center shrink-0 mt-0.5">
+            <i data-lucide="check" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h4 class="font-heading font-semibold text-navy-950 mb-1">Performance Guaranteed</h4>
+            <p class="text-sm text-navy-500">Your system is monitored around the clock. If something goes wrong, we handle the repair at no cost to you.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================
+       SECTION 6: INSTITUTIONAL INFRASTRUCTURE
+       ============================================ -->
+  <section class="py-14 lg:py-20 bg-navy-950 bg-photo bg-photo-dark relative overflow-hidden" style="--bg: url(images/city-aerial-night.jpg)">
+    <!-- Bloom -->
+    <div class="absolute top-0 right-1/4 w-[400px] h-[400px] rounded-full bg-sun-500/[0.04] blur-[100px]"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="reveal">
+        <span class="badge badge-glass mb-4">Backed by Institutional Capital</span>
+        <h2 class="font-heading font-bold text-white mb-4" style="font-size: var(--text-h2)">
+          Your Roof. Their Investment.
+        </h2>
+        <p class="text-navy-300 max-w-2xl mx-auto mb-4 leading-relaxed" style="font-size: var(--text-body)">
+          SunRaise is not a startup experimenting with your home. We manage over $200M in deployed capital across 5,600+ solar assets in 13 markets. The same institutional infrastructure that manages portfolios for major capital providers also manages, monitors, and maintains your system.
+        </p>
+        <p class="text-navy-300 max-w-2xl mx-auto mb-5 leading-relaxed" style="font-size: var(--text-body)">
+          That means 25 years of professional asset management, billing, collections, and performance monitoring built into your agreement from day one. Your solar system is not an afterthought. It is part of a professionally managed portfolio.
+        </p>
+      </div>
+
+      <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-6 mt-4">
+        <div class="text-center">
+          <div class="stat-number text-3xl lg:text-4xl text-sun-400 mb-2" data-count="200" data-prefix="$" data-suffix="M+">$200M+</div>
+          <div class="text-sm text-navy-400">Capital Deployed</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-number text-3xl lg:text-4xl text-white mb-2" data-count="5600" data-prefix=">" data-suffix="">>5,600</div>
+          <div class="text-sm text-navy-400">Solar Systems Managed</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-number text-3xl lg:text-4xl text-white mb-2" data-count="13" data-suffix="">13</div>
+          <div class="text-sm text-navy-400">Active Markets</div>
+        </div>
+        <div class="text-center">
+          <div class="stat-number text-3xl lg:text-4xl text-white mb-2" data-count="25" data-suffix=" yr">25 yr</div>
+          <div class="text-sm text-navy-400">Asset Management</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 7: FAQ ACCORDION
+       ============================================ -->
+  <section class="py-14 lg:py-18 bg-sun-50 relative">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12 reveal">
+        <span class="badge badge-sun mb-4">FAQ</span>
+        <h2 class="font-heading font-bold text-navy-950" style="font-size: var(--text-h2)">Questions Homeowners Ask</h2>
+      </div>
+
+      <div class="reveal space-y-3" id="faq-container">
+        <div class="border border-navy-100 rounded-xl overflow-hidden bg-white">
+          <button class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left font-heading font-semibold text-navy-900 hover:bg-cream transition-colors" aria-expanded="false">
+            What happens to my electric bill?
+            <svg class="w-5 h-5 text-navy-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6" role="region">
+            <p class="pb-5 text-navy-600 leading-relaxed">Your solar system will generate most or all of the electricity your home needs. You will still receive a utility bill, but it will typically show only a small connection fee. Your SunRaise payment replaces the majority of what you used to pay your utility company, and it starts lower from day one. Most homeowners see 10-20% savings immediately.</p>
+          </div>
+        </div>
+
+        <div class="border border-navy-100 rounded-xl overflow-hidden bg-white">
+          <button class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left font-heading font-semibold text-navy-900 hover:bg-cream transition-colors" aria-expanded="false">
+            What if I sell my house?
+            <svg class="w-5 h-5 text-navy-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6" role="region">
+            <p class="pb-5 text-navy-600 leading-relaxed">Your solar agreement transfers to the new homeowner at the time of sale. Since the new owner inherits built-in savings on their electricity, solar can actually make your home more attractive to buyers. Homes with solar panels sell faster and for more money on average, according to multiple national housing studies.</p>
+          </div>
+        </div>
+
+        <div class="border border-navy-100 rounded-xl overflow-hidden bg-white">
+          <button class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left font-heading font-semibold text-navy-900 hover:bg-cream transition-colors" aria-expanded="false">
+            Are there hidden fees?
+            <svg class="w-5 h-5 text-navy-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6" role="region">
+            <p class="pb-5 text-navy-600 leading-relaxed">No. Your monthly payment covers everything: the system, monitoring, maintenance, and any repairs needed over the life of the contract. There are no installation fees, no sign-up costs, and no surprise charges. The only annual change is the fixed 2.99% escalator, which is written into your agreement before you sign.</p>
+          </div>
+        </div>
+
+        <div class="border border-navy-100 rounded-xl overflow-hidden bg-white">
+          <button class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left font-heading font-semibold text-navy-900 hover:bg-cream transition-colors" aria-expanded="false">
+            How long does installation take?
+            <svg class="w-5 h-5 text-navy-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6" role="region">
+            <p class="pb-5 text-navy-600 leading-relaxed">Most residential installations are completed in one to two days of on-site work. The overall timeline from signing to activation typically runs four to eight weeks, depending on local permitting requirements and utility interconnection timelines in your area. We handle all the permits and paperwork for you.</p>
+          </div>
+        </div>
+
+        <div class="border border-navy-100 rounded-xl overflow-hidden bg-white">
+          <button class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left font-heading font-semibold text-navy-900 hover:bg-cream transition-colors" aria-expanded="false">
+            What about maintenance?
+            <svg class="w-5 h-5 text-navy-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6" role="region">
+            <p class="pb-5 text-navy-600 leading-relaxed">You do not need to worry about maintenance. SunRaise monitors your system performance around the clock and dispatches service if anything needs attention. Repairs and replacements are covered under your agreement at no additional cost to you. Solar panels are built to last 25-30 years and require very little upkeep.</p>
+          </div>
+        </div>
+
+        <div class="border border-navy-100 rounded-xl overflow-hidden bg-white">
+          <button class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left font-heading font-semibold text-navy-900 hover:bg-cream transition-colors" aria-expanded="false">
+            Do I need good credit?
+            <svg class="w-5 h-5 text-navy-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <div class="faq-content px-6" role="region">
+            <p class="pb-5 text-navy-600 leading-relaxed">SunRaise does run a credit check as part of the approval process. However, our underwriting looks at multiple factors beyond just your credit score, including your utility payment history. Many homeowners who may not qualify for traditional solar loans are approved through our program. The credit check is a soft pull during the design phase and will not affect your score.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================
+       SECTION 8: CTA BAND
+       ============================================ -->
+  <section class="py-16 lg:py-20 bg-gradient-to-r from-sun-500 to-sun-600 relative overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none opacity-30"></div>
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+      <h2 class="font-heading font-bold text-white mb-4" style="font-size: var(--text-h2)">
+        Ready to See Your Savings?
+      </h2>
+      <p class="text-white/80 mb-8 max-w-xl mx-auto" style="font-size: var(--text-body)">
+        It takes about two minutes. No sales calls, no commitment, just your numbers.
+      </p>
+      <a href="#start" class="inline-flex items-center gap-2 px-10 py-4 rounded-full bg-white text-sun-600 font-bold text-base hover:bg-cream transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+        <i data-lucide="sun" class="w-5 h-5"></i>
+        Start Your Solar Design
+      </a>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 9: CONTACT FORM
+       ============================================ -->
+  <section id="start" class="py-14 lg:py-18 bg-sun-50 bg-photo bg-photo-cream relative" style="--bg: url(images/professional-meeting.jpg)">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10 reveal">
+        <span class="badge badge-sun mb-4">Get Started</span>
+        <h2 class="font-heading font-bold text-navy-950 mb-4" style="font-size: var(--text-h2)">Design Your Solar System</h2>
+        <p class="text-navy-500">Tell us about your home and we will show you what solar can do for you.</p>
+      </div>
+
+      <div class="reveal">
+        <form id="homeowner-form" class="bg-white rounded-2xl border border-navy-100 shadow-lg p-8 lg:p-10" onsubmit="submitHomeownerForm(event)">
+          <div class="space-y-5">
+            <!-- Address -->
+            <div>
+              <label for="ho-address" class="block text-sm font-medium text-navy-700 mb-1.5">Home Address</label>
+              <input type="text" id="ho-address" placeholder="123 Main Street, City, State, ZIP" required class="w-full px-4 py-3 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none transition-all text-sm">
+            </div>
+
+            <!-- Electric bill range -->
+            <div>
+              <label for="ho-bill" class="block text-sm font-medium text-navy-700 mb-1.5">Average Monthly Electric Bill</label>
+              <select id="ho-bill" required class="w-full px-4 py-3 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none transition-all text-sm text-navy-600">
+                <option value="">Select a range</option>
+                <option value="under-100">Under $100</option>
+                <option value="100-150">$100 - $150</option>
+                <option value="150-200">$150 - $200</option>
+                <option value="200-300">$200 - $300</option>
+                <option value="300-500">$300 - $500</option>
+                <option value="500+">$500+</option>
+              </select>
+            </div>
+
+            <!-- Name -->
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="ho-first" class="block text-sm font-medium text-navy-700 mb-1.5">First Name</label>
+                <input type="text" id="ho-first" placeholder="First name" required class="w-full px-4 py-3 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none transition-all text-sm">
+              </div>
+              <div>
+                <label for="ho-last" class="block text-sm font-medium text-navy-700 mb-1.5">Last Name</label>
+                <input type="text" id="ho-last" placeholder="Last name" required class="w-full px-4 py-3 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none transition-all text-sm">
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label for="ho-email" class="block text-sm font-medium text-navy-700 mb-1.5">Email Address</label>
+              <input type="email" id="ho-email" placeholder="you@email.com" required class="w-full px-4 py-3 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none transition-all text-sm">
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label for="ho-phone" class="block text-sm font-medium text-navy-700 mb-1.5">Phone Number</label>
+              <input type="tel" id="ho-phone" placeholder="(555) 555-5555" class="w-full px-4 py-3 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none transition-all text-sm">
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" id="ho-submit" class="w-full px-6 py-3.5 rounded-xl bg-sun-500 text-white font-semibold btn-glow text-sm flex items-center justify-center gap-2">
+              <i data-lucide="sun" class="w-4 h-4"></i>
+              Start My Solar Design
+            </a>
+
+            <p class="text-xs text-navy-400 text-center">No obligation. No sales calls. We will send your personalized savings estimate by email.</p>
+          </div>
+        </form>
+
+        <!-- Success state -->
+        <div id="ho-success" class="hidden bg-white rounded-2xl border border-navy-100 shadow-lg p-8 lg:p-10 text-center">
+          <div class="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="check" class="w-8 h-8"></i>
+          </div>
+          <h3 class="font-heading font-bold text-xl text-navy-950 mb-2">We Got Your Info</h3>
+          <p class="text-navy-500">We are building your personalized solar design. You will receive your savings estimate by email within one business day.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER (same as homepage)
+       ============================================ -->
+  <footer class="bg-navy-950 text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
+        <!-- Brand column -->
+        <div class="col-span-2 md:col-span-4 lg:col-span-1">
+          <img src="images/logo.png" alt="SunRaise Capital" class="h-10 mb-4 brightness-0 invert" loading="lazy">
+          <p class="text-sm text-navy-400 mb-4 leading-relaxed">The central alignment layer for residential solar. Technology infrastructure, not a solar installer.</p>
+          <div class="flex gap-3">
+            <a href="https://linkedin.com/company/sunraise-capital-llc" target="_blank" rel="noopener" class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-sun-500 transition-colors">
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Capital Partners -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Capital Partners</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="capital-partners.html" class="hover:text-sun-400 transition-colors">Overview</a></li>
+            <li><a href="capital-partners.html#why" class="hover:text-sun-400 transition-colors">Why Private Capital</a></li>
+            <li><a href="capital-partners.html#structure" class="hover:text-sun-400 transition-colors">Structural Characteristics</a></li>
+            <li><a href="capital-partners.html#contact" class="hover:text-sun-400 transition-colors">Initiate a Discussion</a></li>
+          </ul>
+        </div>
+
+        <!-- Installer Partners -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Installer Partners</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="installer-partners.html" class="hover:text-sun-400 transition-colors">Overview</a></li>
+            <li><a href="installer-partners.html#features" class="hover:text-sun-400 transition-colors">Platform Features</a></li>
+            <li><a href="installer-partners.html#funding" class="hover:text-sun-400 transition-colors">Faster Funding</a></li>
+            <li><a href="installer-partners.html#apply" class="hover:text-sun-400 transition-colors">Apply for Partnership</a></li>
+          </ul>
+        </div>
+
+        <!-- Homeowners -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Homeowners</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="homeowners.html" class="hover:text-sun-400 transition-colors">Overview</a></li>
+            <li><a href="homeowners.html#savings" class="hover:text-sun-400 transition-colors">Your Savings</a></li>
+            <li><a href="homeowners.html#process" class="hover:text-sun-400 transition-colors">How It Works</a></li>
+            <li><a href="homeowners.html#start" class="hover:text-sun-400 transition-colors">Start Your Design</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Company</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="about.html" class="hover:text-sun-400 transition-colors">About Us</a></li>
+            <li><a href="platform.html" class="hover:text-sun-400 transition-colors">Platform</a></li>
+            <li><a href="blog/index.html" class="hover:text-sun-400 transition-colors">Blog</a></li>
+            <li><a href="contact.html" class="hover:text-sun-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-sm text-navy-500">&copy; 2026 SunRaise Capital LLC. All rights reserved.</div>
+        <div class="flex gap-6 text-sm text-navy-500">
+          <a href="mailto:support@sunraisecapital.com" class="hover:text-sun-400 transition-colors">support@sunraisecapital.com</a>
+          <span>4021 Church Street, Sanford, FL 32771</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       REVIEW GATING MODAL
+       ============================================ -->
+  <div id="review-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30 backdrop-blur-sm" onclick="closeReviewModal()">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8 relative" onclick="event.stopPropagation()">
+      <button onclick="closeReviewModal()" class="absolute right-4 top-4 text-navy-400 hover:text-navy-700 transition-colors">&times;</button>
+      <div id="review-step-rating">
+        <h3 class="font-heading font-bold text-xl text-center text-navy-950 mb-2">Rate Your Experience</h3>
+        <p class="text-sm text-navy-500 text-center mb-6">How has your experience with SunRaise been?</p>
+        <div id="star-container" class="flex justify-center gap-2 mb-8"></div>
+        <button id="review-continue" onclick="handleRatingSubmit()" disabled class="w-full py-3 rounded-xl bg-sun-500 text-white font-semibold disabled:opacity-40 transition-opacity">Continue</button>
+      </div>
+      <div id="review-step-feedback" class="hidden">
+        <h3 class="font-heading font-bold text-xl text-navy-900 mb-4">We'd Love Your Feedback</h3>
+        <div id="category-pills" class="flex flex-wrap gap-2 mb-4"></div>
+        <input id="review-improvement" placeholder="How can we improve?" class="w-full px-4 py-2.5 border border-navy-200 rounded-xl text-sm focus:border-sun-500 outline-none mb-3">
+        <textarea id="review-message" placeholder="Additional details..." rows="3" class="w-full px-4 py-2.5 border border-navy-200 rounded-xl text-sm focus:border-sun-500 outline-none resize-none mb-4"></textarea>
+        <button onclick="submitFeedback()" class="w-full py-3 rounded-xl bg-sun-500 text-white font-semibold btn-glow">Submit Feedback</button>
+      </div>
+      <div id="review-step-thanks" class="hidden text-center py-8">
+        <div class="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="check" class="w-8 h-8"></i>
+        </div>
+        <p class="font-heading font-bold text-xl text-navy-900">Thank You!</p>
+        <p class="text-sm text-navy-500 mt-2">Your feedback helps us improve.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       MOBILE CTA BAR
+       ============================================ -->
+  <div class="mobile-cta-bar">
+    <a href="tel:+1" class="flex-1 py-2.5 rounded-xl bg-white/10 text-white text-center text-sm font-semibold flex items-center justify-center gap-2">
+      <i data-lucide="phone" class="w-4 h-4"></i> Contact Us
+    </a>
+    <a href="#start" class="flex-1 py-2.5 rounded-xl bg-sun-500 text-white text-center text-sm font-semibold btn-glow flex items-center justify-center gap-2">
+      <i data-lucide="sun" class="w-4 h-4"></i> Start Design
+    </a>
+  </div>
+
+  <!-- ============================================
+       CHATBOT WIDGET
+       ============================================ -->
+  <div class="chatbot-bubble" onclick="toggleChatbot()" id="chatbot-toggle">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </div>
+  <div class="chatbot-panel" id="chatbot-panel">
+    <div class="bg-navy-800 text-white p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-sun-500 flex items-center justify-center">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <div class="font-heading font-semibold text-sm">SunRaise Assistant</div>
+          <div class="text-xs text-navy-300">Online</div>
+        </div>
+      </div>
+      <button onclick="toggleChatbot()" class="text-white/60 hover:text-white">&times;</button>
+    </div>
+    <div class="flex-1 p-4 overflow-y-auto bg-cream min-h-[200px]" id="chatbot-messages">
+      <div class="bg-white rounded-xl p-3 shadow-sm text-sm text-navy-700 max-w-[85%]">
+        Welcome! I can help you learn about going solar with SunRaise. What would you like to know?
+      </div>
+    </div>
+    <div class="p-3 border-t border-navy-100 bg-white flex gap-2">
+      <input type="text" placeholder="Type a message..." class="flex-1 px-3 py-2 rounded-lg border border-navy-200 text-sm focus:border-sun-500 outline-none" id="chatbot-input" onkeydown="if(event.key==='Enter')sendChatMessage()">
+      <button onclick="sendChatMessage()" class="px-3 py-2 rounded-lg bg-sun-500 text-white">
+        <i data-lucide="send" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SCRIPTS
+       ============================================ -->
+  <script src="js/main.js"></script>
+  <script src="js/review-modal.js"></script>
+  <script src="js/chatbot-widget.js"></script>
+  <script src="js/faq-accordion.js"></script>
+
+  <!-- Homeowner form handler -->
+  <script>
+    function submitHomeownerForm(e) {
+      e.preventDefault();
+      const btn = document.getElementById('ho-submit');
+      btn.disabled = true;
+      btn.innerHTML = '<svg class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" opacity="0.3"/><path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg> Submitting...';
+
+      setTimeout(function() {
+        document.getElementById('homeowner-form').classList.add('hidden');
+        document.getElementById('ho-success').classList.remove('hidden');
+      }, 1200);
+    }
+  </script>
+
+  <!-- Initialize Lucide icons -->
+  <script>lucide.createIcons();</script>
+
+  <!-- JSON-LD: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.sunraisecapital.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Homeowners",
+        "item": "https://www.sunraisecapital.com/homeowners.html"
+      }
+    ]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What happens to my electric bill?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your solar system will generate most or all of the electricity your home needs. You will still receive a utility bill, but it will typically show only a small connection fee. Your SunRaise payment replaces the majority of what you used to pay your utility company, and it starts lower from day one. Most homeowners see 10-20% savings immediately."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What if I sell my house?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Your solar agreement transfers to the new homeowner at the time of sale. Since the new owner inherits built-in savings on their electricity, solar can actually make your home more attractive to buyers."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Are there hidden fees?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Your monthly payment covers everything: the system, monitoring, maintenance, and any repairs needed over the life of the contract. There are no installation fees, no sign-up costs, and no surprise charges."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does installation take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most residential installations are completed in one to two days of on-site work. The overall timeline from signing to activation typically runs four to eight weeks, depending on local permitting requirements and utility interconnection timelines."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What about maintenance?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You do not need to worry about maintenance. SunRaise monitors your system performance around the clock and dispatches service if anything needs attention. Repairs and replacements are covered under your agreement at no additional cost."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do I need good credit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SunRaise does run a credit check as part of the approval process. However, our underwriting looks at multiple factors beyond just your credit score, including your utility payment history. The credit check is a soft pull during the design phase and will not affect your score."
+        }
+      }
+    ]
+  }
+  </script>
+
+</body>
+</html>

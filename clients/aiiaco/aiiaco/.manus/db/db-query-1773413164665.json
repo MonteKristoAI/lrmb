@@ -1,0 +1,109 @@
+{
+  "query": "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'leads' ORDER BY ORDINAL_POSITION;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'leads' ORDER BY ORDINAL_POSITION;",
+  "rows": [
+    {
+      "COLUMN_NAME": "id"
+    },
+    {
+      "COLUMN_NAME": "type"
+    },
+    {
+      "COLUMN_NAME": "name"
+    },
+    {
+      "COLUMN_NAME": "email"
+    },
+    {
+      "COLUMN_NAME": "company"
+    },
+    {
+      "COLUMN_NAME": "phone"
+    },
+    {
+      "COLUMN_NAME": "industry"
+    },
+    {
+      "COLUMN_NAME": "engagementModel"
+    },
+    {
+      "COLUMN_NAME": "annualRevenue"
+    },
+    {
+      "COLUMN_NAME": "message"
+    },
+    {
+      "COLUMN_NAME": "status"
+    },
+    {
+      "COLUMN_NAME": "createdAt"
+    },
+    {
+      "COLUMN_NAME": "updatedAt"
+    },
+    {
+      "COLUMN_NAME": "investmentType"
+    },
+    {
+      "COLUMN_NAME": "budgetRange"
+    },
+    {
+      "COLUMN_NAME": "problemCategory"
+    },
+    {
+      "COLUMN_NAME": "problemDetail"
+    },
+    {
+      "COLUMN_NAME": "callPreference"
+    },
+    {
+      "COLUMN_NAME": "leadSource"
+    },
+    {
+      "COLUMN_NAME": "diagnosticSnapshot"
+    },
+    {
+      "COLUMN_NAME": "leadBrief"
+    },
+    {
+      "COLUMN_NAME": "adminNotes"
+    },
+    {
+      "COLUMN_NAME": "callTranscript"
+    },
+    {
+      "COLUMN_NAME": "callTrack"
+    },
+    {
+      "COLUMN_NAME": "painPoints"
+    },
+    {
+      "COLUMN_NAME": "wants"
+    },
+    {
+      "COLUMN_NAME": "currentSolutions"
+    },
+    {
+      "COLUMN_NAME": "conversationSummary"
+    },
+    {
+      "COLUMN_NAME": "callDurationSeconds"
+    },
+    {
+      "COLUMN_NAME": "conversationId"
+    },
+    {
+      "COLUMN_NAME": "structuredTranscript"
+    },
+    {
+      "COLUMN_NAME": "emailStatus"
+    },
+    {
+      "COLUMN_NAME": "emailSentAt"
+    }
+  ],
+  "messages": [],
+  "stdout": "COLUMN_NAME\nid\ntype\nname\nemail\ncompany\nphone\nindustry\nengagementModel\nannualRevenue\nmessage\nstatus\ncreatedAt\nupdatedAt\ninvestmentType\nbudgetRange\nproblemCategory\nproblemDetail\ncallPreference\nleadSource\ndiagnosticSnapshot\nleadBrief\nadminNotes\ncallTranscript\ncallTrack\npainPoints\nwants\ncurrentSolutions\nconversationSummary\ncallDurationSeconds\nconversationId\nstructuredTranscript\nemailStatus\nemailSentAt\n",
+  "stderr": "",
+  "execution_time_ms": 347
+}

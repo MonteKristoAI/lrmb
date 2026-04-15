@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, username, role, created_at FROM admin_users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, username, role, created_at FROM admin_users;",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'role' in 'field list'"
+  ]
+}

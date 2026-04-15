@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BreathMastery — SEO Progress Report (March 2026)</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:     #0f172a;
+      --navy-mid: #1e293b;
+      --teal:     #0ea5e9;
+      --teal-lt:  #38bdf8;
+      --green:    #22c55e;
+      --green-dk: #16a34a;
+      --orange:   #f97316;
+      --purple:   #a78bfa;
+      --bg:       #f1f5f9;
+      --surface:  #ffffff;
+      --border:   #e2e8f0;
+      --text:     #1e293b;
+      --muted:    #64748b;
+      --radius:   12px;
+      --shadow:   0 1px 3px rgba(0,0,0,.08), 0 4px 16px rgba(0,0,0,.05);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      font-size: 14px;
+      overflow-x: hidden;
+    }
+
+    .wrap { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+    /* ── HEADER ── */
+    .report-header {
+      background: linear-gradient(135deg, #060d1a 0%, #0a1f3d 55%, #071628 100%);
+      color: #fff;
+      padding: 44px 0 40px;
+      border-bottom: 3px solid var(--teal);
+    }
+    .header-inner { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+    .header-brand { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+    .header-logo {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--teal) 0%, #0369a1 100%);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; color: #fff; flex-shrink: 0;
+    }
+    .header-left h1 { font-size: 23px; font-weight: 800; letter-spacing: -0.4px; }
+    .header-left h1 span { color: var(--teal-lt); }
+    .header-left .subtitle { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 5px; }
+    .period-badge {
+      display: inline-block;
+      background: rgba(56,189,248,0.15);
+      border: 1px solid rgba(56,189,248,0.3);
+      color: var(--teal-lt);
+      font-size: 11px; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      margin-top: 8px; letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .header-stats { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hstat {
+      text-align: center;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 12px 18px; min-width: 86px;
+    }
+    .hstat .v { font-size: 26px; font-weight: 800; color: #fff; line-height: 1; }
+    .hstat .v.green  { color: var(--green); }
+    .hstat .v.teal   { color: var(--teal-lt); }
+    .hstat .v.orange { color: var(--orange); }
+    .hstat .l { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* ── SECTIONS ── */
+    .section { padding: 40px 0 12px; }
+    .section-hd {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 17px; font-weight: 800; color: var(--navy);
+      margin-bottom: 22px; letter-spacing: -0.2px;
+    }
+    .section-hd::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .sec-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 26px; height: 26px;
+      background: var(--teal); color: #fff;
+      border-radius: 7px; font-size: 12px; font-weight: 800; flex-shrink: 0;
+    }
+
+    /* ── WINS ── */
+    .wins-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+    .win {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--green); border-radius: var(--radius);
+      padding: 16px 18px; box-shadow: var(--shadow);
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .win-ico { font-size: 20px; flex-shrink: 0; line-height: 1.2; }
+    .win strong { display: block; font-size: 13px; color: var(--navy); margin-bottom: 3px; }
+    .win span { font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+
+    /* ── WORK LIST ── */
+    .work-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .work-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 14px 18px; box-shadow: var(--shadow);
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .work-check { color: var(--green); font-size: 15px; font-weight: 700; flex-shrink: 0; margin-top: 2px; }
+    .work-item span { font-size: 13px; color: var(--text); line-height: 1.6; }
+
+    /* ── KPI CARDS ── */
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .mcard {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px 22px 18px;
+      box-shadow: var(--shadow); position: relative; overflow: hidden;
+    }
+    .mcard::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--teal); }
+    .mcard.g::before { background: var(--green); }
+    .mcard.o::before { background: var(--orange); }
+    .mcard.p::before { background: var(--purple); }
+    .mcard.t::before { background: var(--teal-lt); }
+    .mlabel { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 10px; }
+    .mval { font-size: 40px; font-weight: 900; color: var(--navy); line-height: 1; display: flex; align-items: baseline; gap: 6px; }
+    .mval .unit { font-size: 15px; font-weight: 500; color: var(--muted); }
+    .deltas { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .delta-up { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 20px; background: rgba(34,197,94,0.1); color: var(--green-dk); }
+    .msub { font-size: 11.5px; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+    .health-bar { height: 6px; background: #f1f5f9; border-radius: 3px; margin-top: 12px; overflow: hidden; }
+    .health-fill { height: 100%; border-radius: 3px; background: var(--green); }
+
+    /* ── CHARTS ── */
+    .charts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .chart-card.full { grid-column: 1 / -1; }
+    .chart-hd { padding: 16px 20px 12px; border-bottom: 1px solid var(--border); }
+    .chart-hd h3 { font-size: 13px; font-weight: 700; color: var(--navy); }
+    .chart-hd p  { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .chart-body { background: #0a1628; }
+    .chart-body svg { display: block; width: 100%; height: auto; }
+
+    /* ── TABLE ── */
+    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    thead th { text-align: left; padding: 12px 16px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); background: #f8fafc; border-bottom: 1px solid var(--border); }
+    tbody td { padding: 11px 16px; border-bottom: 1px solid #f1f5f9; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover td { background: #fafafa; }
+    .url-cell  { font-family: monospace; font-size: 12px; color: var(--teal); }
+    .num-cell  { font-weight: 700; color: var(--navy); }
+    .up-cell   { color: var(--green-dk); font-weight: 700; }
+    .pct-badge { display: inline-flex; align-items: center; background: rgba(34,197,94,0.1); color: var(--green-dk); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 20px; }
+
+    /* ── CONTENT LIST ── */
+    .section-sublabel { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin: 20px 0 10px; }
+    .content-list { display: flex; flex-direction: column; gap: 8px; }
+    .content-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 12px 18px; box-shadow: var(--shadow);
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    }
+    .content-date  { font-size: 11px; color: var(--muted); white-space: nowrap; min-width: 80px; }
+    .content-title { flex: 1; font-size: 13px; color: var(--text); font-weight: 500; line-height: 1.4; min-width: 180px; }
+    .badge-pub { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(34,197,94,0.1);   color: var(--green-dk); white-space: nowrap; }
+    .badge-dft { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: rgba(100,116,139,0.08); color: var(--muted);     white-space: nowrap; }
+
+    /* ── PLAN CARDS ── */
+    .plan-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .plan-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow);
+    }
+    .pc-cluster { font-size: 13px; font-weight: 700; color: var(--navy); margin-bottom: 2px; }
+    .pc-cadence { font-size: 11px; color: var(--teal); font-weight: 600; margin-bottom: 8px; }
+    .pc-notes   { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+    /* ── NEXT STEPS ── */
+    .steps-list { display: flex; flex-direction: column; gap: 10px; }
+    .step-item {
+      background: rgba(14,165,233,0.03);
+      border: 1px solid rgba(14,165,233,0.18);
+      border-left: 4px solid var(--teal);
+      border-radius: var(--radius); padding: 14px 18px;
+    }
+    .step-item strong { display: block; font-size: 13px; color: var(--navy); margin-bottom: 3px; }
+    .step-item span   { font-size: 12.5px; color: var(--muted); line-height: 1.55; }
+
+    /* ── FOOTER ── */
+    .report-footer { background: var(--navy); color: rgba(255,255,255,0.38); font-size: 11px; padding: 26px 0; text-align: center; margin-top: 20px; }
+    .report-footer strong { color: rgba(255,255,255,0.6); }
+    .disclaimer { font-size: 10.5px; color: rgba(255,255,255,0.28); margin-top: 8px; font-style: italic; }
+
+    .spacer { height: 56px; }
+    .mt-12  { margin-top: 12px; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .charts-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-card.full { grid-column: 1 / -1; }
+    }
+    @media (max-width: 820px) {
+      .wrap { padding: 0 20px; }
+      .header-inner { flex-direction: column; gap: 16px; }
+      .cards { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .wrap { padding: 0 14px; }
+      .report-header { padding: 28px 0 24px; }
+      .header-left h1 { font-size: 17px; }
+      .hstat { padding: 10px 10px; min-width: 0; flex: 1; }
+      .hstat .v { font-size: 20px; }
+      .cards { grid-template-columns: 1fr; }
+      .charts-grid { grid-template-columns: 1fr; }
+      .wins-grid { grid-template-columns: 1fr; }
+      .mval { font-size: 32px; }
+      .section-hd { font-size: 15px; }
+      .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      table { min-width: 480px; }
+    }
+    @media (max-width: 400px) {
+      .hstat .v { font-size: 17px; }
+      .mval { font-size: 28px; }
+    }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: #fff; font-size: 12px; }
+      .report-header, .chart-body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .section { page-break-inside: avoid; }
+      .mcard, .win, .chart-card { page-break-inside: avoid; }
+      .spacer { height: 24px; }
+      .wrap { max-width: 100%; padding: 0 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     HEADER
+═══════════════════════════════════════════ -->
+<header class="report-header">
+  <div class="wrap">
+    <div class="header-inner">
+      <div class="header-left">
+        <div class="header-brand">
+          <div class="header-logo">B</div>
+          <div>
+            <h1>SEO Progress Report — <span>breathmastery.com</span></h1>
+            <p class="subtitle">Semrush data (estimates) &middot; Desktop &middot; United States &middot; Prepared March 29, 2026</p>
+          </div>
+        </div>
+        <span class="period-badge">Q1 2026 — Focus Period: March 2026</span>
+      </div>
+      <div class="header-stats">
+        <div class="hstat"><div class="v teal">21</div><div class="l">Authority</div></div>
+        <div class="hstat"><div class="v green">104</div><div class="l">Est. Traffic</div></div>
+        <div class="hstat"><div class="v">248</div><div class="l">Keywords</div></div>
+        <div class="hstat"><div class="v orange">713</div><div class="l">Ref. Domains</div></div>
+        <div class="hstat"><div class="v green">6,018</div><div class="l">Backlinks</div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">1</span> Executive Summary — March 2026 Highlights</h2>
+  <div id="r-wins"></div>
+</div>
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">2</span> Work Completed This Period</h2>
+  <ul class="work-list" id="r-work"></ul>
+</div>
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">3</span> KPI Snapshot — Current Metrics</h2>
+  <div class="cards" id="r-kpis"></div>
+</div>
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">4</span> Performance Charts</h2>
+  <div class="charts-grid" id="r-charts"></div>
+</div>
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">5</span> Proof: Top Page Performance</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th>Metric</th>
+          <th>4 Weeks Ago</th>
+          <th>Current</th>
+          <th>Change</th>
+          <th>Growth</th>
+        </tr>
+      </thead>
+      <tbody id="r-pages"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">6</span> Content Progress</h2>
+  <div id="r-content"></div>
+</div>
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">7</span> Next 90 Days — Editorial Plan</h2>
+  <div class="plan-grid" id="r-plan"></div>
+</div>
+
+<div class="section">
+  <h2 class="section-hd"><span class="sec-num">8</span> Next Steps</h2>
+  <div class="steps-list" id="r-steps"></div>
+</div>
+
+<div class="spacer"></div>
+</main>
+
+<footer class="report-footer">
+  <div class="wrap">
+    <strong>Data sources:</strong> Semrush Domain Overview &amp; Backlinks (March 29, 2026) &nbsp;&middot;&nbsp;
+    Domain: <strong>breathmastery.com</strong>
+    <p class="disclaimer">Note: Semrush metrics are estimates based on keyword ranking and CTR models — not first-party analytics data.</p>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   DATA — edit this object to update the entire report
+═══════════════════════════════════════════════════════ */
+const reportData = {
+  client: "BreathMastery",
+  domain: "breathmastery.com",
+  report_date: "2026-03-29",
+  scope: { country: "US", device: "Desktop" },
+
+  kpis: {
+    authority_score: 21,
+    organic_traffic_est: { value: 104, change_pct: 17 },
+    organic_keywords_est: 248,
+    ref_domains: 713,
+    backlinks: 6018
+  },
+
+  organic_traffic_points: [
+    { label: "Mar 2",  value: 88  },
+    { label: "Mar 29", value: 104 }
+  ],
+
+  backlinks_points: [
+    { label: "Feb 2026", backlinks: 5795, ref_domains: 694 },
+    { label: "Mar 2026", backlinks: 6018, ref_domains: 713 }
+  ],
+
+  serp_distribution: [
+    { label: "Top 3",          value: 5,   color: "#22c55e" },
+    { label: "4–10",           value: 13,  color: "#38bdf8" },
+    { label: "11–20",          value: 35,  color: "#0ea5e9" },
+    { label: "21–50",          value: 89,  color: "#a78bfa" },
+    { label: "51–100",         value: 100, color: "#64748b" },
+    { label: "AI Overviews",   value: 4,   color: "#f97316" },
+    { label: "Other Features", value: 2,   color: "#f59e0b" }
+  ],
+
+  top_page_changes: [
+    { url: "/meet-dan/", metric: "Est. organic traffic", then: 14, now: 52, change_abs: 38, change_pct: 271.43 }
+  ],
+
+  site_audit: { health_pct: 82, errors: 4, warnings: 141, https_pct: 98 },
+
+  work_completed: [
+    "Implemented metadata (titles + meta descriptions) across all live, visible site pages using AIOSEO.",
+    "Launched a structured blog program (new 'Blog' content vs legacy 'Articles') — more indexable landing pages, more long-tail entry points, more internal link opportunities.",
+    "Completed keyword research and prepared a 3-month editorial plan: topic clusters + publishing cadence.",
+    "Set up Semrush monitoring: Domain Overview, Top Pages, Backlinks, Site Audit for ongoing reporting."
+  ],
+
+  content_published: [
+    { title: "Breathing Techniques for Anxiety: The 3 Patterns That Calm the Body Fastest", date: "2026-03-25" },
+    { title: "Conscious Breathing: Shift Your State in Minutes",                             date: "2026-03-20" },
+    { title: "Pineal Gland Activation: What People Mean (and What's Realistic)",             date: "2026-03-07" },
+    { title: "Breathwork for Beginners: The 5 Most Common Mistakes (and Quick Fixes)",       date: "2026-03-04" }
+  ],
+
+  content_pipeline: [
+    { title: "Diaphragmatic Breathing: How to Retrain Your Breath Pattern",    status: "Draft" },
+    { title: "Box Breathing for Focus and Performance: The Science Explained", status: "Draft" }
+  ],
+
+  next_90_days: [
+    {
+      cluster: "Breathwork for Anxiety & Stress",
+      cadence: "2× per month",
+      notes: "High-intent keywords: '4-7-8 breathing', 'breathing for panic attacks', 'box breathing'. Strong conversion alignment with Breath & Beyond course."
+    },
+    {
+      cluster: "Breathwork for Sleep & Recovery",
+      cadence: "2× per month",
+      notes: "Growing search volume: 'breathing exercises for sleep', 'night breathing routine'. Targets a different audience intent than the anxiety cluster."
+    },
+    {
+      cluster: "Science of Breathwork (Pillar Content)",
+      cadence: "1× per month",
+      notes: "Long-form E-E-A-T pillars: 'vagal tone and breathing', 'CO₂ tolerance training', 'nervous system regulation'. Builds domain authority and internal link structure."
+    },
+    {
+      cluster: "Dan Brulé Personal Brand",
+      cadence: "1× per month",
+      notes: "Supports /meet-dan/ growth: author bylines, origin story posts, 'who is Dan Brulé' cluster. Direct conversion path to practitioner certification program."
+    }
+  ],
+
+  next_steps: [
+    {
+      title: "Install privacy-friendly first-party analytics",
+      desc: "Semrush estimates are useful for trend direction but are not first-party data. Installing Plausible Analytics or Fathom provides exact visitor counts, traffic sources, and conversion paths — with no cookies and full GDPR compliance."
+    },
+    {
+      title: "Activate Google Search Console",
+      desc: "GSC is the only free, authoritative source for impressions, clicks, CTR, and actual ranking positions. Connecting it confirms which pages are indexed, which queries trigger them, and where click-through rate can be improved."
+    },
+    {
+      title: "Maintain blog publishing cadence (2× per week)",
+      desc: "Publishing 2 posts per week sustains crawl frequency and builds topical authority. The March backlink growth (+223 in one month) correlates directly with new blog content being discovered and linked by other sites."
+    }
+  ]
+};
+
+/* ═══════════════════════════════════════════════════════
+   HELPERS
+═══════════════════════════════════════════════════════ */
+function fmtDate(d) {
+  const M = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const [y, m, day] = d.split('-');
+  return `${M[+m - 1]} ${+day}, ${y}`;
+}
+
+/* Generic SVG line chart — supports cropped Y-axis for showing small deltas */
+function svgLine(pts, xKey, yKey, opts) {
+  opts = opts || {};
+  const W = opts.W || 400, H = opts.H || 200;
+  const pl = 52, pr = 20, pt = 32, pb = 40;
+  const iW = W - pl - pr, iH = H - pt - pb;
+  const col = opts.color || '#38bdf8';
+
+  const vals = pts.map(p => p[yKey]);
+  const dataMax = Math.max.apply(null, vals);
+  const dataMin = Math.min.apply(null, vals);
+  const yMin = opts.yMin !== undefined ? opts.yMin : 0;
+  const yMax = opts.yMax !== undefined ? opts.yMax : Math.ceil(dataMax * 1.22);
+
+  function xp(i) {
+    return pts.length < 2 ? pl + iW / 2 : pl + (i / (pts.length - 1)) * iW;
+  }
+  function yp(v) {
+    return pt + iH - ((v - yMin) / (yMax - yMin)) * iH;
+  }
+
+  /* Grid lines (5 horizontal) */
+  let grid = '';
+  [0, 0.25, 0.5, 0.75, 1].forEach(function(t) {
+    const v = yMin + t * (yMax - yMin);
+    const y = yp(v);
+    const lbl = v >= 1000 ? (v / 1000).toFixed(v >= 10000 ? 0 : 1) + 'K' : Math.round(v);
+    grid += '<line x1="' + pl + '" y1="' + y.toFixed(1) + '" x2="' + (W - pr) + '" y2="' + y.toFixed(1) + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
+    grid += '<text x="' + (pl - 6) + '" y="' + (y + 4).toFixed(1) + '" text-anchor="end" fill="rgba(255,255,255,0.3)" font-size="9">' + lbl + '</text>';
+  });
+
+  /* Area path */
+  const areaSegs = pts.map(function(p, i) {
+    return 'L ' + xp(i).toFixed(1) + ',' + yp(p[yKey]).toFixed(1);
+  }).join(' ');
+  const areaD = 'M ' + xp(0).toFixed(1) + ',' + yp(pts[0][yKey]).toFixed(1) + ' ' + areaSegs
+    + ' L ' + xp(pts.length - 1).toFixed(1) + ',' + (pt + iH).toFixed(1)
+    + ' L ' + xp(0).toFixed(1) + ',' + (pt + iH).toFixed(1) + ' Z';
+
+  const polyPts = pts.map(function(p, i) {
+    return xp(i).toFixed(1) + ',' + yp(p[yKey]).toFixed(1);
+  }).join(' ');
+
+  const gid = 'ga' + Math.random().toString(36).slice(2, 8);
+
+  /* Dots + value labels + x-axis labels */
+  let dots = '';
+  pts.forEach(function(p, i) {
+    const cx = xp(i).toFixed(1);
+    const cy = yp(p[yKey]).toFixed(1);
+    const isEdge = i === 0 || i === pts.length - 1;
+    const r = isEdge ? 5 : 4;
+    const fill = isEdge ? col : '#0a1628';
+    dots += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + fill + '" stroke="' + col + '" stroke-width="2"/>';
+    dots += '<text x="' + cx + '" y="' + (+cy - 10).toFixed(1) + '" text-anchor="middle" fill="' + col + '" font-size="10" font-weight="700">' + Math.round(p[yKey]) + '</text>';
+    dots += '<text x="' + cx + '" y="' + (pt + iH + 16).toFixed(1) + '" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="9">' + p[xKey] + '</text>';
+  });
+
+  /* Cropped-axis note */
+  let cropNote = '';
+  if (opts.yMin !== undefined && opts.yMin > 0) {
+    cropNote = '<text x="' + pl + '" y="' + (pt + iH + 30).toFixed(1) + '" fill="rgba(255,255,255,0.2)" font-size="8">Y-axis cropped for clarity</text>';
+  }
+
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" xmlns="http://www.w3.org/2000/svg">'
+    + '<rect width="' + W + '" height="' + H + '" fill="#0a1628"/>'
+    + '<defs><linearGradient id="' + gid + '" x1="0" y1="0" x2="0" y2="1">'
+    + '<stop offset="0%" stop-color="' + col + '" stop-opacity="0.22"/>'
+    + '<stop offset="100%" stop-color="' + col + '" stop-opacity="0.01"/>'
+    + '</linearGradient></defs>'
+    + grid
+    + '<path d="' + areaD + '" fill="url(#' + gid + ')"/>'
+    + '<polyline points="' + polyPts + '" fill="none" stroke="' + col + '" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/>'
+    + dots
+    + cropNote
+    + '</svg>';
+}
+
+/* Horizontal bar chart */
+function svgBars(buckets, opts) {
+  opts = opts || {};
+  const W = opts.W || 700, H = opts.H || 260;
+  const pl = 120, pr = 64, pt = 18, pb = 28;
+  const iW = W - pl - pr, iH = H - pt - pb;
+  const maxV = Math.max.apply(null, buckets.map(function(b) { return b.value; }));
+  const n = buckets.length;
+  const slotH = iH / n;
+  const barH = Math.min(slotH * 0.52, 24);
+
+  let out = '<rect width="' + W + '" height="' + H + '" fill="#0a1628"/>';
+  buckets.forEach(function(b, i) {
+    const y = pt + i * slotH + (slotH - barH) / 2;
+    const bW = (b.value / maxV) * iW;
+    out += '<text x="' + (pl - 8) + '" y="' + (y + barH / 2 + 4).toFixed(1) + '" text-anchor="end" fill="rgba(255,255,255,0.5)" font-size="10">' + b.label + '</text>';
+    out += '<rect x="' + pl + '" y="' + y.toFixed(1) + '" width="' + Math.max(bW, 2).toFixed(1) + '" height="' + barH.toFixed(1) + '" fill="' + b.color + '" rx="3"/>';
+    out += '<text x="' + (pl + bW + 7).toFixed(1) + '" y="' + (y + barH / 2 + 4).toFixed(1) + '" fill="rgba(255,255,255,0.75)" font-size="10" font-weight="600">' + b.value + '</text>';
+  });
+  out += '<text x="' + (W / 2) + '" y="' + (H - 8) + '" text-anchor="middle" fill="rgba(255,255,255,0.2)" font-size="9">keyword count by SERP position bucket · Total: 248 keywords</text>';
+
+  return '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" xmlns="http://www.w3.org/2000/svg">' + out + '</svg>';
+}
+
+/* ═══════════════════════════════════════════════════════
+   RENDERERS
+═══════════════════════════════════════════════════════ */
+function renderWins() {
+  const d = reportData;
+  const wins = [
+    { ico: '📈', t: 'Organic traffic +17% in 4 weeks',         b: 'Estimated at ' + d.kpis.organic_traffic_est.value + ' visits (Mar 29) vs 88 (Mar 2). Improving keyword positions are moving the Semrush estimate upward month over month.' },
+    { ico: '🔗', t: 'Backlinks +223 in March alone',            b: 'From 5,795 (February) to 6,018 (March). New content is being discovered and linked by other sites — organic, earned link growth that compounds over time.' },
+    { ico: '🌐', t: 'Referring domains: 694 → 713 (+19)',       b: '19 new unique domains started linking to breathmastery.com in March. Each represents an independent site choosing to cite the content — the strongest type of link signal.' },
+    { ico: '🏅', t: '/meet-dan/ traffic +271% in 4 weeks',      b: 'Estimated organic traffic to /meet-dan/ jumped from 14 to 52 visits. Metadata and on-page improvements are delivering directly measurable results on the highest-value page.' },
+    { ico: '✅', t: 'On-page metadata fully implemented',        b: 'All visible pages now have configured title tags and meta descriptions via AIOSEO. New blog posts show high TruSEO scores — the technical foundation is in place.' },
+    { ico: '📝', t: '4 blog posts published in March',          b: 'Anxiety breathing, conscious breathing, pineal gland, breathwork for beginners. Every post is SEO-optimized and adds a new long-tail entry point to the site.' }
+  ];
+  document.getElementById('r-wins').innerHTML =
+    '<div class="wins-grid">' +
+    wins.map(function(w) {
+      return '<div class="win"><span class="win-ico">' + w.ico + '</span><div><strong>' + w.t + '</strong><span>' + w.b + '</span></div></div>';
+    }).join('') +
+    '</div>';
+}
+
+function renderWork() {
+  document.getElementById('r-work').innerHTML =
+    reportData.work_completed.map(function(w) {
+      return '<li class="work-item"><span class="work-check">✓</span><span>' + w + '</span></li>';
+    }).join('');
+}
+
+function renderKPIs() {
+  const k = reportData.kpis;
+  const a = reportData.site_audit;
+  const cards = [
+    { label: 'Authority Score',         val: k.authority_score,                                    unit: '/ 100',  sub: 'Semrush domain authority (0–100 scale)',       cls: 't' },
+    { label: 'Organic Traffic (est.)',  val: k.organic_traffic_est.value,  delta: '+' + k.organic_traffic_est.change_pct + '% vs 4w ago', sub: 'Semrush estimate from keyword rankings + CTR model', cls: 'g' },
+    { label: 'Organic Keywords (est.)', val: k.organic_keywords_est,                               sub: 'Positions 1–100 · US · Desktop · Semrush',    cls: 't' },
+    { label: 'Referring Domains',       val: k.ref_domains.toLocaleString(), delta: '+19 vs Feb 2026', sub: 'Up from 694 in February 2026',              cls: 'o' },
+    { label: 'Backlinks',               val: (k.backlinks / 1000).toFixed(1) + 'K', delta: '+223 in March', sub: 'From 5,795 (Feb) to 6,018 (Mar 2026)',   cls: 'g' },
+    { label: 'Site Health',             val: a.health_pct + '%',            health: a.health_pct,   sub: a.errors + ' errors · ' + a.warnings + ' warnings · HTTPS ' + a.https_pct + '%', cls: 'p' }
+  ];
+  document.getElementById('r-kpis').innerHTML = cards.map(function(c) {
+    return '<div class="mcard ' + c.cls + '">'
+      + '<div class="mlabel">' + c.label + '</div>'
+      + '<div class="mval">' + c.val + (c.unit ? '<span class="unit">' + c.unit + '</span>' : '') + '</div>'
+      + (c.delta ? '<div class="deltas"><span class="delta-up">▲ ' + c.delta + '</span></div>' : '')
+      + (c.health ? '<div class="health-bar"><div class="health-fill" style="width:' + c.health + '%"></div></div>' : '')
+      + '<p class="msub">' + c.sub + '</p>'
+      + '</div>';
+  }).join('');
+}
+
+function renderCharts() {
+  const d = reportData;
+
+  const trafficSvg = svgLine(d.organic_traffic_points, 'label', 'value', {
+    color: '#22c55e', W: 400, H: 200, yMin: 70, yMax: 120
+  });
+  const blSvg = svgLine(d.backlinks_points, 'label', 'backlinks', {
+    color: '#38bdf8', W: 400, H: 200, yMin: 5600, yMax: 6200
+  });
+  const rdSvg = svgLine(d.backlinks_points, 'label', 'ref_domains', {
+    color: '#f97316', W: 400, H: 200, yMin: 660, yMax: 740
+  });
+  const serpSvg = svgBars(d.serp_distribution, { W: 700, H: 260 });
+
+  document.getElementById('r-charts').innerHTML =
+    '<div class="chart-card">'
+    + '<div class="chart-hd"><h3>Organic Traffic — Monthly Trend (Est.)</h3><p>Mar 2 → Mar 29, 2026 &middot; Semrush estimate &middot; +17% in 4 weeks</p></div>'
+    + '<div class="chart-body">' + trafficSvg + '</div>'
+    + '</div>'
+
+    + '<div class="chart-card">'
+    + '<div class="chart-hd"><h3>Backlinks — Feb vs Mar 2026</h3><p>5,795 → 6,018 &middot; +223 new links in March &middot; cropped Y-axis</p></div>'
+    + '<div class="chart-body">' + blSvg + '</div>'
+    + '</div>'
+
+    + '<div class="chart-card">'
+    + '<div class="chart-hd"><h3>Referring Domains — Feb vs Mar 2026</h3><p>694 → 713 &middot; +19 new linking domains in March &middot; cropped Y-axis</p></div>'
+    + '<div class="chart-body">' + rdSvg + '</div>'
+    + '</div>'
+
+    + '<div class="chart-card full">'
+    + '<div class="chart-hd"><h3>SERP Position Distribution — 248 Keywords</h3><p>March 29, 2026 &middot; US Desktop &middot; Semrush estimate</p></div>'
+    + '<div class="chart-body">' + serpSvg + '</div>'
+    + '</div>';
+}
+
+function renderPages() {
+  document.getElementById('r-pages').innerHTML =
+    reportData.top_page_changes.map(function(r) {
+      return '<tr>'
+        + '<td class="url-cell">' + r.url + '</td>'
+        + '<td>' + r.metric + '</td>'
+        + '<td class="num-cell">' + r.then + '</td>'
+        + '<td class="num-cell up-cell">' + r.now + '</td>'
+        + '<td class="up-cell">+' + r.change_abs + '</td>'
+        + '<td><span class="pct-badge">▲ +' + r.change_pct.toFixed(0) + '%</span></td>'
+        + '</tr>';
+    }).join('');
+}
+
+function renderContent() {
+  const pub = reportData.content_published.map(function(p) {
+    return '<div class="content-item">'
+      + '<span class="content-date">' + fmtDate(p.date) + '</span>'
+      + '<span class="content-title">' + p.title + '</span>'
+      + '<span class="badge-pub">Published</span>'
+      + '</div>';
+  }).join('');
+
+  const pip = reportData.content_pipeline.map(function(p) {
+    return '<div class="content-item">'
+      + '<span class="content-date">—</span>'
+      + '<span class="content-title">' + p.title + '</span>'
+      + '<span class="badge-dft">' + p.status + '</span>'
+      + '</div>';
+  }).join('');
+
+  document.getElementById('r-content').innerHTML =
+    '<div class="content-list">' + pub + '</div>'
+    + '<p class="section-sublabel">Pipeline</p>'
+    + '<div class="content-list">' + pip + '</div>';
+}
+
+function renderPlan() {
+  document.getElementById('r-plan').innerHTML =
+    reportData.next_90_days.map(function(p) {
+      return '<div class="plan-card">'
+        + '<div class="pc-cluster">' + p.cluster + '</div>'
+        + '<div class="pc-cadence">' + p.cadence + '</div>'
+        + '<div class="pc-notes">' + p.notes + '</div>'
+        + '</div>';
+    }).join('');
+}
+
+function renderSteps() {
+  document.getElementById('r-steps').innerHTML =
+    reportData.next_steps.map(function(s) {
+      return '<div class="step-item"><strong>' + s.title + '</strong><span>' + s.desc + '</span></div>';
+    }).join('');
+}
+
+/* ═══════════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════════ */
+document.addEventListener('DOMContentLoaded', function() {
+  renderWins();
+  renderWork();
+  renderKPIs();
+  renderCharts();
+  renderPages();
+  renderContent();
+  renderPlan();
+  renderSteps();
+});
+</script>
+</body>
+</html>

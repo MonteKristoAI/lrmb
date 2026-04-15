@@ -1,0 +1,21 @@
+name = "aiiaco-prerender"
+main = "src/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Cloudflare Browser Rendering binding (requires Workers Paid plan)
+browser = { binding = "BROWSER" }
+
+# KV namespace for caching pre-rendered HTML (7-day TTL)
+# Create with: npx wrangler kv namespace create PRERENDER_CACHE
+# Then paste the returned id below
+[[kv_namespaces]]
+binding = "PRERENDER_CACHE"
+id = "TO_BE_FILLED_AFTER_KV_CREATE"
+
+# Observability
+[observability]
+enabled = true
+
+# Route: configure after deploy
+# Workers Routes > Add Route > aiiaco.com/* > aiiaco-prerender

@@ -1,0 +1,82 @@
+{
+  "query": "SHOW TABLES; DESCRIBE leads;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SHOW TABLES; DESCRIBE leads;",
+  "rows": [
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "__drizzle_migrations"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "admin_users"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "leads"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "users"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "Field\tType\tNull\tKey\tDefault\tExtra"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "id\tint\tNO\tPRI\tNULL\tauto_increment"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "type\tenum('call','intake')\tNO\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "name\tvarchar(255)\tNO\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "email\tvarchar(320)\tNO\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "company\tvarchar(255)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "phone\tvarchar(64)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "industry\tvarchar(128)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "engagementModel\tvarchar(128)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "annualRevenue\tvarchar(64)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "message\ttext\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "status\tenum('new','reviewed','contacted','closed')\tNO\t\tnew\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "createdAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "updatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "investmentType\tvarchar(64)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "budgetRange\tvarchar(64)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "problemCategory\tvarchar(255)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "problemDetail\ttext\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "callPreference\tvarchar(128)\tYES\t\tNULL\t"
+    },
+    {
+      "Tables_in_jiUKWZNCEesKEKgdJkoZwj": "leadSource\tvarchar(128)\tYES\t\tNULL\t"
+    }
+  ],
+  "messages": [],
+  "stdout": "Tables_in_jiUKWZNCEesKEKgdJkoZwj\n__drizzle_migrations\nadmin_users\nleads\nusers\nField\tType\tNull\tKey\tDefault\tExtra\nid\tint\tNO\tPRI\tNULL\tauto_increment\ntype\tenum('call','intake')\tNO\t\tNULL\t\nname\tvarchar(255)\tNO\t\tNULL\t\nemail\tvarchar(320)\tNO\t\tNULL\t\ncompany\tvarchar(255)\tYES\t\tNULL\t\nphone\tvarchar(64)\tYES\t\tNULL\t\nindustry\tvarchar(128)\tYES\t\tNULL\t\nengagementModel\tvarchar(128)\tYES\t\tNULL\t\nannualRevenue\tvarchar(64)\tYES\t\tNULL\t\nmessage\ttext\tYES\t\tNULL\t\nstatus\tenum('new','reviewed','contacted','closed')\tNO\t\tnew\t\ncreatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\t\nupdatedAt\ttimestamp\tNO\t\tCURRENT_TIMESTAMP\tDEFAULT_GENERATED on update CURRENT_TIMESTAMP\ninvestmentType\tvarchar(64)\tYES\t\tNULL\t\nbudgetRange\tvarchar(64)\tYES\t\tNULL\t\nproblemCategory\tvarchar(255)\tYES\t\tNULL\t\nproblemDetail\ttext\tYES\t\tNULL\t\ncallPreference\tvarchar(128)\tYES\t\tNULL\t\nleadSource\tvarchar(128)\tYES\t\tNULL\t\n",
+  "stderr": "",
+  "execution_time_ms": 394
+}

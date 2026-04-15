@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Clarity — Choose Your Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal-dark:#0a2e2a;--teal-mid:#0d3d38;--teal-light:#19a08a;--teal-bright:#00b8a0;--teal-pale:#e0f5f2;
+  --orange:#ff5500;--orange-light:#ff7733;--orange-pale:#fff2ec;
+  --white:#fff;--cream:#f8fffe;
+  --td:#0a2e2a;--tm:#1a4a44;--tmu:#4a8a82;--tl:#7ab8b0;
+  --b:rgba(10,46,42,0.14);--bo:rgba(255,85,0,0.22);
+}
+body{font-family:'Source Sans 3',sans-serif;background:var(--cream);color:var(--td);}
+.pg{max-width:460px;margin:0 auto;padding-bottom:48px;}
+.hero{background:var(--teal-dark);padding:48px 28px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-70px;right:-70px;width:220px;height:220px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.hero-tl{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff5500 35%,#ff5500 65%,transparent);}
+.wm{font-family:'Lora',serif;font-size:18px;letter-spacing:0.14em;text-transform:uppercase;margin-bottom:18px;position:relative;z-index:1;}
+.wm-m{color:rgba(255,255,255,0.9);}
+.wm-c{color:#ff5500;}
+.hh{font-family:'Lora',serif;font-size:30px;font-weight:500;color:#fff;line-height:1.25;margin-bottom:8px;position:relative;z-index:1;}
+.hh i{color:#ff5500;}
+.htl{font-family:'Lora',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.3);margin-bottom:14px;position:relative;z-index:1;}
+.hdiv{width:36px;height:2px;background:rgba(255,85,0,0.5);margin:0 auto 14px;position:relative;z-index:1;}
+.hsub{font-size:15px;color:rgba(255,255,255,0.5);line-height:1.65;font-weight:300;position:relative;z-index:1;}
+.tbar{background:var(--teal-pale);border-bottom:1px solid rgba(0,184,160,0.2);padding:14px 20px;display:flex;align-items:center;gap:12px;}
+.tav{width:44px;height:44px;border-radius:50%;background:#ff5500;display:flex;align-items:center;justify-content:center;font-family:'Lora',serif;font-size:16px;color:#fff;flex-shrink:0;}
+.tn{font-size:15px;font-weight:500;color:var(--td);}
+.tc{font-size:12px;color:var(--tmu);font-weight:300;line-height:1.4;}
+.slbl{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:var(--tmu);text-align:center;padding:22px 0 14px;}
+.tog-w{display:flex;justify-content:center;margin-bottom:20px;}
+.tog{background:var(--teal-pale);border:1px solid rgba(0,184,160,0.25);border-radius:28px;display:flex;padding:3px;}
+.tb{font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;padding:7px 18px;border-radius:24px;border:none;cursor:pointer;background:transparent;color:var(--tmu);transition:all 0.2s;}
+.tb.on{background:var(--teal-dark);color:#fff;}
+.sp{background:rgba(255,85,0,0.12);color:#ff5500;font-size:11px;font-weight:500;padding:3px 8px;border-radius:14px;border:1px solid rgba(255,85,0,0.2);margin-left:6px;}
+.cards{display:flex;flex-direction:column;gap:12px;padding:0 14px;}
+.card{border-radius:14px;overflow:hidden;border:1.5px solid var(--b);background:var(--white);}
+.ct{padding:18px 18px 14px;}
+.ctier{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px;}
+.cname{font-family:'Lora',serif;font-size:22px;font-weight:500;margin-bottom:3px;}
+.ctag{font-size:13px;color:var(--tmu);font-weight:300;margin-bottom:14px;}
+.pr{display:flex;align-items:baseline;gap:3px;margin-bottom:3px;}
+.pa{font-family:'Lora',serif;font-size:34px;font-weight:500;}
+.pp{font-size:14px;color:var(--tmu);font-weight:300;}
+.pan{font-size:12px;color:var(--tmu);font-weight:300;margin-bottom:14px;min-height:16px;}
+.cbtn{width:100%;border-radius:9px;font-family:'Source Sans 3',sans-serif;font-size:16px;font-weight:500;padding:14px;cursor:pointer;border:none;transition:all 0.2s;}
+.cdiv{height:1px;background:var(--b);}
+.cf{padding:14px 18px 16px;}
+.cfl{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--tl);margin-bottom:8px;}
+.fl{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.fl li{display:flex;gap:9px;font-size:14px;color:var(--td);line-height:1.4;font-weight:300;}
+.ck{width:16px;height:16px;border-radius:50%;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;}
+.cn{font-size:12px;color:var(--tmu);text-align:center;padding:8px 18px 14px;font-style:italic;font-family:'Lora',serif;}
+.c1 .ctier{color:#ff5500;}
+.c1 .pa,.c1 .cname{color:var(--td);}
+.c1 .cbtn{background:#fff;color:#0a2e2a;box-shadow:0 3px 12px rgba(0,0,0,0.15);}
+.c1 .cbtn:hover{background:#ff7733;}
+.c1 .ck{background:var(--orange-pale);color:#ff5500;}
+.c2{border:2px solid var(--teal-dark);}
+.c2 .ct{background:var(--teal-dark);}
+.c2 .ctier{color:#ff7733;}
+.c2 .cname,.c2 .pa{color:#fff;}
+.c2 .ctag,.c2 .pp,.c2 .pan{color:rgba(255,255,255,0.4);}
+.c2 .cbtn{background:#ff5500;color:#fff;box-shadow:0 3px 14px rgba(255,85,0,0.35);}
+.c2 .cbtn:hover{background:#ff7733;}
+.c2 .ck{background:rgba(255,85,0,0.15);color:#ff7733;}
+.pop{display:inline-block;background:rgba(255,85,0,0.12);border:1px solid rgba(255,85,0,0.3);color:#ff5500;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;padding:3px 10px;border-radius:14px;margin-bottom:6px;}
+.c3 .ct{background:var(--teal-pale);}
+.c3 .ctier{color:var(--teal-light);}
+.c3 .cname,.c3 .pa{color:var(--td);}
+.c3 .cbtn{background:var(--teal-dark);color:#fff;box-shadow:0 3px 12px rgba(10,46,42,0.2);}
+.c3 .cbtn:hover{background:var(--teal-mid);}
+.c3 .ck{background:var(--teal-pale);color:var(--teal-light);}
+.inv{background:rgba(0,184,160,0.08);border:1px solid rgba(0,184,160,0.2);border-radius:7px;padding:8px 12px;margin-top:10px;font-size:13px;color:var(--teal-mid);text-align:center;line-height:1.4;}
+.gt{margin:20px 14px 0;background:var(--teal-pale);border:1px solid rgba(0,184,160,0.2);border-radius:12px;padding:16px;text-align:center;}
+.gt-t{font-family:'Lora',serif;font-size:16px;font-weight:500;color:var(--td);margin-bottom:5px;}
+.gt-s{font-size:13px;color:var(--tmu);line-height:1.55;font-weight:300;}
+.tnote{margin:16px 14px 0;padding:16px;border-left:3px solid #ff5500;background:var(--white);border-radius:0 10px 10px 0;}
+.nt{font-family:'Lora',serif;font-size:14px;font-style:italic;color:var(--teal-mid);line-height:1.75;}
+.ns{font-size:13px;color:var(--tmu);margin-top:7px;font-weight:300;}
+.faq{padding:20px 14px 0;}
+.faq-h{font-family:'Lora',serif;font-size:18px;font-weight:500;color:var(--td);margin-bottom:12px;}
+.fi{border-bottom:1px solid var(--b);padding:12px 0;cursor:pointer;}
+.fq{font-size:14px;font-weight:500;color:var(--td);display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.fa-arr{color:var(--tl);transition:transform 0.2s;flex-shrink:0;font-size:18px;}
+.fa{font-size:13px;color:var(--tmu);line-height:1.65;font-weight:300;max-height:0;overflow:hidden;transition:max-height 0.3s ease,padding 0.3s;}
+.fi.open .fa{max-height:200px;padding-top:8px;}
+.fi.open .fa-arr{transform:rotate(180deg);}
+.disc{padding:20px 14px 0;font-size:11px;color:var(--tl);line-height:1.7;font-weight:300;text-align:center;}
+.fwm{font-family:'Lora',serif;font-size:12px;font-style:italic;color:var(--tl);text-align:center;margin-top:10px;padding-bottom:8px;}
+.bs2{background:#fff;color:#0a2e2a;border:2px solid rgba(10,46,42,0.14);border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px;cursor:pointer;text-align:center;width:100%;position:relative;z-index:1;}
+</style>
+</head>
+<body>
+<div class="pg">
+<div class="hero">
+  <div class="hero-tl"></div>
+  <div class="wm"><span class="wm-m">Money</span><span class="wm-c">Clarity</span></div>
+  <h1 class="hh">Always <i>know</i><br>where you stand.</h1>
+  <div class="htl">Know where you stand.</div>
+  <div class="hdiv"></div>
+  <p class="hsub">Choose the level of clarity that fits where you are right now. Cancel anytime.</p>
+</div>
+<div class="tbar">
+  <div class="tav">T</div>
+  <div><div class="tn">Tina Singh</div><div class="tc">25 years on Wall Street · $11B raised · Founder, Money Clarity</div></div>
+</div>
+<div class="slbl">Choose your plan</div>
+<div class="tog-w">
+  <div class="tog">
+    <button class="tb on" id="tmo" onclick="setB('monthly',this)">Monthly</button>
+    <button class="tb" id="tan" onclick="setB('annual',this)">Annual <span class="sp">Save 20%</span></button>
+  </div>
+</div>
+<div class="cards">
+<div class="card c1">
+  <div class="ct">
+    <div class="ctier">Clarity</div>
+    <div class="cname">Starter</div>
+    <div class="ctag">Know where you stand, every month</div>
+    <div class="pr"><span class="pa" id="p1">$27</span><span class="pp">/month</span></div>
+    <div class="pan" id="pa1"></div>
+    <button class="cbtn" id="b1" onclick="window.location.href='https://buy.stripe.com/28E14pfxP51u3c20QSd7q05'">Get started — $27/month</button>
+  </div>
+  <div class="cdiv"></div>
+  <div class="cf">
+    <div class="cfl">What's included</div>
+    <ul class="fl">
+      <li><div class="ck">✓</div>Monthly Money Moment video — 5 min, filmed by the lake</li>
+      <li><div class="ck">✓</div>Monthly Clarity Check-in — your recommendation refreshed</li>
+      <li><div class="ck">✓</div>All 7 outcome videos matched to your situation</li>
+      <li><div class="ck">✓</div>Simple Money Skills workshop library</li>
+      <li><div class="ck">✓</div>Private subscriber community</li>
+    </ul>
+  </div>
+</div>
+<div class="card c2">
+  <div class="ct">
+    <div class="pop">Most popular</div>
+    <div class="ctier">Clarity Pro</div>
+    <div class="cname">Deep Dive</div>
+    <div class="ctag">Understand the why behind every move</div>
+    <div class="pr"><span class="pa" id="p2">$49</span><span class="pp">/month</span></div>
+    <div class="pan" id="pa2"></div>
+    <button class="cbtn" id="b2" onclick="window.location.href='https://buy.stripe.com/00w8wR2L38dG27YdDEd7q02'">Get started — $49/month</button>
+  </div>
+  <div class="cdiv"></div>
+  <div class="cf">
+    <div class="cfl" style="color:rgba(255,255,255,0.35)">Everything in Starter, plus</div>
+    <ul class="fl" style="color:#fff">
+      <li><div class="ck" style="background:rgba(255,85,0,0.18);color:#ff7733">✓</div>Monthly live workshop — 45 min deep dive, one financial topic</li>
+      <li><div class="ck" style="background:rgba(255,85,0,0.18);color:#ff7733">✓</div>Financial Situation of the Month — real scenario, Tina's analysis</li>
+      <li><div class="ck" style="background:rgba(255,85,0,0.18);color:#ff7733">✓</div>Monthly curated reading list — 3 worth reading, 1 to skip</li>
+      <li><div class="ck" style="background:rgba(255,85,0,0.18);color:#ff7733">✓</div>Priority community — your questions answered first</li>
+    </ul>
+  </div>
+  <div class="cn" style="color:rgba(255,255,255,0.4)">Your monthly live workshop is your standing appointment with clarity.</div>
+</div>
+<div class="card c3">
+  <div class="ct">
+    <div class="ctier">Inner Circle</div>
+    <div class="cname">Direct Access</div>
+    <div class="ctag">Tina's perspective, applied to your situation</div>
+    <div class="pr"><span class="pa" id="p3">$199</span><span class="pp">/month</span></div>
+    <div class="pan" id="pa3"></div>
+    <button class="cbtn" id="b3" onclick="window.location.href='https://buy.stripe.com/aFa6oJ1GZ8dG4g6czAd7q01'">Apply for Inner Circle</button>
+    <div class="inv">Limited to 25 members. Invitation or application required.</div>
+  </div>
+  <div class="cdiv"></div>
+  <div class="cf">
+    <div class="cfl" style="color:var(--teal-light)">Everything in Deep Dive, plus</div>
+    <ul class="fl">
+      <li><div class="ck" style="background:var(--teal-pale);color:var(--teal-light)">✓</div>Monthly small group session — max 10 people, live with Tina</li>
+      <li><div class="ck" style="background:var(--teal-pale);color:var(--teal-light)">✓</div>Quarterly personal education brief — written for your situation</li>
+      <li><div class="ck" style="background:var(--teal-pale);color:var(--teal-light)">✓</div>Direct community access — tag Tina with your questions</li>
+      <li><div class="ck" style="background:var(--teal-pale);color:var(--teal-light)">✓</div>First access to live events and new programs</li>
+    </ul>
+  </div>
+  <div class="cn" style="color:var(--teal-light)">Educational guidance only. Not financial advice.</div>
+</div>
+</div>
+<div style="margin:20px 14px 0;text-align:center;">
+  <button class="bs2" onclick="window.location.href='MoneyClarityGuide.pdf'">Download Your Free Report</button>
+  <p style="font-size:12px;color:var(--tl);margin-top:6px;font-weight:300;font-style:italic;font-family:'Lora',serif;">No signup required. See where you stand right now.</p>
+</div>
+<div class="gt">
+  <div class="gt-t">30-day guarantee</div>
+  <p class="gt-s">If you're not clearer about your financial situation within 30 days, email us for a full refund. No questions asked.</p>
+</div>
+<div class="tnote">
+  <p class="nt">"I built this because the people who navigate money well aren't smarter than everyone else. They just check in more often. That's what this is for."</p>
+  <div class="ns">— Tina Singh, Founder · moneyclarity.me</div>
+</div>
+<div class="faq">
+  <h2 class="faq-h">Questions</h2>
+  <div class="fi" onclick="tF(this)"><div class="fq">Is this financial advice? <span class="fa-arr">&#8964;</span></div><div class="fa">No. Everything inside Money Clarity is educational guidance only. Tina Singh is not a registered investment advisor. Nothing here constitutes a financial recommendation.</div></div>
+  <div class="fi" onclick="tF(this)"><div class="fq">Can I cancel anytime? <span class="fa-arr">&#8964;</span></div><div class="fa">Yes, completely. No contracts, no cancellation fees. Cancel from your account dashboard at any time.</div></div>
+  <div class="fi" onclick="tF(this)"><div class="fq">How does the Inner Circle work? <span class="fa-arr">&#8964;</span></div><div class="fa">The Inner Circle is limited to 25 members. You can apply directly or be invited by Tina after 60+ days as a Deep Dive subscriber.</div></div>
+  <div class="fi" onclick="tF(this)"><div class="fq">What happens right after I sign up? <span class="fa-arr">&#8964;</span></div><div class="fa">You'll receive a welcome email within minutes with access to the community and all existing content. Your first Monthly Money Moment arrives on the 1st of the following month.</div></div>
+</div>
+<div class="disc">This platform is for educational purposes only and does not constitute financial advice. Money Clarity is not a registered investment advisor.</div>
+<div class="fwm">Money Clarity · Know where you stand. · moneyclarity.me</div>
+</div>
+<script>
+const mo=['$27','$49','$199'],an=['$22','$39','$159'];
+const anN=['Billed $264/year — save $60','Billed $468/year — save $120','Billed $1,908/year — save $480'];
+const moB=['Get started — $27/month','Get started — $49/month','Apply for Inner Circle'];
+const anB=['Get started — $22/month','Get started — $39/month','Apply for Inner Circle'];
+const stripeLinks={
+  monthly:['https://buy.stripe.com/28E14pfxP51u3c20QSd7q05','https://buy.stripe.com/00w8wR2L38dG27YdDEd7q02','https://buy.stripe.com/aFa6oJ1GZ8dG4g6czAd7q01'],
+  annual:['https://buy.stripe.com/fZu14pclD79CdQG2Z0d7q04','https://buy.stripe.com/00w8wR2L38dG27YdDEd7q02','https://buy.stripe.com/fZu14p4Tb2Tm3c29nod7q00']
+};
+function setB(b,el){
+  document.querySelectorAll('.tb').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  ['1','2','3'].forEach((n,i)=>{
+    document.getElementById('p'+n).textContent=b==='monthly'?mo[i]:an[i];
+    document.getElementById('pa'+n).textContent=b==='annual'?anN[i]:'';
+    document.getElementById('b'+n).textContent=b==='monthly'?moB[i]:anB[i];
+    document.getElementById('b'+n).onclick=function(){window.location.href=stripeLinks[b][i];};
+  });
+}
+function tF(el){
+  const was=el.classList.contains('open');
+  document.querySelectorAll('.fi').forEach(f=>f.classList.remove('open'));
+  if(!was)el.classList.add('open');
+}
+</script>
+</body>
+</html>

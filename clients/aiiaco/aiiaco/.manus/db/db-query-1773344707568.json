@@ -1,0 +1,34 @@
+{
+  "query": "SELECT id, name, email, status, conversationId, emailStatus FROM leads WHERE email LIKE 'voice-%@aiiaco.com' ORDER BY id DESC LIMIT 20;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, status, conversationId, emailStatus FROM leads WHERE email LIKE 'voice-%@aiiaco.com' ORDER BY id DESC LIMIT 20;",
+  "rows": [
+    {
+      "id": "90010",
+      "name": "anything to",
+      "email": "voice-conv_9301kkhqtcf9fgnr6an9a32df33q@aiiaco.com",
+      "status": "new",
+      "conversationId": "conv_9301kkhqtcf9fgnr6an9a32df33q",
+      "emailStatus": "not_applicable"
+    },
+    {
+      "id": "90007",
+      "name": "about",
+      "email": "voice-conv_6401kkfbttn8faw8ge180qvxct3z@aiiaco.com",
+      "status": "new",
+      "conversationId": "conv_6401kkfbttn8faw8ge180qvxct3z",
+      "emailStatus": "pending"
+    },
+    {
+      "id": "90001",
+      "name": "Voice Caller",
+      "email": "voice-conv_1101kkhf78vke4bbygmffxgadvdn@aiiaco.com",
+      "status": "new",
+      "conversationId": "conv_1101kkhf78vke4bbygmffxgadvdn",
+      "emailStatus": "pending"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tstatus\tconversationId\temailStatus\n90010\tanything to\tvoice-conv_9301kkhqtcf9fgnr6an9a32df33q@aiiaco.com\tnew\tconv_9301kkhqtcf9fgnr6an9a32df33q\tnot_applicable\n90007\tabout\tvoice-conv_6401kkfbttn8faw8ge180qvxct3z@aiiaco.com\tnew\tconv_6401kkfbttn8faw8ge180qvxct3z\tpending\n90001\tVoice Caller\tvoice-conv_1101kkhf78vke4bbygmffxgadvdn@aiiaco.com\tnew\tconv_1101kkhf78vke4bbygmffxgadvdn\tpending\n",
+  "stderr": "",
+  "execution_time_ms": 349
+}

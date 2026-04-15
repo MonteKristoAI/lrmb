@@ -1,0 +1,45 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://aiiaco.com/results/#webpage",
+      "url": "https://aiiaco.com/results/",
+      "name": "AI Implementation Results - Measurable Business Outcomes | AIIA Co",
+      "description": "Real results from AIIA's AI integration engagements - documented time savings, cost reductions, and revenue impact across mid-market and enterprise clients.",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "AI Implementation Outcomes",
+        "description": "Quantified business results from deploying AI integrations, automations, and intelligent workflows across sales, operations, and customer success functions."
+      },
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/results/#breadcrumb"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/results/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Results",
+          "item": "https://aiiaco.com/results/"
+        }
+      ]
+    }
+  ]
+}

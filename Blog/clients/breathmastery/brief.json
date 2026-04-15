@@ -1,0 +1,133 @@
+{
+  "client": "breathmastery",
+  "last_distilled": "2026-04-02",
+  "rebuild_if_changed": ["FEEDBACK.md", "STYLE.md", "BRAND.md", "CLIENT.md"],
+
+  "identity": {
+    "founder": "Dan Brulé",
+    "persona": "breathmastery",
+    "cms": "wordpress",
+    "seo_plugin": "AIOSEO",
+    "website": "https://breathmastery.com",
+    "author_byline": "By Dan Brulé, Founder of Breath Mastery | 50+ years, 73 countries",
+    "lineage": "300,000+ people trained, 73 countries, 50+ years",
+    "review_doc_id": "1x6TSrHb3RLTMcPdqOETgrjMSx8a_JnEvpuWipcARCKM",
+    "airtable_base": "appZaD3T174afBSaq",
+    "airtable_requests_table": "tblyq7MN2svfMrZNy",
+    "airtable_generated_table": "tbl3yijxMg5P58Q6c"
+  },
+
+  "voice": {
+    "type": "Dan Brulé — ONE voice for everything. No admin voice. All posts are Dan's voice.",
+    "feel": "A handwritten letter from a mentor. Dan is leaning forward, 50 years of experience behind every word. Warm, missionary-like, practice-first. Even structured SEO posts feel like Dan wrote them because he cared about getting this topic right.",
+    "rules": [
+      "ALWAYS Dan's voice — personal/devotional AND SEO/technique posts",
+      "Open with a moment, problem, or experience — never a definition",
+      "Show sensation before mechanism — what does it FEEL like first",
+      "Physical commands as short fragments: 'Relax the jaw. Soften the inhale.'",
+      "One-line wisdom after practical sections — Dan's distillation style",
+      "Science by institution name: 'Stanford researchers found...' not citation format",
+      "Safety note: ONE consolidated note, never scattered across sections",
+      "Sentence rhythm: high burstiness — 3-word fragments mixed with flowing 25-word sentences",
+      "CTAs: Dan's invitation — 'If you're ready to go deeper...'",
+      "Reference Dan's 50+ years, 73 countries, 300,000+ people at least once per post",
+      "Use Dan's coined phrases verbatim (see brand_phrases)",
+      "ALWAYS close with: 'Good luck in your practice, and many blessings on your path.'",
+      "ALWAYS byline: Dan (Guchu Ram Singh)"
+    ]
+  },
+
+  "brand_phrases": [
+    "Regulation beats intensity",
+    "Steady usually goes further than intense",
+    "In breathwork, gentleness usually takes you further than intensity",
+    "Relaxation is half the work in Breathwork",
+    "The goal is not to force an experience. The goal is to build a relationship with the breath.",
+    "Soften the inhale until the breath becomes quiet again.",
+    "Many beginners aren't doing breathwork 'wrong.'",
+    "Shortcut reminder: when in doubt, soften the inhale.",
+    "Calm comes from relaxed pacing — not from 'more.'",
+    "Wake up, let go, and take charge!"
+  ],
+
+  "dont": [
+    "delve", "tapestry", "nuanced", "realm", "landscape (metaphorical)", "multifaceted", "pivotal",
+    "utilize", "facilitate", "elucidate", "harness (metaphorical)", "comprehensive (generic)",
+    "robust", "seamless", "cutting-edge", "transformative (generic)", "innovative (generic)",
+    "dynamic", "agile", "game-changer", "unlock (metaphorical)", "revolutionize",
+    "crucial", "moreover", "furthermore", "additionally", "nevertheless", "nonetheless",
+    "thus (filler)", "hence", "in conclusion", "it's worth noting", "it's important to note",
+    "dive deep", "boost your wellness", "enhance your health", "optimize your well-being"
+  ],
+
+  "required_elements": [
+    "Key Takeaways box (5 bullets — 2+ must contain statistics with inline sources)",
+    "Author byline immediately after H1 (visible in HTML body)",
+    "Embedded practice exercise — reader can do it right now",
+    "One consolidated safety note (health/breathing posts only — not scattered)",
+    "Dan lineage mention: 300,000+ people, 73 countries, 50+ years",
+    "CTA matched to post type (see cta_products)",
+    "Further reading: 4 links, none duplicating body links",
+    "FAQ: 5+ pairs, 40-60 words each, fully self-contained answers"
+  ],
+
+  "cta_products": {
+    "beginner_entry": {
+      "name": "Breath & Beyond",
+      "price": "$97",
+      "url": "https://breathmastery.com/product/breath-beyond/"
+    },
+    "practice_building": {
+      "name": "Mastering The Breath",
+      "price": "$97",
+      "url": "https://breathmastery.com/product/mastering-the-breath/"
+    },
+    "deep_science": {
+      "name": "Legacy Collection",
+      "price": "$397 (7 courses, 500+ lessons)",
+      "url": "https://breathmastery.com/product/dan-brules-breathwork-legacy-collection/"
+    },
+    "professional": {
+      "name": "Practitioner Certification",
+      "price": "$7,560",
+      "url": "https://breathmastery.com/practitioner-program/"
+    },
+    "free_fallback": {
+      "name": "21-Day Training",
+      "price": "free",
+      "url": "https://breathmastery.com/21daytraininginbreathwork/"
+    },
+    "NEVER_LINK": "/product-category/training-programs/ — this is a 404 error"
+  },
+
+  "internal_link_rules": {
+    "format": "/slug/ — no /blog/ prefix, no full domain (D-010)",
+    "source": "SITEMAP.md is the ONLY valid source of slugs",
+    "no_same_batch_linking": true,
+    "product_links": "https:// full URL for /product/ links — keep full domain"
+  },
+
+  "last_feedback": [
+    "2026-03-15 Dan email: Anti-force micro-phrases are canonical. Never make beginners feel wrong or inadequate. Use verbatim: 'Soften the inhale until the breath becomes quiet again.' 'In breathwork, steady usually goes further than intense.' /product-category/training-programs/ is 404 — never link.",
+    "2026-03-10 Dan email: Don't front-load or scatter heavy safety paragraphs — one brief consolidated safety note. Don't over-reference science for experiential/spiritual topics (pineal gland, third eye, energy breathing, Still Point). Dan is the final arbiter of Voice A posts.",
+    "2026-03-08 Paul Taubman (Digital Maestro, Dan agreed): Don't keyword-stuff headings — H1 establishes the keyword, vary all subsequent headings with synonyms and angles. Write for the reader, not the search engines."
+  ],
+
+  "off_limits": [
+    "Claiming breathwork cures or treats medical conditions",
+    "Spiritual claims presented as established medical fact",
+    "Naming competitor programs or brands",
+    "/product-category/training-programs/ (404 error — never link)"
+  ],
+
+  "preferred_sources": [
+    "Stanford (pubmed.ncbi.nlm.nih.gov for citations)",
+    "Harvard Health (health.harvard.edu)",
+    "NCCIH / NIH (nccih.nih.gov)",
+    "HeartMath Institute (heartmath.org)",
+    "PubMed (with PMID in URL)",
+    "Cleveland Clinic (my.clevelandclinic.org)",
+    "Columbia University Medical",
+    "JAMA / JAMA Internal Medicine"
+  ]
+}

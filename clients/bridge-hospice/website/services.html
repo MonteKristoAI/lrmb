@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Our Services - Bridge Hospice | Comprehensive End-of-Life Care in Lubbock, TX</title>
+  <meta name="description" content="Bridge Hospice offers 12+ comprehensive end-of-life services in Lubbock, TX: 24/7 nursing, pain management, counseling, bereavement support, medical equipment, and more. Call 806-993-3900.">
+
+  <!-- Fonts: Playfair Display (headings) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="css/styles.css?v=3">
+
+  <style>
+    /* ================================================================
+       NAV (shared with index)
+       ================================================================ */
+    .nav {
+      position: relative; z-index: 20;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 56px;
+      background: var(--navy-900);
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 20px 24px; }
+    }
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: rgba(240,236,228,0.95);
+    }
+    .nav-logo em {
+      font-style: italic;
+      color: var(--gold-400);
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(240,236,228,0.45);
+      list-style: none;
+    }
+    .nav-links a {
+      position: relative;
+      transition: color 0.4s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold-500);
+      transform: scaleX(0);
+      transition: transform 0.4s var(--ease);
+    }
+    .nav-links a:hover { color: rgba(240,236,228,1); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links .active { color: rgba(240,236,228,0.85); }
+    .nav-links .active::after { transform: scaleX(1); opacity: 0.5; }
+    .nav-phone {
+      font-size: 0.72rem;
+      color: var(--gold-500);
+      letter-spacing: 0.05em;
+      padding: 10px 24px;
+      border: 1px solid rgba(200,169,110,0.25);
+      border-radius: 6px;
+      transition: all 0.4s;
+    }
+    .nav-phone:hover {
+      background: rgba(200,169,110,0.08);
+      border-color: rgba(200,169,110,0.5);
+    }
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-phone { font-size: 0.65rem; padding: 8px 16px; }
+    }
+
+    /* ================================================================
+       CTA SECTION
+       ================================================================ */
+    .cta-section {
+      text-align: center;
+    }
+    .cta-section h2 {
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+    .cta-section p {
+      color: rgba(240,236,228,0.5);
+      max-width: 520px;
+      margin: 0 auto 32px;
+      line-height: 1.8;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link sr-only">Skip to main content</a>
+
+  <!-- ============================================
+       NAVIGATION
+       ============================================ -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="index.html" class="nav-logo" style="display:flex; align-items:center;"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:40px; width:auto;"></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html" class="active" aria-current="page">Services</a></li>
+        <li><a href="valor.html">Valor</a></li>
+        <li><a href="daves-wish.html">Dave's Wish</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="referral.html">Referral</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <a href="tel:8069933900" class="nav-phone">806-993-3900</a>
+    </nav>
+  </header>
+
+  <style>
+    /* ================================================================
+       SERVICES PAGE — CINEMATIC SECTIONS
+       ================================================================ */
+
+    /* --- Services Overview (photo bleed) --- */
+    .services-overview {
+      position: relative;
+      overflow: hidden;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      padding: 96px 0;
+    }
+    .services-overview__img {
+      position: absolute; inset: 0; z-index: 1;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.3) brightness(0.25);
+    }
+    .services-overview__fade {
+      position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(90deg, rgba(11,25,41,0.92) 0%, rgba(11,25,41,0.7) 45%, rgba(11,25,41,0.15) 100%);
+    }
+    .services-overview .container { position: relative; z-index: 10; }
+    .services-overview__text { max-width: 560px; }
+    .services-overview__text .section-overline { color: var(--gold-300); justify-content: flex-start; margin-bottom: 20px; }
+    .services-overview__text .section-overline::before,
+    .services-overview__text .section-overline::after { background: var(--gold-400); opacity: 0.5; }
+    .services-overview__text h2 {
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      margin-bottom: 20px;
+    }
+    .services-overview__text p {
+      color: rgba(255,255,255,0.75);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      font-size: var(--text-lg);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 768px) {
+      .services-overview { min-height: auto; padding: 64px 0; }
+      .services-overview__fade {
+        background: linear-gradient(180deg, rgba(11,25,41,0.92) 0%, rgba(11,25,41,0.85) 100%);
+      }
+    }
+
+    /* --- 12 Services Grid (upgraded cards) --- */
+    .services-grid-section { padding: 96px 0; background: var(--cream-light); }
+    @media (max-width: 768px) { .services-grid-section { padding: 64px 0; } }
+
+    .svc-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      overflow: hidden;
+      transition: all 0.5s var(--ease);
+    }
+    .svc-card:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-6px);
+    }
+    .svc-card__body { padding: 32px 28px; }
+    .svc-card__icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: rgba(200,169,110,0.06);
+      border: 2px solid rgba(200,169,110,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.35rem;
+      color: var(--gold-500);
+      transition: all 0.4s var(--ease);
+    }
+    .svc-card:hover .svc-card__icon {
+      background: rgba(200,169,110,0.1);
+      border-color: var(--gold-500);
+      box-shadow: 0 0 0 4px rgba(200,169,110,0.08);
+    }
+    .svc-card__body h3 {
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+      color: var(--navy-800);
+    }
+    .svc-card__body p {
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      line-height: 1.75;
+    }
+
+    /* --- Journey (cinematic prairie) --- */
+    .journey-cinematic {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0;
+    }
+    .journey-cinematic__img {
+      position: absolute; inset: 0; z-index: 1;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.25) brightness(0.2);
+    }
+    .journey-cinematic__fade {
+      position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(180deg, rgba(11,25,41,0.7) 0%, rgba(11,25,41,0.85) 50%, rgba(11,25,41,0.7) 100%);
+    }
+    .journey-cinematic .container { position: relative; z-index: 10; }
+    .journey-cinematic .section-header { margin-bottom: 48px; }
+    .journey-cinematic .section-header .section-overline { color: var(--gold-300); }
+    .journey-cinematic .section-header .section-overline::before,
+    .journey-cinematic .section-header .section-overline::after { background: var(--gold-400); opacity: 0.5; }
+    .journey-cinematic .section-header h2 {
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .journey-cinematic .section-header .section-desc {
+      color: rgba(255,255,255,0.6);
+      text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    }
+
+    /* Glass card */
+    .journey-glass {
+      background: rgba(11,25,41,0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(200,169,110,0.1);
+      border-radius: 16px;
+      padding: 48px 40px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .journey-glass { padding: 32px 20px; }
+      .journey-cinematic { padding: 64px 0; }
+    }
+
+    /* Horizontal timeline */
+    .journey-timeline {
+      display: flex;
+      gap: 0;
+      position: relative;
+    }
+    .journey-timeline::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-500), var(--gold-300), var(--gold-500));
+      opacity: 0.25;
+      z-index: 1;
+    }
+    .journey-timeline__step {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      padding: 0 8px;
+    }
+    .journey-timeline__num {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: rgba(11,25,41,0.8);
+      border: 2px solid var(--gold-500);
+      color: var(--gold-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-heading);
+      font-size: 1.1rem;
+      font-weight: 500;
+      margin: 0 auto 16px;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 0 6px rgba(11,25,41,0.6), 0 0 20px rgba(200,169,110,0.15);
+    }
+    .journey-timeline__step h3 {
+      font-size: 1rem;
+      color: #ffffff;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+      margin-bottom: 8px;
+    }
+    .journey-timeline__step p {
+      font-size: 0.8rem;
+      color: rgba(240,236,228,0.5);
+      line-height: 1.65;
+    }
+    @media (max-width: 900px) {
+      .journey-timeline { flex-direction: column; gap: 28px; }
+      .journey-timeline::before {
+        top: 24px; bottom: 24px;
+        left: 24px; right: auto;
+        width: 2px; height: auto;
+      }
+      .journey-timeline__step {
+        display: flex; text-align: left; gap: 16px; padding: 0;
+      }
+      .journey-timeline__num { flex-shrink: 0; margin: 0; }
+      .journey-timeline__step h3 { font-size: 1.05rem; }
+      .journey-timeline__step p { font-size: var(--text-sm); }
+    }
+
+    /* --- CTA Cinematic --- */
+    .cta-cinematic {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0;
+      text-align: center;
+    }
+    .cta-cinematic__img {
+      position: absolute; inset: 0; z-index: 1;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.2) brightness(0.2);
+    }
+    .cta-cinematic__fade {
+      position: absolute; inset: 0; z-index: 2;
+      background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(11,25,41,0.65) 0%, rgba(11,25,41,0.88) 100%);
+    }
+    .cta-cinematic .container { position: relative; z-index: 10; }
+
+    .cta-glass {
+      background: rgba(11,25,41,0.6);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(200,169,110,0.1);
+      border-radius: 16px;
+      padding: 56px 48px;
+      max-width: 640px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .cta-glass { padding: 40px 24px; }
+      .cta-cinematic { padding: 64px 0; }
+    }
+    .cta-glass .section-overline { color: var(--gold-300); margin-bottom: 16px; }
+    .cta-glass .section-overline::before,
+    .cta-glass .section-overline::after { background: var(--gold-400); opacity: 0.5; }
+    .cta-glass h2 {
+      color: #ffffff;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+      margin-bottom: 12px;
+    }
+    .cta-glass p {
+      color: rgba(240,236,228,0.6);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.8;
+      font-size: var(--text-body);
+    }
+  </style>
+
+  <!-- ============================================
+       MAIN CONTENT
+       ============================================ -->
+  <main id="main">
+
+    <!-- ========== MINI HERO ========== -->
+    <section aria-label="Services overview" style="position:relative; overflow:hidden; background: linear-gradient(135deg, #f8f3eb 0%, #f0ece4 30%, #faf6ef 60%, #f5efe5 100%); padding: 120px 0 80px;">
+
+      <!-- Ghost image — visible at edges, faded in center -->
+      <div style="position:absolute; inset:0; z-index:0;">
+        <img src="assets/care-worker.jpg" alt="" style="width:100%; height:100%; object-fit:cover; object-position: center 20%; filter: saturate(0.08) brightness(1.15) contrast(0.85); opacity: 0.12;" loading="eager">
+      </div>
+
+      <!-- Warm radial glow in center -->
+      <div style="position:absolute; inset:0; z-index:1; background: radial-gradient(ellipse 70% 65% at 50% 50%, rgba(248,243,235,0.95) 0%, rgba(248,243,235,0.6) 50%, transparent 100%);"></div>
+
+      <!-- Subtle gold accent line -->
+      <div style="position:absolute; top:0; left:0; right:0; height:3px; z-index:5; background: linear-gradient(90deg, transparent 10%, var(--gold-500) 50%, transparent 90%); opacity:0.4;"></div>
+
+      <div class="container" style="position:relative; z-index:10; text-align:center; max-width:720px; margin:0 auto;">
+
+        <!-- Overline -->
+        <div class="reveal" style="font-size:0.65rem; letter-spacing:0.35em; text-transform:uppercase; color:var(--gold-600); margin-bottom:24px; display:flex; align-items:center; justify-content:center; gap:14px;">
+          <span style="width:32px; height:1px; background:var(--gold-500); opacity:0.5;"></span>
+          Our Services
+          <span style="width:32px; height:1px; background:var(--gold-500); opacity:0.5;"></span>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="reveal" style="font-family:var(--font-heading); font-size:clamp(2.4rem, 5vw, 3.75rem); font-weight:400; color:var(--navy-800); line-height:1.12; letter-spacing:-0.02em; margin-bottom:20px;">
+          Comprehensive<br>End-of-Life Care
+        </h1>
+
+        <!-- Description -->
+        <p class="reveal" style="font-size:clamp(0.95rem, 1.3vw, 1.1rem); color:#6b6b6b; line-height:1.85; max-width:580px; margin:0 auto 32px;">
+          Bridge Hospice provides more than 12 specialized services designed to support patients and their families through every stage of the hospice journey, delivered by our interdisciplinary team of 25+ caregivers in Lubbock and the surrounding South Plains.
+        </p>
+
+        <!-- Trust pills -->
+        <div class="reveal" style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <span style="font-size:0.68rem; letter-spacing:0.08em; padding:8px 18px; border-radius:100px; border:1px solid rgba(200,169,110,0.25); color:var(--gold-600); background:rgba(200,169,110,0.04);">CHAP Certified</span>
+          <span style="font-size:0.68rem; letter-spacing:0.08em; padding:8px 18px; border-radius:100px; border:1px solid rgba(200,169,110,0.25); color:var(--gold-600); background:rgba(200,169,110,0.04);">24/7 Care</span>
+          <span style="font-size:0.68rem; letter-spacing:0.08em; padding:8px 18px; border-radius:100px; border:1px solid rgba(200,169,110,0.25); color:var(--gold-600); background:rgba(200,169,110,0.04);">5x Best of the West</span>
+        </div>
+      </div>
+
+      <!-- Bottom fade to next section -->
+      <div style="position:absolute; bottom:0; left:0; right:0; height:60px; z-index:3; background: linear-gradient(180deg, transparent, var(--cream-light));"></div>
+    </section>
+
+    <!-- ========== SERVICES OVERVIEW — CINEMATIC ========== -->
+    <section class="services-overview" aria-label="About our care">
+      <img src="assets/bg-hands-care.png" alt="" class="services-overview__img" loading="eager">
+      <div class="services-overview__fade" aria-hidden="true"></div>
+      <div class="container">
+        <div class="services-overview__text">
+          <div class="section-overline reveal">Compassionate &amp; Comprehensive</div>
+          <h2 class="reveal" style="font-size:var(--text-h2);">Care That Surrounds the Whole Family</h2>
+          <p class="reveal">When a loved one faces a life-limiting illness, every family deserves more than medical treatment. Bridge Hospice delivers an integrated circle of support that addresses physical comfort, emotional well-being, spiritual peace, and practical needs under one coordinated team.</p>
+          <p class="reveal">Our interdisciplinary staff of 25+ caregivers brings together physicians, registered nurses, therapists, social workers, chaplains, and trained volunteers. Each member knows your loved one by name and works from a care plan built around your family's goals, not a one-size-fits-all checklist.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 12 SERVICES GRID ========== -->
+    <section class="services-grid-section" aria-label="Our 12 services">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-overline">What We Provide</div>
+          <h2>Interdisciplinary Care, Tailored to You</h2>
+          <p class="section-desc">Every patient receives a personalized care plan built around their needs, preferences, and goals. Our team coordinates across disciplines to deliver seamless support.</p>
+        </div>
+
+        <div class="services-grid">
+
+          <!-- 1 -->
+          <div class="svc-card reveal reveal-delay-1">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#128101;</div>
+              <h3>Pre-Admission Consultation</h3>
+              <p>Our care team meets with you and your family before admission to answer every question and explain what hospice truly means. We walk through eligibility, insurance coverage, and what the first days of care will look like so there are no surprises.</p>
+            </div>
+          </div>
+
+          <!-- 2 -->
+          <div class="svc-card reveal reveal-delay-2">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#128222;</div>
+              <h3>24/7 Nursing &amp; Emergency Support</h3>
+              <p>Registered nurses are available around the clock for urgent symptom changes, medication questions, or emotional crises. One phone call connects you to a real member of our care team, day or night, weekends and holidays included.</p>
+            </div>
+          </div>
+
+          <!-- 3 -->
+          <div class="svc-card reveal reveal-delay-3">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#128138;</div>
+              <h3>Pain &amp; Symptom Management</h3>
+              <p>Controlling pain is our first priority. Our clinical team uses the latest protocols to manage pain, nausea, breathing difficulties, and anxiety so your loved one remains comfortable and present for the moments that matter most.</p>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="svc-card reveal reveal-delay-1">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#129657;</div>
+              <h3>Physician Medical Director</h3>
+              <p>A board-certified physician oversees every patient's care plan, collaborating with your personal doctor and our nursing staff. The Medical Director reviews treatment adjustments, conducts face-to-face assessments, and ensures clinical excellence across the team.</p>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="svc-card reveal reveal-delay-2">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#9889;</div>
+              <h3>Intensive Intervention Care</h3>
+              <p>When symptoms escalate beyond what routine home care can manage, we provide continuous or inpatient-level nursing at the bedside. This intensive support stabilizes the patient and prevents unnecessary hospital visits during critical periods.</p>
+            </div>
+          </div>
+
+          <!-- 6 -->
+          <div class="svc-card reveal reveal-delay-3">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#128156;</div>
+              <h3>Therapist &amp; Counseling Services</h3>
+              <p>Licensed therapists offer individual and family counseling to help process grief, fear, and the emotional weight of a terminal diagnosis. Sessions are held in the home or via telehealth, whichever is more comfortable for your family.</p>
+            </div>
+          </div>
+
+          <!-- 7 -->
+          <div class="svc-card reveal reveal-delay-1">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#128591;</div>
+              <h3>Social Work &amp; Pastoral Care</h3>
+              <p>Our social workers connect families with community resources, financial assistance, and advance directive planning. Pastoral counselors provide spiritual support that respects every belief system, faith tradition, or personal philosophy.</p>
+            </div>
+          </div>
+
+          <!-- 8 -->
+          <div class="svc-card reveal reveal-delay-2">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#128218;</div>
+              <h3>Pharmacy Consultation</h3>
+              <p>A consulting pharmacist reviews all medications to prevent harmful interactions and ensure the most effective comfort regimen. We coordinate directly with local pharmacies to handle refills and delivery so you never have to worry about prescriptions.</p>
+            </div>
+          </div>
+
+          <!-- 9 -->
+          <div class="svc-card reveal reveal-delay-3">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#127807;</div>
+              <h3>Bereavement Program</h3>
+              <p>Grief does not end at the time of passing. Our bereavement team provides 13 months of follow-up support including counseling, support groups, memorial events, and resource mailings to help families navigate their loss at their own pace.</p>
+            </div>
+          </div>
+
+          <!-- 10 -->
+          <div class="svc-card reveal reveal-delay-1">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#127891;</div>
+              <h3>Family &amp; Caregiver Education</h3>
+              <p>We teach families practical caregiving skills, what to expect as conditions change, and how to recognize signs that require a call to our nursing line. Prepared caregivers feel less anxious and more empowered to provide meaningful comfort at home.</p>
+            </div>
+          </div>
+
+          <!-- 11 -->
+          <div class="svc-card reveal reveal-delay-2">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#128715;</div>
+              <h3>Medical Equipment &amp; Supplies</h3>
+              <p>Hospital beds, oxygen concentrators, wheelchairs, wound care supplies, and incontinence products are delivered directly to your home at no cost. Our team handles all ordering, setup, and equipment adjustments as needs evolve.</p>
+            </div>
+          </div>
+
+          <!-- 12 -->
+          <div class="svc-card reveal reveal-delay-3">
+            <div class="svc-card__body">
+              <div class="svc-card__icon" aria-hidden="true">&#127968;</div>
+              <h3>Full Hospice Care Solutions</h3>
+              <p>From the initial referral through bereavement, Bridge Hospice coordinates every aspect of end-of-life care under one roof. Our interdisciplinary team works together so families deal with one trusted partner instead of navigating a fragmented healthcare system alone.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== WHAT TO EXPECT — CINEMATIC PRAIRIE JOURNEY ========== -->
+    <section class="journey-cinematic" aria-label="What to expect">
+      <img src="assets/bg-prairie-path.png" alt="" class="journey-cinematic__img" loading="lazy">
+      <div class="journey-cinematic__fade" aria-hidden="true"></div>
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-overline">What to Expect</div>
+          <h2>Your Hospice Journey</h2>
+          <p class="section-desc">From first contact to long-term bereavement support, here is what the process looks like when you choose Bridge Hospice.</p>
+        </div>
+
+        <div class="journey-glass reveal">
+          <div class="journey-timeline">
+
+            <div class="journey-timeline__step">
+              <div class="journey-timeline__num" aria-hidden="true">1</div>
+              <div>
+                <h3>Initial Consultation</h3>
+                <p>A member of our admissions team meets with you and your family, often within 24 hours of your call. We answer every question in plain language so you can make a fully informed decision.</p>
+              </div>
+            </div>
+
+            <div class="journey-timeline__step">
+              <div class="journey-timeline__num" aria-hidden="true">2</div>
+              <div>
+                <h3>Care Plan Development</h3>
+                <p>Our Medical Director, nursing team, social worker, and counselor build a personalized care plan around the patient's diagnosis, symptoms, and family goals.</p>
+              </div>
+            </div>
+
+            <div class="journey-timeline__step">
+              <div class="journey-timeline__num" aria-hidden="true">3</div>
+              <div>
+                <h3>Your Team Arrives</h3>
+                <p>Within 48 hours your assigned nurse, aide, and social worker visit the home to deliver equipment, begin medications, and establish a routine.</p>
+              </div>
+            </div>
+
+            <div class="journey-timeline__step">
+              <div class="journey-timeline__num" aria-hidden="true">4</div>
+              <div>
+                <h3>Ongoing Support</h3>
+                <p>Scheduled visits, counseling sessions, and 24/7 on-call coverage continue for as long as needed. Your care plan is adjusted as conditions change.</p>
+              </div>
+            </div>
+
+            <div class="journey-timeline__step">
+              <div class="journey-timeline__num" aria-hidden="true">5</div>
+              <div>
+                <h3>Bereavement &amp; Beyond</h3>
+                <p>Our bereavement team stays connected for 13 months with counseling, support groups, and community resources. Your Bridge Hospice family does not disappear.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== CTA — CINEMATIC ========== -->
+    <section class="cta-cinematic" aria-label="Contact us">
+      <img src="assets/bg-peaceful-room.png" alt="" class="cta-cinematic__img" loading="lazy">
+      <div class="cta-cinematic__fade" aria-hidden="true"></div>
+      <div class="container">
+        <div class="cta-glass reveal">
+          <div class="section-overline">Take the Next Step</div>
+          <h2>Ready to Learn More?</h2>
+          <p>Whether you are exploring options for a loved one or making a referral on behalf of a patient, our team is here to guide you through every step with compassion and clarity.</p>
+          <div class="cta-buttons">
+            <a href="tel:8069933900" class="btn-primary">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              Call 806-993-3900
+            </a>
+            <a href="contact.html" class="btn-outline">
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Schedule a Consultation
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="font-family:var(--font-heading);font-size:1.35rem;color:rgba(240,236,228,0.95);"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:36px; width:auto; margin-bottom:16px; display:block;"></a>
+          <p>Physician-led, 24/7 end-of-life care that honors every life and every family. Serving Lubbock and surrounding communities since 2018.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Quick Links</div>
+          <div class="footer-links">
+            <a href="services.html">Services</a>
+            <a href="valor.html">Valor Program</a>
+            <a href="daves-wish.html">Dave's Wish</a>
+            <a href="about.html">About Us</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Resources</div>
+          <div class="footer-links">
+            <a href="blog.html">Blog</a>
+            <a href="referral.html">Make a Referral</a>
+            <a href="careers.html">Careers</a>
+            <a href="volunteer.html">Volunteer</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Contact</div>
+          <div class="footer-links">
+            <a href="https://maps.google.com/?q=3532+34th+Street+Lubbock+TX+79410" target="_blank" rel="noopener">3532 34th Street<br>Lubbock, TX 79410</a>
+            <a href="tel:8069933900">806-993-3900</a>
+            <a href="mailto:support@bridge-hospice.com">support@bridge-hospice.com</a>
+            <span>Mon-Fri 8am-5pm<br>24/7 On-Call Nursing</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Bridge Hospice, LLC. All rights reserved.</span>
+        <div class="footer-social">
+          <a href="https://facebook.com/bridgehospice" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+          <a href="https://instagram.com/bridgehospice" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://linkedin.com/company/bridge-hospice" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       MOBILE CTA BAR
+       ============================================ -->
+  <div class="mobile-cta">
+    <a href="tel:8069933900" class="mobile-cta-call">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Call Now
+    </a>
+    <a href="contact.html" class="mobile-cta-book">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book Consultation
+    </a>
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

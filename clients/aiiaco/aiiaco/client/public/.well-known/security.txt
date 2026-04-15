@@ -1,0 +1,8 @@
+Contact: mailto:contact@montekristobelgrade.com
+Expires: 2027-04-11T00:00:00.000Z
+Preferred-Languages: en, sr
+Canonical: https://aiiaco.com/.well-known/security.txt
+Policy: https://aiiaco.com/privacy
+
+# Thank you for responsibly disclosing security issues.
+# Please do not test against production systems. Contact us first.

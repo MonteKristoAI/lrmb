@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "reig-seo-report-data",
+  "title": "SEO Progress Report Data Schema",
+  "description": "Data schema for the reig-us.com SEO Progress Report. All metric values sourced from Semrush unless noted.",
+  "type": "object",
+  "required": ["domain", "report_date", "overview", "baseline", "time_series", "top_keywords"],
+  "properties": {
+    "domain": {
+      "type": "string",
+      "description": "Root domain being tracked",
+      "example": "reig-us.com"
+    },
+    "report_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of this report snapshot (YYYY-MM-DD)"
+    },
+    "overview": {
+      "type": "object",
+      "description": "Current-period snapshot of key SEO + AI visibility metrics",
+      "properties": {
+        "authority_score":             { "type": "integer", "minimum": 0, "maximum": 100, "description": "Semrush Authority Score (0–100)" },
+        "authority_score_rating":      { "type": "string",  "description": "Semrush rating label, e.g. 'Average', 'Good'" },
+        "organic_traffic_current":     { "type": ["integer","null"], "description": "Estimated monthly organic visits (current month)" },
+        "organic_traffic_prev_month":  { "type": ["integer","null"], "description": "Estimated monthly organic visits (previous month)" },
+        "organic_keywords_current":    { "type": ["integer","null"], "description": "Number of organic keywords the domain ranks for" },
+        "organic_keywords_prev_month": { "type": ["integer","null"], "description": "Organic keywords prior month" },
+        "ref_domains_current":         { "type": ["integer","null"], "description": "Unique referring domains (current)" },
+        "ref_domains_prev_month":      { "type": ["integer","null"], "description": "Unique referring domains (prior month)" },
+        "backlinks_current":           { "type": ["integer","null"], "description": "Total backlinks (current)" },
+        "backlinks_prev_month":        { "type": ["integer","null"], "description": "Total backlinks (prior month)" },
+        "paid_traffic":                { "type": "integer", "description": "Estimated paid traffic visits" },
+        "paid_keywords":               { "type": "integer", "description": "Number of paid keywords" },
+        "ai_visibility":               { "type": ["integer","null"], "description": "Semrush AI Visibility score" },
+        "ai_mentions":                 { "type": ["integer","null"], "description": "Number of AI mentions across tracked platforms" },
+        "ai_cited_pages":              { "type": ["integer","null"], "description": "Number of site pages cited by AI tools" },
+        "ai_breakdown": {
+          "type": "object",
+          "description": "Per-platform AI visibility breakdown",
+          "properties": {
+            "chatgpt_mentions":      { "type": ["integer","null"] },
+            "chatgpt_cited":         { "type": ["integer","null"] },
+            "ai_overview_mentions":  { "type": ["integer","null"] },
+            "ai_overview_cited":     { "type": ["integer","null"] },
+            "ai_mode_mentions":      { "type": ["integer","null"] },
+            "ai_mode_cited":         { "type": ["integer","null"] },
+            "gemini_mentions":       { "type": ["integer","null"] },
+            "gemini_cited":          { "type": ["integer","null"] }
+          }
+        },
+        "traffic_share_us_pct": { "type": ["number","null"], "description": "Percentage of traffic from the US" }
+      }
+    },
+    "baseline": {
+      "type": "object",
+      "description": "Pre-2026 reference values for calculating improvement delta",
+      "properties": {
+        "organic_traffic_pre_2026_typical": { "type": ["integer","null"], "description": "Typical monthly organic traffic before 2026" },
+        "organic_traffic_pre_2026_period":  { "type": "string", "description": "Human-readable period name, e.g. 'Sep–Nov 2025'" },
+        "ref_domains_apr_2025":             { "type": ["integer","null"], "description": "Referring domains at start of observation period" },
+        "backlinks_apr_2025":               { "type": ["integer","null"], "description": "Backlinks at start of observation period" },
+        "note":                             { "type": "string" }
+      }
+    },
+    "time_series": {
+      "type": "object",
+      "description": "Monthly time-series data for trend charts",
+      "properties": {
+        "organic_traffic_monthly": { "$ref": "#/$defs/monthly_series" },
+        "ref_domains_monthly":     { "$ref": "#/$defs/monthly_series" },
+        "backlinks_monthly":       { "$ref": "#/$defs/monthly_series" },
+        "blog_posts_per_month":    { "$ref": "#/$defs/monthly_series" }
+      }
+    },
+    "top_keywords": {
+      "type": "array",
+      "description": "Top organic ranking keywords from Semrush",
+      "items": {
+        "type": "object",
+        "required": ["keyword", "position", "volume"],
+        "properties": {
+          "keyword":       { "type": "string" },
+          "intent":        { "type": "string", "enum": ["Informational","Navigational","Transactional","Commercial"] },
+          "position":      { "type": "integer", "minimum": 1 },
+          "volume":        { "type": "integer", "description": "Monthly search volume" },
+          "cpc_usd":       { "type": ["number","null"], "description": "Cost-per-click in USD" },
+          "traffic_share": { "type": ["number","null"], "description": "Percentage of domain traffic this keyword drives" },
+          "url":           { "type": "string", "description": "Landing page URL or 'TBD'" }
+        }
+      }
+    },
+    "keyword_intent_breakdown": {
+      "type": "object",
+      "description": "Keyword distribution by search intent",
+      "properties": {
+        "informational_pct":      { "type": "number" },
+        "informational_keywords": { "type": "integer" },
+        "informational_traffic":  { "type": "integer" },
+        "navigational_pct":       { "type": "number" },
+        "navigational_keywords":  { "type": "integer" },
+        "navigational_traffic":   { "type": "integer" },
+        "transactional_pct":      { "type": "number" },
+        "transactional_keywords": { "type": "integer" },
+        "transactional_traffic":  { "type": "integer" },
+        "total_keywords":         { "type": "integer" }
+      }
+    },
+    "backlink_profile": {
+      "type": "object",
+      "properties": {
+        "referring_domains":            { "type": "integer" },
+        "referring_domains_change_pct": { "type": "number" },
+        "backlinks":                    { "type": "integer" },
+        "backlinks_change_pct":         { "type": "number" },
+        "monthly_visits":               { "type": "integer" },
+        "outbound_domains":             { "type": "integer" },
+        "semrush_category":             { "type": "string" },
+        "network_flag":                 { "type": "string", "description": "Semrush network quality flag, e.g. 'Suspicious', 'Natural'" }
+      }
+    }
+  },
+  "$defs": {
+    "monthly_series": {
+      "type": "array",
+      "description": "Array of monthly data points",
+      "items": {
+        "type": "object",
+        "required": ["month"],
+        "properties": {
+          "month":     { "type": "string", "pattern": "^\\d{4}-\\d{2}$", "description": "YYYY-MM format" },
+          "value":     { "type": ["integer","null"], "description": "Metric value; null = data not yet available (TBD)" },
+          "estimated": { "type": "boolean", "description": "true if interpolated/estimated rather than directly measured" },
+          "note":      { "type": "string", "description": "Optional explanation for null or estimated values" }
+        }
+      }
+    }
+  }
+}

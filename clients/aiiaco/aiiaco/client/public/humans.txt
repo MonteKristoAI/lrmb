@@ -1,0 +1,21 @@
+/* TEAM */
+
+Founder: Nemr Hallak
+Title: AI Systems Architect
+Site: https://aiiaco.com
+LinkedIn: https://www.linkedin.com/in/nemrhallak
+Personal: https://nemrhallak.com
+From: United States
+
+/* SITE */
+
+Last update: 2026-04-11
+Standards: HTML5, CSS3, ES2024, JSON-LD, Schema.org
+Frameworks: React 19, Vite 7, Tailwind CSS 4, TypeScript 5
+Deployment: Manus AI platform with self-hosted assets
+Design: Liquid Glass Bio-Organic (deep void black + gold electricity)
+
+/* THANKS */
+
+Built with care for companies that refuse to let friction run the business.
+Operational Intelligence for the Corporate Age.

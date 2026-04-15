@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visual Analytics Solutions | EV - The Visual Analytics Company</title>
+  <meta name="description" content="EV's Visual Analytics solutions combine cutting-edge visual diagnostic information with advanced computational analysis to solve complex downhole and pipeline challenges.">
+  <meta name="keywords" content="visual analytics, wellbore inspection, perforation analysis, corrosion inspection, pipeline inspection, downhole camera, PigCAM">
+  <link rel="canonical" href="https://evcam.com/solutions">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Visual Analytics Solutions | EV">
+  <meta property="og:description" content="From severe scaling to pipe deformation, our Visual Analytics provide operators with an unparalleled understanding of downhole failure.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://evcam.com/solutions">
+  <meta property="og:image" content="https://evcam.com/img/og-solutions.jpg">
+  <meta property="og:site_name" content="EV - The Visual Analytics Company">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Visual Analytics Solutions | EV">
+  <meta name="twitter:description" content="Cutting-edge visual diagnostic information with advanced computational analysis for downhole and pipeline challenges.">
+
+  <!-- Fonts & Tailwind -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        'ev-orange': { 500: '#FF5A00', 400: '#FF7A33', 600: '#CC4800' },
+        'ev-dark': { 900: '#050A14', 800: '#0A1128', 700: '#111B36', 600: '#1A2744' },
+        'ev-blue': { 500: '#007BFF', 400: '#3395FF' }
+      },
+      fontFamily: { heading: ['Space Grotesk', 'sans-serif'], body: ['DM Sans', 'sans-serif'] }
+    }}
+  }
+  </script>
+  <script defer src="https://unpkg.com/lucide@0.468.0"></script>
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- JSON-LD BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://evcam.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Solutions", "item": "https://evcam.com/solutions" }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="https://www.evcam.com/assets/fav/favicon-32x32.png">
+</head>
+<body class="bg-ev-dark-900 text-gray-200 font-body">
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ============================================================
+       STICKY HEADER
+       ============================================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="container-lg flex items-center justify-between h-16 lg:h-20">
+      <!-- Logo -->
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+          <span class="text-white font-heading font-bold text-lg">EV</span>
+        </div>
+        <span class="font-heading font-bold text-white text-lg hidden sm:inline">The Visual Analytics Company</span>
+      </a>
+
+      <!-- Desktop Nav -->
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="solutions.html" class="text-ev-orange-400 font-medium text-sm hover:text-ev-orange-400 transition-colors">Solutions</a>
+        <a href="technology.html" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Technology</a>
+        <a href="index.html#case-studies" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Case Studies</a>
+        <a href="index.html#about" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">About</a>
+        <a href="index.html#contact" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Contact</a>
+        <a href="blog/" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Blog</a>
+      </nav>
+
+      <!-- CTA + Mobile Toggle -->
+      <div class="flex items-center gap-4">
+        <a href="index.html#booking" class="btn btn-primary btn-sm hidden lg:inline-flex">Request Demo</a>
+        <button id="menu-toggle" class="lg:hidden text-white" aria-label="Open menu" aria-expanded="false">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ev-dark-900/98 backdrop-blur-xl z-50 transform translate-x-full opacity-0 transition-all duration-300 lg:hidden">
+      <div class="flex flex-col h-full p-6">
+        <div class="flex justify-between items-center mb-10">
+          <span class="font-heading font-bold text-white text-lg">EV</span>
+          <button id="menu-close" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <nav class="flex flex-col gap-6 text-xl">
+          <a href="solutions.html" class="text-ev-orange-400 font-heading font-semibold">Solutions</a>
+          <a href="technology.html" class="text-gray-300 font-heading font-semibold hover:text-white">Technology</a>
+          <a href="index.html#case-studies" class="text-gray-300 font-heading font-semibold hover:text-white">Case Studies</a>
+          <a href="index.html#about" class="text-gray-300 font-heading font-semibold hover:text-white">About</a>
+          <a href="index.html#contact" class="text-gray-300 font-heading font-semibold hover:text-white">Contact</a>
+          <a href="blog/" class="text-gray-300 font-heading font-semibold hover:text-white">Blog</a>
+        </nav>
+        <div class="mt-auto">
+          <a href="index.html#booking" class="btn btn-primary w-full">Request Demo</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ============================================================
+       MINI HERO
+       ============================================================ -->
+  <section class="relative min-h-[40vh] flex items-center section-photo bg-grid overflow-hidden">
+    <div class="section-bg fade-center"><img src="img/headers/perforation-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <!-- Overlay gradient -->
+    <div class="absolute inset-0 bg-gradient-to-b from-ev-dark-900/80 via-ev-dark-900/60 to-ev-dark-900"></div>
+    <div class="absolute inset-0 bg-radial-glow"></div>
+
+    <div class="container relative z-10 pt-24 pb-12">
+      <!-- Breadcrumb -->
+      <nav class="mb-6 animate-hero-1" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 text-sm text-gray-400">
+          <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+          <li><i data-lucide="chevron-right" class="w-4 h-4"></i></li>
+          <li class="text-ev-orange-400">Solutions</li>
+        </ol>
+      </nav>
+
+      <div class="max-w-3xl">
+        <span class="badge badge-orange mb-4 animate-hero-2">
+          <i data-lucide="eye" class="w-3.5 h-3.5"></i> Visual Analytics
+        </span>
+        <h1 class="font-heading text-white animate-hero-2" style="font-size: var(--text-h1);">Visual Analytics Solutions</h1>
+        <p class="mt-4 text-lg text-gray-300 leading-relaxed max-w-2xl animate-hero-3">
+          Our Visual Analytics services combine cutting-edge visual diagnostic information with advanced computational analysis to give you a high-definition, complete and quantified picture of your complex downhole challenges.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTIONS OVERVIEW
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal">
+    <div class="section-bg fade-left"><img src="img/headers/person1-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="max-w-3xl mx-auto text-center">
+        <h2 class="font-heading text-white mb-6" style="font-size: var(--text-h2);">The VA Approach</h2>
+        <p class="text-gray-300 text-lg leading-relaxed">
+          From challenges such as severe scaling to pipe deformation, our game-changing Visual Analytics provide operators with an unparalleled understanding of the core reasons for downhole failure. Each VA service pairs high-definition camera footage with computational analysis to deliver quantified, actionable data that drives better decisions at the wellhead.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       SOLUTION 1: PERFORATION VA
+       ============================================================ -->
+  <section class="section section-photo bg-grid reveal" id="perforation-va">
+    <div class="section-bg fade-right"><img src="img/headers/mcsv-header3.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="crosshair" class="w-3.5 h-3.5"></i> Perforation VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Perforation Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Understanding cluster efficiency and perforation quality remains one of the most significant unknowns in completions engineering. Without direct visual evidence, operators rely on assumptions about perforation geometry, erosion patterns, and entry-hole quality.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Perforation VA delivers a complete quantified picture of every perforation in the wellbore, measuring size, shape, and erosion patterns with millimeter precision. The system captures 100% of perforations, enabling engineers to assess true cluster efficiency and optimize completion designs with hard data instead of guesswork.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">100% perforation capture across all stages</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Cluster efficiency analysis with quantified metrics</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Erosion quantification and pattern recognition</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Completion design optimization recommendations</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <div class="rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/challenges/perforation-button.png" alt="Perforation visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Perforation VA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 2: CORROSION VA
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal" id="corrosion-va">
+    <div class="section-bg fade-bottom-left"><img src="img/headers/pipeline-banner.png" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1 rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/challenges/corrosion-button.png" alt="Corrosion visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Corrosion VA</span>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2">
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="shield-alert" class="w-3.5 h-3.5"></i> Corrosion VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Corrosion Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Internal pipe corrosion is a silent threat to well integrity. Traditional caliper tools indicate material loss but cannot identify corrosion type, characterize severity visually, or distinguish between different degradation mechanisms.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Corrosion VA provides HD visual mapping of corrosion extent, type, and severity throughout the wellbore. By combining video with computational analysis, operators receive a complete corrosion profile that informs remediation strategies and remaining-life assessments.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Corrosion type identification (pitting, general, galvanic)</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Severity grading with industry-standard classification</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Wall loss estimation from visual measurement</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Remediation planning with prioritized interventions</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 3: FISH VA
+       ============================================================ -->
+  <section class="section section-photo bg-grid reveal" id="fish-va">
+    <div class="section-bg fade-top"><img src="img/headers/va-ad3-16x9.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="search" class="w-3.5 h-3.5"></i> Fish VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Fish Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Unknown objects blocking the wellbore (known as "fish") can halt operations for days. Without visual identification, fishing operations proceed blind, increasing costs, tool losses, and rig time.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Fish VA provides immediate visual identification and 3D characterization of any fish in the wellbore. Real-time footage gives fishing teams the critical information they need to select the right tool, plan the recovery approach, and execute on the first attempt.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Real-time fish identification and characterization</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Dimensional analysis for tool selection</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Recovery planning with visual evidence</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Risk assessment and alternative approach modeling</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <div class="rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/challenges/fishing-button.jpg" alt="Fish visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Fish VA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 4: RESTRICTION VA
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal" id="restriction-va">
+    <div class="section-bg fade-left"><img src="img/software/mipsview-3d.png" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1 rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/challenges/restriction-button.png" alt="Restriction visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Restriction VA</span>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2">
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="minimize-2" class="w-3.5 h-3.5"></i> Restriction VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Restriction Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Reduced wellbore access can be caused by dozens of different mechanisms, from scale buildup to casing deformation. Without visual confirmation, operators run interventions based on assumptions that may be wrong.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Restriction VA delivers visual diagnosis with quantified restriction geometry. By seeing exactly what is causing the restriction and measuring its dimensions, engineers can select the optimal intervention method on the first attempt.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Visual restriction identification and classification</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Geometry measurement (minimum ID, ovality)</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Root cause analysis (scale, deformation, debris)</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Intervention planning and tool recommendation</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 5: VALVE VA
+       ============================================================ -->
+  <section class="section section-photo bg-grid reveal" id="valve-va">
+    <div class="section-bg fade-right"><img src="img/headers/animation-poster.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="settings" class="w-3.5 h-3.5"></i> Valve VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Valve Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Safety valve failures threaten well integrity and operational safety. Understanding why a valve has failed, whether it is a seal issue, corrosion, mechanical damage, or debris, determines the correct remediation path.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Valve VA provides direct visual inspection of downhole safety valves, revealing their true condition and failure mode. This removes the guesswork from valve diagnostics and enables targeted remediation instead of costly full replacements.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Failure mode identification (seal, corrosion, mechanical)</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Seal condition assessment and wear analysis</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Remediation guidance based on visual evidence</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Valve function verification post-intervention</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <div class="rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/challenges/valve-button.jpg" alt="Valve visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Valve VA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 6: SAND VA
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal" id="sand-va">
+    <div class="section-bg fade-bottom"><img src="img/headers/person1-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1 rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/challenges/sand-button.png" alt="Sand visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Sand VA</span>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2">
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="waves" class="w-3.5 h-3.5"></i> Sand VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Sand Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Sand production and intrusion reduces production rates, damages surface equipment, and can compromise well integrity. Identifying where sand is entering the wellbore and how it accumulates is critical to effective sand management.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Sand VA provides visual identification of sand source locations and accumulation patterns within the wellbore. By pinpointing entry points and characterizing sand behavior, operators can implement targeted management strategies rather than broad, expensive treatments.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Sand source identification and entry point mapping</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Accumulation mapping and volume estimation</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Production impact assessment</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Sand management recommendations</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 7: PLUG VA
+       ============================================================ -->
+  <section class="section section-photo bg-grid reveal" id="plug-va">
+    <div class="section-bg fade-center"><img src="img/headers/news-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="plug" class="w-3.5 h-3.5"></i> Plug VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Plug Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Frac plug performance directly impacts completion success, yet operators rarely have visibility into plug condition after setting. Milling efficiency, stage isolation, and plug degradation are typically assessed through indirect measurements.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Plug VA delivers direct visual evaluation of frac plug condition and performance. Engineers can see how plugs have performed under downhole conditions, assess milling efficiency, and verify stage isolation with visual evidence.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Plug condition assessment under downhole conditions</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Milling efficiency analysis and debris mapping</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Stage isolation verification</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Completion optimization data for future designs</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <div class="rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/challenges/perforation-button.png" alt="Plug visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Plug VA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 8: WATER VA
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal" id="water-va">
+    <div class="section-bg fade-left"><img src="img/headers/data-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="order-2 lg:order-1 rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/case-studies/kjhihob.png" alt="Water visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Water VA</span>
+          </div>
+        </div>
+        <div class="order-1 lg:order-2">
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="droplets" class="w-3.5 h-3.5"></i> Water VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Water Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Unwanted water entry is one of the most expensive problems in production operations. Water cut increases processing costs, reduces oil recovery, and can lead to premature well abandonment if the source is not identified and isolated.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Water VA visually pinpoints water sources within the wellbore. By identifying exactly where water is entering, operators can implement targeted isolation measures instead of broad-spectrum treatments that may reduce production from contributing zones.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Water entry localization with visual evidence</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Source characterization (casing leak, formation, crossflow)</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Production impact analysis and water cut modeling</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Targeted remediation planning</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       SOLUTION 9: LEAK VA
+       ============================================================ -->
+  <section class="section section-photo bg-grid reveal" id="leak-va">
+    <div class="section-bg fade-right"><img src="img/headers/perforation-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="badge badge-orange mb-4">
+            <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i> Leak VA
+          </span>
+          <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Leak Visual Analytics</h2>
+          <p class="text-gray-300 leading-relaxed mb-4">
+            <strong class="text-white">The Challenge:</strong> Wellbore leaks pose serious safety, environmental, and production risks. Locating the exact leak point and understanding its characteristics are essential for planning effective repairs, yet traditional methods often lack the precision needed.
+          </p>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            <strong class="text-white">The Solution:</strong> EV's Leak VA delivers visual detection and characterization of leak points in the wellbore. Engineers can see the exact location, assess flow rate and severity, and plan repairs with confidence in the diagnosis.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-3">Key Capabilities</h3>
+          <ul class="space-y-2 mb-6">
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Leak point identification with precise depth location</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Flow characterization and rate estimation</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Severity assessment for repair prioritization</span></li>
+            <li class="flex items-start gap-3"><i data-lucide="check-circle" class="w-5 h-5 text-ev-orange-400 shrink-0 mt-0.5"></i><span class="text-gray-300">Repair planning with visual evidence package</span></li>
+          </ul>
+          <a href="index.html#case-studies" class="inline-flex items-center gap-2 text-ev-orange-400 font-heading font-semibold text-sm hover:text-ev-orange-500 transition-colors">
+            View Case Studies <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <div class="rounded-2xl overflow-hidden relative h-72 card-glass">
+          <img src="img/case-studies/aiva-leakva-thumbnail.jpg" alt="Leak visual analytics" class="w-full h-full object-cover" style="opacity:0.6; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">Leak VA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       PIPELINE SOLUTIONS
+       ============================================================ -->
+  <section class="section section-photo reveal" id="pipeline">
+    <div class="section-bg fade-bottom-left"><img src="img/headers/animation-poster.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center mb-12">
+        <span class="badge badge-orange mb-4">
+          <i data-lucide="scan-line" class="w-3.5 h-3.5"></i> Pipeline Inspection
+        </span>
+        <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Pipeline &amp; Infrastructure Solutions</h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+          EV's PigCAM technology brings the same visual intelligence that transformed wellbore diagnostics into the pipeline inspection sector, delivering 360-degree internal footage from inside live pipelines.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <!-- PigCAM 4 -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="camera" class="w-6 h-6 text-ev-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-xl font-bold">PigCAM 4</h3>
+              <p class="text-gray-400 text-sm">Small Diameter Pipeline Camera</p>
+            </div>
+          </div>
+          <p class="text-gray-300 mb-4">Four HD cameras providing 360-degree internal pipeline footage. Designed for smaller diameter pipelines where standard inspection tools cannot reach.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">4</p>
+              <p class="text-gray-400 text-xs">HD Cameras</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">360&deg;</p>
+              <p class="text-gray-400 text-xs">Coverage</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">24hr</p>
+              <p class="text-gray-400 text-xs">Runtime</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">Small</p>
+              <p class="text-gray-400 text-xs">Diameter</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PigCAM 8 -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="video" class="w-6 h-6 text-ev-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-xl font-bold">PigCAM 8</h3>
+              <p class="text-gray-400 text-sm">Large Diameter Pipeline Camera</p>
+            </div>
+          </div>
+          <p class="text-gray-300 mb-4">Eight HD cameras delivering comprehensive 360-degree internal imagery for large diameter pipelines. Extended runtime for long-distance inspections across major infrastructure.</p>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">8</p>
+              <p class="text-gray-400 text-xs">HD Cameras</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">360&deg;</p>
+              <p class="text-gray-400 text-xs">Coverage</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">96hr</p>
+              <p class="text-gray-400 text-xs">Runtime</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold text-lg">176km</p>
+              <p class="text-gray-400 text-xs">Range</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INLINE Partnership -->
+      <div class="card-glass border-ev-orange-500/20 bg-gradient-to-r from-ev-orange-500/5 to-transparent">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <div class="w-16 h-16 rounded-2xl bg-ev-orange-500/10 flex items-center justify-center shrink-0">
+            <i data-lucide="handshake" class="w-8 h-8 text-ev-orange-400"></i>
+          </div>
+          <div>
+            <h3 class="font-heading text-white text-lg font-bold mb-2">INLINE Speed Control Pig Partnership</h3>
+            <p class="text-gray-300">EV's PigCAM technology integrates with INLINE's speed control pig platform, enabling stable inspection speeds of up to 10 mph. This partnership delivers consistent image quality across long pipeline sections, eliminating the speed variation that typically degrades visual data during free-flowing pig runs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       CTA SECTION
+       ============================================================ -->
+  <section class="section section-photo bg-radial-glow reveal">
+    <div class="section-bg fade-top"><img src="img/headers/ctc-header3.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="font-heading text-white text-glow mb-4" style="font-size: var(--text-h2);">Ready to Solve Your Wellbore Challenges?</h2>
+        <p class="text-gray-300 text-lg mb-8">
+          Speak with our team to discuss how Visual Analytics can deliver the diagnostic clarity your operations need.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="index.html#booking" class="btn btn-primary btn-lg btn-pulse">
+            <i data-lucide="calendar" class="w-5 h-5"></i> Schedule a Consultation
+          </a>
+          <a href="index.html#contact" class="btn btn-outline">
+            <i data-lucide="mail" class="w-5 h-5"></i> Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="bg-ev-dark-900 border-t border-white/5 pt-16 pb-8">
+    <div class="container">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <!-- Col 1: Brand -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+              <span class="text-white font-heading font-bold text-lg">EV</span>
+            </div>
+            <span class="font-heading font-bold text-white">EV</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">The Visual Analytics Company. 25 years of pioneering downhole camera technology and visual diagnostics for the energy industry.</p>
+          <div class="flex gap-3">
+            <a href="https://www.linkedin.com/company/ev-the-visual-analytics-company/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-ev-orange-500/20 hover:text-ev-orange-400 transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+            <a href="https://www.youtube.com/channel/UCKfHQ7CGCnICjueZNca64lA" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-ev-orange-500/20 hover:text-ev-orange-400 transition-all"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Solutions -->
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4 text-sm">Solutions</h4>
+          <ul class="space-y-2">
+            <li><a href="#perforation-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Perforation VA</a></li>
+            <li><a href="#corrosion-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Corrosion VA</a></li>
+            <li><a href="#fish-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Fish VA</a></li>
+            <li><a href="#restriction-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Restriction VA</a></li>
+            <li><a href="#valve-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Valve VA</a></li>
+            <li><a href="#pipeline" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Pipeline (PigCAM)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Technology -->
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4 text-sm">Technology</h4>
+          <ul class="space-y-2">
+            <li><a href="technology.html" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">ClearVision</a></li>
+            <li><a href="technology.html#optis" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Optis Camera Range</a></li>
+            <li><a href="technology.html#specialty" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Specialty Cameras</a></li>
+            <li><a href="technology.html#software" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Software (AIVA)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Company -->
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4 text-sm">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html#about" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">About EV</a></li>
+            <li><a href="index.html#case-studies" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Case Studies</a></li>
+            <li><a href="blog/" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Blog</a></li>
+            <li><a href="index.html#contact" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Contact</a></li>
+          </ul>
+          <div class="mt-4 space-y-2">
+            <a href="mailto:info@evcam.com" class="flex items-center gap-2 text-gray-400 text-sm hover:text-ev-orange-400 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> info@evcam.com</a>
+            <a href="tel:+447525916610" class="flex items-center gap-2 text-gray-400 text-sm hover:text-ev-orange-400 transition-colors"><i data-lucide="phone" class="w-4 h-4"></i> +44 7525 916610</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-gray-500 text-xs">&copy; 2025 EV. The Visual Analytics Company. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="javascript:void(0)" title="Coming Soon" class="text-gray-500 text-xs hover:text-gray-300 transition-colors">Privacy Policy</a>
+          <a href="javascript:void(0)" title="Coming Soon" class="text-gray-500 text-xs hover:text-gray-300 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot Widget Button -->
+  <button id="chatbot-toggle" class="chatbot-btn" aria-label="Open chat">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </button>
+  <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 z-50 w-80 bg-ev-dark-800 border border-white/10 rounded-xl shadow-2xl p-4">
+    <p class="text-white font-heading font-semibold mb-2">EV Assistant</p>
+    <p class="text-gray-400 text-sm">Welcome to EV. How can we help you with your wellbore or pipeline challenges?</p>
+  </div>
+
+  <!-- Mobile CTA Bar -->
+  <div class="mobile-cta-bar">
+    <a href="tel:+447525916610" class="bg-white/10 text-white">
+      <i data-lucide="phone" class="w-4 h-4"></i> Call
+    </a>
+    <a href="index.html#booking" class="bg-ev-orange-500 text-white">
+      <i data-lucide="calendar" class="w-4 h-4"></i> Request Demo
+    </a>
+  </div>
+
+  <script src="js/components.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

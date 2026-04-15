@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us - Bridge Hospice | Lubbock, TX | 806-993-3900</title>
+  <meta name="description" content="Contact Bridge Hospice in Lubbock, TX. Available 24/7 for hospice care inquiries. Call 806-993-3900 or visit us at 3532 34th Street.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="css/styles.css?v=3">
+
+  <style>
+    /* ================================================================
+       CONTACT PAGE — CINEMATIC OVERRIDES
+       ================================================================ */
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 56px;
+      background: rgba(6,12,24,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 20px 24px; }
+    }
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: rgba(240,236,228,0.95);
+    }
+    .nav-logo em {
+      font-style: italic;
+      color: var(--gold-400);
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(240,236,228,0.45);
+      list-style: none;
+    }
+    .nav-links a {
+      position: relative;
+      transition: color 0.4s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold-500);
+      transform: scaleX(0);
+      transition: transform 0.4s var(--ease);
+    }
+    .nav-links a:hover { color: rgba(240,236,228,1); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--gold-400); }
+    .nav-links a.active::after { transform: scaleX(1); opacity: 0.5; }
+    .nav-phone {
+      font-size: 0.72rem;
+      color: var(--gold-500);
+      letter-spacing: 0.05em;
+      padding: 10px 24px;
+      border: 1px solid rgba(200,169,110,0.25);
+      border-radius: 6px;
+      transition: all 0.4s;
+    }
+    .nav-phone:hover {
+      background: rgba(200,169,110,0.08);
+      border-color: rgba(200,169,110,0.5);
+    }
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-phone { font-size: 0.65rem; padding: 8px 16px; }
+    }
+
+    /* ================================================================
+       HERO — 80vh CINEMATIC
+       ================================================================ */
+    .contact-hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .contact-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('assets/bg-hands-care.png') center/cover no-repeat;
+    }
+    .contact-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6,12,24,0.7) 0%, rgba(6,12,24,0.4) 40%, rgba(6,12,24,0.65) 100%),
+        radial-gradient(ellipse 120% 80% at 50% 60%, transparent 0%, rgba(6,12,24,0.5) 100%);
+    }
+    .contact-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 140px 24px 80px;
+    }
+    .contact-hero-content .section-overline {
+      color: var(--gold-300);
+      margin-bottom: 24px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+    .contact-hero-content h1 {
+      font-size: var(--text-hero);
+      color: #ffffff;
+      text-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+    }
+    .contact-hero-content .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,0.8);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      max-width: 520px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 28px;
+      padding: 10px 24px;
+      background: rgba(200,169,110,0.12);
+      border: 1px solid rgba(200,169,110,0.25);
+      border-radius: var(--radius-full);
+      color: var(--gold-300);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+    }
+    .hero-badge-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4ade80;
+      box-shadow: 0 0 8px rgba(74,222,128,0.6);
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ================================================================
+       CONTACT SPLIT — DARK LEFT / GLASS FORM RIGHT
+       ================================================================ */
+    .contact-split {
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-split-bg {
+      position: absolute;
+      inset: 0;
+      background: url('assets/bg-peaceful-room.png') center/cover no-repeat;
+    }
+    .contact-split-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(6,12,24,0.92) 0%, rgba(6,12,24,0.88) 45%, rgba(6,12,24,0.6) 70%, rgba(6,12,24,0.4) 100%);
+    }
+    @media (max-width: 768px) {
+      .contact-split-overlay {
+        background: linear-gradient(180deg, rgba(6,12,24,0.92) 0%, rgba(6,12,24,0.85) 100%);
+      }
+    }
+    .contact-split .container {
+      position: relative;
+      z-index: 2;
+    }
+    .contact-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    @media (max-width: 900px) {
+      .contact-split-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* Left: Contact Info */
+    .contact-info-item {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      margin-bottom: 28px;
+    }
+    .contact-info-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-md);
+      background: rgba(200,169,110,0.08);
+      border: 1px solid rgba(200,169,110,0.15);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold-400);
+    }
+    .contact-info-label {
+      font-size: var(--text-xs);
+      color: rgba(240,236,228,0.4);
+      margin-bottom: 4px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .contact-info-value {
+      font-size: var(--text-body);
+      color: rgba(240,236,228,0.85);
+      line-height: 1.6;
+    }
+    .contact-info-value a {
+      color: rgba(240,236,228,0.85);
+      transition: color 0.3s;
+    }
+    .contact-info-value a:hover { color: var(--gold-400); }
+    .contact-social {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .contact-social a {
+      width: 42px; height: 42px;
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      color: rgba(240,236,228,0.4);
+      transition: all 0.3s;
+    }
+    .contact-social a:hover {
+      border-color: rgba(200,169,110,0.3);
+      color: var(--gold-400);
+      background: rgba(200,169,110,0.06);
+    }
+
+    /* Right: Glass Form */
+    .contact-form-glass {
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-xl);
+      padding: 40px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.3);
+    }
+    .contact-form-glass h3 {
+      font-size: var(--text-h3);
+      color: var(--cream);
+      margin-bottom: 4px;
+    }
+    .contact-form-glass .form-subtitle {
+      font-size: var(--text-sm);
+      color: rgba(240,236,228,0.4);
+      margin-bottom: 28px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 480px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+    textarea.form-input {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    /* ================================================================
+       MAP SECTION — CREAM
+       ================================================================ */
+    .map-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+    @media (max-width: 768px) {
+      .map-grid { grid-template-columns: 1fr; }
+    }
+    .map-placeholder {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      background: var(--cream-dark);
+      border-radius: var(--radius-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: var(--text-muted);
+      border: 1px solid var(--border-light);
+    }
+    .map-placeholder svg { opacity: 0.35; }
+    .map-placeholder p { font-size: var(--text-sm); }
+    .map-photo {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid var(--border-light);
+    }
+    .map-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      min-height: 360px;
+      transition: transform 0.8s var(--ease);
+    }
+    .map-photo:hover img { transform: scale(1.03); }
+
+    /* ================================================================
+       GET INVOLVED — CREAM
+       ================================================================ */
+    .info-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      .info-cards-grid { grid-template-columns: 1fr; }
+    }
+    .info-card-link {
+      display: block;
+    }
+    .info-card-link .card-body {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .info-card-link .card-arrow {
+      font-size: var(--text-sm);
+      color: var(--gold-600);
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      transition: gap 0.3s var(--ease);
+    }
+    .info-card-link:hover .card-arrow { gap: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- Skip Link -->
+  <a href="#main" class="skip-link sr-only">Skip to main content</a>
+
+  <!-- ============================================
+       NAVIGATION
+       ============================================ -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo" style="display:flex; align-items:center;"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:40px; width:auto;"></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="valor.html">Valor</a></li>
+      <li><a href="daves-wish.html">Dave's Wish</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="referral.html">Referral</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+    <a href="tel:8069933900" class="nav-phone">806-993-3900</a>
+  </nav>
+
+  <main id="main">
+
+    <!-- ============================================
+         HERO — 80vh CINEMATIC
+         ============================================ -->
+    <section class="contact-hero">
+      <div class="contact-hero-bg"></div>
+      <div class="contact-hero-overlay"></div>
+      <div class="contact-hero-content">
+        <div class="section-overline reveal">Get in Touch</div>
+        <h1 class="reveal">Contact Bridge Hospice</h1>
+        <p class="hero-sub reveal">Compassionate care, answers, and support whenever you need it most</p>
+        <div class="hero-badge reveal">
+          <span class="hero-badge-dot"></span>
+          Available 24/7
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         CONTACT SPLIT — INFO + GLASS FORM
+         ============================================ -->
+    <section class="section contact-split" style="padding: 100px 0;">
+      <div class="contact-split-bg"></div>
+      <div class="contact-split-overlay"></div>
+      <div class="container">
+        <div class="contact-split-grid">
+
+          <!-- Left: Contact Info -->
+          <div class="reveal">
+            <div style="margin-bottom: 36px;">
+              <div class="section-overline" style="justify-content: flex-start; color: var(--gold-400);">Reach Us Anytime</div>
+              <h2 style="color: var(--cream); font-size: var(--text-h2);">We are here for you</h2>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Address</div>
+                <div class="contact-info-value">
+                  <a href="https://maps.google.com/?q=3532+34th+Street+Lubbock+TX+79410" target="_blank" rel="noopener">3532 34th Street<br>Lubbock, TX 79410</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Phone</div>
+                <div class="contact-info-value">
+                  <a href="tel:8069933900">806-993-3900</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M6.72 13.829a30.806 30.806 0 003.451 3.451l1.939-1.94a1.5 1.5 0 011.774-.297 12.453 12.453 0 003.18.881 1.5 1.5 0 011.297 1.485v2.932a1.5 1.5 0 01-1.389 1.497A22.5 22.5 0 013.161 3.389 1.5 1.5 0 014.658 2h2.932a1.5 1.5 0 011.485 1.297 12.453 12.453 0 00.881 3.18 1.5 1.5 0 01-.297 1.774l-1.94 1.939z"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Fax</div>
+                <div class="contact-info-value">806-993-3899</div>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Email</div>
+                <div class="contact-info-value">
+                  <a href="mailto:support@bridge-hospice.com">support@bridge-hospice.com</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Hours</div>
+                <div class="contact-info-value">
+                  Mon - Fri: 9:00 AM - 5:00 PM<br>
+                  <strong style="color:var(--gold-400);">Hospice Care: 24/7</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="contact-info-item">
+              <div class="contact-info-icon">
+                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+              </div>
+              <div>
+                <div class="contact-info-label">Follow Us</div>
+                <div class="contact-social">
+                  <a href="https://facebook.com/bridgehospice" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+                  <a href="https://instagram.com/bridgehospice" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+                  <a href="https://linkedin.com/company/bridge-hospice" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Glass Form -->
+          <div class="contact-form-glass reveal reveal-delay-2">
+            <h3>Send Us a Message</h3>
+            <p class="form-subtitle">We typically respond within one business day.</p>
+            <form action="#" method="POST">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="contact-name">Full Name *</label>
+                  <input class="form-input" type="text" id="contact-name" name="name" placeholder="Your full name" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="contact-email">Email Address *</label>
+                  <input class="form-input" type="email" id="contact-email" name="email" placeholder="you@example.com" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-phone">Phone Number</label>
+                <input class="form-input" type="tel" id="contact-phone" name="phone" placeholder="(806) 555-0100">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="contact-message">Message *</label>
+                <textarea class="form-input" id="contact-message" name="message" placeholder="How can we help you?" rows="5" required></textarea>
+              </div>
+              <button type="submit" class="btn-primary" style="width:100%;justify-content:center;margin-top:8px;">Send Message</button>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         MAP + OFFICE PHOTO — CREAM
+         ============================================ -->
+    <section class="section section-cream">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-overline reveal">Find Us</div>
+          <h2 class="reveal">Visit Our Office</h2>
+        </div>
+        <div class="map-grid">
+          <div class="reveal" style="border-radius:var(--radius-lg); overflow:hidden; min-height:300px;">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3312.8!2d-101.8558!3d33.5559!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86fe12e8b0e2f1a1%3A0x1234567890abcdef!2s3532%2034th%20St%2C%20Lubbock%2C%20TX%2079410!5e0!3m2!1sen!2sus!4v1713200000000"
+              width="100%" height="100%" style="border:0; min-height:300px; border-radius:var(--radius-lg);"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+              title="Bridge Hospice location on Google Maps"></iframe>
+          </div>
+          <div class="map-photo reveal reveal-delay-1">
+            <img src="assets/bridge-office.jpg" alt="Bridge Hospice office building exterior at 3532 34th Street, Lubbock, TX" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         GET INVOLVED — CREAM
+         ============================================ -->
+    <section class="section" style="background: var(--cream-light); padding-top: 0;">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-overline reveal">Get Involved</div>
+          <h2 class="reveal">More Ways to Connect</h2>
+          <p class="section-desc reveal">Whether you want to volunteer, join our team, or refer a patient, we would love to hear from you.</p>
+        </div>
+        <div class="info-cards-grid">
+
+          <a href="volunteer.html" class="info-card-link card reveal reveal-delay-1">
+            <div class="card-body">
+              <div class="card-icon">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+              </div>
+              <h3>Volunteer with Us</h3>
+              <p>Make a meaningful difference in the lives of patients and families. Training provided for all volunteers.</p>
+              <span class="card-arrow">Learn more <span aria-hidden="true">&rarr;</span></span>
+            </div>
+          </a>
+
+          <a href="careers.html" class="info-card-link card reveal reveal-delay-2">
+            <div class="card-body">
+              <div class="card-icon">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0"/></svg>
+              </div>
+              <h3>Career Opportunities</h3>
+              <p>Join a compassionate team of caregivers dedicated to providing the highest quality end-of-life care.</p>
+              <span class="card-arrow">View openings <span aria-hidden="true">&rarr;</span></span>
+            </div>
+          </a>
+
+          <a href="referral.html" class="info-card-link card reveal reveal-delay-3">
+            <div class="card-body">
+              <div class="card-icon">
+                <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+              </div>
+              <h3>Make a Referral</h3>
+              <p>Fast, secure referral process for healthcare professionals. We review every referral within two hours.</p>
+              <span class="card-arrow">Start referral <span aria-hidden="true">&rarr;</span></span>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="font-family:var(--font-heading);font-size:1.35rem;color:rgba(240,236,228,0.95);"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:36px; width:auto; margin-bottom:16px; display:block;"></a>
+          <p>Physician-led, 24/7 end-of-life care that honors every life and every family. Serving Lubbock and surrounding communities since 2018.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Quick Links</div>
+          <div class="footer-links">
+            <a href="services.html">Services</a>
+            <a href="valor.html">Valor Program</a>
+            <a href="daves-wish.html">Dave's Wish</a>
+            <a href="about.html">About Us</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Resources</div>
+          <div class="footer-links">
+            <a href="blog.html">Blog</a>
+            <a href="referral.html">Make a Referral</a>
+            <a href="careers.html">Careers</a>
+            <a href="volunteer.html">Volunteer</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Contact</div>
+          <div class="footer-links">
+            <a href="https://maps.google.com/?q=3532+34th+Street+Lubbock+TX+79410" target="_blank" rel="noopener">3532 34th Street<br>Lubbock, TX 79410</a>
+            <a href="tel:8069933900">806-993-3900</a>
+            <a href="mailto:support@bridge-hospice.com">support@bridge-hospice.com</a>
+            <span>Mon-Fri 8am-5pm<br>24/7 On-Call Nursing</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Bridge Hospice, LLC. All rights reserved.</span>
+        <div class="footer-social">
+          <a href="https://facebook.com/bridgehospice" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+          <a href="https://instagram.com/bridgehospice" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://linkedin.com/company/bridge-hospice" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       MOBILE CTA BAR
+       ============================================ -->
+  <div class="mobile-cta">
+    <a href="tel:8069933900" class="mobile-cta-call">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Call Now
+    </a>
+    <a href="referral.html" class="mobile-cta-book">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/></svg>
+      Make Referral
+    </a>
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="js/main.js"></script>
+
+</body>
+</html>

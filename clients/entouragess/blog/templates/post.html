@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#000000">
+  <title>{{TITLE}} | Entourage Gummies</title>
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <meta name="author" content="Entourage Gummies">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://getentouragegummies.com/blog/{{SLUG}}/">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://getentouragegummies.com/blog/{{SLUG}}/">
+  <meta property="og:title" content="{{TITLE}} | Entourage Gummies">
+  <meta property="og:description" content="{{META_DESCRIPTION}}">
+  <meta property="og:image" content="{{OG_IMAGE}}">
+  <meta property="og:site_name" content="Entourage Gummies">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{TITLE}}">
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}">
+  <meta name="twitter:image" content="{{OG_IMAGE}}">
+  <link rel="icon" type="image/png" href="/blog/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fraunces:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/blog/css/blog.css">
+  {{SCHEMA}}
+</head>
+<body>
+
+  <!-- Age Gate Overlay (self-contained, localStorage-backed) -->
+  <div id="age-gate" class="age-gate" hidden>
+    <div class="age-gate-card">
+      <img src="/blog/images/logo-gold.png" alt="Entourage" class="age-gate-logo">
+      <div class="age-gate-divider"></div>
+      <h2 class="age-gate-title" id="age-gate-title">Are you 21 or older?</h2>
+      <p class="age-gate-sub" id="age-gate-sub">You must be of legal age to view this website.</p>
+      <div class="age-gate-actions" id="age-gate-actions">
+        <button type="button" class="btn-primary" id="age-yes">Yes, I'm 21+</button>
+        <button type="button" class="btn-outline-gold" id="age-no">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reading Progress Bar -->
+  <div class="reading-progress" id="reading-progress"></div>
+
+  <!-- Compliance Strip (Farm Bill + FDA disclaimer, appears on every page) -->
+  <div class="compliance-strip">
+    <div class="compliance-inner">
+      <span>Hemp-derived. 21+ only. Farm Bill compliant.</span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <a href="https://getentouragegummies.com/" class="header-logo">
+        <img src="/blog/images/logo-gold.png" alt="Entourage" height="48">
+      </a>
+      <nav class="header-nav">
+        <a href="https://getentouragegummies.com/">Home</a>
+        <a href="https://getentouragegummies.com/shop">Shop</a>
+        <a href="https://getentouragegummies.com/effects">Effects</a>
+        <a href="https://getentouragegummies.com/explore-technology">Science</a>
+        <a href="/blog/" class="active">Blog</a>
+        <a href="https://getentouragegummies.com/contact">Contact</a>
+      </nav>
+      <div class="header-actions">
+        <a href="https://getentouragegummies.com/shop" class="btn-primary">Shop Now</a>
+      </div>
+      <div class="mobile-actions">
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="mobile-menu" id="mobile-menu">
+      <nav>
+        <a href="https://getentouragegummies.com/">Home</a>
+        <a href="https://getentouragegummies.com/shop">Shop</a>
+        <a href="https://getentouragegummies.com/effects">Effects</a>
+        <a href="https://getentouragegummies.com/explore-technology">Science</a>
+        <a href="/blog/" class="active">Blog</a>
+        <a href="https://getentouragegummies.com/contact">Contact</a>
+        <div class="mobile-cta">
+          <a href="https://getentouragegummies.com/shop" class="btn-primary">Shop Now</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Effect Pills Bar -->
+  <div class="effect-bar">
+    <div class="container">
+      <a href="https://getentouragegummies.com/shop" class="effect-pill effect-relaxed">Relaxed</a>
+      <a href="https://getentouragegummies.com/shop" class="effect-pill effect-balanced">Balanced</a>
+      <a href="https://getentouragegummies.com/shop" class="effect-pill effect-uplifted">Uplifted</a>
+    </div>
+  </div>
+
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Breadcrumb">
+    <div class="container">
+      <a href="https://getentouragegummies.com/">Home</a>
+      <span class="sep">/</span>
+      <a href="/blog/">Blog</a>
+      <span class="sep">/</span>
+      <span>{{TITLE_SHORT}}</span>
+    </div>
+  </nav>
+
+  <!-- Article -->
+  <main class="blog-main">
+    <div class="container">
+      <article class="blog-post">
+        {{CONTENT}}
+      </article>
+
+      <aside class="related-posts">
+        <h2>More from the Entourage Blog</h2>
+        <div class="related-grid">{{RELATED_POSTS}}</div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- Mobile Sticky CTA Bar -->
+  <div class="mobile-cta-bar">
+    <span>Sessionable hemp gummies</span>
+    <a href="https://getentouragegummies.com/shop" class="btn-mobile-cta">Shop Now</a>
+  </div>
+
+  <!-- Newsletter Section -->
+  <section class="newsletter-section">
+    <div class="container">
+      <div class="newsletter-grid">
+        <div class="newsletter-copy">
+          <span class="nl-eyebrow">The Entourage Letter</span>
+          <h2>Science, sessionable dosing, and new drops</h2>
+          <p>Monthly dispatches on the entourage effect, fast onset delivery, and the craft of a better hemp gummy. No spam. Unsubscribe any time.</p>
+        </div>
+        <div class="newsletter-form">
+          <!-- TODO: wire to Klaviyo / Mailchimp / Beehiiv once Sandy picks an ESP. Placeholder form is inert. -->
+          <form action="#" method="POST" onsubmit="event.preventDefault(); alert('Newsletter signup will be wired up before launch.'); return false;">
+            <label for="nl-email">Email address</label>
+            <input type="email" id="nl-email" name="email" placeholder="you@example.com" required>
+            <button type="submit" class="btn-primary">Subscribe</button>
+            <p class="form-note">Must be 21+. We respect your inbox.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <img src="/blog/images/logo-gold.png" alt="Entourage" class="footer-logo-img">
+            <p>Hemp-derived THC gummies built around the entourage effect and fast-acting TiME INFUSION delivery. Three sessionable effects: Relaxed, Balanced, Uplifted. Crafted in Charlotte, North Carolina.</p>
+            <div class="footer-social">
+              <a href="mailto:info@getentouragegummies.com" aria-label="Email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="footer-col">
+            <h4>Products</h4>
+            <ul>
+              <li><a href="https://getentouragegummies.com/shop">Relaxed</a></li>
+              <li><a href="https://getentouragegummies.com/shop">Balanced</a></li>
+              <li><a href="https://getentouragegummies.com/shop">Uplifted</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Learn</h4>
+            <ul>
+              <li><a href="https://getentouragegummies.com/explore-technology">Our Science</a></li>
+              <li><a href="https://getentouragegummies.com/effects">The Entourage Effect</a></li>
+              <li><a href="/blog/">Blog</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="https://getentouragegummies.com/contact">Contact</a></li>
+              <li><a href="https://getentouragegummies.com/terms">Terms &amp; Conditions</a></li>
+              <li><a href="https://getentouragegummies.com/privacy">Privacy Policy</a></li>
+              <li><a href="https://getentouragegummies.com/refund-policy">Refund Policy</a></li>
+              <li><a href="https://getentouragegummies.com/shipping-policy">Shipping Policy</a></li>
+            </ul>
+            <div class="footer-contact-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <a href="mailto:info@getentouragegummies.com">info@getentouragegummies.com</a>
+            </div>
+            <p class="footer-address">Charlotte, North Carolina, USA</p>
+          </div>
+        </div>
+
+        <div class="footer-fda">
+          <p><strong>FDA Disclaimer.</strong> These statements have not been evaluated by the Food and Drug Administration. This product is not intended to diagnose, treat, cure, or prevent any disease.</p>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; {{YEAR}} Entourage Gummies. All rights reserved. Must be 21 or older.</p>
+          <div class="footer-legal">
+            <a href="https://getentouragegummies.com/terms">Terms</a>
+            <a href="https://getentouragegummies.com/privacy">Privacy</a>
+            <a href="https://getentouragegummies.com/refund-policy">Refund</a>
+            <a href="https://getentouragegummies.com/shipping-policy">Shipping</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="farm-bill-banner">
+      <div class="container">
+        <p>All Entourage Gummies products are derived from hemp and comply with the 2018 Farm Bill, containing less than 0.3% Delta 9 THC by dry weight.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // ---- Age Gate ----
+      var AGE_KEY = 'entourage_age_verified';
+      var AGE_TTL_DAYS = 30;
+      var ageGate = document.getElementById('age-gate');
+      var ageYes = document.getElementById('age-yes');
+      var ageNo = document.getElementById('age-no');
+      var ageTitle = document.getElementById('age-gate-title');
+      var ageSub = document.getElementById('age-gate-sub');
+      var ageActions = document.getElementById('age-gate-actions');
+
+      function readVerification() {
+        try {
+          var raw = localStorage.getItem(AGE_KEY);
+          if (!raw) return false;
+          var parsed = JSON.parse(raw);
+          if (!parsed || !parsed.ts) return false;
+          var ageMs = Date.now() - parsed.ts;
+          return ageMs < AGE_TTL_DAYS * 24 * 60 * 60 * 1000;
+        } catch (e) { return false; }
+      }
+
+      function lockScroll() { document.body.style.overflow = 'hidden'; }
+      function unlockScroll() { document.body.style.overflow = ''; }
+
+      if (!readVerification()) {
+        ageGate.hidden = false;
+        lockScroll();
+      }
+
+      ageYes.addEventListener('click', function() {
+        try { localStorage.setItem(AGE_KEY, JSON.stringify({ ts: Date.now() })); } catch (e) {}
+        ageGate.hidden = true;
+        unlockScroll();
+      });
+
+      ageNo.addEventListener('click', function() {
+        ageTitle.textContent = "Sorry, you must be 21 or older to visit this site.";
+        ageSub.textContent = "Please come back when you meet the age requirement.";
+        ageActions.innerHTML = '';
+      });
+
+      // ---- Header scroll + mobile menu + reading progress ----
+      var header = document.getElementById('site-header');
+      var toggle = document.getElementById('mobile-toggle');
+      var menu = document.getElementById('mobile-menu');
+      var progress = document.getElementById('reading-progress');
+
+      window.addEventListener('scroll', function() {
+        header.classList.toggle('scrolled', window.scrollY > 20);
+        if (progress) {
+          var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+          var scrolled = (window.scrollY / docHeight) * 100;
+          progress.style.width = Math.min(scrolled, 100) + '%';
+        }
+      });
+
+      toggle.addEventListener('click', function() {
+        menu.classList.toggle('open');
+      });
+
+      menu.querySelectorAll('a').forEach(function(link) {
+        link.addEventListener('click', function() { menu.classList.remove('open'); });
+      });
+    })();
+  </script>
+</body>
+</html>

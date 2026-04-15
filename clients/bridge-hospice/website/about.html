@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Bridge Hospice - Our Story, Team & Mission | Lubbock, TX</title>
+  <meta name="description" content="Meet the Bridge Hospice team led by founder Tammie Ware and medical directors Dr. Warmoth and Dr. Yepes-Hurtado. CHAP certified, 5x Best of the West winner, serving Lubbock since 2019.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="css/styles.css?v=4">
+
+  <style>
+    /* ================================================================
+       NAV
+       ================================================================ */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 56px;
+      background: rgba(11,25,41,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(200,169,110,0.06);
+      transition: background 0.4s, padding 0.4s;
+    }
+    .nav.scrolled {
+      padding: 14px 56px;
+      background: rgba(11,25,41,0.97);
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 20px 24px; }
+      .nav.scrolled { padding: 14px 24px; }
+    }
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: rgba(240,236,228,0.95);
+    }
+    .nav-logo em {
+      font-style: italic;
+      color: var(--gold-400);
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(240,236,228,0.45);
+      list-style: none;
+    }
+    .nav-links a {
+      position: relative;
+      transition: color 0.4s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold-500);
+      transform: scaleX(0);
+      transition: transform 0.4s var(--ease);
+    }
+    .nav-links a:hover { color: rgba(240,236,228,1); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active {
+      color: rgba(240,236,228,0.9);
+    }
+    .nav-links a.active::after {
+      transform: scaleX(1);
+      opacity: 0.5;
+    }
+    .nav-phone {
+      font-size: 0.72rem;
+      color: var(--gold-500);
+      letter-spacing: 0.05em;
+      padding: 10px 24px;
+      border: 1px solid rgba(200,169,110,0.25);
+      border-radius: 6px;
+      transition: all 0.4s;
+    }
+    .nav-phone:hover {
+      background: rgba(200,169,110,0.08);
+      border-color: rgba(200,169,110,0.5);
+    }
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-phone { font-size: 0.65rem; padding: 8px 16px; }
+    }
+
+    /* ================================================================
+       SECTION 1: CINEMATIC HERO
+       ================================================================ */
+    .about-hero {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--navy-950);
+    }
+    .about-hero-bg {
+      position: absolute; inset: 0;
+      background: url('assets/team-hearts.jpg') center center / cover no-repeat;
+      filter: saturate(0.7);
+      transform: scale(1.05);
+      animation: heroZoom 20s ease-out forwards;
+    }
+    @keyframes heroZoom {
+      to { transform: scale(1); }
+    }
+    .about-hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(6,12,24,0.7) 0%,
+          rgba(6,12,24,0.5) 40%,
+          rgba(6,12,24,0.6) 70%,
+          rgba(6,12,24,0.85) 100%
+        );
+    }
+    .about-hero-content {
+      position: relative; z-index: 2;
+      text-align: center;
+      padding: 140px 24px 80px;
+      max-width: 800px;
+    }
+    .about-hero-overline {
+      font-size: 0.62rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold-300);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+    .about-hero-overline::before,
+    .about-hero-overline::after {
+      content: '';
+      width: 32px;
+      height: 1px;
+      background: var(--gold-400);
+      opacity: 0.5;
+    }
+    .about-hero h1 {
+      font-family: var(--font-heading);
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      font-weight: 400;
+      color: #ffffff;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+    }
+    .about-hero-sub {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      max-width: 560px;
+      margin: 0 auto;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    }
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .hero-scroll-hint span {
+      display: block;
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(180deg, rgba(200,169,110,0.4), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50% { opacity: 0.8; transform: scaleY(1.3); }
+    }
+
+    /* ================================================================
+       SECTION 2: MISSION (cinematic photo bleed)
+       ================================================================ */
+    .mission-section {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      background: var(--navy-900);
+    }
+    .mission-bg {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 55%;
+      background: url('assets/bg-peaceful-room.png') center center / cover no-repeat;
+      mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.7) 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,0.4) 30%, rgba(0,0,0,0.7) 100%);
+    }
+    .mission-inner {
+      position: relative; z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 96px 48px;
+      width: 100%;
+    }
+    .mission-quote {
+      font-family: var(--font-heading);
+      font-size: clamp(1.4rem, 2.8vw, 2rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.55;
+      color: #ffffff;
+      max-width: 600px;
+      margin-bottom: 48px;
+      position: relative;
+      padding-left: 32px;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .mission-quote::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 4px; bottom: 4px;
+      width: 3px;
+      background: linear-gradient(180deg, var(--gold-400), var(--gold-600));
+      border-radius: 2px;
+    }
+    .mission-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      max-width: 680px;
+    }
+    .mission-columns p {
+      font-size: var(--text-body);
+      color: rgba(255,255,255,0.65);
+      line-height: 1.85;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.3);
+    }
+    @media (max-width: 768px) {
+      .mission-bg { width: 100%; opacity: 0.2; mask-image: none; -webkit-mask-image: none; }
+      .mission-inner { padding: 72px 24px; }
+      .mission-columns { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    /* ================================================================
+       SECTION 3: FOUNDER (editorial split)
+       ================================================================ */
+    .founder-section {
+      background: var(--cream-light);
+      padding: 96px 0;
+    }
+    @media (max-width: 768px) { .founder-section { padding: 64px 0; } }
+    .founder-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 64px;
+      align-items: center;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .founder-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+    .founder-photo-wrap {
+      position: relative;
+    }
+    .founder-photo {
+      width: 100%;
+      min-height: 500px;
+      object-fit: cover;
+      border-radius: var(--radius-xl);
+      filter: saturate(0.9);
+      box-shadow: 0 24px 64px rgba(0,0,0,0.12);
+    }
+    @media (max-width: 768px) {
+      .founder-photo { min-height: 380px; }
+    }
+    .founder-photo-accent {
+      position: absolute;
+      bottom: -16px; right: -16px;
+      width: 120px; height: 120px;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+      opacity: 0.15;
+      z-index: -1;
+    }
+    .founder-text h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-h2);
+      color: var(--navy-800);
+      margin-bottom: 24px;
+      line-height: 1.25;
+    }
+    .founder-text p {
+      font-size: var(--text-body);
+      color: var(--text-muted);
+      line-height: 1.85;
+      margin-bottom: 16px;
+    }
+    .founder-meta {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border-light);
+    }
+    .founder-name {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--navy-800);
+    }
+    .founder-title {
+      font-size: var(--text-sm);
+      color: var(--gold-600);
+      margin-top: 4px;
+    }
+    .founder-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 20px;
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--gold-600);
+      transition: all 0.3s;
+    }
+    .founder-cta:hover { color: var(--gold-500); gap: 12px; }
+    .founder-cta svg { transition: transform 0.3s; }
+    .founder-cta:hover svg { transform: translateX(3px); }
+
+    /* ================================================================
+       SECTION 4: LEADERSHIP TEAM
+       ================================================================ */
+    .team-section { padding: 96px 0; background: var(--white); }
+    @media (max-width: 768px) { .team-section { padding: 64px 0; } }
+
+    .team-photo {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      object-position: top center;
+      border-radius: 16px;
+      margin-bottom: 16px;
+      filter: saturate(0.85);
+      transition: all var(--duration) var(--ease);
+    }
+    .team-member:hover .team-photo {
+      filter: saturate(1);
+      transform: scale(1.03);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.12);
+    }
+
+    /* ================================================================
+       SECTION 5: AWARDS (cinematic prairie background)
+       ================================================================ */
+    .awards-section {
+      position: relative;
+      overflow: hidden;
+      padding: 96px 0;
+    }
+    .awards-bg {
+      position: absolute; inset: 0;
+      background: url('assets/bg-prairie-path.png') center center / cover no-repeat;
+      filter: brightness(0.25) saturate(0.6);
+    }
+    .awards-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(6,12,24,0.6) 0%, rgba(6,12,24,0.8) 100%);
+    }
+    .awards-inner {
+      position: relative; z-index: 2;
+    }
+    .awards-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) {
+      .awards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .awards-grid { grid-template-columns: 1fr; max-width: 320px; }
+    }
+    .award-card {
+      text-align: center;
+      padding: 36px 24px;
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(200,169,110,0.12);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all var(--duration) var(--ease);
+    }
+    .award-card:hover {
+      background: rgba(200,169,110,0.06);
+      border-color: rgba(200,169,110,0.25);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 40px rgba(200,169,110,0.1);
+    }
+    .award-icon-ring {
+      width: 72px; height: 72px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      border: 2px solid rgba(200,169,110,0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(200,169,110,0.06);
+    }
+    .award-icon-ring svg {
+      width: 28px; height: 28px;
+      color: var(--gold-400);
+    }
+    .award-label {
+      font-family: var(--font-heading);
+      font-size: 1.05rem;
+      color: var(--cream);
+      margin-bottom: 6px;
+    }
+    .award-sub {
+      font-size: var(--text-xs);
+      color: rgba(240,236,228,0.4);
+      line-height: 1.5;
+    }
+
+    /* ================================================================
+       SECTION 6: VALUES
+       ================================================================ */
+    .values-section {
+      background: var(--cream-light);
+      padding: 96px 0;
+    }
+    @media (max-width: 768px) { .values-section { padding: 64px 0; } }
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 1024px) { .values-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .values-grid { grid-template-columns: 1fr; } }
+    .value-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border-light);
+      padding: 32px 28px;
+      transition: all var(--duration) var(--ease);
+    }
+    .value-card:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-4px);
+    }
+    .value-icon {
+      width: 52px; height: 52px;
+      border-radius: var(--radius-md);
+      background: rgba(200,169,110,0.08);
+      border: 1px solid rgba(200,169,110,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      color: var(--gold-500);
+    }
+    .value-card h3 {
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      color: var(--navy-800);
+      margin-bottom: 10px;
+    }
+    .value-card p {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+
+    /* ================================================================
+       SECTION 7: CTA
+       ================================================================ */
+    .cta-section {
+      background: var(--navy-900);
+      padding: 96px 0;
+      text-align: center;
+    }
+    @media (max-width: 768px) { .cta-section { padding: 64px 0; } }
+    .cta-section h2 {
+      color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .cta-section .cta-desc {
+      font-size: var(--text-lg);
+      color: rgba(240,236,228,0.5);
+      max-width: 540px;
+      margin: 0 auto 40px;
+      line-height: 1.8;
+    }
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .cta-section .btn-outline {
+      border-color: rgba(255,255,255,0.12);
+      color: rgba(240,236,228,0.7);
+    }
+    .cta-section .btn-outline:hover {
+      border-color: rgba(200,169,110,0.4);
+      color: var(--gold-400);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       NAVIGATION
+       ============================================ -->
+  <header>
+    <nav class="nav" id="mainNav">
+      <a href="index.html" class="nav-logo" style="display:flex; align-items:center;"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:40px; width:auto;"></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="valor.html">Valor</a></li>
+        <li><a href="daves-wish.html">Dave's Wish</a></li>
+        <li><a href="about.html" class="active">About</a></li>
+        <li><a href="referral.html">Referral</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+      <a href="tel:8069933900" class="nav-phone">806-993-3900</a>
+    </nav>
+  </header>
+
+  <!-- ============================================
+       SECTION 1: CINEMATIC HERO
+       ============================================ -->
+  <section class="about-hero">
+    <div class="about-hero-bg" aria-hidden="true"></div>
+    <div class="about-hero-overlay" aria-hidden="true"></div>
+    <div class="about-hero-content">
+      <div class="about-hero-overline reveal">Our Story</div>
+      <h1 class="reveal reveal-delay-1">About Bridge Hospice</h1>
+      <p class="about-hero-sub reveal reveal-delay-2">Founded on a simple belief: every person deserves comfort, dignity, and compassion at the end of life. We have carried that promise across West Texas since 2019.</p>
+    </div>
+    <div class="hero-scroll-hint" aria-hidden="true">
+      <span></span>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 2: MISSION & PHILOSOPHY
+       ============================================ -->
+  <section class="mission-section">
+    <div class="mission-bg" aria-hidden="true"></div>
+    <div class="mission-inner">
+      <div class="mission-quote reveal">
+        Hospice is not a place, it's a philosophy of care - rooted in compassion, dignity, and respect for every life.
+      </div>
+      <div class="mission-columns">
+        <div class="reveal reveal-delay-1">
+          <p>At Bridge Hospice, we believe that end-of-life care should honor the whole person - physically, emotionally, and spiritually. Our interdisciplinary team works alongside families to create a care plan that reflects each patient's values, wishes, and unique story.</p>
+        </div>
+        <div class="reveal reveal-delay-2">
+          <p>From pain management and symptom control to chaplain visits and bereavement support, every service we provide is designed to bring peace to patients and strength to their families. We do not just manage symptoms. We walk alongside you through one of life's most sacred passages.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 3: FOUNDER STORY
+       ============================================ -->
+  <section class="founder-section">
+    <div class="container">
+      <div class="founder-grid">
+        <div class="founder-photo-wrap reveal">
+          <img src="assets/tammie-ware.jpg" alt="Tammie Ware, CEO and Founder of Bridge Hospice" class="founder-photo" loading="lazy">
+          <div class="founder-photo-accent" aria-hidden="true"></div>
+        </div>
+        <div class="founder-text reveal reveal-delay-1">
+          <div class="section-overline" style="justify-content:flex-start; margin-bottom:20px;">Our Founder</div>
+          <h3>A Vision Born from Purpose</h3>
+          <p>Tammie Ware founded Bridge Hospice in 2019 with a deeply personal mission: to provide end-of-life care that feels like family. After years of working in healthcare, she saw too many families navigating hospice alone, without the warmth and guidance they needed at the hardest moment of their lives.</p>
+          <p>She built Bridge Hospice to be different. Every hire, every protocol, every home visit reflects her belief that compassion is not a checkbox - it is the foundation of everything we do. Under her leadership, Bridge Hospice has grown from a small Lubbock practice to a 25-person team serving families across West Texas.</p>
+          <div class="founder-meta">
+            <div class="founder-name">Tammie Ware</div>
+            <div class="founder-title">CEO &amp; Founder</div>
+            <a href="contact.html" class="founder-cta">
+              Learn More About Our Story
+              <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 4: LEADERSHIP TEAM
+       ============================================ -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-overline reveal">Our Team</div>
+        <h2 class="reveal reveal-delay-1">Leadership</h2>
+        <p class="section-desc reveal reveal-delay-2">The people behind our promise. Every member of our leadership team is driven by a shared commitment to compassionate, physician-led care.</p>
+      </div>
+      <div class="team-grid">
+
+        <div class="team-member reveal">
+          <img src="assets/tammie-ware.jpg" alt="Tammie Ware, CEO and Founder" class="team-photo" loading="lazy">
+          <div class="team-name">Tammie Ware</div>
+          <div class="team-role">CEO, Founder</div>
+        </div>
+
+        <div class="team-member reveal reveal-delay-1">
+          <img src="assets/dr-warmoth.jpg" alt="Dr. Larry Warmoth, Medical Director" class="team-photo" loading="lazy">
+          <div class="team-name">Dr. Larry Warmoth, MD</div>
+          <div class="team-role">Medical Director</div>
+        </div>
+
+        <div class="team-member reveal reveal-delay-2">
+          <img src="assets/dr-yepes.jpg" alt="Dr. Andres Yepes-Hurtado, Medical Director" class="team-photo" loading="lazy">
+          <div class="team-name">Dr. Andres Yepes-Hurtado, MD</div>
+          <div class="team-role">Medical Director</div>
+        </div>
+
+        <div class="team-member reveal reveal-delay-3">
+          <img src="assets/emily-flathouse.jpg" alt="Emily Flathouse, Nurse Practitioner" class="team-photo" loading="lazy">
+          <div class="team-name">Emily Flathouse, FNP</div>
+          <div class="team-role">Nurse Practitioner</div>
+        </div>
+
+        <div class="team-member reveal reveal-delay-1">
+          <img src="assets/christina-holman.png" alt="Christina Holman, Director of Nursing" class="team-photo" loading="lazy">
+          <div class="team-name">Christina Holman, RN</div>
+          <div class="team-role">Director of Nursing</div>
+        </div>
+
+        <div class="team-member reveal reveal-delay-2">
+          <img src="assets/teresa-mills.jpg" alt="Teresa Mills, Director of Business Development" class="team-photo" loading="lazy">
+          <div class="team-name">Teresa Mills</div>
+          <div class="team-role">Dir. Business Development</div>
+        </div>
+
+        <div class="team-member reveal reveal-delay-3">
+          <img src="assets/presley-mills.jpg" alt="Presley Mills, Patient Admissions Manager" class="team-photo" loading="lazy">
+          <div class="team-name">Presley Mills</div>
+          <div class="team-role">Patient Admissions Manager</div>
+        </div>
+
+        <div class="team-member reveal reveal-delay-4">
+          <img src="assets/aubree-wilson.jpg" alt="Aubree Wilson, Alternate Administrator" class="team-photo" loading="lazy">
+          <div class="team-name">Aubree Wilson</div>
+          <div class="team-role">Alternate Administrator</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 5: AWARDS & CERTIFICATIONS
+       ============================================ -->
+  <section class="awards-section">
+    <div class="awards-bg" aria-hidden="true"></div>
+    <div class="awards-overlay" aria-hidden="true"></div>
+    <div class="awards-inner">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-overline reveal" style="color:var(--gold-300);">Recognition</div>
+          <h2 class="reveal reveal-delay-1" style="color:#ffffff;">Awards &amp; Certifications</h2>
+          <p class="section-desc reveal reveal-delay-2" style="color:rgba(240,236,228,0.5);">Held to the highest standards by the organizations that matter most in hospice care.</p>
+        </div>
+        <div class="awards-grid">
+
+          <div class="award-card reveal">
+            <div class="award-icon-ring">
+              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/></svg>
+            </div>
+            <div class="award-label">CHAP Certified</div>
+            <div class="award-sub">Community Health Accreditation Partner</div>
+          </div>
+
+          <div class="award-card reveal reveal-delay-1">
+            <div class="award-icon-ring">
+              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+            </div>
+            <div class="award-label">Women Owned</div>
+            <div class="award-sub">Certified Women-Owned Business</div>
+          </div>
+
+          <div class="award-card reveal reveal-delay-2">
+            <div class="award-icon-ring">
+              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+            </div>
+            <div class="award-label">Age-Friendly Care</div>
+            <div class="award-sub">Age-Friendly Health System</div>
+          </div>
+
+          <div class="award-card reveal reveal-delay-3">
+            <div class="award-icon-ring">
+              <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 18.75h-9m9 0a3 3 0 013 3h-15a3 3 0 013-3m9 0v-3.375c0-.621-.503-1.125-1.125-1.125h-.871M7.5 18.75v-3.375c0-.621.504-1.125 1.125-1.125h.872m5.007 0H9.497m5.007 0a7.454 7.454 0 01-.982-3.172M9.497 14.25a7.454 7.454 0 00.981-3.172M5.25 4.236c-.982.143-1.954.317-2.916.52A6.003 6.003 0 007.73 9.728M5.25 4.236V4.5c0 2.108.966 3.99 2.48 5.228M5.25 4.236V2.721C7.456 2.41 9.71 2.25 12 2.25c2.291 0 4.545.16 6.75.47v1.516M18.75 4.236c.982.143 1.954.317 2.916.52A6.003 6.003 0 0016.27 9.728M18.75 4.236V4.5c0 2.108-.966 3.99-2.48 5.228m0 0a6.023 6.023 0 01-2.77.897m0 0a6.023 6.023 0 01-2.77-.897"/></svg>
+            </div>
+            <div class="award-label">5x Best of the West</div>
+            <div class="award-sub">2022, 2023, 2024, 2025, 2026</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 6: VALUES
+       ============================================ -->
+  <section class="values-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-overline reveal">What Guides Us</div>
+        <h2 class="reveal reveal-delay-1">Our Values</h2>
+      </div>
+      <div class="values-grid">
+
+        <div class="value-card reveal">
+          <div class="value-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/></svg>
+          </div>
+          <h3>Compassion</h3>
+          <p>Every interaction is guided by empathy. We meet patients and families wherever they are, with warmth and understanding that goes beyond clinical care.</p>
+        </div>
+
+        <div class="value-card reveal reveal-delay-1">
+          <div class="value-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"/></svg>
+          </div>
+          <h3>Dignity</h3>
+          <p>We honor every patient's autonomy, privacy, and personal values. End-of-life care should preserve what makes each person unique, not diminish it.</p>
+        </div>
+
+        <div class="value-card reveal reveal-delay-2">
+          <div class="value-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
+          </div>
+          <h3>Community</h3>
+          <p>Bridge Hospice was built for Lubbock and the families who call West Texas home. We invest in the community that trusts us with their most vulnerable moments.</p>
+        </div>
+
+        <div class="value-card reveal reveal-delay-3">
+          <div class="value-icon">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 00-.182.557l1.285 5.385a.562.562 0 01-.84.61l-4.725-2.885a.563.563 0 00-.586 0L6.982 20.54a.562.562 0 01-.84-.61l1.285-5.386a.562.562 0 00-.182-.557l-4.204-3.602a.563.563 0 01.321-.988l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z"/></svg>
+          </div>
+          <h3>Excellence</h3>
+          <p>CHAP accreditation and five consecutive Best of the West awards reflect our standard: the highest level of clinical care paired with genuine human connection.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SECTION 7: CTA
+       ============================================ -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="section-overline reveal" style="color:var(--gold-300);">Get Involved</div>
+      <h2 class="reveal reveal-delay-1">Join Our Mission</h2>
+      <p class="cta-desc reveal reveal-delay-2">Whether you want to volunteer your time, build a career in compassionate care, or refer a patient who needs support, we would be honored to hear from you.</p>
+      <div class="cta-buttons reveal reveal-delay-3">
+        <a href="volunteer.html" class="btn-primary">Volunteer With Us</a>
+        <a href="careers.html" class="btn-outline">View Careers</a>
+        <a href="referral.html" class="btn-outline">Make a Referral</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="font-family:var(--font-heading);font-size:1.35rem;color:rgba(240,236,228,0.95);"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:36px; width:auto; margin-bottom:16px; display:block;"></a>
+          <p>Physician-led, 24/7 end-of-life care that honors every life and every family. Serving Lubbock and surrounding communities since 2019.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Quick Links</div>
+          <div class="footer-links">
+            <a href="services.html">Services</a>
+            <a href="valor.html">Valor Program</a>
+            <a href="daves-wish.html">Dave's Wish</a>
+            <a href="about.html">About Us</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Resources</div>
+          <div class="footer-links">
+            <a href="blog.html">Blog</a>
+            <a href="referral.html">Make a Referral</a>
+            <a href="careers.html">Careers</a>
+            <a href="volunteer.html">Volunteer</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Contact</div>
+          <div class="footer-links">
+            <a href="https://maps.google.com/?q=3532+34th+Street+Lubbock+TX+79410" target="_blank" rel="noopener">3532 34th Street<br>Lubbock, TX 79410</a>
+            <a href="tel:8069933900">806-993-3900</a>
+            <a href="mailto:support@bridge-hospice.com">support@bridge-hospice.com</a>
+            <span>Mon-Fri 8am-5pm<br>24/7 On-Call Nursing</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Bridge Hospice, LLC. All rights reserved.</span>
+        <div class="footer-social">
+          <a href="https://facebook.com/bridgehospice" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+          <a href="https://instagram.com/bridgehospice" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://linkedin.com/company/bridge-hospice" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       MOBILE CTA BAR
+       ============================================ -->
+  <div class="mobile-cta">
+    <a href="tel:8069933900" class="mobile-cta-call">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Call Now
+    </a>
+    <a href="contact.html" class="mobile-cta-book">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Book Consultation
+    </a>
+  </div>
+
+  <!-- Main JavaScript -->
+  <script src="js/main.js"></script>
+  <script>
+    // Nav scroll effect
+    (function() {
+      var nav = document.getElementById('mainNav');
+      if (!nav) return;
+      var scrolled = false;
+      window.addEventListener('scroll', function() {
+        var s = window.scrollY > 60;
+        if (s !== scrolled) {
+          scrolled = s;
+          nav.classList.toggle('scrolled', s);
+        }
+      }, { passive: true });
+    })();
+  </script>
+
+</body>
+</html>

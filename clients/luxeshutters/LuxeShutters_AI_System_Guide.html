@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LuxeShutters — AI System Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --coral:   #FF5C5C;
+      --navy:    #041122;
+      --text:    #1D1F28;
+      --cream:   #FAF8F4;
+      --white:   #FFFFFF;
+      --border:  #E8E4DD;
+      --muted:   #6B7280;
+      --green:   #22C55E;
+      --amber:   #F59E0B;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    /* ─── HEADER ─────────────────────────────────────── */
+    .header {
+      background: var(--navy);
+      padding: 48px 64px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .header-left { flex: 1; }
+    .header-badge {
+      display: inline-block;
+      background: var(--coral);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+    }
+    .header h1 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 36px;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 10px;
+    }
+    .header h1 span { color: var(--coral); }
+    .header-sub {
+      color: rgba(255,255,255,0.6);
+      font-size: 15px;
+      max-width: 480px;
+    }
+    .header-logo {
+      text-align: right;
+    }
+    .logo-hex {
+      width: 72px;
+      height: 72px;
+      margin-bottom: 8px;
+    }
+    .logo-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 1px;
+    }
+    .logo-label span { color: var(--coral); }
+
+    /* ─── META BAR ───────────────────────────────────── */
+    .meta-bar {
+      background: var(--coral);
+      padding: 14px 64px;
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .meta-item strong { font-weight: 700; }
+
+    /* ─── LAYOUT ─────────────────────────────────────── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 56px 40px;
+    }
+
+    /* ─── SECTION HEADERS ────────────────────────────── */
+    .section-label {
+      font-family: 'Poppins', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 8px;
+    }
+    h2 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .section-intro {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 32px;
+      max-width: 720px;
+    }
+    .section-divider {
+      border: none;
+      border-top: 2px solid var(--border);
+      margin: 56px 0;
+    }
+
+    /* ─── OVERVIEW CARDS ─────────────────────────────── */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+    .overview-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .overview-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: var(--coral);
+    }
+    .overview-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    .overview-card h3 {
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .overview-card p {
+      font-size: 13.5px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ─── CHANNEL CARDS ──────────────────────────────── */
+    .channel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 8px;
+    }
+    .channel-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 24px 28px;
+    }
+    .channel-card .tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+    .tag-auto { background: #DCFCE7; color: #166534; }
+    .tag-ai   { background: #EDE9FE; color: #5B21B6; }
+    .tag-form { background: #DBEAFE; color: #1E40AF; }
+    .channel-card h3 { font-size: 16px; margin-bottom: 8px; }
+    .channel-card p  { font-size: 13.5px; color: var(--muted); margin-bottom: 14px; }
+    .channel-fields {
+      background: var(--cream);
+      border-radius: 8px;
+      padding: 12px 16px;
+    }
+    .channel-fields p {
+      font-size: 12.5px;
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+    .channel-fields strong { color: var(--text); }
+
+    /* ─── PIPELINE ───────────────────────────────────── */
+    .pipeline-wrap {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 16px;
+    }
+    .pipeline-stages {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .stage-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0;
+      position: relative;
+    }
+    .stage-row:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 44px;
+      bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .stage-bullet {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 18px 0;
+    }
+    .stage-dot {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .dot-manual { background: #F3F4F6; border: 2px solid #D1D5DB; }
+    .dot-auto   { background: #DCFCE7; border: 2px solid #86EFAC; }
+    .dot-trigger { background: #FEF9C3; border: 2px solid #FDE047; }
+    .stage-name {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      padding-top: 7px;
+    }
+    .stage-detail {
+      padding: 18px 0 18px 8px;
+      border-left: none;
+    }
+    .stage-detail p {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .stage-detail p:last-child { margin-bottom: 0; }
+    .auto-badge {
+      display: inline-block;
+      background: #DCFCE7;
+      color: #166534;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    .manual-badge {
+      display: inline-block;
+      background: #F3F4F6;
+      color: #6B7280;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+
+    /* ─── WORKFLOW CARDS ─────────────────────────────── */
+    .workflow-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .workflow-header {
+      background: var(--navy);
+      padding: 20px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .workflow-header h3 {
+      color: #fff;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+    .workflow-header p {
+      color: rgba(255,255,255,0.55);
+      font-size: 12.5px;
+    }
+    .workflow-trigger {
+      background: var(--coral);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+    .workflow-body {
+      padding: 24px 28px;
+    }
+    .workflow-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .workflow-steps li {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 26px;
+      height: 26px;
+      background: var(--coral);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .step-content { flex: 1; }
+    .step-content strong {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      display: block;
+      margin-bottom: 3px;
+    }
+    .step-content span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ─── INFO BOX ───────────────────────────────────── */
+    .info-box {
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      gap: 16px;
+    }
+    .info-box.blue { background: #EFF6FF; border: 1.5px solid #BFDBFE; }
+    .info-box.green { background: #F0FDF4; border: 1.5px solid #BBF7D0; }
+    .info-box.amber { background: #FFFBEB; border: 1.5px solid #FDE68A; }
+    .info-box.coral { background: #FFF1F1; border: 1.5px solid #FECACA; }
+    .info-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+    .info-box h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .info-box p { font-size: 13.5px; color: var(--text); line-height: 1.6; }
+    .info-box ul { font-size: 13.5px; color: var(--text); padding-left: 18px; line-height: 1.9; }
+
+    /* ─── PRICING TABLE ──────────────────────────────── */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .pricing-card {
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .pricing-card.auto-price {
+      background: #F0FDF4;
+      border: 1.5px solid #BBF7D0;
+    }
+    .pricing-card.manual-price {
+      background: #F9FAFB;
+      border: 1.5px solid #E5E7EB;
+    }
+    .pricing-card h4 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .pricing-card p { font-size: 13px; color: var(--muted); }
+    .price-formula {
+      background: var(--navy);
+      color: var(--coral);
+      font-family: monospace;
+      font-size: 13px;
+      padding: 8px 14px;
+      border-radius: 6px;
+      margin-top: 10px;
+      display: inline-block;
+    }
+
+    /* ─── CHECKLIST ──────────────────────────────────── */
+    .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 14px;
+    }
+    .check-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .check-done { background: #DCFCE7; color: #16A34A; }
+    .check-pending { background: #FEF9C3; color: #B45309; }
+    .check-chris { background: #EDE9FE; color: #7C3AED; }
+
+    /* ─── TWO COL ────────────────────────────────────── */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+    /* ─── SIMPLE TABLE ───────────────────────────────── */
+    .simple-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      margin-bottom: 8px;
+    }
+    .simple-table th {
+      background: var(--navy);
+      color: #fff;
+      font-family: 'Poppins', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: left;
+      padding: 10px 16px;
+      letter-spacing: 0.5px;
+    }
+    .simple-table th:first-child { border-radius: 8px 0 0 0; }
+    .simple-table th:last-child  { border-radius: 0 8px 0 0; }
+    .simple-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .simple-table tr:last-child td { border-bottom: none; }
+    .simple-table tr:nth-child(even) td { background: #FAFAFA; }
+    .td-green { color: #16A34A; font-weight: 600; }
+    .td-amber { color: #B45309; font-weight: 600; }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    .footer {
+      background: var(--navy);
+      color: rgba(255,255,255,0.45);
+      padding: 28px 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12.5px;
+    }
+    .footer strong { color: var(--coral); }
+
+    /* ─── PRINT ──────────────────────────────────────── */
+    @media print {
+      body { font-size: 13px; }
+      .header { padding: 32px 40px; }
+      .meta-bar { padding: 12px 40px; }
+      .container { padding: 36px 32px; }
+      .section-divider { margin: 36px 0; }
+      .workflow-card { page-break-inside: avoid; }
+      .stage-row { page-break-inside: avoid; }
+    }
+
+    @media (max-width: 800px) {
+      .header { padding: 32px 24px; flex-direction: column; }
+      .meta-bar { padding: 14px 24px; }
+      .container { padding: 36px 20px; }
+      .overview-grid { grid-template-columns: 1fr; }
+      .channel-grid { grid-template-columns: 1fr; }
+      .two-col { grid-template-columns: 1fr; }
+      .three-col { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .stage-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════ HEADER -->
+<div class="header">
+  <div class="header-left">
+    <div class="header-badge">Prepared by MonteKristo AI</div>
+    <h1>LuxeShutters<br/><span>AI Automation System</span></h1>
+    <p class="header-sub">Complete guide to every AI agent, automation workflow, and integration built for Chris & Campbell — from first lead to installed order.</p>
+  </div>
+  <div class="header-logo">
+    <svg class="logo-hex" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="36,4 66,20 66,52 36,68 6,52 6,20" fill="#FF5C5C" opacity="0.15" stroke="#FF5C5C" stroke-width="2"/>
+      <polygon points="36,12 58,24 58,48 36,60 14,48 14,24" fill="#FF5C5C" opacity="0.1" stroke="#FF5C5C" stroke-width="1.5"/>
+      <text x="36" y="44" text-anchor="middle" font-family="Poppins,sans-serif" font-size="22" font-weight="800" fill="#FF5C5C">M</text>
+    </svg>
+    <div class="logo-label"><span>Monte</span>Kristo AI</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ META BAR -->
+<div class="meta-bar">
+  <div class="meta-item">👤 <span><strong>Client:</strong> Chris & Campbell — LuxeShutters</span></div>
+  <div class="meta-item">📍 <span><strong>Location:</strong> Temora, NSW, Australia</span></div>
+  <div class="meta-item">📞 <span><strong>Phone:</strong> 1800 465 893</span></div>
+  <div class="meta-item">📅 <span><strong>Document date:</strong> March 2026</span></div>
+</div>
+
+<!-- ═══════════════════════════════════════════ MAIN -->
+<div class="container">
+
+  <!-- ── SECTION 1: OVERVIEW ─────────────────────────── -->
+  <div class="section-label">Section 1</div>
+  <h2>What Was Built — The Big Picture</h2>
+  <p class="section-intro">MonteKristo AI has built a complete end-to-end AI system for LuxeShutters. Every lead that comes in — whether by phone call, website chat, or online form — is automatically captured, qualified, and entered into your CRM. Once a quote is requested, the entire quote-to-sale process is automated: Xero quote generated, follow-up messages sent, invoice raised, and production order placed — all without manual data entry from Chris or Campbell.</p>
+
+  <div class="overview-grid">
+    <div class="overview-card">
+      <span class="overview-icon">🎯</span>
+      <h3>Lead Capture</h3>
+      <p>5 channels feed leads directly into GoHighLevel CRM — website forms, AI chat widget, and an AI voice agent on your phone number. Every lead is captured 24/7, no manual entry required.</p>
+    </div>
+    <div class="overview-card">
+      <span class="overview-icon">📋</span>
+      <h3>Quote Automation</h3>
+      <p>When Chris moves a deal to "Quote Requested", the system automatically calculates the price (for Shutters and Roller Blinds), creates a Xero draft quote, and sends a 3-touch follow-up sequence over 11 days.</p>
+    </div>
+    <div class="overview-card">
+      <span class="overview-icon">🏆</span>
+      <h3>Sale Won Automation</h3>
+      <p>When a deal is marked "Won", the system instantly raises a Xero invoice, submits a production order to Cora, and creates an installation task in GHL — all within seconds.</p>
+    </div>
+  </div>
+
+  <div class="info-box green">
+    <div class="info-icon">✅</div>
+    <div>
+      <h4>Everything is live and active</h4>
+      <p>All 10 workflows are deployed and running on Railway (24/7 cloud server). All systems point to the real LuxeShutters GoHighLevel account. No test environments remain active.</p>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 2: LEAD CHANNELS ────────────────────── -->
+  <div class="section-label">Section 2</div>
+  <h2>How Leads Come In — 5 Channels</h2>
+  <p class="section-intro">Every channel below automatically creates or updates a contact in GoHighLevel. Chris and Campbell never need to manually enter a lead from any of these sources.</p>
+
+  <div class="channel-grid">
+
+    <div class="channel-card">
+      <div class="tag tag-form">Website Form</div>
+      <h3>Quote Request Form</h3>
+      <p>When someone fills out the quote form on the LuxeShutters website, their details land instantly in GHL as a new contact tagged <em>website-quote-request</em>. The contact is created with their name, phone, email, address, and the product type they selected.</p>
+      <div class="channel-fields">
+        <p><strong>Captures:</strong> First name, last name, phone, email, address, city, service type, urgency/timeframe</p>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="tag tag-form">Website Form</div>
+      <h3>Consultation Request Form</h3>
+      <p>When someone books a consultation through the website, their contact is created in GHL tagged <em>website-consultation-request</em>. Their message or special request is saved directly to the contact's Notes field.</p>
+      <div class="channel-fields">
+        <p><strong>Captures:</strong> Full name, phone, email, message/notes</p>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="tag tag-ai">AI Agent</div>
+      <h3>AI Web Chat Widget</h3>
+      <p>The chat widget on the website is powered by Retell AI. It has a full conversation with the visitor, qualifies them, collects their details, and when the chat ends, a summary is sent to GHL. A new opportunity is created in the pipeline at "New Enquiry" stage automatically.</p>
+      <div class="channel-fields">
+        <p><strong>Captures:</strong> Name, phone, email, product type, enquiry type, timeframe, suburb, postcode, property type, window count, and a full chat summary in the Notes field.</p>
+      </div>
+    </div>
+
+    <div class="channel-card">
+      <div class="tag tag-ai">AI Agent</div>
+      <h3>AI Phone Voice Agent</h3>
+      <p>When someone calls the LuxeShutters number, the AI voice agent answers, qualifies the caller, and collects all their details. After the call ends, the full call analysis is sent to GHL. A contact and opportunity are created automatically — including the call transcript summary in Notes.</p>
+      <div class="channel-fields">
+        <p><strong>Captures:</strong> Name, phone, email, product interest, enquiry type, timeframe, suburb, window count, and AI-generated call summary</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Negative feedback -->
+  <div class="channel-card" style="margin-top:16px;">
+    <div class="tag tag-form">Website</div>
+    <h3>Negative Feedback Form (Review Gating)</h3>
+    <p style="margin-bottom:14px;">The website review section routes customers based on their star rating. Customers who give 4–5 stars are sent directly to your Google Review page. Customers who give 1–3 stars are shown a private feedback form. That feedback is captured in GHL as a task assigned to Chris, so nothing slips through without being addressed. The customer never posts publicly — you get the chance to resolve it first.</p>
+    <div class="channel-fields">
+      <p><strong>Captures:</strong> Star rating, categories of complaint, improvement suggestion, message — all saved as a GHL task for follow-up</p>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 3: GHL CRM ───────────────────────────── -->
+  <div class="section-label">Section 3</div>
+  <h2>GoHighLevel CRM — How It Works</h2>
+  <p class="section-intro">GoHighLevel (GHL) is the central hub where all leads, opportunities, and customer conversations are managed. Think of it as your sales pipeline, contact database, and communication tool all in one.</p>
+
+  <div class="two-col" style="margin-bottom:28px;">
+    <div>
+      <h3>Contacts</h3>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">Every person who interacts with LuxeShutters becomes a contact in GHL. The contact stores their name, phone, email, and the following custom fields that are automatically filled in by the AI agents:</p>
+      <table class="simple-table">
+        <thead>
+          <tr><th>Field</th><th>Example Value</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Lead Source</td><td>Quote Form / Retell Phone Call</td></tr>
+          <tr><td>Enquiry Type</td><td>New Quote / General Enquiry</td></tr>
+          <tr><td>Notes</td><td>Full message or call summary</td></tr>
+          <tr><td>Service Type</td><td>Shutters / Roller Blinds</td></tr>
+          <tr><td>Timeframe</td><td>ASAP / Within 3 months</td></tr>
+          <tr><td>Property Type</td><td>Existing Home / New Build</td></tr>
+          <tr><td>Window Count</td><td>4</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div>
+      <h3>Opportunities</h3>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">Each lead that comes through the AI chat or phone agent also creates an <em>Opportunity</em> — a deal card in the sales pipeline. Chris and Campbell move these cards through the pipeline stages as the sale progresses. Key opportunity fields (quote details, measurements, pricing) are stored here.</p>
+      <div class="info-box amber" style="margin-bottom:0;">
+        <div class="info-icon">💡</div>
+        <div>
+          <h4>Quote System Fields</h4>
+          <p>When Chris is ready to quote, he fills in the product type, measurements, mount config, and colour on the opportunity card. That's all — the system does everything else automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 4: PIPELINE ─────────────────────────── -->
+  <div class="section-label">Section 4</div>
+  <h2>The Sales Pipeline — Stage by Stage</h2>
+  <p class="section-intro">The Luxe Shutters Pipeline in GHL has 10 stages. Three of them are fully automated — moving a card to those stages instantly triggers the AI to take action. The rest require Chris or Campbell to manually move the deal card.</p>
+
+  <div class="pipeline-wrap">
+    <div class="pipeline-stages">
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-manual">📥</div>
+          <div class="stage-name">New Enquiry</div>
+        </div>
+        <div class="stage-detail">
+          <p>Starting point for all leads from the AI chat widget and phone agent. Also the default landing stage for warm leads. <span class="manual-badge">Manual progression</span></p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-manual">📅</div>
+          <div class="stage-name">Consultation Scheduled</div>
+        </div>
+        <div class="stage-detail">
+          <p>Chris has arranged a time to visit the customer and take measurements. Move the deal here when the appointment is booked. <span class="manual-badge">Manual progression</span></p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-manual">📐</div>
+          <div class="stage-name">Measurements Taken</div>
+        </div>
+        <div class="stage-detail">
+          <p>Chris has visited the customer, taken all window measurements, and noted the product, mount config, and colour preference. These details should be entered on the opportunity card before moving to the next stage. <span class="manual-badge">Manual progression</span></p>
+          <p><strong>Chris enters on the card:</strong> Product type, measurements (one per line, e.g. <code>1200x2100</code>), mount config (Inside/Outside), colour preference, and any additional notes.</p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-trigger">⚡</div>
+          <div class="stage-name">Quote Requested</div>
+        </div>
+        <div class="stage-detail">
+          <p><strong>Moving a deal here triggers full quote automation.</strong> <span class="auto-badge">Automated</span></p>
+          <p>Within seconds of moving the card to this stage, the system automatically:</p>
+          <p>① Reads all the measurements and product details from the opportunity card</p>
+          <p>② Calculates the cost price automatically (Shutters and Roller Blinds only — see Section 5)</p>
+          <p>③ Creates a draft quote in Xero with individual line items per window</p>
+          <p>④ Saves the quote URL back to the GHL opportunity card</p>
+          <p>⑤ Moves the deal card forward to "Quote Sent" stage automatically</p>
+          <p>⑥ Starts the 11-day follow-up sequence (email → SMS → call task)</p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-trigger">📧</div>
+          <div class="stage-name">Quote Sent</div>
+        </div>
+        <div class="stage-detail">
+          <p><strong>Triggers the 11-day follow-up automation.</strong> <span class="auto-badge">Automated</span></p>
+          <p>The deal is automatically moved here after the quote is created. Chris then reviews the Xero draft quote, adjusts if needed, and sends it to the customer from Xero.</p>
+          <p>The automation runs in the background:</p>
+          <p>📧 <strong>Day 3</strong> — Friendly follow-up email sent to the customer with a link to view the quote</p>
+          <p>📱 <strong>Day 6</strong> — Follow-up SMS reminder (if still no response)</p>
+          <p>📞 <strong>Day 11</strong> — A task is created in GHL reminding Chris to make a personal phone call</p>
+          <p>The follow-up sequence <strong>stops automatically</strong> if the deal moves to Won or any other stage before the timer fires.</p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-trigger">🏆</div>
+          <div class="stage-name">Won</div>
+        </div>
+        <div class="stage-detail">
+          <p><strong>Moving a deal here triggers the Sale Won automation.</strong> <span class="auto-badge">Automated</span></p>
+          <p>When Chris moves a deal to Won, within seconds the system automatically:</p>
+          <p>① Creates a final Xero invoice (based on the quote details) and saves the invoice link to the opportunity card</p>
+          <p>② Submits a production order to Cora CW Trade HUB (for Shutters, Roller Blinds, Curtains, Awnings)</p>
+          <p>③ Creates an "Installation Scheduling" task in GHL so Chris knows to book the install</p>
+          <p>④ Moves the deal to "Invoice Sent" stage automatically</p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-manual">🧾</div>
+          <div class="stage-name">Invoice Sent</div>
+        </div>
+        <div class="stage-detail">
+          <p>Auto-set by the Sale Won workflow. Chris reviews the Xero invoice and sends it to the customer from Xero. <span class="manual-badge">Manual progression</span></p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-manual">🏭</div>
+          <div class="stage-name">In Production</div>
+        </div>
+        <div class="stage-detail">
+          <p>Move here once the Cora order is confirmed and manufacturing has begun. <span class="manual-badge">Manual progression</span></p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-manual">🔧</div>
+          <div class="stage-name">Installation Scheduled</div>
+        </div>
+        <div class="stage-detail">
+          <p>Move here once the installation date is confirmed with the customer. <span class="manual-badge">Manual progression</span></p>
+        </div>
+      </div>
+
+      <div class="stage-row">
+        <div class="stage-bullet">
+          <div class="stage-dot dot-manual">✅</div>
+          <div class="stage-name">Completed</div>
+        </div>
+        <div class="stage-detail">
+          <p>Job is done and customer is happy. Move here after successful installation. <span class="manual-badge">Manual progression</span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 5: QUOTE GENERATOR ─────────────────── -->
+  <div class="section-label">Section 5</div>
+  <h2>Quote Generator — Deep Dive</h2>
+  <p class="section-intro">The Quote Generator is the most powerful workflow in the system. It reads all the job details from GHL, calculates the price automatically (where possible), builds a formatted quote in Xero with per-window line items, and links it back to the GHL card.</p>
+
+  <div class="workflow-card">
+    <div class="workflow-header">
+      <div>
+        <h3>Luxe — Quote Generator</h3>
+        <p>Triggered when an opportunity is moved to "Quote Requested" stage in GHL</p>
+      </div>
+      <div class="workflow-trigger">Auto-triggers on stage change</div>
+    </div>
+    <div class="workflow-body">
+      <ul class="workflow-steps">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Receive the trigger</strong>
+            <span>GHL sends a webhook when the stage changes to "Quote Requested", containing the opportunity ID and contact ID.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Fetch opportunity and contact details</strong>
+            <span>The workflow retrieves the full opportunity from GHL — all custom fields including product type, measurements, mount config, colour, notes, markup %, and any manually-entered cost price.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Auto-calculate cost price</strong>
+            <span>For Shutters and Roller Blinds, the system calculates the ex-GST cost price from embedded pricing tables (sourced from the CW Global supplier price list). For other products, Chris enters the cost price manually on the GHL card first. If Chris has entered a cost price override, that always takes priority.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Refresh Xero access token</strong>
+            <span>The system securely retrieves and refreshes the Xero OAuth token before making any Xero API calls.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <strong>Build and create Xero draft quote</strong>
+            <span>A draft quote is created in Xero with individual line items — one per window, showing the exact dimensions (e.g. "Shutters — 1200mm × 2100mm (Inside Mount) — 03 White"). The consumer price is cost × (1 + markup %) with the default markup set at 40%.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">6</div>
+          <div class="step-content">
+            <strong>Save quote details back to GHL</strong>
+            <span>The Xero Quote ID, quote URL (direct link to view), cost price, and consumer price are all written back to the opportunity card in GHL so Chris can see everything in one place.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">7</div>
+          <div class="step-content">
+            <strong>Move deal to "Quote Sent"</strong>
+            <span>The deal card is automatically advanced in the pipeline, which in turn starts the follow-up sequence.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-bottom:16px;">Automatic Pricing — How It Works</h3>
+
+  <div class="pricing-grid">
+    <div class="pricing-card auto-price">
+      <h4>✅ Shutters (Oasis) — Auto-priced</h4>
+      <p>Price is calculated using a simple area formula based on the CW Global Oasis price list. Each window is calculated separately and summed.</p>
+      <div class="price-formula">$202 per m² · minimum 1m² per window</div>
+      <p style="margin-top:10px;">Example: A window 1200mm × 2100mm = 2.52m² → $509.04 cost price</p>
+    </div>
+    <div class="pricing-card auto-price">
+      <h4>✅ Roller Blinds (Atlas Cat 1) — Auto-priced</h4>
+      <p>Uses the exact pricing table from the CW Global Roller Blinds price sheet. Width and height are looked up in the table to return the precise ex-GST cost.</p>
+      <div class="price-formula">2D lookup table — 24 widths × 14 heights</div>
+      <p style="margin-top:10px;">Example: 1200mm × 2100mm → $102 cost price</p>
+    </div>
+    <div class="pricing-card manual-price">
+      <h4>⚙️ Curtains — Manual entry</h4>
+      <p>Chris enters the cost price on the GHL opportunity card before moving to "Quote Requested". The system uses that value directly.</p>
+    </div>
+    <div class="pricing-card manual-price">
+      <h4>⚙️ Awnings, Zipscreens, Security Shutters — Manual</h4>
+      <p>Same as Curtains — Chris enters cost price manually. The system then uses it to calculate consumer price and build the Xero quote.</p>
+    </div>
+  </div>
+
+  <div class="info-box blue" style="margin-top:8px;">
+    <div class="info-icon">💡</div>
+    <div>
+      <h4>Override is always possible</h4>
+      <p>If Chris enters a cost price in the GHL card, it always overrides the auto-calculated price — even for Shutters and Roller Blinds. This is useful when there's a special discount, a supplier price change, or an unusual configuration that doesn't fit the standard table.</p>
+    </div>
+  </div>
+
+  <div class="info-box coral" style="margin-top:12px;">
+    <div class="info-icon">⚠️</div>
+    <div>
+      <h4>Important — Prices are fixed inside the automation</h4>
+      <p>There is no live pricing API from CW Global or Cora. The pricing tables for Shutters and Roller Blinds are hardcoded directly inside the n8n workflow. This means:</p>
+      <ul style="margin-top:8px;">
+        <li>The automation will always use the prices that were current at the time it was built.</li>
+        <li>If CW Global changes their price list, the automation will continue using the old prices until it is manually updated.</li>
+        <li><strong>When prices change, Chris must notify Alex at MonteKristo AI</strong> so the pricing tables inside the workflow can be updated. This is a quick fix but it must be done — otherwise quotes will be calculated using outdated costs.</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 6: QUOTE FOLLOW-UP ─────────────────── -->
+  <div class="section-label">Section 6</div>
+  <h2>Quote Follow-up — 11-Day Sequence</h2>
+  <p class="section-intro">Once a quote is sent, the system automatically follows up with the customer over 11 days. Each step checks that the deal hasn't already been won or moved — if it has, the remaining follow-ups are cancelled automatically.</p>
+
+  <div class="workflow-card">
+    <div class="workflow-header">
+      <div>
+        <h3>Luxe — Quote Follow-up</h3>
+        <p>Triggered automatically when a deal moves to "Quote Sent" stage</p>
+      </div>
+      <div class="workflow-trigger">11-day sequence</div>
+    </div>
+    <div class="workflow-body">
+      <ul class="workflow-steps">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Day 0 — Quote created & deal moved to Quote Sent</strong>
+            <span>Chris reviews the Xero draft quote, makes any adjustments, and sends it to the customer. The follow-up timer starts from this point.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Day 3 — Friendly follow-up email</strong>
+            <span>An automated email is sent to the customer: "Hi [Name], we wanted to follow up on your LuxeShutters quote. If you have any questions, we'd love to hear from you." The email includes a direct link to view the quote in Xero. <em>If the deal has already moved to Won or another stage, this step is skipped.</em></span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Day 6 — SMS reminder</strong>
+            <span>A short, friendly SMS is sent: "Hi [Name], just a quick reminder from LuxeShutters about your quote. Happy to chat through any questions — call us on 1800 465 893 or just reply." <em>Again, skipped if the deal has moved on.</em></span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Day 11 — Personal call task for Chris</strong>
+            <span>A task is created in GHL assigned to Chris: "CALL: Quote no response — 11 days. Client has not responded after 2 follow-up touchpoints. Make a personal call." The contact is also tagged <em>quote-no-response</em> for easy filtering.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 7: SALE WON ─────────────────────────── -->
+  <div class="section-label">Section 7</div>
+  <h2>Sale Won — What Happens Automatically</h2>
+  <p class="section-intro">This is where the most time is saved. Moving a deal to "Won" triggers a cascade of actions that previously would have taken 30–60 minutes of manual work: raising an invoice in Xero, placing the production order with the supplier, and creating the install task.</p>
+
+  <div class="workflow-card">
+    <div class="workflow-header">
+      <div>
+        <h3>Luxe — Sale Won</h3>
+        <p>Triggered when an opportunity is moved to "Won" stage in GHL</p>
+      </div>
+      <div class="workflow-trigger">Instant — runs in seconds</div>
+    </div>
+    <div class="workflow-body">
+      <ul class="workflow-steps">
+        <li>
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <strong>Fetch opportunity and contact from GHL</strong>
+            <span>The workflow reads all job details, pricing, and customer information from the GHL opportunity card.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <strong>Create Xero invoice</strong>
+            <span>A final invoice is created in Xero using the same line items and consumer pricing as the quote. The invoice is set to AUTHORISED status. The Invoice ID and direct URL are saved back to the GHL opportunity card.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <strong>Submit production order to Cora CW Trade HUB</strong>
+            <span>An order is submitted to the supplier (Cora) via their API. The order includes each window as a separate line item with the correct dimensions and product configuration. Supported products: Shutters (Oasis), Roller Blinds (Atlas), Curtains, and Awnings. The Cora Order ID is saved to the GHL card for reference.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <strong>Create installation task in GHL</strong>
+            <span>A task is created: "Schedule installation appointment — [customer name]" with a due date of 24 hours from now. This reminds Chris to contact the customer and lock in the install date.</span>
+          </div>
+        </li>
+        <li>
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <strong>Move deal to "Invoice Sent" stage</strong>
+            <span>The pipeline card is automatically advanced so the stage always reflects the true status of the deal.</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin:24px 0 16px;">Cora Product Support</h3>
+  <table class="simple-table">
+    <thead>
+      <tr><th>Product</th><th>Supplier Range</th><th>Cora Order</th><th>Cost Pricing</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Shutters</td><td>Oasis Shutters (Hinged, Aero 63mm)</td><td class="td-green">✓ Automatic</td><td class="td-green">✓ Auto ($202/m²)</td></tr>
+      <tr><td>Roller Blinds</td><td>Roller Blinds | Atlas (Single Blind)</td><td class="td-amber">⚠️ IDs pending</td><td class="td-green">✓ Auto (Cat 1 table)</td></tr>
+      <tr><td>Curtains</td><td>Curtain & Track (S-Wave)</td><td class="td-amber">⚠️ IDs pending</td><td class="td-amber">Manual (Chris enters)</td></tr>
+      <tr><td>Awnings</td><td>Ombra Awnings (Zip Guide)</td><td class="td-amber">⚠️ IDs pending</td><td class="td-amber">Manual (Chris enters)</td></tr>
+      <tr><td>Zipscreens</td><td>—</td><td class="td-amber">Not in Cora API</td><td class="td-amber">Manual (Chris enters)</td></tr>
+      <tr><td>Security Roller Shutters</td><td>—</td><td class="td-amber">Not in Cora API</td><td class="td-amber">Manual (Chris enters)</td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:12.5px;color:var(--muted);margin-top:8px;">Zipscreens and Security Roller Shutters are not available through the Cora API — Chris places those orders manually through the Cora website as before.</p>
+  <div class="info-box amber" style="margin-top:12px;">
+    <div class="info-icon">⚠️</div>
+    <div>
+      <h4>Cora product IDs — confirmation needed for Roller Blinds, Curtains & Awnings</h4>
+      <p>Only Shutters (Oasis) are fully confirmed in the Cora API with the correct Range, Type, and Material IDs. For Roller Blinds, Curtains, and Awnings, Chris needs to confirm the exact product IDs from the Cora portal so Alex at MonteKristo AI can update the workflow. Until then, automatic Cora orders for those products may not submit correctly.</p>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 8: AI AGENTS ────────────────────────── -->
+  <div class="section-label">Section 8</div>
+  <h2>AI Agents — Phone & Web Chat</h2>
+  <p class="section-intro">Two AI agents are deployed on Retell AI: one answers phone calls and one handles web chats. Both agents are connected to the automation system — when a conversation ends, the data flows straight into GHL.</p>
+
+  <div class="two-col" style="margin-bottom:28px;">
+    <div class="workflow-card" style="margin-bottom:0;">
+      <div class="workflow-header">
+        <div>
+          <h3>📞 AI Phone Agent</h3>
+          <p>Answers inbound calls 24/7</p>
+        </div>
+      </div>
+      <div class="workflow-body" style="padding-bottom:20px;">
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">The phone agent is a natural-sounding AI voice agent that answers calls to the LuxeShutters number. It introduces itself as a LuxeShutters representative, asks the caller what they're looking for, collects their contact details, and qualifies their enquiry.</p>
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:0;">When the call ends, Retell AI analyses the call and sends a structured summary to n8n, which creates a contact and opportunity in GHL automatically. The full call summary is saved to the Notes field.</p>
+      </div>
+    </div>
+
+    <div class="workflow-card" style="margin-bottom:0;">
+      <div class="workflow-header">
+        <div>
+          <h3>💬 AI Web Chat Widget</h3>
+          <p>Qualifies leads on the website 24/7</p>
+        </div>
+      </div>
+      <div class="workflow-body" style="padding-bottom:20px;">
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">The chat widget sits on the LuxeShutters website. When a visitor opens it, the AI starts a conversation — asking about what products they're interested in, their timeline, property type, how many windows, and capturing their name and contact details.</p>
+        <p style="font-size:13.5px;color:var(--muted);margin-bottom:0;">When the chat ends, a summary and all collected data flow into n8n and then into GHL — a contact is created or updated, and an opportunity is opened at "New Enquiry" stage.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 9: XERO & INTEGRATIONS ─────────────── -->
+  <div class="section-label">Section 9</div>
+  <h2>Integrations — Xero & Cora</h2>
+  <p class="section-intro">Two external systems are connected to the automation: Xero for accounting (quotes and invoices) and Cora CW Trade HUB for supplier production orders.</p>
+
+  <div class="two-col" style="margin-bottom:8px;">
+    <div>
+      <h3 style="margin-bottom:14px;">Xero — Accounting</h3>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">The automation is connected to LuxeShutters' Xero account via OAuth. It creates quotes and invoices programmatically using the Xero API. Key things to know:</p>
+      <ul style="font-size:13.5px;color:var(--text);padding-left:18px;line-height:2;">
+        <li>Quotes are created as <strong>DRAFT</strong> — Chris reviews and edits before sending</li>
+        <li>Invoices are created as <strong>AUTHORISED</strong> — ready for Chris to send to customer</li>
+        <li>Each window is a separate line item on the quote/invoice</li>
+        <li>Prices are <strong>exclusive of GST</strong> — Xero adds GST at 10% automatically</li>
+        <li>Quote and invoice URLs are saved back to GHL for easy access</li>
+      </ul>
+      <div class="info-box amber" style="margin-top:14px;">
+        <div class="info-icon">⚠️</div>
+        <div>
+          <h4>One-time setup required</h4>
+          <p>Chris needs to visit <strong>one URL once</strong> to authorise the Xero connection. After that, the system handles token refresh automatically forever.</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 style="margin-bottom:14px;">Cora CW Trade HUB — Supplier Orders</h3>
+      <p style="font-size:13.5px;color:var(--muted);margin-bottom:14px;">When a sale is won, the system automatically submits a production order to Cora via their trade API. This replaces the manual process of logging into the Cora portal and entering each window individually.</p>
+      <ul style="font-size:13.5px;color:var(--text);padding-left:18px;line-height:2;">
+        <li>Orders submitted for: Shutters, Roller Blinds, Curtains, Awnings</li>
+        <li>Each window becomes a separate order line with its dimensions</li>
+        <li>Cora Order ID is saved back to the GHL opportunity card</li>
+        <li>Chris can look up the order status in the Cora portal using this ID</li>
+        <li>Zipscreens and Security Shutters: Chris orders manually (not in Cora API)</li>
+      </ul>
+      <div class="info-box blue" style="margin-top:14px;">
+        <div class="info-icon">ℹ️</div>
+        <div>
+          <h4>Cora has no pricing API</h4>
+          <p>Cora's API is for placing orders only — it does not return or expose pricing data. That's why the pricing tables for Shutters and Roller Blinds are embedded directly inside the n8n workflow. If CW Global updates their price list, Chris must notify Alex at MonteKristo AI to update the workflow manually.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 10: WHAT CHRIS DOES ────────────────── -->
+  <div class="section-label">Section 10</div>
+  <h2>What Chris Does — vs What Is Automated</h2>
+  <p class="section-intro">The goal of this system is to eliminate manual data entry and repetitive tasks so Chris and Campbell can focus on customers, measuring, and closing deals.</p>
+
+  <div class="two-col">
+    <div>
+      <div class="info-box green" style="margin-bottom:20px;">
+        <div class="info-icon">🤖</div>
+        <div>
+          <h4>What the system does automatically</h4>
+          <ul>
+            <li>Capture every lead from website forms, chat, and phone calls</li>
+            <li>Create/update contacts in GHL with all details filled in</li>
+            <li>Create opportunities and place them in the pipeline</li>
+            <li>Calculate cost price for Shutters and Roller Blinds</li>
+            <li>Build and create Xero draft quotes with per-window line items</li>
+            <li>Send 3-touch quote follow-up sequence (email + SMS + task)</li>
+            <li>Stop follow-ups when the deal moves on</li>
+            <li>Raise Xero invoice when won</li>
+            <li>Submit production order to Cora</li>
+            <li>Create installation task in GHL</li>
+            <li>Save all IDs and links back to the GHL card</li>
+            <li>Gate negative reviews — only 4-5★ go to Google</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="info-box coral" style="margin-bottom:20px;">
+        <div class="info-icon">👤</div>
+        <div>
+          <h4>What Chris still does manually</h4>
+          <ul>
+            <li>Visit customers and take window measurements</li>
+            <li>Enter measurements, product type, mount config, and colour on the GHL opportunity card</li>
+            <li>Enter cost price manually for Curtains, Awnings, Zipscreens, Security Roller Shutters</li>
+            <li>Review the Xero draft quote before sending to customer</li>
+            <li>Move the deal through pipeline stages as the job progresses</li>
+            <li>Respond to the Day 11 call task if customer hasn't responded</li>
+            <li>Review and send the Xero invoice from Xero</li>
+            <li>Schedule the installation with the customer</li>
+            <li>Place Cora orders manually for Zipscreens and Security Roller Shutters</li>
+            <li><strong>Notify Alex at MonteKristo AI when CW Global changes their price list</strong> — the automation uses fixed pricing tables and will not update automatically</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 11: SETUP STEPS ────────────────────── -->
+  <div class="section-label">Section 11</div>
+  <h2>Setup Status</h2>
+  <p class="section-intro">The automation is fully built and running. One final step remains before quote creation is live — Chris authorising Xero. All GHL automations are published and confirmed working.</p>
+
+  <div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:28px 32px;margin-bottom:24px;">
+    <ul class="checklist">
+
+      <li>
+        <div class="check-icon check-chris">🔑</div>
+        <div>
+          <strong style="font-size:14px;font-weight:700;color:var(--navy);display:block;margin-bottom:4px;">Chris — Authorise Xero (one-time, 2 minutes) <span style="background:#FEF9C3;color:#B45309;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-left:8px;letter-spacing:1px;text-transform:uppercase;">Pending</span></strong>
+          <p style="font-size:13.5px;color:var(--muted);">Chris needs to visit the following URL once in his browser and log in with the LuxeShutters Xero credentials. This authorises the automation to create quotes and invoices on his behalf. After this, it never needs to be done again — the system refreshes automatically.</p>
+          <code style="display:block;background:var(--navy);color:var(--coral);padding:10px 16px;border-radius:8px;font-size:13px;margin-top:10px;">https://primary-production-5fdce.up.railway.app/webhook/xero-auth-start</code>
+        </div>
+      </li>
+
+      <li style="margin-top:8px;">
+        <div class="check-icon" style="background:#DCFCE7;color:#16A34A;">✓</div>
+        <div>
+          <strong style="font-size:14px;font-weight:700;color:var(--navy);display:block;margin-bottom:4px;">3 GHL Automation Webhooks — Created &amp; Published <span style="background:#DCFCE7;color:#16A34A;font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;margin-left:8px;letter-spacing:1px;text-transform:uppercase;">Done</span></strong>
+          <p style="font-size:13.5px;color:var(--muted);">All three GHL automations are published and confirmed triggering n8n correctly. Each watches for a pipeline stage change and fires a webhook to the automation system.</p>
+          <table class="simple-table" style="margin-top:12px;">
+            <thead>
+              <tr><th>Automation Name</th><th>Trigger</th><th>Webhook URL</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Luxe - Quote Generate</td>
+                <td>Stage → Quote Requested</td>
+                <td style="font-size:12px;word-break:break-all;color:var(--coral);">…/webhook/luxe-quote-generate</td>
+                <td class="td-green">✓ Published</td>
+              </tr>
+              <tr>
+                <td>Quote Follow-up</td>
+                <td>Stage → Quote Sent</td>
+                <td style="font-size:12px;word-break:break-all;color:var(--coral);">…/webhook/luxe-quote-followup</td>
+                <td class="td-green">✓ Published</td>
+              </tr>
+              <tr>
+                <td>Sale Won</td>
+                <td>Stage → Won</td>
+                <td style="font-size:12px;word-break:break-all;color:var(--coral);">…/webhook/luxe-sale-won</td>
+                <td class="td-green">✓ Published</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </li>
+
+    </ul>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- ── SECTION 12: FULL SYSTEM MAP ────────────────── -->
+  <div class="section-label">Section 12</div>
+  <h2>Full System Map — All 10 Workflows</h2>
+  <p class="section-intro">A complete reference of every workflow in the system, what triggers it, and what it does.</p>
+
+  <table class="simple-table">
+    <thead>
+      <tr><th>Workflow</th><th>Trigger</th><th>What It Does</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Quote Form → GHL</strong></td>
+        <td>Website quote form submitted</td>
+        <td>Creates/updates GHL contact with all form fields and custom fields</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Consultation Form → GHL</strong></td>
+        <td>Website consultation form submitted</td>
+        <td>Creates/updates GHL contact with name, phone, email, and message</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Web Widget → GHL</strong></td>
+        <td>AI chat ends (chat_analyzed event)</td>
+        <td>Creates contact + opportunity in GHL from Retell chat analysis data</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Retell Phone → GHL</strong></td>
+        <td>AI phone call ends (call_analyzed event)</td>
+        <td>Creates contact + opportunity in GHL from call analysis data</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Negative Feedback → GHL</strong></td>
+        <td>1–3 star review form submitted</td>
+        <td>Creates dummy contact, saves feedback, creates follow-up task for Chris</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Quote Generator</strong></td>
+        <td>GHL stage → Quote Requested</td>
+        <td>Auto-prices job, creates Xero draft quote, saves quote URL to GHL, moves to Quote Sent</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Quote Follow-up</strong></td>
+        <td>GHL stage → Quote Sent</td>
+        <td>Day 3 email, Day 6 SMS, Day 11 manual call task — stops if deal moves on</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Sale Won</strong></td>
+        <td>GHL stage → Won</td>
+        <td>Creates Xero invoice, submits Cora production order, creates install task, moves to Invoice Sent</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Xero Token Manager</strong></td>
+        <td>Called internally by other workflows</td>
+        <td>Stores and retrieves the Xero OAuth access/refresh tokens securely</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+      <tr>
+        <td><strong>Xero Auth Setup</strong></td>
+        <td>Chris visits the auth URL (once)</td>
+        <td>Handles the OAuth flow with Xero, stores initial tokens</td>
+        <td class="td-green">✓ Active</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</div><!-- /container -->
+
+<!-- ═══════════════════════════════════════════ FOOTER -->
+<div class="footer">
+  <div>LuxeShutters AI System Guide — Confidential · March 2026</div>
+  <div>Built by <strong>MonteKristo AI</strong> · montekristoai.com</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About EV | The Visual Analytics Company</title>
+  <meta name="description" content="25 years of pioneering visual analytics technology for the global energy industry. Learn about EV's mission, leadership, global presence, and commitment to innovation.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://evcam.com/about">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="About EV | The Visual Analytics Company">
+  <meta property="og:description" content="25 years of pioneering visual analytics technology for the global energy industry.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://evcam.com/about">
+  <meta property="og:image" content="https://evcam.com/img/og-about.jpg">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About EV | The Visual Analytics Company">
+  <meta name="twitter:description" content="25 years of pioneering visual analytics technology for the global energy industry.">
+
+  <!-- Fonts & Tailwind -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        'ev-orange': { 500: '#FF5A00', 400: '#FF7A33', 600: '#CC4800' },
+        'ev-dark': { 900: '#050A14', 800: '#0A1128', 700: '#111B36', 600: '#1A2744' },
+        'ev-blue': { 500: '#007BFF', 400: '#3395FF' }
+      },
+      fontFamily: { heading: ['Space Grotesk', 'sans-serif'], body: ['DM Sans', 'sans-serif'] }
+    }}
+  }
+  </script>
+  <script defer src="https://unpkg.com/lucide@0.468.0"></script>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="icon" type="image/png" href="https://www.evcam.com/assets/fav/favicon-32x32.png">
+</head>
+<body class="bg-ev-dark-900 text-gray-200 font-body">
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="container-lg flex items-center justify-between py-4">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+          <span class="font-heading font-bold text-white text-lg">EV</span>
+        </div>
+        <span class="font-heading font-bold text-white text-xl hidden sm:inline">EV</span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="index.html" class="text-sm font-medium text-gray-300 hover:text-ev-orange-400 transition-colors">Home</a>
+        <a href="index.html#technology" class="text-sm font-medium text-gray-300 hover:text-ev-orange-400 transition-colors">Technology</a>
+        <a href="index.html#products" class="text-sm font-medium text-gray-300 hover:text-ev-orange-400 transition-colors">Products</a>
+        <a href="case-studies.html" class="text-sm font-medium text-gray-300 hover:text-ev-orange-400 transition-colors">Case Studies</a>
+        <a href="about.html" class="text-sm font-medium text-ev-orange-400 transition-colors">About</a>
+        <a href="index.html#contact" class="text-sm font-medium text-gray-300 hover:text-ev-orange-400 transition-colors">Contact</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="index.html#booking" class="btn btn-primary btn-sm hidden lg:inline-flex">Schedule Consultation</a>
+        <button id="menu-toggle" class="lg:hidden text-white" aria-label="Open menu" aria-expanded="false">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ev-dark-900/98 z-50 flex flex-col transform translate-x-full opacity-0 transition-all duration-300 lg:hidden">
+      <div class="flex items-center justify-between p-4 border-b border-white/10">
+        <span class="font-heading font-bold text-white text-xl">EV</span>
+        <button id="menu-close" class="text-white" aria-label="Close menu"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <nav class="flex flex-col gap-1 p-4 flex-1">
+        <a href="index.html" class="py-3 px-4 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors font-medium">Home</a>
+        <a href="index.html#technology" class="py-3 px-4 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors font-medium">Technology</a>
+        <a href="index.html#products" class="py-3 px-4 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors font-medium">Products</a>
+        <a href="case-studies.html" class="py-3 px-4 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors font-medium">Case Studies</a>
+        <a href="about.html" class="py-3 px-4 rounded-lg text-ev-orange-400 bg-white/5 font-medium">About</a>
+        <a href="index.html#contact" class="py-3 px-4 rounded-lg text-gray-300 hover:bg-white/5 hover:text-white transition-colors font-medium">Contact</a>
+      </nav>
+      <div class="p-4 border-t border-white/10">
+        <a href="index.html#booking" class="btn btn-primary w-full">Schedule Consultation</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ============================================================
+       MINI HERO
+       ============================================================ -->
+  <section class="relative min-h-[40vh] flex items-center section-photo bg-grid pt-28 pb-16">
+    <div class="section-bg fade-top"><img src="img/headers/va-ad3-16x9.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
+    <div class="container relative z-10">
+      <nav class="flex items-center gap-2 text-sm text-gray-400 mb-6 animate-hero-1" aria-label="Breadcrumb">
+        <a href="index.html" class="hover:text-ev-orange-400 transition-colors">Home</a>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        <span class="text-ev-orange-400">About</span>
+      </nav>
+      <h1 class="font-heading text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 animate-hero-2" style="font-size: var(--text-h1);">About EV</h1>
+      <p class="text-lg md:text-xl text-gray-400 max-w-3xl animate-hero-3">25 years of pioneering visual analytics technology for the global energy industry.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       COMPANY STORY
+       ============================================================ -->
+  <section class="section section-photo bg-dots">
+    <div class="section-bg fade-left"><img src="img/software/mipsview-3d.png" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <!-- Story Text -->
+        <div class="reveal">
+          <span class="badge badge-orange mb-6">Our Story</span>
+          <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6" style="font-size: var(--text-h2);">From Specialist Camera Company to Global Visual Analytics Leader</h2>
+          <div class="space-y-5 text-gray-400 leading-relaxed">
+            <p>Founded around the turn of the millennium, EV has grown from a specialist downhole camera company into the world's leading visual analytics provider for the energy industry. Our journey has been defined by relentless innovation, deep technical expertise, and an unwavering commitment to helping energy operators see what was previously invisible.</p>
+            <p>What began as a focused effort to bring high-definition video into the wellbore evolved into something far more significant. By combining advanced camera technology with proprietary analytics software, EV created an entirely new category of diagnostic intervention: Visual Analytics.</p>
+            <p>Today, EV operates across six continents, serving major operators, national oil companies, and independent producers. Our technology portfolio spans nine dedicated Visual Analytics products, the AIVA software platform, and specialized hardware systems including the PigCAM series for pipeline inspection.</p>
+            <p>As part of the Enersol Group, EV has the resources and reach to continue pushing the boundaries of what's possible in energy diagnostics. From geothermal wells to subsea pipelines, from CCUS carbon capture projects to enhanced geothermal systems, EV's technology helps operators make better decisions, faster.</p>
+          </div>
+        </div>
+
+        <!-- Timeline / Milestones -->
+        <div class="reveal reveal-delay-2">
+          <div class="space-y-6">
+            <!-- Milestone Cards -->
+            <div class="card-glass p-6">
+              <div class="flex items-center gap-4 mb-3">
+                <div class="w-12 h-12 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0">
+                  <span class="font-heading font-bold text-ev-orange-400 text-lg">00</span>
+                </div>
+                <div>
+                  <h3 class="font-heading font-semibold text-white">Founded</h3>
+                  <p class="text-gray-500 text-sm">Scotland, United Kingdom</p>
+                </div>
+              </div>
+              <p class="text-gray-400 text-sm">EV established as a specialist downhole camera services company, bringing visual inspection to the oil and gas industry.</p>
+            </div>
+
+            <div class="card-glass p-6">
+              <div class="flex items-center gap-4 mb-3">
+                <div class="w-12 h-12 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="eye" class="w-5 h-5 text-ev-orange-400"></i>
+                </div>
+                <div>
+                  <h3 class="font-heading font-semibold text-white">Visual Analytics Created</h3>
+                  <p class="text-gray-500 text-sm">New industry category</p>
+                </div>
+              </div>
+              <p class="text-gray-400 text-sm">Combined advanced camera technology with proprietary analytics, creating the Visual Analytics category for energy diagnostics.</p>
+            </div>
+
+            <div class="card-glass p-6">
+              <div class="flex items-center gap-4 mb-3">
+                <div class="w-12 h-12 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="globe" class="w-5 h-5 text-ev-orange-400"></i>
+                </div>
+                <div>
+                  <h3 class="font-heading font-semibold text-white">Global Expansion</h3>
+                  <p class="text-gray-500 text-sm">6 continents, 50+ countries</p>
+                </div>
+              </div>
+              <p class="text-gray-400 text-sm">Expanded operations worldwide with offices and operations spanning North America, Middle East, Europe, and Asia Pacific.</p>
+            </div>
+
+            <div class="card-glass p-6">
+              <div class="flex items-center gap-4 mb-3">
+                <div class="w-12 h-12 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="zap" class="w-5 h-5 text-ev-orange-400"></i>
+                </div>
+                <div>
+                  <h3 class="font-heading font-semibold text-white">Enersol Group</h3>
+                  <p class="text-gray-500 text-sm">Strategic partnership</p>
+                </div>
+              </div>
+              <p class="text-gray-400 text-sm">Joined the Enersol Group, gaining enhanced resources for R&D investment and global market reach while maintaining technical independence.</p>
+            </div>
+
+            <div class="card-glass p-6">
+              <div class="flex items-center gap-4 mb-3">
+                <div class="w-12 h-12 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0">
+                  <i data-lucide="leaf" class="w-5 h-5 text-ev-orange-400"></i>
+                </div>
+                <div>
+                  <h3 class="font-heading font-semibold text-white">Energy Transition</h3>
+                  <p class="text-gray-500 text-sm">Geothermal, CCUS, hydrogen</p>
+                </div>
+              </div>
+              <p class="text-gray-400 text-sm">Technology adapted for geothermal energy, CCUS pipeline assessment, and hydrogen infrastructure, supporting the global energy transition.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       MISSION & VALUES
+       ============================================================ -->
+  <section class="section section-photo bg-radial-glow-center">
+    <div class="section-bg fade-right"><img src="img/headers/animation-poster.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+        <span class="badge badge-orange mb-6">Our Mission</span>
+        <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6" style="font-size: var(--text-h2);">Why We Exist</h2>
+        <p class="text-gray-400 text-lg leading-relaxed">To provide energy producers with the world's most advanced visual analytics technology, enabling them to identify, understand, and resolve their most complex wellbore and pipeline challenges.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8 reveal">
+        <!-- Innovation -->
+        <div class="card-glass p-8 text-center">
+          <div class="w-14 h-14 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-6">
+            <i data-lucide="sparkles" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-3">Innovation</h3>
+          <p class="text-gray-400 leading-relaxed">Pushing the boundaries of diagnostic intervention technology. We invest heavily in R&D to create tools and analytics that didn't exist before, solving problems others consider unsolvable.</p>
+        </div>
+
+        <!-- Excellence -->
+        <div class="card-glass p-8 text-center">
+          <div class="w-14 h-14 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-6">
+            <i data-lucide="award" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-3">Excellence</h3>
+          <p class="text-gray-400 leading-relaxed">Production-quality, field-tested, proven in extreme conditions. Every product we deploy has been rigorously validated in the harshest environments the energy industry demands.</p>
+        </div>
+
+        <!-- Sustainability -->
+        <div class="card-glass p-8 text-center">
+          <div class="w-14 h-14 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-6">
+            <i data-lucide="leaf" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-3">Sustainability</h3>
+          <p class="text-gray-400 leading-relaxed">Empowering the energy transition with technology that matters. Our tools help operators reduce emissions, assess infrastructure for repurposing, and support geothermal and CCUS projects.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       LEADERSHIP
+       ============================================================ -->
+  <section class="section section-photo bg-grid">
+    <div class="section-bg fade-bottom"><img src="img/headers/person1-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+        <span class="badge badge-orange mb-6">Our Team</span>
+        <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6" style="font-size: var(--text-h2);">Leadership</h2>
+        <p class="text-gray-400 text-lg">Decades of combined experience in energy technology, diagnostics, and global operations.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+        <!-- Michael MacDonald -->
+        <div class="card-glass p-6 text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-ev-orange-500 to-ev-orange-600 flex items-center justify-center mx-auto mb-4">
+            <span class="font-heading font-bold text-white text-2xl">MM</span>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-lg mb-1">Michael MacDonald</h3>
+          <p class="text-ev-orange-400 text-sm font-medium mb-3">Chief Executive Officer</p>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Leading EV's global strategy and growth. Driving innovation in visual analytics technology across the energy sector.</p>
+          <div class="flex items-center justify-center gap-3">
+            <a href="mailto:info@evcam.com" class="text-gray-500 hover:text-ev-orange-400 transition-colors" aria-label="Email Michael MacDonald">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </a>
+            <a href="https://www.linkedin.com/company/ev-the-visual-analytics-company/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-ev-orange-400 transition-colors" aria-label="LinkedIn">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Fraser Louden -->
+        <div class="card-glass p-6 text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-ev-dark-600 to-ev-dark-700 flex items-center justify-center mx-auto mb-4 border border-white/10">
+            <span class="font-heading font-bold text-gray-300 text-2xl">FL</span>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-lg mb-1">Fraser Louden</h3>
+          <p class="text-ev-orange-400 text-sm font-medium mb-3">Board Advisor</p>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Strategic advisory role supporting EV's board on growth initiatives, technology partnerships, and market expansion.</p>
+          <div class="flex items-center justify-center gap-3">
+            <a href="mailto:info@evcam.com" class="text-gray-500 hover:text-ev-orange-400 transition-colors" aria-label="Email Fraser Louden">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- David Fisher -->
+        <div class="card-glass p-6 text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-ev-dark-600 to-ev-dark-700 flex items-center justify-center mx-auto mb-4 border border-white/10">
+            <span class="font-heading font-bold text-gray-300 text-2xl">DF</span>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-lg mb-1">David Fisher</h3>
+          <p class="text-ev-orange-400 text-sm font-medium mb-3">Regional Director, Europe</p>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Overseeing European operations from Scotland HQ. Managing client relationships across the North Sea, Mediterranean, and continental Europe.</p>
+          <div class="flex items-center justify-center gap-3">
+            <a href="mailto:david.fisher@evcam.com" class="text-gray-500 hover:text-ev-orange-400 transition-colors" aria-label="Email David Fisher">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </a>
+            <a href="tel:+447525916610" class="text-gray-500 hover:text-ev-orange-400 transition-colors" aria-label="Call David Fisher">
+              <i data-lucide="phone" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Todd Lilly -->
+        <div class="card-glass p-6 text-center">
+          <div class="w-20 h-20 rounded-full bg-gradient-to-br from-ev-dark-600 to-ev-dark-700 flex items-center justify-center mx-auto mb-4 border border-white/10">
+            <span class="font-heading font-bold text-gray-300 text-2xl">TL</span>
+          </div>
+          <h3 class="font-heading font-semibold text-white text-lg mb-1">Todd Lilly</h3>
+          <p class="text-ev-orange-400 text-sm font-medium mb-3">Regional Director, USA</p>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Leading North American operations. Key contact for operators in the Permian, Eagle Ford, Bakken, and Gulf of Mexico regions.</p>
+          <div class="flex items-center justify-center gap-3">
+            <a href="mailto:todd.lilly@evcam.com" class="text-gray-500 hover:text-ev-orange-400 transition-colors" aria-label="Email Todd Lilly">
+              <i data-lucide="mail" class="w-4 h-4"></i>
+            </a>
+            <a href="tel:+447525916610" class="text-gray-500 hover:text-ev-orange-400 transition-colors" aria-label="Call Todd Lilly">
+              <i data-lucide="phone" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       GLOBAL PRESENCE
+       ============================================================ -->
+  <section class="section section-photo bg-dots">
+    <div class="section-bg fade-center"><img src="img/headers/news-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <span class="badge badge-orange mb-6">Worldwide</span>
+          <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6" style="font-size: var(--text-h2);">Global Offices</h2>
+          <p class="text-gray-400 text-lg leading-relaxed mb-6">EV operates across six continents, delivering visual analytics services wherever energy is produced. Our global network ensures rapid mobilization and local technical support in every major producing region.</p>
+          <div class="space-y-4">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="building-2" class="w-5 h-5 text-ev-orange-400"></i>
+              </div>
+              <div>
+                <h3 class="font-heading font-semibold text-white mb-1">Headquarters</h3>
+                <p class="text-gray-400 text-sm">Scotland, United Kingdom. Home to our primary Technology Centre, R&D facilities, and global coordination hub.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="globe" class="w-5 h-5 text-ev-orange-400"></i>
+              </div>
+              <div>
+                <h3 class="font-heading font-semibold text-white mb-1">Regional Offices</h3>
+                <p class="text-gray-400 text-sm">USA (Houston), Middle East (Abu Dhabi, Oman), with field operations spanning North Africa, Southeast Asia, Australasia, and South America.</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="truck" class="w-5 h-5 text-ev-orange-400"></i>
+              </div>
+              <div>
+                <h3 class="font-heading font-semibold text-white mb-1">Rapid Mobilization</h3>
+                <p class="text-gray-400 text-sm">Pre-positioned equipment and trained crews across key regions ensure fast response times for planned and emergency interventions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Map Placeholder -->
+        <div class="reveal reveal-delay-2">
+          <div class="card-glass p-8 relative overflow-hidden" style="min-height: 400px;">
+            <div class="absolute inset-0 bg-gradient-to-br from-ev-dark-700/50 to-ev-dark-900/80"></div>
+            <div class="relative z-10">
+              <div class="text-center mb-8">
+                <p class="text-gray-500 text-sm font-medium uppercase tracking-wider">Operations Across</p>
+                <p class="font-heading text-4xl font-bold text-white mt-2">6 Continents</p>
+              </div>
+              <!-- Office Dots -->
+              <div class="relative h-64">
+                <!-- Scotland HQ -->
+                <div class="absolute" style="top: 15%; left: 48%;">
+                  <div class="w-4 h-4 rounded-full bg-ev-orange-500 animate-pulse"></div>
+                  <span class="absolute -top-6 left-1/2 -translate-x-1/2 text-xs text-ev-orange-400 font-semibold whitespace-nowrap">Scotland HQ</span>
+                </div>
+                <!-- Houston -->
+                <div class="absolute" style="top: 40%; left: 22%;">
+                  <div class="w-3 h-3 rounded-full bg-ev-orange-400/70"></div>
+                  <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-400 whitespace-nowrap">Houston</span>
+                </div>
+                <!-- Middle East -->
+                <div class="absolute" style="top: 45%; left: 62%;">
+                  <div class="w-3 h-3 rounded-full bg-ev-orange-400/70"></div>
+                  <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-400 whitespace-nowrap">Middle East</span>
+                </div>
+                <!-- Asia Pacific -->
+                <div class="absolute" style="top: 55%; left: 78%;">
+                  <div class="w-3 h-3 rounded-full bg-ev-orange-400/50"></div>
+                  <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-400 whitespace-nowrap">Asia Pacific</span>
+                </div>
+                <!-- North Africa -->
+                <div class="absolute" style="top: 50%; left: 48%;">
+                  <div class="w-3 h-3 rounded-full bg-ev-orange-400/50"></div>
+                  <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-400 whitespace-nowrap">N. Africa</span>
+                </div>
+                <!-- South America -->
+                <div class="absolute" style="top: 75%; left: 30%;">
+                  <div class="w-3 h-3 rounded-full bg-ev-orange-400/40"></div>
+                  <span class="absolute -top-5 left-1/2 -translate-x-1/2 text-xs text-gray-400 whitespace-nowrap">S. America</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       TECHNOLOGY CENTRES
+       ============================================================ -->
+  <section class="section section-photo">
+    <div class="section-bg fade-left"><img src="img/headers/data-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+        <span class="badge badge-orange mb-6">R&D</span>
+        <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6" style="font-size: var(--text-h2);">Technology Centres</h2>
+        <p class="text-gray-400 text-lg leading-relaxed">Our Technology Centres are dedicated to the research, development, and production of downhole video, data acquisition and data analysis technologies.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 reveal">
+        <div class="card-glass p-6 text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="cpu" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white mb-2">Computing Power</h3>
+          <p class="text-gray-400 text-sm">High-performance computing clusters for real-time visual analytics processing and AI-driven data interpretation.</p>
+        </div>
+
+        <div class="card-glass p-6 text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="printer" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white mb-2">Rapid Prototyping</h3>
+          <p class="text-gray-400 text-sm">In-house rapid prototyping facilities for fast iteration on new camera systems, sensors, and deployment tools.</p>
+        </div>
+
+        <div class="card-glass p-6 text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="flask-conical" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white mb-2">Testing Facilities</h3>
+          <p class="text-gray-400 text-sm">Pressure and temperature testing rigs that simulate real-world downhole conditions up to extreme specifications.</p>
+        </div>
+
+        <div class="card-glass p-6 text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="graduation-cap" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading font-semibold text-white mb-2">Training Centers</h3>
+          <p class="text-gray-400 text-sm">Dedicated training environments where field crews and client engineers learn to operate and interpret EV technology.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       CERTIFICATIONS & STANDARDS
+       ============================================================ -->
+  <section class="section section-photo bg-grid">
+    <div class="section-bg fade-right"><img src="img/headers/perforation-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center reveal">
+        <div>
+          <span class="badge badge-orange mb-6">Quality</span>
+          <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6" style="font-size: var(--text-h2);">Certifications &amp; Standards</h2>
+          <p class="text-gray-400 text-lg leading-relaxed mb-6">EV maintains rigorous quality management systems aligned with international standards. Our commitment to quality permeates every aspect of our operations, from product development to field delivery.</p>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i>
+              </div>
+              <span class="text-gray-400">ISO 9001 Quality Management System certified</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i>
+              </div>
+              <span class="text-gray-400">ISO 14001 Environmental Management System compliant</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i>
+              </div>
+              <span class="text-gray-400">HSEQ management integrated across all global operations</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <div class="w-6 h-6 rounded-full bg-green-500/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <i data-lucide="check" class="w-3.5 h-3.5 text-green-400"></i>
+              </div>
+              <span class="text-gray-400">Continuous improvement programs across all Technology Centres</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="flex items-center justify-center">
+          <div class="grid grid-cols-2 gap-6">
+            <div class="card-glass p-8 text-center">
+              <div class="w-16 h-16 rounded-full border-2 border-ev-orange-500/30 flex items-center justify-center mx-auto mb-3">
+                <span class="font-heading font-bold text-ev-orange-400 text-sm">ISO</span>
+              </div>
+              <p class="text-white font-heading font-semibold text-sm">9001</p>
+              <p class="text-gray-500 text-xs">Quality</p>
+            </div>
+            <div class="card-glass p-8 text-center">
+              <div class="w-16 h-16 rounded-full border-2 border-green-500/30 flex items-center justify-center mx-auto mb-3">
+                <span class="font-heading font-bold text-green-400 text-sm">ISO</span>
+              </div>
+              <p class="text-white font-heading font-semibold text-sm">14001</p>
+              <p class="text-gray-500 text-xs">Environmental</p>
+            </div>
+            <div class="card-glass p-8 text-center col-span-2">
+              <div class="w-16 h-16 rounded-full border-2 border-ev-blue-400/30 flex items-center justify-center mx-auto mb-3">
+                <i data-lucide="shield-check" class="w-6 h-6 text-ev-blue-400"></i>
+              </div>
+              <p class="text-white font-heading font-semibold text-sm">HSEQ Integrated</p>
+              <p class="text-gray-500 text-xs">Health, Safety, Environment, Quality</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       SUSTAINABILITY
+       ============================================================ -->
+  <section class="section section-photo bg-dots">
+    <div class="section-bg fade-bottom-left"><img src="img/headers/animation-poster.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center max-w-3xl mx-auto mb-14 reveal">
+        <span class="badge badge-orange mb-6">Our Commitment</span>
+        <h2 class="font-heading text-2xl md:text-3xl font-bold text-white mb-6" style="font-size: var(--text-h2);">Empowering Sustainability</h2>
+        <p class="text-gray-400 text-lg leading-relaxed">We are committed to providing energy producers with the solutions they need to complete the energy transition, achieve carbon neutrality, and deliver sustainable energy.</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 lg:gap-8 reveal">
+        <!-- Geothermal -->
+        <div class="card-glass p-8">
+          <div class="w-14 h-14 rounded-xl bg-green-500/10 flex items-center justify-center mb-6">
+            <i data-lucide="flame" class="w-7 h-7 text-green-400"></i>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-3">Geothermal Energy</h3>
+          <p class="text-gray-400 leading-relaxed">Our visual analytics technology is adapted for geothermal wells, supporting the development of both conventional and enhanced geothermal systems (EGS). We help operators characterize reservoirs, monitor well integrity, and optimize heat extraction.</p>
+        </div>
+
+        <!-- CCUS -->
+        <div class="card-glass p-8">
+          <div class="w-14 h-14 rounded-xl bg-ev-blue-400/10 flex items-center justify-center mb-6">
+            <i data-lucide="wind" class="w-7 h-7 text-ev-blue-400"></i>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-3">CCUS Pipeline Assessment</h3>
+          <p class="text-gray-400 leading-relaxed">PigCAM technology enables comprehensive assessment of legacy pipelines being repurposed for CO2 transport. Our visual inspection confirms pipeline integrity and cleanliness before conversion, accelerating CCUS project timelines.</p>
+        </div>
+
+        <!-- Well Integrity -->
+        <div class="card-glass p-8">
+          <div class="w-14 h-14 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mb-6">
+            <i data-lucide="shield" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-xl font-bold text-white mb-3">Well Integrity</h3>
+          <p class="text-gray-400 leading-relaxed">Maintaining well integrity is critical for reducing methane emissions and preventing environmental incidents. Our visual analytics identify leaks, corrosion, and damage before they become environmental liabilities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       CTA SECTION
+       ============================================================ -->
+  <section class="section section-photo bg-radial-glow-center">
+    <div class="section-bg fade-top"><img src="img/headers/ctc-header3.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content text-center reveal">
+      <h2 class="font-heading text-3xl md:text-4xl font-bold text-white mb-6" style="font-size: var(--text-h2);">Partner with the world's leading visual analytics company</h2>
+      <p class="text-gray-400 text-lg max-w-2xl mx-auto mb-8">Whether you're tackling wellbore diagnostics, pipeline integrity, or energy transition challenges, EV's technology and expertise are ready to help.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a href="index.html#booking" class="btn btn-primary btn-lg btn-pulse">
+          Get in Touch
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </a>
+        <a href="case-studies.html" class="btn btn-ghost btn-lg">
+          <i data-lucide="file-text" class="w-5 h-5"></i>
+          View Case Studies
+        </a>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="section-photo border-t border-white/5 py-16">
+    <div class="container">
+      <div class="grid md:grid-cols-4 gap-10 mb-12">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+              <span class="font-heading font-bold text-white text-lg">EV</span>
+            </div>
+            <span class="font-heading font-bold text-white text-xl">EV</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">The Visual Analytics Company. Pioneering diagnostic intervention and visual analytics technology for the global energy industry since 2000.</p>
+          <div class="flex items-center gap-4">
+            <a href="https://www.linkedin.com/company/ev-the-visual-analytics-company/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-ev-orange-400 transition-colors" aria-label="LinkedIn">
+              <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Technology</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html#technology" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Visual Analytics</a></li>
+            <li><a href="index.html#products" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">AIVA Platform</a></li>
+            <li><a href="index.html#products" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">ClearVision</a></li>
+            <li><a href="index.html#products" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">PigCAM</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="about.html" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">About EV</a></li>
+            <li><a href="case-studies.html" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Case Studies</a></li>
+            <li><a href="index.html#contact" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Get in Touch</h4>
+          <ul class="space-y-3">
+            <li class="flex items-center gap-3 text-gray-400 text-sm">
+              <i data-lucide="mail" class="w-4 h-4 text-ev-orange-400 flex-shrink-0"></i>
+              <a href="mailto:info@evcam.com" class="hover:text-ev-orange-400 transition-colors">info@evcam.com</a>
+            </li>
+            <li class="flex items-center gap-3 text-gray-400 text-sm">
+              <i data-lucide="phone" class="w-4 h-4 text-ev-orange-400 flex-shrink-0"></i>
+              <a href="tel:+447525916610" class="hover:text-ev-orange-400 transition-colors">+44 7525 916610</a>
+            </li>
+            <li class="flex items-start gap-3 text-gray-400 text-sm">
+              <i data-lucide="map-pin" class="w-4 h-4 text-ev-orange-400 flex-shrink-0 mt-0.5"></i>
+              <span>Scotland, United Kingdom</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+        <p class="text-gray-500 text-sm">&copy; 2026 EV — The Visual Analytics Company. All rights reserved.</p>
+        <div class="flex items-center gap-6">
+          <a href="javascript:void(0)" title="Coming Soon" class="text-gray-500 text-sm hover:text-gray-300 transition-colors">Privacy Policy</a>
+          <a href="javascript:void(0)" title="Coming Soon" class="text-gray-500 text-sm hover:text-gray-300 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       MOBILE CTA BAR
+       ============================================================ -->
+  <div class="mobile-cta-bar">
+    <a href="tel:+447525916610" class="bg-white/10 text-white">
+      <i data-lucide="phone" class="w-4 h-4"></i> Call
+    </a>
+    <a href="index.html#booking" class="bg-ev-orange-500 text-white">
+      <i data-lucide="calendar" class="w-4 h-4"></i> Book Now
+    </a>
+  </div>
+
+  <!-- ============================================================
+       CHATBOT WIDGET
+       ============================================================ -->
+  <button id="chatbot-toggle" class="chatbot-btn" aria-label="Open chat">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </button>
+  <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 z-50 w-80 max-h-96 bg-ev-dark-800 border border-white/10 rounded-xl shadow-xl overflow-hidden">
+    <div class="bg-ev-orange-500 px-4 py-3 flex items-center justify-between">
+      <span class="font-heading font-semibold text-white text-sm">EV Assistant</span>
+      <button onclick="document.getElementById('chatbot-panel').classList.add('hidden')" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    <div class="p-4">
+      <p class="text-gray-400 text-sm">Welcome to EV. How can we help you with your wellbore or pipeline challenges?</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/components.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,962 @@
+[
+  {
+    "keyword": "wireline logging",
+    "volume": 210,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline data acquisition",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline acquisition system",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline surface panel",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline logging software",
+    "volume": 10,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline telemetry",
+    "volume": 10,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "cased hole logging software",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "open hole logging software",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "LAS file viewer",
+    "volume": 70,
+    "competition": "LOW",
+    "cpc": 4.43,
+    "high_bid": 3.05,
+    "low_bid": 1.05
+  },
+  {
+    "keyword": "DLIS file viewer",
+    "volume": 10,
+    "competition": "MEDIUM",
+    "cpc": 9.84,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline data broadcasting",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "surface acquisition unit",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline acquisition platform",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline panel",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline software",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior wireline",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior wireline software",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior 8 software",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior universal panel",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "SDS warrior",
+    "volume": 20,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "scientific data systems warrior",
+    "volume": 20,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior wireline cost",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior leasing",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior vs schlumberger",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior panel",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior logging system",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior acquisition",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior perforating",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior software",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "warrior wireline price",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "perforating control panel",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "addressable switch perforating",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "auto perf mode",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "perforating gun system",
+    "volume": 20,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "perforating gun addressable switch",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "selective fire perforating",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "perforating stage automation",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "shooter control system",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "pulse only panel",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "perforating panel",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline perforating",
+    "volume": 70,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "addressable perforating",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "perforating firing system",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "selective perforating",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "addressable switch",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "cased hole logging tool",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "open hole logging tool",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "CCL casing collar locator",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "gamma ray logging",
+    "volume": 170,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "neutron porosity logging",
+    "volume": 30,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "density logging",
+    "volume": 50,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "resistivity logging",
+    "volume": 50,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "caliper logging",
+    "volume": 90,
+    "competition": "LOW",
+    "cpc": 0.86,
+    "high_bid": 1.06,
+    "low_bid": 0.32
+  },
+  {
+    "keyword": "sonic logging",
+    "volume": 110,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "production logging",
+    "volume": 210,
+    "competition": "LOW",
+    "cpc": 1.98,
+    "high_bid": 51.66,
+    "low_bid": 2.71
+  },
+  {
+    "keyword": "compensated neutron log",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "formation evaluation logging",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "memory logging tool",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "slickline logging",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline tool string",
+    "volume": 20,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline rig up",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "BOP stack wireline",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline lubricator",
+    "volume": 70,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline wellhead",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline tension",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline depth",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline safety",
+    "volume": 10,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "API RP 67",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "BSEE wireline",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "well control wireline",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline unit",
+    "volume": 50,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline truck",
+    "volume": 390,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline mast",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline winch",
+    "volume": 10,
+    "competition": "MEDIUM",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline cable",
+    "volume": 50,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "schlumberger wireline",
+    "volume": 210,
+    "competition": "LOW",
+    "cpc": 1.42,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "halliburton wireline",
+    "volume": 50,
+    "competition": "LOW",
+    "cpc": 1.76,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "weatherford wireline",
+    "volume": 30,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "baker hughes wireline",
+    "volume": 90,
+    "competition": "LOW",
+    "cpc": 0.21,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "dyna sps",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "dynaenergetics",
+    "volume": 720,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "titan controlfire",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "hunting controlfire",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "g&h diversified",
+    "volume": 320,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "g&h DSS",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "vendor agnostic wireline",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "open wireline platform",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline system comparison",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "probe wireline",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": 3.07,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "century wireline",
+    "volume": 20,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "geothermal wireline",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "geothermal well logging",
+    "volume": 10,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "water well logging",
+    "volume": 110,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "slim hole logging",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "environmental logging",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "mining borehole logging",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "geothermal reservoir",
+    "volume": 140,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "EGS geothermal",
+    "volume": 1300,
+    "competition": "LOW",
+    "cpc": 4.67,
+    "high_bid": 5.68,
+    "low_bid": 0.77
+  },
+  {
+    "keyword": "FORGE geothermal",
+    "volume": 50,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "fervo energy",
+    "volume": 6600,
+    "competition": "LOW",
+    "cpc": 6.22,
+    "high_bid": 6.68,
+    "low_bid": 0.83
+  },
+  {
+    "keyword": "enhanced geothermal",
+    "volume": 1300,
+    "competition": "LOW",
+    "cpc": 4.67,
+    "high_bid": 5.68,
+    "low_bid": 0.77
+  },
+  {
+    "keyword": "geothermal completion",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "high temperature logging tool",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "350C wireline",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "geothermal monitoring",
+    "volume": 20,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "what is wireline logging",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "how does wireline work",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline engineer",
+    "volume": 110,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline job",
+    "volume": 720,
+    "competition": "LOW",
+    "cpc": 0.53,
+    "high_bid": 0.43,
+    "low_bid": 0.06
+  },
+  {
+    "keyword": "cost of wireline system",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline truck cost",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline leasing vs buy",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline training",
+    "volume": 10,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline certification",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline career",
+    "volume": 720,
+    "competition": "LOW",
+    "cpc": 0.53,
+    "high_bid": 0.43,
+    "low_bid": 0.06
+  },
+  {
+    "keyword": "wireline services market",
+    "volume": 30,
+    "competition": "LOW",
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline services",
+    "volume": 260,
+    "competition": "LOW",
+    "cpc": 3.35,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "oilfield wireline",
+    "volume": 260,
+    "competition": "LOW",
+    "cpc": 4.95,
+    "high_bid": 6.38,
+    "low_bid": 1.22
+  },
+  {
+    "keyword": "wireline contractor",
+    "volume": 0,
+    "competition": null,
+    "cpc": null,
+    "high_bid": null,
+    "low_bid": null
+  },
+  {
+    "keyword": "wireline operations",
+    "volume": 590,
+    "competition": "LOW",
+    "cpc": 0.08,
+    "high_bid": 0.15,
+    "low_bid": 0.01
+  }
+]

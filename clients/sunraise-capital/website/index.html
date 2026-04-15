@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SunRaise Capital - The Central Alignment Layer for Residential Solar</title>
+  <meta name="description" content="SunRaise Capital unifies capital providers, installers, and homeowners within a single technology infrastructure platform for residential solar. $200M+ deployed, 5,600+ assets, 13 active markets.">
+  <link rel="canonical" href="https://www.sunraisecapital.com/">
+
+  <!-- OG -->
+  <meta property="og:title" content="SunRaise Capital - Central Alignment Layer for Residential Solar">
+  <meta property="og:description" content="Structurally aligning capital providers, installers, and homeowners for scalable residential solar deployment.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.sunraisecapital.com/">
+  <meta property="og:image" content="images/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="SunRaise Capital - Central Alignment Layer for Residential Solar">
+  <meta name="twitter:description" content="Structurally aligning capital providers, installers, and homeowners for scalable residential solar deployment.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+
+  <!-- Fonts: Plus Jakarta Sans (headings) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,500;0,600;0,700;0,800;1,400&family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+  <!-- Preload hero image -->
+  <link rel="preload" as="image" href="images/solar-aerial.jpg">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: { 50:'#f0f3f9', 100:'#dce3ef', 200:'#b8c7df', 300:'#8da5c8', 400:'#6583ad', 500:'#4a6891', 600:'#395177', 700:'#2d4061', 800:'#1a2d4d', 900:'#0f1d33', 950:'#080e1a' },
+            sun: { 50:'#fef9ee', 100:'#fdf0d3', 200:'#fbe0a6', 300:'#f8cb6e', 400:'#f5b235', 500:'#e8971a', 600:'#cc7a0e', 700:'#a95d0f', 800:'#8a4a13', 900:'#723d13' },
+            cream: '#FAFAF7'
+          },
+          fontFamily: {
+            heading: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+            body: ['Inter', 'system-ui', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-body text-navy-950 bg-white overflow-x-hidden antialiased">
+
+  <!-- Skip to content -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-sun-500 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold">Skip to content</a>
+
+  <!-- ============================================
+       SECTION 1: STICKY HEADER
+       ============================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 header-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 shrink-0">
+          <img src="images/logo-light.png" alt="SunRaise Capital" class="h-10 w-auto">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1">
+          <a href="index.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">Home</a>
+          <!-- Platform mega dropdown -->
+          <div id="mega-trigger" class="relative">
+            <a href="platform.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors flex items-center gap-1">
+              Platform
+              <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <!-- Mega dropdown panel -->
+            <div id="mega-dropdown" class="mega-dropdown bg-white rounded-2xl shadow-2xl border border-navy-100 p-6" style="width:680px;">
+              <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:16px;">
+                <a href="capital-partners.html" class="group p-4 rounded-xl hover:bg-navy-50 transition-colors">
+                  <div class="w-10 h-10 rounded-lg bg-navy-800 text-white flex items-center justify-center mb-3">
+                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                  </div>
+                  <h4 class="font-heading font-semibold text-navy-900 group-hover:text-sun-500 transition-colors">Capital Partners</h4>
+                  <p class="text-sm text-navy-600 mt-1">Deploy capital with embedded return discipline</p>
+                </a>
+                <a href="installer-partners.html" class="group p-4 rounded-xl hover:bg-navy-50 transition-colors">
+                  <div class="w-10 h-10 rounded-lg bg-sky-600 text-white flex items-center justify-center mb-3">
+                    <i data-lucide="wrench" class="w-5 h-5"></i>
+                  </div>
+                  <h4 class="font-heading font-semibold text-navy-900 group-hover:text-sun-500 transition-colors">Installer Partners</h4>
+                  <p class="text-sm text-navy-600 mt-1">Close more deals, get funded faster</p>
+                </a>
+                <a href="homeowners.html" class="group p-4 rounded-xl hover:bg-navy-50 transition-colors">
+                  <div class="w-10 h-10 rounded-lg bg-sun-500 text-white flex items-center justify-center mb-3">
+                    <i data-lucide="home" class="w-5 h-5"></i>
+                  </div>
+                  <h4 class="font-heading font-semibold text-navy-900 group-hover:text-sun-500 transition-colors">Homeowners</h4>
+                  <p class="text-sm text-navy-600 mt-1">Design your solar system in minutes</p>
+                </a>
+              </div>
+              <div class="mt-4 pt-4 border-t border-navy-100">
+                <a href="platform.html" class="flex items-center gap-2 text-sm font-medium text-navy-600 hover:text-sun-500 transition-colors">
+                  <i data-lucide="layers" class="w-4 h-4"></i>
+                  Explore the full platform
+                  <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <a href="about.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">About</a>
+          <a href="blog/index.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">Blog</a>
+          <a href="contact.html" class="px-4 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        <!-- CTA -->
+        <div class="hidden lg:flex items-center gap-3">
+          <a href="#booking" class="px-6 py-2.5 rounded-xl bg-sun-500 text-white text-sm font-semibold btn-glow">
+            Get Started
+          </a>
+        </div>
+
+        <!-- Mobile toggle -->
+        <button id="menu-toggle" class="lg:hidden p-2 text-white" aria-expanded="false" aria-label="Menu">
+          <div class="flex flex-col gap-1.5">
+            <span class="menu-bar w-6 h-0.5 bg-current transition-transform"></span>
+            <span class="menu-bar w-6 h-0.5 bg-current transition-opacity"></span>
+            <span class="menu-bar w-6 h-0.5 bg-current transition-transform"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-navy-950/98 backdrop-blur-xl min-h-screen px-6 py-8">
+      <nav class="flex flex-col gap-1">
+        <a href="index.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Home</a>
+        <a href="capital-partners.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Capital Partners</a>
+        <a href="installer-partners.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Installer Partners</a>
+        <a href="homeowners.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Homeowners</a>
+        <a href="platform.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Platform</a>
+        <a href="about.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">About</a>
+        <a href="blog/index.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Blog</a>
+        <a href="contact.html" class="py-3 text-lg font-medium text-white/90 hover:text-sun-400 transition-colors border-b border-white/5">Contact</a>
+        <a href="#booking" class="mt-6 py-3 px-6 rounded-xl bg-sun-500 text-white text-center font-semibold btn-glow">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ============================================
+       HERO — Photo-backed institutional. No JS effects.
+       Real photography + typography + restraint.
+       ============================================ -->
+  <section class="sc-hero">
+    <!-- Photo background -->
+    <div class="sc-hero-bg">
+      <img src="images/solar-aerial.jpg" alt="" loading="eager">
+    </div>
+    <!-- Multi-layer overlay: depth + readability -->
+    <div class="sc-hero-overlay"></div>
+    <!-- Bottom gradient fade into next section -->
+    <div class="sc-hero-bottom-fade"></div>
+
+    <div class="sc-hero-inner">
+      <!-- Label -->
+      <p class="sc-hero-label hero-reveal hero-reveal-1">Solar Infrastructure Platform</p>
+
+      <!-- Headline -->
+      <h1 class="sc-hero-h1 hero-reveal hero-reveal-2">
+        The alignment layer<br class="hidden md:block">
+        for <span class="sc-hero-gold rotating-text-wrapper"><span id="rotating-text"
+          data-words='["capital deployment","installer growth","homeowner savings"]'
+          data-colors='["#e8971a","#7cb3f0","#f0c95c"]'
+        >capital deployment</span></span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="sc-hero-sub hero-reveal hero-reveal-3">
+        Structurally aligning capital providers, installers, and homeowners<br class="hidden lg:block">
+        within a single platform. Return discipline embedded at origination.
+      </p>
+
+      <!-- CTA -->
+      <div class="sc-hero-ctas hero-reveal hero-reveal-4">
+        <a href="platform.html" class="sc-hero-btn">
+          Explore the Platform
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M3.33 8h9.34M8.67 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#booking" class="sc-hero-btn-ghost">Schedule a Discussion</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="sc-hero-stats hero-reveal hero-reveal-5">
+        <div class="sc-hero-stat">
+          <span class="stat-number sc-hero-stat-val" data-count="200" data-prefix="$" data-suffix="M+">$200M+</span>
+          <span class="sc-hero-stat-lbl">Capital Deployed</span>
+        </div>
+        <div class="sc-hero-stat-sep"></div>
+        <div class="sc-hero-stat">
+          <span class="stat-number sc-hero-stat-val" data-count="5600" data-suffix="+">5,600+</span>
+          <span class="sc-hero-stat-lbl">Assets Governed</span>
+        </div>
+        <div class="sc-hero-stat-sep"></div>
+        <div class="sc-hero-stat">
+          <span class="stat-number sc-hero-stat-val" data-count="13" data-suffix="">13</span>
+          <span class="sc-hero-stat-lbl">Active Markets</span>
+        </div>
+        <div class="sc-hero-stat-sep hidden sm:block"></div>
+        <div class="sc-hero-stat hidden sm:block">
+          <span class="stat-number sc-hero-stat-val" data-count="8" data-prefix="$" data-suffix="B">$8B</span>
+          <span class="sc-hero-stat-lbl">Annual TPO Market</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S2: PARTNER STRIP — minimal, edge-to-edge
+       ============================================ -->
+  <section class="py-8 lg:py-10 bg-white border-b border-navy-100/20">
+    <div class="overflow-hidden relative">
+      <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+      <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
+      <div class="flex w-max gap-20 items-center animate-marquee px-10">
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">BlackRock</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">Ares Management</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">Basalt Infrastructure</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">US Bank</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">IGS Solar</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">SunVena Solar</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">Enerflo</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">BlackRock</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">Ares Management</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">Basalt Infrastructure</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">US Bank</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">IGS Solar</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">SunVena Solar</span>
+        <span class="text-navy-700 font-heading font-bold text-xl whitespace-nowrap opacity-50 hover:opacity-100 transition-opacity duration-300">Enerflo</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S3: THREE AUDIENCES — Bento grid layout (NOT 3 equal columns)
+       Each card has completely different visual treatment
+       ============================================ -->
+  <section class="py-14 lg:py-18 bg-white bg-photo bg-photo-light" style="--bg: url(images/solar-farm-aerial.jpg)">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="mb-10 reveal">
+        <p class="text-sun-700 font-semibold text-sm tracking-wide mb-3">Three stakeholders. One platform.</p>
+        <h2 class="font-heading font-extrabold text-navy-950 leading-[1.08]" style="font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.04em;">Alignment does not<br>happen automatically</h2>
+      </div>
+
+      <!-- Bento grid: 2 rows, asymmetric -->
+      <div class="grid lg:grid-cols-12 gap-4">
+        <!-- Capital Partners — large card spanning 7 cols -->
+        <a href="capital-partners.html" class="reveal lg:col-span-7 group relative rounded-2xl overflow-hidden bg-navy-950 p-8 lg:p-10 min-h-[320px] flex flex-col justify-end card-hover">
+          <img src="images/solar-field.jpg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:opacity-30 group-hover:scale-105 transition-all duration-700" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/80 to-transparent"></div>
+          <div class="relative z-10">
+            <div class="text-sun-400 text-xs font-semibold tracking-widest uppercase mb-3">Capital Partners</div>
+            <h3 class="font-heading font-bold text-white text-2xl lg:text-3xl mb-3 leading-tight" style="letter-spacing: -0.03em">Deploy capital with embedded<br class="hidden lg:block"> return discipline</h3>
+            <p class="text-white/60 text-sm mb-5 max-w-md">IRR solved at origination. Institutional governance. Full lifecycle asset management across 13+ markets.</p>
+            <span class="inline-flex items-center gap-2 text-sun-400 text-sm font-semibold group-hover:gap-3 transition-all">
+              Learn more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+            </span>
+          </div>
+        </a>
+
+        <!-- Right column: 2 stacked cards -->
+        <div class="lg:col-span-5 grid gap-4">
+          <!-- Installer Partners — medium card -->
+          <a href="installer-partners.html" class="reveal reveal-delay-1 group relative rounded-2xl overflow-hidden bg-navy-50 p-7 min-h-[152px] flex flex-col justify-end card-hover border border-navy-100/50">
+            <div class="relative z-10">
+              <div class="text-blue-700 text-xs font-semibold tracking-widest uppercase mb-2">Installer Partners</div>
+              <h3 class="font-heading font-bold text-navy-950 text-xl mb-2" style="letter-spacing: -0.02em">Close more deals. Get funded faster.</h3>
+              <p class="text-navy-600 text-sm mb-3">Next-business-day underwriting. Diversified capital sources.</p>
+              <span class="inline-flex items-center gap-2 text-sun-700 text-sm font-semibold group-hover:gap-3 transition-all">
+                Learn more <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </span>
+            </div>
+          </a>
+
+          <!-- Homeowners — medium card with image -->
+          <a href="homeowners.html" class="reveal reveal-delay-2 group relative rounded-2xl overflow-hidden min-h-[152px] flex flex-col justify-end card-hover">
+            <img src="images/solar-home-modern.jpg" alt="" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/50 to-transparent"></div>
+            <div class="relative z-10 p-7">
+              <div class="text-sun-300 text-xs font-semibold tracking-widest uppercase mb-2">Homeowners</div>
+              <h3 class="font-heading font-bold text-white text-xl mb-2" style="letter-spacing: -0.02em">Design your solar system in minutes</h3>
+              <span class="inline-flex items-center gap-2 text-sun-400 text-sm font-semibold group-hover:gap-3 transition-all">
+                Get started <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S4: PLATFORM WORKFLOW — Horizontal scroll cards on dark
+       Completely different layout: full-bleed dark with horizontal cards
+       ============================================ -->
+  <section class="py-14 lg:py-18 relative overflow-hidden" style="background:#060a10;">
+    <!-- Hero-style photo background -->
+    <div class="absolute inset-0 z-0">
+      <img src="images/solar-install-aerial.jpg" alt="" class="w-full h-full object-cover" loading="lazy" style="opacity:0.25; filter: saturate(0.5) brightness(0.6);">
+    </div>
+    <div class="absolute inset-0 z-0" style="background: radial-gradient(ellipse 60% 50% at 50% 40%, transparent 0%, rgba(6,10,16,0.5) 60%, rgba(6,10,16,0.95) 100%), linear-gradient(180deg, rgba(6,10,16,0.5) 0%, rgba(6,10,16,0.2) 30%, rgba(6,10,16,0.3) 70%, rgba(6,10,16,0.9) 100%);"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 items-start">
+        <!-- Left: text content -->
+        <div class="reveal lg:sticky lg:top-32">
+          <p class="text-sun-400 font-semibold text-sm tracking-wide mb-3">How it works</p>
+          <h2 class="font-heading font-extrabold text-white mb-6 leading-[1.08]" style="font-size: clamp(1.75rem, 3.5vw, 2.75rem); letter-spacing: -0.04em;">From proposal to<br>funded installation</h2>
+          <p class="text-white/70 leading-relaxed mb-8">Every step governed by a single technology stack. No manual handoffs. No misaligned incentives.</p>
+          <div class="flex items-center gap-8 border-t border-white/[0.06] pt-6">
+            <div>
+              <div class="text-xs text-white/70 mt-1">Deployed</div>
+            </div>
+            <div>
+              <div class="stat-number text-2xl text-white" data-count="24" data-prefix="<" data-suffix="hrs">&#60;24hrs</div>
+              <div class="text-xs text-white/70 mt-1">Underwriting</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: 4 step cards stacked -->
+        <div class="space-y-4">
+          <div class="reveal glass-card p-6 rounded-xl">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-sun-500/10 flex items-center justify-center shrink-0 text-sun-400 font-heading font-bold">1</div>
+              <div>
+                <h4 class="font-heading font-semibold text-white mb-1">IRR-Embedded Pricing</h4>
+                <p class="text-white/70 text-sm">Capital provider return targets solved at origination, not negotiated after the fact.</p>
+              </div>
+            </div>
+          </div>
+          <div class="reveal reveal-delay-1 glass-card p-6 rounded-xl">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-sun-500/10 flex items-center justify-center shrink-0 text-sun-400 font-heading font-bold">2</div>
+              <div>
+                <h4 class="font-heading font-semibold text-white mb-1">Automated Underwriting</h4>
+                <p class="text-white/70 text-sm">Next-business-day credit decisions with standardized documentation and compliance.</p>
+              </div>
+            </div>
+          </div>
+          <div class="reveal reveal-delay-2 glass-card p-6 rounded-xl">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-sun-500/10 flex items-center justify-center shrink-0 text-sun-400 font-heading font-bold">3</div>
+              <div>
+                <h4 class="font-heading font-semibold text-white mb-1">QA Validation</h4>
+                <p class="text-white/70 text-sm">Every asset submission reviewed for data integrity, design accuracy, and compliance.</p>
+              </div>
+            </div>
+          </div>
+          <div class="reveal reveal-delay-3 glass-card p-6 rounded-xl">
+            <div class="flex items-start gap-4">
+              <div class="w-10 h-10 rounded-xl bg-sun-500/10 flex items-center justify-center shrink-0 text-sun-400 font-heading font-bold">4</div>
+              <div>
+                <h4 class="font-heading font-semibold text-white mb-1">Portfolio Governance</h4>
+                <p class="text-white/70 text-sm">25-year asset management with billing, collections, monitoring, and performance reporting.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S5: TRACK RECORD — Large typographic numbers, asymmetric layout
+       ============================================ -->
+  <section class="py-14 lg:py-18 relative overflow-hidden" style="background: var(--cream);">
+    <!-- Photo background: aerial solar farm = scale -->
+    <div class="absolute inset-0 z-0">
+      <img src="images/solar-farm-aerial.jpg" alt="" class="w-full h-full object-cover" loading="lazy" style="opacity: 0.12; filter: grayscale(60%) contrast(1.1);">
+    </div>
+    <div class="absolute inset-0 z-0" style="background: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 0%, rgba(250,250,247,0.6) 70%, rgba(250,250,247,0.95) 100%);"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <p class="text-sun-700 font-semibold text-sm tracking-wide mb-3">Track record</p>
+          <h2 class="font-heading font-extrabold text-navy-950 mb-6 leading-[1.05]" style="font-size: clamp(2rem, 4.5vw, 3.5rem); letter-spacing: -0.04em;">Proven<br>at scale</h2>
+          <p class="text-navy-600 leading-relaxed mb-8">SunRaise has deployed more than two hundred million dollars of lifetime third-party capital across multiple markets, maintaining active installer partnerships and thousands of governed assets.</p>
+          <a href="platform.html" class="btn-primary">Deploy With Us</a>
+        </div>
+
+        <!-- Large stat numbers - magazine layout -->
+        <div class="reveal reveal-delay-1">
+          <div class="grid grid-cols-2 gap-3 sm:gap-6">
+            <div class="bg-navy-950 rounded-2xl p-4 sm:p-6 text-center noise relative overflow-hidden">
+              <div class="relative z-10">
+                <div class="stat-number text-2xl sm:text-4xl text-sun-400 mb-1" data-count="200" data-prefix="$" data-suffix="M+">$200M+</div>
+                <div class="text-[10px] sm:text-xs text-white/80">Capital Deployed</div>
+              </div>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-6 text-center border border-navy-100/50 shadow-sm">
+              <div class="stat-number text-2xl sm:text-4xl text-navy-950 mb-1" data-count="5600" data-suffix="+">5,600+</div>
+              <div class="text-[10px] sm:text-xs text-navy-600">Assets Governed</div>
+            </div>
+            <div class="bg-white rounded-2xl p-4 sm:p-6 text-center border border-navy-100/50 shadow-sm">
+              <div class="stat-number text-2xl sm:text-4xl text-navy-950 mb-1">150+</div>
+              <div class="text-[10px] sm:text-xs text-navy-600">Installer Partners</div>
+            </div>
+            <div class="bg-navy-950 rounded-2xl p-4 sm:p-6 text-center noise relative overflow-hidden">
+              <div class="relative z-10">
+                <div class="stat-number text-2xl sm:text-4xl text-white mb-1">25yr</div>
+                <div class="text-[10px] sm:text-xs text-white/80">Asset Management</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S6: SAVINGS CHART — Full-width dark, asymmetric text+chart
+       ============================================ -->
+  <section class="py-16 lg:py-20 bg-navy-900 noise relative overflow-hidden bg-photo bg-photo-dark" style="--bg: url(images/power-grid.jpg)">
+    <div class="absolute top-0 left-1/3 w-[500px] h-[400px] bg-sun-500/[0.04] blur-[100px] rounded-full"></div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+        <div class="lg:col-span-2 reveal">
+          <p class="text-sun-400 font-semibold text-base tracking-wide mb-4">Structural advantage</p>
+          <h2 class="font-heading font-bold text-white mb-6 leading-[1.1]" style="font-size: clamp(1.75rem, 3vw, 2.75rem); letter-spacing: -0.03em;">Utility inflation creates a widening savings gap</h2>
+          <p class="text-white/80 text-base leading-relaxed mb-6">SunRaise contracts deliver ~20% savings at inception with a fixed 2.99% escalator, well below projected utility inflation.</p>
+          <div class="flex flex-wrap items-center gap-5 text-sm text-white/60">
+            <span class="flex items-center gap-2"><span class="w-3 h-0.5 bg-[#60A5FA] rounded"></span> Utility Rate</span>
+            <span class="flex items-center gap-2"><span class="w-3 h-0.5 bg-sun-500 rounded"></span> SunRaise 2.99%</span>
+          </div>
+        </div>
+
+        <div class="lg:col-span-3 reveal-right">
+          <div class="chart-container noise" style="padding: 24px 28px 20px;">
+            <!-- Legend row - matches reference image -->
+            <div class="flex flex-wrap items-center gap-6 mb-6 text-sm">
+              <span class="flex items-center gap-2">
+                <span class="inline-block w-7 h-[3px] bg-navy-800 rounded-full" style="background:#60A5FA;"></span>
+                <span class="text-white/70 font-medium">Utility Rate Projection</span>
+              </span>
+              <span class="flex items-center gap-2">
+                <span class="inline-block w-7 h-[3px] rounded-full" style="background:#e8971a;"></span>
+                <span class="text-white/70 font-medium">SunRaise 2.99% Escalator</span>
+              </span>
+            </div>
+
+            <svg viewBox="0 0 600 310" class="w-full" xmlns="http://www.w3.org/2000/svg" style="overflow: visible;">
+              <defs>
+                <linearGradient id="area-grad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="rgba(232,151,26,0.10)"/>
+                  <stop offset="100%" stop-color="rgba(232,151,26,0.01)"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Y-axis label -->
+              <text x="50" y="28" text-anchor="end" fill="rgba(255,255,255,0.45)" font-size="11" font-family="Inter" font-weight="500">$/kWh</text>
+
+              <!-- Horizontal grid + Y labels -->
+              <line x1="60" y1="260" x2="556" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <line x1="60" y1="195" x2="556" y2="195" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <line x1="60" y1="130" x2="556" y2="130" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+              <text x="52" y="264" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">0</text>
+              <text x="52" y="199" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">10</text>
+              <text x="52" y="134" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">20</text>
+              <text x="52" y="69" text-anchor="end" fill="rgba(255,255,255,0.35)" font-size="11" font-family="Inter">30</text>
+
+              <!-- Vertical axis -->
+              <line x1="60" y1="42" x2="60" y2="260" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+
+              <!-- X-axis: every year 2020-2030 -->
+              <text x="60" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2020</text>
+              <text x="109.6" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2021</text>
+              <text x="159.2" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2022</text>
+              <text x="208.8" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2023</text>
+              <text x="258.4" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2024</text>
+              <text x="308" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2025</text>
+              <text x="357.6" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2026</text>
+              <text x="407.2" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2027</text>
+              <text x="456.8" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2028</text>
+              <text x="506.4" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2029</text>
+              <text x="556" y="280" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Inter">2030</text>
+
+              <!-- "Year" label -->
+              <text x="308" y="300" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="10" font-family="Inter">Year</text>
+
+              <!--
+                Data mapping ($/kWh to Y):
+                0 = 260, 10 = 195, 20 = 130, 30 = 65
+                Scale: 6.5px per kWh unit
+
+                Utility: 2020=14 (y=169), 2021=14.3(167), 2022=14.8(164), 2023=15.2(161), 2024=15.8(157),
+                         2025=17(150), 2026=19(137), 2027=21(124), 2028=23(111), 2029=25.5(94), 2030=28(78)
+                SunRaise: starts 2025=13.6(172), 2026=14(169), 2027=14.4(166), 2028=14.8(164),
+                          2029=15.3(161), 2030=15.7(158)
+              -->
+
+              <!-- Shaded area between lines (2025-2030 only, where SunRaise line exists) -->
+              <path d="M308,150 L357.6,137 L407.2,124 L456.8,111 L506.4,94 L556,78
+                       L556,158 L506.4,161 L456.8,164 L407.2,166 L357.6,169 L308,172 Z"
+                    fill="url(#area-grad)"/>
+
+              <!-- Utility rate line: 2020-2030, gradual then steep -->
+              <polyline class="chart-line-animate"
+                points="60,169 109.6,167 159.2,164 208.8,161 258.4,157 308,150 357.6,137 407.2,124 456.8,111 506.4,94 556,78"
+                fill="none" stroke="#60A5FA" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+              <!-- SunRaise line: 2025-2030 only (starts at ~20% below utility at 2025) -->
+              <polyline class="chart-line-animate"
+                points="308,172 357.6,169 407.2,166 456.8,164 506.4,161 556,158"
+                fill="none" stroke="#e8971a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="animation-delay: 0.4s"/>
+
+              <!-- -20% annotation at 2025 with arrow -->
+              <rect x="276" y="125" width="56" height="22" rx="4" fill="#e8971a"/>
+              <text x="304" y="140" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Plus Jakarta Sans, Inter, sans-serif">-20%</text>
+              <!-- Arrow from badge down to SunRaise point -->
+              <line x1="308" y1="148" x2="308" y2="170" stroke="#e8971a" stroke-width="1.5"/>
+              <polygon points="304,170 308,177 312,170" fill="#e8971a"/>
+
+              <!-- -33.79% annotation at 2030 with arrow -->
+              <rect x="516" y="53" width="78" height="22" rx="4" fill="#e8971a"/>
+              <text x="555" y="68" text-anchor="middle" fill="#fff" font-size="12" font-weight="700" font-family="Plus Jakarta Sans, Inter, sans-serif">-33.79%</text>
+              <!-- Arrow from badge down to SunRaise point -->
+              <line x1="556" y1="76" x2="556" y2="155" stroke="#e8971a" stroke-width="1.5"/>
+              <polygon points="552,155 556,162 560,155" fill="#e8971a"/>
+
+              <!-- Data points -->
+              <circle cx="308" cy="150" r="5" fill="#60A5FA"/>
+              <circle cx="308" cy="150" r="9" fill="#60A5FA" opacity="0.1"/>
+              <circle cx="308" cy="172" r="5" fill="#e8971a"/>
+              <circle cx="308" cy="172" r="9" fill="#e8971a" opacity="0.1"/>
+              <circle cx="556" cy="78" r="5" fill="#60A5FA"/>
+              <circle cx="556" cy="78" r="9" fill="#60A5FA" opacity="0.1"/>
+              <circle cx="556" cy="158" r="5" fill="#e8971a"/>
+              <circle cx="556" cy="158" r="9" fill="#e8971a" opacity="0.1"/>
+            </svg>
+
+            <p class="text-white/40 text-xs mt-5 leading-relaxed italic">The chart above illustrates the increasing savings differential for customers. Starting with ~20% Day-One Savings in 2025, the gap between SunRaise's fixed escalator and rising utility rates significantly widens by 2030.</p>
+            <p class="text-white/30 text-[11px] mt-3 leading-relaxed"><strong class="text-white/45 font-semibold">Source:</strong> U.S. Energy Information Administration, Residential Electricity Prices (Table EPA_02_07). ICF, Impact of Rapid Demand Growth on U.S. Electricity Rates (2024).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- S7: SOCIAL PROOF -->
+  <section class="relative py-16 lg:py-20 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="images/solar-installer.jpg" alt="" class="w-full h-full object-cover" loading="lazy" style="filter: brightness(0.35) saturate(0.5);">
+      <div class="absolute inset-0 bg-navy-950/70"></div>
+    </div>
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center mb-10 reveal">
+        <h2 class="font-heading font-bold text-white" style="font-size: clamp(1.75rem, 3vw, 2.5rem); letter-spacing: -0.03em;">Trusted across the stack</h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5 reveal">
+        <div class="glass-card p-6 rounded-xl">
+          <div class="flex gap-0.5 mb-4 text-amber-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="text-white/60 text-sm leading-relaxed mb-5 italic">"SunRaise has fundamentally changed how we think about deploying capital into residential solar. The embedded IRR discipline eliminates the guesswork."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-navy-700 text-white flex items-center justify-center text-sm font-semibold ring-2 ring-white/10">JH</div>
+            <div>
+              <div class="text-white text-sm font-semibold">James H.</div>
+              <div class="text-white/60 text-xs">Managing Director, Institutional Capital</div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card p-6 rounded-xl">
+          <div class="flex gap-0.5 mb-4 text-amber-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="text-white/60 text-sm leading-relaxed mb-5 italic">"Getting funded used to take weeks. With SunRaise, we went from proposal to funded installation in under 48 hours. The underwriting speed alone has transformed our cash flow."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-navy-700 text-white flex items-center justify-center text-sm font-semibold ring-2 ring-white/10">MR</div>
+            <div>
+              <div class="text-white text-sm font-semibold">Marcus R.</div>
+              <div class="text-white/60 text-xs">CEO, Regional Solar Installer</div>
+            </div>
+          </div>
+        </div>
+        <div class="glass-card p-6 rounded-xl">
+          <div class="flex gap-0.5 mb-4 text-amber-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <p class="text-white/60 text-sm leading-relaxed mb-5 italic">"No pushy sales calls, no hidden fees. The entire process was transparent from start to finish. My electric bill dropped 22% the first month."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-navy-700 text-white flex items-center justify-center text-sm font-semibold ring-2 ring-white/10">SL</div>
+            <div>
+              <div class="text-white text-sm font-semibold">Sarah L.</div>
+              <div class="text-white/60 text-xs">Homeowner, Orlando, FL</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-8 reveal">
+        <button onclick="openReviewModal()" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/10 border border-white/15 text-white text-sm font-semibold hover:bg-white/20 transition-all">
+          <i data-lucide="message-square-plus" class="w-5 h-5"></i> Share Your Experience
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S8: INSIGHTS — Blog cards with varied layouts
+       NOT a 3-equal-column grid. Magazine-style.
+       ============================================ -->
+  <section class="py-14 lg:py-18 bg-white bg-photo bg-photo-right" style="--bg: url(images/solar-sunset-modern.jpg)">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-end mb-12 reveal">
+        <div>
+          <p class="text-sun-700 font-semibold text-sm tracking-wide mb-3">Insights</p>
+          <h2 class="font-heading font-bold text-navy-950" style="font-size: clamp(1.75rem, 3vw, 2.5rem); letter-spacing: -0.03em;">Latest from SunRaise</h2>
+        </div>
+        <a href="blog/index.html" class="hidden sm:inline-flex items-center gap-2 text-sun-700 font-semibold text-sm hover:gap-3 transition-all">
+          All articles <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+
+      <!-- Magazine grid: 1 featured + 2 small -->
+      <div class="grid lg:grid-cols-12 gap-5">
+        <!-- Featured post - large -->
+        <a href="blog/structural-alignment-solar-finance.html" class="reveal lg:col-span-7 group relative rounded-2xl overflow-hidden min-h-[380px] flex flex-col justify-end card-hover">
+          <img src="images/solar-sunset.jpg" alt="" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy">
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/60 to-transparent"></div>
+          <div class="relative z-10 p-8">
+            <span class="text-sun-400 text-xs font-semibold tracking-widest uppercase">Solar Finance</span>
+            <h3 class="font-heading font-bold text-white text-xl lg:text-2xl mt-2 mb-2 leading-tight group-hover:text-sun-300 transition-colors" style="letter-spacing: -0.02em">Why Structural Alignment Matters More Than the Lowest Price</h3>
+            <p class="text-white/65 text-sm line-clamp-2">The solar industry's focus on price compression has created systemic risk.</p>
+          </div>
+        </a>
+
+        <!-- 2 smaller posts stacked -->
+        <div class="lg:col-span-5 grid gap-5">
+          <a href="blog/tpo-opportunity-residential-solar.html" class="reveal reveal-delay-1 group flex gap-5 items-center p-5 rounded-2xl bg-navy-50 card-hover border border-navy-100/30">
+            <div class="w-24 h-24 rounded-xl overflow-hidden shrink-0">
+              <img src="images/solar-panels-rows.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            </div>
+            <div>
+              <span class="text-sun-700 text-xs font-semibold tracking-wider uppercase">Market Analysis</span>
+              <h3 class="font-heading font-semibold text-navy-950 text-base mt-1 mb-1 group-hover:text-sun-600 transition-colors leading-snug">The $8B TPO Opportunity</h3>
+              <p class="text-navy-600 text-xs line-clamp-2">Third-party ownership is projected to capture 69% of residential installs.</p>
+            </div>
+          </a>
+          <a href="blog/homeowner-solar-lease-guide-2026.html" class="reveal reveal-delay-2 group flex gap-5 items-center p-5 rounded-2xl bg-navy-50 card-hover border border-navy-100/30">
+            <div class="w-24 h-24 rounded-xl overflow-hidden shrink-0">
+              <img src="images/solar-home-modern.jpg" alt="" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+            </div>
+            <div>
+              <span class="text-sun-700 text-xs font-semibold tracking-wider uppercase">Homeowner Guide</span>
+              <h3 class="font-heading font-semibold text-navy-950 text-base mt-1 mb-1 group-hover:text-sun-600 transition-colors leading-snug">What to Know Before Signing a Solar Lease</h3>
+              <p class="text-navy-600 text-xs line-clamp-2">Understanding lease structures has never been more important.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S9: BOOKING + FAQ — Side by side (NOT separate sections)
+       Completely different: 2-column with form left, FAQ right
+       ============================================ -->
+  <section id="booking" class="py-14 lg:py-18 bg-cream bg-photo bg-photo-top" style="--bg: url(images/solar-home-modern.jpg)">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12">
+        <!-- Left: Booking wizard -->
+        <div class="reveal">
+          <p class="text-sun-700 font-semibold text-sm tracking-wide mb-3">Get started</p>
+          <h2 class="font-heading font-bold text-navy-950 mb-8 leading-[1.1]" style="font-size: clamp(1.75rem, 3vw, 2.5rem); letter-spacing: -0.03em;">Start the conversation</h2>
+
+          <div class="bg-white rounded-2xl border border-navy-100/50 shadow-sm p-6 lg:p-8" id="booking-wizard">
+            <div class="flex items-center justify-center gap-2 mb-6" id="step-indicators">
+              <div class="step-dot active" data-step-indicator="1">1</div>
+              <div class="step-connector"></div>
+              <div class="step-dot pending" data-step-indicator="2">2</div>
+              <div class="step-connector"></div>
+              <div class="step-dot pending" data-step-indicator="3">3</div>
+              <div class="step-connector"></div>
+              <div class="step-dot pending" data-step-indicator="4">4</div>
+            </div>
+            <div class="wizard-step active" data-step="1">
+              <h3 class="font-heading font-semibold text-navy-950 mb-5 text-center">I am a...</h3>
+              <div class="grid grid-cols-3 gap-3" id="audience-select">
+                <button onclick="selectAudience('capital', event)" class="audience-btn p-4 rounded-xl border-2 border-navy-100 hover:border-sun-500 transition-all text-center group">
+                  <div class="w-10 h-10 rounded-lg bg-navy-100 group-hover:bg-navy-800 text-navy-600 group-hover:text-white flex items-center justify-center mx-auto mb-2 transition-all"><i data-lucide="trending-up" class="w-5 h-5"></i></div>
+                  <div class="font-heading font-semibold text-navy-950 text-sm">Investor</div>
+                </a>
+                <button onclick="selectAudience('installer', event)" class="audience-btn p-4 rounded-xl border-2 border-navy-100 hover:border-sun-500 transition-all text-center group">
+                  <div class="w-10 h-10 rounded-lg bg-navy-100 group-hover:bg-blue-600 text-navy-600 group-hover:text-white flex items-center justify-center mx-auto mb-2 transition-all"><i data-lucide="wrench" class="w-5 h-5"></i></div>
+                  <div class="font-heading font-semibold text-navy-950 text-sm">Installer</div>
+                </a>
+                <button onclick="selectAudience('homeowner', event)" class="audience-btn p-4 rounded-xl border-2 border-navy-100 hover:border-sun-500 transition-all text-center group">
+                  <div class="w-10 h-10 rounded-lg bg-navy-100 group-hover:bg-sun-500 text-navy-600 group-hover:text-white flex items-center justify-center mx-auto mb-2 transition-all"><i data-lucide="home" class="w-5 h-5"></i></div>
+                  <div class="font-heading font-semibold text-navy-950 text-sm">Homeowner</div>
+                </a>
+              </div>
+            </div>
+            <div class="wizard-step" data-step="2">
+              <h3 class="font-heading font-semibold text-navy-950 mb-5" id="step2-title">Tell us more</h3>
+              <div id="step2-fields" class="space-y-3"></div>
+              <div class="flex gap-3 mt-5">
+                <button onclick="wizardGoTo(1)" class="px-5 py-2.5 rounded-xl border border-navy-200 text-navy-700 font-semibold text-sm hover:bg-navy-50 transition-all">Back</button>
+                <button onclick="wizardGoTo(3)" class="flex-1 px-5 py-2.5 rounded-xl bg-sun-500 text-white font-semibold text-sm btn-glow">Continue</button>
+              </div>
+            </div>
+            <div class="wizard-step" data-step="3">
+              <h3 class="font-heading font-semibold text-navy-950 mb-5">Contact info</h3>
+              <div class="space-y-3">
+                <div class="grid grid-cols-2 gap-3">
+                  <input type="text" id="book-first" placeholder="First Name" class="w-full px-4 py-2.5 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none text-sm">
+                  <input type="text" id="book-last" placeholder="Last Name" class="w-full px-4 py-2.5 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none text-sm">
+                </div>
+                <input type="email" id="book-email" placeholder="Email" class="w-full px-4 py-2.5 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none text-sm">
+                <input type="tel" id="book-phone" placeholder="Phone" class="w-full px-4 py-2.5 rounded-xl border border-navy-200 focus:border-sun-500 focus:ring-2 focus:ring-sun-500/20 outline-none text-sm">
+              </div>
+              <div class="flex gap-3 mt-5">
+                <button onclick="wizardGoTo(2)" class="px-5 py-2.5 rounded-xl border border-navy-200 text-navy-700 font-semibold text-sm">Back</button>
+                <button onclick="wizardGoTo(4)" class="flex-1 px-5 py-2.5 rounded-xl bg-sun-500 text-white font-semibold text-sm btn-glow">Continue</button>
+              </div>
+            </div>
+
+            <!-- Step 4: Calendar scheduling -->
+            <div class="wizard-step" data-step="4">
+              <h3 class="font-heading font-semibold text-navy-950 mb-2 text-center">Pick a time</h3>
+              <p class="text-navy-500 text-xs text-center mb-5">Select a 30-minute slot that works for you</p>
+
+              <!-- Week navigation -->
+              <div class="flex items-center justify-between mb-4">
+                <button onclick="calendarPrevWeek()" class="p-1.5 rounded-lg hover:bg-navy-50 transition-colors text-navy-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <span id="cal-week-label" class="font-heading font-semibold text-navy-950 text-sm"></span>
+                <button onclick="calendarNextWeek()" class="p-1.5 rounded-lg hover:bg-navy-50 transition-colors text-navy-500">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              </div>
+
+              <!-- Day columns -->
+              <div id="cal-grid" class="grid grid-cols-5 gap-1.5 mb-5">
+                <!-- JS populates: day headers + time slots -->
+              </div>
+
+              <!-- Selected time display -->
+              <div id="cal-selected" class="hidden bg-sun-50 border border-sun-200 rounded-xl px-4 py-3 mb-4">
+                <div class="flex items-center gap-2">
+                  <i data-lucide="calendar" class="w-4 h-4 text-sun-600"></i>
+                  <span id="cal-selected-text" class="text-sm font-medium text-navy-950"></span>
+                </div>
+              </div>
+
+              <div class="flex gap-3">
+                <button onclick="wizardGoTo(3)" class="px-5 py-2.5 rounded-xl border border-navy-200 text-navy-700 font-semibold text-sm">Back</button>
+                <button onclick="submitBooking()" id="booking-submit" class="flex-1 px-5 py-2.5 rounded-xl bg-sun-500 text-white font-semibold text-sm btn-glow disabled:opacity-40 disabled:cursor-not-allowed" disabled>Book Call</button>
+              </div>
+            </div>
+
+            <!-- Step 5: Confirmation -->
+            <div class="wizard-step" data-step="5">
+              <div class="text-center py-8">
+                <div class="w-14 h-14 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-3"><i data-lucide="check" class="w-7 h-7"></i></div>
+                <h3 class="font-heading font-bold text-lg text-navy-950 mb-1">Call Booked</h3>
+                <p class="text-navy-600 text-sm mb-1" id="confirm-time"></p>
+                <p class="text-navy-500 text-xs">You'll receive a calendar invite at the email you provided.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: FAQ -->
+        <div class="reveal reveal-delay-1">
+          <p class="text-navy-600 font-semibold text-base tracking-wide mb-5">Common questions</p>
+          <div class="space-y-2" id="faq-container">
+            <div class="border border-navy-100/50 rounded-xl overflow-hidden bg-white">
+              <button id="faq-trigger-1" class="faq-trigger w-full flex items-center justify-between px-5 py-4 text-left font-heading font-semibold text-navy-950 text-sm hover:bg-navy-50/50 transition-colors" aria-expanded="false" aria-controls="faq-content-1">
+                What is SunRaise Capital?
+                <svg class="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div id="faq-content-1" class="faq-content px-5" role="region" aria-labelledby="faq-trigger-1">
+                <p class="pb-4 text-navy-600 text-sm leading-relaxed">SunRaise Capital is a technology infrastructure platform that structurally aligns capital providers, solar installers, and homeowners within a single system. We manage everything from underwriting to 25-year asset management.</p>
+              </div>
+            </div>
+            <div class="border border-navy-100/50 rounded-xl overflow-hidden bg-white">
+              <button id="faq-trigger-2" class="faq-trigger w-full flex items-center justify-between px-5 py-4 text-left font-heading font-semibold text-navy-950 text-sm hover:bg-navy-50/50 transition-colors" aria-expanded="false" aria-controls="faq-content-2">
+                How is SunRaise different from traditional TPO?
+                <svg class="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div id="faq-content-2" class="faq-content px-5" role="region" aria-labelledby="faq-trigger-2">
+                <p class="pb-4 text-navy-600 text-sm leading-relaxed">SunRaise embeds the capital provider's required IRR directly into pricing at origination. This structural approach eliminates the misalignment that creates risk in traditional models.</p>
+              </div>
+            </div>
+            <div class="border border-navy-100/50 rounded-xl overflow-hidden bg-white">
+              <button id="faq-trigger-3" class="faq-trigger w-full flex items-center justify-between px-5 py-4 text-left font-heading font-semibold text-navy-950 text-sm hover:bg-navy-50/50 transition-colors" aria-expanded="false" aria-controls="faq-content-3">
+                Who should work with SunRaise?
+                <svg class="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div id="faq-content-3" class="faq-content px-5" role="region" aria-labelledby="faq-trigger-3">
+                <p class="pb-4 text-navy-600 text-sm leading-relaxed">Capital providers seeking disciplined solar asset exposure, solar installers looking for faster underwriting, and homeowners who want transparent, no-pressure solar savings.</p>
+              </div>
+            </div>
+            <div class="border border-navy-100/50 rounded-xl overflow-hidden bg-white">
+              <button id="faq-trigger-4" class="faq-trigger w-full flex items-center justify-between px-5 py-4 text-left font-heading font-semibold text-navy-950 text-sm hover:bg-navy-50/50 transition-colors" aria-expanded="false" aria-controls="faq-content-4">
+                How quickly can installers get funded?
+                <svg class="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div id="faq-content-4" class="faq-content px-5" role="region" aria-labelledby="faq-trigger-4">
+                <p class="pb-4 text-navy-600 text-sm leading-relaxed">Next-business-day underwriting review on compliant submissions, dramatically reducing the time from proposal to funded installation.</p>
+              </div>
+            </div>
+            <div class="border border-navy-100/50 rounded-xl overflow-hidden bg-white">
+              <button id="faq-trigger-5" class="faq-trigger w-full flex items-center justify-between px-5 py-4 text-left font-heading font-semibold text-navy-950 text-sm hover:bg-navy-50/50 transition-colors" aria-expanded="false" aria-controls="faq-content-5">
+                What markets does SunRaise operate in?
+                <svg class="w-4 h-4 text-navy-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div id="faq-content-5" class="faq-content px-5" role="region" aria-labelledby="faq-trigger-5">
+                <p class="pb-4 text-navy-600 text-sm leading-relaxed">13 active markets across the United States, with platform infrastructure designed to scale efficiently into new markets.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       S10: CTA — Dark, dramatic, tight
+       ============================================ -->
+  <section class="py-16 lg:py-20 bg-navy-950 noise relative overflow-hidden bg-photo bg-photo-dark" style="--bg: url(images/city-golden-hour.jpg)">
+    <div class="absolute top-0 left-1/3 w-[600px] h-[400px] bg-sun-500/[0.05] blur-[120px] rounded-full"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 reveal">
+      <h2 class="font-heading font-extrabold text-white mb-5" style="font-size: clamp(2.25rem, 4.5vw, 3.5rem); line-height: 1.08; letter-spacing: -0.04em;">Ready to build with the<br class="hidden sm:block"> alignment layer?</h2>
+      <p class="text-white/70 mb-6 max-w-xl mx-auto">Whether you are deploying capital, growing your installation business, or exploring solar for your home.</p>
+      <div class="flex flex-wrap justify-center gap-4 mb-6">
+        <a href="#booking" class="btn-primary text-base px-8 py-3.5">Schedule a Discussion</a>
+        <a href="contact.html" class="btn-secondary text-base px-8 py-3.5">Contact Us</a>
+      </div>
+      <div class="flex flex-wrap justify-center gap-6 text-sm text-white/50">
+        <a href="mailto:support@sunraisecapital.com" class="flex items-center gap-2 hover:text-sun-400 transition-colors">
+          <i data-lucide="mail" class="w-3.5 h-3.5"></i> support@sunraisecapital.com
+        </a>
+        <span class="flex items-center gap-2"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Sanford, FL</span>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+
+  <!-- ============================================
+       SECTION 13: FOOTER
+       ============================================ -->
+  <footer class="bg-navy-950 text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
+        <!-- Brand column -->
+        <div class="col-span-2 md:col-span-4 lg:col-span-1">
+          <img src="images/logo.png" alt="SunRaise Capital" class="h-10 mb-4 brightness-0 invert" loading="lazy">
+          <p class="text-sm text-navy-400 mb-4 leading-relaxed">The central alignment layer for residential solar. Technology infrastructure, not a solar installer.</p>
+          <div class="flex gap-3">
+            <a href="https://linkedin.com/company/sunraise-capital-llc" target="_blank" rel="noopener" class="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-sun-500 transition-colors">
+              <i data-lucide="linkedin" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Capital Partners -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Capital Partners</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="capital-partners.html" class="hover:text-sun-400 transition-colors">Overview</a></li>
+            <li><a href="capital-partners.html#why" class="hover:text-sun-400 transition-colors">Why Private Capital</a></li>
+            <li><a href="capital-partners.html#structure" class="hover:text-sun-400 transition-colors">Structural Characteristics</a></li>
+            <li><a href="capital-partners.html#contact" class="hover:text-sun-400 transition-colors">Initiate a Discussion</a></li>
+          </ul>
+        </div>
+
+        <!-- Installer Partners -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Installer Partners</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="installer-partners.html" class="hover:text-sun-400 transition-colors">Overview</a></li>
+            <li><a href="installer-partners.html#features" class="hover:text-sun-400 transition-colors">Platform Features</a></li>
+            <li><a href="installer-partners.html#funding" class="hover:text-sun-400 transition-colors">Faster Funding</a></li>
+            <li><a href="installer-partners.html#apply" class="hover:text-sun-400 transition-colors">Apply for Partnership</a></li>
+          </ul>
+        </div>
+
+        <!-- Homeowners -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Homeowners</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="homeowners.html" class="hover:text-sun-400 transition-colors">Overview</a></li>
+            <li><a href="homeowners.html#savings" class="hover:text-sun-400 transition-colors">Your Savings</a></li>
+            <li><a href="homeowners.html#process" class="hover:text-sun-400 transition-colors">How It Works</a></li>
+            <li><a href="homeowners.html#start" class="hover:text-sun-400 transition-colors">Start Your Design</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <h4 class="font-heading font-semibold text-sm text-white mb-4">Company</h4>
+          <ul class="space-y-2 text-sm text-navy-400">
+            <li><a href="about.html" class="hover:text-sun-400 transition-colors">About Us</a></li>
+            <li><a href="platform.html" class="hover:text-sun-400 transition-colors">Platform</a></li>
+            <li><a href="blog/index.html" class="hover:text-sun-400 transition-colors">Blog</a></li>
+            <li><a href="contact.html" class="hover:text-sun-400 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div class="text-sm text-navy-400">&copy; 2026 SunRaise Capital LLC. All rights reserved.</div>
+        <div class="flex gap-6 text-sm text-navy-500">
+          <a href="mailto:support@sunraisecapital.com" class="hover:text-sun-400 transition-colors">support@sunraisecapital.com</a>
+          <span>4021 Church Street, Sanford, FL 32771</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================
+       REVIEW GATING MODAL
+       ============================================ -->
+  <div id="review-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30 backdrop-blur-sm" onclick="closeReviewModal()">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8 relative" onclick="event.stopPropagation()">
+      <button onclick="closeReviewModal()" class="absolute right-4 top-4 text-navy-400 hover:text-navy-700 transition-colors">&times;</button>
+      <div id="review-step-rating">
+        <h3 class="font-heading font-bold text-xl text-center text-navy-900 mb-2">Rate Your Experience</h3>
+        <p class="text-sm text-navy-600 text-center mb-6">How has your experience with SunRaise been?</p>
+        <div id="star-container" class="flex justify-center gap-2 mb-8"></div>
+        <button id="review-continue" onclick="handleRatingSubmit()" disabled class="w-full py-3 rounded-xl bg-sun-500 text-white font-semibold disabled:opacity-40 transition-opacity">Continue</button>
+      </div>
+      <div id="review-step-feedback" class="hidden">
+        <h3 class="font-heading font-bold text-xl text-navy-900 mb-4">We'd Love Your Feedback</h3>
+        <div id="category-pills" class="flex flex-wrap gap-2 mb-4"></div>
+        <input id="review-improvement" placeholder="How can we improve?" class="w-full px-4 py-2.5 border border-navy-200 rounded-xl text-sm focus:border-sun-500 outline-none mb-3">
+        <textarea id="review-message" placeholder="Additional details..." rows="3" class="w-full px-4 py-2.5 border border-navy-200 rounded-xl text-sm focus:border-sun-500 outline-none resize-none mb-4"></textarea>
+        <button onclick="submitFeedback()" class="w-full py-3 rounded-xl bg-sun-500 text-white font-semibold btn-glow">Submit Feedback</button>
+      </div>
+      <div id="review-step-thanks" class="hidden text-center py-8">
+        <div class="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="check" class="w-8 h-8"></i>
+        </div>
+        <p class="font-heading font-bold text-xl text-navy-900">Thank You!</p>
+        <p class="text-sm text-navy-600 mt-2">Your feedback helps us improve.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================
+       MOBILE CTA BAR
+       ============================================ -->
+  <div class="mobile-cta-bar">
+    <a href="contact.html" class="flex-1 py-2.5 rounded-xl bg-white/10 text-white text-center text-sm font-semibold flex items-center justify-center gap-2">
+      <i data-lucide="phone" class="w-4 h-4"></i> Contact Us
+    </a>
+    <a href="#booking" class="flex-1 py-2.5 rounded-xl bg-sun-500 text-white text-center text-sm font-semibold btn-glow flex items-center justify-center gap-2">
+      <i data-lucide="calendar" class="w-4 h-4"></i> Get Started
+    </a>
+  </div>
+
+  <!-- ============================================
+       CHATBOT WIDGET
+       ============================================ -->
+  <div class="chatbot-bubble" onclick="toggleChatbot()" id="chatbot-toggle">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </div>
+  <div class="chatbot-panel" id="chatbot-panel">
+    <div class="bg-navy-800 text-white p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-xl bg-sun-500 flex items-center justify-center">
+          <i data-lucide="bot" class="w-4 h-4"></i>
+        </div>
+        <div>
+          <div class="font-heading font-semibold text-sm">SunRaise Assistant</div>
+          <div class="text-xs text-navy-300">Online</div>
+        </div>
+      </div>
+      <button onclick="toggleChatbot()" class="text-white/60 hover:text-white">&times;</button>
+    </div>
+    <div class="flex-1 p-4 overflow-y-auto bg-navy-50 min-h-[200px]" id="chatbot-messages">
+      <div class="bg-white rounded-xl p-3 shadow-sm text-sm text-navy-700 max-w-[85%]">
+        Welcome to SunRaise Capital. Are you a capital partner, installer, or homeowner? I can help you find what you need.
+      </div>
+    </div>
+    <div class="p-3 border-t border-navy-100 bg-white flex gap-2">
+      <input type="text" placeholder="Type a message..." class="flex-1 px-3 py-2 rounded-lg border border-navy-200 text-sm focus:border-sun-500 outline-none" id="chatbot-input" onkeydown="if(event.key==='Enter')sendChatMessage()">
+      <button onclick="sendChatMessage()" class="px-3 py-2 rounded-lg bg-sun-500 text-white">
+        <i data-lucide="send" class="w-4 h-4"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ============================================
+       SCRIPTS
+       ============================================ -->
+  <script src="js/main.js"></script>
+  <script src="js/review-modal.js"></script>
+  <script src="js/booking-wizard.js"></script>
+  <script src="js/chatbot-widget.js"></script>
+  <script src="js/faq-accordion.js"></script>
+
+  <!-- Initialize Lucide icons -->
+  <script>lucide.createIcons();</script>
+
+  <!-- JSON-LD: Organization -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FinancialService",
+    "name": "SunRaise Capital",
+    "url": "https://www.sunraisecapital.com",
+    "logo": "https://www.sunraisecapital.com/images/logo.png",
+    "description": "SunRaise Capital is the central alignment layer for residential solar, unifying capital providers, installers, and homeowners within a single technology infrastructure platform.",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "4021 Church Street",
+      "addressLocality": "Sanford",
+      "addressRegion": "FL",
+      "postalCode": "32771",
+      "addressCountry": "US"
+    },
+    "email": "support@sunraisecapital.com",
+    "founder": {
+      "@type": "Person",
+      "name": "Nathan Jovanelly",
+      "jobTitle": "Founder & CEO"
+    },
+    "sameAs": ["https://linkedin.com/company/sunraise-capital-llc"]
+  }
+  </script>
+
+  <!-- JSON-LD: FAQPage -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is SunRaise Capital?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SunRaise Capital is a technology infrastructure platform that structurally aligns capital providers, solar installers, and homeowners within a single system. We manage everything from lead generation and underwriting to 25-year asset management, billing, and collections."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is SunRaise different from traditional TPO providers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SunRaise embeds the capital provider's required IRR directly into pricing at origination, governs each asset through its full lifecycle, and provides transparent performance reporting. This structural approach eliminates the misalignment that creates risk in traditional models."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Who should work with SunRaise?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SunRaise serves capital providers seeking disciplined solar asset exposure, solar installers looking for faster underwriting and diversified funding, and homeowners who want transparent, no-pressure solar savings."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What markets does SunRaise operate in?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SunRaise currently operates across 13 active markets in the United States, with ongoing expansion plans."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How quickly can installers get funded?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "SunRaise provides next-business-day underwriting review on compliant submissions, dramatically reducing the time from proposal to funded installation."
+        }
+      }
+    ]
+  }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "domain": "blog-quality",
+  "client": "luxeshutters",
+  "target": "clients/luxeshutters/blog/posts/plantation-shutters-cost-australia.html",
+  "baseline_score": 90,
+  "baseline_date": "2026-04-14",
+  "previous_baseline": 86,
+  "categories": {
+    "content_quality": {"score": 27, "max": 30},
+    "seo_optimization": {"score": 22, "max": 25},
+    "eeat_signals": {"score": 13, "max": 15},
+    "technical_elements": {"score": 14, "max": 15},
+    "ai_citation_readiness": {"score": 14, "max": 15}
+  },
+  "secondary_metrics": {
+    "burstiness": 7.5,
+    "ai_probability": 18,
+    "ttr": 0.44,
+    "banned_words": 0,
+    "em_dashes": 0,
+    "ai_phrases": 0
+  },
+  "weakest_category": "seo_optimization",
+  "improvement_opportunities": [
+    "Add blog-to-blog internal links as more posts are published (+2)",
+    "Trim title tag to under 60 chars (+1)",
+    "Add 1-2 more sourced statistics for Content Quality (+1-2)"
+  ],
+  "completed_improvements": [
+    "BlogPosting + Person JSON-LD schema (iteration 1, +3)",
+    "OG/social meta tags (iteration 2, +1)",
+    "Contextual internal link to /temora (iteration 3, +0)"
+  ]
+}

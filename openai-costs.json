@@ -1,0 +1,70 @@
+{
+  "daily": {
+    "2026-04-04": {
+      "total": 0.28,
+      "calls": [
+        {
+          "timestamp": "2026-04-04T16:45:12.363Z",
+          "operation": "generate_image",
+          "model": "dall-e-3",
+          "cost": 0.12,
+          "count": 1,
+          "size": "1792x1024",
+          "quality": "hd"
+        },
+        {
+          "timestamp": "2026-04-04T18:36:42.744Z",
+          "operation": "generate_image",
+          "model": "dall-e-3",
+          "cost": 0.08,
+          "count": 1,
+          "size": "1024x1024",
+          "quality": "hd"
+        },
+        {
+          "timestamp": "2026-04-04T18:37:06.422Z",
+          "operation": "generate_image",
+          "model": "dall-e-3",
+          "cost": 0.08,
+          "count": 1,
+          "size": "1024x1792",
+          "quality": "hd"
+        }
+      ]
+    }
+  },
+  "monthly": {
+    "2026-04": {
+      "total": 0.28,
+      "calls": [
+        {
+          "timestamp": "2026-04-04T16:45:12.363Z",
+          "operation": "generate_image",
+          "model": "dall-e-3",
+          "cost": 0.12,
+          "count": 1,
+          "size": "1792x1024",
+          "quality": "hd"
+        },
+        {
+          "timestamp": "2026-04-04T18:36:42.744Z",
+          "operation": "generate_image",
+          "model": "dall-e-3",
+          "cost": 0.08,
+          "count": 1,
+          "size": "1024x1024",
+          "quality": "hd"
+        },
+        {
+          "timestamp": "2026-04-04T18:37:06.422Z",
+          "operation": "generate_image",
+          "model": "dall-e-3",
+          "cost": 0.08,
+          "count": 1,
+          "size": "1024x1792",
+          "quality": "hd"
+        }
+      ]
+    }
+  }
+}

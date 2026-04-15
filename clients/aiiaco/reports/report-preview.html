@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm 18mm 16mm 18mm;
+    background: #FAF8F4;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 10.5pt;
+    color: #1D1F28;
+    line-height: 1.6;
+    background: #FAF8F4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-break { break-inside: avoid; page-break-inside: avoid; }
+  h2.sh { break-after: avoid; page-break-after: avoid; }
+  h3.subh { break-after: avoid; page-break-after: avoid; }
+
+  /* ── HEADER ── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1.5pt solid #041122;
+    padding-bottom: 14pt;
+    margin-bottom: 12pt;
+  }
+  .report-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20pt;
+    font-weight: 700;
+    color: #041122;
+    line-height: 1.2;
+    margin: 0 0 4pt 0;
+  }
+  .report-client {
+    font-family: 'Poppins', sans-serif;
+    font-size: 13pt;
+    font-weight: 600;
+    color: #041122;
+    margin: 0 0 6pt 0;
+  }
+  .report-meta {
+    font-size: 10pt;
+    color: #777;
+    margin: 0 0 3pt 0;
+  }
+  .report-prepared {
+    font-size: 9pt;
+    font-style: italic;
+    color: #999;
+    margin: 0;
+  }
+  .header-logo { width: 80pt; flex-shrink: 0; margin-left: 20pt; margin-top: 2pt; }
+
+  .tagline {
+    text-align: center;
+    font-size: 10pt;
+    font-style: italic;
+    color: #bbb;
+    margin: 4pt 0 14pt 0;
+  }
+
+  .intro { font-size: 10.5pt; color: #444; line-height: 1.65; margin: 0 0 14pt 0; }
+
+  /* ── SECTION HEADER ── */
+  h2.sh {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #041122;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 18pt 0 8pt 0;
+    padding-bottom: 5pt;
+    border-bottom: 1pt solid #ddd;
+  }
+
+  h3.subh {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1D1F28;
+    margin: 12pt 0 6pt 0;
+  }
+
+  /* ── GLANCE GRID ── */
+  .glance-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 6pt;
+    background: white;
+    border-radius: 6pt;
+    padding: 12pt 10pt;
+    border: 1pt solid #e5e1db;
+    margin-bottom: 14pt;
+  }
+  .glance-card { text-align: center; }
+  .glance-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #041122;
+    line-height: 1.2;
+  }
+  .glance-label {
+    font-size: 7pt;
+    color: #999;
+    margin-top: 2pt;
+    line-height: 1.3;
+  }
+
+  /* ── STAT ROWS ── */
+  .stat-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    padding: 5.5pt 0;
+    border-bottom: 0.5pt solid #eee;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label {
+    font-size: 9.5pt;
+    color: #888;
+    width: 120pt;
+    flex-shrink: 0;
+  }
+  .stat-value {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #041122;
+    width: 56pt;
+    flex-shrink: 0;
+  }
+  .stat-note {
+    font-size: 9pt;
+    color: #999;
+    font-style: italic;
+  }
+
+  /* ── ISSUE BLOCKS ── */
+  .issue-block {
+    background: white;
+    border: 1pt solid #e5e1db;
+    border-radius: 6pt;
+    padding: 12pt 14pt;
+    margin-bottom: 8pt;
+  }
+  .issue-header {
+    display: flex;
+    align-items: center;
+    gap: 8pt;
+    margin-bottom: 6pt;
+  }
+  .issue-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #FF5C5C;
+    width: 24pt;
+    flex-shrink: 0;
+  }
+  .issue-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11pt;
+    font-weight: 600;
+    color: #041122;
+    flex: 1;
+  }
+  .severity {
+    font-size: 7.5pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2pt 6pt;
+    border-radius: 3pt;
+  }
+  .severity-critical { background: #FF5C5C; color: white; }
+  .severity-high { background: #F59E0B; color: white; }
+  .severity-medium { background: #3B82F6; color: white; }
+  .severity-text-critical { color: #FF5C5C; font-size: 9pt; }
+  .severity-text-high { color: #F59E0B; font-size: 9pt; }
+  .severity-text-medium { color: #3B82F6; font-size: 9pt; }
+  .issue-desc {
+    font-size: 9.5pt;
+    color: #444;
+    line-height: 1.55;
+    margin: 0 0 8pt 0;
+  }
+  .issue-meta {
+    border-top: 0.5pt solid #eee;
+    padding-top: 6pt;
+  }
+  .issue-meta-row {
+    font-size: 9pt;
+    color: #666;
+    line-height: 1.5;
+    padding: 2pt 0;
+  }
+  .meta-label {
+    font-weight: 600;
+    color: #041122;
+  }
+
+  /* ── ANALYSIS ── */
+  .analysis {
+    font-size: 10pt;
+    color: #1D1F28;
+    margin: 8pt 0 0 0;
+    line-height: 1.6;
+  }
+
+  /* ── ROADMAP ── */
+  .roadmap-phase { margin-bottom: 4pt; }
+  .roadmap-list {
+    margin: 0;
+    padding-left: 16pt;
+    font-size: 9.5pt;
+    color: #444;
+    line-height: 1.55;
+  }
+  .roadmap-list li {
+    padding: 2pt 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* ── TABLE ── */
+  .profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin-top: 4pt;
+  }
+  .profile-table th {
+    font-size: 7.5pt;
+    font-weight: 500;
+    color: #aaa;
+    text-align: left;
+    padding: 4pt 6pt 4pt 0;
+    border-bottom: 1pt solid #ddd;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .profile-table td {
+    padding: 6pt 6pt 6pt 0;
+    border-bottom: 0.5pt solid #eee;
+    color: #1D1F28;
+    font-weight: 500;
+    white-space: nowrap;
+    break-inside: avoid;
+  }
+
+  /* ── BOTTOM LINE ── */
+  .bottom-section {
+    background: #041122;
+    border-radius: 6pt;
+    padding: 14pt 16pt;
+    margin-top: 16pt;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .bottom-section h2.sh {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.15);
+    margin-top: 0;
+  }
+  .bottom-row {
+    display: flex;
+    gap: 10pt;
+    align-items: baseline;
+    padding: 5pt 0;
+    border-bottom: 0.5pt solid rgba(255,255,255,0.08);
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .bottom-row:last-of-type { border-bottom: none; }
+  .bl-label {
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    font-size: 8.5pt;
+    width: 56pt;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .bl-value {
+    font-size: 9.5pt;
+    font-weight: 500;
+    color: rgba(255,255,255,0.88);
+    line-height: 1.45;
+  }
+  .closing {
+    font-family: 'Poppins', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-top: 12pt;
+    padding-top: 10pt;
+    border-top: 1pt solid rgba(255,255,255,0.15);
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 7.5pt;
+    font-style: italic;
+    color: #ccc;
+    margin-top: 12pt;
+    padding-top: 6pt;
+    border-top: 0.5pt solid #ddd;
+  }
+
+  .coral { color: #FF5C5C; }
+  .bold { font-weight: 700; }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header no-break">
+    <div>
+      <p class="report-client">AiiACo</p>
+      <h1 class="report-title">SEO & AI Search Readiness Audit</h1>
+      <p class="report-meta">April 2026</p>
+      <p class="report-prepared">Prepared by MonteKristo AI</p>
+    </div>
+    <img class="header-logo" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEhleGFnb24gZ3JpZCAtLT4KICA8ZyBzdHJva2U9IiNmZjViNWIiIHN0cm9rZS13aWR0aD0iMy41Ij4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTUwLDIwIDIwMCw1MCAyMDAsMTEwIDE1MCwxNDAgMTAwLDExMCAxMDAsNTAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMjAwLDUwIDI1MCw4MCAyNTAsMTQwIDIwMCwxNzAgMTUwLDE0MCAxNTAsODAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTAwLDUwIDE1MCw4MCAxNTAsMTQwIDEwMCwxNzAgNTAsMTQwIDUwLDgwIiBmaWxsPSJub25lIi8+CiAgPC9nPgoKICA8IS0tIE0gc2hhcGUgLS0+CiAgPGcgc3Ryb2tlPSIjZmY1YjViIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8bGluZSB4MT0iNzUiIHkxPSIxNDAiIHgyPSI3NSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iNzUiIHkxPSI2MCIgeDI9IjE1MCIgeTI9IjExMCIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjExMCIgeDI9IjIyNSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iMjI1IiB5MT0iNjAiIHgyPSIyMjUiIHkyPSIxNDAiLz4KICA8L2c+CgogIDwhLS0gQ2lyY2xlIG5vZGVzIC0tPgogIDxnIGZpbGw9IiNmZjViNWIiPgogICAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iMjAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjUwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMTAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTEwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iODAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI4MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSIxNDAiIHI9IjgiLz4KICA8L2c+Cjwvc3ZnPg==" alt="MonteKristo AI">
+  </div>
+
+  <p class="tagline">Operational clarity starts with visibility.</p>
+  <p class="intro">This report covers a comprehensive SEO and AI Search Readiness audit of aiiaco.com, conducted in the first week of April 2026. The audit spans four dimensions: technical SEO, content quality, structured data, and generative engine optimization (GEO/AEO). The site currently has 43 indexed pages across service verticals, industry pages, and supporting content. The findings below identify the structural issues preventing the site from reaching its ranking potential and provide a prioritized implementation roadmap.</p>
+
+  <!-- AUDIT AT A GLANCE -->
+  <div class="section-block">
+    <h2 class="sh">Audit at a Glance</h2>
+    <div class="glance-grid no-break">
+      
+    <div class="glance-card">
+      <div class="glance-value">42/100</div>
+      <div class="glance-label">Overall Score</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">42/100</div>
+      <div class="glance-label">Technical SEO</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value coral">72/100</div>
+      <div class="glance-label">Schema Markup</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">51/100</div>
+      <div class="glance-label">GEO/AEO Score</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">10/100</div>
+      <div class="glance-label">JS Rendering</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">43</div>
+      <div class="glance-label">Total Pages</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- CRITICAL ISSUES -->
+  <div class="section-block">
+    <h2 class="sh">Critical Issues</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Three compounding issues are responsible for the majority of the site's SEO underperformance. Until these are resolved, all other optimizations will have limited impact.</p>
+    
+    <div class="issue-block no-break">
+      <div class="issue-header">
+        <span class="issue-number">1</span>
+        <span class="issue-title">Client-Side Rendering (CSR)</span>
+        <span class="severity severity-critical">CRITICAL</span>
+      </div>
+      <p class="issue-desc">The entire site delivers an empty div element (id="root") to crawlers. Zero text, zero headings, zero internal links exist in the HTML source. All content is rendered by a 2.24MB JavaScript bundle after page load. Google's first-pass crawl indexes nothing. AI crawlers (GPTBot, ClaudeBot, PerplexityBot) see blank pages.</p>
+      <div class="issue-meta">
+        <div class="issue-meta-row"><span class="meta-label">Impact:</span> Estimated 80-90% of page content is invisible to search engines and AI systems.</div>
+        <div class="issue-meta-row"><span class="meta-label">Fix:</span> Implement Cloudflare Worker dynamic rendering to serve pre-rendered HTML to Googlebot and AI crawlers. This can be done without changing the Manus platform.</div>
+        <div class="issue-meta-row"><span class="meta-label">Effort:</span> 2-3 days</div>
+      </div>
+    </div>
+    <div class="issue-block no-break">
+      <div class="issue-header">
+        <span class="issue-number">2</span>
+        <span class="issue-title">Identical Titles & Meta Descriptions</span>
+        <span class="severity severity-critical">CRITICAL</span>
+      </div>
+      <p class="issue-desc">All 43 pages share the same title tag ("AiiAco | AI Integration Authority for the Corporate Age") and meta description. Google cannot differentiate the real estate page from the mortgage page from the cryptocurrency page.</p>
+      <div class="issue-meta">
+        <div class="issue-meta-row"><span class="meta-label">Impact:</span> Pages compete against each other instead of ranking for distinct keywords. Google will rewrite titles in SERPs.</div>
+        <div class="issue-meta-row"><span class="meta-label">Fix:</span> Implement unique, keyword-optimized title (50-60 chars) and meta description (150-160 chars) for every page via Manus editor.</div>
+        <div class="issue-meta-row"><span class="meta-label">Effort:</span> 2-3 hours for top 7 pages, then remaining 36</div>
+      </div>
+    </div>
+    <div class="issue-block no-break">
+      <div class="issue-header">
+        <span class="issue-number">3</span>
+        <span class="issue-title">Duplicate Conflicting Canonical Tags</span>
+        <span class="severity severity-critical">CRITICAL</span>
+      </div>
+      <p class="issue-desc">Every page has TWO canonical tags pointing to different URLs: one to https://www.aiiaco.com/ and one to https://aiiaco.com/. When Google encounters conflicting canonicals, it ignores both and makes its own decision.</p>
+      <div class="issue-meta">
+        <div class="issue-meta-row"><span class="meta-label">Impact:</span> Crawl budget wasted on canonical resolution. Link equity may split between www and non-www versions.</div>
+        <div class="issue-meta-row"><span class="meta-label">Fix:</span> Remove the www canonical from the Manus template. Keep only the non-www canonical. Also fix og:url to match.</div>
+        <div class="issue-meta-row"><span class="meta-label">Effort:</span> 30 minutes</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TECHNICAL SEO -->
+  <div class="section-block">
+    <h2 class="sh">Technical SEO Breakdown</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">Beyond the three critical issues, the technical audit revealed gaps across security, indexability, and site infrastructure that should be addressed in priority order.</p>
+    <div class="no-break">
+      
+    <div class="stat-row">
+      <span class="stat-label">Crawlability</span>
+      <span class="stat-value">65/100</span>
+      <span class="stat-note">robots.txt correct, sitemap present, but internal links invisible in HTML</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Indexability</span>
+      <span class="stat-value coral">25/100</span>
+      <span class="stat-note">empty body, duplicate canonicals, identical metas across all pages</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Security</span>
+      <span class="stat-value">40/100</span>
+      <span class="stat-note">HTTPS active but HTTP not redirecting, missing CSP/X-Frame headers</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">URL Structure</span>
+      <span class="stat-value">70/100</span>
+      <span class="stat-note">clean URLs, but trailing slash creates duplicates</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Mobile</span>
+      <span class="stat-value coral">78/100</span>
+      <span class="stat-note">viewport correct, responsive CSS, but no font preload</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Core Web Vitals</span>
+      <span class="stat-value">45/100</span>
+      <span class="stat-note">estimated poor LCP (4s+) due to 2.24MB JS bundle</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">JS Rendering</span>
+      <span class="stat-value coral">10/100</span>
+      <span class="stat-note">pure CSR, zero content in HTML source</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">IndexNow</span>
+      <span class="stat-value">55/100</span>
+      <span class="stat-note">key files return SPA HTML instead of plain text</span>
+    </div>
+    </div>
+    <p class="analysis">The site is built on Manus AI using React + Vite with Wouter routing. This pure client-side rendering architecture means the HTML document delivered to any crawler contains only meta tags and schema in the head section, with a completely empty body. The 2.24MB JavaScript bundle must execute before any content appears. This is the root cause of most technical issues. A Cloudflare Worker that pre-renders pages for crawler user-agents is the most practical fix given the current stack.</p>
+  </div>
+
+  <!-- SECURITY -->
+  <div class="section-block">
+    <h2 class="sh">Security Headers</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">Four security headers are missing, and HTTP traffic is not being redirected to HTTPS.</p>
+    
+    <div class="stat-row no-break">
+      <span class="stat-label">HTTP to HTTPS Redirect</span>
+      <span class="stat-value severity-text-critical">CRITICAL</span>
+      <span class="stat-note">Enable "Always Use HTTPS" in Cloudflare SSL/TLS settings (2 minutes)</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label">Content-Security-Policy</span>
+      <span class="stat-value severity-text-high">HIGH</span>
+      <span class="stat-note">Add CSP header via Cloudflare Transform Rules (15 minutes)</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label">X-Frame-Options</span>
+      <span class="stat-value severity-text-high">HIGH</span>
+      <span class="stat-note">Add SAMEORIGIN via Cloudflare HTTP Response Headers (5 minutes)</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label">X-Content-Type-Options</span>
+      <span class="stat-value severity-text-high">HIGH</span>
+      <span class="stat-note">Add nosniff via Cloudflare HTTP Response Headers (5 minutes)</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label">Referrer-Policy</span>
+      <span class="stat-value severity-text-medium">MEDIUM</span>
+      <span class="stat-note">Add strict-origin-when-cross-origin via Cloudflare (5 minutes)</span>
+    </div>
+  </div>
+
+  <!-- SCHEMA -->
+  <div class="section-block">
+    <h2 class="sh">Structured Data (Schema.org)</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">The site has a decent schema foundation (Organization, WebSite, ProfessionalService) but is missing page-specific structured data and has a critical SPA-related issue.</p>
+    <div class="no-break">
+      
+    <div class="stat-row">
+      <span class="stat-label">Organization</span>
+      <span class="stat-value">PARTIAL</span>
+      <span class="stat-note">exists but missing founder, telephone, address</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">WebSite</span>
+      <span class="stat-value">PARTIAL</span>
+      <span class="stat-note">exists but missing SearchAction and inLanguage</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">ProfessionalService</span>
+      <span class="stat-value">PARTIAL</span>
+      <span class="stat-note">exists but identical on all 43 pages</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Person (Nemr Hallak)</span>
+      <span class="stat-value coral">MISSING</span>
+      <span class="stat-note">no founder entity linked to Organization</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">BreadcrumbList</span>
+      <span class="stat-value coral">MISSING</span>
+      <span class="stat-note">no breadcrumbs on any inner page</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Service (per page)</span>
+      <span class="stat-value coral">MISSING</span>
+      <span class="stat-note">industry pages use generic global schema</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">FAQPage</span>
+      <span class="stat-value">MISSING</span>
+      <span class="stat-note">FAQ content exists but no schema markup</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">WebPage</span>
+      <span class="stat-value">MISSING</span>
+      <span class="stat-note">no page-level entity definition on any page</span>
+    </div>
+    </div>
+    <p class="analysis">The critical SPA issue compounds here: because the app serves identical HTML for every route, all 43 pages carry the exact same three schema blocks. Google sees no schema differentiation between the real estate page and the cryptocurrency page. Schema must be injected per-route by the application router, or via Cloudflare Workers as part of the dynamic rendering solution. Ready-to-implement JSON-LD blocks for Organization, Person, Service, BreadcrumbList, and WebPage have been prepared and are available for immediate deployment.</p>
+  </div>
+
+  <!-- GEO/AEO -->
+  <div class="section-block">
+    <h2 class="sh">AI Search Readiness (GEO/AEO)</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">GEO (Generative Engine Optimization) measures how well the site is positioned to be cited by AI search systems: Google AI Overviews, ChatGPT web search, Perplexity, and Bing Copilot.</p>
+    <div class="no-break">
+      
+    <div class="stat-row">
+      <span class="stat-label">Google AI Overviews</span>
+      <span class="stat-value">42/100</span>
+      <span class="stat-note">CSR rendering, no FAQ schema, thin E-E-A-T signals</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">ChatGPT Web Search</span>
+      <span class="stat-value coral">28/100</span>
+      <span class="stat-note">GPTBot cannot render JS, no entity recognition</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Perplexity</span>
+      <span class="stat-value">35/100</span>
+      <span class="stat-note">better JS handling, but no authority signals</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Bing Copilot</span>
+      <span class="stat-value">38/100</span>
+      <span class="stat-note">collapsed FAQs invisible, no HowTo schema</span>
+    </div>
+    </div>
+    <p class="analysis">The site's AEO readiness is undermined by three compounding problems. First, the JavaScript-rendered architecture prevents AI crawlers from reading most content. Second, FAQ answers are hidden inside JS accordion elements that crawlers cannot expand. Third, there are near-zero external brand signals (no YouTube, no Reddit presence, minimal LinkedIn following, no Wikipedia/Wikidata entity). The opening definitions on /ai-integration and /ai-automation-for-business are strong and citable, but at 30-40 words they fall short of the 134-167 word optimal citation range.</p>
+  </div>
+
+  <!-- FAQ STATUS -->
+  <div class="section-block">
+    <h2 class="sh">FAQ Visibility Audit</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">FAQ sections exist on key pages with well-chosen questions that map directly to target search queries. However, every FAQ answer is hidden behind a JavaScript accordion.</p>
+    
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:auto; flex:1;">What is AI integration and how is it different from buying AI tools?</span>
+      <span class="stat-value coral" style="width:auto; font-size:9pt; text-align:right;">INVISIBLE TO CRAWLERS</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:auto; flex:1;">How does AI integration work with existing ERP and CRM systems?</span>
+      <span class="stat-value coral" style="width:auto; font-size:9pt; text-align:right;">INVISIBLE TO CRAWLERS</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:auto; flex:1;">What business processes can be automated with AI?</span>
+      <span class="stat-value coral" style="width:auto; font-size:9pt; text-align:right;">INVISIBLE TO CRAWLERS</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:auto; flex:1;">How does AI automation reduce operational costs?</span>
+      <span class="stat-value coral" style="width:auto; font-size:9pt; text-align:right;">INVISIBLE TO CRAWLERS</span>
+    </div>
+    <p class="analysis" style="margin-top:8pt;"><span style="font-weight:600; color:#041122;">Recommended Fix:</span> Replace JS accordion with native HTML details/summary elements (crawler-readable and still collapsible for users). Add FAQPage JSON-LD schema to every page with FAQ content. This is the single highest-impact AEO fix on the entire site.</p>
+  </div>
+
+  <!-- 404 PAGES -->
+  <div class="section-block">
+    <h2 class="sh">Missing Service Pages (404)</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">Six planned service pages return HTTP 404. These are the core pages that should anchor the site's keyword strategy.</p>
+    
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:160pt;">/ai-infrastructure</span>
+      <span class="stat-value" style="width:auto; font-size:9pt; margin-right:8pt;">PILLAR PAGE</span>
+      <span class="stat-note">AI infrastructure for business</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:160pt;">/ai-crm-integration</span>
+      <span class="stat-value" style="width:auto; font-size:9pt; margin-right:8pt;">SERVICE</span>
+      <span class="stat-note">AI CRM integration</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:160pt;">/ai-workflow-automation</span>
+      <span class="stat-value" style="width:auto; font-size:9pt; margin-right:8pt;">SERVICE</span>
+      <span class="stat-note">AI workflow automation</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:160pt;">/ai-revenue-engine</span>
+      <span class="stat-value" style="width:auto; font-size:9pt; margin-right:8pt;">SERVICE</span>
+      <span class="stat-note">AI revenue systems</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:160pt;">/ai-for-real-estate</span>
+      <span class="stat-value" style="width:auto; font-size:9pt; margin-right:8pt;">INDUSTRY</span>
+      <span class="stat-note">AI for real estate</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:160pt;">/ai-for-vacation-rentals</span>
+      <span class="stat-value" style="width:auto; font-size:9pt; margin-right:8pt;">INDUSTRY</span>
+      <span class="stat-note">AI for vacation rentals</span>
+    </div>
+  </div>
+
+  <!-- QUICK WINS -->
+  <div class="section-block">
+    <h2 class="sh">Quick Wins (Under 2 Hours)</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">These fixes can be implemented immediately with Cloudflare and Manus access. Combined effort: under 2 hours.</p>
+    
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:20pt; color:#041122; font-weight:600;">1.</span>
+      <span class="stat-note" style="flex:1; font-style:normal; color:#1D1F28;">Enable "Always Use HTTPS" in Cloudflare</span>
+      <span class="stat-value" style="width:50pt; font-size:9pt; text-align:right;">2 min</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:20pt; color:#041122; font-weight:600;">2.</span>
+      <span class="stat-note" style="flex:1; font-style:normal; color:#1D1F28;">Add security headers via Cloudflare Transform Rules</span>
+      <span class="stat-value" style="width:50pt; font-size:9pt; text-align:right;">15 min</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:20pt; color:#041122; font-weight:600;">3.</span>
+      <span class="stat-note" style="flex:1; font-style:normal; color:#1D1F28;">Remove duplicate www canonical from Manus template</span>
+      <span class="stat-value" style="width:50pt; font-size:9pt; text-align:right;">30 min</span>
+    </div>
+    <div class="stat-row no-break">
+      <span class="stat-label" style="width:20pt; color:#041122; font-weight:600;">4.</span>
+      <span class="stat-note" style="flex:1; font-style:normal; color:#1D1F28;">Standardize entity name to AiiACo everywhere</span>
+      <span class="stat-value" style="width:50pt; font-size:9pt; text-align:right;">30 min</span>
+    </div>
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="section-block">
+    <h2 class="sh">Implementation Roadmap</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:6pt;">The following implementation sequence is ordered by dependency and impact. Each phase builds on the previous one.</p>
+    
+    <div class="roadmap-phase no-break">
+      <h3 class="subh">Week 1: Foundation Fixes</h3>
+      <ul class="roadmap-list">
+        <li>Cloudflare quick wins (HTTPS redirect, security headers)</li><li>Remove duplicate canonical tags</li><li>Write unique titles/meta descriptions for top 7 pages</li><li>Create and deploy llms.txt file</li><li>Make FAQ answers static HTML (remove JS accordion)</li><li>Add FAQPage JSON-LD schema to key pages</li><li>Install Plausible Analytics token on website</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase no-break">
+      <h3 class="subh">Week 2: Dynamic Rendering + Schema</h3>
+      <ul class="roadmap-list">
+        <li>Deploy Cloudflare Worker for dynamic rendering (pre-render for crawlers)</li><li>Add Person schema for Nemr Hallak (founder entity)</li><li>Add BreadcrumbList schema to all inner pages</li><li>Add Service schema to industry and service pages</li><li>Expand definition blocks to 134-167 word citation-optimal length</li><li>Fix IndexNow key file delivery (bypass SPA routing)</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase no-break">
+      <h3 class="subh">Week 2-3: Build Core Service Pages</h3>
+      <ul class="roadmap-list">
+        <li>/ai-infrastructure (PILLAR, 2,500-3,000 words)</li><li>/ai-crm-integration (2,000 words)</li><li>/ai-workflow-automation (2,000 words)</li><li>/ai-revenue-engine (2,000 words)</li><li>/ai-for-real-estate (2,000-2,500 words)</li><li>/ai-for-vacation-rentals (2,000-2,500 words)</li><li>Internal linking architecture across all pages</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase no-break">
+      <h3 class="subh">Week 3-4: Blog Launch & Content</h3>
+      <ul class="roadmap-list">
+        <li>Deploy blog.aiiaco.com on Vercel</li><li>CNAME record setup in DNS</li><li>Blog design matching AiiACo brand</li><li>First 4 blog posts targeting core AEO queries</li><li>Topic cluster architecture with hub-and-spoke linking</li>
+      </ul>
+    </div>
+    <div class="roadmap-phase no-break">
+      <h3 class="subh">Month 2+: Authority Building</h3>
+      <ul class="roadmap-list">
+        <li>YouTube channel with 4 target-query videos</li><li>Reddit presence building (r/artificial, r/automation, r/entrepreneur)</li><li>Wikidata entity population</li><li>Named leadership on About/Manifesto pages</li><li>Domain portfolio audit (100 owned domains)</li><li>Monthly SEO performance reporting</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom-section">
+    <h2 class="sh">Bottom Line</h2>
+    
+    <div class="bottom-row">
+      <span class="bl-label">Technical</span>
+      <span class="bl-value">Score 42/100 - CSR rendering is the #1 blocker. Cloudflare Worker fix unlocks everything.</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">Schema</span>
+      <span class="bl-value">Score 72/100 - Good foundation, needs per-page differentiation + Person entity for E-E-A-T.</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">GEO/AEO</span>
+      <span class="bl-value">Score 51/100 - FAQ answers invisible to AI crawlers. Single highest-impact fix available.</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">404 Pages</span>
+      <span class="bl-value">6 core service pages missing - the commercial backbone needs to be built.</span>
+    </div>
+    <p class="closing">The content is strong. The architecture is the bottleneck. Fix rendering, fix schema, build the missing pages.</p>
+  </div>
+
+  <div class="footer">MonteKristo AI  ·  montekristobelgrade.com  ·  April 2026</div>
+
+</body>
+</html>

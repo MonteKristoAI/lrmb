@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Should I Do With My Money? — Money Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --td:#0a2e2a;--tm:#1a4a44;--tmu:#4a8a82;--tl:#7ab8b0;
+  --teal-dark:#0a2e2a;--teal-mid:#0d3d38;--teal-pale:#e0f5f2;--teal-bright:#00b8a0;
+  --orange:#ff5500;--orange-light:#ff7733;--orange-pale:#fff2ec;
+  --cream:#f8fffe;--white:#fff;
+  --border:rgba(10,46,42,0.14);
+}
+html,body{margin:0;padding:0;background:var(--cream);}
+#app{font-family:'Source Sans 3',sans-serif;background:var(--cream);min-height:100vh;max-width:420px;margin:0 auto;}
+.sc{display:none;min-height:100vh;flex-direction:column;animation:fu 0.3s ease;}
+.sc.on{display:flex;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+.lbg{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px 28px 40px;text-align:center;position:relative;overflow:hidden;}
+.lbg::before{content:'';position:absolute;top:-80px;right:-80px;width:280px;height:280px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.lbg::after{content:'';position:absolute;bottom:-80px;left:-80px;width:240px;height:240px;border-radius:50%;background:rgba(0,184,160,0.07);}
+.topline{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff5500 35%,#ff5500 65%,transparent);}
+.wm{font-family:'Lora',serif;font-size:18px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:20px;position:relative;z-index:1;}
+.wm-m{color:rgba(255,255,255,0.92);}
+.wm-c{color:#ff5500;}
+.eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(255,85,0,0.12);border:1px solid rgba(255,85,0,0.3);color:#ff7733;font-size:13px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;padding:6px 15px;border-radius:20px;margin-bottom:18px;position:relative;z-index:1;}
+.edot{width:5px;height:5px;background:#ff5500;border-radius:50%;}
+.lh1{font-family:'Lora',serif;font-size:36px;font-weight:500;color:#fff;line-height:1.18;margin-bottom:0;position:relative;z-index:1;}
+.lh1 em{color:#ff5500;font-style:italic;}
+.ldiv{width:40px;height:2px;background:#ff5500;margin:18px auto;border-radius:2px;position:relative;z-index:1;}
+.lsub{font-size:17px;color:rgba(255,255,255,0.6);line-height:1.65;max-width:300px;margin-bottom:10px;font-weight:300;position:relative;z-index:1;}
+.trust-line{font-size:13px;color:rgba(255,255,255,0.35);margin-bottom:26px;font-style:italic;font-family:'Lora',serif;position:relative;z-index:1;}
+.btn-p{background:#ff5500;color:#fff;border:none;border-radius:12px;font-family:'Source Sans 3',sans-serif;font-size:19px;font-weight:500;padding:17px 34px;cursor:pointer;width:100%;max-width:320px;box-shadow:0 6px 28px rgba(255,85,0,0.4);transition:background 0.2s,transform 0.1s;position:relative;z-index:1;}
+.btn-p:hover{background:#ff7733;}
+.btn-p:active{transform:scale(0.98);}
+.micro{font-size:13px;color:rgba(255,255,255,0.3);margin-top:11px;font-weight:300;position:relative;z-index:1;}
+.qh{background:var(--teal-dark);padding:17px 22px 13px;}
+.pt{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:9px;}
+.pf{height:100%;background:#ff5500;border-radius:2px;transition:width 0.4s ease;}
+.qm{display:flex;justify-content:space-between;}
+.ql{font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;}
+.qp{font-size:12px;color:#ff7733;font-weight:500;}
+.qb{flex:1;background:var(--cream);padding:28px 20px 20px;display:flex;flex-direction:column;}
+.qt{font-family:'Lora',serif;font-size:25px;font-weight:500;color:var(--td);line-height:1.3;margin-bottom:8px;}
+.qsub{font-size:15px;color:var(--tmu);margin-bottom:22px;font-weight:300;line-height:1.5;}
+.iw{position:relative;}
+.csym{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:19px;color:var(--tmu);pointer-events:none;}
+.inf{border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-family:'Source Sans 3',sans-serif;font-size:19px;color:var(--td);width:100%;outline:none;background:#fff;transition:border-color 0.2s;}
+.inf:focus{border-color:#ff5500;}
+.hp{padding-left:30px;}
+.os{display:flex;flex-direction:column;gap:10px;}
+.ob{background:#fff;border:2px solid var(--border);border-radius:12px;padding:14px 16px;text-align:left;font-family:'Source Sans 3',sans-serif;font-size:15px;color:var(--td);cursor:pointer;transition:border-color 0.18s,background 0.18s;display:flex;align-items:center;gap:12px;line-height:1.4;}
+.ob:hover{border-color:#ff5500;background:var(--orange-pale);}
+.ob.sel{border-color:#ff5500;background:var(--orange-pale);font-weight:500;}
+.oc{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:background 0.18s,border-color 0.18s;}
+.ob.sel .oc{background:#ff5500;border-color:#ff5500;}
+.nr{display:flex;gap:10px;margin-top:auto;padding-top:20px;}
+.bb{border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--tmu);font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px 18px;cursor:pointer;}
+.bn{flex:1;background:var(--teal-dark);color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:13px;cursor:pointer;transition:background 0.2s,transform 0.1s;}
+.bn:hover{background:var(--teal-mid);}
+.bn:active{transform:scale(0.98);}
+.pw{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;padding:40px 26px 30px;position:relative;overflow:hidden;}
+.pw::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.pe{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:#ff7733;margin-bottom:6px;}
+.pname{font-family:'Lora',serif;font-size:15px;font-style:italic;color:rgba(255,255,255,0.4);margin-bottom:10px;}
+.pi{font-family:'Lora',serif;font-size:21px;color:#fff;line-height:1.5;font-weight:400;margin-bottom:10px;position:relative;z-index:1;}
+.tension{font-size:15px;color:rgba(255,255,255,0.5);font-style:italic;font-family:'Lora',serif;margin-bottom:24px;line-height:1.5;position:relative;z-index:1;}
+.bc2{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:20px;position:relative;overflow:hidden;}
+.br2 div{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin-bottom:7px;}
+.br2 div:nth-child(2){width:75%;}.br2 div:nth-child(3){width:50%;}
+.bo2{position:absolute;inset:0;background:rgba(5,20,18,0.7);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;border-radius:12px;}
+.lk{width:36px;height:36px;background:rgba(255,85,0,0.15);border:1.5px solid rgba(255,85,0,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ff7733;font-size:16px;}
+.ll{font-size:13px;color:rgba(255,255,255,0.4);}
+.pn2{font-size:14px;color:rgba(255,255,255,0.38);text-align:center;margin-bottom:16px;font-weight:300;line-height:1.5;}
+.pw-tl{font-family:'Lora',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.18);text-align:center;margin-top:14px;}
+.dl{display:flex;gap:5px;justify-content:center;margin:14px 0;}
+.dl span{width:6px;height:6px;background:#ff5500;border-radius:50%;animation:dp 1.2s ease-in-out infinite;}
+.dl span:nth-child(2){animation-delay:0.2s;}.dl span:nth-child(3){animation-delay:0.4s;}
+@keyframes dp{0%,100%{opacity:0.25;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
+.ew{background:var(--cream);flex:1;display:flex;flex-direction:column;padding:28px 20px 22px;}
+.eh{background:var(--teal-dark);border-radius:14px;padding:22px 20px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden;}
+.eh::after{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,85,0,0.1);}
+.eht{font-family:'Lora',serif;font-size:22px;color:#fff;margin-bottom:8px;font-weight:500;position:relative;z-index:1;line-height:1.3;}
+.ehs{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;font-weight:300;position:relative;z-index:1;}
+.etl{font-family:'Lora',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.2);margin-top:8px;position:relative;z-index:1;}
+.fl2{font-size:12px;font-weight:500;color:var(--tmu);letter-spacing:0.06em;text-transform:uppercase;display:block;margin-bottom:6px;}
+.fg{margin-bottom:13px;}
+.pv{font-size:12px;color:var(--tl);text-align:center;line-height:1.65;margin-top:14px;font-weight:300;}
+.rw{background:var(--cream);flex:1;display:flex;flex-direction:column;}
+.rh{padding:26px 20px 22px;background:var(--teal-dark);}
+.re{font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#ff7733;margin-bottom:4px;}
+.rht{font-family:'Lora',serif;font-size:24px;color:#fff;font-weight:500;}
+.rtl{font-family:'Lora',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.25);margin-top:4px;}
+.rb{padding:18px 15px;display:flex;flex-direction:column;gap:12px;}
+.cd{background:#fff;border-radius:13px;border:1px solid rgba(10,46,42,0.1);padding:16px;}
+.ce{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:11px;}
+.priority-card{background:#ff5500;border-radius:13px;padding:18px;}
+.pc-eye{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:rgba(255,255,255,0.55);margin-bottom:5px;}
+.pc-frame{font-size:13px;color:rgba(255,255,255,0.65);font-style:italic;border-left:2px solid rgba(255,255,255,0.3);padding-left:11px;margin-bottom:10px;}
+.pc-rec{font-family:'Lora',serif;font-size:19px;color:#fff;line-height:1.4;font-weight:500;}
+.pc-name{font-family:'Lora',serif;font-style:italic;font-size:14px;color:rgba(255,255,255,0.6);margin-bottom:10px;display:block;}
+.road-list{display:flex;flex-direction:column;gap:10px;}
+.road-item{display:flex;gap:12px;align-items:flex-start;}
+.road-num{width:26px;height:26px;background:var(--teal-pale);border:2px solid rgba(0,184,160,0.3);border-radius:50%;font-size:12px;font-weight:500;color:var(--teal-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.road-text{font-size:14px;color:var(--td);line-height:1.6;font-weight:300;padding-top:3px;}
+.wl{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.wl li{display:flex;gap:10px;font-size:14px;color:var(--td);line-height:1.6;font-weight:300;}
+.wd{width:12px;height:2px;background:#ff5500;flex-shrink:0;margin-top:10px;border-radius:1px;}
+.ac{background:var(--teal-pale);border-radius:13px;padding:16px;border:1px solid rgba(0,184,160,0.2);}
+.age-ctx{font-size:12px;font-weight:500;color:var(--teal-mid);margin-bottom:8px;font-family:'Source Sans 3',sans-serif;line-height:1.5;}
+.at{font-family:'Lora',serif;font-size:14px;color:var(--teal-dark);line-height:1.8;font-style:italic;}
+.vid-card{background:var(--teal-dark);border-radius:13px;padding:18px;text-align:center;}
+.vid-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;}
+.vid-h{font-family:'Lora',serif;font-size:17px;color:#fff;margin-bottom:6px;font-weight:500;line-height:1.35;}
+.vid-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:14px;font-weight:300;}
+.vc{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;height:84px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.pr2{width:38px;height:38px;border-radius:50%;background:rgba(255,85,0,0.15);border:1.5px solid rgba(255,85,0,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pt3{width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:11px solid #ff7733;margin-left:3px;}
+.vl2{font-size:13px;color:rgba(255,255,255,0.35);text-align:left;}
+.cs3{display:flex;flex-direction:column;gap:9px;}
+.bm{background:#ff5500;color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:17px;font-weight:500;padding:15px;cursor:pointer;text-align:center;transition:background 0.2s;width:100%;box-shadow:0 4px 16px rgba(255,85,0,0.3);}
+.bm:hover{background:#ff7733;}
+.bs2{background:#fff;color:var(--teal-dark);border:2px solid var(--border);border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px;cursor:pointer;text-align:center;width:100%;}
+.mc-link{display:block;text-align:center;font-size:12px;color:var(--tmu);margin-top:10px;text-decoration:none;font-weight:300;}
+.mc-link span{color:#ff5500;}
+.ft{font-size:11px;color:var(--tl);text-align:center;padding:12px 18px;line-height:1.6;font-weight:300;}
+.ftd{font-size:11px;color:rgba(255,255,255,0.18);text-align:center;padding:12px 18px;background:var(--teal-dark);}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="sc on" id="s0">
+  <div class="lbg">
+    <div class="topline"></div>
+    <div class="wm"><span class="wm-m">Money</span><span class="wm-c">Clarity</span></div>
+    <div class="eyebrow"><span class="edot"></span>Your money. Right now.</div>
+    <h1 class="lh1">What should I do<br>with my <em>money?</em></h1>
+    <div class="ldiv"></div>
+    <p class="lsub">Stop wondering. Answer 5 quick questions and get one clear, prioritized answer — built for where you actually are right now.</p>
+    <p class="trust-line">Built on 25 years of Wall Street experience.</p>
+    <button class="btn-p" onclick="gt(1)">Get My Answer</button>
+    <p class="micro">Under 60 seconds. Free. No jargon.</p>
+  </div>
+  <div class="ft" style="background:var(--teal-dark);color:rgba(255,255,255,0.2);">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s1">
+  <div class="qh"><div class="pt"><div class="pf" style="width:20%"></div></div><div class="qm"><span class="ql">Question 1 of 5</span><span class="qp">20%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">How would you describe where you are right now?</h2>
+    <p class="qsub">Pick the one that feels most honest.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'situation','Living paycheck to paycheck','paycheck')"><div class="oc"></div>Living paycheck to paycheck</button>
+      <button class="ob" onclick="so(this,'situation','Getting by but not saving much','getting-by')"><div class="oc"></div>Getting by but not saving much</button>
+      <button class="ob" onclick="so(this,'situation','Saving some but not sure if it\'s enough','saving-unsure')"><div class="oc"></div>Saving some but not sure if it's enough</button>
+      <button class="ob" onclick="so(this,'situation','In a solid position and want to do more','solid')"><div class="oc"></div>In a solid position and want to do more</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(0)">Back</button><button class="bn" onclick="nq(1,2,'situation')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s2">
+  <div class="qh"><div class="pt"><div class="pf" style="width:40%"></div></div><div class="qm"><span class="ql">Question 2 of 5</span><span class="qp">40%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is your age?</h2>
+    <p class="qsub">This shapes the urgency and timeline of your answer.</p>
+    <input type="number" class="inf" id="ia" placeholder="e.g. 44" min="18" max="85" oninput="A.age=this.value">
+    <div class="nr"><button class="bb" onclick="gt(1)">Back</button><button class="bn" onclick="nq(2,3,'age')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s3">
+  <div class="qh"><div class="pt"><div class="pf" style="width:60%"></div></div><div class="qm"><span class="ql">Question 3 of 5</span><span class="qp">60%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is your annual income?</h2>
+    <p class="qsub">Approximate is fine. Completely private.</p>
+    <div class="iw"><span class="csym">$</span><input type="number" class="inf hp" id="ii" placeholder="e.g. 85,000" min="0" oninput="A.income=parseFloat(this.value)||0"></div>
+    <div class="nr"><button class="bb" onclick="gt(2)">Back</button><button class="bn" onclick="nq(3,4,'income')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s4">
+  <div class="qh"><div class="pt"><div class="pf" style="width:80%"></div></div><div class="qm"><span class="ql">Question 4 of 5</span><span class="qp">80%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">Do you have any high-interest debt right now?</h2>
+    <p class="qsub">Credit cards, personal loans, anything above 10% interest.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'debt','Yes — more than $5,000','high')"><div class="oc"></div>Yes — more than $5,000</button>
+      <button class="ob" onclick="so(this,'debt','Yes — less than $5,000','low')"><div class="oc"></div>Yes — less than $5,000</button>
+      <button class="ob" onclick="so(this,'debt','No high-interest debt','none')"><div class="oc"></div>No high-interest debt</button>
+      <button class="ob" onclick="so(this,'debt','Not sure','unsure')"><div class="oc"></div>Not sure</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(3)">Back</button><button class="bn" onclick="nq(4,5,'debt')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s5">
+  <div class="qh"><div class="pt"><div class="pf" style="width:95%"></div></div><div class="qm"><span class="ql">Question 5 of 5</span><span class="qp">Almost there</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What feels most urgent to you right now?</h2>
+    <p class="qsub">Pick the one that keeps you up at night.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'urgent','Not having enough saved','no-savings')"><div class="oc"></div>Not having enough saved</button>
+      <button class="ob" onclick="so(this,'urgent','Not knowing what to do with my money','no-direction')"><div class="oc"></div>Not knowing what to do with my money</button>
+      <button class="ob" onclick="so(this,'urgent','Feeling behind for my age','behind')"><div class="oc"></div>Feeling behind for my age</button>
+      <button class="ob" onclick="so(this,'urgent','Not making my money work hard enough','not-working')"><div class="oc"></div>Not making my money work hard enough</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(4)">Back</button><button class="bn" onclick="sp()">Get My Answer</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s6">
+  <div class="pw">
+    <p class="pe">Your priority</p>
+    <p class="pname" id="pname"></p>
+    <p class="pi" id="pt2"></p>
+    <p class="tension" id="tension"></p>
+    <div class="bc2">
+      <div class="br2"><div></div><div></div><div></div></div>
+      <div class="bo2"><div class="lk">&#128274;</div><div class="ll">Your full plan is inside</div></div>
+    </div>
+    <p class="pn2">Your prioritized action plan — the one move that matters most right now — is inside.</p>
+    <button class="btn-p" style="max-width:100%;margin-bottom:0" onclick="gt(7)">Show Me My Priority</button>
+    <div class="dl"><span></span><span></span><span></span></div>
+    <div class="pw-tl">Money Clarity &mdash; Know where you stand.</div>
+  </div>
+  <div class="ftd">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s7">
+  <div class="ew">
+    <div class="eh">
+      <h2 class="eht" id="email-h">Your priority is ready</h2>
+      <p class="ehs">One clear answer — the most important financial move for where you are right now.</p>
+      <p class="etl">Know where you stand.</p>
+    </div>
+    <div class="fg"><label class="fl2">First name</label><input type="text" class="inf" id="in2" placeholder="Your first name" oninput="A.firstName=this.value;updateEmail()"></div>
+    <div class="fg"><label class="fl2">Email address</label><input type="email" class="inf" id="ie" placeholder="you@example.com" oninput="A.email=this.value"></div>
+    <button class="btn-p" style="max-width:100%;margin-top:4px" onclick="sr()" id="show-btn">Show My Plan</button>
+    <p class="pv">Educational guidance only, not financial advice.<br>Your information is private and never shared.</p>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s8">
+  <div class="rw">
+    <div class="rh" id="rh">
+      <p class="re" id="rey"></p>
+      <h2 class="rht" id="rht">Your Money Priority</h2>
+      <p class="rtl">Know where you stand.</p>
+    </div>
+    <div class="rb">
+      <div class="priority-card">
+        <div class="pc-eye">Your #1 priority right now</div>
+        <span class="pc-name" id="pc-name"></span>
+        <div class="pc-frame">The single most important move for your situation:</div>
+        <div class="pc-rec" id="pc-rec"></div>
+      </div>
+      <div class="cd">
+        <div class="ce">Why this comes first</div>
+        <ul class="wl" id="why-list"></ul>
+      </div>
+      <div class="cd">
+        <div class="ce">Your next 3 steps</div>
+        <div class="road-list" id="road-list"></div>
+      </div>
+      <div class="cd">
+        <div class="ce">After that, focus on</div>
+        <ul class="wl" id="after-list"></ul>
+      </div>
+      <div class="ac">
+        <div class="age-ctx" id="age-ctx"></div>
+        <div class="ce" style="color:var(--teal-mid)">Quick guidance</div>
+        <p class="at" id="guidance"></p>
+      </div>
+      <div class="vid-card">
+        <div class="vid-label">Watch this</div>
+        <h3 class="vid-h">It explains exactly what to do next</h3>
+        <p class="vid-sub">A short walkthrough of your priority move.</p>
+        <div style="width:100%;max-width:220px;margin:0 auto;border-radius:10px;overflow:hidden;aspect-ratio:9/16;">
+          <iframe src="https://www.veed.io/embed/b65ac4e1-cd18-4b8e-b814-f433a91bb26b?watermark=0&color=&sharing=1&title=0" width="100%" height="100%" frameborder="0" title="Tina Singh — Take The First Step" webkitallowfullscreen mozallowfullscreen allowfullscreen style="display:block;"></iframe>
+        </div>
+      </div>
+      <div class="cs3">
+        <button class="bm" id="cta-btn" onclick="window.location.href='subscribe.html'"></button>
+        <button class="bs2" onclick="window.location.href='MoneyClarityGuide.pdf'">Download My Plan</button>
+      </div>
+      <a href="index.html" class="mc-link">Explore all <span>Money Clarity tools</span> →</a>
+      <p style="font-family:'Lora',serif;font-style:italic;font-size:12px;color:var(--tl);text-align:center;padding:4px 0 10px;">Money Clarity &mdash; Know where you stand.</p>
+    </div>
+    <div class="ft">Educational purposes only. Not financial advice. &copy; 2026 moneyclarity.me</div>
+  </div>
+</div>
+
+</div>
+<script>
+const A={situation:'',situationKey:'',age:null,income:0,debt:'',debtKey:'',urgent:'',urgentKey:'',firstName:'',email:''};
+function gt(n){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById('s'+n).classList.add('on');window.scrollTo(0,0);}
+function so(el,f,v,k){el.closest('.os').querySelectorAll('.ob').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');A[f]=v;A[f+'Key']=k;}
+function nq(c,nx,f){
+  const v=A[f];
+  if(!v&&v!==0){alert('Please make a selection to continue.');return;}
+  if(f==='age'&&(!A.age||A.age<18||A.age>99)){alert('Please enter a valid age.');return;}
+  if(f==='income'&&A.income<=0){alert('Please enter your annual income.');return;}
+  gt(nx);
+}
+function updateEmail(){
+  const n=A.firstName.trim();
+  const btn=document.getElementById('show-btn');
+  if(n){document.getElementById('email-h').textContent='Almost there, '+n;btn.textContent='Show '+n+"'s Plan";}
+  else{document.getElementById('email-h').textContent='Your priority is ready';btn.textContent='Show My Plan';}
+}
+function getAgeTone(age){
+  const n=parseInt(age)||40;
+  if(n<=40)return{ctx:'You\'re in the building phase. Every good decision you make now compounds for decades.'};
+  if(n<=52)return{ctx:'This is the decade that defines outcomes. What you prioritize now matters more than at any other stage.'};
+  return{ctx:'At this stage, clarity on your next move is worth more than any complex strategy.'};
+}
+function gl(){
+  const{situationKey,debtKey,urgentKey,income,age,firstName}=A;
+  const n=firstName.trim()||'you';
+  const an=parseInt(age)||40;
+  const tone=getAgeTone(age);
+  const inc=parseFloat(income)||60000;
+  let priority,why,steps,after,preview,tension,guidance;
+
+  if(debtKey==='high'){
+    priority="Pay down your high-interest debt — it's the highest guaranteed return available to you";
+    preview="Before anything else, high-interest debt is quietly costing you more than most investments will ever return.";
+    tension="Every month you carry it, the interest compounds against you. Paying it down first is the highest return move you can make.";
+    why=["High-interest debt at 20%+ APR costs more than almost any investment will earn.","Every dollar you put into investments while carrying high-interest debt is effectively losing money.","Eliminating this debt creates the clean foundation everything else builds on."];
+    steps=["List every high-interest debt with its balance and interest rate.","Put every available dollar toward the highest-rate debt first — minimum payments on the rest.","Once it's gone, redirect that payment amount directly into savings. Don't let it disappear."];
+    after=["Build a 3-month emergency fund before investing.","Then start investing — even small amounts — consistently.","Review your budget to prevent new high-interest debt from accumulating."];
+  } else if(situationKey==='paycheck'||situationKey==='getting-by'){
+    priority="Build a $1,000 emergency buffer — your financial foundation starts here";
+    preview="Without a buffer, every financial surprise becomes a setback. One unexpected expense undoes weeks of progress.";
+    tension="The buffer is small. The peace of mind is enormous. And everything else you want to do financially becomes easier once it exists.";
+    why=["Without savings, you're one unexpected expense away from debt or starting over.","A buffer breaks the paycheck-to-paycheck cycle by giving you options when things go wrong.","The habit of saving — even a small amount — changes your entire relationship with money."];
+    steps=["Open a separate savings account you don't touch for daily spending.","Set an automatic weekly transfer — even $20–$50 — the day after payday.","Treat it like a bill. Non-negotiable until you hit $1,000."];
+    after=["Increase your savings rate to 10–15% of take-home.","Build toward a 3-month emergency fund.","Then start thinking about investing."];
+  } else if(situationKey==='solid'&&debtKey==='none'){
+    priority="Get clear on your asset allocation — your money needs a strategy, not just a balance";
+    preview="You're in a good position. The question now isn't whether you have money — it's whether it's working as hard as it could be.";
+    tension="Many people with solid finances still have no clear allocation strategy. That gap is where years of potential growth quietly disappear.";
+    why=["Having money in accounts and having a strategy are two completely different things.","Without a clear allocation, you're likely either taking too much risk or too little — and you won't know which until it's too late.","A written allocation strategy turns your savings into a purposeful plan."];
+    steps=["List every account you own and what's actually inside each one.","Calculate your current split: stocks, bonds, cash, real assets — what percentage each?","Write a target allocation based on your timeline and goals. Then close the gap."];
+    after=["Review your allocation once per year — not more.","Consider a fee-only advisor for a one-time portfolio review.","Focus on minimizing fees and taxes, not on chasing returns."];
+  } else if(urgentKey==='not-working'){
+    priority="Define what you want your money to do — then check if it's actually doing it";
+    preview="Money that's just sitting isn't working. But before you move it, you need to know where you want it to go.";
+    tension="The most common financial mistake isn't bad investing. It's investing without a clear goal for what the money is supposed to accomplish.";
+    why=["Without a defined purpose for your money, every investment decision is made in the dark.","Most people don't have a written financial goal — which means they have no way to measure progress.","A clear goal changes every financial decision from guesswork into intention."];
+    steps=["Write down one financial goal — with a specific dollar amount and a target date.","Work backward: what do you need to save or invest monthly to reach it?","Review every account you have. Is it positioned to support that goal?"];
+    after=["Eliminate any investment that doesn't serve your written goal.","Automate contributions so progress happens without willpower.","Reassess the goal annually — not the investments."];
+  } else {
+    priority="Raise your savings rate by 5% — the single change with the biggest long-term impact";
+    preview="You're doing some things right. The next move isn't dramatic — it's increasing what you're already doing.";
+    tension="A 5% increase in your savings rate sounds small. Compounded over a decade, it's life-changing.";
+    why=["Your savings rate is the biggest predictor of long-term financial outcomes — more than investment returns.","Small increases now compound into large differences later. The math heavily favors starting today.","Automating the increase means you adapt to it without feeling it."];
+    steps=["Calculate your current savings rate: monthly savings divided by monthly take-home.","Increase it by 5% — automatically, starting next payday.","Put the increase into a separate account so it doesn't disappear into spending."];
+    after=["Review and increase your rate by another 1–2% every 6 months.","Direct increases toward your highest-priority goal.","Don't adjust down — adapt your spending instead."];
+  }
+
+  const g=`${n.charAt(0).toUpperCase()+n.slice(1)}, the most important thing about your financial situation right now isn't the number in your account — it's what you do next. ${tone.ctx} Based on where you are, ${priority.toLowerCase()}. That one move, done consistently, has more impact than any complex strategy. The people who build financial security don't usually do it with a dramatic change. They do it with one clear decision made every week.`;
+
+  return{priority,why,steps,after,preview,tension,guidance:g,tone};
+}
+function sp(){
+  if(!A.urgentKey){alert('Please make a selection to continue.');return;}
+  const L=gl();
+  document.getElementById('pname').textContent=A.firstName?'Your priority, '+A.firstName+':':'Your priority:';
+  document.getElementById('pt2').textContent=L.preview;
+  document.getElementById('tension').textContent=L.tension;
+  gt(6);
+}
+function sr(){
+  const n=A.firstName.trim(),e=A.email.trim();
+  if(!n){alert('Please enter your first name.');return;}
+  if(!e||!e.includes('@')){alert('Please enter a valid email address.');return;}
+  fetch('https://primary-production-5fdce.up.railway.app/webhook/moneyclarity-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({firstName:n,email:e,quizType:'what-should-i-do',quizData:{situationKey:A.situationKey,debtKey:A.debtKey,urgentKey:A.urgentKey},source:'moneyclarity.me'})}).catch(()=>{});
+  const L=gl();
+  document.getElementById('rh').style.background='#0a2e2a';
+  document.getElementById('rey').textContent=n+"'s Plan";
+  document.getElementById('rht').textContent=n+"'s Money Priority";
+  document.getElementById('pc-name').textContent="Here's what to focus on first, "+n+":";
+  document.getElementById('pc-rec').textContent=L.priority;
+  document.getElementById('why-list').innerHTML=L.why.map(w=>`<li><div class="wd"></div><span>${w}</span></li>`).join('');
+  document.getElementById('road-list').innerHTML=L.steps.map((s,i)=>`<div class="road-item"><div class="road-num">${i+1}</div><div class="road-text">${s}</div></div>`).join('');
+  document.getElementById('after-list').innerHTML=L.after.map(a=>`<li><div class="wd"></div><span>${a}</span></li>`).join('');
+  document.getElementById('age-ctx').textContent=L.tone.ctx;
+  document.getElementById('guidance').textContent=L.guidance;
+  document.getElementById('cta-btn').textContent="Get "+n+"'s Ongoing Clarity";
+  gt(8);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+{
+  "query": "SELECT id, name, email, status, emailStatus, conversationId, createdAt FROM leads ORDER BY createdAt DESC LIMIT 50;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, status, emailStatus, conversationId, createdAt FROM leads ORDER BY createdAt DESC LIMIT 50;",
+  "rows": [
+    {
+      "id": "90010",
+      "name": "anything to",
+      "email": "voice-conv_9301kkhqtcf9fgnr6an9a32df33q@aiiaco.com",
+      "status": "abandoned",
+      "emailStatus": "not_applicable",
+      "conversationId": "conv_9301kkhqtcf9fgnr6an9a32df33q",
+      "createdAt": "2026-03-12 19:23:32"
+    },
+    {
+      "id": "90009",
+      "name": "other problems",
+      "email": "nh@gate13sal.com",
+      "status": "diagnostic_ready",
+      "emailStatus": "sent",
+      "conversationId": "conv_9201kkhpd6skej0rfmcbfaa9enjn",
+      "createdAt": "2026-03-12 17:15:46"
+    },
+    {
+      "id": "90008",
+      "name": "Voice Caller",
+      "email": "mlcastronovo@gmail.com",
+      "status": "new",
+      "emailStatus": "pending",
+      "conversationId": "conv_5301kkfbd8xkf0tss0ytvs92xx6r",
+      "createdAt": "2026-03-12 17:15:38"
+    },
+    {
+      "id": "90007",
+      "name": "about",
+      "email": "voice-conv_6401kkfbttn8faw8ge180qvxct3z@aiiaco.com",
+      "status": "abandoned",
+      "emailStatus": "not_applicable",
+      "conversationId": "conv_6401kkfbttn8faw8ge180qvxct3z",
+      "createdAt": "2026-03-12 17:15:31"
+    },
+    {
+      "id": "90006",
+      "name": "Michael",
+      "email": "mm.eliteatoutlook.com",
+      "status": "new",
+      "emailStatus": "pending",
+      "conversationId": "conv_6101kkfc889rewwab9tvvtvrz70f",
+      "createdAt": "2026-03-12 17:15:23"
+    },
+    {
+      "id": "90005",
+      "name": "Nimmer",
+      "email": "NEMR@AIIACO.com",
+      "status": "new",
+      "emailStatus": "pending",
+      "conversationId": "conv_3201kkg6wp2aecs9khbhf2gdek3z",
+      "createdAt": "2026-03-12 17:15:16"
+    },
+    {
+      "id": "90004",
+      "name": "Namadou",
+      "email": "nemr@iaco.com",
+      "status": "new",
+      "emailStatus": "pending",
+      "conversationId": "conv_8701kkg7crg5e3ftge6pan3ydf7h",
+      "createdAt": "2026-03-12 17:15:08"
+    },
+    {
+      "id": "90003",
+      "name": "Maria Castronovo",
+      "email": "MLCastronovo@gmail.com",
+      "status": "new",
+      "emailStatus": "pending",
+      "conversationId": "conv_7701kkgzer2cfz9rqxaqb5e2359e",
+      "createdAt": "2026-03-12 17:15:00"
+    },
+    {
+      "id": "90002",
+      "name": "it exactly",
+      "email": "nemrhallak@gmail.com",
+      "status": "new",
+      "emailStatus": "pending",
+      "conversationId": "conv_3901kkhe2fzbfq6a509ggqz9hyzc",
+      "createdAt": "2026-03-12 17:14:51"
+    },
+    {
+      "id": "90001",
+      "name": "Voice Caller",
+      "email": "voice-conv_1101kkhf78vke4bbygmffxgadvdn@aiiaco.com",
+      "status": "abandoned",
+      "emailStatus": "not_applicable",
+      "conversationId": "conv_1101kkhf78vke4bbygmffxgadvdn",
+      "createdAt": "2026-03-12 17:14:43"
+    },
+    {
+      "id": "60001",
+      "name": "Phone Caller",
+      "email": "john.smith@nexusrealty.com",
+      "status": "diagnostic_ready",
+      "emailStatus": "pending",
+      "conversationId": "NULL",
+      "createdAt": "2026-03-10 22:58:44"
+    },
+    {
+      "id": "30001",
+      "name": "Maria L Castronovo",
+      "email": "alliedbestsellers@gmail.com",
+      "status": "contacted",
+      "emailStatus": "pending",
+      "conversationId": "NULL",
+      "createdAt": "2026-03-07 21:04:44"
+    },
+    {
+      "id": "1",
+      "name": "Montehue ",
+      "email": "montehuedechristo@gmail.com",
+      "status": "closed",
+      "emailStatus": "pending",
+      "conversationId": "NULL",
+      "createdAt": "2026-02-27 14:26:16"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tstatus\temailStatus\tconversationId\tcreatedAt\n90010\tanything to\tvoice-conv_9301kkhqtcf9fgnr6an9a32df33q@aiiaco.com\tabandoned\tnot_applicable\tconv_9301kkhqtcf9fgnr6an9a32df33q\t2026-03-12 19:23:32\n90009\tother problems\tnh@gate13sal.com\tdiagnostic_ready\tsent\tconv_9201kkhpd6skej0rfmcbfaa9enjn\t2026-03-12 17:15:46\n90008\tVoice Caller\tmlcastronovo@gmail.com\tnew\tpending\tconv_5301kkfbd8xkf0tss0ytvs92xx6r\t2026-03-12 17:15:38\n90007\tabout\tvoice-conv_6401kkfbttn8faw8ge180qvxct3z@aiiaco.com\tabandoned\tnot_applicable\tconv_6401kkfbttn8faw8ge180qvxct3z\t2026-03-12 17:15:31\n90006\tMichael\tmm.eliteatoutlook.com\tnew\tpending\tconv_6101kkfc889rewwab9tvvtvrz70f\t2026-03-12 17:15:23\n90005\tNimmer\tNEMR@AIIACO.com\tnew\tpending\tconv_3201kkg6wp2aecs9khbhf2gdek3z\t2026-03-12 17:15:16\n90004\tNamadou\tnemr@iaco.com\tnew\tpending\tconv_8701kkg7crg5e3ftge6pan3ydf7h\t2026-03-12 17:15:08\n90003\tMaria Castronovo\tMLCastronovo@gmail.com\tnew\tpending\tconv_7701kkgzer2cfz9rqxaqb5e2359e\t2026-03-12 17:15:00\n90002\tit exactly\tnemrhallak@gmail.com\tnew\tpending\tconv_3901kkhe2fzbfq6a509ggqz9hyzc\t2026-03-12 17:14:51\n90001\tVoice Caller\tvoice-conv_1101kkhf78vke4bbygmffxgadvdn@aiiaco.com\tabandoned\tnot_applicable\tconv_1101kkhf78vke4bbygmffxgadvdn\t2026-03-12 17:14:43\n60001\tPhone Caller\tjohn.smith@nexusrealty.com\tdiagnostic_ready\tpending\tNULL\t2026-03-10 22:58:44\n30001\tMaria L Castronovo\talliedbestsellers@gmail.com\tcontacted\tpending\tNULL\t2026-03-07 21:04:44\n1\tMontehue \tmontehuedechristo@gmail.com\tclosed\tpending\tNULL\t2026-02-27 14:26:16\n",
+  "stderr": "",
+  "execution_time_ms": 368
+}

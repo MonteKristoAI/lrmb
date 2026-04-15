@@ -1,0 +1,76 @@
+{
+  "domain": "skill-improve",
+  "version": "1.0",
+  "created": "2026-04-14",
+  "description": "Binary pass/fail criteria for skill self-improvement loop",
+  "criteria": [
+    {
+      "id": "si_001",
+      "name": "pass_rate_improved",
+      "description": "Overall eval suite pass rate must exceed baseline",
+      "check": "new_pass_rate > baseline_pass_rate",
+      "weight": 3,
+      "category": "performance",
+      "hard_gate": true
+    },
+    {
+      "id": "si_002",
+      "name": "no_category_regression",
+      "description": "No individual eval category drops below its baseline pass rate",
+      "check": "all_category_pass_rates_stable == true",
+      "weight": 3,
+      "category": "regression",
+      "hard_gate": true
+    },
+    {
+      "id": "si_003",
+      "name": "no_new_failure_modes",
+      "description": "Previously passing eval cases must not start failing",
+      "check": "newly_failing_count == 0",
+      "weight": 3,
+      "category": "regression",
+      "hard_gate": true
+    },
+    {
+      "id": "si_004",
+      "name": "execution_time_stable",
+      "description": "Average skill execution time must not increase more than 50%",
+      "check": "avg_execution_time <= baseline_execution_time * 1.5",
+      "weight": 2,
+      "category": "performance",
+      "hard_gate": false
+    },
+    {
+      "id": "si_005",
+      "name": "minimum_eval_cases",
+      "description": "At least 20 eval cases in the suite before running self-improvement",
+      "check": "eval_case_count >= 20",
+      "weight": 2,
+      "category": "validity",
+      "hard_gate": true
+    },
+    {
+      "id": "si_006",
+      "name": "change_is_targeted",
+      "description": "SKILL.md diff is small and targeted (not a full rewrite)",
+      "check": "diff_line_count <= 50",
+      "weight": 1,
+      "category": "quality",
+      "hard_gate": false
+    },
+    {
+      "id": "si_007",
+      "name": "max_iterations_respected",
+      "description": "No more than 5 improvement iterations per run",
+      "check": "iteration_count <= 5",
+      "weight": 1,
+      "category": "safety",
+      "hard_gate": true
+    }
+  ],
+  "scoring": {
+    "max_score": 7,
+    "pass_threshold": 5,
+    "hard_gate_count": 5
+  }
+}

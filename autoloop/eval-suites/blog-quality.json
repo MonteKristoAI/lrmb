@@ -1,0 +1,122 @@
+{
+  "domain": "blog-quality",
+  "version": "1.0",
+  "created": "2026-04-14",
+  "description": "Binary pass/fail criteria for blog quality optimization loop",
+  "criteria": [
+    {
+      "id": "bq_001",
+      "name": "zero_banned_vocabulary",
+      "description": "No AI-tell words from the 18-phrase banned list plus extended content-quality.md list",
+      "check": "banned_word_count == 0",
+      "weight": 3,
+      "category": "content_quality",
+      "hard_gate": true
+    },
+    {
+      "id": "bq_002",
+      "name": "zero_em_dashes",
+      "description": "No em dashes anywhere in the post. Use commas, periods, or rewrite.",
+      "check": "em_dash_count_does_not_increase",
+      "weight": 3,
+      "category": "content_quality",
+      "hard_gate": true
+    },
+    {
+      "id": "bq_003",
+      "name": "burstiness_above_threshold",
+      "description": "Sentence length variance (burstiness) must stay above 5.0/10",
+      "check": "burstiness_score > 5.0",
+      "weight": 2,
+      "category": "content_quality",
+      "hard_gate": true
+    },
+    {
+      "id": "bq_004",
+      "name": "vocabulary_diversity",
+      "description": "Type-Token Ratio must stay above 0.35",
+      "check": "ttr > 0.35",
+      "weight": 2,
+      "category": "content_quality",
+      "hard_gate": true
+    },
+    {
+      "id": "bq_005",
+      "name": "ai_detection_low",
+      "description": "AI detection probability must stay below 30%",
+      "check": "ai_probability < 30",
+      "weight": 2,
+      "category": "content_quality",
+      "hard_gate": true
+    },
+    {
+      "id": "bq_006",
+      "name": "all_stats_sourced",
+      "description": "Every statistic/number claim has an inline citation to a verifiable source",
+      "check": "unsourced_stat_count == 0",
+      "weight": 2,
+      "category": "eeat",
+      "hard_gate": false
+    },
+    {
+      "id": "bq_007",
+      "name": "has_summary_box",
+      "description": "Post contains a Key Takeaways, TL;DR, or summary box after the introduction",
+      "check": "has_summary_box == true",
+      "weight": 1,
+      "category": "engagement",
+      "hard_gate": false
+    },
+    {
+      "id": "bq_008",
+      "name": "heading_hierarchy_valid",
+      "description": "Headings follow H1 > H2 > H3 with no skipped levels",
+      "check": "heading_skip_count == 0",
+      "weight": 1,
+      "category": "seo",
+      "hard_gate": false
+    },
+    {
+      "id": "bq_009",
+      "name": "sufficient_internal_links",
+      "description": "At least 3 internal links with descriptive anchor text",
+      "check": "internal_link_count >= 3",
+      "weight": 1,
+      "category": "seo",
+      "hard_gate": false
+    },
+    {
+      "id": "bq_010",
+      "name": "readability_in_range",
+      "description": "Flesch Reading Ease between 55-75 (or per persona target)",
+      "check": "flesch_reading_ease >= 55 AND flesch_reading_ease <= 75",
+      "weight": 1,
+      "category": "content_quality",
+      "hard_gate": false
+    },
+    {
+      "id": "bq_011",
+      "name": "has_faq_section",
+      "description": "Post contains a FAQ section with 3+ questions for schema and AI citation",
+      "check": "faq_question_count >= 3",
+      "weight": 1,
+      "category": "ai_citation",
+      "hard_gate": false
+    },
+    {
+      "id": "bq_012",
+      "name": "cta_present",
+      "description": "At least one call-to-action matching client CTA table",
+      "check": "cta_count >= 1",
+      "weight": 1,
+      "category": "engagement",
+      "hard_gate": false
+    }
+  ],
+  "scoring": {
+    "max_score": 12,
+    "pass_threshold": 10,
+    "hard_gate_count": 5,
+    "note": "All hard_gate criteria must pass. Non-hard-gate criteria are scored by weight."
+  }
+}

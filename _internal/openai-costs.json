@@ -1,0 +1,310 @@
+{
+  "daily": {
+    "2026-03-29": {
+      "total": 0.073881,
+      "calls": [
+        {
+          "timestamp": "2026-03-29T09:27:57.396Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.000093,
+          "tokens": {
+            "prompt_tokens": 11,
+            "completion_tokens": 5,
+            "total_tokens": 16,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T09:29:37.643Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.024609,
+          "tokens": {
+            "prompt_tokens": 1775,
+            "completion_tokens": 1607,
+            "total_tokens": 3382,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T09:30:49.455Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.023346,
+          "tokens": {
+            "prompt_tokens": 1674,
+            "completion_tokens": 1527,
+            "total_tokens": 3201,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:35:58.706Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.007938,
+          "tokens": {
+            "prompt_tokens": 578,
+            "completion_tokens": 517,
+            "total_tokens": 1095,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:37:05.942Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.011634,
+          "tokens": {
+            "prompt_tokens": 606,
+            "completion_tokens": 818,
+            "total_tokens": 1424,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:46:07.640Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.0030210000000000002,
+          "tokens": {
+            "prompt_tokens": 371,
+            "completion_tokens": 159,
+            "total_tokens": 530,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:47:08.728Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.0032400000000000003,
+          "tokens": {
+            "prompt_tokens": 228,
+            "completion_tokens": 213,
+            "total_tokens": 441,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        }
+      ]
+    }
+  },
+  "monthly": {
+    "2026-03": {
+      "total": 0.073881,
+      "calls": [
+        {
+          "timestamp": "2026-03-29T09:27:57.396Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.000093,
+          "tokens": {
+            "prompt_tokens": 11,
+            "completion_tokens": 5,
+            "total_tokens": 16,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T09:29:37.643Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.024609,
+          "tokens": {
+            "prompt_tokens": 1775,
+            "completion_tokens": 1607,
+            "total_tokens": 3382,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T09:30:49.455Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.023346,
+          "tokens": {
+            "prompt_tokens": 1674,
+            "completion_tokens": 1527,
+            "total_tokens": 3201,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:35:58.706Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.007938,
+          "tokens": {
+            "prompt_tokens": 578,
+            "completion_tokens": 517,
+            "total_tokens": 1095,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:37:05.942Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.011634,
+          "tokens": {
+            "prompt_tokens": 606,
+            "completion_tokens": 818,
+            "total_tokens": 1424,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:46:07.640Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.0030210000000000002,
+          "tokens": {
+            "prompt_tokens": 371,
+            "completion_tokens": 159,
+            "total_tokens": 530,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        },
+        {
+          "timestamp": "2026-03-29T10:47:08.728Z",
+          "operation": "chat_completion",
+          "model": "gpt-5.4",
+          "cost": 0.0032400000000000003,
+          "tokens": {
+            "prompt_tokens": 228,
+            "completion_tokens": 213,
+            "total_tokens": 441,
+            "prompt_tokens_details": {
+              "cached_tokens": 0,
+              "audio_tokens": 0
+            },
+            "completion_tokens_details": {
+              "reasoning_tokens": 0,
+              "audio_tokens": 0,
+              "accepted_prediction_tokens": 0,
+              "rejected_prediction_tokens": 0
+            }
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://aiiaco.com/case-studies/#webpage",
+      "url": "https://aiiaco.com/case-studies/",
+      "name": "AI Implementation Case Studies | AIIA Co",
+      "description": "Real-world case studies from AIIA's AI integration engagements. See how mid-market and enterprise clients achieved measurable outcomes through structured AI deployment.",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "AI Integration Case Studies",
+        "description": "Documented results from deploying AI across sales, operations, customer success, and back-office functions in mid-market and enterprise organizations."
+      },
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/case-studies/#breadcrumb"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/case-studies/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Case Studies",
+          "item": "https://aiiaco.com/case-studies/"
+        }
+      ]
+    }
+  ]
+}

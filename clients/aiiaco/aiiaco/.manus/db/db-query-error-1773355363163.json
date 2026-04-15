@@ -1,0 +1,8 @@
+{
+  "query": "SELECT id, name, email, phone, status, created_at FROM leads WHERE name LIKE '%marc%' OR name LIKE '%sleiman%' OR name LIKE '%Marc%' OR name LIKE '%Sleiman%' OR name LIKE '%sleim%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, phone, status, created_at FROM leads WHERE name LIKE '%marc%' OR name LIKE '%sleiman%' OR name LIKE '%Marc%' OR name LIKE '%Sleiman%' OR name LIKE '%sleim%';",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 1: Unknown column 'created_at' in 'field list'"
+  ]
+}

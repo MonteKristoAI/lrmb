@@ -1,0 +1,149 @@
+@charset "utf-8";
+/* CSS Document */
+/*
+ Theme Name:     LordNelson
+ Theme URI:      http://www.atlantawebdesignga.com
+ Description:    Divi Child Theme for Sailing
+ Author:         AtlantaWebDesignGA
+ Author URI:     http://www.atlantawebdesignga.com
+ Template:       Divi
+ Version:        1.1
+*/
+
+
+/* Theme customization starts here 
+Colors in site:
+#031d50 dark blue sailboat logo
+#689FC4 medium blue in water background gif
+#f2f8fc white blue body text
+#d2ecfc light blue header text
+#C46B68 peach
+*/
+
+/* woocommerce */
+#main-content {
+  background-color: rgba(0,0,0,0) !important;
+}
+div.product span.woocommerce-Price-amount {
+    color: #000000 !important;
+}
+div.product select {
+    padding: 10px !important;
+    background-color: #d2ecfc !important;
+    border-color: #031d50 !important;
+    border-radius: 5px !important;
+    font-size: 1em !important;
+}
+#et-top-navigation .et-cart-info {
+    float: right !important;
+	font-size: 1.5em !important;
+    margin-top: .4em  !important;
+}
+/* footer */
+#footer-info {
+  display: none;
+}
+.bottom-nav a, .bottom-nav li.current-menu-item a {
+  color: #bbbbbb !important;
+}
+#text-2 {
+  float: none !important;
+}
+/* .et_fixed_nav #logo-headline {
+  max-height: 43px;
+  margin-bottom: 0;
+}
+#logo-headline {
+  float: left;
+  -moz-transition: all 0.2s ease-in-out;
+  -webkit-transition: all 0.2s ease-in-out;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: 18px;
+  margin-top: 10px;
+  color: #fdfd9e;
+} */
+.nav li li {
+  line-height: 1;
+}
+ul.menu {
+  line-height: 1.2;
+}
+ul li {
+  margin: 10px 0 !important;
+}
+.et_pb_bg_layout_dark, .et_pb_bg_layout_dark h1, .et_pb_bg_layout_dark h2, .et_pb_bg_layout_dark h3, .et_pb_bg_layout_dark h4, .et_pb_bg_layout_dark h5, .et_pb_bg_layout_dark h6, h1, h2, h3, h4, h5, h6 {
+  color: #22577a !important;
+/*   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1) !important; */
+}
+.et_pb_bg_layout_dark .et_pb_slide_description {
+/*   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1) !important; */
+  color: #22577a !important;
+} 
+.et_pb_text {
+/*   text-shadow: 2px 2px 4px rgba(0, 0, 0, 1) !important; */
+  font-size: 20px !important;
+}
+.et_pb_title_container h1 {
+  font-size: 34px;
+}
+/* USED TO BE d2ecfc for default text color */
+.wp-caption p.wp-caption-text {
+  font-size: 20px;
+  color: #22577a;
+}
+.wp-caption {
+  background: none !important;
+  border: none !important;
+}
+blockquote {
+  background-color: rgba(255, 255, 255, .3) !important;
+  border-radius: 10px;
+  border-color: rgba(0, 0, 0, .3) !important;
+}
+/* gravity forms */
+.gform_wrapper .gfield_required {
+  color: #fff !important;
+}
+/* .gform_button {
+  border-color: #031d50 !important;
+  border-radius: 5px !important;
+  font-weight: bold !important;
+  font-style: normal !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  color: #031d50 !important;
+  background: #d2ecfc !important;
+  padding: 6px 20px !important;
+} */
+
+.gform_button {
+    border-radius: 100px !important;
+    font-weight: bold !important;
+    font-size: 14px;
+    font-family: 'Inter', Helvetica, Arial, Lucida, sans-serif !important;
+    text-transform: none !important;
+    text-decoration: none !important;
+    color: #ffffff !important;
+    background: #22577a;
+    padding: 12px 24px !important;	
+}
+
+.gform_button:hover {
+  background: rgba(255, 255, 255, 0.59) !important;
+  color: #22577a !important;
+/*   border-radius: 5px !important;
+  padding: 0.3em 2em 0.3em 1em !important;
+  border: 2px solid transparent !important; */
+}
+.gform_wrapper input:not([type=radio]):not([type=checkbox]):not([type=submit]):not([type=button]):not([type=image]):not([type=file]), .gform_wrapper textarea.small {
+  border-radius: 5px !important;
+}
+@media only screen and (min-width: 981px) {
+  .et_header_style_left #et-top-navigation nav > ul > li.menu-button > a, .et_header_style_split #et-top-navigation nav > ul > li.menu-button > a {
+    padding-bottom: 0px;
+    color: #fff;
+    background: #e23425;
+    padding: 3px;
+    border-radius: 5px;
+  }
+}

@@ -1,0 +1,123 @@
+# ─── Dependencies ────────────────────────────────────────
+**/node_modules
+.pnpm-store/
+jspm_packages/
+.yarn-integrity
+.npm
+
+# ─── Build Outputs ───────────────────────────────────────
+dist/
+build/
+*.dist
+.next
+.nuxt
+.cache/
+.parcel-cache
+.out
+.storybook-out
+
+# ─── Environment Variables & Secrets ─────────────────────
+.env
+.env.*
+.env.local
+.env.development
+.env.development.local
+.env.test
+.env.test.local
+.env.staging
+.env.production
+.env.production.local
+*.pem
+*.key
+*.cert
+*.crt
+*.p12
+*.pfx
+*.jks
+
+# ─── API Keys & Credentials ─────────────────────────────
+secrets/
+credentials/
+*.secret
+*.credentials
+service-account*.json
+firebase-adminsdk*.json
+gcloud-*.json
+
+# ─── Database ────────────────────────────────────────────
+*.db
+*.sqlite
+*.sqlite3
+*.sql.gz
+*.sql.bak
+*.dump
+database.yml
+db/seeds/*.sql
+
+# ─── IDE & Editor Files ─────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# ─── OS Generated Files ─────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ─── Logs ────────────────────────────────────────────────
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+.manus-logs/
+
+# ─── Runtime Data ────────────────────────────────────────
+pids/
+*.pid
+*.seed
+*.pid.lock
+*.bak
+
+# ─── Test Coverage ───────────────────────────────────────
+coverage/
+*.lcov
+.nyc_output
+
+# ─── TypeScript Cache ────────────────────────────────────
+*.tsbuildinfo
+
+# ─── Linter & Formatter Cache ───────────────────────────
+.eslintcache
+.prettierignore.cache
+
+# ─── Bundler Cache ───────────────────────────────────────
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# ─── Misc ────────────────────────────────────────────────
+.node_repl_history
+*.tgz
+tmp/
+temp/
+.webdev/
+
+# ─── Project-Specific Notes & Scratch ────────────────────
+notes_*.txt
+*.bak
+agent-live-config.json
+API_STRUCTURE_FIX.md
+VOICE_SELECTIONS.md

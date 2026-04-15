@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm 18mm 16mm 18mm;
+    background: #FAF8F4;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 10pt;
+    color: #1D1F28;
+    line-height: 1.6;
+    background: #FAF8F4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-break  { break-inside: avoid; page-break-inside: avoid; }
+  h2.sh      { break-after: avoid;  page-break-after: avoid; }
+  h3.subh    { break-after: avoid;  page-break-after: avoid; }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1.5pt solid #041122;
+    padding-bottom: 14pt;
+    margin-bottom: 12pt;
+  }
+  .report-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 20pt;
+    font-weight: 700;
+    color: #041122;
+    line-height: 1.2;
+    margin: 0 0 6pt 0;
+  }
+  .report-meta {
+    font-size: 10pt;
+    color: #777;
+    margin: 0 0 3pt 0;
+  }
+  .report-prepared {
+    font-size: 9pt;
+    font-style: italic;
+    color: #999;
+    margin: 0;
+  }
+  .header-logo { width: 80pt; flex-shrink: 0; margin-left: 20pt; margin-top: 2pt; }
+
+  .tagline {
+    text-align: center;
+    font-size: 9.5pt;
+    font-style: italic;
+    color: #bbb;
+    margin: 4pt 0 14pt 0;
+  }
+
+  .intro { font-size: 10pt; color: #444; line-height: 1.65; margin: 0 0 16pt 0; }
+
+  h2.sh {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #041122;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 18pt 0 8pt 0;
+    padding-bottom: 5pt;
+    border-bottom: 1pt solid #ddd;
+  }
+
+  h3.subh {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #1D1F28;
+    margin: 12pt 0 6pt 0;
+  }
+
+  .glance-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8pt;
+    background: white;
+    border-radius: 6pt;
+    padding: 14pt 12pt;
+    border: 1pt solid #e5e1db;
+    margin-bottom: 16pt;
+  }
+  .glance-card { text-align: center; }
+  .glance-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14pt;
+    font-weight: 700;
+    color: #041122;
+    line-height: 1.2;
+  }
+  .glance-label {
+    font-size: 7pt;
+    color: #999;
+    margin-top: 3pt;
+    line-height: 1.35;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    padding: 5pt 0;
+    border-bottom: 0.5pt solid #eee;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label {
+    font-size: 9pt;
+    color: #888;
+    width: 110pt;
+    flex-shrink: 0;
+  }
+  .stat-value {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #041122;
+    width: 70pt;
+    flex-shrink: 0;
+  }
+  .stat-note {
+    font-size: 8.5pt;
+    color: #999;
+    font-style: italic;
+  }
+
+  .coral { color: #FF5C5C !important; }
+  .bold  { font-weight: 700; }
+
+  /* Action Plan Table */
+  .action-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 8.5pt;
+    margin-top: 4pt;
+  }
+  .action-table th {
+    font-size: 7pt;
+    font-weight: 500;
+    color: #aaa;
+    text-align: left;
+    padding: 4pt 6pt 4pt 0;
+    border-bottom: 1pt solid #ddd;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .action-table td {
+    padding: 5pt 6pt 5pt 0;
+    border-bottom: 0.5pt solid #eee;
+    color: #1D1F28;
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  .td-priority {
+    font-weight: 700;
+    font-size: 7.5pt;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    width: 60pt;
+  }
+  .td-priority.critical { color: #FF5C5C; }
+  .td-priority.high { color: #E6A817; }
+  .td-priority.medium { color: #4A90D9; }
+
+  .analysis { font-size: 9.5pt; color: #555; line-height: 1.6; margin: 8pt 0 0 0; }
+
+  /* Bottom Line */
+  .bottom-section {
+    background: #041122;
+    border-radius: 6pt;
+    padding: 14pt 16pt;
+    margin-top: 18pt;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .bottom-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    padding: 4pt 0;
+    border-bottom: 0.5pt solid rgba(255,255,255,0.12);
+  }
+  .bottom-row:last-child { border-bottom: none; }
+  .bl-label {
+    font-size: 9pt;
+    color: rgba(255,255,255,0.5);
+    width: 90pt;
+    flex-shrink: 0;
+  }
+  .bl-value {
+    font-size: 9pt;
+    color: rgba(255,255,255,0.85);
+  }
+  .bottom-closing {
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 10pt;
+    color: #FAF8F4;
+    margin-top: 12pt;
+    padding-top: 8pt;
+    border-top: 0.5pt solid rgba(255,255,255,0.2);
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 7.5pt;
+    color: #bbb;
+    margin-top: 18pt;
+    padding-top: 8pt;
+    border-top: 0.5pt solid #e5e1db;
+  }
+</style>
+</head>
+<body>
+
+  <div class="header">
+    <div>
+      <h1 class="report-title">SEO Audit Report</h1>
+      <p class="report-meta">AiiAco - Nemr Hallak - April 2026</p>
+      <p class="report-prepared">Prepared by MonteKristo AI</p>
+    </div>
+    <img class="header-logo" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEhleGFnb24gZ3JpZCAtLT4KICA8ZyBzdHJva2U9IiNmZjViNWIiIHN0cm9rZS13aWR0aD0iMy41Ij4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTUwLDIwIDIwMCw1MCAyMDAsMTEwIDE1MCwxNDAgMTAwLDExMCAxMDAsNTAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMjAwLDUwIDI1MCw4MCAyNTAsMTQwIDIwMCwxNzAgMTUwLDE0MCAxNTAsODAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTAwLDUwIDE1MCw4MCAxNTAsMTQwIDEwMCwxNzAgNTAsMTQwIDUwLDgwIiBmaWxsPSJub25lIi8+CiAgPC9nPgoKICA8IS0tIE0gc2hhcGUgLS0+CiAgPGcgc3Ryb2tlPSIjZmY1YjViIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8bGluZSB4MT0iNzUiIHkxPSIxNDAiIHgyPSI3NSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iNzUiIHkxPSI2MCIgeDI9IjE1MCIgeTI9IjExMCIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjExMCIgeDI9IjIyNSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iMjI1IiB5MT0iNjAiIHgyPSIyMjUiIHkyPSIxNDAiLz4KICA8L2c+CgogIDwhLS0gQ2lyY2xlIG5vZGVzIC0tPgogIDxnIGZpbGw9IiNmZjViNWIiPgogICAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iMjAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjUwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMTAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTEwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iODAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI4MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSIxNDAiIHI9IjgiLz4KICA8L2c+Cjwvc3ZnPg==" alt="MonteKristo AI">
+  </div>
+
+  <p class="tagline">Full SEO Audit - Technical, Content, Schema, Performance, AI Search Readiness</p>
+  <p class="intro">This report covers a comprehensive SEO audit of aiiaco.com conducted in April 2026. The audit analyzed all 41 pages across five categories: technical SEO, content quality, schema/structured data, Core Web Vitals performance, and AI search readiness (GEO). The site is built on Manus AI, a proprietary website builder, and runs behind Cloudflare CDN.</p>
+
+  <h2 class="sh">SEO Health at a Glance</h2>
+  <div class="glance-grid no-break">
+    <div class="glance-card">
+      <div class="glance-value">41/100</div>
+      <div class="glance-label">Overall Score</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">45/100</div>
+      <div class="glance-label">Technical SEO</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value coral">35/100</div>
+      <div class="glance-label">Content Quality</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">55/100</div>
+      <div class="glance-label">Schema Coverage</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value coral">30/100</div>
+      <div class="glance-label">Performance</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">62/100</div>
+      <div class="glance-label">AI Readiness</div>
+    </div></div>
+
+  <h2 class="sh">1. Technical SEO</h2>
+  <p class="analysis">The site has solid DNS and CDN infrastructure behind Cloudflare, with a well-configured robots.txt that includes AI crawler guidance. However, critical issues with canonical tags, soft 404 pages, and client-side rendering threaten indexability.</p>
+  
+      <div class="stat-row">
+        <span class="stat-label">Canonical Tags</span>
+        <span class="stat-value coral">CRITICAL</span>
+        <span class="stat-note">Every page has TWO canonical tags - one always pointing to www.aiiaco.com homepage. Google cannot determine the correct canonical.</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Soft 404 Pages</span>
+        <span class="stat-value coral">6 pages</span>
+        <span class="stat-note">/ai-infrastructure, /ai-crm-integration, /ai-workflow-automation, /ai-revenue-engine, /ai-for-real-estate, /ai-for-vacation-rentals return HTTP 200 with empty content</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Rendering</span>
+        <span class="stat-value coral">CSR Only</span>
+        <span class="stat-note">React SPA with <div id="root"> - all content rendered client-side. Crawlers without JS execution see empty page.</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Title Tags</span>
+        <span class="stat-value">Duplicate</span>
+        <span class="stat-note">Same title "AiiAco | AI Integration Authority..." appears in raw HTML for every page before JS renders</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">robots.txt</span>
+        <span class="stat-value">Good</span>
+        <span class="stat-note">Properly configured with sitemap reference, blocks /admin. Includes llms.txt and about.txt references.</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Sitemap</span>
+        <span class="stat-value">Present</span>
+        <span class="stat-note">sitemap.xml exists with proper URLs, changefreq, and priority values</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">HSTS</span>
+        <span class="stat-value">Active</span>
+        <span class="stat-note">max-age=31536000 with includeSubDomains</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">llms.txt</span>
+        <span class="stat-value">Present</span>
+        <span class="stat-note">Comprehensive company description for AI crawlers - ahead of 90% of competitors</span>
+      </div>
+
+  <h2 class="sh">2. Content Quality</h2>
+  <p class="analysis">Content volume is the biggest weakness. 18 of 21 analyzed pages fall below minimum word count thresholds. All 20+ industry vertical pages use an identical 5-section template with 330-430 words each, which Google may classify as thin or templated content.</p>
+  
+      <div class="stat-row">
+        <span class="stat-label">Thin Pages</span>
+        <span class="stat-value coral">18/21</span>
+        <span class="stat-note">86% of pages below minimum content thresholds</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Homepage</span>
+        <span class="stat-value">820 words</span>
+        <span class="stat-note">Only page with adequate depth (minimum: 500)</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Industry Pages</span>
+        <span class="stat-value coral">330-430 words</span>
+        <span class="stat-note">All 20+ verticals use identical 5-section template - well below 800 word minimum</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">/method</span>
+        <span class="stat-value coral">295 words</span>
+        <span class="stat-note">Core methodology page has less content than the minimum</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">/results</span>
+        <span class="stat-value coral">239 words</span>
+        <span class="stat-note">Weakest content page - no verifiable case studies</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">/ai-integration</span>
+        <span class="stat-value">560 words</span>
+        <span class="stat-note">Best service page but still below 800 minimum</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">AI Tells Found</span>
+        <span class="stat-value">3 pages</span>
+        <span class="stat-note">"streamline" on /method and /oil-gas, "systematize" on /crypto</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Template Pattern</span>
+        <span class="stat-value coral">Detected</span>
+        <span class="stat-note">All industry pages share identical structure: header, 4 stats, 4 problems, 4 systems, CTA</span>
+      </div>
+
+  <h2 class="sh">3. Schema / Structured Data</h2>
+  <p class="analysis">The homepage has above-average schema implementation with Organization, WebSite, and ProfessionalService blocks. However, the remaining 40 pages have zero structured data. BreadcrumbList is missing site-wide.</p>
+  
+      <div class="stat-row">
+        <span class="stat-label">Homepage</span>
+        <span class="stat-value">3 blocks</span>
+        <span class="stat-note">Organization, WebSite, ProfessionalService - solid foundation with @id linking</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">All Other Pages</span>
+        <span class="stat-value coral">0 blocks</span>
+        <span class="stat-note">40 pages with zero schema markup</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">BreadcrumbList</span>
+        <span class="stat-value coral">Missing</span>
+        <span class="stat-note">Not present on any page - Google has no hierarchy signal</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">FAQPage</span>
+        <span class="stat-value coral">Missing</span>
+        <span class="stat-note">FAQ content exists on 3 pages but no FAQPage schema</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Service Schema</span>
+        <span class="stat-value">Missing</span>
+        <span class="stat-note">No Service markup on any service or industry page</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">SearchAction</span>
+        <span class="stat-value">Missing</span>
+        <span class="stat-note">WebSite block lacks Sitelinks Searchbox eligibility</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">contactType</span>
+        <span class="stat-value">Minor Fix</span>
+        <span class="stat-note">"Business Inquiry" should be "sales" per schema.org vocabulary</span>
+      </div>
+
+  <h2 class="sh">4. Performance / Core Web Vitals</h2>
+  <p class="analysis">Core Web Vitals are critically poor, primarily caused by the Manus AI platform delivering a 735KB JavaScript bundle that must execute before any content renders. Mobile performance is especially bad.</p>
+  
+      <div class="stat-row">
+        <span class="stat-label">Mobile Score</span>
+        <span class="stat-value coral">38/100</span>
+        <span class="stat-note">Homepage Lighthouse performance - far below 90+ target</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Desktop Score</span>
+        <span class="stat-value coral">59/100</span>
+        <span class="stat-note">Homepage Lighthouse performance</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">LCP (Mobile)</span>
+        <span class="stat-value coral">12.6s</span>
+        <span class="stat-note">Target is under 2.5 seconds - current is 5x over threshold</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">LCP (Desktop)</span>
+        <span class="stat-value coral">9.0s</span>
+        <span class="stat-note">Still 3.6x over the 2.5s target</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">FCP</span>
+        <span class="stat-value coral">4.5s</span>
+        <span class="stat-note">First paint at 4.5 seconds - target is under 1.8s</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">TBT (Mobile)</span>
+        <span class="stat-value coral">930ms</span>
+        <span class="stat-note">Total Blocking Time - target is under 200ms</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">CLS</span>
+        <span class="stat-value">0</span>
+        <span class="stat-note">No layout shift detected - the one bright spot</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">JS Bundle</span>
+        <span class="stat-value">735KB</span>
+        <span class="stat-note">Manus AI runtime - single blocking JavaScript file from CloudFront S3</span>
+      </div>
+
+  <h2 class="sh">5. AI Search Readiness (GEO)</h2>
+  <p class="analysis">AiiAco shows proactive AI search readiness with llms.txt and about.txt files, but critical execution gaps prevent actual citations. FAQ answers are hidden behind JavaScript, statistics lack source attribution, and there is no blog content for AI systems to cite.</p>
+  
+      <div class="stat-row">
+        <span class="stat-label">GEO Score</span>
+        <span class="stat-value">62/100</span>
+        <span class="stat-note">Functional foundation with significant citability gaps</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Google AI Overview</span>
+        <span class="stat-value coral">45/100</span>
+        <span class="stat-note">CSR blocking, no FAQPage schema, no blog content</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">ChatGPT</span>
+        <span class="stat-value coral">40/100</span>
+        <span class="stat-note">No external brand corpus, FAQ answers not crawlable</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Perplexity</span>
+        <span class="stat-value">55/100</span>
+        <span class="stat-note">llms.txt presence helps, but statistics lack source attribution</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Bing Copilot</span>
+        <span class="stat-value">50/100</span>
+        <span class="stat-note">Schema foundation helps, but low external authority</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">FAQ Visibility</span>
+        <span class="stat-value coral">Blocked</span>
+        <span class="stat-note">FAQ answers in JS accordions - crawlers see questions but NOT answers</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Statistics</span>
+        <span class="stat-value coral">Unsourced</span>
+        <span class="stat-note">68% cycle time, 3x capacity - no client name, timeframe, or third-party verification</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">External Presence</span>
+        <span class="stat-value coral">Near Zero</span>
+        <span class="stat-note">No Wikipedia, Crunchbase, Reddit, or YouTube presence</span>
+      </div>
+
+  <h2 class="sh">Prioritized Action Plan</h2>
+  <table class="action-table">
+    <tr>
+      <th>Priority</th>
+      <th>Fix</th>
+      <th>Effort</th>
+      <th>Impact</th>
+    </tr>
+    
+    <tr>
+      <td class="td-priority critical">CRITICAL</td>
+      <td>Remove duplicate canonical tag (www variant on line 38)</td>
+      <td>Low</td>
+      <td>Every page affected - Google indexing confusion</td>
+    </tr>
+    <tr>
+      <td class="td-priority critical">CRITICAL</td>
+      <td>Fix 6 soft 404 pages - add noindex or build content</td>
+      <td>Medium</td>
+      <td>Crawl budget waste, authority dilution</td>
+    </tr>
+    <tr>
+      <td class="td-priority critical">CRITICAL</td>
+      <td>Make FAQ answers visible in static HTML (CSS not JS)</td>
+      <td>Low</td>
+      <td>Unlocks AI Overview for all target queries</td>
+    </tr>
+    <tr>
+      <td class="td-priority high">HIGH</td>
+      <td>Expand thin content on 18 pages (800+ words each)</td>
+      <td>High</td>
+      <td>86% of pages below quality threshold</td>
+    </tr>
+    <tr>
+      <td class="td-priority high">HIGH</td>
+      <td>Add schema markup to all 40 interior pages</td>
+      <td>Medium</td>
+      <td>Zero structured data on 97% of site</td>
+    </tr>
+    <tr>
+      <td class="td-priority high">HIGH</td>
+      <td>Build 6 core service pages (2000+ words each)</td>
+      <td>High</td>
+      <td>Foundation for keyword rankings and internal linking</td>
+    </tr>
+    <tr>
+      <td class="td-priority high">HIGH</td>
+      <td>Launch blog.aiiaco.com with first 8 articles</td>
+      <td>Medium</td>
+      <td>Only way to get article-type AI citations</td>
+    </tr>
+    <tr>
+      <td class="td-priority medium">MEDIUM</td>
+      <td>Add FAQPage schema to pages with FAQ content</td>
+      <td>Low</td>
+      <td>Rich result eligibility for target queries</td>
+    </tr>
+    <tr>
+      <td class="td-priority medium">MEDIUM</td>
+      <td>Investigate SSR or prerendering for Manus pages</td>
+      <td>High</td>
+      <td>LCP from 12.6s toward 2.5s target</td>
+    </tr>
+    <tr>
+      <td class="td-priority medium">MEDIUM</td>
+      <td>Create Crunchbase listing + Wikidata entity</td>
+      <td>Low</td>
+      <td>External entity presence for AI citation systems</td>
+    </tr>
+  </table>
+
+  <div class="bottom-section no-break">
+    
+    <div class="bottom-row">
+      <span class="bl-label">Technical</span>
+      <span class="bl-value">45/100 - Dual canonicals and soft 404s are critical blockers</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">Content</span>
+      <span class="bl-value">35/100 - 18/21 pages are thin, industry pages are templated</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">Schema</span>
+      <span class="bl-value">55/100 - Homepage solid, 40 other pages have zero markup</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">Performance</span>
+      <span class="bl-value">30/100 - LCP 12.6s mobile, 735KB JS bundle from Manus</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">AI Readiness</span>
+      <span class="bl-value">62/100 - llms.txt is ahead of curve, FAQ answers blocked by JS</span>
+    </div>
+    <div class="bottom-closing">Score: 41/100. Fix the three critical issues first. Build the six service pages. Launch the blog. These moves will shift the score above 70 within 60 days.</div>
+  </div>
+
+  <div class="footer">MonteKristo AI - montekristobelgrade.com - April 2026</div>
+
+</body>
+</html>

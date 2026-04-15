@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bridge Hospice - Hero Concepts (Level 10)</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a0a; color: #f8f6f2; font-family: 'Inter', sans-serif; }
+
+  .concept-label {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,10,10,0.95); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(200,170,120,0.2);
+    padding: 16px 32px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .concept-label h2 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 500; }
+  .concept-label .tag { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: #c8a96e; }
+
+  .divider {
+    height: 120px;
+    display: flex; align-items: center; justify-content: center;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: linear-gradient(180deg, #0a0a0a, #0f1520, #0a0a0a);
+  }
+  .divider span { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(200,170,120,0.4); }
+
+  /* ============= CONCEPT A: "The Threshold" ============= */
+  .hero-a {
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #0b1929;
+  }
+  .hero-a .bg-layer {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 40%, rgba(30,58,95,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 75% 25%, rgba(200,169,110,0.08) 0%, transparent 60%),
+      linear-gradient(180deg, #070e18 0%, #0f1d33 30%, #1a3050 60%, #0f1d33 100%);
+  }
+  /* Floating light orbs */
+  .hero-a .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(60px); opacity: 0.12;
+    animation: float 20s ease-in-out infinite;
+  }
+  .hero-a .orb-1 { width: 400px; height: 400px; background: #c8a96e; top: -10%; right: -5%; animation-delay: 0s; }
+  .hero-a .orb-2 { width: 300px; height: 300px; background: #4a7fa5; bottom: 10%; left: -8%; animation-delay: -7s; }
+  .hero-a .orb-3 { width: 200px; height: 200px; background: #c8a96e; top: 50%; right: 20%; animation-delay: -12s; opacity: 0.06; }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 15px) scale(0.95); }
+  }
+
+  .hero-a .nav {
+    position: relative; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 24px 48px;
+  }
+  .hero-a .logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 600; letter-spacing: 0.02em; }
+  .hero-a .logo span { color: #c8a96e; }
+  .hero-a .nav-links { display: flex; gap: 32px; font-size: 0.75rem; letter-spacing: 0.04em; color: rgba(255,255,255,0.5); }
+  .hero-a .nav-links a { color: inherit; text-decoration: none; transition: color 0.3s; }
+  .hero-a .nav-links a:hover { color: #c8a96e; }
+  .hero-a .nav-cta {
+    font-size: 0.7rem; padding: 10px 24px; border: 1px solid rgba(200,169,110,0.4);
+    color: #c8a96e; border-radius: 6px; letter-spacing: 0.05em; transition: all 0.3s;
+  }
+
+  .hero-a .content {
+    position: relative; z-index: 10;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    min-height: calc(100vh - 200px);
+    padding: 0 32px;
+  }
+  .hero-a .eyebrow {
+    font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: #c8a96e; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .hero-a .eyebrow::before, .hero-a .eyebrow::after {
+    content: ''; width: 40px; height: 1px; background: rgba(200,169,110,0.3);
+  }
+  .hero-a h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  .hero-a h1 .line { display: block; opacity: 0; animation: fadeUp 0.8s ease forwards; }
+  .hero-a h1 .line:nth-child(1) { animation-delay: 0.2s; }
+  .hero-a h1 .line:nth-child(2) { animation-delay: 0.5s; }
+  .hero-a h1 .line:nth-child(3) { animation-delay: 0.8s; color: #c8a96e; font-style: italic; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  .hero-a .subtitle {
+    font-size: 1rem; line-height: 1.7; color: rgba(255,255,255,0.55);
+    max-width: 560px; margin-bottom: 36px; font-weight: 300;
+  }
+  .hero-a .cta-group { display: flex; gap: 12px; margin-bottom: 48px; }
+  .hero-a .btn-primary {
+    background: linear-gradient(135deg, #c8a96e 0%, #b8956a 100%);
+    color: #0f1d33; padding: 14px 32px; border-radius: 8px;
+    font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+    box-shadow: 0 4px 24px rgba(200,169,110,0.25);
+    transition: all 0.3s;
+  }
+  .hero-a .btn-secondary {
+    border: 1px solid rgba(255,255,255,0.15); color: #f8f6f2;
+    padding: 14px 32px; border-radius: 8px;
+    font-size: 0.8rem; font-weight: 400; letter-spacing: 0.03em;
+    backdrop-filter: blur(8px); background: rgba(255,255,255,0.03);
+    transition: all 0.3s;
+  }
+
+  /* Stats ribbon */
+  .hero-a .stats-ribbon {
+    position: relative; z-index: 10;
+    display: flex; justify-content: center; gap: 1px;
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-a .stat {
+    flex: 1; max-width: 200px;
+    padding: 28px 24px; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.3s;
+  }
+  .hero-a .stat:hover { background: rgba(200,169,110,0.04); }
+  .hero-a .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 600; color: #c8a96e;
+    margin-bottom: 4px;
+  }
+  .hero-a .stat-label { font-size: 0.65rem; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* Trust logos */
+  .hero-a .trust-bar {
+    display: flex; justify-content: center; align-items: center; gap: 40px;
+    padding: 32px 48px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .hero-a .trust-item {
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    opacity: 0.35; transition: opacity 0.3s;
+  }
+  .hero-a .trust-item:hover { opacity: 0.7; }
+  .hero-a .trust-icon {
+    width: 48px; height: 48px; border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.5rem; font-weight: 600; color: #c8a96e;
+    background: rgba(255,255,255,0.02);
+  }
+  .hero-a .trust-label { font-size: 0.55rem; color: rgba(255,255,255,0.3); }
+
+  /* ============= CONCEPT B: "The Journey" ============= */
+  .hero-b {
+    position: relative; overflow: hidden;
+    background: #0b1929;
+  }
+  .hero-b .section-1 {
+    min-height: 100vh; position: relative;
+    display: flex; align-items: center;
+    background:
+      radial-gradient(ellipse 100% 80% at 30% 50%, rgba(30,58,95,0.4) 0%, transparent 70%),
+      linear-gradient(135deg, #070e18 0%, #0f1d33 50%, #162840 100%);
+  }
+  .hero-b .photo-frame {
+    position: absolute; right: 0; top: 0; bottom: 0; width: 45%;
+    overflow: hidden;
+  }
+  .hero-b .photo-frame::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, #0b1929 0%, rgba(11,25,41,0.7) 30%, rgba(11,25,41,0.2) 100%);
+  }
+  .hero-b .photo-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #1a3050, #243d5a);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: rgba(255,255,255,0.2); text-align: center; padding: 20px;
+  }
+
+  .hero-b .left-content {
+    position: relative; z-index: 10;
+    padding: 80px 64px; max-width: 55%;
+  }
+  .hero-b .badge-row { display: flex; gap: 8px; margin-bottom: 28px; }
+  .hero-b .badge {
+    font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px;
+    border: 1px solid rgba(200,169,110,0.2); color: #c8a96e;
+    background: rgba(200,169,110,0.04);
+  }
+  .hero-b h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 400; line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .hero-b h1 em { font-style: italic; color: #c8a96e; }
+  .hero-b .desc {
+    font-size: 0.95rem; line-height: 1.8; color: rgba(255,255,255,0.5);
+    max-width: 480px; margin-bottom: 32px; font-weight: 300;
+  }
+  .hero-b .cta-row { display: flex; gap: 12px; align-items: center; margin-bottom: 40px; }
+  .hero-b .btn-gold {
+    background: linear-gradient(135deg, #c8a96e, #b89060);
+    color: #0f1d33; padding: 14px 28px; border-radius: 8px;
+    font-size: 0.8rem; font-weight: 600;
+    box-shadow: 0 4px 24px rgba(200,169,110,0.2);
+  }
+  .hero-b .btn-ghost {
+    color: rgba(255,255,255,0.6); font-size: 0.8rem;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-b .btn-ghost .play-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.15);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.6rem; color: #c8a96e;
+  }
+
+  /* Quick links row */
+  .hero-b .quick-links {
+    display: flex; gap: 24px;
+    padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .hero-b .quick-link {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.7rem; color: rgba(255,255,255,0.4);
+    transition: color 0.3s;
+  }
+  .hero-b .quick-link:hover { color: #c8a96e; }
+  .hero-b .ql-icon {
+    width: 32px; height: 32px; border-radius: 6px;
+    background: rgba(200,169,110,0.06); border: 1px solid rgba(200,169,110,0.1);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: #c8a96e;
+  }
+
+  /* Section 2: Scrolling stats */
+  .hero-b .section-2 {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .hero-b .stat-card {
+    padding: 40px 32px; text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    background: rgba(255,255,255,0.01);
+    transition: background 0.4s;
+  }
+  .hero-b .stat-card:hover { background: rgba(200,169,110,0.03); }
+  .hero-b .stat-card:last-child { border-right: none; }
+  .hero-b .sc-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 600; color: #c8a96e;
+    margin-bottom: 8px;
+  }
+  .hero-b .sc-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 0.05em; }
+  .hero-b .sc-desc { font-size: 0.65rem; color: rgba(255,255,255,0.25); margin-top: 8px; line-height: 1.5; }
+
+  /* Section 3: Programs teaser */
+  .hero-b .section-3 {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+    background: rgba(255,255,255,0.03);
+    border-top: 1px solid rgba(255,255,255,0.04);
+  }
+  .hero-b .program-card {
+    padding: 40px 32px;
+    background: #0b1929;
+    transition: all 0.4s;
+    cursor: pointer;
+  }
+  .hero-b .program-card:hover { background: rgba(200,169,110,0.04); }
+  .hero-b .pc-icon { font-size: 1.5rem; margin-bottom: 16px; }
+  .hero-b .pc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; margin-bottom: 8px;
+  }
+  .hero-b .pc-desc { font-size: 0.7rem; color: rgba(255,255,255,0.4); line-height: 1.6; margin-bottom: 12px; }
+  .hero-b .pc-link { font-size: 0.65rem; color: #c8a96e; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ============= CONCEPT C: "The Horizon" ============= */
+  .hero-c {
+    position: relative; overflow: hidden;
+    background: #0b1929;
+  }
+  .hero-c .full-screen {
+    min-height: 100vh; position: relative;
+    display: flex; flex-direction: column;
+    background:
+      radial-gradient(ellipse 60% 50% at 50% 45%, rgba(30,58,95,0.5) 0%, transparent 70%),
+      linear-gradient(180deg, #060c18 0%, #0f1d33 40%, #1a3050 70%, #0f1d33 100%);
+  }
+
+  /* Ambient light streaks */
+  .hero-c .light-streak {
+    position: absolute; transform: rotate(-35deg);
+    background: linear-gradient(90deg, transparent, rgba(200,169,110,0.03), transparent);
+    animation: streak 15s ease-in-out infinite;
+  }
+  .hero-c .ls-1 { width: 600px; height: 1px; top: 20%; left: -10%; animation-delay: 0s; }
+  .hero-c .ls-2 { width: 400px; height: 1px; top: 40%; right: -5%; animation-delay: -5s; }
+  .hero-c .ls-3 { width: 500px; height: 1px; top: 65%; left: 10%; animation-delay: -10s; }
+  @keyframes streak {
+    0%, 100% { opacity: 0; transform: rotate(-35deg) translateX(-100px); }
+    50% { opacity: 1; transform: rotate(-35deg) translateX(100px); }
+  }
+
+  .hero-c .nav {
+    position: relative; z-index: 10;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 28px 48px;
+  }
+  .hero-c .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem; font-weight: 500;
+  }
+  .hero-c .logo span { color: #c8a96e; font-style: italic; }
+
+  .hero-c .center-content {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 0 32px;
+    position: relative; z-index: 10;
+  }
+  .hero-c .rotating-text {
+    font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: #c8a96e; margin-bottom: 28px; height: 18px; overflow: hidden;
+  }
+  .hero-c .rotating-text span {
+    display: block; animation: rotateWords 9s ease-in-out infinite;
+  }
+  @keyframes rotateWords {
+    0%, 25% { transform: translateY(0); }
+    30%, 55% { transform: translateY(-18px); }
+    60%, 85% { transform: translateY(-36px); }
+    90%, 100% { transform: translateY(0); }
+  }
+
+  .hero-c h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 400; line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+  .hero-c h1 .gold { color: #c8a96e; }
+  .hero-c h1 .italic { font-style: italic; }
+  .hero-c .tagline {
+    font-size: 1.05rem; color: rgba(255,255,255,0.45);
+    max-width: 520px; line-height: 1.7; font-weight: 300;
+    margin-bottom: 40px;
+  }
+  .hero-c .cta-stack { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .hero-c .btn-main {
+    background: linear-gradient(135deg, #c8a96e, #b89060);
+    color: #0f1d33; padding: 16px 40px; border-radius: 8px;
+    font-size: 0.85rem; font-weight: 600;
+    box-shadow: 0 4px 32px rgba(200,169,110,0.3), 0 0 80px rgba(200,169,110,0.08);
+    letter-spacing: 0.03em;
+  }
+  .hero-c .btn-sub {
+    font-size: 0.75rem; color: rgba(255,255,255,0.4);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .hero-c .btn-sub .arrow { color: #c8a96e; }
+
+  /* Scroll indicator */
+  .hero-c .scroll-indicator {
+    padding: 32px 0; text-align: center;
+    position: relative; z-index: 10;
+  }
+  .hero-c .scroll-line {
+    width: 1px; height: 48px; margin: 0 auto 8px;
+    background: linear-gradient(180deg, rgba(200,169,110,0.4), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; height: 48px; }
+    50% { opacity: 0.7; height: 56px; }
+  }
+  .hero-c .scroll-text { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+
+  /* Impact metrics - horizontal scroll */
+  .hero-c .metrics-strip {
+    display: flex;
+    border-top: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    overflow: hidden;
+  }
+  .hero-c .metric {
+    flex: 1; padding: 36px 24px;
+    text-align: center;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+  }
+  .hero-c .metric::before {
+    content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 24px; height: 2px; background: #c8a96e; opacity: 0.4;
+  }
+  .hero-c .metric-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 600; color: #c8a96e;
+    margin-bottom: 6px;
+  }
+  .hero-c .metric-name { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+  .hero-c .metric-sub { font-size: 0.6rem; color: rgba(255,255,255,0.2); margin-top: 4px; }
+
+  /* Signature programs - editorial layout */
+  .hero-c .editorial {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 300px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .hero-c .ed-panel {
+    padding: 48px;
+    display: flex; flex-direction: column; justify-content: center;
+    border-right: 1px solid rgba(255,255,255,0.04);
+    transition: background 0.4s;
+    cursor: pointer;
+  }
+  .hero-c .ed-panel:hover { background: rgba(200,169,110,0.03); }
+  .hero-c .ed-panel:last-child { border-right: none; }
+  .hero-c .ed-overline {
+    font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: #c8a96e; margin-bottom: 16px;
+  }
+  .hero-c .ed-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 400; margin-bottom: 12px;
+    line-height: 1.3;
+  }
+  .hero-c .ed-desc {
+    font-size: 0.75rem; color: rgba(255,255,255,0.4); line-height: 1.7; margin-bottom: 16px;
+  }
+  .hero-c .ed-link {
+    font-size: 0.65rem; color: #c8a96e; letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Partner/trust strip */
+  .hero-c .trust-strip {
+    display: flex; align-items: center; justify-content: center; gap: 48px;
+    padding: 28px 48px;
+    background: rgba(255,255,255,0.01);
+  }
+  .hero-c .ts-label { font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.2); white-space: nowrap; }
+  .hero-c .ts-logos { display: flex; gap: 32px; align-items: center; }
+  .hero-c .ts-logo {
+    width: 56px; height: 32px; border-radius: 4px;
+    background: rgba(255,255,255,0.04);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.45rem; color: rgba(255,255,255,0.2); font-weight: 600;
+    opacity: 0.5; transition: opacity 0.3s;
+  }
+  .hero-c .ts-logo:hover { opacity: 0.8; }
+</style>
+</head>
+<body>
+
+<!-- ===== CONCEPT A: "The Threshold" ===== -->
+<div class="concept-label">
+  <h2>Concept A: "The Threshold"</h2>
+  <span class="tag">Cinematic · Atmospheric · Centered</span>
+</div>
+
+<div class="hero-a">
+  <div class="bg-layer"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="nav">
+    <div class="logo">Bridge <span>Hospice</span></div>
+    <div class="nav-links">
+      <a href="#">Services</a>
+      <a href="#">Valor</a>
+      <a href="#">Dave's Wish</a>
+      <a href="#">About</a>
+      <a href="#">Referral</a>
+      <a href="#">Blog</a>
+    </div>
+    <div class="nav-cta">806-993-3900</div>
+  </div>
+
+  <div class="content">
+    <div class="eyebrow">Lubbock's Most Trusted Hospice</div>
+    <h1>
+      <span class="line">Compassionate Care.</span>
+      <span class="line">Dignified Support.</span>
+      <span class="line">A Bridge to Peace.</span>
+    </h1>
+    <p class="subtitle">Led by Dr. Larry Warmoth and a team of 25+ nurses, social workers, chaplains, and volunteers, we provide personalized end-of-life care that honors every life and every family.</p>
+    <div class="cta-group">
+      <div class="btn-primary">Call 806-993-3900</div>
+      <div class="btn-secondary">Request a Consultation →</div>
+    </div>
+  </div>
+
+  <div class="stats-ribbon">
+    <div class="stat">
+      <div class="stat-number">24/7</div>
+      <div class="stat-label">Care Available</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">5×</div>
+      <div class="stat-label">Best of the West</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">25+</div>
+      <div class="stat-label">Team Members</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">7+</div>
+      <div class="stat-label">Years Serving</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">100%</div>
+      <div class="stat-label">Dave's Wish to Patients</div>
+    </div>
+  </div>
+
+  <div class="trust-bar">
+    <div class="trust-item">
+      <div class="trust-icon">CHAP</div>
+      <div class="trust-label">CHAP Certified</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">WBE</div>
+      <div class="trust-label">Women Owned</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">AFC</div>
+      <div class="trust-label">Age-Friendly Care</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">BOW</div>
+      <div class="trust-label">Best of the West</div>
+    </div>
+    <div class="trust-item">
+      <div class="trust-icon">★</div>
+      <div class="trust-label">Valor Veterans</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DIVIDER ===== -->
+<div class="divider"><span>Next Concept ↓</span></div>
+
+<!-- ===== CONCEPT B: "The Journey" ===== -->
+<div class="concept-label">
+  <h2>Concept B: "The Journey"</h2>
+  <span class="tag">Editorial · Storytelling · Layered</span>
+</div>
+
+<div class="hero-b">
+  <div class="section-1">
+    <div class="photo-frame">
+      <div class="photo-placeholder">[ Full-bleed photo:<br>Tammie Ware with team member,<br>warm natural light,<br>genuine compassion moment ]</div>
+    </div>
+    <div class="left-content">
+      <div class="badge-row">
+        <div class="badge">5× Best of the West</div>
+        <div class="badge">CHAP Certified</div>
+        <div class="badge">24/7 Care</div>
+      </div>
+      <h1>Where Every Life<br>Is Honored With<br><em>Dignity & Grace</em></h1>
+      <p class="desc">Bridge Hospice provides physician-led, 24/7 end-of-life care across Lubbock and surrounding communities. Pain management, emotional support, veteran programs, and a nonprofit arm that gives 100% directly to families in need.</p>
+      <div class="cta-row">
+        <div class="btn-gold">Call 806-993-3900</div>
+        <div class="btn-ghost">
+          <div class="play-icon">▶</div>
+          Watch Our Story
+        </div>
+      </div>
+      <div class="quick-links">
+        <div class="quick-link">
+          <div class="ql-icon">🏥</div>
+          Our Services
+        </div>
+        <div class="quick-link">
+          <div class="ql-icon">🎖️</div>
+          Veteran Care
+        </div>
+        <div class="quick-link">
+          <div class="ql-icon">📋</div>
+          Make a Referral
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-2">
+    <div class="stat-card">
+      <div class="sc-number">24/7</div>
+      <div class="sc-label">Always Available</div>
+      <div class="sc-desc">Round-the-clock nursing and emergency support for patients and families</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-number">12+</div>
+      <div class="sc-label">Care Services</div>
+      <div class="sc-desc">From pain management to spiritual counseling to bereavement support</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-number">25+</div>
+      <div class="sc-label">Team Members</div>
+      <div class="sc-desc">Nurses, physicians, social workers, chaplains, aides, and volunteers</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-number">5×</div>
+      <div class="sc-label">Best of the West</div>
+      <div class="sc-desc">Consecutive winner — Lubbock's most recognized hospice provider</div>
+    </div>
+  </div>
+
+  <div class="section-3">
+    <div class="program-card">
+      <div class="pc-icon">🎖️</div>
+      <div class="pc-title">Valor — Veterans Division</div>
+      <div class="pc-desc">Trauma-informed care honoring America's veterans. Led by Dr. Warmoth (TX Air National Guard).</div>
+      <div class="pc-link">Serving Those Who Served →</div>
+    </div>
+    <div class="program-card">
+      <div class="pc-icon">🤝</div>
+      <div class="pc-title">Dave's Wish — Nonprofit</div>
+      <div class="pc-desc">100% of donations go directly to Lubbock County hospice patients for groceries, rent, utilities, and comfort.</div>
+      <div class="pc-link">Continue Dave's Legacy →</div>
+    </div>
+    <div class="program-card">
+      <div class="pc-icon">💛</div>
+      <div class="pc-title">Volunteer With Us</div>
+      <div class="pc-desc">Non-medical companionship and caregiver respite. Training provided. Make a difference in someone's final chapter.</div>
+      <div class="pc-link">Join Our Team →</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== DIVIDER ===== -->
+<div class="divider"><span>Next Concept ↓</span></div>
+
+<!-- ===== CONCEPT C: "The Horizon" ===== -->
+<div class="concept-label">
+  <h2>Concept C: "The Horizon"</h2>
+  <span class="tag">Minimal · Monumental · Editorial</span>
+</div>
+
+<div class="hero-c">
+  <div class="full-screen">
+    <div class="light-streak ls-1"></div>
+    <div class="light-streak ls-2"></div>
+    <div class="light-streak ls-3"></div>
+
+    <div class="nav">
+      <div class="logo">Bridge <span>Hospice</span></div>
+    </div>
+
+    <div class="center-content">
+      <div class="rotating-text">
+        <span>
+          Lubbock's Most Trusted Hospice<br>
+          5× Best of the West Winner<br>
+          Physician-Led · 24/7 Care
+        </span>
+      </div>
+      <h1>
+        A Bridge<br>
+        <span class="gold italic">to Peace</span>
+      </h1>
+      <p class="tagline">Compassionate, physician-led end-of-life care that honors every life with dignity. Serving Lubbock families for over seven years.</p>
+      <div class="cta-stack">
+        <div class="btn-main">Call 806-993-3900</div>
+        <div class="btn-sub"><span class="arrow">→</span> Request a Consultation</div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator">
+      <div class="scroll-line"></div>
+      <div class="scroll-text">Discover Our Care</div>
+    </div>
+  </div>
+
+  <div class="metrics-strip">
+    <div class="metric">
+      <div class="metric-val">24/7</div>
+      <div class="metric-name">Care Available</div>
+      <div class="metric-sub">Nursing & emergency support</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">5×</div>
+      <div class="metric-name">Best of the West</div>
+      <div class="metric-sub">Consecutive award winner</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">12+</div>
+      <div class="metric-name">Services</div>
+      <div class="metric-sub">Complete hospice care</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">100%</div>
+      <div class="metric-name">Dave's Wish</div>
+      <div class="metric-sub">Direct to patients</div>
+    </div>
+    <div class="metric">
+      <div class="metric-val">25+</div>
+      <div class="metric-name">Team Members</div>
+      <div class="metric-sub">Interdisciplinary care</div>
+    </div>
+  </div>
+
+  <div class="editorial">
+    <div class="ed-panel">
+      <div class="ed-overline">Veterans Division</div>
+      <div class="ed-title">Valor: Serving Those<br>Who Served Us</div>
+      <div class="ed-desc">Trauma-informed, military-aware hospice care led by Dr. Larry Warmoth, MD (Texas Air National Guard). Education on veteran benefits and specialized support for those who served.</div>
+      <div class="ed-link">Learn About Valor →</div>
+    </div>
+    <div class="ed-panel">
+      <div class="ed-overline">Nonprofit Outreach</div>
+      <div class="ed-title">Dave's Wish: Bridging<br>the Gap With Hope</div>
+      <div class="ed-desc">Honoring David Wayne Schuchard's legacy. 100% of donations go directly to Lubbock County hospice patients — groceries, rent, utilities, transportation, and comfort items.</div>
+      <div class="ed-link">Continue Dave's Legacy →</div>
+    </div>
+  </div>
+
+  <div class="trust-strip">
+    <div class="ts-label">Accredited & Recognized</div>
+    <div class="ts-logos">
+      <div class="ts-logo">CHAP</div>
+      <div class="ts-logo">WBE</div>
+      <div class="ts-logo">AFC</div>
+      <div class="ts-logo">BOW ×5</div>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 60px 48px; max-width: 700px; margin: 0 auto; text-align: center;">
+  <p style="font-size: 0.75rem; color: rgba(255,255,255,0.3); line-height: 1.8;">
+    <strong style="color: rgba(255,255,255,0.5);">What you're seeing:</strong> Three Level 10 hero concepts for Bridge Hospice. Each extends beyond the viewport with stats, trust signals, and program teasers. All use the Harbor palette (navy + gold + cream). Real photography would replace placeholder areas. Animations are live — watch the floating orbs (A), text reveals (A), rotating text (C), and scroll pulse (C). Tell me which direction resonates in the terminal.
+  </p>
+</div>
+
+</body>
+</html>

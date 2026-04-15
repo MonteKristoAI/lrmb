@@ -1,0 +1,118 @@
+@charset "utf-8";
+/* Gravity Forms 2.5+ Styles */
+/* custom styles for this site */
+/* for the cruise order form */
+div.move-input-up label {
+    line-height: 1.2em !important;
+}
+div.move-input-up span.ginput_product_price_label {
+  display: none !important;
+}
+div.move-input-up span.ginput_product_price {
+  color: #fff !important;
+}
+div.move-input-up div.ginput_container {
+    margin-top: -15px !important;
+}
+div.move-input-up div.ginput_container_total input {
+  color: #fff !important;
+  padding: 0 !important;
+}
+div.gfield_consent_description {
+line-height: 1.2 !important;
+font-size: 14px !important;
+padding-top: 8px !important;
+}
+div.gform_heading {
+    display:none;
+}
+div.gfield_description {
+    line-height: 1.2em !important;
+}
+/* entire form */
+body #gform_wrapper {}
+/* form heading title & description */
+body .gform_wrapper .gform_heading {}
+/* form section */
+body .gform_wrapper .gform_body .gform_fields .gsection {
+  padding: 20px 20px 0 20px !important;
+  border-bottom: none;
+  background: #D1CCC9;
+}
+/* form section title */
+body .gform_wrapper .gform_body .gform_fields .gsection .gsection_title {}
+/* form section description */
+body .gform_wrapper .gform_body .gform_fields .gsection .gsection_description {}
+/* form body all text */
+body .gform_wrapper .gform_body {}
+/* form all fields */
+body .gform_wrapper .gform_body .gform_fields .gfield {}
+/* form field labels only */
+body .gform_wrapper .gform_body .gfield_label {
+  font-size: 18px;
+}
+/* form field required */
+body .gform_wrapper .gform_body .gform_fields .gfield .gfield_label .gfield_required {}
+/* form field descriptions */
+body .gform_wrapper .gform_body .gform_fields .gfield .gfield_description {}
+/* form field inputs */
+body .gform_wrapper .gform_body input {
+  background: #eee;
+  border: none;
+  border-radius: 0;
+  color: #666 !important;
+  padding: 15px !important;
+}
+/* form field 1 input on form 6*/
+#field_6_1.gfield input {}
+/* form field inputs of type text */
+body .gform_wrapper .gform_body .gform_fields .gfield input[type=text] {}
+/* form field textarea */
+body .gform_wrapper .gform_body .gform_fields .gfield textarea {
+  background: #eee;
+  border: none;
+  border-radius: 0;
+  color: #666 !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  padding: 17px 15px !important;
+}
+/* form field drop down (select) */
+body .gform_wrapper .gform_body .gform_fields .gfield select {
+  background: #eee;
+  border: none;
+  border-radius: 0;
+  color: #666 !important;
+  font-weight: 700 !important;
+  letter-spacing: 2px !important;
+  padding: 14px 15px !important;
+}
+/* form field radio list */
+body .gform_wrapper .gform_body .gform_fields .gfield .gfield_radio {}
+body .gform_wrapper .gform_body .gform_fields .gfield .gfield_radio li input[type=radio] {
+  transform: scale(1.5, 1.5) !important;
+}
+/* form field list multiple choice */
+body .gform_wrapper .gform_body .gform_fields .gfield .gfield_radio .gchoice {}
+/* form field checkbox list */
+body .gform_wrapper .gform_body .gform_fields .gfield .gfield_checkbox {}
+/* form field checkbox inputs */
+body .gform_wrapper .gform_body .gform_fields .gfield .gfield_checkbox input[type=checkbox] {
+  transform: scale(1.5, 1.5) !important;
+}
+/* form field datepicker */
+body .gform_wrapper .gform_body .gform_fields .gfield .datepicker {}
+/* form footer */
+body .gform_wrapper .gform_footer {}
+/* submit button */
+body .gform_wrapper .gform_footer input[type=submit] {}
+/* form confirmation message */
+body .gform_confirmation_message {}
+/* form validation error */
+body .gform_wrapper .gform_validation_error {}
+/* form validation error container */
+body .gform_wrapper .gform_body .gform_fields .gfield_error {}
+/* form validation error below inputs */
+body .gform_wrapper .gform_body .gform_fields .gfield_error .validation_message {}
+/* more form targeting examples for all items see: https://docs.gravityforms.com/css-targeting-examples/ */
+/* form ready classes see: https://docs.gravityforms.com/css-ready-classes/ */

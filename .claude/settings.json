@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__google-workspace__searchGmail",
+      "Bash(curl -s \"https://www.clubready.com/admin/api/adduserapi.asp\" -X POST -d \"ChainId=1034&StoreId=14318&ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&FirstName=Test&LastName=API&Email=apitest99@montekristobelgrade.com&Gender=M&SendEmail=false\")",
+      "Bash(curl -s \"https://www.clubready.com/admin/api/adduserapi.asp\" -X POST -d \"StoreId=14318&ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&FirstName=Test&LastName=API&Email=apitest99@montekristobelgrade.com&Gender=M&SendEmail=false\")",
+      "Bash(curl -s \"https://www.clubready.com/api/current/club/list?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&ChainId=1034\")",
+      "Bash(curl -s \"https://www.clubready.com/api/current/staff/list?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318\")",
+      "Bash(curl -s \"https://www.clubready.com/api/current/scheduling/class-schedule?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318\")",
+      "Bash(curl -s 'https://www.clubready.com/api/current/users/prospect/create?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318&FirstName=TestAPI&LastName=MonteKristo&Email=apitest-pulse@montekristobelgrade.com&Gender=M&SendEmail=false')",
+      "Bash(curl -s 'https://www.clubready.com/api/current/users/search?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318&FirstName=Test')",
+      "Bash(curl -s 'https://www.clubready.com/api/current/users/prospect-types?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318')",
+      "Bash(curl -s 'https://www.clubready.com/api/current/scheduling/class-roster?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318&ScheduleId=93146906')",
+      "Bash(curl -s 'https://www.clubready.com/api/current/scheduling/class-schedule?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318&Date=2026-04-04')",
+      "Bash(python3 -c \"import sys,json; data=json.load\\(sys.stdin\\); print\\(type\\(data\\).__name__, '- items:', len\\(data\\) if isinstance\\(data,list\\) else 'N/A'\\); [print\\(f'  {u.get\\(\\\\\"FirstName\\\\\",\\\\\"?\\\\\"\\)} {u.get\\(\\\\\"LastName\\\\\",\\\\\"?\\\\\"\\)} - ID:{u.get\\(\\\\\"UserId\\\\\",\\\\\"?\\\\\"\\)}'\\) for u in \\(data[:3] if isinstance\\(data,list\\) else []\\)]\")",
+      "Bash(curl -s -X POST https://www.clubready.com/api/current/users/prospect -H 'Content-Type: application/json' -d '{\"ApiKey\":\"836f2547-b6ea-4f66-a423-23975aee988a\",\"StoreId\":14318,\"FirstName\":\"TestAPI\",\"LastName\":\"MonteKristo\",\"Email\":\"apitest-pulse99@montekristobelgrade.com\",\"Gender\":\"M\",\"SendEmail\":false}')",
+      "Bash(curl -s -X POST 'https://www.clubready.com/api/current/users/prospect?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318&FirstName=TestAPI&LastName=MonteKristo&Email=apitest-pulse98@montekristobelgrade.com&Gender=M&SendEmail=false')",
+      "Bash(curl -s -X POST https://www.clubready.com/admin/api/adduserapi.asp -d 'ChainId=1034&StoreId=14318&ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&FirstName=TestAPI&LastName=MonteKristo&Email=apitest-pulse97@montekristobelgrade.com&Gender=M&SendEmail=false')",
+      "Bash(curl -s -X POST https://www.clubready.com/api/current/scheduling/class-booking -H 'Content-Type: application/json' -d '{\"ApiKey\":\"836f2547-b6ea-4f66-a423-23975aee988a\",\"StoreId\":14318,\"ScheduleId\":96196679,\"UserId\":0,\"FirstName\":\"TestBook\",\"LastName\":\"MonteKristo\",\"Email\":\"testbook@montekristobelgrade.com\",\"Gender\":\"M\"}')",
+      "Bash(curl -s 'https://www.clubready.com/api/current/scheduling/booking-status?ApiKey=836f2547-b6ea-4f66-a423-23975aee988a&StoreId=14318&ScheduleId=96196679')"
+    ]
+  }
+}

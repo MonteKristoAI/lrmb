@@ -1,0 +1,85 @@
+{
+  "domain": "ad-creative",
+  "version": "1.0",
+  "created": "2026-04-14",
+  "description": "Binary pass/fail criteria for ad creative CPA optimization",
+  "criteria": [
+    {
+      "id": "ac_001",
+      "name": "cpa_below_baseline",
+      "description": "Cost per acquisition must be lower than current control",
+      "check": "variant_cpa < control_cpa",
+      "weight": 3,
+      "category": "performance",
+      "hard_gate": true
+    },
+    {
+      "id": "ac_002",
+      "name": "ctr_stable",
+      "description": "Click-through rate must not drop below baseline",
+      "check": "variant_ctr >= control_ctr * 0.9",
+      "weight": 2,
+      "category": "performance",
+      "hard_gate": true
+    },
+    {
+      "id": "ac_003",
+      "name": "budget_within_cap",
+      "description": "Daily spend must stay within approved budget cap",
+      "check": "daily_spend <= budget_cap",
+      "weight": 3,
+      "category": "budget",
+      "hard_gate": true
+    },
+    {
+      "id": "ac_004",
+      "name": "minimum_impressions",
+      "description": "At least 200 impressions per variant before evaluation",
+      "check": "variant_impressions >= 200",
+      "weight": 2,
+      "category": "statistical_validity",
+      "hard_gate": true
+    },
+    {
+      "id": "ac_005",
+      "name": "content_policy_compliant",
+      "description": "Ad creative passes Meta content policy review",
+      "check": "content_policy_pass == true",
+      "weight": 3,
+      "category": "compliance",
+      "hard_gate": true
+    },
+    {
+      "id": "ac_006",
+      "name": "relevance_score_stable",
+      "description": "Ad relevance score must not drop below 5",
+      "check": "relevance_score >= 5",
+      "weight": 2,
+      "category": "quality",
+      "hard_gate": false
+    },
+    {
+      "id": "ac_007",
+      "name": "observation_window_met",
+      "description": "Minimum 72 hours and $50 spend before evaluation",
+      "check": "hours_active >= 72 AND total_spend >= 50",
+      "weight": 2,
+      "category": "statistical_validity",
+      "hard_gate": true
+    },
+    {
+      "id": "ac_008",
+      "name": "single_emotion_per_ad",
+      "description": "Creative follows one-emotion rule per MonteKristo creative lessons",
+      "check": "emotion_count == 1",
+      "weight": 1,
+      "category": "creative_quality",
+      "hard_gate": false
+    }
+  ],
+  "scoring": {
+    "max_score": 8,
+    "pass_threshold": 6,
+    "hard_gate_count": 6
+  }
+}

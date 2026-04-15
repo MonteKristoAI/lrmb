@@ -1,0 +1,52 @@
+{
+  "query": "SELECT id, name, email, company, phone, status, leadSource, callTranscript, callDurationSeconds, conversationId, conversationSummary, createdAt FROM leads ORDER BY createdAt DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, company, phone, status, leadSource, callTranscript, callDurationSeconds, conversationId, conversationSummary, createdAt FROM leads ORDER BY createdAt DESC;",
+  "rows": [
+    {
+      "id": "60001",
+      "name": "Phone Caller",
+      "email": "john.smith@nexusrealty.com",
+      "company": "Nexus Realty Group",
+      "phone": "NULL",
+      "status": "diagnostic_ready",
+      "leadSource": "AI Phone Call — operator track",
+      "callTranscript": "NULL",
+      "callDurationSeconds": "NULL",
+      "conversationId": "NULL",
+      "conversationSummary": "NULL",
+      "createdAt": "2026-03-10 22:58:44"
+    },
+    {
+      "id": "30001",
+      "name": "Maria L Castronovo",
+      "email": "alliedbestsellers@gmail.com",
+      "company": "Alliedbestsellers",
+      "phone": "5149099983",
+      "status": "contacted",
+      "leadSource": "Navbar — Request Upgrade",
+      "callTranscript": "NULL",
+      "callDurationSeconds": "NULL",
+      "conversationId": "NULL",
+      "conversationSummary": "NULL",
+      "createdAt": "2026-03-07 21:04:44"
+    },
+    {
+      "id": "1",
+      "name": "Montehue ",
+      "email": "montehuedechristo@gmail.com",
+      "company": "NULL",
+      "phone": "NULL",
+      "status": "closed",
+      "leadSource": "NULL",
+      "callTranscript": "NULL",
+      "callDurationSeconds": "NULL",
+      "conversationId": "NULL",
+      "conversationSummary": "NULL",
+      "createdAt": "2026-02-27 14:26:16"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tcompany\tphone\tstatus\tleadSource\tcallTranscript\tcallDurationSeconds\tconversationId\tconversationSummary\tcreatedAt\n60001\tPhone Caller\tjohn.smith@nexusrealty.com\tNexus Realty Group\tNULL\tdiagnostic_ready\tAI Phone Call — operator track\tNULL\tNULL\tNULL\tNULL\t2026-03-10 22:58:44\n30001\tMaria L Castronovo\talliedbestsellers@gmail.com\tAlliedbestsellers\t5149099983\tcontacted\tNavbar — Request Upgrade\tNULL\tNULL\tNULL\tNULL\t2026-03-07 21:04:44\n1\tMontehue \tmontehuedechristo@gmail.com\tNULL\tNULL\tclosed\tNULL\tNULL\tNULL\tNULL\tNULL\t2026-02-27 14:26:16\n",
+  "stderr": "",
+  "execution_time_ms": 429
+}

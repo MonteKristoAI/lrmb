@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Can I Support Myself? — Money Clarity</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --td:#0a2e2a;--tmu:#4a8a82;--tl:#7ab8b0;
+  --teal-dark:#0a2e2a;--teal-mid:#0d3d38;--teal-pale:#e0f5f2;
+  --orange:#ff5500;--orange-light:#ff7733;--orange-pale:#fff2ec;
+  --cream:#f8fffe;--white:#fff;--border:rgba(10,46,42,0.14);
+  --green:#1a6b3a;--green-pale:#eaf7ef;
+  --amber:#8b6000;--amber-pale:#fff8e6;
+  --red:#8b2020;--red-pale:#fdf0f0;
+}
+html,body{margin:0;padding:0;background:var(--cream);}
+#app{font-family:'Source Sans 3',sans-serif;min-height:100vh;max-width:420px;margin:0 auto;}
+.sc{display:none;min-height:100vh;flex-direction:column;animation:fu 0.3s ease;}
+.sc.on{display:flex;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.lbg{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:52px 28px 36px;text-align:center;position:relative;overflow:hidden;}
+.lbg::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.topline{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff5500 35%,#ff5500 65%,transparent);}
+.wm{font-family:'Lora',serif;font-size:16px;letter-spacing:0.18em;text-transform:uppercase;margin-bottom:24px;position:relative;z-index:1;}
+.wm-m{color:rgba(255,255,255,0.9);}.wm-c{color:#ff5500;}
+.lh{font-family:'Lora',serif;font-size:32px;font-weight:500;color:#fff;line-height:1.2;margin-bottom:14px;position:relative;z-index:1;}
+.lh em{color:#ff5500;font-style:italic;}
+.ldiv{width:36px;height:2px;background:#ff5500;margin:0 auto 18px;border-radius:2px;opacity:0.8;position:relative;z-index:1;}
+.lsub{font-size:16px;color:rgba(255,255,255,0.58);line-height:1.7;max-width:300px;margin-bottom:10px;font-weight:300;position:relative;z-index:1;}
+.reassure{font-size:14px;color:rgba(255,255,255,0.35);font-style:italic;font-family:'Lora',serif;margin-bottom:26px;position:relative;z-index:1;line-height:1.6;}
+.btn-p{background:#ff5500;color:#fff;border:none;border-radius:12px;font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:500;padding:16px 32px;cursor:pointer;width:100%;max-width:310px;box-shadow:0 6px 24px rgba(255,85,0,0.38);transition:background 0.2s,transform 0.1s;position:relative;z-index:1;}
+.btn-p:hover{background:#ff7733;}
+.btn-p:active{transform:scale(0.98);}
+.micro{font-size:13px;color:rgba(255,255,255,0.28);margin-top:10px;position:relative;z-index:1;}
+.qh{background:var(--teal-dark);padding:16px 22px 12px;}
+.pt{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:9px;}
+.pf{height:100%;background:#ff5500;border-radius:2px;transition:width 0.4s ease;}
+.qm{display:flex;justify-content:space-between;}
+.ql{font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:0.06em;text-transform:uppercase;}
+.qp{font-size:12px;color:#ff7733;font-weight:500;}
+.qb{flex:1;background:var(--cream);padding:26px 20px 20px;display:flex;flex-direction:column;}
+.qt{font-family:'Lora',serif;font-size:23px;font-weight:500;color:var(--td);line-height:1.3;margin-bottom:8px;}
+.qsub{font-size:15px;color:var(--tmu);margin-bottom:18px;font-weight:300;line-height:1.55;}
+.qnote{font-size:13px;color:var(--tl);font-style:italic;font-family:'Lora',serif;margin-top:10px;line-height:1.6;}
+.iw{position:relative;}
+.csym{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--tmu);pointer-events:none;}
+.inf{border:2px solid var(--border);border-radius:10px;padding:13px 16px;font-family:'Source Sans 3',sans-serif;font-size:18px;color:var(--td);width:100%;outline:none;background:#fff;transition:border-color 0.2s;}
+.inf:focus{border-color:#ff5500;}
+.hp{padding-left:30px;}
+.os{display:flex;flex-direction:column;gap:9px;}
+.ob{background:#fff;border:2px solid var(--border);border-radius:12px;padding:13px 16px;text-align:left;font-family:'Source Sans 3',sans-serif;font-size:15px;color:var(--td);cursor:pointer;transition:border-color 0.18s,background 0.18s;display:flex;align-items:center;gap:12px;line-height:1.4;}
+.ob:hover{border-color:#ff5500;background:var(--orange-pale);}
+.ob.sel{border-color:#ff5500;background:var(--orange-pale);font-weight:500;}
+.oc{width:17px;height:17px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:background 0.18s,border-color 0.18s;}
+.ob.sel .oc{background:#ff5500;border-color:#ff5500;}
+.nr{display:flex;gap:10px;margin-top:auto;padding-top:18px;}
+.bb{border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--tmu);font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px 18px;cursor:pointer;}
+.bn{flex:1;background:var(--teal-dark);color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:13px;cursor:pointer;transition:background 0.2s;}
+.bn:hover{background:var(--teal-mid);}
+.ew{background:var(--cream);flex:1;display:flex;flex-direction:column;padding:26px 20px 22px;}
+.eh{background:var(--teal-dark);border-radius:14px;padding:22px 20px;margin-bottom:22px;text-align:center;position:relative;overflow:hidden;}
+.eh::after{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,85,0,0.09);}
+.eht{font-family:'Lora',serif;font-size:21px;color:#fff;margin-bottom:7px;font-weight:500;position:relative;z-index:1;line-height:1.3;}
+.ehs{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.6;font-weight:300;position:relative;z-index:1;}
+.fl2{font-size:12px;font-weight:500;color:var(--tmu);letter-spacing:0.06em;text-transform:uppercase;display:block;margin-bottom:6px;}
+.fg{margin-bottom:12px;}
+.pv{font-size:12px;color:var(--tl);text-align:center;line-height:1.65;margin-top:13px;font-weight:300;}
+.rw{background:var(--cream);flex:1;display:flex;flex-direction:column;}
+.rh{padding:24px 20px 20px;background:var(--teal-dark);}
+.re{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#ff7733;margin-bottom:4px;}
+.rht{font-family:'Lora',serif;font-size:22px;color:#fff;font-weight:500;line-height:1.25;}
+.rtl{font-family:'Lora',serif;font-size:12px;font-style:italic;color:rgba(255,255,255,0.25);margin-top:4px;}
+.rb{padding:16px 14px;display:flex;flex-direction:column;gap:12px;}
+.cd{background:#fff;border-radius:13px;border:1px solid rgba(10,46,42,0.1);padding:16px;}
+.ce{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:10px;}
+.verdict-card{border-radius:13px;padding:20px;text-align:center;}
+.v-icon{font-size:40px;margin-bottom:10px;}
+.v-label{font-family:'Lora',serif;font-size:24px;font-weight:500;margin-bottom:8px;}
+.v-desc{font-size:14px;line-height:1.65;font-weight:300;}
+.numbers-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.num-cell{background:var(--cream);border-radius:9px;padding:12px 14px;}
+.num-label{font-size:11px;text-transform:uppercase;letter-spacing:0.05em;color:var(--tl);margin-bottom:4px;}
+.num-val{font-family:'Lora',serif;font-size:22px;font-weight:500;color:var(--td);}
+.num-sub{font-size:11px;color:var(--tmu);margin-top:2px;font-weight:300;}
+.gap-card{background:#fff;border-radius:13px;border:1px solid rgba(10,46,42,0.1);padding:16px;}
+.gap-amount{font-family:'Lora',serif;font-size:28px;font-weight:500;color:var(--td);margin:6px 0;}
+.gap-desc{font-size:14px;color:var(--td);line-height:1.6;font-weight:300;}
+.move-card{background:#ff5500;border-radius:13px;padding:18px;}
+.mc-eye{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:rgba(255,255,255,0.55);margin-bottom:5px;}
+.mc-frame{font-size:13px;color:rgba(255,255,255,0.65);font-style:italic;border-left:2px solid rgba(255,255,255,0.3);padding-left:11px;margin-bottom:10px;line-height:1.6;}
+.mc-rec{font-family:'Lora',serif;font-size:18px;color:#fff;line-height:1.4;font-weight:500;}
+.wl{list-style:none;display:flex;flex-direction:column;gap:9px;}
+.wl li{display:flex;gap:10px;font-size:14px;color:var(--td);line-height:1.6;font-weight:300;}
+.wd{width:12px;height:2px;background:#ff5500;flex-shrink:0;margin-top:10px;border-radius:1px;}
+.ac{background:var(--teal-pale);border-radius:13px;padding:16px;border:1px solid rgba(0,184,160,0.2);}
+.at{font-family:'Lora',serif;font-size:14px;color:var(--teal-dark);line-height:1.8;font-style:italic;}
+.next-card{background:var(--teal-dark);border-radius:13px;padding:18px;text-align:center;}
+.next-eye{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;}
+.next-h{font-family:'Lora',serif;font-size:17px;color:#fff;margin-bottom:6px;font-weight:500;line-height:1.35;}
+.next-sub{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:14px;font-weight:300;line-height:1.5;}
+.next-btn{background:#ff5500;color:#fff;border:none;border-radius:9px;font-family:'Source Sans 3',sans-serif;font-size:14px;font-weight:500;padding:12px;width:100%;cursor:pointer;box-shadow:0 3px 12px rgba(255,85,0,0.3);}
+.sc-cta{background:var(--orange-pale);border:2px solid rgba(255,85,0,0.18);border-radius:13px;padding:18px;text-align:center;}
+.sc-eye{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:7px;}
+.sc-h{font-family:'Lora',serif;font-size:18px;font-weight:500;color:var(--td);margin-bottom:7px;line-height:1.3;}
+.sc-sub{font-size:14px;color:var(--tmu);font-weight:300;line-height:1.6;margin-bottom:16px;}
+.sc-btn{background:#ff5500;color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:14px;width:100%;cursor:pointer;}
+.bs2{background:#fff;color:var(--teal-dark);border:2px solid var(--border);border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px;cursor:pointer;text-align:center;width:100%;}
+.back-link{display:block;text-align:center;font-size:12px;color:var(--tmu);margin-top:10px;text-decoration:none;font-weight:300;padding-bottom:6px;}
+.back-link span{color:#ff5500;}
+.ft{font-size:11px;color:var(--tl);text-align:center;padding:12px 18px;line-height:1.6;font-weight:300;}
+.ftd{font-size:11px;color:rgba(255,255,255,0.18);text-align:center;padding:10px 18px;background:var(--teal-dark);}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="sc on" id="s0">
+  <div class="lbg">
+    <div class="topline"></div>
+    <div class="wm"><span class="wm-m">Money</span><span class="wm-c">Clarity</span></div>
+    <h1 class="lh">Can I support myself<br>on my <em>own?</em></h1>
+    <div class="ldiv"></div>
+    <p class="lsub">It's the question underneath everything else after a divorce. This tool gives you a clear, honest answer — in 60 seconds.</p>
+    <p class="reassure">No judgment. No complexity. Just your real numbers and a straight answer.</p>
+    <button class="btn-p" onclick="gt(1)">Find Out</button>
+    <p class="micro">Free. Private. Takes under 60 seconds.</p>
+  </div>
+  <div class="ft" style="background:var(--teal-dark);color:rgba(255,255,255,0.18);">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s1">
+  <div class="qh"><div class="pt"><div class="pf" style="width:25%"></div></div><div class="qm"><span class="ql">Your income</span><span class="qp">Step 1 of 4</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is your annual income right now?</h2>
+    <p class="qsub">Your salary, any support payments you'll receive, or any other reliable income. Approximate is fine.</p>
+    <div class="iw"><span class="csym">$</span><input type="number" class="inf hp" id="i1" placeholder="e.g. 65,000" min="0" oninput="A.income=parseFloat(this.value)||0"></div>
+    <p class="qnote">Include alimony or spousal support if it's been agreed upon.</p>
+    <div class="nr"><button class="bb" onclick="gt(0)">Back</button><button class="bn" onclick="nq(1,2,'income')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s2">
+  <div class="qh"><div class="pt"><div class="pf" style="width:50%"></div></div><div class="qm"><span class="ql">Your expenses</span><span class="qp">Step 2 of 4</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What do you expect your monthly expenses to be on your own?</h2>
+    <p class="qsub">Housing, food, utilities, transportation, insurance — everything it costs you to live.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'spend','Under $2,500/month','low')"><div class="oc"></div>Under $2,500 per month</button>
+      <button class="ob" onclick="so(this,'spend','$2,500 – $4,000/month','mid-low')"><div class="oc"></div>$2,500 – $4,000 per month</button>
+      <button class="ob" onclick="so(this,'spend','$4,000 – $6,000/month','mid')"><div class="oc"></div>$4,000 – $6,000 per month</button>
+      <button class="ob" onclick="so(this,'spend','$6,000 – $8,000/month','mid-high')"><div class="oc"></div>$6,000 – $8,000 per month</button>
+      <button class="ob" onclick="so(this,'spend','Over $8,000/month','high')"><div class="oc"></div>Over $8,000 per month</button>
+    </div>
+    <p class="qnote">If you're not sure, estimate on the higher side. Better to know the real picture now.</p>
+    <div class="nr"><button class="bb" onclick="gt(1)">Back</button><button class="bn" onclick="nq(2,3,'spend')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s3">
+  <div class="qh"><div class="pt"><div class="pf" style="width:75%"></div></div><div class="qm"><span class="ql">Your cushion</span><span class="qp">Step 3 of 4</span></div></div>
+  <div class="qb">
+    <h2 class="qt">How much do you have in savings or accessible funds right now?</h2>
+    <p class="qsub">Money you could actually access if you needed it — not retirement accounts you'd have to cash out.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'savings','Under $10,000','very-low')"><div class="oc"></div>Under $10,000</button>
+      <button class="ob" onclick="so(this,'savings','$10,000 – $50,000','low')"><div class="oc"></div>$10,000 – $50,000</button>
+      <button class="ob" onclick="so(this,'savings','$50,000 – $150,000','mid')"><div class="oc"></div>$50,000 – $150,000</button>
+      <button class="ob" onclick="so(this,'savings','$150,000 – $500,000','high')"><div class="oc"></div>$150,000 – $500,000</button>
+      <button class="ob" onclick="so(this,'savings','Over $500,000','very-high')"><div class="oc"></div>Over $500,000</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(2)">Back</button><button class="bn" onclick="nq(3,4,'savings')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s4">
+  <div class="qh"><div class="pt"><div class="pf" style="width:95%"></div></div><div class="qm"><span class="ql">Your biggest worry</span><span class="qp">Last one</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What worries you most about supporting yourself?</h2>
+    <p class="qsub">Pick the one that's really underneath everything else.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'worry','Running out of money','running-out')"><div class="oc"></div>Running out of money before I figure things out</button>
+      <button class="ob" onclick="so(this,'worry','My income not being enough','income-gap')"><div class="oc"></div>My income not being enough to cover my life</button>
+      <button class="ob" onclick="so(this,'worry','Not having a financial cushion if something goes wrong','no-cushion')"><div class="oc"></div>Not having a cushion if something goes wrong</button>
+      <button class="ob" onclick="so(this,'worry','Not knowing how to manage money on my own','managing')"><div class="oc"></div>Not knowing how to manage money on my own</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(3)">Back</button><button class="bn" onclick="showResults()">Show Me My Picture</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s5">
+  <div class="ew">
+    <div class="eh">
+      <h2 class="eht" id="email-h">Your answer is ready.</h2>
+      <p class="ehs">A clear, honest read on whether you can support yourself — and exactly what to focus on first.</p>
+    </div>
+    <div class="fg"><label class="fl2">First name</label><input type="text" class="inf" id="in2" placeholder="Your first name" oninput="A.firstName=this.value;updateEmail()"></div>
+    <div class="fg"><label class="fl2">Email address</label><input type="email" class="inf" id="ie" placeholder="you@example.com" oninput="A.email=this.value"></div>
+    <button class="btn-p" style="max-width:100%;margin-top:4px" onclick="sr()" id="show-btn">Show Me</button>
+    <p class="pv">Educational guidance only. Private and never shared.</p>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s6">
+  <div class="rw">
+    <div class="rh" id="rh" style="background:#0a2e2a">
+      <p class="re" id="rey">Your stability read</p>
+      <h2 class="rht" id="rht">Can I Support Myself?</h2>
+      <p class="rtl">Money Clarity — Know where you stand.</p>
+    </div>
+    <div class="rb">
+
+      <div class="verdict-card" id="verdict-card">
+        <div class="v-icon" id="v-icon"></div>
+        <div class="v-label" id="v-label"></div>
+        <div class="v-desc" id="v-desc"></div>
+      </div>
+
+      <div class="cd">
+        <div class="ce">Your numbers</div>
+        <div class="numbers-row">
+          <div class="num-cell"><div class="num-label">Monthly income</div><div class="num-val" id="n-income"></div><div class="num-sub">what's coming in</div></div>
+          <div class="num-cell"><div class="num-label">Monthly expenses</div><div class="num-val" id="n-spend"></div><div class="num-sub">what's going out</div></div>
+        </div>
+      </div>
+
+      <div class="gap-card">
+        <div class="ce">Your monthly picture</div>
+        <div class="gap-amount" id="gap-amount"></div>
+        <div class="gap-desc" id="gap-desc"></div>
+      </div>
+
+      <div class="move-card">
+        <div class="mc-eye">Your most important move right now</div>
+        <div class="mc-frame">If you do one thing first, make it this:</div>
+        <div class="mc-rec" id="mc-rec"></div>
+      </div>
+
+      <div class="cd">
+        <div class="ce">What this means practically</div>
+        <ul class="wl" id="practical-list"></ul>
+      </div>
+
+      <div class="ac">
+        <div class="ce" style="color:var(--teal-mid)">A word on this</div>
+        <p class="at" id="guidance"></p>
+      </div>
+
+      <div class="next-card">
+        <div class="next-eye">Next step</div>
+        <h3 class="next-h">Now that you know you can support yourself — what do you do with what you have?</h3>
+        <p class="next-sub">The next tool helps you figure out exactly what to do with your settlement or newly accessible money — so it works for you, not against you.</p>
+        <button class="next-btn" onclick="window.location.href='what-do-i-do-with-this-money.html'">What Do I Do With This Money? →</button>
+      </div>
+
+      
+      <div style="background:#0a2e2a;border-radius:13px;padding:18px;text-align:center;margin-bottom:12px;">
+        <div style="font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;">Watch this</div>
+        <h3 style="font-family:'Lora',serif;font-size:17px;color:#fff;margin-bottom:6px;font-weight:500;line-height:1.35;">Take the first step</h3>
+        <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:14px;font-weight:300;">A short message from Tina before you begin.</p>
+        <div style="width:100%;max-width:220px;margin:0 auto;border-radius:10px;overflow:hidden;aspect-ratio:9/16;">
+          <iframe src="https://www.veed.io/embed/b65ac4e1-cd18-4b8e-b814-f433a91bb26b?watermark=0&color=&sharing=1&title=0" width="100%" height="100%" frameborder="0" title="Tina Singh — Take The First Step" webkitallowfullscreen mozallowfullscreen allowfullscreen style="display:block;"></iframe>
+        </div>
+      </div>
+      <div class="sc-cta">
+        <div class="sc-eye">Ongoing support</div>
+        <h3 class="sc-h">You don't have to figure the rest out alone.</h3>
+        <p class="sc-sub">Monthly guidance and someone in your corner as you navigate what comes next — from $27/month.</p>
+        
+      <button class="bs2" onclick="window.location.href='MoneyClarityGuide.pdf'">Download My Plan</button>
+      <button class="sc-btn" onclick="window.location.href='subscribe.html'">Learn About Ongoing Support</button>
+      </div>
+
+      <a href="life-changed.html" class="back-link">← Back to <span>Everything Just Changed</span></a>
+    </div>
+    <div class="ft">Educational purposes only. Not financial advice. © 2026 moneyclarity.me</div>
+  </div>
+</div>
+
+</div>
+<script>
+const A={income:0,spend:'',spendKey:'',savings:'',savingsKey:'',worry:'',worryKey:'',firstName:'',email:''};
+const spendMap={'low':2000,'mid-low':3250,'mid':5000,'mid-high':7000,'high':9000};
+const savingsMap={'very-low':5000,'low':30000,'mid':100000,'high':325000,'very-high':600000};
+function gt(n){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById('s'+n).classList.add('on');window.scrollTo(0,0);}
+function so(el,f,v,k){el.closest('.os').querySelectorAll('.ob').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');A[f]=v;A[f+'Key']=k;}
+function nq(c,nx,f){
+  if(f==='income'&&A.income<=0){alert('Please enter your income.');return;}
+  if(!A[f]&&A[f]!==0){alert('Please make a selection to continue.');return;}
+  gt(nx);
+}
+function fmt(n){return'$'+Math.round(n).toLocaleString();}
+function updateEmail(){
+  const n=A.firstName.trim(),btn=document.getElementById('show-btn');
+  if(n){document.getElementById('email-h').textContent=n+', your answer is ready.';btn.textContent='Show '+n+"'s Picture";}
+  else{document.getElementById('email-h').textContent='Your answer is ready.';btn.textContent='Show Me';}
+}
+function showResults(){
+  if(!A.worryKey){alert('Please make a selection.');return;}
+  gt(5);
+}
+function sr(){
+  const n=A.firstName.trim(),e=A.email.trim();
+  if(!n){alert('Please enter your first name.');return;}
+  if(!e||!e.includes('@')){alert('Please enter a valid email.');return;}
+  fetch('https://primary-production-5fdce.up.railway.app/webhook/moneyclarity-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({firstName:n,email:e,quizType:'can-i-support-myself',quizData:{spendKey:A.spendKey,savingsKey:A.savingsKey,worryKey:A.worryKey},source:'moneyclarity.me'})}).catch(()=>{});
+
+  const monthly=A.income/12;
+  const spend=spendMap[A.spendKey]||5000;
+  const savings=savingsMap[A.savingsKey]||30000;
+  const surplus=monthly-spend;
+  const cushionMonths=Math.round(savings/spend);
+  const ok=surplus>=0;
+  const close=surplus>=-500&&surplus<0;
+
+  document.getElementById('rey').textContent=n+"'s stability read";
+  document.getElementById('rht').textContent='Can '+n+' Support Herself?';
+  document.getElementById('n-income').textContent=fmt(monthly)+'/mo';
+  document.getElementById('n-spend').textContent=fmt(spend)+'/mo';
+
+  const vc=document.getElementById('verdict-card');
+  let icon,label,desc,vcBg,labelColor,move,practical,guidance,gapText,gapDesc;
+
+  if(ok&&surplus>1000){
+    vcBg='#eaf7ef';labelColor='#1a6b3a';icon='✓';
+    label='Yes — you can support yourself.';
+    desc='Your income covers your expenses with room to spare. That\'s a real foundation. The work now is making sure that surplus is going somewhere intentional.';
+    gapText=fmt(surplus)+'/month surplus';
+    gapDesc='After expenses, you have '+fmt(surplus)+' per month that isn\'t allocated yet. That\'s the money that can build your future — if it\'s directed deliberately.';
+    move='Set up an automatic transfer of your monthly surplus into a separate account the day your income arrives. Don\'t let it disappear into spending.';
+    practical=['Your cushion of '+fmt(savings)+' gives you approximately '+cushionMonths+' months of security if your income were interrupted.','A monthly surplus means you have the capacity to build — the question is whether you\'re directing it intentionally.','Review your expense estimate in 90 days — the first year of living alone almost always surfaces costs you didn\'t anticipate.'];
+    guidance=`${n}, the answer is yes — and that\'s worth sitting with for a moment. Your income covers your life. That\'s not a small thing. The next question is what happens to the surplus each month. Money without a direction has a way of disappearing. The most important thing you can do right now is give it one.`;
+  } else if(ok||close){
+    vcBg='#fff8e6';labelColor='#8b6000';icon='◎';
+    label=close?'You\'re very close — with a small gap to close.':'You\'re breaking even — which is a starting point, not a verdict.';
+    desc=close?'Your expenses are just slightly higher than your income. That gap is real — but it\'s also a defined problem, and defined problems have solutions.':'Your income and expenses are roughly matched. That\'s not comfortable — but it\'s workable. The goal is to create some breathing room.';
+    gapText=close?fmt(Math.abs(surplus))+'/month gap':fmt(surplus)+'/month to work with';
+    gapDesc=close?'This is the monthly shortfall between your income and your expenses. Closing it requires either increasing income, reducing expenses, or both — but probably not as dramatically as it feels.':'Your income and expenses are closely matched. Even a small increase in income or reduction in expenses creates meaningful breathing room.';
+    move=close?'Identify the one expense category you could reduce by '+fmt(Math.abs(surplus))+' per month — even temporarily. That single change changes your picture.':'Look at your expense estimate carefully. In the first year of living alone, there are almost always 1–2 costs that are higher than expected and 1–2 that are lower. Revisit this number in 60 days.';
+    practical=[close?'A gap of '+fmt(Math.abs(surplus))+'/month is significant but addressable — especially as you settle into a new financial rhythm.':'Breaking even means your savings cushion is doing important work right now — protecting you while you find your footing.',close?'Your savings cushion of '+fmt(savings)+' buys you approximately '+cushionMonths+' months of time to make adjustments.':'Your '+fmt(savings)+' in accessible savings gives you approximately '+cushionMonths+' months of runway — use that time intentionally.',close?'Alimony, part-time income, or expense reductions are all levers. You don\'t need all of them — just one.':'Small adjustments now — one less expense, one more income source — can shift this from tight to comfortable within a few months.'];
+    guidance=`${n}, ${close?'the gap is real — but it\'s also specific and that makes it workable':'you\'re starting from a stable but tight position'}. The first year of financial independence after a divorce almost always feels tighter than it needs to be, because the numbers are still settling. Give yourself 90 days before drawing any permanent conclusions about whether your income is enough. In that time, focus on understanding your actual spending — not your estimated spending — and identifying one thing you can change.`;
+  } else {
+    vcBg='#fdf0f0';labelColor='#8b2020';icon='→';
+    label='There\'s a gap — and it needs a plan.';
+    desc='Your current income doesn\'t fully cover your expected expenses. That\'s important information — and it\'s exactly the kind of thing that\'s fixable when you know it clearly and act on it.';
+    gapText=fmt(Math.abs(surplus))+'/month gap';
+    gapDesc='This is the monthly shortfall between your income and your expenses. It doesn\'t mean you can\'t support yourself — it means your current situation requires adjustment. That\'s what this is for.';
+    move='Before any other financial decisions, address this gap specifically. Either increase income, reduce expenses, or plan to use savings strategically while you transition. All three are options — but you need a plan, not just hope.';
+    practical=['Your savings of '+fmt(savings)+' can cover this gap for approximately '+cushionMonths+' months — which buys you time, but not unlimited time.','Address the highest-cost expense category first. Even a partial reduction in one area can meaningfully change the picture.','Spousal support, a return to work, or a part-time income source could close this gap. All three deserve serious consideration.'];
+    guidance=`${n}, a gap like this is serious enough to take seriously — but it\'s not a verdict on whether you can be financially independent. It\'s a starting point. The most important thing right now is not to ignore it. You have time, you have savings, and you have options. The goal is to make deliberate choices with those options before time makes the choices for you.`;
+  }
+
+  vc.style.background=vcBg;
+  document.getElementById('v-icon').textContent=icon;
+  document.getElementById('v-label').textContent=label;
+  document.getElementById('v-label').style.color=labelColor;
+  document.getElementById('v-desc').textContent=desc;
+  document.getElementById('gap-amount').textContent=gapText;
+  document.getElementById('gap-desc').textContent=gapDesc;
+  document.getElementById('mc-rec').textContent=move;
+  document.getElementById('practical-list').innerHTML=practical.map(p=>`<li><div class="wd"></div><span>${p}</span></li>`).join('');
+  document.getElementById('guidance').textContent=guidance;
+  gt(6);
+}
+</script>
+</body>
+</html>

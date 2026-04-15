@@ -1,0 +1,1 @@
+ALTER TABLE `web_transcripts` ADD `sessionId` varchar(64);

@@ -1,0 +1,107 @@
+{
+  "schema_version": "1.0",
+  "client": "sds",
+  "last_updated": "2026-04-11",
+  "identity": {
+    "company": "Scientific Data Systems, Inc. (SDS)",
+    "brand": "Warrior",
+    "industry": "Wireline data acquisition / Oil & Gas (US, global)",
+    "website": "sdsdata.lovable.app (redesign in progress) / warriorsystem.com (legacy)",
+    "cms_platform": "TBD — recommended: static HTML blog repo (Cloudflare Pages + Worker proxy)",
+    "hq": "3401 Bacor Rd, Houston, TX 77084",
+    "phone": "(281) 398-1612",
+    "founded": 1993,
+    "years": 34,
+    "mk_alias": "Alex Srdic",
+    "mk_identity_rule": "NEVER reveal 'MonteKristo AI' in SDS-facing content. Billing entity is GetStuffDone LLC. Agency PM is Maxine Aitkenhead. End-client approver is Christopher M Knight."
+  },
+  "voice": {
+    "persona": "sds-warrior",
+    "persona_file": "/Users/milanmandic/.claude/skills/blog/references/personas/sds-warrior.json",
+    "voice_in_one_line": "Written by the engineers in Houston who designed your wireline system — for the crews who actually run it.",
+    "tone_dimensions": {
+      "funny_serious": 0.85,
+      "formal_casual": 0.55,
+      "respectful_irreverent": 0.25,
+      "enthusiastic_matter_of_fact": 0.80
+    },
+    "flesch_grade_range": "9-12",
+    "vocabulary_tier": "technical",
+    "summary_label": "Key Takeaways"
+  },
+  "positioning_wedges": [
+    "Weatherford International distributes the SDS Warrior panel through its own product catalog",
+    "60% of open-hole tools, 85% of cased-hole tools, 90% of addressable switches across manufacturers",
+    "34 years in Houston, manufactured and quality-controlled since 1993",
+    "Built for the field, not the marketing deck — no guided workflows, no intelligent automation",
+    "$2,500/month leasing — unique in the wireline surface system market",
+    "Already serves geothermal, water well, mining — not a pivot, a current service line",
+    "Same interface, every tool, every crew, every job",
+    "Engineer-to-engineer support: 'When you call us, you talk to the Houston engineers who designed your system'"
+  ],
+  "dont_list": [
+    "interoperable / interoperability (use 'universally compatible')",
+    "subsurface intelligence",
+    "data sovereignty / switzerland of data / your data is yours",
+    "guided workflows / intelligent automation / supervised automation (use 'standardized interfaces')",
+    "Warrior 8.0 launch (it's the Warrior Universal Panel launch)",
+    "tractor-conveyed / high-power direct connect (not shipping)",
+    "proprietary formats (use 'closed-system limitations' or 'black-box ecosystems')",
+    "legacy / old (use 'field-validated' / 'field-proven')",
+    "em dashes (—) — zero tolerance",
+    "delve, tapestry, nuanced, realm, landscape, multifaceted, pivotal, utilize, facilitate, elucidate, comprehensive (as filler), robust, seamless, cutting-edge, transformative, innovative, dynamic, agile, game-changer, unlock, revolutionize, crucial, moreover, furthermore",
+    "first-person singular (I) — use 'we' for SDS voice or second person",
+    "MonteKristo AI / MonteKristo / MK (identity cover)"
+  ],
+  "cta_hierarchy": {
+    "hub_a_architecture": "Request a Warrior compatibility review — (281) 398-1612",
+    "hub_b_product": "Configure your Warrior system through the quote builder",
+    "hub_c_perforating": "Download the addressable switch compatibility matrix (gated PDF)",
+    "hub_d_geothermal": "Talk to the Houston engineers about geothermal wireline on Warrior",
+    "hub_e_leasing": "Get your Warrior leasing quote in one business day",
+    "standalone_career": "Join the Warrior user forum"
+  },
+  "content_hubs": {
+    "A": "Vendor-Agnostic Wireline Architecture",
+    "B": "Warrior Universal Panel",
+    "C": "Perforating Automation & Addressable Switches",
+    "D": "Geothermal Wireline Transition",
+    "E": "Wireline Economics & Leasing"
+  },
+  "launch_posts": [
+    {"num": 1, "slug": "vendor-agnostic-wireline-platform", "template": "T4", "hub": "A", "publish_target": "2026-04-16", "word_count": 3000, "focus_keyword": "vendor agnostic wireline"},
+    {"num": 2, "slug": "warrior-universal-panel-explained", "template": "T1", "hub": "B", "publish_target": "2026-04-18", "word_count": 2800, "focus_keyword": "warrior universal panel"},
+    {"num": 3, "slug": "addressable-switches-auto-perf-mode", "template": "T2", "hub": "C", "publish_target": "2026-04-23", "word_count": 3200, "focus_keyword": "addressable switch"},
+    {"num": 4, "slug": "geothermal-wireline-pivot-fervo-forge", "template": "T4", "hub": "D", "publish_target": "2026-04-25", "word_count": 3500, "focus_keyword": "geothermal wireline"},
+    {"num": 5, "slug": "api-rp-67-fourth-edition-wireline-crews", "template": "T3", "hub": "C", "publish_target": "2026-04-30", "word_count": 2800, "focus_keyword": "API RP 67"},
+    {"num": 6, "slug": "weatherford-distributes-warrior", "template": "T4", "hub": "A", "publish_target": "2026-05-02", "word_count": 2200, "focus_keyword": "weatherford wireline"},
+    {"num": 7, "slug": "wireline-leasing-2500-monthly-math", "template": "T5", "hub": "E", "publish_target": "2026-05-05", "word_count": 2500, "focus_keyword": "wireline leasing"},
+    {"num": 8, "slug": "wireline-engineer-career-guide", "template": "T1", "hub": "standalone", "publish_target": "2026-05-12", "word_count": 2500, "focus_keyword": "wireline engineer"}
+  ],
+  "key_references": {
+    "client_master": "/Users/milanmandic/Desktop/MonteKristo AI/clients/sds/CLIENT.md",
+    "banned_vocab": "/Users/milanmandic/Desktop/MonteKristo AI/clients/sds/copy/banned-vocab.md",
+    "approved_copy": "/Users/milanmandic/Desktop/MonteKristo AI/clients/sds/copy/approved-copy.md",
+    "manifesto_v4": "/Users/milanmandic/Desktop/MonteKristo AI/clients/sds/brand/manifesto-v4.pdf",
+    "master_materials": "/Users/milanmandic/Desktop/MonteKristo AI/SDS Systems/",
+    "research": "/Users/milanmandic/Desktop/MonteKristo AI/Blog/clients/sds/_research/research-findings.md",
+    "strategy": "/Users/milanmandic/Desktop/MonteKristo AI/Blog/clients/sds/BLOG-STRATEGY.md",
+    "personas": "/Users/milanmandic/Desktop/MonteKristo AI/Blog/clients/sds/PERSONAS.md",
+    "sources": "/Users/milanmandic/Desktop/MonteKristo AI/Blog/clients/sds/SOURCES.md",
+    "templates": "/Users/milanmandic/Desktop/MonteKristo AI/Blog/clients/sds/TEMPLATES.md"
+  },
+  "blockers": [
+    "Leadership headshots not scheduled — blocks About bylines",
+    "Blog hosting decision pending (Lovable routes vs static HTML repo vs WP)",
+    "Lovable credentials needed from Maxine",
+    "Christopher's 2 quote-builder JSON files not yet retrieved (Gmail 19d6dafed9307d19)",
+    "GA4, Google Search Console, UTM setup not yet configured",
+    "Airtable base for SDS not yet created — using placeholder IDs sds-001 through sds-008",
+    "Email list does not exist yet — parallel workstream"
+  ],
+  "recent_feedback": [
+    "2026-04-07 Christopher — banned interoperable, subsurface intelligence, data sovereignty, guided workflows, intelligent automation",
+    "2026-04-01 Christopher — the launch is Warrior Universal Panel, NOT Warrior 8.0. Chatbot vetoed. 8 blog posts before May 5. Focus perforating content on Dyna SPS / Titan ControlFire / G&H DSS as real competitors"
+  ],
+  "last_session_notes": "Level 10 blog onboarding completed 2026-04-11. Research via DataForSEO (120 kws, 15,590 total monthly volume confirming the niche is citation-play not volume-play; Fervo/EGS/Enhanced geothermal 9,200+/mo is the largest opportunity). Full strategy hub-and-spoke with 5 hubs, 8 launch posts, 24+ post pipeline. All 8 launch briefs written with citation capsules, FAQ, tables, charts, distribution plans. Next session should start with post #1 (/blog write) once Maxine confirms hosting platform."
+}

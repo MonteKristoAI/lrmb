@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apparent - Leveraging Science to Solve the World's Energy Problems</title>
+  <meta name="description" content="Apparent Inc. develops patented renewable energy technology including the eXeL Hybrid Solar Water Heater and igOS Intelligent Grid Operating System. 40+ patents. Made in USA. Trusted by Google, Hawaiian Electric, BYD.">
+  <link rel="canonical" href="https://www.apparent.com/">
+
+  <!-- OG -->
+  <meta property="og:title" content="Apparent - Science Backed. Data Driven. Future Focused.">
+  <meta property="og:description" content="Patented renewable energy technology: eXeL Solar Water Heater and igOS Intelligent Grid Platform. 40+ patents, Made in USA.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.apparent.com/">
+  <meta property="og:image" content="images/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Apparent - Leveraging Science to Solve Energy Problems">
+  <meta name="twitter:description" content="Patented eXeL Solar Water Heater and igOS Grid Platform. 40+ patents, Made in USA.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="images/logo-small.webp">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="images/hero/solar-golden-hour.jpg">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            energy: { 50:'#FFF8ED', 100:'#FFEDD5', 200:'#FED7AA', 300:'#FDBA74', 400:'#FB923C', 500:'#F97316', 600:'#EA580C', 700:'#C2410C' },
+            electric: { 50:'#EFF6FF', 100:'#DBEAFE', 400:'#60A5FA', 500:'#3B82F6', 600:'#2563EB', 900:'#1E3A5F' },
+            solar: { 400:'#FACC15', 500:'#EAB308' },
+            midnight: { 50:'#F8FAFC', 100:'#F1F5F9', 200:'#E2E8F0', 300:'#CBD5E1', 400:'#94A3B8', 500:'#64748B', 600:'#475569', 700:'#334155', 800:'#1E293B', 900:'#0F172A', 950:'#020617' },
+            cream: '#FAFAF8'
+          },
+          fontFamily: {
+            heading: ['Outfit', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+
+  <noscript><style>.reveal,.reveal-left,.reveal-right,.reveal-scale,.split-text .word,.hero-reveal{opacity:1!important;transform:none!important;filter:none!important;animation:none!important;}.comparison-table tbody tr{opacity:1!important;transform:none!important;}</style></noscript>
+</head>
+<body class="font-body text-midnight-950 bg-white overflow-x-hidden antialiased">
+
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-energy-500 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold">Skip to content</a>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- BRANDED LOADER -->
+  <div id="site-loader" class="site-loader" aria-hidden="true">
+    <img src="images/logo.webp" alt="" class="loader-logo" width="80" height="80">
+  </div>
+
+  <!-- ============================================
+       STICKY GLASS HEADER
+       ============================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 header-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <a href="index.html" class="flex items-center shrink-0" aria-label="Apparent Home">
+          <img src="images/logo.webp" alt="Apparent" class="h-10 w-auto" width="160" height="40">
+        </a>
+
+        <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+          <div id="mega-trigger" class="relative">
+            <button type="button" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors flex items-center gap-1 bg-transparent border-none cursor-pointer" aria-haspopup="true" aria-expanded="false" aria-controls="mega-dropdown">
+              Products <i data-lucide="chevron-down" class="w-3.5 h-3.5 opacity-50"></i>
+            </button>
+            <div id="mega-dropdown" class="mega-dropdown w-[420px]">
+              <div class="bg-midnight-900/95 backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5 shadow-2xl">
+                <div class="space-y-1">
+                  <a href="exel.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-energy-500/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="flame" class="w-5 h-5 text-energy-400"></i></div>
+                    <div><div class="text-sm font-semibold text-white group-hover:text-energy-400 transition-colors">eXeL Solar Water Heater</div><div class="text-xs text-white/60 mt-0.5">Patented hybrid solar water heating</div></div>
+                  </a>
+                  <a href="igos.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-electric-500/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="cpu" class="w-5 h-5 text-electric-400"></i></div>
+                    <div><div class="text-sm font-semibold text-white group-hover:text-electric-400 transition-colors">igOS Platform</div><div class="text-xs text-white/60 mt-0.5">Intelligent Grid Operating System</div></div>
+                  </a>
+                  <a href="data-centers.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-solar-400/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="server" class="w-5 h-5 text-solar-400"></i></div>
+                    <div><div class="text-sm font-semibold text-white group-hover:text-solar-400 transition-colors">Data Center Solutions</div><div class="text-xs text-white/60 mt-0.5">Enterprise energy management</div></div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="igos.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Technology</a>
+          <a href="about.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">About</a>
+          <a href="blog/" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Blog</a>
+          <a href="contact.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        <div class="hidden lg:block">
+          <a href="#booking" class="magnetic-wrap"><span class="btn-energy text-sm px-5 py-2.5">Get a Quote</span></a>
+        </div>
+
+        <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-opacity duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+        </button>
+      </div>
+    </div>
+
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 z-[55]" style="background: #020617;">
+      <!-- Header inside menu -->
+      <div class="flex items-center justify-between h-20 px-6">
+        <img src="images/logo.webp" alt="Apparent" class="h-8" width="128" height="32">
+        <button onclick="document.getElementById('menu-toggle').click()" class="text-white/70 text-2xl" aria-label="Close menu">&times;</button>
+      </div>
+
+      <nav class="flex flex-col px-8 pt-4" aria-label="Mobile navigation">
+        <!-- Product section -->
+        <p class="text-white/40 text-[10px] font-semibold tracking-[0.15em] uppercase mb-3">Products</p>
+        <a href="exel.html" class="flex items-center gap-3 py-3 border-b border-white/[0.06] text-white/90 hover:text-energy-400 transition-colors">
+          <i data-lucide="flame" class="w-5 h-5 text-energy-400/70"></i>
+          <div><span class="font-heading font-semibold text-[15px]">eXeL Water Heater</span><span class="text-white/40 text-xs block">Solar water heating</span></div>
+        </a>
+        <a href="igos.html" class="flex items-center gap-3 py-3 border-b border-white/[0.06] text-white/90 hover:text-electric-400 transition-colors">
+          <i data-lucide="cpu" class="w-5 h-5 text-electric-400/70"></i>
+          <div><span class="font-heading font-semibold text-[15px]">Technology</span><span class="text-white/40 text-xs block">igOS Platform</span></div>
+        </a>
+        <a href="data-centers.html" class="flex items-center gap-3 py-3 border-b border-white/[0.06] text-white/90 hover:text-solar-400 transition-colors">
+          <i data-lucide="server" class="w-5 h-5 text-solar-400/70"></i>
+          <div><span class="font-heading font-semibold text-[15px]">Data Centers</span><span class="text-white/40 text-xs block">Enterprise solutions</span></div>
+        </a>
+
+        <!-- Company section -->
+        <p class="text-white/40 text-[10px] font-semibold tracking-[0.15em] uppercase mt-6 mb-3">Company</p>
+        <a href="about.html" class="flex items-center gap-3 py-3 border-b border-white/[0.06] text-white/90 hover:text-white transition-colors">
+          <i data-lucide="users" class="w-5 h-5 text-white/40"></i>
+          <span class="font-heading font-medium text-[15px]">About</span>
+        </a>
+        <a href="blog/" class="flex items-center gap-3 py-3 border-b border-white/[0.06] text-white/90 hover:text-white transition-colors">
+          <i data-lucide="file-text" class="w-5 h-5 text-white/40"></i>
+          <span class="font-heading font-medium text-[15px]">Blog</span>
+        </a>
+        <a href="contact.html" class="flex items-center gap-3 py-3 border-b border-white/[0.06] text-white/90 hover:text-white transition-colors">
+          <i data-lucide="mail" class="w-5 h-5 text-white/40"></i>
+          <span class="font-heading font-medium text-[15px]">Contact</span>
+        </a>
+
+        <!-- CTA -->
+        <a href="#booking" class="mt-8 py-4 rounded-xl bg-energy-500 text-white font-heading font-semibold text-center text-base hover:bg-energy-600 transition-colors">Get a Quote</a>
+
+        <!-- Contact info -->
+        <div class="mt-8 flex items-center justify-center gap-4">
+          <a href="mailto:sales@apparent.com" class="text-white/40 text-xs hover:text-white/70 transition-colors">sales@apparent.com</a>
+          <span class="text-white/20">|</span>
+          <a href="https://www.linkedin.com/company/apparent-inc/" class="text-white/40 hover:text-white/70 transition-colors" target="_blank" rel="noopener noreferrer"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================
+         SECTION 1: CINEMATIC HERO
+         Solar golden hour photo + aurora + particles
+         ============================================ -->
+    <section class="ap-hero" aria-label="Hero">
+      <!-- Photo background — MUCH more visible (45% opacity, warm dramatic) -->
+      <div class="absolute inset-0 z-0">
+        <img src="images/hero/solar-golden-hour.jpg" alt="" class="w-full h-full object-cover object-center" width="1920" height="1280" aria-hidden="true" style="opacity: 0.45; filter: saturate(1.4) brightness(0.55) contrast(1.1);">
+      </div>
+
+      <!-- Aurora blobs — reduced opacity so photo shines more -->
+      <div class="aurora" aria-hidden="true">
+        <div class="aurora-blob aurora-blob-1" style="opacity: 0.25;"></div>
+        <div class="aurora-blob aurora-blob-2" style="opacity: 0.2;"></div>
+        <div class="aurora-blob aurora-blob-3" style="opacity: 0.15;"></div>
+      </div>
+
+      <!-- Particle field -->
+      <canvas id="particle-canvas" class="absolute inset-0 w-full h-full z-[1]" aria-hidden="true"></canvas>
+
+      <!-- Cinematic vignette — dark center for text, photo visible at edges -->
+      <div class="absolute inset-0 z-[2]" style="background: radial-gradient(ellipse 70% 65% at 50% 45%, rgba(2,6,23,0.75) 0%, rgba(2,6,23,0.5) 40%, rgba(2,6,23,0.2) 70%, rgba(2,6,23,0.4) 100%);"></div>
+
+      <!-- Content -->
+      <div class="ap-hero-inner">
+        <!-- Animated gradient accent line -->
+        <div class="w-16 h-[2px] mx-auto mb-8 hero-reveal hero-reveal-1" style="background: linear-gradient(90deg, var(--energy-500), var(--solar-400), var(--energy-500)); background-size: 200% 100%; animation: gradientShift 3s ease infinite;" aria-hidden="true"></div>
+
+        <p class="ap-hero-label hero-reveal hero-reveal-1" style="font-size: 12px; letter-spacing: 0.2em;">Renewable Energy Technology</p>
+        <h1 class="ap-hero-h1 hero-reveal hero-reveal-2 split-text" style="letter-spacing: -0.045em;">
+          Leveraging science to solve the world's energy problems.
+        </h1>
+        <p class="ap-hero-sub hero-reveal hero-reveal-3" style="color: rgba(255,255,255,0.65);">
+          Powering
+          <span class="text-cycle-wrapper" data-words='["homes","data centers","the grid","a sustainable future"]' data-interval="4500" role="text"></span>
+          with patented technology that defies convention.
+        </p>
+        <div class="ap-hero-ctas hero-reveal hero-reveal-4">
+          <a href="#solutions" class="magnetic-wrap"><span class="btn-energy text-base px-8 py-4">Explore Solutions <i data-lucide="arrow-right" class="w-5 h-5"></i></span></a>
+          <a href="about.html" class="btn-ghost text-base px-8 py-4"><i data-lucide="play-circle" class="w-5 h-5"></i> Our Story</a>
+        </div>
+
+        <!-- Stat bar — MUCH stronger glassmorphism -->
+        <div class="ap-hero-stats hero-reveal hero-reveal-5" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+          <div class="ap-hero-stat">
+            <span class="ap-hero-stat-val text-2xl" data-count="40" data-suffix="+">0</span>
+            <span class="ap-hero-stat-lbl">Patents</span>
+          </div>
+          <div class="ap-hero-stat-sep" style="background: rgba(255,255,255,0.15);" aria-hidden="true"></div>
+          <div class="ap-hero-stat">
+            <span class="ap-hero-stat-val text-lg">Made in USA</span>
+            <span class="ap-hero-stat-lbl">Novato, CA</span>
+          </div>
+          <div class="ap-hero-stat-sep" style="background: rgba(255,255,255,0.15);" aria-hidden="true"></div>
+          <div class="ap-hero-stat">
+            <span class="ap-hero-stat-val text-lg">Title 24</span>
+            <span class="ap-hero-stat-lbl">Compliant</span>
+          </div>
+          <div class="ap-hero-stat-sep" style="background: rgba(255,255,255,0.15);" aria-hidden="true"></div>
+          <div class="ap-hero-stat">
+            <span class="ap-hero-stat-val text-2xl" data-count="2011">0</span>
+            <span class="ap-hero-stat-lbl">Established</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ap-hero-bottom-fade ap-hero-bottom-fade--dark" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============================================
+         SECTION 2: PARTNER MARQUEE
+         Subtle energy landscape texture beneath
+         ============================================ -->
+    <section class="relative py-20 overflow-hidden" aria-label="Trusted partners" style="background: var(--midnight-950);">
+      <!-- Background photo — more visible -->
+      <div class="absolute inset-0 z-0 opacity-[0.1]">
+        <img src="images/hero/energy-landscape.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true" style="filter: grayscale(80%) brightness(0.4);">
+      </div>
+
+      <!-- Gradient line above -->
+      <div class="absolute top-0 left-0 right-0 h-px z-10" style="background: linear-gradient(90deg, transparent 10%, rgba(249,115,22,0.3) 50%, transparent 90%);"></div>
+
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <p class="text-center mb-10 text-xs font-semibold tracking-[0.2em] uppercase" style="color: rgba(255,255,255,0.5);">Trusted by Industry Leaders</p>
+      </div>
+      <div class="relative z-10">
+        <div class="absolute left-0 top-0 bottom-0 w-40 bg-gradient-to-r from-midnight-950 to-transparent z-10 pointer-events-none"></div>
+        <div class="absolute right-0 top-0 bottom-0 w-40 bg-gradient-to-l from-midnight-950 to-transparent z-10 pointer-events-none"></div>
+        <div class="overflow-hidden">
+          <div class="flex animate-marquee items-center gap-20 whitespace-nowrap" style="width: max-content;">
+            <span class="marquee-logo flex items-center h-14 px-6"><img src="images/partners/byd.webp" alt="BYD" class="h-12 w-auto object-contain" width="160" height="48" loading="lazy"></span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-2xl tracking-wider">Google</span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-lg tracking-wider">Hawaiian Electric</span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-xl tracking-wider">LADOT</span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-xl tracking-wider">AVTA</span>
+            <span class="marquee-logo flex items-center h-14 px-6"><img src="images/partners/east-west-bank.webp" alt="East West Bank" class="h-10 w-auto object-contain" width="140" height="40" loading="lazy"></span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-xl tracking-wider">Dynalab</span>
+            <span class="marquee-logo flex items-center h-14 px-6"><img src="images/partners/kamehameha-schools.webp" alt="Kamehameha Schools" class="h-12 w-auto object-contain" width="160" height="48" loading="lazy"></span>
+            <!-- Duplicate -->
+            <span class="marquee-logo flex items-center h-14 px-6"><img src="images/partners/byd.webp" alt="BYD" class="h-12 w-auto object-contain" width="160" height="48" loading="lazy"></span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-2xl tracking-wider">Google</span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-lg tracking-wider">Hawaiian Electric</span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-xl tracking-wider">LADOT</span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-xl tracking-wider">AVTA</span>
+            <span class="marquee-logo flex items-center h-14 px-6"><img src="images/partners/east-west-bank.webp" alt="East West Bank" class="h-10 w-auto object-contain" width="140" height="40" loading="lazy"></span>
+            <span class="marquee-logo flex items-center h-14 px-6 text-white/60 font-heading font-bold text-xl tracking-wider">Dynalab</span>
+            <span class="marquee-logo flex items-center h-14 px-6"><img src="images/partners/kamehameha-schools.webp" alt="Kamehameha Schools" class="h-12 w-auto object-contain" width="160" height="48" loading="lazy"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gradient line below -->
+      <div class="absolute bottom-0 left-0 right-0 h-px z-10" style="background: linear-gradient(90deg, transparent 10%, rgba(59,130,246,0.2) 50%, transparent 90%);"></div>
+    </section>
+
+    <!-- ============================================
+         SECTION 3: THREE PILLARS
+         Power lines sunset fading from LEFT
+         Cards with accent borders + stat numbers
+         ============================================ -->
+    <section id="solutions" class="photo-section py-32 lg:py-44 relative" style="background: var(--surface-light);" aria-labelledby="pillars-heading">
+      <div class="photo-section-bg photo-tint-warm">
+        <img src="images/hero/energy-landscape.jpg" alt="" class="w-full h-full object-cover object-left" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay photo-overlay-light-right"></div>
+
+      <div class="max-w-6xl mx-auto px-6 photo-section-content">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <div class="hidden lg:block" aria-hidden="true"></div>
+
+          <div>
+            <p class="section-label reveal">Our Approach</p>
+            <h2 id="pillars-heading" class="font-heading font-bold text-midnight-900 mb-4 reveal reveal-delay-1" style="font-size: var(--text-h1);">
+              Science backed.<br>Data driven.<br>Future focused.
+            </h2>
+            <div class="w-20 h-[2px] mb-8 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--solar-400));"></div>
+            <p class="text-midnight-600 mb-10 text-lg leading-relaxed reveal reveal-delay-2">
+              We marry hands-on R&D with machine learning to develop products that defy modern logic.
+            </p>
+
+            <div class="space-y-5">
+              <!-- Card 1: Accent left border + stat -->
+              <div class="tilt-card bg-white/90 backdrop-blur-sm rounded-2xl p-6 flex items-start gap-5 border-l-4 border-energy-500 shadow-lg reveal reveal-delay-2" style="border-top: none; border-right: none; border-bottom: none;">
+                <div class="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, var(--energy-50), var(--energy-100));">
+                  <i data-lucide="sun" class="w-8 h-8 text-energy-500"></i>
+                </div>
+                <div>
+                  <div class="flex items-baseline gap-3 mb-1">
+                    <span class="font-heading font-bold text-2xl text-energy-500" data-count="40" data-suffix="+">0</span>
+                    <h3 class="font-heading font-semibold text-base">Patents</h3>
+                  </div>
+                  <p class="text-midnight-500 text-sm leading-relaxed">We take the status quo and turn it inside-out. Our patented technologies find energy where others overlook it.</p>
+                </div>
+              </div>
+
+              <!-- Card 2 -->
+              <div class="tilt-card bg-white/90 backdrop-blur-sm rounded-2xl p-6 flex items-start gap-5 border-l-4 border-electric-500 shadow-lg reveal reveal-delay-3" style="border-top: none; border-right: none; border-bottom: none;">
+                <div class="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, var(--electric-50), var(--electric-100));">
+                  <i data-lucide="brain" class="w-8 h-8 text-electric-500"></i>
+                </div>
+                <div>
+                  <div class="flex items-baseline gap-3 mb-1">
+                    <span class="font-heading font-bold text-2xl text-electric-500">&lt;1s</span>
+                    <h3 class="font-heading font-semibold text-base">Response</h3>
+                  </div>
+                  <p class="text-midnight-500 text-sm leading-relaxed">Machine learning optimizes generation and consumption in real-time. Sub-second bi-directional control for peak efficiency.</p>
+                </div>
+              </div>
+
+              <!-- Card 3 -->
+              <div class="tilt-card bg-white/90 backdrop-blur-sm rounded-2xl p-6 flex items-start gap-5 border-l-4 border-green-500 shadow-lg reveal reveal-delay-4" style="border-top: none; border-right: none; border-bottom: none;">
+                <div class="w-16 h-16 shrink-0 rounded-2xl flex items-center justify-center" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7);">
+                  <i data-lucide="globe-2" class="w-8 h-8 text-green-600"></i>
+                </div>
+                <div>
+                  <div class="flex items-baseline gap-3 mb-1">
+                    <span class="font-heading font-bold text-2xl text-green-600">Zero</span>
+                    <h3 class="font-heading font-semibold text-base">Emissions</h3>
+                  </div>
+                  <p class="text-midnight-500 text-sm leading-relaxed">Compatibility between business and planet. Our technology delivers cleaner power for future generations.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 4: eXeL PRODUCT SHOWCASE
+         Bathroom photo fading from RIGHT.
+         Text LEFT, product image RIGHT (proper 2-col)
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-44 relative" style="background: var(--midnight-950);" aria-labelledby="exel-heading">
+      <div class="photo-section-bg photo-tint-dramatic">
+        <img src="images/hero/modern-bathroom.jpg" alt="" class="w-full h-full object-cover object-right" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <!-- Overlay: dark left, semi-transparent right -->
+      <div class="photo-section-overlay" style="background: linear-gradient(to right, rgba(2,6,23,0.97) 0%, rgba(2,6,23,0.92) 35%, rgba(2,6,23,0.55) 55%, rgba(2,6,23,0.25) 100%);"></div>
+      <!-- Blur the background photo in the product area (center-right) for cleaner product pop -->
+      <div class="absolute inset-0 z-[1] pointer-events-none" style="backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); -webkit-mask-image: linear-gradient(to right, transparent 0%, transparent 35%, black 50%, black 75%, transparent 95%); mask-image: linear-gradient(to right, transparent 0%, transparent 35%, black 50%, black 75%, transparent 95%);"></div>
+      <div class="noise absolute inset-0 pointer-events-none z-[2]"></div>
+
+      <div class="max-w-6xl mx-auto px-6 photo-section-content">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <!-- Left: Text content (fully dark overlay = perfectly readable) -->
+          <div>
+            <p class="section-label mb-4 reveal">Flagship Product</p>
+            <!-- Big dramatic stat -->
+            <div class="mb-4 reveal reveal-delay-1">
+              <span class="font-heading font-bold text-gradient-energy" style="font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1;" data-count="25" data-suffix="%">0</span>
+              <p class="text-white/70 text-sm mt-1">of your home energy bill goes to heating water</p>
+            </div>
+            <h2 id="exel-heading" class="font-heading font-bold text-white mb-6 reveal reveal-delay-2" style="font-size: var(--text-h1);">
+              <span class="text-gradient-energy">eXeL</span> Hybrid Solar Water Heater
+            </h2>
+            <p class="text-white/70 mb-8 text-base leading-relaxed reveal reveal-delay-2">
+              Using dedicated solar panels and our patented low-voltage DC heating system, eXeL eliminates water heating costs entirely. Available in 65 and 105 gallon sizes.
+            </p>
+            <div class="flex flex-wrap gap-3 mb-8 reveal reveal-delay-3">
+              <span class="glass-pill" style="border-color: rgba(249,115,22,0.2); color: rgba(255,255,255,0.85);"><i data-lucide="shield-check" class="w-4 h-4 text-energy-400"></i> Patented</span>
+              <span class="glass-pill" style="border-color: rgba(249,115,22,0.2); color: rgba(255,255,255,0.85);"><i data-lucide="zap" class="w-4 h-4 text-energy-400"></i> Outage-Proof</span>
+              <span class="glass-pill" style="border-color: rgba(249,115,22,0.2); color: rgba(255,255,255,0.85);"><i data-lucide="flag" class="w-4 h-4 text-energy-400"></i> Made in USA</span>
+            </div>
+            <a href="exel.html" class="magnetic-wrap reveal reveal-delay-4">
+              <span class="btn-energy text-base px-8 py-4">Explore eXeL <i data-lucide="arrow-right" class="w-5 h-5"></i></span>
+            </a>
+          </div>
+
+          <!-- Right: Product hero image with ambient lighting -->
+          <div class="relative reveal-right reveal-delay-2">
+            <!-- Multi-layer ambient glow behind product -->
+            <div class="absolute z-0" style="top: -10%; left: -15%; width: 130%; height: 120%; background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(249,115,22,0.1) 0%, transparent 60%); filter: blur(50px);"></div>
+            <div class="absolute z-0" style="top: 5%; right: -10%; width: 80%; height: 90%; background: radial-gradient(circle, rgba(59,130,246,0.06) 0%, transparent 50%); filter: blur(40px);"></div>
+            <!-- Soft light rim behind the product -->
+            <div class="absolute z-0" style="top: 15%; left: 10%; width: 80%; height: 70%; background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(255,255,255,0.03) 0%, transparent 60%); filter: blur(30px);"></div>
+
+            <img src="images/products/exel-product.webp" alt="eXeL Hybrid Solar Water Heater with solar panel array" class="relative z-10 max-w-md mx-auto" width="500" height="600" loading="lazy" style="filter: drop-shadow(0 0 40px rgba(249,115,22,0.12)) drop-shadow(0 25px 50px rgba(0,0,0,0.5));">
+
+            <!-- Floating badges -->
+            <div class="absolute top-6 right-2 z-20 float-slow">
+              <span class="badge-glass text-xs px-4 py-2 font-semibold" style="border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.08); backdrop-filter: blur(12px);">Title 24 &#10003;</span>
+            </div>
+            <div class="absolute bottom-16 left-0 z-20 float-medium">
+              <span class="badge-glass text-xs px-4 py-2 font-semibold" style="border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.08); backdrop-filter: blur(12px);"><i data-lucide="flag" class="w-3 h-3 mr-1 inline text-energy-400"></i> USA</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 5: igOS PLATFORM
+         Circuit board full bg, CENTERED text above
+         FULL-WIDTH SVG diagram below
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-44 relative" style="background: var(--midnight-950);" aria-labelledby="igos-heading">
+      <!-- Circuit board photo -->
+      <div class="photo-section-bg photo-tint-cool">
+        <img src="images/hero/tech-circuit.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <!-- Overlay: wide dark center, photo on edges, slightly visible in center -->
+      <div class="photo-section-overlay" style="background: linear-gradient(to right, rgba(2,6,23,0.35) 0%, rgba(2,6,23,0.85) 15%, rgba(2,6,23,0.88) 30%, rgba(2,6,23,0.88) 70%, rgba(2,6,23,0.85) 85%, rgba(2,6,23,0.35) 100%);"></div>
+      <!-- Vertical fade -->
+      <div class="absolute inset-0 z-[1] pointer-events-none" style="background: linear-gradient(180deg, rgba(2,6,23,0.6) 0%, transparent 15%, transparent 85%, rgba(2,6,23,0.6) 100%);"></div>
+
+      <!-- Ambient blue glow (right edge, stronger) -->
+      <div class="absolute z-[2] pointer-events-none" style="top: 5%; right: -8%; width: 550px; height: 700px; background: radial-gradient(circle, rgba(59,130,246,0.12) 0%, transparent 55%); filter: blur(60px);"></div>
+      <!-- Ambient warm glow (left edge, stronger) -->
+      <div class="absolute z-[2] pointer-events-none" style="bottom: 0; left: -8%; width: 550px; height: 700px; background: radial-gradient(circle, rgba(249,115,22,0.09) 0%, transparent 55%); filter: blur(60px);"></div>
+
+      <!-- Dot grid texture -->
+      <div class="absolute inset-0 z-[3] pointer-events-none pattern-dots-dark" style="opacity: 0.4;"></div>
+
+      <!-- Top + bottom gradient accent lines -->
+      <div class="absolute top-0 left-0 right-0 h-px z-[4]" style="background: linear-gradient(90deg, transparent 5%, rgba(59,130,246,0.4) 30%, rgba(249,115,22,0.3) 70%, transparent 95%);"></div>
+      <div class="absolute bottom-0 left-0 right-0 h-px z-[4]" style="background: linear-gradient(90deg, transparent 5%, rgba(249,115,22,0.2) 30%, rgba(59,130,246,0.2) 70%, transparent 95%);"></div>
+
+      <div class="max-w-5xl mx-auto px-6 photo-section-content text-center relative z-10">
+        <p class="section-label text-center mb-4 reveal" style="color: var(--electric-400);">Intelligent Platform</p>
+        <h2 id="igos-heading" class="font-heading font-bold text-white mb-3 reveal reveal-delay-1" style="font-size: var(--text-hero);">
+          <span class="text-gradient-electric">igOS</span>: The Brain of the Grid
+        </h2>
+        <div class="w-16 h-[2px] mx-auto mb-6 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--electric-500), var(--energy-500));"></div>
+        <p class="text-white/70 max-w-2xl mx-auto mb-8 text-lg reveal reveal-delay-2">
+          A cloud-based, machine learning energy platform that monitors, communicates, and manages energy in real-time.
+        </p>
+
+        <!-- Stat pills centered -->
+        <div class="flex flex-wrap justify-center gap-4 mb-14 reveal reveal-delay-3">
+          <div class="px-6 py-3 text-center rounded-xl" style="background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.25); backdrop-filter: blur(8px);">
+            <div class="font-heading font-bold text-xl text-electric-400">Real-time</div>
+            <div class="text-white/60 text-xs mt-0.5">Monitoring</div>
+          </div>
+          <div class="px-6 py-3 text-center rounded-xl" style="background: rgba(249,115,22,0.08); border: 1px solid rgba(249,115,22,0.25); backdrop-filter: blur(8px);">
+            <div class="font-heading font-bold text-xl text-energy-400">&lt;1s</div>
+            <div class="text-white/60 text-xs mt-0.5">Response Time</div>
+          </div>
+          <div class="px-6 py-3 text-center rounded-xl" style="background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.25); backdrop-filter: blur(8px);">
+            <div class="font-heading font-bold text-xl text-green-400">24/7</div>
+            <div class="text-white/60 text-xs mt-0.5">Grid Intelligence</div>
+          </div>
+        </div>
+
+        <!-- SVG Diagram -->
+        <div class="reveal reveal-delay-3 relative max-w-4xl mx-auto">
+          <div class="rounded-3xl overflow-hidden" style="background: rgba(2,6,23,0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); padding: 32px 24px 28px;">
+            <!-- Mini heading inside the diagram container -->
+            <p class="text-center text-white/60 text-xs font-semibold tracking-[0.15em] uppercase mb-6">Energy Flow Architecture</p>
+
+            <svg viewBox="0 0 800 300" class="w-full" aria-label="Energy flow diagram: igOS connects solar, grid, home, and battery">
+              <defs>
+                <filter id="nd-glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+                <filter id="ct-glow" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="10" result="b"/><feComposite in="SourceGraphic" in2="b" operator="over"/></filter>
+              </defs>
+
+              <!-- ===== FLOW LINES (thicker, brighter on dark bg) ===== -->
+              <line x1="155" y1="75" x2="345" y2="140" class="energy-flow-line" stroke="#FB923C" stroke-width="2.5" opacity="0.6"/>
+              <line x1="645" y1="75" x2="455" y2="140" class="energy-flow-line" stroke="#60A5FA" stroke-width="2.5" opacity="0.6"/>
+              <line x1="345" y1="170" x2="175" y2="240" class="energy-flow-line" stroke="#22C55E" stroke-width="2.5" opacity="0.5"/>
+              <line x1="455" y1="170" x2="625" y2="240" class="energy-flow-line" stroke="#EAB308" stroke-width="2.5" opacity="0.5"/>
+
+              <!-- Traveling energy dots along lines -->
+              <circle r="4" fill="#FB923C" opacity="0.9">
+                <animateMotion dur="3s" repeatCount="indefinite" path="M155,75 L345,140"/>
+              </circle>
+              <circle r="4" fill="#60A5FA" opacity="0.9">
+                <animateMotion dur="3.5s" repeatCount="indefinite" path="M645,75 L455,140"/>
+              </circle>
+              <circle r="3.5" fill="#22C55E" opacity="0.8">
+                <animateMotion dur="4s" repeatCount="indefinite" path="M345,170 L175,240"/>
+              </circle>
+              <circle r="3.5" fill="#EAB308" opacity="0.8">
+                <animateMotion dur="4.5s" repeatCount="indefinite" path="M455,170 L625,240"/>
+              </circle>
+
+              <!-- ===== SOLAR NODE (card style) ===== -->
+              <g filter="url(#nd-glow)">
+                <rect x="100" y="30" width="110" height="90" rx="16" fill="rgba(249,115,22,0.15)" stroke="rgba(249,115,22,0.5)" stroke-width="1.5"/>
+              </g>
+              <circle cx="155" cy="58" r="12" fill="rgba(249,115,22,0.3)" stroke="#FB923C" stroke-width="1.5"/>
+              <circle cx="155" cy="58" r="4" fill="#FB923C"/>
+              <text x="155" y="88" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Solar</text>
+              <text x="155" y="105" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Generation</text>
+
+              <!-- ===== GRID NODE ===== -->
+              <g filter="url(#nd-glow)">
+                <rect x="590" y="30" width="110" height="90" rx="16" fill="rgba(59,130,246,0.15)" stroke="rgba(59,130,246,0.5)" stroke-width="1.5"/>
+              </g>
+              <polygon points="649,48 641,63 647,63 641,78 655,58 648,58" fill="#60A5FA" opacity="0.9"/>
+              <text x="645" y="88" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Grid</text>
+              <text x="645" y="105" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Supply</text>
+
+              <!-- ===== igOS CENTER (dominant) ===== -->
+              <g filter="url(#ct-glow)">
+                <circle cx="400" cy="155" r="58" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.7)" stroke-width="2.5"/>
+              </g>
+              <circle cx="400" cy="155" r="42" fill="rgba(249,115,22,0.08)" stroke="rgba(249,115,22,0.35)" stroke-width="1"/>
+              <text x="400" y="149" fill="white" font-size="24" text-anchor="middle" font-family="Outfit" font-weight="800">igOS</text>
+              <text x="400" y="168" fill="rgba(255,255,255,0.7)" font-size="11" text-anchor="middle" font-family="DM Sans">Intelligence Hub</text>
+              <!-- Pulse -->
+              <circle cx="400" cy="155" r="58" fill="none" stroke="rgba(249,115,22,0.3)" stroke-width="2">
+                <animate attributeName="r" values="58;78;58" dur="2.5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.4;0;0.4" dur="2.5s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="400" cy="155" r="58" fill="none" stroke="rgba(249,115,22,0.15)" stroke-width="1">
+                <animate attributeName="r" values="58;95;58" dur="3.5s" repeatCount="indefinite"/>
+                <animate attributeName="opacity" values="0.2;0;0.2" dur="3.5s" repeatCount="indefinite"/>
+              </circle>
+
+              <!-- ===== HOME NODE ===== -->
+              <g filter="url(#nd-glow)">
+                <rect x="120" y="205" width="110" height="90" rx="16" fill="rgba(34,197,94,0.15)" stroke="rgba(34,197,94,0.5)" stroke-width="1.5"/>
+              </g>
+              <polygon points="175,225 163,236 168,236 168,248 182,248 182,236 187,236" fill="#22C55E" opacity="0.7"/>
+              <text x="175" y="268" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Home</text>
+              <text x="175" y="284" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Consumption</text>
+
+              <!-- ===== BATTERY NODE ===== -->
+              <g filter="url(#nd-glow)">
+                <rect x="570" y="205" width="110" height="90" rx="16" fill="rgba(234,179,8,0.15)" stroke="rgba(234,179,8,0.5)" stroke-width="1.5"/>
+              </g>
+              <rect x="617" y="224" width="16" height="24" rx="3" fill="none" stroke="#EAB308" stroke-width="1.5"/>
+              <rect x="622" y="221" width="6" height="3" rx="1" fill="#EAB308"/>
+              <rect x="620" y="236" width="10" height="8" rx="1" fill="rgba(234,179,8,0.5)"/>
+              <text x="625" y="265" fill="white" font-size="15" text-anchor="middle" font-family="Outfit" font-weight="700">Battery</text>
+              <text x="625" y="281" fill="rgba(255,255,255,0.55)" font-size="10" text-anchor="middle" font-family="DM Sans">Storage</text>
+
+              <!-- ===== LABELS (bigger, clearer) ===== -->
+              <rect x="210" y="92" width="80" height="26" rx="13" fill="rgba(249,115,22,0.2)" stroke="rgba(249,115,22,0.4)" stroke-width="1"/>
+              <text x="250" y="110" fill="#FB923C" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">DC Power</text>
+
+              <rect x="510" y="92" width="72" height="26" rx="13" fill="rgba(59,130,246,0.2)" stroke="rgba(59,130,246,0.4)" stroke-width="1"/>
+              <text x="546" y="110" fill="#60A5FA" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">AC Grid</text>
+
+              <rect x="220" y="195" width="80" height="26" rx="13" fill="rgba(34,197,94,0.2)" stroke="rgba(34,197,94,0.4)" stroke-width="1"/>
+              <text x="260" y="213" fill="#22C55E" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">Load Mgmt</text>
+
+              <rect x="500" y="195" width="72" height="26" rx="13" fill="rgba(234,179,8,0.2)" stroke="rgba(234,179,8,0.4)" stroke-width="1"/>
+              <text x="536" y="213" fill="#EAB308" font-size="11" text-anchor="middle" font-family="DM Sans" font-weight="600">Storage</text>
+            </svg>
+          </div>
+        </div>
+
+        <a href="igos.html" class="magnetic-wrap mt-12 inline-block reveal reveal-delay-4">
+          <span class="btn-energy text-base px-8 py-4">Discover igOS <i data-lucide="arrow-right" class="w-5 h-5"></i></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 6: DATA CENTERS
+         Full-bleed server room, HEAVY overlay
+         3 stat cards + hardware product
+         ============================================ -->
+    <section class="photo-section py-36 lg:py-48 relative" style="background: var(--midnight-950);" aria-labelledby="dc-heading">
+      <!-- Server room photo - slightly more visible for texture -->
+      <div class="photo-section-bg photo-tint-cool">
+        <img src="images/hero/datacenter-dark.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <!-- Overlay: dark center for text, photo peeks at edges -->
+      <div class="photo-section-overlay" style="background: radial-gradient(ellipse 70% 60% at 30% 50%, rgba(2,6,23,0.95) 0%, rgba(2,6,23,0.85) 40%, rgba(2,6,23,0.6) 100%), linear-gradient(180deg, rgba(2,6,23,0.85) 0%, rgba(2,6,23,0.75) 50%, rgba(2,6,23,0.88) 100%);"></div>
+
+      <!-- Ambient light glow behind the product (right side) -->
+      <div class="absolute z-[2] pointer-events-none" style="top: 10%; right: 5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(59,130,246,0.07) 0%, transparent 60%); filter: blur(80px);"></div>
+      <!-- Secondary warm glow (left side, subtle) -->
+      <div class="absolute z-[2] pointer-events-none" style="bottom: 15%; left: 10%; width: 400px; height: 400px; background: radial-gradient(circle, rgba(249,115,22,0.05) 0%, transparent 60%); filter: blur(60px);"></div>
+
+      <!-- Dot grid texture overlay -->
+      <div class="absolute inset-0 z-[3] pointer-events-none pattern-dots-dark" style="opacity: 0.5;"></div>
+
+      <!-- Top gradient accent line -->
+      <div class="absolute top-0 left-0 right-0 h-px z-[4]" style="background: linear-gradient(90deg, transparent 5%, rgba(59,130,246,0.3) 30%, rgba(249,115,22,0.3) 70%, transparent 95%);"></div>
+
+      <div class="max-w-6xl mx-auto px-6 photo-section-content relative z-10">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <!-- LEFT: Text + Stats -->
+          <div>
+            <p class="section-label reveal" style="color: var(--electric-400);">Enterprise Solutions</p>
+            <h2 id="dc-heading" class="font-heading font-bold text-white mt-4 mb-3 reveal reveal-delay-1" style="font-size: var(--text-h1);">
+              The Future Runs on Cleaner Power
+            </h2>
+            <div class="w-20 h-[2px] mb-6 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--electric-500), var(--energy-500));"></div>
+            <p class="text-white/70 mb-10 text-lg leading-relaxed reveal reveal-delay-2">
+              U.S. data centers consumed 176 TWh of electricity in 2023 - a figure expected to double by 2028. Our eXeL and igOS technologies deliver cleaner power, reduced strain, and real-time monitoring.
+            </p>
+
+            <!-- 3 stat cards -->
+            <div class="grid grid-cols-3 gap-4 mb-10 reveal reveal-delay-2">
+              <div class="p-5 text-center rounded-xl" style="background: rgba(249,115,22,0.06); border: 1px solid rgba(249,115,22,0.15); backdrop-filter: blur(8px);">
+                <div class="font-heading font-bold text-3xl text-energy-400 mb-1" data-count="176" data-suffix=" TWh">0</div>
+                <div class="text-white/60 text-xs">consumed in 2023</div>
+              </div>
+              <div class="p-5 text-center rounded-xl" style="background: rgba(59,130,246,0.06); border: 1px solid rgba(59,130,246,0.15); backdrop-filter: blur(8px);">
+                <div class="font-heading font-bold text-3xl text-electric-400 mb-1">2&times;</div>
+                <div class="text-white/60 text-xs">growth by 2028</div>
+              </div>
+              <div class="p-5 text-center rounded-xl" style="background: rgba(234,179,8,0.06); border: 1px solid rgba(234,179,8,0.15); backdrop-filter: blur(8px);">
+                <div class="font-heading font-bold text-3xl text-solar-400 mb-1" data-count="40" data-suffix="%">0</div>
+                <div class="text-white/60 text-xs">energy to cooling</div>
+              </div>
+            </div>
+
+            <a href="data-centers.html" class="magnetic-wrap reveal reveal-delay-3">
+              <span class="btn-energy text-base px-8 py-4">Data Center Solutions <i data-lucide="arrow-right" class="w-5 h-5"></i></span>
+            </a>
+          </div>
+
+          <!-- RIGHT: Hardware product with dramatic lighting -->
+          <div class="relative reveal-right reveal-delay-2">
+            <!-- Multi-layer glow behind hardware -->
+            <div class="absolute z-0" style="top: -15%; right: -10%; width: 120%; height: 130%; background: radial-gradient(ellipse 60% 50% at 50% 50%, rgba(59,130,246,0.12) 0%, transparent 60%); filter: blur(50px);"></div>
+            <div class="absolute z-0" style="top: 10%; left: 10%; width: 80%; height: 80%; background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 50%); filter: blur(40px);"></div>
+
+            <img src="images/technology/datacenter-hardware.webp" alt="Apparent data center hardware stack" class="relative z-10 mx-auto max-w-md drop-shadow-2xl" width="450" height="380" loading="lazy" style="filter: drop-shadow(0 0 30px rgba(59,130,246,0.15)) drop-shadow(0 20px 40px rgba(0,0,0,0.4));">
+
+            <!-- Floating badges -->
+            <div class="absolute top-2 right-0 z-20 float-slow">
+              <span class="badge-glass text-xs px-4 py-2 font-semibold" style="border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.1); backdrop-filter: blur(12px);"><i data-lucide="shield-check" class="w-3 h-3 mr-1 inline text-electric-400"></i> 99.99% Uptime</span>
+            </div>
+            <div class="absolute bottom-8 left-4 z-20 float-medium">
+              <span class="badge-glass text-xs px-4 py-2 font-semibold" style="border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.1); backdrop-filter: blur(12px);"><i data-lucide="cpu" class="w-3 h-3 mr-1 inline text-energy-400"></i> igOS Powered</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 7: COMPARISON TABLE
+         Stronger photo, winner summary stat
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-40 relative" style="background: var(--surface-light);" aria-labelledby="compare-heading">
+      <div class="photo-section-bg" style="opacity: 0.18;">
+        <img src="images/hero/modern-home-solar.jpg" alt="" class="w-full h-full object-cover object-bottom" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true" style="filter: grayscale(40%) brightness(0.85);">
+      </div>
+      <div class="photo-section-overlay photo-overlay-light-bottom"></div>
+
+      <div class="max-w-5xl mx-auto px-6 photo-section-content">
+        <div class="text-center mb-16">
+          <p class="section-label reveal">Product Comparison</p>
+          <h2 id="compare-heading" class="font-heading font-bold text-midnight-900 reveal reveal-delay-1" style="font-size: var(--text-h2);">
+            See How eXeL Compares
+          </h2>
+          <p class="text-midnight-600 mt-3 max-w-xl mx-auto reveal reveal-delay-2">Every checkmark represents a real advantage backed by our 40+ patents and years of R&D testing.</p>
+        </div>
+
+        <div class="table-scroll-wrapper overflow-x-auto rounded-2xl border border-gray-200 bg-white/95 backdrop-blur-sm shadow-xl reveal reveal-delay-2">
+          <table class="comparison-table w-full text-sm" role="table">
+            <thead>
+              <tr class="visible">
+                <th class="text-left px-6 py-4 font-heading font-semibold text-midnight-900 bg-white sticky left-0 z-10 min-w-[160px]">Features / Benefits</th>
+                <th class="highlight-col font-heading font-bold text-energy-600 min-w-[140px]">eXeL Hybrid Solar</th>
+                <th class="px-6 py-4 font-heading font-medium text-midnight-500 min-w-[120px]">Conv. Tank</th>
+                <th class="px-6 py-4 font-heading font-medium text-midnight-500 min-w-[120px]">Elec. Tankless</th>
+                <th class="px-6 py-4 font-heading font-medium text-midnight-500 min-w-[120px]">Solar Thermal</th>
+                <th class="px-6 py-4 font-heading font-medium text-midnight-500 min-w-[120px]">Heat Pump</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Quiet Operation</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td></tr>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Low Maintenance</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td></tr>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Cold Climate Friendly</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td></tr>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Sustainable / Green</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td></tr>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Simple Installation</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td></tr>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Low Voltage D/C</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td></tr>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Durable / Reliable</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td></tr>
+              <tr><td class="text-left px-6 py-4 font-medium text-midnight-800 bg-white sticky left-0 z-10">Works in Power Outage</td><td class="highlight-col"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="x-circle" class="w-5 h-5 text-red-300 mx-auto"></i></td><td class="text-center"><i data-lucide="check-circle-2" class="w-5 h-5 text-green-500 mx-auto"></i></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Winner summary -->
+        <div class="text-center mt-10 reveal reveal-delay-3">
+          <p class="text-gradient-energy font-heading font-bold text-2xl">eXeL wins 8 of 8 categories</p>
+          <p class="text-midnight-500 text-sm mt-2">The only water heating solution that excels in every single benchmark.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 8: ABOUT PREVIEW
+         Sunset solar photo fading from RIGHT,
+         text on LEFT. Dark dramatic.
+         ============================================ -->
+    <section class="photo-section py-32 lg:py-44 relative" style="background: var(--midnight-950);" aria-labelledby="about-heading">
+      <div class="photo-section-bg photo-tint-warm">
+        <img src="images/hero/sunset-solar.jpg" alt="" class="w-full h-full object-cover object-right" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay photo-overlay-dark-left"></div>
+
+      <div class="max-w-6xl mx-auto px-6 photo-section-content">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+          <!-- Left: content over dark opaque overlay -->
+          <div>
+            <p class="section-label mb-4 reveal">Our Story</p>
+            <h2 id="about-heading" class="font-heading font-bold text-white mb-6 reveal reveal-delay-1" style="font-size: var(--text-h2);">
+              Born from a nuclear engineer's vision to make energy smarter
+            </h2>
+            <p class="text-white/50 mb-8 leading-relaxed reveal reveal-delay-2">
+              In the early 1980s, a nuclear engineer in Bulgaria began writing software to automate critical energy processes. That curiosity led to 40+ patents and the founding of Apparent, a company driven by mathematically sound principles and empirical data.
+            </p>
+
+            <!-- Quote -->
+            <div class="glass-card p-6 mb-8 relative reveal reveal-delay-3">
+              <div class="absolute top-2 left-4 text-energy-500/20 text-5xl font-serif leading-none" aria-hidden="true">&ldquo;</div>
+              <blockquote class="relative z-10">
+                <p class="text-white/75 italic leading-relaxed text-sm mb-4">
+                  It isn't about the source of energy but how it's leveraged. We concentrate on the delivery and usage of any type of energy. We are grid friendly.
+                </p>
+                <footer class="flex items-center gap-3">
+                  <div class="w-10 h-10 rounded-full bg-energy-500/20 flex items-center justify-center">
+                    <span class="text-energy-400 font-heading font-bold text-xs">SM</span>
+                  </div>
+                  <div>
+                    <div class="text-white font-medium text-xs">Stefan Matan</div>
+                    <div class="text-white/60 text-[11px]">CTO & Founder</div>
+                  </div>
+                </footer>
+              </blockquote>
+            </div>
+
+            <a href="about.html" class="btn-ghost reveal reveal-delay-4">Read Our Story <i data-lucide="arrow-right" class="w-4 h-4"></i></a>
+          </div>
+
+          <!-- Right: photo shows through (sunset solar panels) -->
+          <div class="hidden lg:block" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 9: REVIEWS + INDUSTRY RECOGNITION
+         Combined social proof section
+         ============================================ -->
+    <section class="photo-section py-28 lg:py-40 relative" style="background: var(--midnight-950);" aria-labelledby="reviews-heading">
+      <div class="photo-section-bg" style="opacity: 0.15;">
+        <img src="images/hero/press-bg.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true" style="filter: grayscale(60%) brightness(0.5);">
+      </div>
+      <div class="photo-section-overlay" style="background: linear-gradient(180deg, rgba(2,6,23,0.75) 0%, rgba(2,6,23,0.65) 50%, rgba(2,6,23,0.8) 100%);"></div>
+      <div class="absolute inset-0 z-[3] pointer-events-none pattern-dots-dark" style="opacity: 0.3;"></div>
+
+      <div class="max-w-6xl mx-auto px-6 photo-section-content relative z-10">
+
+        <!-- ── PART 1: Google Reviews ── -->
+        <div class="text-center mb-10">
+          <p class="section-label text-center reveal" style="color: var(--energy-400);">Customer Reviews</p>
+          <h2 id="reviews-heading" class="font-heading font-bold text-white mt-2 mb-4 reveal reveal-delay-1" style="font-size: var(--text-h2);">
+            What Our Customers Say
+          </h2>
+          <div class="w-16 h-[2px] mx-auto mb-8 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));"></div>
+
+          <!-- Aggregate rating -->
+          <div class="flex flex-col items-center gap-3 reveal reveal-delay-2">
+            <div class="font-heading font-bold text-6xl text-white">4.9</div>
+            <div class="flex gap-1">
+              <span class="text-energy-400 text-2xl">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+            </div>
+            <p class="text-white/55 text-sm">Based on Google Reviews</p>
+          </div>
+        </div>
+
+        <!-- Review cards -->
+        <div class="grid sm:grid-cols-3 gap-6 mb-10">
+          <div class="glass-card p-6 reveal reveal-delay-2" style="border-color: rgba(255,255,255,0.08);">
+            <div class="flex gap-1 mb-3"><span class="text-energy-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
+            <p class="text-white/80 text-sm leading-relaxed mb-4">"The eXeL system paid for itself within the first year. Our water heating bill went from $80/month to zero. Installation was simple and the team was incredibly professional."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-energy-500/20 flex items-center justify-center"><span class="text-energy-400 font-heading font-bold text-xs">MJ</span></div>
+              <div><div class="text-white font-medium text-xs">Michael J.</div><div class="text-white/55 text-[11px]">Homeowner, Novato CA</div></div>
+            </div>
+          </div>
+          <div class="glass-card p-6 reveal reveal-delay-3" style="border-color: rgba(255,255,255,0.08);">
+            <div class="flex gap-1 mb-3"><span class="text-energy-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
+            <p class="text-white/80 text-sm leading-relaxed mb-4">"Adding eXeL to our portfolio was a game-changer. Customers love it, margins are excellent, and the Apparent team provides outstanding dealer support."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-electric-500/20 flex items-center justify-center"><span class="text-electric-400 font-heading font-bold text-xs">RL</span></div>
+              <div><div class="text-white font-medium text-xs">Robert L.</div><div class="text-white/55 text-[11px]">Certified Dealer, San Francisco</div></div>
+            </div>
+          </div>
+          <div class="glass-card p-6 reveal reveal-delay-4" style="border-color: rgba(255,255,255,0.08);">
+            <div class="flex gap-1 mb-3"><span class="text-energy-400 text-sm">&#9733;&#9733;&#9733;&#9733;&#9733;</span></div>
+            <p class="text-white/80 text-sm leading-relaxed mb-4">"We deployed Apparent's data center solution across two facilities. Energy savings and predictive maintenance justified the investment within 6 months."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 rounded-full bg-green-500/20 flex items-center justify-center"><span class="text-green-400 font-heading font-bold text-xs">SK</span></div>
+              <div><div class="text-white font-medium text-xs">Sarah K.</div><div class="text-white/55 text-[11px]">Ops Director, Enterprise</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mb-16 reveal reveal-delay-5">
+          <button onclick="openReviewModal()" type="button" class="btn-energy text-base px-8 py-4">
+            <i data-lucide="star" class="w-5 h-5 inline mr-2"></i> Leave a Review
+          </button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 9B: INDUSTRY RECOGNITION — Light/white
+         Swipeable press cards
+         ============================================ -->
+    <section class="py-20 lg:py-28 relative" style="background: var(--surface-light);" aria-labelledby="press-heading">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="text-center mb-12">
+          <p class="section-label text-center reveal" style="color: var(--energy-500);">In the Press</p>
+          <h3 id="press-heading" class="font-heading font-bold text-midnight-900 mt-2 mb-3 reveal reveal-delay-1" style="font-size: var(--text-h2);">
+            Industry Recognition
+          </h3>
+          <div class="w-16 h-[2px] mx-auto reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));"></div>
+        </div>
+
+        <!-- Swipeable press cards -->
+        <div class="relative reveal reveal-delay-2">
+          <!-- Gradient fade edges -->
+          <div class="absolute left-0 top-0 bottom-0 w-16 bg-gradient-to-r from-[#FAFAF8] to-transparent z-10 pointer-events-none"></div>
+          <div class="absolute right-0 top-0 bottom-0 w-16 bg-gradient-to-l from-[#FAFAF8] to-transparent z-10 pointer-events-none"></div>
+
+          <div class="overflow-x-auto pb-4 -mx-6 px-6 flex gap-6 snap-x snap-mandatory scroll-smooth" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <!-- Card 1 --> <a href="https://www.prnewswire.com/news-releases/apparent-launches-revolutionary-solar-water-heater-that-acts-as-a-private-energy-asset-eliminating-water-heating-bills-302610276.html" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/pr-newswire.webp" alt="PR Newswire" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">Apparent Launches Revolutionary Solar Water Heater as a Private Energy Asset</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Nov 11, 2025 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 2 --> <a href="https://www.prnewswire.com/news-releases/revolutionizing-sustainable-housing-innovative-water-heater-empowers-developers-to-decarbonize-and-achieve-esg-goals-302014824.html" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/pr-newswire.webp" alt="PR Newswire" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">Revolutionizing Sustainable Housing: Water Heater Empowers Developers to Decarbonize</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Dec 14, 2023 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 3 --> <a href="https://www.ksbe.edu/article/ks-maui-launches-renewable-energy-microgrid" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/partners/kamehameha-schools.webp" alt="Kamehameha Schools" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">KS Maui Launches Renewable Energy Microgrid Producing 2.1M kWh/Year</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Feb 6, 2023 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 4 --> <a href="https://www.prnewswire.com/news-releases/los-angeles-department-of-transportation-to-install-solar-and-storage-microgrid-and-ev-charging-to-power-100-electric-buses-with-proterra-and-apparent-301422660.html" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/pr-newswire.webp" alt="PR Newswire" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">LADOT to Install Solar Microgrid to Power 100+ Electric Buses</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Nov 15, 2021 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 5 --> <a href="https://www.nacleanenergy.com/energy-storage/the-next-energy-wave-clean-energy-opportunities-through-dynamic-energy-management-1" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/nace.webp" alt="NACE" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">The Next Energy Wave: Clean Energy Through Dynamic Management</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">May 15, 2021 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 6 --> <a href="https://cleantechnica.com/2020/02/03/byd-adding-2-megawatt-solar-system-from-apparent-at-lancaster-factory/" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/cleantechnica.webp" alt="CleanTechnica" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">BYD Adding 2-Megawatt Solar System from Apparent at Lancaster</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Feb 3, 2020 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 7 --> <a href="https://pv-magazine-usa.com/2020/02/12/reactive-power-produced-on-site-increasingly-important-as-solar-power-and-evs-go-mainstream/" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/pv-magazine.webp" alt="PV Magazine" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">Reactive Power On-Site Increasingly Important as Solar and EVs Go Mainstream</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Feb 12, 2020 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 8 --> <a href="https://en.byd.com/news/press-release-byd-apparent-to-partner-on-intelligent-solar-energy-project/" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/partners/byd.webp" alt="BYD" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">BYD, Apparent to Partner on Intelligent Solar Energy Project</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">May 14, 2019 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 9 --> <a href="https://www.eastwestbank.com/ReachFurther/en/News/Article/Renewable-Energy-Business-Charges-Ahead-Despite-Trade-War" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/partners/east-west-bank.webp" alt="East West Bank" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">Renewable Energy Business Charges Ahead Despite Trade War</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Oct 11, 2018 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 10 --> <a href="https://solarbuildermag.com/news/hawaii-residents-asked-to-choose-self-supply-or-grid-supply-in-next-move-to-smart-grid/" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/solar-builder.webp" alt="Solar Builder" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">Hawaii Residents Choose 'Self-Supply' in Next Move to Smart Grid</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">Oct 21, 2015 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+            <!-- Card 11 --> <a href="https://www.greenbiz.com/article/how-apparent-aims-catalyze-cleaner-smarter-grid" target="_blank" rel="noopener noreferrer" class="snap-start shrink-0 w-[280px] bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-row overflow-hidden group">
+              <div class="w-24 shrink-0 bg-gray-50 flex items-center justify-center p-3 border-r border-gray-100"><img src="images/press/trellis.webp" alt="GreenBiz" class="w-full h-auto object-contain" loading="lazy"></div>
+              <div class="p-4 flex flex-col flex-1 min-w-0">
+                <h4 class="font-heading font-semibold text-midnight-900 text-[13px] mb-1.5 leading-snug group-hover:text-energy-600 transition-colors line-clamp-3">How Apparent Aims to Catalyze a Cleaner, Smarter Grid</h4>
+                <p class="text-midnight-400 text-[11px] mt-auto pt-2">May 21, 2014 <span class="text-energy-500 font-semibold ml-2 group-hover:translate-x-1 inline-block transition-transform">&rarr;</span></p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Swipe hint -->
+          <p class="text-center text-midnight-400 text-xs mt-4"><i data-lucide="arrow-left-right" class="w-3 h-3 inline mr-1"></i> Swipe for more</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 10: BOOKING WIZARD
+         Sunrise energy photo, dark dramatic overlay
+         ============================================ -->
+    <section id="booking" class="photo-section py-32 lg:py-44 relative" style="background: var(--midnight-950);" aria-labelledby="booking-heading">
+      <div class="photo-section-bg photo-tint-dramatic">
+        <img src="images/hero/sunrise-energy.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay photo-overlay-dark-heavy"></div>
+      <div class="noise absolute inset-0 pointer-events-none z-[2]"></div>
+
+      <div class="max-w-2xl mx-auto px-6 photo-section-content">
+        <div class="text-center mb-12">
+          <h2 id="booking-heading" class="font-heading font-bold text-white reveal" style="font-size: var(--text-h2);">
+            Let's Power Your Future
+          </h2>
+          <p class="text-white/60 mt-3 reveal reveal-delay-1">Tell us about your needs and we'll connect you with the right solution.</p>
+        </div>
+
+        <div id="booking-wizard" class="p-8 lg:p-10 rounded-2xl reveal reveal-delay-2" style="background: rgba(255,255,255,0.06); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(255,255,255,0.12);">
+          <div class="flex items-center gap-2 mb-8" aria-label="Booking progress">
+            <div class="step-dot active" data-step="1" aria-current="step">1</div>
+            <div class="step-connector"></div>
+            <div class="step-dot pending" data-step="2">2</div>
+            <div class="step-connector"></div>
+            <div class="step-dot pending" data-step="3">3</div>
+          </div>
+
+          <div class="wizard-step active" data-step="1">
+            <h3 class="text-white font-heading font-semibold text-lg mb-6">I am a...</h3>
+            <div class="grid sm:grid-cols-2 gap-4">
+              <button class="audience-card group text-left p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:border-energy-500/40 hover:bg-energy-500/5 transition-all" data-audience="homeowner" type="button">
+                <i data-lucide="home" class="w-6 h-6 text-energy-400 mb-3"></i>
+                <div class="text-white font-medium text-sm">Homeowner</div>
+                <div class="text-white/55 text-xs mt-1">Looking for solar water heating</div>
+              </button>
+              <button class="audience-card group text-left p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:border-energy-500/40 hover:bg-energy-500/5 transition-all" data-audience="dealer" type="button">
+                <i data-lucide="wrench" class="w-6 h-6 text-energy-400 mb-3"></i>
+                <div class="text-white font-medium text-sm">Dealer / Installer</div>
+                <div class="text-white/55 text-xs mt-1">Want to offer eXeL to customers</div>
+              </button>
+              <button class="audience-card group text-left p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:border-electric-500/40 hover:bg-electric-500/5 transition-all" data-audience="utility" type="button">
+                <i data-lucide="radio-tower" class="w-6 h-6 text-electric-400 mb-3"></i>
+                <div class="text-white font-medium text-sm">Utility / Grid Operator</div>
+                <div class="text-white/55 text-xs mt-1">Interested in igOS platform</div>
+              </button>
+              <button class="audience-card group text-left p-5 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:border-solar-400/40 hover:bg-solar-400/5 transition-all" data-audience="datacenter" type="button">
+                <i data-lucide="server" class="w-6 h-6 text-solar-400 mb-3"></i>
+                <div class="text-white font-medium text-sm">Data Center Operator</div>
+                <div class="text-white/55 text-xs mt-1">Enterprise energy solutions</div>
+              </button>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="2">
+            <h3 class="text-white font-heading font-semibold text-lg mb-6">Your Contact Information</h3>
+            <div class="space-y-4">
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div class="float-field"><input type="text" id="wiz-fname" placeholder=" " required><label for="wiz-fname">First Name</label></div>
+                <div class="float-field"><input type="text" id="wiz-lname" placeholder=" "><label for="wiz-lname">Last Name</label></div>
+              </div>
+              <div class="float-field"><input type="email" id="wiz-email" placeholder=" " required><label for="wiz-email">Email</label></div>
+              <div class="float-field"><input type="tel" id="wiz-phone" placeholder=" "><label for="wiz-phone">Phone</label></div>
+              <div class="float-field"><textarea id="wiz-message" placeholder=" " rows="3"></textarea><label for="wiz-message">Tell us about your project</label></div>
+            </div>
+            <div class="flex gap-3 mt-8">
+              <button type="button" class="btn-ghost text-sm" onclick="wizardPrev()">Back</button>
+              <button type="button" class="btn-energy text-sm flex-1" onclick="wizardNext()">Submit Request</button>
+            </div>
+          </div>
+
+          <div class="wizard-step" data-step="3">
+            <div class="py-2">
+              <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                  <i data-lucide="check" class="w-4 h-4 text-green-400"></i>
+                </div>
+                <div>
+                  <h3 class="text-white font-heading font-semibold text-sm">Request Received!</h3>
+                  <p class="text-white/55 text-xs">Book a call to get started faster</p>
+                </div>
+              </div>
+
+              <!-- Calendar + Time Picker -->
+              <div class="rounded-xl overflow-hidden" style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);">
+                <!-- Header -->
+                <div class="flex items-center justify-between px-4 py-3" style="border-bottom: 1px solid rgba(255,255,255,0.06);">
+                  <button type="button" onclick="calNav(-1)" class="text-white/50 hover:text-white transition-colors"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                  <span id="cal-month-label" class="text-white font-heading font-semibold text-sm"></span>
+                  <button type="button" onclick="calNav(1)" class="text-white/50 hover:text-white transition-colors"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                </div>
+
+                <!-- Day headers -->
+                <div class="grid grid-cols-7 px-3 py-2">
+                  <span class="text-white/40 text-[10px] text-center font-medium">Mon</span>
+                  <span class="text-white/40 text-[10px] text-center font-medium">Tue</span>
+                  <span class="text-white/40 text-[10px] text-center font-medium">Wed</span>
+                  <span class="text-white/40 text-[10px] text-center font-medium">Thu</span>
+                  <span class="text-white/40 text-[10px] text-center font-medium">Fri</span>
+                  <span class="text-white/30 text-[10px] text-center font-medium">Sat</span>
+                  <span class="text-white/30 text-[10px] text-center font-medium">Sun</span>
+                </div>
+
+                <!-- Calendar grid -->
+                <div id="cal-grid" class="grid grid-cols-7 gap-1 px-3 pb-3"></div>
+
+                <!-- Time slots (shown after date selection) -->
+                <div id="cal-times" class="hidden px-4 py-3" style="border-top: 1px solid rgba(255,255,255,0.06);">
+                  <p class="text-white/55 text-xs mb-2"><span id="cal-selected-date" class="text-white font-medium"></span> - Select a time:</p>
+                  <div class="grid grid-cols-3 gap-2 mb-3">
+                    <button type="button" class="cal-time-btn py-2 rounded-lg text-xs text-white/70 border border-white/10 hover:border-energy-500/50 hover:bg-energy-500/10 hover:text-white transition-all text-center" onclick="selectTime(this)">9:00 AM</button>
+                    <button type="button" class="cal-time-btn py-2 rounded-lg text-xs text-white/70 border border-white/10 hover:border-energy-500/50 hover:bg-energy-500/10 hover:text-white transition-all text-center" onclick="selectTime(this)">10:00 AM</button>
+                    <button type="button" class="cal-time-btn py-2 rounded-lg text-xs text-white/70 border border-white/10 hover:border-energy-500/50 hover:bg-energy-500/10 hover:text-white transition-all text-center" onclick="selectTime(this)">11:00 AM</button>
+                    <button type="button" class="cal-time-btn py-2 rounded-lg text-xs text-white/70 border border-white/10 hover:border-energy-500/50 hover:bg-energy-500/10 hover:text-white transition-all text-center" onclick="selectTime(this)">1:00 PM</button>
+                    <button type="button" class="cal-time-btn py-2 rounded-lg text-xs text-white/70 border border-white/10 hover:border-energy-500/50 hover:bg-energy-500/10 hover:text-white transition-all text-center" onclick="selectTime(this)">2:00 PM</button>
+                    <button type="button" class="cal-time-btn py-2 rounded-lg text-xs text-white/70 border border-white/10 hover:border-energy-500/50 hover:bg-energy-500/10 hover:text-white transition-all text-center" onclick="selectTime(this)">3:00 PM</button>
+                  </div>
+                </div>
+
+                <!-- Confirm button -->
+                <div class="px-4 pb-4">
+                  <button id="cal-confirm-btn" type="button" onclick="confirmBooking()" disabled class="w-full py-3 rounded-xl bg-energy-500 text-white font-semibold text-sm hover:bg-energy-600 transition-all disabled:opacity-30 flex items-center justify-center gap-2">
+                    <i data-lucide="video" class="w-4 h-4"></i> Confirm Call
+                  </button>
+                </div>
+              </div>
+
+              <p class="text-white/50 text-[11px] mt-3 text-center">15-minute consultation - Pacific Time (PT)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 11: FAQ — DARK theme
+         Wind turbines visible, glass card items
+         ============================================ -->
+    <section class="photo-section py-28 lg:py-40 relative" style="background: var(--midnight-950);" aria-labelledby="faq-heading">
+      <div class="photo-section-bg" style="opacity: 0.25;">
+        <img src="images/hero/wind-turbines.jpg" alt="" class="w-full h-full object-cover object-center" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true" style="filter: brightness(0.6) saturate(0.8);">
+      </div>
+      <div class="photo-section-overlay" style="background: linear-gradient(180deg, rgba(2,6,23,0.75) 0%, rgba(2,6,23,0.6) 40%, rgba(2,6,23,0.65) 70%, rgba(2,6,23,0.85) 100%);"></div>
+
+      <div class="max-w-3xl mx-auto px-6 photo-section-content">
+        <div class="text-center mb-12">
+          <p class="section-label text-center reveal" style="color: var(--energy-400);">Common Questions</p>
+          <h2 id="faq-heading" class="font-heading font-bold text-white mt-2 reveal reveal-delay-1" style="font-size: var(--text-h2);">Frequently Asked Questions</h2>
+          <div class="w-16 h-[2px] mx-auto mt-4 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--electric-500));"></div>
+        </div>
+
+        <div class="space-y-3" id="faq-list" role="region" aria-label="FAQ">
+          <div class="glass-card rounded-xl reveal reveal-delay-1" style="border-color: rgba(255,255,255,0.08);">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left rounded-xl" aria-expanded="false" aria-controls="faq-1">
+              <span class="font-heading font-semibold text-sm text-white pr-4">What is the eXeL Hybrid Solar Water Heater?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-energy-400"></i>
+            </button>
+            <div class="faq-content px-5 pb-5" role="region" id="faq-1">
+              <p class="text-white/70 text-sm leading-relaxed">The eXeL is a patented hybrid water heating system that uses dedicated photovoltaic solar panels and a low-voltage DC heating element to provide hot water using free sunlight. It comes in 65 and 105 gallon sizes, is made in the USA, and continues to function during power outages.</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-xl reveal reveal-delay-2" style="border-color: rgba(255,255,255,0.08);">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left rounded-xl" aria-expanded="false" aria-controls="faq-2">
+              <span class="font-heading font-semibold text-sm text-white pr-4">How much can I save with eXeL?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-energy-400"></i>
+            </button>
+            <div class="faq-content px-5 pb-5" role="region" id="faq-2">
+              <p class="text-white/70 text-sm leading-relaxed">Water heating accounts for about 25% of typical home energy consumption. eXeL can reduce or eliminate this cost by using dedicated solar panels, saving homeowners up to 25% on their monthly energy bills.</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-xl reveal reveal-delay-3" style="border-color: rgba(255,255,255,0.08);">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left rounded-xl" aria-expanded="false" aria-controls="faq-3">
+              <span class="font-heading font-semibold text-sm text-white pr-4">What is igOS?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-energy-400"></i>
+            </button>
+            <div class="faq-content px-5 pb-5" role="region" id="faq-3">
+              <p class="text-white/70 text-sm leading-relaxed">igOS (Intelligent Grid Operating System) is our cloud-based, machine learning energy platform. It monitors, communicates, and manages energy in real-time, providing grid edge intelligence, autonomous load balancing, and digitization for enhanced decision making.</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-xl reveal reveal-delay-4" style="border-color: rgba(255,255,255,0.08);">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left rounded-xl" aria-expanded="false" aria-controls="faq-4">
+              <span class="font-heading font-semibold text-sm text-white pr-4">Does eXeL work in cold climates and power outages?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-energy-400"></i>
+            </button>
+            <div class="faq-content px-5 pb-5" role="region" id="faq-4">
+              <p class="text-white/70 text-sm leading-relaxed">Yes to both. Low-voltage DC technology allows full functionality even in cloudy weather and cold climates. eXeL operates on dedicated solar panels without grid connection, continuing to work during power outages when conventional systems fail.</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-xl reveal reveal-delay-5" style="border-color: rgba(255,255,255,0.08);">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left rounded-xl" aria-expanded="false" aria-controls="faq-5">
+              <span class="font-heading font-semibold text-sm text-white pr-4">Is eXeL Title 24 compliant?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-energy-400"></i>
+            </button>
+            <div class="faq-content px-5 pb-5" role="region" id="faq-5">
+              <p class="text-white/70 text-sm leading-relaxed">Yes. The eXeL system is fully compliant with California's Title 24 building energy efficiency standards, meeting all regulatory requirements for new construction and renovation projects.</p>
+            </div>
+          </div>
+
+          <div class="glass-card rounded-xl reveal reveal-delay-6" style="border-color: rgba(255,255,255,0.08);">
+            <button class="faq-trigger w-full flex items-center justify-between p-5 text-left rounded-xl" aria-expanded="false" aria-controls="faq-6">
+              <span class="font-heading font-semibold text-sm text-white pr-4">How can I become an eXeL dealer?</span>
+              <i data-lucide="chevron-down" class="w-5 h-5 text-energy-400"></i>
+            </button>
+            <div class="faq-content px-5 pb-5" role="region" id="faq-6">
+              <p class="text-white/70 text-sm leading-relaxed">Expand your service offerings by partnering with Apparent. Contact us through our booking form or email sales@apparent.com to learn about dealer certification and the business opportunity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         SECTION 12: CONTACT BAND
+         Solar golden hour, cinematic dark
+         ============================================ -->
+    <section class="photo-section py-32 relative" style="background: var(--midnight-950);" aria-label="Contact">
+      <div class="photo-section-bg photo-tint-warm" style="opacity: 0.25;">
+        <img src="images/hero/solar-golden-hour.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true">
+      </div>
+      <div class="photo-section-overlay" style="background: radial-gradient(ellipse 80% 70% at 50% 50%, rgba(2,6,23,0.7) 0%, rgba(2,6,23,0.5) 100%);"></div>
+
+      <div class="gradient-divider-animated mb-16 relative z-10" aria-hidden="true"></div>
+
+      <div class="max-w-4xl mx-auto px-6 text-center photo-section-content">
+        <h2 class="font-heading font-bold text-white mb-4 reveal" style="font-size: var(--text-h2);">
+          Ready to power the future?
+        </h2>
+        <p class="text-white/60 mb-10 text-lg reveal reveal-delay-1">Get in touch with our team to learn how Apparent can transform your energy.</p>
+        <div class="flex flex-wrap justify-center gap-5 reveal reveal-delay-2">
+          <a href="mailto:sales@apparent.com" class="glass-pill text-base py-3 px-6 hover:border-energy-500/40" style="color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.15);">
+            <i data-lucide="mail" class="w-5 h-5 text-energy-400"></i> sales@apparent.com
+          </a>
+          <span class="glass-pill text-base py-3 px-6" style="color: rgba(255,255,255,0.9); border-color: rgba(255,255,255,0.15);">
+            <i data-lucide="map-pin" class="w-5 h-5 text-energy-400"></i> Novato, California
+          </span>
+          <div class="flex items-center gap-3">
+            <a href="https://www.linkedin.com/company/apparent-inc/" class="glass-pill py-3 px-4 hover:border-electric-500/40" style="border-color: rgba(255,255,255,0.15);" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5 text-electric-400"></i></a>
+            <a href="https://www.instagram.com/apparentinc/" class="glass-pill py-3 px-4 hover:border-energy-500/40" style="border-color: rgba(255,255,255,0.15);" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5 text-energy-400"></i></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MEGA FOOTER -->
+  <footer class="bg-midnight-950 border-t border-white/[0.04] pt-16 pb-8 pattern-dots-dark relative" role="contentinfo">
+    <div class="gradient-divider-animated mb-0 absolute top-0 left-0 right-0" aria-hidden="true"></div>
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <div>
+          <img src="images/logo.webp" alt="Apparent" class="h-8 mb-4" width="128" height="32" loading="lazy">
+          <p class="text-white/55 text-sm leading-relaxed">Science backed. Data driven. Future focused.</p>
+        </div>
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Products</h3>
+          <ul class="space-y-2.5">
+            <li><a href="exel.html" class="text-white/60 hover:text-white/70 text-sm transition-colors">eXeL Solar Water Heater</a></li>
+            <li><a href="igos.html" class="text-white/60 hover:text-white/70 text-sm transition-colors">igOS Platform</a></li>
+            <li><a href="data-centers.html" class="text-white/60 hover:text-white/70 text-sm transition-colors">Data Center Solutions</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Company</h3>
+          <ul class="space-y-2.5">
+            <li><a href="about.html" class="text-white/60 hover:text-white/70 text-sm transition-colors">About Us</a></li>
+            <li><a href="about.html#leadership" class="text-white/60 hover:text-white/70 text-sm transition-colors">Leadership</a></li>
+            <li><a href="blog/" class="text-white/60 hover:text-white/70 text-sm transition-colors">Blog</a></li>
+            <li><a href="contact.html" class="text-white/60 hover:text-white/70 text-sm transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Connect</h3>
+          <ul class="space-y-2.5">
+            <li><a href="mailto:sales@apparent.com" class="text-white/60 hover:text-white/70 text-sm transition-colors">sales@apparent.com</a></li>
+            <li><a href="https://www.linkedin.com/company/apparent-inc/" class="text-white/60 hover:text-white/70 text-sm transition-colors" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/apparentinc/" class="text-white/60 hover:text-white/70 text-sm transition-colors" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/[0.04] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-white/50 text-xs">&copy; 2026 Apparent Inc. All rights reserved.</p>
+        <p class="text-white/50 text-xs">5 Hamilton Landing, Suite 160, Novato, CA 94949</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE CTA BAR -->
+  <div class="mobile-cta-bar" aria-label="Quick actions">
+    <a href="tel:+14155551234" class="btn-ghost flex-1 text-center text-sm py-3"><i data-lucide="phone" class="w-4 h-4 inline mr-1"></i> Call</a>
+    <a href="#booking" class="btn-energy flex-1 text-center text-sm py-3">Get a Quote</a>
+  </div>
+
+  <!-- CHATBOT -->
+  <button type="button" class="chatbot-bubble" aria-label="Open chat" aria-controls="chatbot-panel" aria-expanded="false" id="chatbot-toggle">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </button>
+  <div class="chatbot-panel" id="chatbot-panel" role="dialog" aria-label="Chat with Apparent">
+    <div class="bg-energy-500 text-white p-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <img src="images/logo-small.webp" alt="" class="w-8 h-8 rounded-full bg-white/20 p-1" width="32" height="32">
+        <div><div class="font-heading font-semibold text-sm">Apparent</div><div class="text-white/70 text-xs">How can we help?</div></div>
+      </div>
+      <button id="chatbot-close" class="text-white/60 hover:text-white" aria-label="Close chat"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <div class="p-4 flex-1 overflow-y-auto min-h-[200px]">
+      <div class="bg-gray-100 rounded-xl p-3 text-sm text-midnight-800 max-w-[80%]">Welcome! Ask us about our eXeL water heater, igOS platform, or anything else.</div>
+    </div>
+    <div class="border-t p-3 flex gap-2">
+      <input type="text" placeholder="Type a message..." class="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-lg outline-none focus:border-energy-500" aria-label="Chat message">
+      <button class="btn-energy-light text-xs px-4 py-2" aria-label="Send"><i data-lucide="send" class="w-4 h-4"></i></button>
+    </div>
+  </div>
+
+  <!-- Review Gating Modal -->
+  <div id="review-modal" class="review-modal-backdrop" onclick="closeReviewModal()">
+    <div class="rounded-3xl max-w-md w-full mx-4 p-8 relative" onclick="event.stopPropagation()" style="background: rgba(15,23,42,0.95); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.1);">
+      <button onclick="closeReviewModal()" class="absolute right-4 top-4 text-white/50 hover:text-white transition-colors text-2xl" aria-label="Close">&times;</button>
+
+      <!-- Step 1: Star Rating -->
+      <div id="review-step-rating">
+        <div class="text-center mb-6">
+          <div class="w-14 h-14 mx-auto mb-4 rounded-2xl bg-energy-500/10 flex items-center justify-center">
+            <i data-lucide="star" class="w-7 h-7 text-energy-400"></i>
+          </div>
+          <h3 class="font-heading font-bold text-xl text-white mb-2">Rate Your Experience</h3>
+          <p class="text-white/55 text-sm">How has your experience with Apparent been?</p>
+        </div>
+        <div id="star-container" class="flex justify-center gap-3 mb-8"></div>
+        <button id="review-continue" onclick="handleRatingSubmit()" disabled class="w-full py-3.5 rounded-xl bg-energy-500 text-white font-semibold disabled:opacity-30 transition-all hover:bg-energy-600" type="button">Continue</button>
+      </div>
+
+      <!-- Step 2: Feedback Form (shown for <4 stars) -->
+      <div id="review-step-feedback" class="hidden">
+        <h3 class="font-heading font-bold text-xl text-white mb-2">We'd Love Your Feedback</h3>
+        <p class="text-white/55 text-sm mb-4">Select areas for improvement:</p>
+        <div id="category-pills" class="flex flex-wrap gap-2 mb-5"></div>
+        <input id="review-improvement" placeholder="How can we improve?" class="w-full px-4 py-3 rounded-xl text-sm outline-none mb-3" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white;" onfocus="this.style.borderColor='rgba(249,115,22,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'">
+        <textarea id="review-message" placeholder="Additional details..." rows="3" class="w-full px-4 py-3 rounded-xl text-sm outline-none resize-none mb-5" style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: white;" onfocus="this.style.borderColor='rgba(249,115,22,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.1)'"></textarea>
+        <button onclick="submitFeedback()" class="w-full py-3.5 rounded-xl bg-energy-500 text-white font-semibold hover:bg-energy-600 transition-all" type="button">Submit Feedback</button>
+      </div>
+
+      <!-- Step 3: Thank You -->
+      <div id="review-step-thanks" class="hidden text-center py-8">
+        <div class="w-16 h-16 rounded-full bg-green-500/15 flex items-center justify-center mx-auto mb-4">
+          <i data-lucide="check" class="w-8 h-8 text-green-400"></i>
+        </div>
+        <p class="font-heading font-bold text-xl text-white">Thank You!</p>
+        <p class="text-white/55 text-sm mt-2">Your feedback helps us improve.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/faq-accordion.js"></script>
+  <script src="js/booking-wizard.js"></script>
+  <script src="js/review-modal.js"></script>
+  <script>
+    // Chatbot toggle with keyboard + focus management
+    const chatToggle = document.getElementById('chatbot-toggle');
+    const chatPanel = document.getElementById('chatbot-panel');
+    const chatInput = chatPanel?.querySelector('input');
+
+    function openChat() {
+      chatPanel?.classList.add('open');
+      chatToggle?.setAttribute('aria-expanded', 'true');
+      setTimeout(() => chatInput?.focus(), 100);
+    }
+    function closeChat() {
+      chatPanel?.classList.remove('open');
+      chatToggle?.setAttribute('aria-expanded', 'false');
+      chatToggle?.focus();
+    }
+
+    chatToggle?.addEventListener('click', () => {
+      chatPanel?.classList.contains('open') ? closeChat() : openChat();
+    });
+    document.getElementById('chatbot-close')?.addEventListener('click', closeChat);
+
+    // Escape key closes chat
+    chatPanel?.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') { e.preventDefault(); closeChat(); }
+    });
+    lucide.createIcons();
+  </script>
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Organization","name":"Apparent Inc.","url":"https://www.apparent.com","logo":"https://www.apparent.com/images/logo.webp","description":"Apparent develops patented renewable energy technology including the eXeL Hybrid Solar Water Heater and igOS Intelligent Grid Operating System.","address":{"@type":"PostalAddress","streetAddress":"5 Hamilton Landing, Suite 160","addressLocality":"Novato","addressRegion":"CA","postalCode":"94949","addressCountry":"US"},"sameAs":["https://www.linkedin.com/company/apparent-inc/","https://www.instagram.com/apparentinc/"],"contactPoint":{"@type":"ContactPoint","email":"sales@apparent.com","contactType":"sales"}}
+  </script>
+</body>
+</html>

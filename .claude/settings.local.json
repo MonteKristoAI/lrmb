@@ -1,0 +1,28 @@
+{
+  "enabledMcpjsonServers": [
+    "firecrawl-mcp",
+    "mem0-mcp",
+    "github",
+    "rube",
+    "airtable",
+    "n8n-mcp",
+    "nanobanana-mcp",
+    "perplexity",
+    "google-workspace",
+    "openai",
+    "ghl-gymtest",
+    "ghl-pulse",
+    "ghl-luxeshutters",
+    "ghl-projectpro",
+    "retellai-mcp-server",
+    "canva",
+    "supabase",
+    "supabase-mk",
+    "wordpress-reig",
+    "codex",
+    "obsidian-mcp",
+    "mcp-obsidian",
+    "ghl-moneyclarity",
+    "cloudflare"
+  ]
+}

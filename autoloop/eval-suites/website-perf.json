@@ -1,0 +1,85 @@
+{
+  "domain": "website-perf",
+  "version": "1.0",
+  "created": "2026-04-14",
+  "description": "Binary pass/fail criteria for website performance optimization loop",
+  "criteria": [
+    {
+      "id": "perf_001",
+      "name": "cls_below_threshold",
+      "description": "Cumulative Layout Shift must stay below 0.1",
+      "check": "cls < 0.1",
+      "weight": 3,
+      "category": "core_web_vitals",
+      "hard_gate": true
+    },
+    {
+      "id": "perf_002",
+      "name": "lcp_improving",
+      "description": "Largest Contentful Paint must not increase vs baseline",
+      "check": "lcp <= baseline_lcp",
+      "weight": 3,
+      "category": "core_web_vitals",
+      "hard_gate": true
+    },
+    {
+      "id": "perf_003",
+      "name": "visual_no_regression",
+      "description": "Frontend-critic score must not decrease after changes",
+      "check": "frontend_critic_score >= baseline_critic_score",
+      "weight": 3,
+      "category": "visual",
+      "hard_gate": true
+    },
+    {
+      "id": "perf_004",
+      "name": "images_optimized",
+      "description": "All images have width/height attributes and below-fold have loading=lazy",
+      "check": "images_missing_dimensions == 0 AND images_missing_lazy == 0",
+      "weight": 2,
+      "category": "images",
+      "hard_gate": false
+    },
+    {
+      "id": "perf_005",
+      "name": "modern_image_format",
+      "description": "Hero and large images use WebP or AVIF format",
+      "check": "large_images_modern_format_percent >= 80",
+      "weight": 2,
+      "category": "images",
+      "hard_gate": false
+    },
+    {
+      "id": "perf_006",
+      "name": "no_render_blocking_js",
+      "description": "Non-critical JS has defer or async attribute",
+      "check": "render_blocking_js_count == 0",
+      "weight": 2,
+      "category": "resources",
+      "hard_gate": false
+    },
+    {
+      "id": "perf_007",
+      "name": "font_display_swap",
+      "description": "Web fonts use font-display: swap or optional",
+      "check": "fonts_without_display_swap == 0",
+      "weight": 1,
+      "category": "resources",
+      "hard_gate": false
+    },
+    {
+      "id": "perf_008",
+      "name": "preconnect_hints",
+      "description": "Preconnect hints for external origins (CDN, fonts, analytics)",
+      "check": "has_preconnect_hints == true",
+      "weight": 1,
+      "category": "resources",
+      "hard_gate": false
+    }
+  ],
+  "scoring": {
+    "max_score": 8,
+    "pass_threshold": 5,
+    "hard_gate_count": 3
+  }
+}

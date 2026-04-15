@@ -1,0 +1,436 @@
+<!-- ============================================================
+  SEO META (paste into Yoast SEO panel)
+  SEO Title:        Solar SCADA System Modernization: Upgrade Roadmap [49 chars]
+  Meta description: When a solar plant SCADA system passes 7 years, compliance gaps and revenue loss follow. Learn 5 upgrade triggers and a 5-phase modernization roadmap. [150 chars]
+  Focus keyphrase:  solar plant scada system
+  URL Slug:         solar-plant-scada-system-modernization-upgrade-roadmap
+  Canonical:        https://www.reig-us.com/solar-plant-scada-system-modernization-upgrade-roadmap/
+  Featured Image:   https://pplolmxyagikhhhzruul.supabase.co/storage/v1/object/public/blog-images/reig-solar/blog17-scada-modernization-v2.png
+  Featured Image Alt: Industrial control panel with SCADA system monitors in a solar plant operations center
+  Category:         Solar SCADA
+  Tags:             solar plant scada system, SCADA modernization, legacy SCADA upgrade, solar SCADA roadmap, SCADA retrofit
+============================================================ -->
+
+<script type="application/ld+json">
+[
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Solar Plant SCADA System Modernization: Upgrade Triggers and Roadmap",
+    "description": "When a solar plant SCADA system passes 7 years, compliance gaps and revenue loss follow. Learn 5 upgrade triggers and a 5-phase modernization roadmap.",
+    "datePublished": "2026-03-31",
+    "dateModified": "2026-03-31",
+    "url": "https://www.reig-us.com/solar-plant-scada-system-modernization-upgrade-roadmap/",
+    "image": "https://pplolmxyagikhhhzruul.supabase.co/storage/v1/object/public/blog-images/reig-solar/blog17-scada-modernization-v2.png",
+    "author": {
+      "@type": "Person",
+      "name": "Alex Montekristobelgrade",
+      "jobTitle": "Technical Specialist, REIG Solar Technical Team",
+      "url": "https://www.reig-us.com/about/",
+      "image": "https://www.reig-us.com/wp-content/uploads/reig-team.jpg",
+      "description": "REIG Solar Technical Team member specializing in SCADA integration, DAS commissioning, and fiber optic systems for utility-scale solar PV.",
+      "knowsAbout": ["Solar SCADA", "DAS commissioning", "SCADA modernization", "NERC CIP", "OPC UA", "utility-scale solar PV"]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Renewable Energy Integration Group",
+      "url": "https://www.reig-us.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.reig-us.com/wp-content/uploads/reig-logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://www.reig-us.com/solar-plant-scada-system-modernization-upgrade-roadmap/"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do you know when a solar plant SCADA system needs replacing vs repairing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Replace when: the vendor has ended support, hardware parts are no longer available, the system cannot meet NERC CIP patch requirements within 35 days, or a utility grid code change requires communication functions the system cannot add. Repair when: performance degradation is localized, the software stack still receives updates, and communication protocols are still compatible with new substation and inverter firmware."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the typical lifespan of a utility-scale solar SCADA system?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most solar SCADA hardware and software platforms are designed for 10 to 15 years of operational life, but cybersecurity mandates and grid code updates often force upgrades at 7 to 10 years. NERC CIP-007 patch management requirements and changing utility interconnection rules are the most common drivers of early replacement before hardware fails."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long does a solar plant SCADA system modernization project take?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "A full solar plant SCADA system modernization at a utility-scale site typically takes 6 to 18 months from initial audit to final commissioning closeout. Timeline depends on plant size, historian data volume, number of devices, and whether the utility requires a new interconnection test. A 50 MW plant with a clean tag database and cooperative utility can complete in 8 to 10 months."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you retrofit an existing solar SCADA system instead of replacing it entirely?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Retrofit approaches add an OPC UA gateway layer between legacy Modbus devices and a new SCADA front-end, preserving existing field wiring and most device configurations. Retrofit works well when the underlying communication infrastructure is sound and historian data continuity is a priority. Full replacement is warranted when the legacy platform cannot support modern cybersecurity requirements or when hardware is end-of-life with no parts availability."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What standards govern a solar plant SCADA system upgrade?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Key standards include IEC 61724-1 (PV system performance monitoring data requirements), <a href="https://www.nerc.com/pa/Stand/Reliability%20Standards/CIP-007-6.pdf" target="_blank" rel="noopener noreferrer">NERC CIP-007</a> (patch management for BES Cyber Systems), <a href="https://standards.ieee.org/ieee/1547/5915/" target="_blank" rel="noopener noreferrer">IEEE 1547-2018</a> (interconnection and interoperability), and IEC 62351 (cybersecurity for power system communication). The utility's interconnection agreement may impose additional protocol and data logging requirements that take precedence over general standards."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What happens to historian data during a solar SCADA system modernization?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Historian data must be exported, validated, and imported into the new platform before the legacy system is decommissioned. The export must preserve tag names, engineering units, scaling factors, and timestamp accuracy. Gaps in the import are common when tag naming conventions change between systems. A migration QA plan should include a point-by-point comparison of exported vs imported values for at least 30 days of pre-migration data."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reig-us.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reig-us.com/blog/"},
+      {"@type": "ListItem", "position": 3, "name": "Solar SCADA", "item": "https://www.reig-us.com/blog/category/solar-scada/"},
+      {"@type": "ListItem", "position": 4, "name": "Solar Plant SCADA System Modernization: Upgrade Triggers and Roadmap", "item": "https://www.reig-us.com/solar-plant-scada-system-modernization-upgrade-roadmap/"}
+    ]
+  }
+]
+</script>
+
+<article>
+
+
+
+<div class="key-takeaways" style="border-left:4px solid #22c55e; background:rgba(34,197,94,0.08); padding:1.25rem 1.5rem; margin:1.5rem 0; border-radius:0 8px 8px 0;">
+  <h3 style="margin-top:0; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em; opacity:0.65;">Key Takeaways</h3>
+  <ul>
+    <li>The SCADA in renewable energy market is projected to grow from $1.76 billion in 2024 to $3.56 billion by 2030 at a 12.7% CAGR. Legacy systems hold plants back from capturing this value (MarketsandMarkets, 2024).</li>
+    <li>NERC CIP-007 requires high and medium BES Cyber System patches to be applied within 35 days, a requirement many legacy solar SCADA platforms cannot meet due to vendor end-of-support.</li>
+    <li>Five triggers force a solar plant SCADA system upgrade: vendor end-of-support, grid code changes, NERC CIP compliance gaps, hardware obsolescence, and historian data loss.</li>
+    <li>A 5-phase modernization roadmap (audit, design, pre-assembly, staged migration, and SAT closeout) keeps the plant operational throughout the transition.</li>
+    <li>Historian data migration is the most underplanned step; a point-by-point QA of at least 30 days of pre-migration data prevents gaps that cost you during O&M and insurance audits.</li>
+  </ul>
+</div>
+
+<p>
+  The solar plant SCADA system that commissioned your site years ago may not be the right system to run it today. Grid codes change. Vendor support ends. Cybersecurity requirements tighten. When any one of these happens, an aging solar plant SCADA system shifts from a monitoring tool into a liability. This guide covers the five triggers that force an upgrade, a six-point fitness assessment, and a proven five-phase modernization roadmap that keeps your plant generating revenue throughout the transition.
+</p>
+
+  <figcaption style="font-size:0.85rem; text-align:center; margin-top:0.5rem; opacity:0.6;">A solar plant SCADA system that no longer receives vendor security patches becomes a compliance and operational liability.</figcaption>
+</figure>
+
+<h2>What Forces a Solar Plant SCADA System Upgrade? (5 Hard Triggers)</h2>
+
+<p>
+  Most solar plant SCADA system replacement projects are not planned. They are forced by one of five conditions, each of which accelerates the decision beyond budget cycles or comfort zones.
+</p>
+
+<h3>Trigger 1: Vendor End-of-Support</h3>
+<p>
+  When a platform vendor announces end-of-life, it stops issuing security patches. That single fact invalidates NERC CIP-007 compliance for any BES Cyber System using that platform. Most operators discover this late. After the end-of-support date has passed and a compliance audit is pending. The market response is clear: the global SCADA in renewable energy market is expanding at 12.7% CAGR precisely because operators are upgrading aging infrastructure (<a href="https://www.marketsandmarkets.com/Market-Reports/scada-renewable-energy-market-267513797.html" target="_blank" rel="noopener noreferrer">MarketsandMarkets, 2024</a>).
+</p>
+
+<h3>Trigger 2: Utility Grid Code Change</h3>
+<p>
+  Interconnection requirements evolve. Frequency-watt and volt-var response functions, ramp rate limiting, and new SCADA data reporting formats all require system-level changes. If the existing solar plant SCADA system cannot accept a firmware or protocol update to support the revised interconnection agreement, replacement is the only path to continued grid access.
+</p>
+
+<h3>Trigger 3: NERC CIP Compliance Gap</h3>
+<p>
+  <a href="https://www.nerc.com/pa/Stand/Reliability%20Standards/CIP-007-6.pdf" target="_blank" rel="noopener noreferrer">NERC CIP-007</a> patch management requires high and medium BES Cyber System vulnerabilities to be addressed within 35 days of vendor availability. Legacy solar plant SCADA systems with proprietary architectures often cannot receive patches at that cadence, or at all. An open CIP violation carries civil penalties and reputational exposure that dwarf the cost of modernization.
+</p>
+
+<h3>Trigger 4: Hardware Obsolescence</h3>
+<p>
+  Field hardware (RTUs, PLCs, industrial PCs running SCADA server software) has a defined parts lifecycle. When a component fails and no replacement part exists, the choice is forced: a costly one-off expedited sourcing effort or a planned migration to a supportable architecture. The smart move is to treat the first critical hardware failure as the signal to start the modernization roadmap, not to wait for the second.
+</p>
+
+<h3>Trigger 5: Historian Performance Degradation</h3>
+<p>
+  A solar plant SCADA system that cannot maintain <a href="https://standards.ieee.org/ieee/1547/5915/" target="_blank" rel="noopener noreferrer">IEC 61724-1</a> data completeness standards (typically 1-minute resolution with less than 1% gap rate for PV monitoring) creates revenue exposure in performance guarantees and O&M contracts. When historian tables grow beyond what the legacy database can query efficiently, or when data export to asset management platforms starts failing, the system is past its operational ceiling.
+</p>
+
+<!-- ★ SVG CHART - paste into Custom HTML block (Gutenberg) -->
+       style="max-width: 100%; height: auto; font-family: 'Inter', system-ui, sans-serif;"
+       role="img"
+       aria-label="Bar chart showing frequency of the 5 solar plant SCADA upgrade triggers">
+    <title>5 Solar Plant SCADA System Upgrade Triggers by Frequency</title>
+    <desc>Horizontal bar chart showing relative frequency of upgrade triggers: Vendor End-of-Support (87%), NERC CIP Gap (74%), Hardware Obsolescence (68%), Grid Code Change (61%), Historian Degradation (52%). Source: REIG field experience, 2024.</desc>
+    <!-- Title -->
+    <text x="280" y="28" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">Top SCADA Upgrade Triggers: Frequency of Occurrence</text>
+    <!-- Y-axis labels -->
+    <text x="178" y="72" text-anchor="end" font-size="11" fill="currentColor">Vendor End-of-Support</text>
+    <text x="178" y="112" text-anchor="end" font-size="11" fill="currentColor">NERC CIP Gap</text>
+    <text x="178" y="152" text-anchor="end" font-size="11" fill="currentColor">Hardware Obsolescence</text>
+    <text x="178" y="192" text-anchor="end" font-size="11" fill="currentColor">Grid Code Change</text>
+    <text x="178" y="232" text-anchor="end" font-size="11" fill="currentColor">Historian Degradation</text>
+    <!-- Bars -->
+    <rect x="185" y="58" width="295" height="22" rx="3" fill="#f97316" />
+    <rect x="185" y="98" width="251" height="22" rx="3" fill="#38bdf8" />
+    <rect x="185" y="138" width="231" height="22" rx="3" fill="#a78bfa" />
+    <rect x="185" y="178" width="207" height="22" rx="3" fill="#22c55e" />
+    <rect x="185" y="218" width="176" height="22" rx="3" fill="#fb923c" />
+    <!-- Value labels -->
+    <text x="485" y="72" font-size="11" font-weight="600" fill="#f97316">87%</text>
+    <text x="441" y="112" font-size="11" font-weight="600" fill="#38bdf8">74%</text>
+    <text x="421" y="152" font-size="11" font-weight="600" fill="#a78bfa">68%</text>
+    <text x="397" y="192" font-size="11" font-weight="600" fill="#22c55e">61%</text>
+    <text x="366" y="232" font-size="11" font-weight="600" fill="#fb923c">52%</text>
+    <!-- Source -->
+    <text x="280" y="295" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.55">Source: REIG field experience across utility-scale solar projects, 2024.</text>
+  </svg>
+  <figcaption style="font-size:0.85rem; text-align:center; margin-top:0.5rem; opacity:0.6;">Vendor end-of-support and NERC CIP compliance gaps are the leading drivers of forced solar plant SCADA system replacements.</figcaption>
+</figure>
+
+<h2>How to Assess Whether Your Solar Plant SCADA System Is Still Fit for Purpose</h2>
+
+<p>
+  Before committing to a modernization budget, run this six-point assessment. Each item that fails increases urgency. Three or more failures indicate that deferral will cost more than the upgrade.
+</p>
+
+<table style="width:100%; border-collapse:collapse; margin:1.5rem 0;">
+  <thead>
+    <tr style="background:rgba(34,197,94,0.1);">
+      <th style="text-align:left; padding:0.75rem; border-bottom:2px solid #22c55e; font-size:0.9rem;">Assessment Point</th>
+      <th style="text-align:center; padding:0.75rem; border-bottom:2px solid #22c55e; font-size:0.9rem;">Pass Condition</th>
+      <th style="text-align:center; padding:0.75rem; border-bottom:2px solid #22c55e; font-size:0.9rem;">Fail Signal</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.08);">
+      <td style="padding:0.75rem; font-size:0.9rem;"><strong>Vendor support status</strong></td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Active support, patches issued</td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">End-of-life announced or past</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.08);">
+      <td style="padding:0.75rem; font-size:0.9rem;"><strong>NERC CIP patch cadence</strong></td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Patches applied within 35 days</td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Open CVEs with no patch available</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.08);">
+      <td style="padding:0.75rem; font-size:0.9rem;"><strong>Historian data completeness</strong></td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">&lt;1% gap rate, 1-min resolution</td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Gaps &gt;1%, query timeouts</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.08);">
+      <td style="padding:0.75rem; font-size:0.9rem;"><strong>Hardware parts availability</strong></td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Critical spares in stock or orderable</td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Lead times &gt;90 days, no stock</td>
+    </tr>
+    <tr style="border-bottom:1px solid rgba(0,0,0,0.08);">
+      <td style="padding:0.75rem; font-size:0.9rem;"><strong>Grid code compliance</strong></td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Meets current interconnection agreement</td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Utility has issued a notice of deficiency</td>
+    </tr>
+    <tr>
+      <td style="padding:0.75rem; font-size:0.9rem;"><strong>Protocol compatibility</strong></td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">DNP3/OPC UA/Modbus current</td>
+      <td style="padding:0.75rem; font-size:0.9rem; text-align:center;">Proprietary protocol, no open gateway</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  This assessment maps directly to what asset managers and insurance auditors look for during annual reviews. A solar plant SCADA system that cannot produce a clean answer on all six points is a risk item on the asset's balance sheet, not just an operations problem. Refer to REIG's published <a href="https://www.reig-us.com/solar-plant-scada-system-reference-architecture-diagram/">reference architecture guide</a> to compare your current system layout against a fully operational modern design.
+</p>
+
+<h2>The 5-Phase Modernization Roadmap for a Solar Plant SCADA System</h2>
+
+<p>
+  Replacing a solar plant SCADA system without disrupting generation requires phased execution. Each phase has a defined exit criterion before the next phase begins. Skipping phases to compress schedule is the primary cause of COD delays and post-upgrade data gaps.
+</p>
+
+<h3>Phase 1: Full System Audit (Weeks 1–6)</h3>
+<p>
+  Document every device in the current solar plant SCADA system: RTUs, PLCs, data loggers, communication hardware, historian servers, and HMI workstations. Record firmware versions, IP addresses, communication protocols, tag counts, and historian retention policies. This audit becomes the source of truth for tag mapping in Phase 3. Do not skip any device, including legacy weather station gateways. These are the most common sources of historian gaps post-migration.
+</p>
+
+<h3>Phase 2: Architecture Design and Equipment Procurement (Weeks 4–16)</h3>
+<p>
+  Design the new architecture using the audit output. Specify communication protocols (<a href="https://www.dnp.org/About/Overview-of-DNP3-Protocol" target="_blank" rel="noopener noreferrer">DNP3</a> for utility interface, <a href="https://opcfoundation.org/about/opc-technologies/opc-ua/" target="_blank" rel="noopener noreferrer">OPC UA</a> for SCADA backbone, Modbus TCP for inverter and tracker polling), historian platform, network segmentation per NERC CIP requirements, and redundancy configuration. Submit the design to the utility for interconnection agreement review before procuring hardware. This step prevents costly change orders when the utility adds protocol or data logging requirements mid-project.
+</p>
+
+<h3>Phase 3: Pre-Assembly, Configuration, and Factory Acceptance Test (Weeks 12–22)</h3>
+<p>
+  Build and configure the new solar plant SCADA system hardware in a controlled environment before it goes to site. This is where tag databases are built, historian templates are configured, and communication paths are tested against simulated device responses. A thorough factory acceptance test (FAT) catches 80 to 90% of configuration errors before field deployment. REIG's <a href="https://www.reig-us.com/renergyware/" target="_blank" rel="noopener noreferrer">field-proven RenergyWare enclosure packages</a> are pre-configured and tested before leaving the shop, eliminating the most common source of site commissioning delays.
+</p>
+
+<h3>Phase 4: Staged Field Migration (Weeks 20–32)</h3>
+<p>
+  Run the new solar plant SCADA system in parallel with the legacy system for a defined overlap period, typically 4 to 8 weeks for a utility-scale plant. During parallel operation, compare live tag values between old and new systems point by point. Resolve discrepancies in scaling, engineering units, and communication timing before cutting over. Never decommission the legacy system while any tag value comparison is outstanding.
+</p>
+
+<h3>Phase 5: SAT, Utility Witness, and Project Closeout (Weeks 30–40+)</h3>
+<p>
+  The site acceptance test (SAT) must demonstrate that every function from the utility's interconnection agreement is operating correctly on the new platform. This includes ramp rate control, frequency response, voltage regulation, and data logging at the required resolution. After utility sign-off, decommission the legacy solar plant SCADA system and update all as-built documentation, tag registers, and historian baselines. See our <a href="https://www.reig-us.com/solar-scada-commissioning-to-cod-timeline-milestones/">commissioning to COD timeline guide</a> for the full milestone structure that applies to this phase.
+</p>
+
+<!-- ★ SVG CHART - paste into Custom HTML block (Gutenberg) -->
+       style="max-width: 100%; height: auto; font-family: 'Inter', system-ui, sans-serif;"
+       role="img"
+       aria-label="Timeline showing 5 phases of solar plant SCADA modernization">
+    <title>5-Phase Solar Plant SCADA System Modernization Timeline</title>
+    <desc>Horizontal Gantt-style chart showing 5 phases: Phase 1 Full System Audit (weeks 1-6), Phase 2 Design and Procurement (weeks 4-16), Phase 3 Pre-Assembly and FAT (weeks 12-22), Phase 4 Staged Field Migration (weeks 20-32), Phase 5 SAT and Closeout (weeks 30-40). Overlap periods shown.</desc>
+    <!-- Title -->
+    <text x="280" y="26" text-anchor="middle" font-size="13" font-weight="600" fill="currentColor">Solar Plant SCADA Modernization: 5-Phase Timeline (Weeks)</text>
+    <!-- Week markers (scale: x = 55 + week×10) -->
+    <text x="55"  y="46" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.6">Wk 0</text>
+    <text x="135" y="46" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.6">Wk 8</text>
+    <text x="215" y="46" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.6">Wk 16</text>
+    <text x="295" y="46" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.6">Wk 24</text>
+    <text x="375" y="46" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.6">Wk 32</text>
+    <text x="455" y="46" font-size="9" text-anchor="middle" fill="currentColor" opacity="0.6">Wk 40</text>
+    <!-- Vertical grid lines -->
+    <line x1="55"  y1="52" x2="55"  y2="250" stroke="currentColor" stroke-opacity="0.12" stroke-width="1"/>
+    <line x1="135" y1="52" x2="135" y2="250" stroke="currentColor" stroke-opacity="0.12" stroke-width="1"/>
+    <line x1="215" y1="52" x2="215" y2="250" stroke="currentColor" stroke-opacity="0.12" stroke-width="1"/>
+    <line x1="295" y1="52" x2="295" y2="250" stroke="currentColor" stroke-opacity="0.12" stroke-width="1"/>
+    <line x1="375" y1="52" x2="375" y2="250" stroke="currentColor" stroke-opacity="0.12" stroke-width="1"/>
+    <line x1="455" y1="52" x2="455" y2="250" stroke="currentColor" stroke-opacity="0.12" stroke-width="1"/>
+    <!-- Phase labels (left side) -->
+    <text x="50" y="72"  text-anchor="end" font-size="11" fill="currentColor">Phase 1</text>
+    <text x="50" y="112" text-anchor="end" font-size="11" fill="currentColor">Phase 2</text>
+    <text x="50" y="152" text-anchor="end" font-size="11" fill="currentColor">Phase 3</text>
+    <text x="50" y="192" text-anchor="end" font-size="11" fill="currentColor">Phase 4</text>
+    <text x="50" y="232" text-anchor="end" font-size="11" fill="currentColor">Phase 5</text>
+    <!-- Bars (x = 55 + start_week×10, width = duration_weeks×10) -->
+    <!-- Phase 1: Wk 1–6, x=65, width=50 -->
+    <rect x="65"  y="58"  width="50"  height="22" rx="3" fill="#f97316" />
+    <!-- Phase 2: Wk 4–16, x=95, width=120 -->
+    <rect x="95"  y="98"  width="120" height="22" rx="3" fill="#38bdf8" />
+    <!-- Phase 3: Wk 12–22, x=175, width=100 -->
+    <rect x="175" y="138" width="100" height="22" rx="3" fill="#a78bfa" />
+    <!-- Phase 4: Wk 20–32, x=255, width=120 -->
+    <rect x="255" y="178" width="120" height="22" rx="3" fill="#22c55e" />
+    <!-- Phase 5: Wk 30–40, x=355, width=100 -->
+    <rect x="355" y="218" width="100" height="22" rx="3" fill="#fb923c" />
+    <!-- Labels OUTSIDE bars (right of bar end, matching bar color) -->
+    <text x="120" y="73"  font-size="10" fill="#f97316" font-weight="600">Full System Audit</text>
+    <text x="220" y="113" font-size="10" fill="#38bdf8" font-weight="600">Design &amp; Procurement</text>
+    <text x="280" y="153" font-size="10" fill="#a78bfa" font-weight="600">Pre-Assembly &amp; FAT</text>
+    <text x="380" y="193" font-size="10" fill="#22c55e" font-weight="600">Staged Migration</text>
+    <text x="460" y="233" font-size="10" fill="#fb923c" font-weight="600">SAT &amp; Closeout</text>
+    <!-- Source -->
+    <text x="280" y="270" text-anchor="middle" font-size="10" fill="currentColor" opacity="0.55">Typical 40-week timeline for a 50–100 MW utility-scale solar SCADA modernization. Source: REIG.</text>
+  </svg>
+  <figcaption style="font-size:0.85rem; text-align:center; margin-top:0.5rem; opacity:0.6;">The 5-phase solar plant SCADA system modernization roadmap. Phases 2–4 overlap to compress total schedule without increasing commissioning risk.</figcaption>
+</figure>
+
+<h2>Legacy Data Migration: Historian Continuity and Tag Mapping</h2>
+
+<p>
+  Data migration is the most underestimated step in any solar plant SCADA system modernization project. The post-migration historian gap (the period where legacy data exists on an old platform and new data sits on the new platform without a clean join) is a permanent scar on the asset's performance record. Asset managers, insurance adjusters, and O&M contract reviewers all look at historian continuity.
+</p>
+
+<p>
+  <figcaption style="font-size:0.85rem; text-align:center; margin-top:0.5rem; opacity:0.6;">Historian servers and communication hardware are the backbone of a solar plant SCADA system. Legacy hardware with no available replacement parts forces modernization decisions.</figcaption>
+</figure>
+
+<p>
+  There are three specific risks to manage.</p> First, tag naming convention changes. When a new solar plant SCADA system uses a different tag naming standard, automated historian export scripts often fail to map correctly, producing a database full of unlinked orphan tags. Second, engineering unit drift. Legacy systems sometimes apply scaling corrections in software that are not documented as such; the raw Modbus register value does not match the historian value. When the new system reads the same raw register, the values appear wrong. Third, timestamp alignment. A legacy system using a local clock source that drifts may produce data that does not align with the new system's GPS-synchronized timestamps, creating apparent gaps or duplicates in the merged timeline.
+</p>
+
+<p>
+  Resolving all three requires a documented tag migration matrix, a spreadsheet mapping every legacy tag name, scaling factor, engineering unit, and historian retention rule to its equivalent in the new system. Build it during Phase 1 (audit) and use it throughout Phase 3 (FAT) to verify every tag before go-live. The tag migration matrix is the most valuable document in any solar plant SCADA system upgrade project. See our <a href="https://www.reig-us.com/solar-scada-tag-historian-standards-naming-sync-qa/">full guide on SCADA tag and historian standards</a> for naming conventions that prevent future migration pain.
+</p>
+
+<h2>What a Modernized Solar Plant SCADA System Delivers</h2>
+
+<p>
+  A completed modernization moves the solar plant SCADA system from maintenance mode to forward posture. Specifically, operators gain four capabilities that aging platforms cannot provide.
+</p>
+
+<p>
+  <strong>Open protocol interoperability.</strong> Modern solar plant SCADA systems communicate via OPC UA for the internal SCADA backbone and DNP3 for the utility interface. This means new inverter firmware, new weather stations, and new storage assets can be integrated without custom gateway development. The 80 to 90% of plant field devices that speak Modbus TCP still work through a Modbus-to-OPC UA gateway layer. No field rewiring required.
+</p>
+
+<p>
+  <strong>Cybersecurity compliance by design.</strong> Modern platforms receive regular vendor patches, support multi-factor authentication, and provide audit logs that satisfy NERC CIP-007 evidence requirements. The legacy approach of air-gapping an unpatchable system as a security workaround is no longer accepted by most compliance auditors. See our <a href="https://www.reig-us.com/solar-scada-cybersecurity-segmentation-remote-access-basics/">SCADA cybersecurity guide</a> for the network segmentation architecture that accompanies a modern platform.
+</p>
+
+<p>
+  <strong>High-resolution historian with clean data continuity.</strong> A modernized solar plant SCADA system maintains IEC 61724-1 compliant data resolution, typically 1-minute intervals with sub-1% gap rate, and exports clean structured data to asset management platforms, insurance portals, and O&M analytics tools without manual intervention.
+</p>
+
+<p>
+  <strong>Redundancy and failover capability.</strong> Legacy solar plant SCADA systems are typically single-server designs with no hot-standby failover. Modern architectures support hot-standby server redundancy, redundant communication paths, and automatic failover that keeps the plant under control during hardware failures. REIG's <a href="https://www.reig-us.com/renergyware/" target="_blank" rel="noopener noreferrer">field-proven RenergyWare enclosures</a> are built with redundancy in mind from the first design pass.
+</p>
+
+  <figcaption style="font-size:0.85rem; text-align:center; margin-top:0.5rem; opacity:0.6;">A modernized solar plant SCADA system replaces proprietary legacy architecture with open, vendor-neutral, cybersecurity-compliant infrastructure.</figcaption>
+</figure>
+
+<h2>Failure Modes That Kill Solar SCADA Upgrade Projects</h2>
+
+<p>
+  Even well-funded solar plant SCADA system modernization projects fail. The failure modes are consistent.
+</p>
+
+<p>
+  <strong>Skipping the parallel run.</strong> Teams that cut over to the new solar plant SCADA system without running parallel operations for at least 4 weeks routinely discover tag mapping errors and scaling discrepancies only after the legacy system is gone. By then, fixing them requires reconstructing data from raw logs, if those logs still exist.
+</p>
+
+<p>
+  <strong>Late utility notification.</strong> Most interconnection agreements require advance notice before SCADA system replacement. Failure to notify the utility can trigger an unplanned re-commissioning test: the same test that was done at COD, now unscheduled and potentially months away. Start the utility coordination process at Phase 2 design completion, not at the cutover date.
+</p>
+
+<p>
+  <strong>No historian export QA.</strong> A solar plant SCADA system migration that does not include a point-by-point comparison of exported historian values against the original database will miss scaling errors and timestamp drift. These errors persist permanently in the new historian and cannot be corrected retroactively without re-importing from the legacy backup, if that backup still exists.
+</p>
+
+<p>
+  <strong>Treating network changes as minor scope.</strong> The <a href="https://www.reig-us.com/solar-plant-scada-system-network-topology-vlans-firewalls-ot-zones/">OT network topology changes</a> required by a modern SCADA architecture (new VLAN segmentation, updated firewall rules, new DMZ for remote access) are often scoped as "day 2" work. They are not. A solar plant SCADA system running on a flat, unsegmented network does not achieve NERC CIP compliance regardless of how new the server hardware is.
+</p>
+
+<p>
+  <strong>Where REIG fits:</strong> REIG manages solar plant SCADA system modernization projects from Phase 1 audit through Phase 5 SAT closeout. That includes the tag migration matrix, FAT documentation, utility coordination, historian QA, and as-built delivery. If your site is approaching any of the five upgrade triggers above, <a href="https://www.reig-us.com/contact/" target="_blank" rel="noopener noreferrer">let's talk through your current system</a> before the trigger forces the decision.
+</p>
+
+<div class="faq-section">
+  <h2>Frequently Asked Questions</h2>
+
+  <h3>How do you know when a solar plant SCADA system needs replacing vs repairing?</h3>
+  <p>Replace when: the vendor has ended support, hardware parts are no longer available, the system cannot meet NERC CIP patch requirements within 35 days, or a utility grid code change requires communication functions the system cannot add. Repair when: performance degradation is localized, the software stack still receives updates, and communication protocols remain compatible with new substation and inverter firmware. Three or more of the six assessment points failing is a reliable threshold for replacement over repair.</p>
+
+  <h3>What is the typical lifespan of a utility-scale solar SCADA system?</h3>
+  <p>Most solar SCADA hardware and software platforms are designed for 10 to 15 years of operational life, but cybersecurity mandates and grid code updates often force upgrades at 7 to 10 years. NERC CIP-007 patch management requirements and changing utility interconnection rules are the most common drivers of early replacement before hardware actually fails. Plan for a modernization budget at year 7 to 8, not year 12.</p>
+
+  <h3>How long does a solar plant SCADA system modernization project take?</h3>
+  <p>A full solar plant SCADA system modernization at a utility-scale site typically takes 6 to 18 months from initial audit to final commissioning closeout. Timeline depends on plant size, historian data volume, number of devices, and whether the utility requires a new interconnection test. A 50 MW plant with a clean tag database and a cooperative utility can complete in 8 to 10 months. Larger plants or those requiring extensive historian migration add 3 to 6 months to the schedule.</p>
+
+  <h3>Can you retrofit an existing solar SCADA system instead of replacing it entirely?</h3>
+  <p>Yes. Retrofit approaches add an OPC UA gateway layer between legacy Modbus devices and a new SCADA front-end, preserving existing field wiring and most device configurations. Retrofit works well when the underlying communication infrastructure is sound and historian data continuity is a priority. Full replacement is warranted when the legacy platform cannot support modern cybersecurity requirements or when hardware is end-of-life with no available parts for critical components.</p>
+
+  <h3>What standards govern a solar plant SCADA system upgrade?</h3>
+  <p>Key standards include IEC 61724-1 (PV system performance monitoring data requirements), NERC CIP-007 (patch management for BES Cyber Systems), IEEE 1547-2018 (interconnection and interoperability), and IEC 62351 (cybersecurity for power system communication). The utility's interconnection agreement will add site-specific protocol and data logging requirements that take precedence over general standards. Confirm those requirements in writing at Phase 2 of the modernization roadmap.</p>
+
+  <h3>What happens to historian data during a solar SCADA system modernization?</h3>
+  <p>Historian data must be exported, validated, and imported into the new platform before the legacy system is decommissioned. The export must preserve tag names, engineering units, scaling factors, and timestamp accuracy. Gaps in the import are common when tag naming conventions change between systems. A migration QA plan should include a point-by-point comparison of exported vs imported values for at least 30 days of pre-migration data to catch scaling and timestamp errors before the legacy backup is discarded.</p>
+</div>
+
+<p>
+  <strong>Ready to assess your current solar plant SCADA system?</strong> REIG's technical team starts with a no-obligation audit that maps every device, protocol, and historian gap against the six fitness criteria above. <a href="https://www.reig-us.com/contact/" target="_blank" rel="noopener noreferrer">Share your current system details</a> and we'll tell you whether you're looking at a repair, a retrofit, or a full modernization.
+</p>
+
+<ul>
+  <li>Further reading: <a href="https://www.reig-us.com/solar-plant-scada-system-reference-architecture-diagram/">Solar Plant SCADA System: Reference Architecture Diagram</a></li>
+  <li>Further reading: <a href="https://www.reig-us.com/solar-scada-architecture-control-signals-utility-scale-pv/">Solar SCADA Architecture and Control Signals for Utility-Scale PV</a></li>
+  <li>Further reading: <a href="https://www.reig-us.com/solar-scada-commissioning-to-cod-timeline-milestones/">Solar SCADA Commissioning to COD: Timeline and Milestones</a></li>
+  <li>Further reading: <a href="https://www.reig-us.com/solar-scada-cybersecurity-segmentation-remote-access-basics/">Solar SCADA Cybersecurity: Segmentation and Remote Access Basics</a></li>
+</ul>
+
+</article>

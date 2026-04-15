@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Clarity — Financial Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{--teal-dark:#0a2e2a;--teal-pale:#e0f5f2;--orange:#ff5500;--orange-light:#ff7733;--orange-pale:#fff2ec;--cream:#f8fffe;--white:#fff;--td:#0a2e2a;--tmu:#4a8a82;--tl:#7ab8b0;--border:rgba(10,46,42,0.14);}
+html,body{margin:0;padding:0;background:var(--cream);}
+body{font-family:'Source Sans 3',sans-serif;color:var(--td);max-width:420px;margin:0 auto;}
+.hero{background:var(--teal-dark);padding:44px 26px 36px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-80px;right:-80px;width:260px;height:260px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.topline{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff5500 35%,#ff5500 65%,transparent);}
+.wm{font-family:'Lora',serif;font-size:18px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:16px;position:relative;z-index:1;}
+.wm-m{color:rgba(255,255,255,0.92);}.wm-c{color:#ff5500;}
+.hero-h{font-family:'Lora',serif;font-size:28px;font-weight:500;color:#fff;line-height:1.2;margin-bottom:10px;position:relative;z-index:1;}
+.hero-h em{color:#ff5500;font-style:italic;}
+.hero-div{width:36px;height:2px;background:#ff5500;margin:12px auto;border-radius:2px;opacity:0.8;position:relative;z-index:1;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,0.55);line-height:1.65;max-width:290px;margin:0 auto;font-weight:300;position:relative;z-index:1;}
+.tools{padding:24px 16px 8px;}
+.section-label{font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:0.1em;color:#ff5500;margin-bottom:8px;display:block;text-align:center;}
+.section-title{font-family:'Lora',serif;font-size:20px;font-weight:500;color:var(--td);text-align:center;margin-bottom:6px;line-height:1.3;}
+.section-sub{font-size:14px;color:var(--tmu);text-align:center;font-weight:300;margin-bottom:18px;line-height:1.55;}
+.tool-card{background:var(--white);border-radius:14px;border:2px solid var(--border);overflow:hidden;margin-bottom:11px;display:block;text-decoration:none;transition:transform 0.18s,border-color 0.18s;}
+.tool-card:hover{transform:translateY(-2px);border-color:#ff5500;}
+.tool-card.featured{border-color:#ff5500;}
+.fbadge{background:#ff5500;color:#fff;font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;text-align:center;padding:5px;}
+.card-inner{padding:15px 17px 13px;display:flex;align-items:flex-start;gap:13px;}
+.card-icon{width:44px;height:44px;border-radius:11px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.ci-o{background:var(--orange-pale);}
+.ci-t{background:var(--teal-pale);}
+.card-meta{flex:1;}
+.card-tag{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:3px;}
+.card-title{font-family:'Lora',serif;font-size:17px;font-weight:500;color:var(--td);line-height:1.25;margin-bottom:4px;}
+.card-desc{font-size:13px;color:var(--tmu);line-height:1.5;font-weight:300;}
+.card-footer{padding:9px 17px;background:var(--cream);display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);}
+.card-time{font-size:11px;color:var(--tl);font-weight:300;}
+.card-btn{background:#ff5500;color:#fff;border:none;border-radius:8px;font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;padding:8px 16px;cursor:pointer;}
+.sub-banner{margin:8px 16px 24px;background:var(--teal-dark);border-radius:16px;padding:22px 20px;text-align:center;position:relative;overflow:hidden;}
+.sub-banner::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:rgba(255,85,0,0.1);}
+.sb-eye{font-size:10px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;position:relative;z-index:1;}
+.sb-h{font-family:'Lora',serif;font-size:20px;color:#fff;font-weight:500;margin-bottom:6px;position:relative;z-index:1;line-height:1.3;}
+.sb-h em{color:#ff5500;font-style:italic;}
+.sb-sub{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:18px;font-weight:300;line-height:1.55;position:relative;z-index:1;}
+.sb-btn{background:#ff5500;color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:14px;width:100%;cursor:pointer;position:relative;z-index:1;}
+.disc{padding:16px;font-size:10px;color:var(--tl);line-height:1.7;text-align:center;}
+.fwm{font-family:'Lora',serif;font-size:11px;font-style:italic;color:var(--tl);text-align:center;padding-bottom:16px;}
+.bs2{background:#fff;color:#0a2e2a;border:2px solid rgba(10,46,42,0.14);border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:15px;font-weight:500;padding:12px;cursor:pointer;text-align:center;width:100%;position:relative;z-index:1;}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="topline"></div>
+  <div class="wm"><span class="wm-m">Money</span><span class="wm-c">Clarity</span></div>
+  <h1 class="hero-h">Everything just changed.<br>And nobody told you<br>what to do <em>next.</em></h1>
+  <div class="hero-div"></div>
+  <p class="hero-sub">Five free tools. Under 60 seconds each. One clear answer every time.</p>
+</div>
+<div class="tools">
+  <span class="section-label">Choose your tool</span>
+  <h2 class="section-title">What do you need clarity on?</h2>
+  <p class="section-sub">Pick the question that feels most urgent right now.</p>
+  <a class="tool-card featured" href="life-changed.html">
+    <div class="fbadge">Most important — start here</div>
+    <div class="card-inner">
+      <div class="card-icon ci-t">🤍</div>
+      <div class="card-meta">
+        <div class="card-tag">Divorce &amp; loss of spouse</div>
+        <div class="card-title">"Everything just changed."</div>
+        <div class="card-desc">Find out where you stand — calmly, clearly, without pressure.</div>
+      </div>
+    </div>
+    <div class="card-footer"><div class="card-time">5 questions · 60 sec</div><button class="card-btn">Start →</button></div>
+  </a>
+  <a class="tool-card" href="can-i-support-myself.html">
+    <div class="card-inner">
+      <div class="card-icon ci-o">💪</div>
+      <div class="card-meta">
+        <div class="card-tag">Divorce path</div>
+        <div class="card-title">Can I support myself on my own?</div>
+        <div class="card-desc">Your income vs. expenses — a clear honest answer.</div>
+      </div>
+    </div>
+    <div class="card-footer"><div class="card-time">4 questions · 60 sec</div><button class="card-btn">Start →</button></div>
+  </a>
+  <a class="tool-card" href="will-i-be-okay.html">
+    <div class="card-inner">
+      <div class="card-icon ci-t">🤍</div>
+      <div class="card-meta">
+        <div class="card-tag">Loss path</div>
+        <div class="card-title">Will I be okay financially?</div>
+        <div class="card-desc">Income, expenses, assets — a clear picture of your stability.</div>
+      </div>
+    </div>
+    <div class="card-footer"><div class="card-time">4 questions · 60 sec</div><button class="card-btn">Start →</button></div>
+  </a>
+  <a class="tool-card" href="what-do-i-do-with-this-money.html">
+    <div class="card-inner">
+      <div class="card-icon ci-o">💰</div>
+      <div class="card-meta">
+        <div class="card-tag">For everyone</div>
+        <div class="card-title">What do I do with this money?</div>
+        <div class="card-desc">Settlement, inheritance, retirement account — your single most important first step.</div>
+      </div>
+    </div>
+    <div class="card-footer"><div class="card-time">4 questions · 60 sec</div><button class="card-btn">Start →</button></div>
+  </a>
+  <a class="tool-card" href="money-clarity.html">
+    <div class="card-inner">
+      <div class="card-icon ci-o">💡</div>
+      <div class="card-meta">
+        <div class="card-tag">General clarity</div>
+        <div class="card-title">"Why don't I feel ahead?"</div>
+        <div class="card-desc">Your financial snapshot and exactly what to do next.</div>
+      </div>
+    </div>
+    <div class="card-footer"><div class="card-time">5 questions · 60 sec</div><button class="card-btn">Start →</button></div>
+  </a>
+  <a class="tool-card" href="what-should-i-do.html">
+    <div class="card-inner">
+      <div class="card-icon ci-t">🎯</div>
+      <div class="card-meta">
+        <div class="card-tag">Priority finder</div>
+        <div class="card-title">What should I do with my money?</div>
+        <div class="card-desc">One clear prioritized answer based on where you are right now.</div>
+      </div>
+    </div>
+    <div class="card-footer"><div class="card-time">5 questions · 60 sec</div><button class="card-btn">Start →</button></div>
+  </a>
+</div>
+<div class="sub-banner">
+  <div class="sb-eye">Monthly membership</div>
+  <h2 class="sb-h">Always know where you <em>stand.</em></h2>
+  <p class="sb-sub">Ongoing guidance and someone in your corner — from $27/month.</p>
+  <button class="bs2" onclick="window.location.href='MoneyClarityGuide.pdf'" style="margin-bottom:10px;">Download Your Free Report</button>
+  <button class="sb-btn" onclick="window.location.href='subscribe.html'">See Membership Options</button>
+</div>
+<div class="disc">These tools are for educational purposes only and do not constitute financial advice. Money Clarity is not a registered investment advisor.</div>
+<div class="fwm">Money Clarity · moneyclarity.me</div>
+</body>
+</html>

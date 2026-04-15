@@ -1,0 +1,81 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/#webpage",
+      "url": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/",
+      "name": "AI Integration for {{INDUSTRY_NAME}} | AIIA Co",
+      "description": "{{INDUSTRY_DESCRIPTION}}",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "AI Implementation in {{INDUSTRY_NAME}}",
+        "description": "Custom AI integrations, automations, and intelligent workflows built specifically for {{INDUSTRY_NAME}} operations - designed to reduce manual effort, accelerate decisions, and scale without adding headcount."
+      },
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/#breadcrumb"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/#service",
+      "name": "AI Integration for {{INDUSTRY_NAME}}",
+      "description": "{{INDUSTRY_DESCRIPTION}}",
+      "url": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/",
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "serviceType": "AI Integration and Implementation",
+      "areaServed": {
+        "@type": "Country",
+        "name": "United States"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "{{INDUSTRY_NAME}} businesses - mid-market and enterprise"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/",
+        "seller": {
+          "@id": "https://aiiaco.com/#organization"
+        }
+      },
+      "isRelatedTo": {
+        "@type": "Service",
+        "@id": "https://aiiaco.com/#professionalservice"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Industries",
+          "item": "https://aiiaco.com/industries/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "{{INDUSTRY_NAME}}",
+          "item": "https://aiiaco.com/industries/{{INDUSTRY_SLUG}}/"
+        }
+      ]
+    }
+  ]
+}

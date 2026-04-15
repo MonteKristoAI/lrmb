@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  @page {
+    size: A4;
+    margin: 14mm 18mm 16mm 18mm;
+    background: #FAF8F4;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    font-size: 11pt;
+    color: #1D1F28;
+    line-height: 1.6;
+    background: #FAF8F4;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-break  { break-inside: avoid; page-break-inside: avoid; }
+  h2.sh      { break-after: avoid;  page-break-after: avoid; }
+  h3.subh    { break-after: avoid;  page-break-after: avoid; }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1.5pt solid #041122;
+    padding-bottom: 14pt;
+    margin-bottom: 12pt;
+  }
+  .report-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22pt;
+    font-weight: 700;
+    color: #041122;
+    line-height: 1.2;
+    margin: 0 0 6pt 0;
+  }
+  .report-meta {
+    font-size: 11pt;
+    color: #777;
+    margin: 0 0 3pt 0;
+  }
+  .report-prepared {
+    font-size: 10pt;
+    font-style: italic;
+    color: #999;
+    margin: 0;
+  }
+  .header-logo { width: 90pt; flex-shrink: 0; margin-left: 20pt; margin-top: 2pt; }
+
+  .tagline {
+    text-align: center;
+    font-size: 10.5pt;
+    font-style: italic;
+    color: #bbb;
+    margin: 4pt 0 14pt 0;
+  }
+
+  .intro { font-size: 11pt; color: #444; line-height: 1.65; margin: 0 0 16pt 0; }
+
+  h2.sh {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10.5pt;
+    font-weight: 700;
+    color: #041122;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 20pt 0 9pt 0;
+    padding-bottom: 5pt;
+    border-bottom: 1pt solid #ddd;
+  }
+
+  h3.subh {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10.5pt;
+    font-weight: 600;
+    color: #1D1F28;
+    margin: 14pt 0 6pt 0;
+  }
+
+  .glance-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8pt;
+    background: white;
+    border-radius: 6pt;
+    padding: 14pt 12pt;
+    border: 1pt solid #e5e1db;
+    margin-bottom: 16pt;
+  }
+  .glance-card { text-align: center; }
+  .glance-value {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16pt;
+    font-weight: 700;
+    color: #041122;
+    line-height: 1.2;
+  }
+  .glance-label {
+    font-size: 7.5pt;
+    color: #999;
+    margin-top: 3pt;
+    line-height: 1.35;
+  }
+
+  .stat-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+    padding: 6.5pt 0;
+    border-bottom: 0.5pt solid #eee;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label {
+    font-size: 10pt;
+    color: #888;
+    width: 130pt;
+    flex-shrink: 0;
+  }
+  .stat-value {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #041122;
+    width: 56pt;
+    flex-shrink: 0;
+  }
+  .stat-note {
+    font-size: 10pt;
+    color: #999;
+    font-style: italic;
+  }
+
+  .profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10pt;
+    margin-top: 4pt;
+  }
+  .profile-table th {
+    font-size: 8pt;
+    font-weight: 500;
+    color: #aaa;
+    text-align: left;
+    padding: 4pt 8pt 4pt 0;
+    border-bottom: 1pt solid #ddd;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .profile-table td {
+    padding: 7pt 8pt 7pt 0;
+    border-bottom: 0.5pt solid #eee;
+    color: #1D1F28;
+    font-weight: 500;
+    white-space: nowrap;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .profile-table tr { break-inside: avoid; page-break-inside: avoid; }
+  .td-name {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #041122;
+    font-size: 10.5pt;
+  }
+
+  .analysis {
+    font-size: 11pt;
+    color: #1D1F28;
+    margin: 10pt 0 0 0;
+    line-height: 1.65;
+  }
+
+  /* ── CALLOUT BOX ── */
+  .callout {
+    background: white;
+    border-left: 3pt solid #FF5C5C;
+    border-radius: 0 6pt 6pt 0;
+    padding: 12pt 16pt;
+    margin: 14pt 0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .callout-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 10pt;
+    font-weight: 700;
+    color: #041122;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 6pt 0;
+  }
+  .callout-body {
+    font-size: 10.5pt;
+    color: #444;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .bottom-section {
+    background: #041122;
+    border-radius: 6pt;
+    padding: 16pt 18pt;
+    margin-top: 20pt;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .bottom-section h2.sh {
+    color: white;
+    border-bottom-color: rgba(255,255,255,0.15);
+    margin-top: 0;
+  }
+  .bottom-row {
+    display: flex;
+    gap: 12pt;
+    align-items: baseline;
+    padding: 5pt 0;
+    border-bottom: 0.5pt solid rgba(255,255,255,0.08);
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .bottom-row:last-of-type { border-bottom: none; }
+  .bl-label {
+    font-weight: 600;
+    color: rgba(255,255,255,0.5);
+    font-size: 9pt;
+    width: 56pt;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .bl-value {
+    font-size: 10.5pt;
+    font-weight: 500;
+    color: rgba(255,255,255,0.88);
+  }
+  .closing {
+    font-family: 'Poppins', sans-serif;
+    font-size: 12pt;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    margin-top: 12pt;
+    padding-top: 12pt;
+    border-top: 1pt solid rgba(255,255,255,0.15);
+  }
+
+  .footer {
+    text-align: center;
+    font-size: 8pt;
+    font-style: italic;
+    color: #ccc;
+    margin-top: 14pt;
+    padding-top: 8pt;
+    border-top: 0.5pt solid #ddd;
+  }
+
+  .coral { color: #FF5C5C; }
+  .bold  { font-weight: 700; }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header no-break">
+    <div>
+      <h1 class="report-title">Outbound Program Performance Update</h1>
+      <p class="report-meta">In Market Partners  ·  PathFinder Health  ·  April 1 - 15, 2026</p>
+      <p class="report-prepared">Prepared by MonteKristo AI</p>
+    </div>
+    <img class="header-logo" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEhleGFnb24gZ3JpZCAtLT4KICA8ZyBzdHJva2U9IiNmZjViNWIiIHN0cm9rZS13aWR0aD0iMy41Ij4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTUwLDIwIDIwMCw1MCAyMDAsMTEwIDE1MCwxNDAgMTAwLDExMCAxMDAsNTAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMjAwLDUwIDI1MCw4MCAyNTAsMTQwIDIwMCwxNzAgMTUwLDE0MCAxNTAsODAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTAwLDUwIDE1MCw4MCAxNTAsMTQwIDEwMCwxNzAgNTAsMTQwIDUwLDgwIiBmaWxsPSJub25lIi8+CiAgPC9nPgoKICA8IS0tIE0gc2hhcGUgLS0+CiAgPGcgc3Ryb2tlPSIjZmY1YjViIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8bGluZSB4MT0iNzUiIHkxPSIxNDAiIHgyPSI3NSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iNzUiIHkxPSI2MCIgeDI9IjE1MCIgeTI9IjExMCIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjExMCIgeDI9IjIyNSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iMjI1IiB5MT0iNjAiIHgyPSIyMjUiIHkyPSIxNDAiLz4KICA8L2c+CgogIDwhLS0gQ2lyY2xlIG5vZGVzIC0tPgogIDxnIGZpbGw9IiNmZjViNWIiPgogICAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iMjAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjUwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMTAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTEwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iODAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI4MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSIxNDAiIHI9IjgiLz4KICA8L2c+Cjwvc3ZnPg==" alt="MonteKristo AI">
+  </div>
+
+  <p class="tagline">It's another great day to be great.</p>
+  <p class="intro">This report covers outreach activity for the first half of April 2026 across LinkedIn and email. Both channels remained active throughout the period. The LinkedIn Connector campaigns launched in February are now approaching full saturation, and the email channel continued scaling new contact volume while managing follow-up sequences across the existing pipeline.</p>
+
+  <!-- AT A GLANCE -->
+  <div class="section-block">
+    <h2 class="sh">April at a Glance</h2>
+    <div class="glance-grid no-break">
+      
+    <div class="glance-card">
+      <div class="glance-value">1,993</div>
+      <div class="glance-label">LinkedIn Contacted</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">548</div>
+      <div class="glance-label">Connections Built</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value coral">27.5%</div>
+      <div class="glance-label">Acceptance Rate</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">99</div>
+      <div class="glance-label">LinkedIn Replies</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">8,800</div>
+      <div class="glance-label">Emails Sent</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">87</div>
+      <div class="glance-label">Email Replies</div>
+    </div>
+    </div>
+  </div>
+
+  <!-- LINKEDIN -->
+  <div class="section-block">
+    <h2 class="sh">LinkedIn</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Both LinkedIn Connector campaigns activated on February 9 are now past 97% contact saturation. Combined, the two profiles have built 548 connections from 1,993 contacts reached, maintaining a strong 27.5% acceptance rate across the program.</p>
+    <div class="no-break">
+      
+    <div class="stat-row">
+      <span class="stat-label">Acceptance Rate</span>
+      <span class="stat-value coral">27.5%</span>
+      <span class="stat-note">combined across both profiles (548 of 1,993 contacted)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Total Replies</span>
+      <span class="stat-value">99</span>
+      <span class="stat-note">across both profiles since campaign launch</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Positive Sentiment</span>
+      <span class="stat-value">31.3%</span>
+      <span class="stat-note">31 of 99 replies flagged as positive engagement</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Campaign Saturation</span>
+      <span class="stat-value coral">97.4%</span>
+      <span class="stat-note">less than 3% of loaded prospects remain uncontacted</span>
+    </div>
+    </div>
+  </div>
+
+  <!-- PROFILE COMPARISON -->
+  <div class="section-block">
+    <h3 class="subh">Profile Comparison</h3>
+    <table class="profile-table no-break">
+      <thead>
+        <tr>
+          <th>Profile</th>
+          <th>Contacted</th>
+          <th>Connected</th>
+          <th>Rate</th>
+          <th>Replies</th>
+          <th>Positive</th>
+        </tr>
+      </thead>
+      <tbody>
+    <tr>
+      <td class="td-name">Kristina Muxo</td>
+      <td>996</td>
+      <td>318</td>
+      <td class="coral bold">31.93%</td>
+      <td>59</td>
+      <td>19</td>
+    </tr>
+    <tr>
+      <td class="td-name">John Noble</td>
+      <td>997</td>
+      <td>230</td>
+      <td class="coral bold">23.07%</td>
+      <td>40</td>
+      <td>12</td>
+    </tr></tbody>
+    </table>
+    <p class="analysis">Kristina Muxo continues to outperform on connection acceptance, holding 31.93% versus John Noble's 23.07%, a gap of nearly nine percentage points. This pattern has held consistently since launch, confirming that sender positioning remains a material driver of engagement quality. Both campaigns are now effectively exhausted, with 97%+ of loaded prospects contacted. Fresh prospect lists are needed to sustain LinkedIn activity at current volume.</p>
+  </div>
+
+  <!-- EMAIL -->
+  <div class="section-block">
+    <h2 class="sh">Email</h2>
+    <p class="analysis" style="margin-top:0; margin-bottom:8pt;">The email channel sent 8,800 messages in the first half of April, reaching 4,949 new contacts for the first time and delivering 3,871 follow-up touches to existing prospects.</p>
+    <div class="no-break">
+      
+    <div class="stat-row">
+      <span class="stat-label">Total Sent</span>
+      <span class="stat-value">8,800</span>
+      <span class="stat-note">4,949 new contacts + 3,871 follow-up emails</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">New Contacts</span>
+      <span class="stat-value">4,949</span>
+      <span class="stat-note">prospects contacted for the first time this period</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Follow-ups</span>
+      <span class="stat-value coral">3,871</span>
+      <span class="stat-note">44% of send volume consumed by sequence follow-ups</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Replies</span>
+      <span class="stat-value">87</span>
+      <span class="stat-note">leads who responded to outreach</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label">Meetings Booked</span>
+      <span class="stat-value">0</span>
+      <span class="stat-note">no confirmed meetings during this period</span>
+    </div>
+    </div>
+  </div>
+
+  <!-- FOLLOW-UP CALLOUT -->
+  <div class="callout">
+    <p class="callout-title">Why new contact velocity has slowed</p>
+    <p class="callout-body">The active email sequences contain up to eight steps per prospect. As the pipeline matures, follow-up emails accumulate and consume a growing share of daily sending limits. In this period, 44% of all sends (3,871 of 8,800) were follow-ups rather than first-touch outreach. This is expected behavior for multi-step sequences and reflects a pipeline that is deepening engagement with existing contacts while naturally throttling the rate at which new prospects enter the funnel.</p>
+  </div>
+
+  <p class="analysis">The 87 replies represent active engagement across the pipeline, but none have converted to booked meetings during this period. Converting these conversations into confirmed calendar invites is the immediate priority for the second half of April. Reply handling speed and follow-up quality on responsive leads will be the primary levers for driving that conversion.</p>
+
+  <!-- PRIORITIES -->
+  <div class="section-block">
+    <h2 class="sh">Priorities for the Second Half of April</h2>
+    <p class="analysis" style="margin-top:0;">Three priorities for the second half of April: convert existing replies into meetings, reload the LinkedIn pipeline, and optimize email send allocation.</p>
+    <p class="analysis">LinkedIn: Both Connector campaigns are effectively complete at 97%+ saturation. The next step is loading fresh prospect lists into both profiles to maintain connection volume. Kristina Muxo's consistently higher acceptance rate suggests prioritizing her profile for any high-value segments.</p>
+    <p class="analysis">Email: The follow-up load will continue to grow as more prospects move through the eight-step sequences. To protect new-contact velocity, send scheduling may need to be rebalanced, either by increasing daily limits where deliverability allows or by trimming lower-performing sequence steps. The 87 replies generated this period represent the immediate conversion opportunity. Prioritizing direct engagement with responsive leads is the fastest path to booked meetings.</p>
+  </div>
+
+  <!-- BOTTOM LINE -->
+  <div class="bottom-section">
+    <h2 class="sh">Bottom Line</h2>
+    
+    <div class="bottom-row">
+      <span class="bl-label">LinkedIn</span>
+      <span class="bl-value">1,993 contacted  ·  548 connected <span class="coral bold">27.5%</span>  ·  99 replies  ·  campaigns at 97% saturation</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">Email</span>
+      <span class="bl-value">8,800 sent  ·  4,949 new contacts  ·  87 replies  ·  44% of volume is follow-ups</span>
+    </div>
+    <p class="closing">The pipeline is generating engagement. The next step is conversion.</p>
+  </div>
+
+  <div class="footer">MonteKristo AI  ·  montekristoai.com  ·  April 2026</div>
+
+</body>
+</html>

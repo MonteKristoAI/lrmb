@@ -1,0 +1,103 @@
+{
+  "domain": "outreach-reply",
+  "version": "1.0",
+  "created": "2026-04-14",
+  "description": "Binary pass/fail criteria for cold outreach reply rate optimization",
+  "criteria": [
+    {
+      "id": "or_001",
+      "name": "reply_rate_above_baseline",
+      "description": "Variant reply rate must exceed current control reply rate",
+      "check": "variant_reply_rate > control_reply_rate",
+      "weight": 3,
+      "category": "performance",
+      "hard_gate": true
+    },
+    {
+      "id": "or_002",
+      "name": "minimum_sample_size",
+      "description": "At least 50 sends per variant before declaring winner",
+      "check": "variant_sends >= 50 AND control_sends >= 50",
+      "weight": 3,
+      "category": "statistical_validity",
+      "hard_gate": true
+    },
+    {
+      "id": "or_003",
+      "name": "bounce_rate_below_threshold",
+      "description": "Bounce rate must stay below 5%",
+      "check": "bounce_rate < 5.0",
+      "weight": 3,
+      "category": "deliverability",
+      "hard_gate": true
+    },
+    {
+      "id": "or_004",
+      "name": "zero_banned_vocabulary",
+      "description": "No AI-tell words in email copy",
+      "check": "banned_word_count == 0",
+      "weight": 2,
+      "category": "content_quality",
+      "hard_gate": true
+    },
+    {
+      "id": "or_005",
+      "name": "zero_em_dashes",
+      "description": "No em dashes in email copy",
+      "check": "em_dash_count == 0",
+      "weight": 2,
+      "category": "content_quality",
+      "hard_gate": true
+    },
+    {
+      "id": "or_006",
+      "name": "unsubscribe_rate_stable",
+      "description": "Unsubscribe rate must not increase vs previous period",
+      "check": "unsubscribe_rate <= previous_unsubscribe_rate",
+      "weight": 2,
+      "category": "deliverability",
+      "hard_gate": false
+    },
+    {
+      "id": "or_007",
+      "name": "message_length_in_range",
+      "description": "Email body between 50-150 words",
+      "check": "word_count >= 50 AND word_count <= 150",
+      "weight": 1,
+      "category": "content_quality",
+      "hard_gate": false
+    },
+    {
+      "id": "or_008",
+      "name": "subject_line_length",
+      "description": "Subject line between 4-8 words for optimal open rate",
+      "check": "subject_word_count >= 4 AND subject_word_count <= 8",
+      "weight": 1,
+      "category": "content_quality",
+      "hard_gate": false
+    },
+    {
+      "id": "or_009",
+      "name": "single_cta",
+      "description": "Email contains exactly one clear call-to-action",
+      "check": "cta_count == 1",
+      "weight": 1,
+      "category": "content_quality",
+      "hard_gate": false
+    },
+    {
+      "id": "or_010",
+      "name": "observation_window_met",
+      "description": "Minimum 72 hours observation before declaring results",
+      "check": "hours_since_send >= 72",
+      "weight": 2,
+      "category": "statistical_validity",
+      "hard_gate": true
+    }
+  ],
+  "scoring": {
+    "max_score": 10,
+    "pass_threshold": 7,
+    "hard_gate_count": 6
+  }
+}

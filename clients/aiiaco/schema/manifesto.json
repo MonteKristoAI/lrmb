@@ -1,0 +1,43 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "AboutPage",
+      "@id": "https://aiiaco.com/manifesto/#webpage",
+      "url": "https://aiiaco.com/manifesto/",
+      "name": "The AIIA Manifesto - Our Philosophy on AI Integration",
+      "description": "The principles behind AIIA's approach to AI implementation - why we believe AI transformation requires disciplined integration over experimentation, and what that means for the businesses we partner with.",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "about": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "author": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/manifesto/#breadcrumb"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/manifesto/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Manifesto",
+          "item": "https://aiiaco.com/manifesto/"
+        }
+      ]
+    }
+  ]
+}

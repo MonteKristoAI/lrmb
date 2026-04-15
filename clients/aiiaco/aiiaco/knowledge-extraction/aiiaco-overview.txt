@@ -1,0 +1,35 @@
+THE AiiACo OVERVIEW
+
+AiiACo is an AI infrastructure firm focused on integrating artificial intelligence directly into the operational and revenue systems that run modern businesses. Instead of offering isolated AI tools or experiments, AiiACo designs structured AI architectures that connect sales, operations, communication, and decision systems into a unified operational layer.
+
+CORE PHILOSOPHY:
+Most organizations approach AI as a collection of disconnected tools. While these tools can perform impressive individual tasks, they rarely produce a meaningful operational advantage when deployed in isolation. AiiACo approaches AI differently by embedding AI systems inside the workflows that drive revenue and operations.
+
+WHAT AiiACo BUILDS:
+AiiACo designs and deploys AI infrastructure that becomes part of the operational fabric of a company:
+- AI agents embedded inside CRM and operational workflows
+- Automation that connects departments and removes manual friction
+- Revenue systems that reactivate dormant customer databases
+- AI-assisted outbound prospecting and pipeline generation
+- Operational dashboards that provide leadership-level visibility
+- Cross-system integrations that allow business systems to communicate in real time
+
+PRIMARY SERVICE PILLARS:
+1. Database Reactivation — Cleaning, segmenting, and reactivating dormant CRM databases to generate new revenue
+2. AI Revenue Engine — Outbound lead generation infrastructure powered by AI-assisted prospecting, messaging
+3. Operational AI Systems — Custom AI integrations within field operations, communications, reporting, and internal workflows
+
+TARGET ORGANIZATIONS:
+AiiACo focuses on established operators with meaningful revenue but inefficient operational systems. These companies typically generate between $5M and $100M annually and experience friction across CRM usage, departmental coordination, and workflow visibility.
+
+Examples of Ideal Clients:
+- Vacation rental operators managing 50-500+ properties
+- Real estate brokerages with large agent networks
+- Luxury rental companies and hospitality groups
+- Service businesses with distributed field teams
+- Companies with large historical customer databases
+
+STRATEGIC VISION:
+Over time, AiiACo aims to evolve from an infrastructure consulting firm into a platform provider. The long-term objective is the development of an integrated AI operating system for businesses — a modular infrastructure layer that manages sales systems, operational workflows, customer communication, and strategic analytics.
+
+In short, AiiACo is designed to transform AI from a collection of experimental tools into the operational backbone of modern companies.

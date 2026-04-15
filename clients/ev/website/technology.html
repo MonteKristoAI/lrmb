@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technology | EV - The Visual Analytics Company</title>
+  <meta name="description" content="EV's industry-leading downhole camera technology: ClearVision, Optis camera range, specialty cameras, PigCAM pipeline inspection, and AIVA software platform.">
+  <meta name="keywords" content="downhole camera, ClearVision, Optis, PigCAM, AIVA, wellbore inspection technology, pipeline camera, phased array ultrasound">
+  <link rel="canonical" href="https://evcam.com/technology">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Technology | EV - The Visual Analytics Company">
+  <meta property="og:description" content="25 years of pioneering downhole camera technology. ClearVision, Optis cameras, PigCAM, and AIVA analytics platform.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://evcam.com/technology">
+  <meta property="og:image" content="https://evcam.com/img/og-technology.jpg">
+  <meta property="og:site_name" content="EV - The Visual Analytics Company">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Technology | EV">
+  <meta name="twitter:description" content="Industry-leading downhole camera technology and visual analytics software.">
+
+  <!-- Fonts & Tailwind -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        'ev-orange': { 500: '#FF5A00', 400: '#FF7A33', 600: '#CC4800' },
+        'ev-dark': { 900: '#050A14', 800: '#0A1128', 700: '#111B36', 600: '#1A2744' },
+        'ev-blue': { 500: '#007BFF', 400: '#3395FF' }
+      },
+      fontFamily: { heading: ['Space Grotesk', 'sans-serif'], body: ['DM Sans', 'sans-serif'] }
+    }}
+  }
+  </script>
+  <script defer src="https://unpkg.com/lucide@0.468.0"></script>
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- JSON-LD BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://evcam.com/" },
+      { "@type": "ListItem", "position": 2, "name": "Technology", "item": "https://evcam.com/technology" }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="https://www.evcam.com/assets/fav/favicon-32x32.png">
+</head>
+<body class="bg-ev-dark-900 text-gray-200 font-body">
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ============================================================
+       STICKY HEADER
+       ============================================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="container-lg flex items-center justify-between h-16 lg:h-20">
+      <a href="index.html" class="flex items-center gap-2 shrink-0">
+        <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+          <span class="text-white font-heading font-bold text-lg">EV</span>
+        </div>
+        <span class="font-heading font-bold text-white text-lg hidden sm:inline">The Visual Analytics Company</span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="solutions.html" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Solutions</a>
+        <a href="technology.html" class="text-ev-orange-400 font-medium text-sm hover:text-ev-orange-400 transition-colors">Technology</a>
+        <a href="index.html#case-studies" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Case Studies</a>
+        <a href="index.html#about" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">About</a>
+        <a href="index.html#contact" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Contact</a>
+        <a href="blog/" class="text-gray-300 font-medium text-sm hover:text-white transition-colors">Blog</a>
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <a href="index.html#booking" class="btn btn-primary btn-sm hidden lg:inline-flex">Request Demo</a>
+        <button id="menu-toggle" class="lg:hidden text-white" aria-label="Open menu" aria-expanded="false">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="fixed inset-0 bg-ev-dark-900/98 backdrop-blur-xl z-50 transform translate-x-full opacity-0 transition-all duration-300 lg:hidden">
+      <div class="flex flex-col h-full p-6">
+        <div class="flex justify-between items-center mb-10">
+          <span class="font-heading font-bold text-white text-lg">EV</span>
+          <button id="menu-close" class="text-gray-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+        </div>
+        <nav class="flex flex-col gap-6 text-xl">
+          <a href="solutions.html" class="text-gray-300 font-heading font-semibold hover:text-white">Solutions</a>
+          <a href="technology.html" class="text-ev-orange-400 font-heading font-semibold">Technology</a>
+          <a href="index.html#case-studies" class="text-gray-300 font-heading font-semibold hover:text-white">Case Studies</a>
+          <a href="index.html#about" class="text-gray-300 font-heading font-semibold hover:text-white">About</a>
+          <a href="index.html#contact" class="text-gray-300 font-heading font-semibold hover:text-white">Contact</a>
+          <a href="blog/" class="text-gray-300 font-heading font-semibold hover:text-white">Blog</a>
+        </nav>
+        <div class="mt-auto">
+          <a href="index.html#booking" class="btn btn-primary w-full">Request Demo</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ============================================================
+       MINI HERO
+       ============================================================ -->
+  <section class="relative min-h-[40vh] flex items-center section-photo bg-grid overflow-hidden">
+    <div class="section-bg fade-left"><img src="img/headers/person1-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-ev-dark-900/80 via-ev-dark-900/60 to-ev-dark-900"></div>
+    <div class="absolute inset-0 bg-radial-glow"></div>
+
+    <div class="container relative z-10 pt-24 pb-12">
+      <nav class="mb-6 animate-hero-1" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-2 text-sm text-gray-400">
+          <li><a href="index.html" class="hover:text-white transition-colors">Home</a></li>
+          <li><i data-lucide="chevron-right" class="w-4 h-4"></i></li>
+          <li class="text-ev-orange-400">Technology</li>
+        </ol>
+      </nav>
+
+      <div class="max-w-3xl">
+        <span class="badge badge-orange mb-4 animate-hero-2">
+          <i data-lucide="cpu" class="w-3.5 h-3.5"></i> Engineering Excellence
+        </span>
+        <h1 class="font-heading text-white animate-hero-2" style="font-size: var(--text-h1);">Technology</h1>
+        <p class="mt-4 text-lg text-gray-300 leading-relaxed max-w-2xl animate-hero-3">
+          When the pressure is on, the need for reliable, straightforward and high-performance technology is never higher. EV designs and manufactures every system in-house, from camera optics to analytics software.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TECHNOLOGY OVERVIEW
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal">
+    <div class="section-bg fade-right"><img src="img/headers/mcsv-header3.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <h2 class="font-heading text-white mb-6" style="font-size: var(--text-h2);">25 Years of In-House R&amp;D</h2>
+          <p class="text-gray-300 leading-relaxed mb-6">
+            EV operates dedicated technology centres where multidisciplinary engineering teams design, test, and manufacture every component of our camera systems and software platforms. This end-to-end control means faster innovation cycles, tighter quality standards, and technology purpose-built for the most demanding downhole environments on the planet.
+          </p>
+          <h3 class="font-heading text-white text-lg mb-4">Core Expertise</h3>
+          <div class="grid sm:grid-cols-2 gap-3">
+            <div class="flex items-center gap-3">
+              <i data-lucide="aperture" class="w-5 h-5 text-ev-orange-400 shrink-0"></i>
+              <span class="text-gray-300 text-sm">Camera optics design</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i data-lucide="thermometer" class="w-5 h-5 text-ev-orange-400 shrink-0"></i>
+              <span class="text-gray-300 text-sm">High-temperature electronics</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i data-lucide="binary" class="w-5 h-5 text-ev-orange-400 shrink-0"></i>
+              <span class="text-gray-300 text-sm">Digital signal processing</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i data-lucide="scan" class="w-5 h-5 text-ev-orange-400 shrink-0"></i>
+              <span class="text-gray-300 text-sm">Image analysis algorithms</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i data-lucide="bar-chart-3" class="w-5 h-5 text-ev-orange-400 shrink-0"></i>
+              <span class="text-gray-300 text-sm">Data analytics platforms</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i data-lucide="wrench" class="w-5 h-5 text-ev-orange-400 shrink-0"></i>
+              <span class="text-gray-300 text-sm">Mechanical engineering</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <i data-lucide="factory" class="w-5 h-5 text-ev-orange-400 shrink-0"></i>
+              <span class="text-gray-300 text-sm">In-house manufacturing</span>
+            </div>
+          </div>
+        </div>
+        <div class="rounded-2xl overflow-hidden relative h-72 lg:min-h-[360px] card-glass">
+          <img src="img/headers/mcsv-header3.jpg" alt="EV technology centre and engineering facility" class="w-full h-full object-cover" style="opacity:0.65; filter:saturate(0.7);">
+          <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+          <div class="absolute bottom-4 left-4">
+            <span class="badge badge-orange text-xs">R&D Centre</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       CLEARVISION
+       ============================================================ -->
+  <section class="section section-photo bg-radial-glow reveal" id="clearvision">
+    <div class="section-bg fade-bottom-left"><img src="img/headers/pipeline-banner.png" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center mb-12">
+        <span class="badge badge-orange mb-4">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Industry First
+        </span>
+        <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">ClearVision</h2>
+        <p class="text-gray-300 text-lg max-w-3xl mx-auto">
+          The world's only integrated array video and phased array ultrasound scanning technology, providing the most advanced 4-dimensional evaluation system for wellbore applications. ClearVision combines what you can see with what you can measure, in a single tool string.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="card-glass text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="maximize" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <p class="text-ev-orange-400 font-heading font-bold text-2xl mb-1">HD</p>
+          <p class="text-gray-400 text-sm">Resolution</p>
+          <p class="text-gray-500 text-xs mt-1">Full color high-definition video</p>
+        </div>
+        <div class="card-glass text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="gauge" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <p class="text-ev-orange-400 font-heading font-bold text-2xl mb-1">25fps</p>
+          <p class="text-gray-400 text-sm">Frame Rate</p>
+          <p class="text-gray-500 text-xs mt-1">Real-time smooth video capture</p>
+        </div>
+        <div class="card-glass text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="layers" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <p class="text-ev-orange-400 font-heading font-bold text-2xl mb-1">Video + UT</p>
+          <p class="text-gray-400 text-sm">Integration</p>
+          <p class="text-gray-500 text-xs mt-1">Camera and ultrasound combined</p>
+        </div>
+        <div class="card-glass text-center">
+          <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="box" class="w-6 h-6 text-ev-orange-400"></i>
+          </div>
+          <p class="text-ev-orange-400 font-heading font-bold text-2xl mb-1">4D</p>
+          <p class="text-gray-400 text-sm">Evaluation</p>
+          <p class="text-gray-500 text-xs mt-1">Complete dimensional analysis</p>
+        </div>
+      </div>
+
+      <!-- ClearVision image -->
+      <div class="rounded-2xl overflow-hidden relative h-72 card-glass">
+        <img src="img/headers/data-header.jpg" alt="ClearVision downhole camera system" class="w-full h-full object-cover" style="opacity:0.65; filter:saturate(0.7);">
+        <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-900/80 via-transparent to-transparent"></div>
+        <div class="absolute bottom-4 left-4">
+          <span class="badge badge-orange text-xs">ClearVision</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       OPTIS CAMERA RANGE
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal" id="optis">
+    <div class="section-bg fade-top"><img src="img/headers/va-ad3-16x9.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center mb-12">
+        <span class="badge badge-orange mb-4">
+          <i data-lucide="camera" class="w-3.5 h-3.5"></i> Camera Systems
+        </span>
+        <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Optis Camera Range</h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+          EV's core camera platform, engineered for the full spectrum of downhole conditions. Each Optis variant is optimized for specific temperature, pressure, and operational requirements.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Optis R150 -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-40 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/challenges/fishing-button.jpg" alt="Optis R150" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="camera" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">Optis R150</h3>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">Real-time, full color HD downhole video at 25 frames per second. The workhorse camera for standard wellbore inspections up to 150 degrees Celsius with 6-hour continuous operation.</p>
+          <div class="space-y-2 border-t border-white/5 pt-4">
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Color</span><span class="text-white">Full HD Color</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Frame Rate</span><span class="text-white">25fps real-time</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Temperature</span><span class="text-ev-orange-400 font-semibold">150&deg;C</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Runtime</span><span class="text-white">6 hours</span></div>
+          </div>
+        </div>
+
+        <!-- Optis M160 -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-40 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/challenges/valve-button.jpg" alt="Optis M160" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="camera" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">Optis M160</h3>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">Extended temperature color video system for hotter wells. Delivers the same quality 25fps footage in environments that push standard cameras beyond their limits.</p>
+          <div class="space-y-2 border-t border-white/5 pt-4">
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Color</span><span class="text-white">Full Color</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Frame Rate</span><span class="text-white">25fps</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Temperature</span><span class="text-ev-orange-400 font-semibold">160&deg;C</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Application</span><span class="text-white">High-temp wells</span></div>
+          </div>
+        </div>
+
+        <!-- Basis R200 -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-40 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/challenges/corrosion-button.png" alt="Basis R200" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="camera" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">Basis R200</h3>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">Maximum temperature and pressure rated monochrome camera for the most extreme downhole conditions. Rated to 200 degrees Celsius and 1,034 bar (15,000 psi).</p>
+          <div class="space-y-2 border-t border-white/5 pt-4">
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Color</span><span class="text-white">Monochrome</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Temperature</span><span class="text-ev-orange-400 font-semibold">200&deg;C</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Pressure</span><span class="text-ev-orange-400 font-semibold">1,034 bar</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Application</span><span class="text-white">Extreme HPHT</span></div>
+          </div>
+        </div>
+
+        <!-- Optis Infinity -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-40 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/challenges/sand-button.png" alt="Optis Infinity" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="infinity" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">Optis Infinity</h3>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">Advanced downhole camera system with extended capabilities for complex well geometries and challenging access conditions. Built for the next generation of wellbore diagnostics.</p>
+          <div class="space-y-2 border-t border-white/5 pt-4">
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Generation</span><span class="text-white">Advanced</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Application</span><span class="text-white">Complex wells</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Features</span><span class="text-white">Extended range</span></div>
+          </div>
+        </div>
+
+        <!-- Optis Unity (NEW) -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-40 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/challenges/perforation-button.png" alt="Optis Unity" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="absolute top-3 right-3 z-10">
+            <span class="bg-ev-orange-500 text-white text-[10px] font-heading font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">New</span>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="zap" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">Optis Unity</h3>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">EV's newest camera system, launched at ADIPEC in November 2025. Represents the latest evolution in downhole visual technology, combining performance advances across temperature tolerance, image quality, and operational flexibility.</p>
+          <div class="space-y-2 border-t border-white/5 pt-4">
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Launched</span><span class="text-ev-orange-400 font-semibold">Nov 2025</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Event</span><span class="text-white">ADIPEC</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-400">Generation</span><span class="text-white">Latest</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       SPECIALTY SOLUTIONS
+       ============================================================ -->
+  <section class="section section-photo bg-grid reveal" id="specialty">
+    <div class="section-bg fade-left"><img src="img/software/mipsview-3d.png" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center mb-12">
+        <span class="badge badge-orange mb-4">
+          <i data-lucide="target" class="w-3.5 h-3.5"></i> Purpose-Built
+        </span>
+        <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Specialty Camera Solutions</h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+          Beyond the core Optis range, EV engineers purpose-built camera systems for specific operational challenges where standard tools fall short.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-6">
+        <!-- MagCam -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="magnet" class="w-6 h-6 text-ev-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-lg font-bold">MagCam</h3>
+              <p class="text-gray-400 text-sm">Magnetic Carrier Camera</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm">Combines a magnetic carrier mechanism with HD video for mini-fish extraction operations. The camera guides the magnetic tool to the target, providing visual confirmation of engagement before retrieval. Eliminates blind fishing attempts.</p>
+        </div>
+
+        <!-- UVCam -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-blue-500/10 flex items-center justify-center">
+              <i data-lucide="sun" class="w-6 h-6 text-ev-blue-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-lg font-bold">UVCam</h3>
+              <p class="text-gray-400 text-sm">UV Lighting Camera</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm">Ultraviolet lighting system integrated with HD video for hydrocarbon identification. UV fluorescence makes hydrocarbons visible against pipe walls, enabling operators to locate active flow paths, identify water-oil contacts, and detect hydrocarbon ingress points.</p>
+        </div>
+
+        <!-- VesselCam -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="droplet" class="w-6 h-6 text-ev-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-lg font-bold">VesselCam</h3>
+              <p class="text-gray-400 text-sm">Confined Space Inspection</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm">Confined space inspection camera equipped with water jets for surface cleaning during inspection. Designed for pressure vessels, separators, and other confined equipment where surface contamination would otherwise obscure critical inspection data.</p>
+        </div>
+
+        <!-- WedgeCam -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="move-diagonal" class="w-6 h-6 text-ev-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-lg font-bold">WedgeCam</h3>
+              <p class="text-gray-400 text-sm">Flapper Window Manipulation</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm">Specialized camera system with integrated wedge mechanism for flapper window manipulation in multilateral completions. Provides visual guidance during window opening operations and confirmation of successful access to lateral wellbores.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       PIGCAM SECTION
+       ============================================================ -->
+  <section class="section section-photo reveal" id="pigcam">
+    <div class="section-bg fade-right"><img src="img/headers/animation-poster.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center mb-12">
+        <span class="badge badge-orange mb-4">
+          <i data-lucide="scan-line" class="w-3.5 h-3.5"></i> Pipeline Technology
+        </span>
+        <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">PigCAM Pipeline Cameras</h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+          Visual intelligence for pipeline inspection. PigCAM deploys inside pipelines as part of pigging operations, delivering 360-degree internal video that reveals conditions invisible to external inspection methods.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 mb-12">
+        <!-- PigCAM 4 -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="camera" class="w-6 h-6 text-ev-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-xl font-bold">PigCAM 4</h3>
+              <p class="text-gray-400 text-sm">Small Diameter</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">Four HD cameras delivering complete 360-degree internal pipeline footage. Compact form factor for smaller diameter lines. 24-hour battery life covers typical inspection runs.</p>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold">4</p>
+              <p class="text-gray-400 text-xs">Cameras</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold">360&deg;</p>
+              <p class="text-gray-400 text-xs">View</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold">24hr</p>
+              <p class="text-gray-400 text-xs">Runtime</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- PigCAM 8 -->
+        <div class="card-glass">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 rounded-xl bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="video" class="w-6 h-6 text-ev-orange-400"></i>
+            </div>
+            <div>
+              <h3 class="font-heading text-white text-xl font-bold">PigCAM 8</h3>
+              <p class="text-gray-400 text-sm">Large Diameter</p>
+            </div>
+          </div>
+          <p class="text-gray-300 text-sm mb-4">Eight HD cameras for comprehensive large-diameter pipeline inspection. 96-hour battery powers inspections covering up to 176 km in a single run, making it viable for major transmission lines.</p>
+          <div class="grid grid-cols-3 gap-3">
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold">8</p>
+              <p class="text-gray-400 text-xs">Cameras</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold">96hr</p>
+              <p class="text-gray-400 text-xs">Runtime</p>
+            </div>
+            <div class="bg-white/5 rounded-lg p-3 text-center">
+              <p class="text-ev-orange-400 font-heading font-bold">176km</p>
+              <p class="text-gray-400 text-xs">Range</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- INLINE Partnership -->
+      <div class="card-glass border-ev-orange-500/20 bg-gradient-to-r from-ev-orange-500/5 to-transparent">
+        <div class="flex flex-col md:flex-row items-center gap-6">
+          <div class="w-16 h-16 rounded-2xl bg-ev-orange-500/10 flex items-center justify-center shrink-0">
+            <i data-lucide="handshake" class="w-8 h-8 text-ev-orange-400"></i>
+          </div>
+          <div>
+            <h3 class="font-heading text-white text-lg font-bold mb-2">INLINE Speed Control Partnership</h3>
+            <p class="text-gray-300 text-sm">Integration with INLINE's speed control pig technology enables stable inspection speeds up to 10 mph. Consistent pig velocity eliminates the image blur and frame inconsistency that degrade visual data during uncontrolled free-flowing pig runs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       CONVEYANCE OPTIONS
+       ============================================================ -->
+  <section class="section section-photo bg-grid reveal" id="conveyance">
+    <div class="section-bg fade-bottom"><img src="img/headers/person1-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center mb-12">
+        <span class="badge badge-orange mb-4">
+          <i data-lucide="arrow-down-to-line" class="w-3.5 h-3.5"></i> Deployment
+        </span>
+        <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Conveyance Options</h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+          EV cameras deploy on any standard conveyance method, adapting to your existing rig-up and well access configuration.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Slickline -->
+        <div class="card-glass text-center">
+          <div class="w-14 h-14 rounded-2xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="cable" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-white font-bold mb-2">Slickline</h3>
+          <p class="text-gray-400 text-sm">Memory-mode deployment on standard slickline. No surface data link required. All footage recorded downhole and retrieved at surface. Fastest mobilization for visual surveys.</p>
+        </div>
+
+        <!-- Electric Line -->
+        <div class="card-glass text-center">
+          <div class="w-14 h-14 rounded-2xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="zap" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-white font-bold mb-2">Electric Line</h3>
+          <p class="text-gray-400 text-sm">Real-time surface video via electric line conveyance. Engineers see the wellbore live and can direct the camera to areas of interest during the run. Ideal for intervention planning.</p>
+        </div>
+
+        <!-- Coiled Tubing -->
+        <div class="card-glass text-center">
+          <div class="w-14 h-14 rounded-2xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="rotate-3d" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-white font-bold mb-2">Coiled Tubing</h3>
+          <p class="text-gray-400 text-sm">Camera deployment through coiled tubing for horizontal and deviated wells where wireline cannot reach. Enables visual inspection in well geometries that would otherwise be inaccessible.</p>
+        </div>
+
+        <!-- Drill Pipe -->
+        <div class="card-glass text-center">
+          <div class="w-14 h-14 rounded-2xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-4">
+            <i data-lucide="cylinder" class="w-7 h-7 text-ev-orange-400"></i>
+          </div>
+          <h3 class="font-heading text-white font-bold mb-2">Drill Pipe</h3>
+          <p class="text-gray-400 text-sm">Drill pipe conveyance for deep wells or wells under pressure where other methods are not practical. Provides reach and well control advantages for the most challenging deployments.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       SOFTWARE SECTION
+       ============================================================ -->
+  <section class="section section-photo bg-dots reveal" id="software">
+    <div class="section-bg fade-center"><img src="img/headers/news-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="text-center mb-12">
+        <span class="badge badge-orange mb-4">
+          <i data-lucide="monitor" class="w-3.5 h-3.5"></i> Analytics Software
+        </span>
+        <h2 class="font-heading text-white mb-4" style="font-size: var(--text-h2);">Software &amp; Analytics</h2>
+        <p class="text-gray-300 text-lg max-w-2xl mx-auto">
+          Visual data is only valuable when it can be analyzed, quantified, and acted upon. EV's software platforms transform camera footage into engineering-grade intelligence.
+        </p>
+      </div>
+
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <!-- AIVA -->
+        <div class="card-glass border-ev-orange-500/20 relative overflow-hidden">
+          <div class="h-36 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/software/mipsview-3d.png" alt="AIVA analytics dashboard" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="brain" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">AIVA</h3>
+          </div>
+          <p class="text-gray-300 text-sm mb-3">All-In-One Visualization and Analytics platform. EV's flagship software combines video playback, measurement tools, reporting, and AI-assisted analysis in a single desktop application.</p>
+          <span class="badge badge-orange text-[10px]">Flagship Platform</span>
+        </div>
+
+        <!-- MIPS -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-36 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/software/mipsview-3d.png" alt="MIPS data processing" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="ruler" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">MIPS</h3>
+          </div>
+          <p class="text-gray-300 text-sm">Industry-leading Multi-finger Caliper Processing Software. Processes multi-finger caliper data into detailed pipe condition assessments, wall thickness maps, and deformation profiles.</p>
+        </div>
+
+        <!-- PIP -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-36 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/challenges/perforation-button.png" alt="PIP pipe integrity platform" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="shield-check" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">PIP</h3>
+          </div>
+          <p class="text-gray-300 text-sm">Pipe Integrity Platform. Comprehensive pipe condition database that tracks integrity data across multiple inspections, enabling trend analysis and remaining-life forecasting for well assets.</p>
+        </div>
+
+        <!-- PDA -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-36 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/challenges/restriction-button.png" alt="PDA pipe deformation analysis" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="move-3d" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">PDA</h3>
+          </div>
+          <p class="text-gray-300 text-sm">Pipe Deformation Analysis. Specialized analytical tool for quantifying casing and tubing deformation from visual and caliper data, producing 3D models of pipe geometry changes.</p>
+        </div>
+
+        <!-- EV Web Portal -->
+        <div class="card-glass relative overflow-hidden">
+          <div class="h-36 rounded-t-xl overflow-hidden -mx-6 -mt-6 mb-4 relative">
+            <img src="img/headers/mcsv-header3.jpg" alt="EV Web Portal" class="w-full h-full object-cover" style="opacity:0.5;">
+            <div class="absolute inset-0 bg-gradient-to-t from-ev-dark-800 to-transparent"></div>
+          </div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-lg bg-ev-orange-500/10 flex items-center justify-center">
+              <i data-lucide="globe" class="w-5 h-5 text-ev-orange-400"></i>
+            </div>
+            <h3 class="font-heading text-white font-bold">EV Web Portal</h3>
+          </div>
+          <p class="text-gray-300 text-sm">Secure web-based portal for customer data access. Operators review footage, download reports, and share data with their teams from any browser. No software installation required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============================================================
+       CTA SECTION
+       ============================================================ -->
+  <section class="section section-photo bg-radial-glow reveal">
+    <div class="section-bg fade-left"><img src="img/headers/data-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="max-w-2xl mx-auto text-center">
+        <h2 class="font-heading text-white text-glow mb-4" style="font-size: var(--text-h2);">Discover How EV Technology Can Solve Your Challenges</h2>
+        <p class="text-gray-300 text-lg mb-8">
+          From ClearVision's 4D evaluation to PigCAM's 176 km pipeline reach, our technology is built to deliver answers in the most demanding environments.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <a href="index.html#booking" class="btn btn-primary btn-lg btn-pulse">
+            <i data-lucide="calendar" class="w-5 h-5"></i> Request Demo
+          </a>
+          <a href="solutions.html" class="btn btn-outline">
+            <i data-lucide="eye" class="w-5 h-5"></i> View Solutions
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="bg-ev-dark-900 border-t border-white/5 pt-16 pb-8">
+    <div class="container">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <!-- Col 1: Brand -->
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+              <span class="text-white font-heading font-bold text-lg">EV</span>
+            </div>
+            <span class="font-heading font-bold text-white">EV</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">The Visual Analytics Company. 25 years of pioneering downhole camera technology and visual diagnostics for the energy industry.</p>
+          <div class="flex gap-3">
+            <a href="https://www.linkedin.com/company/ev-the-visual-analytics-company/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-ev-orange-500/20 hover:text-ev-orange-400 transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+            <a href="https://www.youtube.com/channel/UCKfHQ7CGCnICjueZNca64lA" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="w-9 h-9 rounded-lg bg-white/5 flex items-center justify-center text-gray-400 hover:bg-ev-orange-500/20 hover:text-ev-orange-400 transition-all"><i data-lucide="youtube" class="w-4 h-4"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Solutions -->
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4 text-sm">Solutions</h4>
+          <ul class="space-y-2">
+            <li><a href="solutions.html#perforation-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Perforation VA</a></li>
+            <li><a href="solutions.html#corrosion-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Corrosion VA</a></li>
+            <li><a href="solutions.html#fish-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Fish VA</a></li>
+            <li><a href="solutions.html#restriction-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Restriction VA</a></li>
+            <li><a href="solutions.html#valve-va" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Valve VA</a></li>
+            <li><a href="solutions.html#pipeline" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Pipeline (PigCAM)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Technology -->
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4 text-sm">Technology</h4>
+          <ul class="space-y-2">
+            <li><a href="#clearvision" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">ClearVision</a></li>
+            <li><a href="#optis" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Optis Camera Range</a></li>
+            <li><a href="#specialty" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Specialty Cameras</a></li>
+            <li><a href="#pigcam" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">PigCAM</a></li>
+            <li><a href="#software" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Software (AIVA)</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Company -->
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4 text-sm">Company</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html#about" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">About EV</a></li>
+            <li><a href="index.html#case-studies" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Case Studies</a></li>
+            <li><a href="blog/" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Blog</a></li>
+            <li><a href="index.html#contact" class="text-gray-400 text-sm hover:text-ev-orange-400 transition-colors">Contact</a></li>
+          </ul>
+          <div class="mt-4 space-y-2">
+            <a href="mailto:info@evcam.com" class="flex items-center gap-2 text-gray-400 text-sm hover:text-ev-orange-400 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i> info@evcam.com</a>
+            <a href="tel:+447525916610" class="flex items-center gap-2 text-gray-400 text-sm hover:text-ev-orange-400 transition-colors"><i data-lucide="phone" class="w-4 h-4"></i> +44 7525 916610</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="border-t border-white/5 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-gray-500 text-xs">&copy; 2025 EV. The Visual Analytics Company. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="javascript:void(0)" title="Coming Soon" class="text-gray-500 text-xs hover:text-gray-300 transition-colors">Privacy Policy</a>
+          <a href="javascript:void(0)" title="Coming Soon" class="text-gray-500 text-xs hover:text-gray-300 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Chatbot Widget Button -->
+  <button id="chatbot-toggle" class="chatbot-btn" aria-label="Open chat">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </button>
+  <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 z-50 w-80 bg-ev-dark-800 border border-white/10 rounded-xl shadow-2xl p-4">
+    <p class="text-white font-heading font-semibold mb-2">EV Assistant</p>
+    <p class="text-gray-400 text-sm">Welcome to EV. How can we help you with your wellbore or pipeline challenges?</p>
+  </div>
+
+  <!-- Mobile CTA Bar -->
+  <div class="mobile-cta-bar">
+    <a href="tel:+447525916610" class="bg-white/10 text-white">
+      <i data-lucide="phone" class="w-4 h-4"></i> Call
+    </a>
+    <a href="index.html#booking" class="bg-ev-orange-500 text-white">
+      <i data-lucide="calendar" class="w-4 h-4"></i> Request Demo
+    </a>
+  </div>
+
+  <script src="js/components.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

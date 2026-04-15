@@ -1,0 +1,30 @@
+{
+  "query": "SELECT status, COUNT(*) as cnt FROM leads GROUP BY status;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT status, COUNT(*) as cnt FROM leads GROUP BY status;",
+  "rows": [
+    {
+      "status": "diagnostic_ready",
+      "cnt": "2"
+    },
+    {
+      "status": "contacted",
+      "cnt": "1"
+    },
+    {
+      "status": "closed",
+      "cnt": "1"
+    },
+    {
+      "status": "new",
+      "cnt": "6"
+    },
+    {
+      "status": "abandoned",
+      "cnt": "3"
+    }
+  ],
+  "messages": [],
+  "stdout": "status\tcnt\ndiagnostic_ready\t2\ncontacted\t1\nclosed\t1\nnew\t6\nabandoned\t3\n",
+  "stderr": "",
+  "execution_time_ms": 383
+}

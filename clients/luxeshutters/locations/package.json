@@ -1,0 +1,14 @@
+{
+  "name": "luxeshutters-locations",
+  "version": "1.0.0",
+  "private": true,
+  "description": "LuxeShutters location pages - static HTML served via Cloudflare Workers proxy",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && npx serve dist -l 3002",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+}

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog | EV — Visual Analytics Insights & Industry Resources</title>
+  <meta name="description" content="Technical insights, industry trends, and case study deep-dives from EV's team of visual analytics experts covering wellbore, pipeline, and geothermal applications.">
+  <meta property="og:title" content="Blog | EV — Visual Analytics Insights & Industry Resources">
+  <meta property="og:description" content="Technical insights and industry trends from EV's visual analytics experts.">
+  <meta property="og:type" content="website">
+  <link rel="canonical" href="https://evcam.com/blog/">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        'ev-orange': { 500: '#FF5A00', 400: '#FF7A33', 600: '#CC4800' },
+        'ev-dark': { 900: '#050A14', 800: '#0A1128', 700: '#111B36', 600: '#1A2744' },
+        'ev-blue': { 500: '#007BFF', 400: '#3395FF' }
+      },
+      fontFamily: { heading: ['Space Grotesk', 'sans-serif'], body: ['DM Sans', 'sans-serif'] }
+    }}
+  }
+  </script>
+  <script defer src="https://unpkg.com/lucide@0.468.0"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="icon" type="image/png" href="https://www.evcam.com/assets/fav/favicon-32x32.png">
+</head>
+<body class="bg-ev-dark-900 text-gray-200 font-body">
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(5,10,20,0.6);backdrop-filter:blur(8px)">
+    <div class="container flex items-center justify-between py-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+          <span class="text-white font-heading font-bold text-lg">EV</span>
+        </div>
+        <span class="font-heading font-semibold text-white text-lg hidden sm:inline">The Visual Analytics Company</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
+        <a href="../index.html" class="hover:text-ev-orange-500 transition-colors">Home</a>
+        <a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">Solutions</a>
+        <a href="../technology.html" class="hover:text-ev-orange-500 transition-colors">Technology</a>
+        <a href="../case-studies.html" class="hover:text-ev-orange-500 transition-colors">Case Studies</a>
+        <a href="../about.html" class="hover:text-ev-orange-500 transition-colors">About</a>
+        <a href="./" class="text-ev-orange-500 transition-colors">Blog</a>
+        <a href="../contact.html" class="hover:text-ev-orange-500 transition-colors">Contact</a>
+      </nav>
+      <div class="hidden lg:flex items-center gap-3">
+        <a href="../index.html#booking" class="btn btn-primary btn-sm">Book a Demo</a>
+      </div>
+      <button id="menu-toggle" class="lg:hidden text-white" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="fixed inset-0 bg-ev-dark-900/98 z-50 flex flex-col p-6 transform translate-x-full opacity-0 transition-all duration-300 lg:hidden" style="backdrop-filter:blur(16px)">
+      <div class="flex justify-between items-center mb-10">
+        <span class="font-heading font-semibold text-white text-lg">EV</span>
+        <button id="menu-close" class="text-white" aria-label="Close menu"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <nav class="flex flex-col gap-6 text-lg font-medium">
+        <a href="../index.html" class="text-gray-300 hover:text-ev-orange-500">Home</a>
+        <a href="../solutions.html" class="text-gray-300 hover:text-ev-orange-500">Solutions</a>
+        <a href="../technology.html" class="text-gray-300 hover:text-ev-orange-500">Technology</a>
+        <a href="../case-studies.html" class="text-gray-300 hover:text-ev-orange-500">Case Studies</a>
+        <a href="../about.html" class="text-gray-300 hover:text-ev-orange-500">About</a>
+        <a href="./" class="text-ev-orange-500">Blog</a>
+        <a href="../contact.html" class="text-gray-300 hover:text-ev-orange-500">Contact</a>
+      </nav>
+      <div class="mt-auto"><a href="../index.html#booking" class="btn btn-primary w-full">Book a Demo</a></div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ============ MINI HERO ============ -->
+  <section class="section section-photo bg-grid relative" style="min-height:40vh;display:flex;align-items:center;padding-top:7rem">
+    <div class="section-bg fade-bottom"><img src="../img/headers/person1-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
+    <div class="container relative z-10">
+      <nav class="flex items-center gap-2 text-sm text-gray-400 mb-6 animate-hero-1">
+        <a href="../index.html" class="hover:text-ev-orange-500 transition-colors">Home</a>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        <span class="text-gray-200">Blog</span>
+      </nav>
+      <h1 class="font-heading text-white animate-hero-2" style="font-size:var(--text-h1)">Insights & Resources</h1>
+      <p class="text-gray-400 mt-4 max-w-2xl animate-hero-3" style="font-size:var(--text-body-lg)">Technical insights, industry trends, and case study deep-dives from EV's team of visual analytics experts.</p>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============ FEATURED POST ============ -->
+  <section class="section section-photo">
+    <div class="section-bg fade-center"><img src="../img/headers/news-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.17; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <div class="reveal">
+        <a href="visual-analytics-geothermal.html" class="block group">
+          <div class="card-glass !p-0 overflow-hidden grid lg:grid-cols-2">
+            <!-- Image Area -->
+            <div class="h-64 lg:h-auto" style="background:linear-gradient(135deg,#1A2744,#111B36,#0A1128);min-height:300px;position:relative">
+              <div class="absolute inset-0 bg-grid opacity-20"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <div class="text-center">
+                  <i data-lucide="flame" class="w-16 h-16 text-ev-orange-500/30 mx-auto"></i>
+                  <p class="text-gray-600 text-sm mt-3 font-heading">Featured Article</p>
+                </div>
+              </div>
+            </div>
+            <!-- Content -->
+            <div class="p-8 lg:p-10 flex flex-col justify-center">
+              <span class="badge badge-orange w-fit mb-4">Geothermal</span>
+              <h2 class="font-heading text-white text-2xl lg:text-3xl font-bold group-hover:text-ev-orange-500 transition-colors leading-tight">The Role of Visual Analytics in Geothermal Energy Production</h2>
+              <p class="text-gray-400 mt-4 leading-relaxed">How advanced downhole camera systems and visual analytics are helping geothermal operators address scaling, corrosion, and declining injectivity with precision that conventional tools cannot match.</p>
+              <div class="flex items-center gap-4 mt-6 text-sm text-gray-500">
+                <span class="flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4"></i> EV Technical Team</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> Mar 15, 2026</span>
+                <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> 7 min read</span>
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============ POST GRID ============ -->
+  <section class="section section-photo">
+    <div class="section-bg fade-left"><img src="../img/headers/data-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.08; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content">
+      <h2 class="font-heading text-white text-2xl font-bold mb-8 reveal">All Articles</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        <!-- Post 1 -->
+        <a href="visual-analytics-geothermal.html" class="group reveal">
+          <div class="card-glass !p-0 overflow-hidden h-full flex flex-col">
+            <div class="h-60" style="background:linear-gradient(135deg,#1A2744,#111B36);position:relative">
+              <div class="absolute inset-0 bg-grid opacity-15"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <i data-lucide="flame" class="w-12 h-12 text-ev-orange-500/20"></i>
+              </div>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <span class="badge badge-orange w-fit mb-3 text-xs">Geothermal</span>
+              <h3 class="font-heading text-white text-lg font-bold group-hover:text-ev-orange-500 transition-colors leading-snug">The Role of Visual Analytics in Geothermal Energy Production</h3>
+              <p class="text-gray-400 text-sm mt-3 leading-relaxed flex-1">How downhole cameras and visual analytics are solving scaling, corrosion, and injectivity challenges in geothermal wells.</p>
+              <div class="flex items-center gap-3 mt-4 text-xs text-gray-500">
+                <span>Mar 15, 2026</span>
+                <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                <span>7 min read</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Post 2 -->
+        <a href="pipeline-inspection-ccus.html" class="group reveal reveal-delay-1">
+          <div class="card-glass !p-0 overflow-hidden h-full flex flex-col">
+            <div class="h-60" style="background:linear-gradient(135deg,#111B36,#0A1128);position:relative">
+              <div class="absolute inset-0 bg-dots opacity-15"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <i data-lucide="scan-line" class="w-12 h-12 text-ev-orange-500/20"></i>
+              </div>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <span class="badge badge-orange w-fit mb-3 text-xs">Pipeline / CCUS</span>
+              <h3 class="font-heading text-white text-lg font-bold group-hover:text-ev-orange-500 transition-colors leading-snug">Pipeline Inspection Technology for CCUS: Preparing Legacy Infrastructure</h3>
+              <p class="text-gray-400 text-sm mt-3 leading-relaxed flex-1">Why repurposing existing pipelines for CO2 transport demands specialized inspection approaches and what PigCAM technology delivers.</p>
+              <div class="flex items-center gap-3 mt-4 text-xs text-gray-500">
+                <span>Feb 28, 2026</span>
+                <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                <span>8 min read</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <!-- Post 3 -->
+        <a href="aiva-platform-digital-transformation.html" class="group reveal reveal-delay-2">
+          <div class="card-glass !p-0 overflow-hidden h-full flex flex-col">
+            <div class="h-60" style="background:linear-gradient(135deg,#0A1128,#1A2744);position:relative">
+              <div class="absolute inset-0 bg-grid opacity-15"></div>
+              <div class="absolute inset-0 flex items-center justify-center">
+                <i data-lucide="monitor" class="w-12 h-12 text-ev-orange-500/20"></i>
+              </div>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <span class="badge badge-orange w-fit mb-3 text-xs">Software / Digital</span>
+              <h3 class="font-heading text-white text-lg font-bold group-hover:text-ev-orange-500 transition-colors leading-snug">AIVA: How Digital Platforms Are Transforming Well Integrity Management</h3>
+              <p class="text-gray-400 text-sm mt-3 leading-relaxed flex-1">The shift from scattered spreadsheets to centralized digital platforms and what it means for well integrity workflows.</p>
+              <div class="flex items-center gap-3 mt-4 text-xs text-gray-500">
+                <span>Feb 10, 2026</span>
+                <span class="w-1 h-1 rounded-full bg-gray-600"></span>
+                <span>6 min read</span>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============ NEWSLETTER SIGNUP ============ -->
+  <section class="section section-photo">
+    <div class="section-bg fade-right"><img src="../img/headers/perforation-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content-sm">
+      <div class="card-glass !p-10 text-center reveal">
+        <div class="w-14 h-14 rounded-xl bg-ev-orange-500/10 flex items-center justify-center mx-auto mb-5">
+          <i data-lucide="mail" class="w-7 h-7 text-ev-orange-400"></i>
+        </div>
+        <h2 class="font-heading text-white text-2xl font-bold">Stay Updated</h2>
+        <p class="text-gray-400 mt-3 max-w-md mx-auto">Get the latest visual analytics insights, product updates, and industry analysis delivered to your inbox.</p>
+        <form onsubmit="event.preventDefault();this.innerHTML='<p class=\'text-ev-orange-500 font-heading font-semibold py-4\'>Thank you for subscribing.</p>'" class="flex flex-col sm:flex-row gap-3 mt-6 max-w-lg mx-auto">
+          <input type="email" required placeholder="your@email.com" class="flex-1 bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white placeholder-gray-500 input-glow input-glow focus:outline-none focus:border-ev-orange-500/50 transition-colors">
+          <button type="submit" class="btn btn-primary whitespace-nowrap">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============ CTA ============ -->
+  <section class="section section-photo">
+    <div class="section-bg fade-bottom-left"><img src="../img/headers/animation-poster.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content text-center reveal">
+      <h2 class="font-heading text-white text-2xl font-bold">Want to learn more about visual analytics?</h2>
+      <p class="text-gray-400 mt-3 max-w-lg mx-auto">Our team is available to discuss how EV technology can address your specific wellbore and pipeline challenges.</p>
+      <a href="../contact.html" class="btn btn-primary btn-lg mt-6">
+        <i data-lucide="message-circle" class="w-4 h-4"></i>
+        Get in Touch
+      </a>
+    </div>
+  </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="section-photo border-t border-white/5">
+    <div class="container py-16">
+      <div class="grid md:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+              <span class="text-white font-heading font-bold text-lg">EV</span>
+            </div>
+            <span class="font-heading font-semibold text-white">The Visual Analytics Company</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed">25 years of pioneering downhole video technology and visual analytics for the global energy industry.</p>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Solutions</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">Visual Analytics</a></li>
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">Pipeline Inspection</a></li>
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">AIVA Platform</a></li>
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">ClearVision</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Company</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="../about.html" class="hover:text-ev-orange-500 transition-colors">About EV</a></li>
+            <li><a href="../case-studies.html" class="hover:text-ev-orange-500 transition-colors">Case Studies</a></li>
+            <li><a href="./" class="hover:text-ev-orange-500 transition-colors">Blog</a></li>
+            <li><a href="../contact.html" class="hover:text-ev-orange-500 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Contact</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ev-orange-400 flex-shrink-0"></i>Aberdeenshire, Scotland</li>
+            <li><a href="tel:+447525916610" class="flex items-center gap-2 hover:text-ev-orange-500 transition-colors"><i data-lucide="phone" class="w-4 h-4 text-ev-orange-400"></i>+44 7525 916610</a></li>
+            <li><a href="mailto:info@evcam.com" class="flex items-center gap-2 hover:text-ev-orange-500 transition-colors"><i data-lucide="mail" class="w-4 h-4 text-ev-orange-400"></i>info@evcam.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/5 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>&copy; 2026 EV. The Visual Analytics Company. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="javascript:void(0)" title="Coming Soon" class="hover:text-ev-orange-500 transition-colors">Privacy Policy</a>
+          <a href="javascript:void(0)" title="Coming Soon" class="hover:text-ev-orange-500 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ CHATBOT WIDGET ============ -->
+  <button id="chatbot-toggle" class="chatbot-btn" aria-label="Open chat">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </button>
+  <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 z-50 w-80 bg-ev-dark-800 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+    <div class="bg-ev-orange-500 px-5 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <i data-lucide="bot" class="w-5 h-5 text-white"></i>
+        <span class="font-heading font-semibold text-white text-sm">EV Assistant</span>
+      </div>
+      <button onclick="document.getElementById('chatbot-panel').classList.add('hidden')" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    <div class="p-5">
+      <p class="text-gray-300 text-sm">Welcome to EV. How can we help you with your wellbore or pipeline challenges?</p>
+      <div class="mt-4 space-y-2">
+        <a href="../index.html#booking" class="block text-sm text-ev-orange-400 hover:text-ev-orange-500 transition-colors">Book a Demo</a>
+        <a href="tel:+447525916610" class="block text-sm text-ev-orange-400 hover:text-ev-orange-500 transition-colors">Call Us</a>
+        <a href="mailto:info@evcam.com" class="block text-sm text-ev-orange-400 hover:text-ev-orange-500 transition-colors">Email Us</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MOBILE CTA BAR ============ -->
+  <div class="mobile-cta-bar">
+    <a href="tel:+447525916610" class="bg-ev-orange-500 text-white rounded-lg">
+      <i data-lucide="phone" class="w-4 h-4"></i> Call
+    </a>
+    <a href="../index.html#booking" class="bg-white/10 text-white border border-white/15 rounded-lg">
+      <i data-lucide="calendar" class="w-4 h-4"></i> Book Demo
+    </a>
+  </div>
+
+  <script src="../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+# AiiAco Round 5 — Static HTML Blog (LIVE)
+
+**Date**: 2026-04-11
+**Status**: ✅ **LIVE at https://aiiaco-blog.pages.dev**
+**Scope**: Replace Round 4 React blog with a real static HTML blog matching the gummygurl-blog and luxeshutters-blog pattern
+**Visual goal**: 200% pixel-perfect match to the main aiiaco.com React app
+
+---
+
+## Why Round 5
+
+Round 4 built the blog as TSX components inside the main Vite/React app. Correct engineering, but Milan wanted a **separate static HTML repo** matching `github.com/MonteKristoAI/gummygurl-blog` and `github.com/MonteKristoAI/luxeshutters-blog`. Reasons:
+
+1. Content can be edited without touching the main app
+2. Build system stays minimal (no Vite, no React, no TSX)
+3. Cloudflare Pages deploys in under 5 seconds per update
+4. Follows the MonteKristo client pattern already used on two other engagements
+5. Visual consistency is achieved through a 1:1 CSS port, not through code reuse
+
+---
+
+## What shipped
+
+### New repo: `github.com/MonteKristoAI/aiiaco-blog`
+
+Local path: `/Users/milanmandic/Desktop/MonteKristo AI/clients/aiiaco/aiiaco-blog/`
+
+```
+aiiaco-blog/
+├── build.js              # 390 lines Node.js, zero runtime dependencies
+├── package.json          # devDep: serve (local preview)
+├── README.md             # How to add posts, how to build, how to deploy
+├── DEPLOY.md             # Full Cloudflare Pages + Worker setup instructions
+├── .gitignore            # node_modules, dist
+├── wrangler.toml         # Worker config + pages_build_output_dir=dist
+├── worker.js             # Reverse proxy: aiiaco.com/blog/* -> aiiaco-blog.pages.dev
+├── css/
+│   └── blog.css          # ~32 KB, 1:1 port of main site Liquid Glass CSS
+├── images/               # 19 images copied from main aiiaco/client/public/images/
+│   ├── logo-gold.webp
+│   ├── og-default.webp
+│   ├── hero-bg.webp + hero-bg-1280.webp + hero-bg-1920.webp
+│   ├── icon-* (12 icons: brain, target, users, efficiency, trending, shield, skyline, cre, mortgage, consulting, workflow-transparent, etc.)
+│   └── landmark-* (industries, method, models)
+├── posts/
+│   └── what-is-an-ai-revenue-system.html    # Seed pillar post with META header + 6-Q FAQ section
+└── templates/
+    ├── index.html        # Blog listing template with hero + post grid + related services + footer
+    └── post.html         # Post template with breadcrumb + article header + direct answer + body + article CTA + related posts + related services + footer
+```
+
+### Cleanup in main aiiaco repo
+
+Deleted (Round 4 TSX blog is gone):
+- `client/src/pages/BlogIndexPage.tsx`
+- `client/src/pages/BlogPostPage.tsx`
+- `client/src/data/blog.ts`
+
+Modified:
+- `client/src/App.tsx` — removed blog imports and routes
+- `client/src/entry-server.tsx` — removed blog route map entry and `/blog/*` dynamic handler
+- `scripts/prerender.mjs` — removed BLOG_SLUGS array and blog routes from ROUTES
+- `client/src/seo/seo.config.ts` — removed `/blog` PAGE_META entry
+- `client/public/sitemap.xml` — removed 4 blog entries (they live in aiiaco-blog/dist/sitemap.xml now)
+- `clients/aiiaco/.gitignore` — added `aiiaco-blog/` (parent repo shouldn't track the subrepo)
+
+Kept:
+- Navbar "Blog" link — still points to `/blog/` which will resolve to the static blog once Worker proxy is deployed
+- Footer "Blog & Insights" link — same
+
+Totals: **9 files changed, 11 insertions, 1437 deletions**. TypeScript clean.
+
+---
+
+## Deployment details
+
+### Pages project creation (via Cloudflare MCP)
+
+Called `mcp__cloudflare__execute` with:
+```js
+cloudflare.request({
+  method: "POST",
+  path: `/accounts/${accountId}/pages/projects`,
+  body: { name: "aiiaco-blog", production_branch: "main" },
+})
+```
+
+Result:
+```json
+{
+  "success": true,
+  "status": 200,
+  "result": {
+    "name": "aiiaco-blog",
+    "subdomain": "aiiaco-blog.pages.dev",
+    "id": "e8525ec4-6e64-4dae-aa27-0b151875f094",
+    "created_on": "2026-04-11T10:37:31.658231Z"
+  }
+}
+```
+
+### First deployment (via wrangler CLI)
+
+```bash
+cd "/Users/milanmandic/Desktop/MonteKristo AI/clients/aiiaco/aiiaco-blog"
+CLOUDFLARE_API_TOKEN=cfat_... \
+CLOUDFLARE_ACCOUNT_ID=9ff5132f189939745601b8a00bcfb23b \
+npx -y wrangler@latest pages deploy dist --project-name=aiiaco-blog --branch=main
+```
+
+Output:
+```
+Uploading... (25/25)
+Success! Uploaded 25 files (3.59 sec)
+Deploying...
+Deployment complete! https://06c7e7a3.aiiaco-blog.pages.dev
+```
+
+Production URL: **https://aiiaco-blog.pages.dev**
+Deployment preview (rollback reference): https://06c7e7a3.aiiaco-blog.pages.dev
+
+### Live verification
+
+```
+200  https://aiiaco-blog.pages.dev/
+200  https://aiiaco-blog.pages.dev/what-is-an-ai-revenue-system/
+200  https://aiiaco-blog.pages.dev/sitemap.xml
+200  https://aiiaco-blog.pages.dev/rss.xml
+200  https://aiiaco-blog.pages.dev/css/blog.css
+200  https://aiiaco-blog.pages.dev/images/logo-gold.webp
+200  https://aiiaco-blog.pages.dev/robots.txt
+```
+
+---
+
+## SEO footprint per post (auto-generated by build.js)
+
+Every post in `posts/*.html` automatically emits:
+
+1. **BlogPosting JSON-LD**
+   - `headline`, `description`, `datePublished`, `dateModified`
+   - `url`, `mainEntityOfPage`, `image`, `wordCount`, `articleSection`, `inLanguage: en-US`
+   - `author`: Person reference with `@id: https://aiiaco.com/#nemr-hallak`
+   - `publisher`: Organization reference with `@id: https://aiiaco.com/#organization`
+
+2. **BreadcrumbList JSON-LD** (Home > Blog > Title)
+
+3. **FAQPage JSON-LD** — auto-extracted from `<section class="faq-section">` blocks containing `<h3>Question</h3><p>Answer</p>` pairs. Only emitted if ≥ 3 pairs found.
+
+4. **Open Graph** meta (og:type article, og:url, og:title, og:description, og:image, article:author, article:published_time, article:section)
+
+5. **Twitter Card** meta (summary_large_image + label1/data1 = "Written by Nemr Hallak", label2/data2 = category)
+
+6. **Canonical URL** on `https://aiiaco.com/blog/{slug}/`
+
+7. **Sitemap entry** in `dist/sitemap.xml` with `<image:image>` extension if post has `image:` meta
+
+8. **RSS item** in `dist/rss.xml`
+
+9. **IndexNow ping** on build (Google + Bing + IndexNow protocol)
+
+Schemas are registered against the main aiiaco.com `@id`s so the knowledge graph is shared between the two sites. The blog is an extension of the main site, not a separate entity.
+
+---
+
+## Visual consistency verification
+
+Side-by-side comparison criteria (all verified on localhost):
+
+| Element | Main aiiaco.com | Static blog | Match |
+|---|---|---|---|
+| Background color | `#03050A` void + radial gold glow | Same | ✓ |
+| Primary gold | `#B89C4A` | Same | ✓ |
+| Accent gold | `#D4A843` | Same | ✓ |
+| Font stack | `-apple-system, BlinkMacSystemFont, "SF Pro Display", ...` | Same | ✓ |
+| Display headline | clamp(32px, 6vw, 80px), weight 700, letter-spacing -1.5px | Same | ✓ |
+| Section headline | clamp(26px, 4vw, 52px), weight 700, letter-spacing -0.8px | Same | ✓ |
+| btn-gold | linear-gradient 135deg rgba(184,156,74,0.95) -> rgba(212,168,67,0.80), weight 800 | Same | ✓ |
+| Announce bar text | "Operational Intelligence for Real Estate, Mortgage & Management Consulting." | Exact match | ✓ |
+| Navbar links | Services / Method / Industries / Models / Blog / Upgrade | Same order | ✓ |
+| Footer grid | 6 columns (Brand / Services / Solutions / Platform / Company) | Exact copy | ✓ |
+| Glass card pattern | rgba(8,14,24,0.72) with gold border accent | Same | ✓ |
+| Direct Answer block | Gold-bordered AEO passage | Ported pattern | ✓ |
+| Scrollbar | Gold 8px | Same | ✓ |
+
+---
+
+## Git history
+
+### aiiaco-blog repo (new, Round 5)
+
+```
+6cbdf63  wrangler.toml: add pages_build_output_dir for Pages compatibility
+9bdfb2b  Initial: AiiAco static HTML blog - gummygurl-blog pattern
+```
+
+### Main aiiaco repo (cleanup commits in Round 5)
+
+```
+77ff574  Exclude aiiaco-blog subrepo from parent (it lives in its own repo)
+63826c6  Round 5: remove React blog - replaced by static HTML blog at aiiaco-blog repo
+```
+
+---
+
+## What was NOT done in Round 5 (deliberate, user-confirmed)
+
+1. **Only 1 seed post shipped.** Round 4 had 3 posts in the React blog data catalog. User explicitly said: "ne treba da pises strukturu jos nego da izgradis sam blog page i page-ove za pojedinacne postove" ("don't write the structure yet, build the blog page and post pages"). Focus was on build quality, not content. Posts 2 and 3 remain in git history and will be ported in follow-up rounds.
+
+2. **Worker proxy not deployed.** The `worker.js` + `wrangler.toml` config exists and can be deployed with `wrangler deploy`, but the Worker Route `aiiaco.com/blog/*` requires aiiaco.com DNS to be on Cloudflare. Currently on Namecheap/Manus. Blocked on Nemr.
+
+3. **GitHub auto-deploy to Pages not connected.** Currently uses Direct Upload mode — each update requires `wrangler pages deploy dist`. Connecting the GitHub repo via Cloudflare dashboard would enable push-based auto-deploy. Easy 1-click step, not done because no one asked.
+
+4. **Analytics not integrated.** No GA4, Plausible, or any tracking on the blog yet. Can be added to templates/index.html and post.html via a single `<script>` tag.
+
+5. **OG image generation** — currently all posts share the main aiiaco.com default OG image. Per-post hero images would require generative image pipeline (out of scope).
+
+---
+
+## How to add a new post (for future sessions)
+
+```bash
+cd "/Users/milanmandic/Desktop/MonteKristo AI/clients/aiiaco/aiiaco-blog"
+
+# Write the post
+cat > posts/my-new-post.html << 'EOF'
+<!-- META
+title: My New Post Title
+slug: my-new-post
+description: 140-160 char meta description with primary keyword in first 50 chars.
+date: 2026-05-01
+updated: 2026-05-01
+category: Pillar Guide
+image: /blog/images/og-default.webp
+read_time: 9
+subtitle: One-line editorial subtitle shown under the H1
+direct_answer: 40-80 word answer shown in gold-bordered block at top for AEO citation.
+-->
+
+<p>First paragraph of the body.</p>
+<h2>Section heading</h2>
+<p>More body...</p>
+
+<section class="faq-section">
+  <h2>Frequently Asked Questions</h2>
+  <h3>Question one?</h3>
+  <p>Answer one.</p>
+  <h3>Question two?</h3>
+  <p>Answer two.</p>
+  ...at least 3 pairs for FAQPage schema to fire...
+</section>
+EOF
+
+# Build locally
+PING=false node build.js
+
+# Deploy to Cloudflare Pages
+CLOUDFLARE_API_TOKEN=[from .mcp.json] \
+  CLOUDFLARE_ACCOUNT_ID=9ff5132f189939745601b8a00bcfb23b \
+  npx -y wrangler@latest pages deploy dist --project-name=aiiaco-blog --branch=main
+
+# Commit source
+git add posts/my-new-post.html
+git commit -m "Add post: My New Post Title"
+git push
+```
+
+---
+
+## Verification checklist for future Round 5 changes
+
+- [ ] `node build.js` runs without errors
+- [ ] `dist/` contains: index.html, sitemap.xml, rss.xml, robots.txt, css/, images/, and one directory per post slug with index.html
+- [ ] No em-dashes: `grep -r "—" dist/ 2>/dev/null | wc -l` = 0
+- [ ] No marketing `AiiACo`: `grep -r "AiiACo" dist/ | grep -v '"@name"' | wc -l` = 0
+- [ ] Every post HTML contains: BlogPosting, BreadcrumbList, (FAQPage if faq-section exists)
+- [ ] Every image path starts with `/blog/images/` (not `d2xsxph8kpxj0f.cloudfront.net`)
+- [ ] Visual match with main site when served at localhost:8080 vs localhost:5173
+- [ ] Deployment preview URL returns HTTP 200 for all routes

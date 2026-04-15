@@ -1,0 +1,19 @@
+# Debug/review screenshots
+assets/review-*
+assets/final-*
+assets/header-*
+assets/hero-check*
+assets/hero-big-*
+assets/hero-v*
+assets/fix-*
+assets/programs-*
+assets/trust-*
+assets/sec-*
+assets/mh-*
+assets/navfix-*
+assets/svc-*
+assets/v2-*
+assets/video-frames/
+.superpowers/
+.DS_Store
+assets/minihero-*

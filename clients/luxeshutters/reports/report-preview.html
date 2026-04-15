@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/pagedjs/dist/paged.polyfill.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @page { size: A4; margin: 14mm 18mm 16mm 18mm; background: #FAF8F4; }
+  html, body { margin: 0; padding: 0; font-family: 'Inter', sans-serif; font-size: 11pt; color: #1D1F28; line-height: 1.6; background: #FAF8F4; }
+  .no-break { break-inside: avoid; page-break-inside: avoid; }
+  h2.sh { break-after: avoid; page-break-after: avoid; }
+
+  .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1.5pt solid #041122; padding-bottom: 14pt; margin-bottom: 12pt; }
+  .report-title { font-family: 'Poppins', sans-serif; font-size: 20pt; font-weight: 700; color: #041122; line-height: 1.2; margin: 0 0 6pt 0; }
+  .report-meta { font-size: 11pt; color: #777; margin: 0 0 3pt 0; }
+  .report-prepared { font-size: 10pt; font-style: italic; color: #999; margin: 0; }
+  .header-logo { width: 90pt; flex-shrink: 0; margin-left: 20pt; margin-top: 2pt; }
+
+  .tagline { text-align: center; font-size: 10.5pt; font-style: italic; color: #bbb; margin: 4pt 0 14pt 0; }
+  .intro { font-size: 11pt; color: #444; line-height: 1.65; margin: 0 0 16pt 0; }
+
+  h2.sh { font-family: 'Poppins', sans-serif; font-size: 10.5pt; font-weight: 700; color: #041122; text-transform: uppercase; letter-spacing: 0.08em; margin: 20pt 0 9pt 0; padding-bottom: 5pt; border-bottom: 1pt solid #ddd; }
+
+  .glance-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8pt; background: white; border-radius: 6pt; padding: 14pt 12pt; border: 1pt solid #e5e1db; margin-bottom: 16pt; }
+  .glance-card { text-align: center; }
+  .glance-value { font-family: 'Poppins', sans-serif; font-size: 16pt; font-weight: 700; color: #041122; line-height: 1.2; }
+  .glance-label { font-size: 7.5pt; color: #999; margin-top: 3pt; line-height: 1.35; }
+  .glance-note { font-size: 6.5pt; color: #bbb; margin-top: 1pt; }
+
+  .stat-row { display: flex; align-items: baseline; gap: 0; padding: 6.5pt 0; border-bottom: 0.5pt solid #eee; break-inside: avoid; page-break-inside: avoid; }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-size: 10pt; color: #888; width: 120pt; flex-shrink: 0; }
+  .stat-value { font-size: 12pt; font-weight: 600; color: #041122; width: 100pt; flex-shrink: 0; }
+  .stat-note { font-size: 10pt; color: #999; font-style: italic; }
+
+  .analysis { font-size: 11pt; color: #1D1F28; margin: 10pt 0 0 0; line-height: 1.65; }
+
+  .bottom-section { background: #041122; border-radius: 6pt; padding: 16pt 18pt; margin-top: 20pt; break-inside: avoid; page-break-inside: avoid; }
+  .bottom-section h2.sh { color: white; border-bottom-color: rgba(255,255,255,0.15); margin-top: 0; }
+  .bottom-row { display: flex; gap: 12pt; align-items: baseline; padding: 5pt 0; border-bottom: 0.5pt solid rgba(255,255,255,0.08); break-inside: avoid; }
+  .bottom-row:last-of-type { border-bottom: none; }
+  .bl-label { font-weight: 600; color: rgba(255,255,255,0.5); font-size: 9pt; width: 72pt; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.05em; }
+  .bl-value { font-size: 10.5pt; font-weight: 500; color: rgba(255,255,255,0.88); }
+  .closing { font-family: 'Poppins', sans-serif; font-size: 12pt; font-weight: 700; color: white; text-align: center; margin-top: 12pt; padding-top: 12pt; border-top: 1pt solid rgba(255,255,255,0.15); }
+
+  .footer { text-align: center; font-size: 8pt; font-style: italic; color: #ccc; margin-top: 14pt; padding-top: 8pt; border-top: 0.5pt solid #ddd; }
+  .coral { color: #FF5C5C; }
+  .bold { font-weight: 700; }
+</style>
+</head>
+<body>
+
+<div class="header no-break">
+  <div>
+    <h1 class="report-title">LuxeShutters System Report</h1>
+    <p class="report-meta">MonteKristo AI &middot; LuxeShutters &middot; April 2026</p>
+    <p class="report-prepared">Prepared by MonteKristo AI</p>
+  </div>
+  <img class="header-logo" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMzAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8IS0tIEhleGFnb24gZ3JpZCAtLT4KICA8ZyBzdHJva2U9IiNmZjViNWIiIHN0cm9rZS13aWR0aD0iMy41Ij4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTUwLDIwIDIwMCw1MCAyMDAsMTEwIDE1MCwxNDAgMTAwLDExMCAxMDAsNTAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMjAwLDUwIDI1MCw4MCAyNTAsMTQwIDIwMCwxNzAgMTUwLDE0MCAxNTAsODAiIGZpbGw9Im5vbmUiLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTAwLDUwIDE1MCw4MCAxNTAsMTQwIDEwMCwxNzAgNTAsMTQwIDUwLDgwIiBmaWxsPSJub25lIi8+CiAgPC9nPgoKICA8IS0tIE0gc2hhcGUgLS0+CiAgPGcgc3Ryb2tlPSIjZmY1YjViIiBzdHJva2Utd2lkdGg9IjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCI+CiAgICA8bGluZSB4MT0iNzUiIHkxPSIxNDAiIHgyPSI3NSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iNzUiIHkxPSI2MCIgeDI9IjE1MCIgeTI9IjExMCIvPgogICAgPGxpbmUgeDE9IjE1MCIgeTE9IjExMCIgeDI9IjIyNSIgeTI9IjYwIi8+CiAgICA8bGluZSB4MT0iMjI1IiB5MT0iNjAiIHgyPSIyMjUiIHkyPSIxNDAiLz4KICA8L2c+CgogIDwhLS0gQ2lyY2xlIG5vZGVzIC0tPgogIDxnIGZpbGw9IiNmZjViNWIiPgogICAgPGNpcmNsZSBjeD0iMTUwIiBjeT0iMjAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjUwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxMTAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTEwIiByPSI4Ii8+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSI1MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iMjUwIiBjeT0iODAiIHI9IjgiLz4KICAgIDxjaXJjbGUgY3g9IjI1MCIgY3k9IjE0MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSI4MCIgcj0iOCIvPgogICAgPGNpcmNsZSBjeD0iNTAiIGN5PSIxNDAiIHI9IjgiLz4KICA8L2c+Cjwvc3ZnPg==" alt="MonteKristo AI">
+</div>
+
+<p class="tagline">Complete System Delivery Report</p>
+<p class="intro">This report summarises all systems built, deployed, and configured for LuxeShutters from March 29 through April 7, 2026. It covers the website, CRM, AI voice agents, automation engine, accounting integration, and blog system. Every component is production-ready and operational.</p>
+
+<div class="section-block">
+  <h2 class="sh">System at a Glance</h2>
+  <div class="glance-grid no-break">
+    <div class="glance-card">
+      <div class="glance-value">10</div>
+      <div class="glance-label">n8n Workflows</div>
+      <div class="glance-note">All active and tested</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">17</div>
+      <div class="glance-label">Product Types</div>
+      <div class="glance-note">Auto-priced from CWGlobal</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">10</div>
+      <div class="glance-label">Pipeline Stages</div>
+      <div class="glance-note">GHL CRM pipeline</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">55</div>
+      <div class="glance-label">Blog Posts Planned</div>
+      <div class="glance-note">Across 3 phases</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value">221</div>
+      <div class="glance-label">Keywords Researched</div>
+      <div class="glance-note">17 clusters</div>
+    </div>
+    <div class="glance-card">
+      <div class="glance-value coral">258</div>
+      <div class="glance-label">Images Converted</div>
+      <div class="glance-note">WebP, saved 83MB</div>
+    </div></div>
+</div>
+
+
+    <div class="section-block">
+      <h2 class="sh">Website</h2>
+      <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Custom React + TypeScript website on Cloudflare Pages with full SEO infrastructure.</p>
+      <div class="no-break">
+      <div class="stat-row">
+        <span class="stat-label">Domain</span>
+        <span class="stat-value">luxeshutters.com.au</span>
+        <span class="stat-note">Cloudflare Pages, auto-deploy from GitHub</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Stack</span>
+        <span class="stat-value">React + Vite + Tailwind</span>
+        <span class="stat-note">TypeScript, responsive, mobile-first</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Migration</span>
+        <span class="stat-value">Lovable to CF</span>
+        <span class="stat-note">TTFB: 465ms to 160ms (65% faster)</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Images</span>
+        <span class="stat-value coral">258 WebP</span>
+        <span class="stat-note">83MB saved from JPG/PNG conversion</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">SEO</span>
+        <span class="stat-value">Full stack</span>
+        <span class="stat-note">Schema, OG tags, hreflang, canonical, geo meta</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Security</span>
+        <span class="stat-value">Production</span>
+        <span class="stat-note">CSP, HSTS, X-Frame, Permissions-Policy</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">DNS</span>
+        <span class="stat-value">Cloudflare</span>
+        <span class="stat-note">Migrated from GoDaddy, MX/SPF/DKIM preserved</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">SSL</span>
+        <span class="stat-value">Full (strict)</span>
+        <span class="stat-note">Rocket Loader OFF, Early Hints ON</span>
+      </div></div>
+      <p class="analysis">The website was migrated from Lovable to Cloudflare Pages on April 4, achieving a 65% improvement in Time to First Byte. All 258 images were converted from JPG/PNG to WebP on April 7, reducing total image payload by approximately 83MB. SEO infrastructure includes structured data (LocalBusiness, GeoCoordinates, areaServed), hreflang en-AU, and six-city service area coverage.</p>
+    </div>
+    <div class="section-block">
+      <h2 class="sh">CRM & Pipeline (GoHighLevel)</h2>
+      <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Full CRM setup with automated lead capture, 10-stage pipeline, and 20 custom fields.</p>
+      <div class="no-break">
+      <div class="stat-row">
+        <span class="stat-label">Location</span>
+        <span class="stat-value">ZXqCN...j37</span>
+        <span class="stat-note">LuxeShutters GHL location</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Pipeline</span>
+        <span class="stat-value">10 stages</span>
+        <span class="stat-note">New Enquiry through Completed/Lost</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Contact Fields</span>
+        <span class="stat-value">7 custom</span>
+        <span class="stat-note">Lead Source, Service Type, Timeframe, etc.</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Opportunity Fields</span>
+        <span class="stat-value">13 custom</span>
+        <span class="stat-note">Product, measurements, pricing, Xero/Cora IDs</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Lead Sources</span>
+        <span class="stat-value">5 automated</span>
+        <span class="stat-note">Quote form, consultation, phone, chat, feedback</span>
+      </div></div>
+      <p class="analysis">Every lead source feeds directly into GoHighLevel with full contact details, service type, and AI-generated conversation summaries. The 10-stage pipeline tracks every job from initial enquiry through to completion. Three stage transitions (Quote Requested, Quote Sent, Won) trigger automated workflows via n8n webhooks.</p>
+    </div>
+    <div class="section-block">
+      <h2 class="sh">AI Voice Agents (Retell AI)</h2>
+      <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Two AI agents handle inbound calls and website chat, qualifying leads 24/7.</p>
+      <div class="no-break">
+      <div class="stat-row">
+        <span class="stat-label">Phone Agent</span>
+        <span class="stat-value">Active</span>
+        <span class="stat-note">Qualifies inbound calls, captures lead details</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Web Widget</span>
+        <span class="stat-value">Max</span>
+        <span class="stat-note">Chat widget on website, captures leads from visitors</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Processing</span>
+        <span class="stat-value">Automatic</span>
+        <span class="stat-note">Both agents send leads to GHL via n8n workflows</span>
+      </div></div>
+      <p class="analysis">The phone agent handles inbound calls to 1800 465 893, qualifying callers and capturing their name, contact details, service interest, timeframe, and property type. Max, the web chat widget, appears on every page of the website and performs the same qualification. Both agents send analysed data to GHL via dedicated n8n workflows.</p>
+    </div>
+    <div class="section-block">
+      <h2 class="sh">Automation Engine (10 n8n Workflows)</h2>
+      <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Ten production workflows handle lead intake, quoting, follow-up, and supplier ordering.</p>
+      <div class="no-break">
+      <div class="stat-row">
+        <span class="stat-label">Lead Intake</span>
+        <span class="stat-value">5 workflows</span>
+        <span class="stat-note">Quote form, consultation, phone, widget, feedback</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Quote System</span>
+        <span class="stat-value">3 workflows</span>
+        <span class="stat-note">Generator + Follow-up + Sale Won</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Xero Auth</span>
+        <span class="stat-value">2 workflows</span>
+        <span class="stat-note">OAuth setup + Token Manager</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Auto-Pricing</span>
+        <span class="stat-value coral">17 products</span>
+        <span class="stat-note">Exact CWGlobal price list lookups</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Follow-up</span>
+        <span class="stat-value">3-step</span>
+        <span class="stat-note">Day 3 email, Day 6 SMS, Day 11 call task</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Testing</span>
+        <span class="stat-value">Full E2E</span>
+        <span class="stat-note">All 10 workflows tested with real GHL contacts</span>
+      </div></div>
+      <p class="analysis">The automation engine processes every lead from capture through to supplier ordering without manual intervention. The Quote Generator auto-calculates cost prices for 17 product types using exact CWGlobal price list lookup tables, applies the markup percentage, and creates a Xero draft quote with per-window line items. The Follow-up workflow sends a three-step sequence. The Sale Won workflow creates a Xero invoice, submits a Cora supplier order, and creates an installation task in GHL.</p>
+    </div>
+    <div class="section-block">
+      <h2 class="sh">Xero & Cora Integration</h2>
+      <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Automated accounting (quotes and invoices) plus supplier ordering.</p>
+      <div class="no-break">
+      <div class="stat-row">
+        <span class="stat-label">Xero Quotes</span>
+        <span class="stat-value">Auto-generated</span>
+        <span class="stat-note">Multi-window, per-item pricing, draft status</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Xero Invoices</span>
+        <span class="stat-value">Auto-generated</span>
+        <span class="stat-note">Created when opportunity moves to Won</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Cora Orders</span>
+        <span class="stat-value">4 product types</span>
+        <span class="stat-note">Shutters, Roller Blinds, Curtains, Awnings</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Token Mgmt</span>
+        <span class="stat-value">Auto-rotate</span>
+        <span class="stat-note">OAuth tokens refreshed and stored automatically</span>
+      </div></div>
+      <p class="analysis">The Xero integration uses OAuth with new granular scopes (post-March 2026 requirements). Tokens are automatically rotated after each use to prevent stale refresh failures. The Cora supplier API submits orders for four product types with confirmed product IDs. Zipscreens and Security Roller Shutters are not available in the Cora API and require manual ordering.</p>
+    </div>
+    <div class="section-block">
+      <h2 class="sh">Blog System</h2>
+      <p class="analysis" style="margin-top:0; margin-bottom:8pt;">Complete blog infrastructure built from scratch, including SEO strategy, keyword database, and technical platform.</p>
+      <div class="no-break">
+      <div class="stat-row">
+        <span class="stat-label">Architecture</span>
+        <span class="stat-value">Static HTML</span>
+        <span class="stat-note">Separate repo, CF Worker proxy at /blog/</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Strategy</span>
+        <span class="stat-value">4 critic levels</span>
+        <span class="stat-note">L1 (50/80), L10 (42/100), L100 (57/100), L1000 (63%)</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Keywords</span>
+        <span class="stat-value">221 researched</span>
+        <span class="stat-note">17 clusters with volume estimates</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Posts Planned</span>
+        <span class="stat-value coral">55 total</span>
+        <span class="stat-note">8 in Phase 1, all Tier A</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">System Files</span>
+        <span class="stat-value">8 files</span>
+        <span class="stat-note">CLIENT, STYLE, CONTENT, SITEMAP, BRAND, FEEDBACK, KEYWORDS, STRATEGY</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Competitors</span>
+        <span class="stat-value">0 blogs</span>
+        <span class="stat-note">No Riverina competitor has blog content</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Persona</span>
+        <span class="stat-value">Created</span>
+        <span class="stat-note">luxeshutters.json for Blog Agent pipeline</span>
+      </div></div>
+      <p class="analysis">The blog strategy was developed through four iterative critic levels, each adding structural improvements. The final architecture uses static HTML in a separate GitHub repo (MonteKristoAI/luxeshutters-blog) served at luxeshutters.com.au/blog/ via Cloudflare Workers reverse proxy. This subfolder approach delivers 25% better organic growth than a subdomain. Phase 1 focuses on 8 Tier A posts with mandatory template variation across 4 formats for AI detection resistance. Zero competitors in the Riverina have blog content, giving LuxeShutters a 12-18 month first-mover advantage.</p>
+    </div>
+
+<div class="section-block">
+  <h2 class="sh">Pending Items</h2>
+  <div class="no-break">
+    <div class="stat-row">
+      <span class="stat-label" style="width:180pt;">Blog Cloudflare Worker</span>
+      <span class="stat-note">CF Pages project + Worker + route (4 clicks in dashboard)</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label" style="width:180pt;">Twilio phone number</span>
+      <span class="stat-note">Guide created (TWILIO-SETUP-GUIDE.md), Chris to set up</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label" style="width:180pt;">GA4 property</span>
+      <span class="stat-note">Create property, add measurement ID to blog templates</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label" style="width:180pt;">GSC blog sitemap</span>
+      <span class="stat-note">Submit after blog Worker is deployed</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label" style="width:180pt;">Chris voice corpus</span>
+      <span class="stat-note">30-min recorded call for blog voice calibration</span>
+    </div>
+    <div class="stat-row">
+      <span class="stat-label" style="width:180pt;">First blog post</span>
+      <span class="stat-note">After blog Worker deployed</span>
+    </div></div>
+</div>
+
+<div class="bottom-section">
+  <h2 class="sh">Summary</h2>
+  
+    <div class="bottom-row">
+      <span class="bl-label">Website</span>
+      <span class="bl-value">Live on Cloudflare Pages, 258 WebP images, full SEO stack</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">CRM</span>
+      <span class="bl-value">10-stage pipeline, 5 automated lead sources, 20 custom fields</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">AI Agents</span>
+      <span class="bl-value">Phone + web chat active 24/7, auto-qualify leads</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">Automation</span>
+      <span class="bl-value">10 workflows, 17 auto-priced products, Xero quotes + Cora orders</span>
+    </div>
+    <div class="bottom-row">
+      <span class="bl-label">Blog</span>
+      <span class="bl-value">55 posts planned, 221 keywords, static HTML platform built</span>
+    </div>
+  <p class="closing">System delivered. Ready for first blog post and final Cloudflare configuration.</p>
+</div>
+
+<div class="footer">MonteKristo AI &middot; montekristoai.com &middot; April 2026</div>
+
+</body>
+</html>

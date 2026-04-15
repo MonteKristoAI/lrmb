@@ -1,0 +1,9 @@
+Switch to UPDATE pattern with RLS policy for DRAFT saves
+
+Added anon_update_drafts RLS policy on form_submissions (DRAFT rows only).
+Now uses single DRAFT row UPDATE instead of insert-only accumulation.
+Auto-save debounce reduced to 5s (safe now with no row accumulation).
+beforeunload still uses INSERT (sendBeacon limitation) with DRAFT-EXIT prefix.
+Load checks both DRAFT and DRAFT-EXIT rows, uses whichever is newer.
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>

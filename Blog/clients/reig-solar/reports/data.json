@@ -1,0 +1,131 @@
+{
+  "domain": "reig-us.com",
+  "report_date": "2026-03-30",
+  "overview": {
+    "authority_score": 15,
+    "authority_score_rating": "Average",
+    "organic_traffic_current": 83,
+    "organic_traffic_jan": 103,
+    "organic_traffic_feb": 93,
+    "organic_keywords_current": 26,
+    "organic_keywords_feb": 30,
+    "ref_domains_current": 159,
+    "ref_domains_jan": 157,
+    "ref_domains_feb": 142,
+    "backlinks_current": 551,
+    "backlinks_jan": 392,
+    "backlinks_feb": 398,
+    "paid_traffic": 0,
+    "paid_keywords": 0,
+    "ai_visibility": 19,
+    "ai_mentions": 8,
+    "ai_cited_pages": 10,
+    "ai_breakdown": {
+      "chatgpt_mentions": 2,
+      "chatgpt_cited": 7,
+      "ai_overview_mentions": 3,
+      "ai_overview_cited": 1,
+      "ai_mode_mentions": 0,
+      "ai_mode_cited": 3,
+      "gemini_mentions": 3,
+      "gemini_cited": 1
+    },
+    "traffic_share_us_pct": 94
+  },
+  "baseline": {
+    "organic_traffic_pre_2026_typical": 21,
+    "organic_traffic_pre_2026_period": "Sep–Nov 2025",
+    "organic_traffic_q1_2026_avg": 93,
+    "ref_domains_apr_2025": 90,
+    "backlinks_apr_2025": 305,
+    "note": "Pre-2026 baseline: Sep–Nov 2025 flat period. Q1 2026 avg = (103+93+83)/3 = 93."
+  },
+  "time_series": {
+    "organic_traffic_monthly": [
+      { "month": "2025-08", "value": 56 },
+      { "month": "2025-09", "value": 21 },
+      { "month": "2025-10", "value": 21 },
+      { "month": "2025-11", "value": 21 },
+      { "month": "2025-12", "value": 93 },
+      { "month": "2026-01", "value": 103 },
+      { "month": "2026-02", "value": 93 },
+      { "month": "2026-03", "value": 83 }
+    ],
+    "ref_domains_monthly": [
+      { "month": "2026-01", "value": 157 },
+      { "month": "2026-02", "value": 142 },
+      { "month": "2026-03", "value": 159 }
+    ],
+    "backlinks_monthly": [
+      { "month": "2026-01", "value": 392 },
+      { "month": "2026-02", "value": 398 },
+      { "month": "2026-03", "value": 551 }
+    ],
+    "blog_posts_per_month": [
+      { "month": "2026-01", "value": 0 },
+      { "month": "2026-02", "value": 8 },
+      { "month": "2026-03", "value": 8 }
+    ]
+  },
+  "keyword_position_breakdown": {
+    "feb_2026": {
+      "top_3": 2, "pos_4_10": 3, "pos_11_20": 5, "pos_21_50": 10, "pos_51_100": 6,
+      "ai_overviews": 1, "other_serp_features": 3, "total": 30
+    },
+    "mar_2026": {
+      "top_3": null, "pos_4_10": null, "pos_11_20": null, "pos_21_50": null, "pos_51_100": null,
+      "total": 26
+    }
+  },
+  "top_keywords": [
+    { "keyword": "reig",          "intent": "Informational", "position": 1,  "volume": 590, "cpc_usd": 3.29, "traffic_share": 98.71, "url": "https://www.reig-us.com/" },
+    { "keyword": "reig",          "intent": "Informational", "position": 15, "volume": 590, "cpc_usd": 3.29, "traffic_share": 1.28,  "url": "https://www.reig-us.com/" },
+    { "keyword": "scada utility", "intent": "Informational", "position": 34, "volume": 90,  "cpc_usd": 5.22, "traffic_share": 0.00,  "url": "TBD" },
+    { "keyword": "scada utility", "intent": "Informational", "position": 45, "volume": 90,  "cpc_usd": 5.22, "traffic_share": 0.00,  "url": "TBD" },
+    { "keyword": "solar scada",   "intent": "Informational", "position": 49, "volume": 50,  "cpc_usd": 2.60, "traffic_share": 0.00,  "url": "TBD" }
+  ],
+  "published_posts": {
+    "jan_2026": [],
+    "feb_2026": [
+      { "title": "Solar SCADA Architecture and Control Signals for Utility-Scale PV",        "date": "2026-02-04", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Solar Data Acquisition System (DAS): Sensor Map + Data Flow",              "date": "2026-02-08", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Utility-Scale Solar Monitoring KPIs: PR, Availability, and Curtailment",  "date": "2026-02-11", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Pyranometer for Utility-Scale PV: Accuracy Classes Explained",            "date": "2026-02-13", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "SCADA Integration Services: Scope + Deliverables That Prevent Rework",    "date": "2026-02-19", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Fiber Optic Installation on a Solar Farm: Route Design + Splice Planning","date": "2026-02-20", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Solar SCADA Commissioning to COD: Timeline + Milestones",                 "date": "2026-02-25", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Solar Plant SCADA System: Reference Architecture in One Diagram",         "date": "2026-02-27", "yoast_seo": "green", "yoast_readability": "green" }
+    ],
+    "mar_2026": [
+      { "title": "Solar SCADA Integrator: Roles + Deliverables That Matter",                           "date": "2026-03-04", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Solar DAS Commissioning Targets: Completeness, Accuracy, Latency",                  "date": "2026-03-08", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Utility-Scale Solar Monitoring Dashboards: What Ops Needs vs What Asset Managers Need", "date": "2026-03-18", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Pyranometer Installation: Mounting, Leveling, and Shading Rules for Utility-Scale PV",  "date": "2026-03-20", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "SCADA Integration Services Testing: End-to-End Verification Plan",                   "date": "2026-03-26", "yoast_seo": "green", "yoast_readability": "green" },
+      { "title": "Fiber Optic Installation Solar Farm: Direct-Buried vs Conduit",                     "date": "2026-03-27", "yoast_seo": "green", "yoast_readability": "green" }
+    ]
+  },
+  "yoast_quality_benchmark": {
+    "post_sample": "Pyranometer Installation: Mounting, Leveling, and Shading Rules",
+    "total_checks": 16,
+    "passing_checks": 16,
+    "checks": [
+      "Outbound links — nofollowed and normal links present",
+      "Keyphrase in image alt attributes",
+      "Images present on page",
+      "Internal links — sufficient internal linking",
+      "Keyphrase in introduction",
+      "Keyphrase density — found 10 times (great)",
+      "Keyphrase in SEO title — exact match at beginning",
+      "Keyphrase length",
+      "Keyphrase in meta description",
+      "Meta description length",
+      "Previously used keyphrase — unique, not repeated",
+      "Single title — no duplicate H1",
+      "Keyphrase in slug",
+      "Competing links — no competing anchor text",
+      "Text length — 2,122 words",
+      "SEO title width"
+    ]
+  }
+}

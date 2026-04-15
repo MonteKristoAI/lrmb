@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-P4XWHK5D');</script>
+  <!-- End Google Tag Manager -->
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C0Z35GHLEY"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C0Z35GHLEY');
+  </script>
+
+  <title>{{TITLE}}</title>
+  <meta name="description" content="{{META_DESCRIPTION}}">
+  <link rel="icon" type="image/webp" href="https://luxeshutters.com.au/favicon.webp">
+  <link rel="canonical" href="https://luxeshutters.com.au/{{SLUG}}/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://luxeshutters.com.au/{{SLUG}}/">
+  <meta property="og:title" content="{{TITLE}}">
+  <meta property="og:description" content="{{META_DESCRIPTION}}">
+  <meta property="og:image" content="https://luxeshutters.com.au/og-image.webp">
+  <meta property="og:site_name" content="Luxe Shutters">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="geo.region" content="AU-NSW">
+  <meta name="geo.placename" content="{{NAME}}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config={theme:{extend:{colors:{primary:{DEFAULT:'#3472b0',foreground:'#f2f5f7'},accent:{DEFAULT:'#d97a1e',foreground:'#f2f5f7'},foreground:'#1d2939',background:'#f2f5f7',card:{DEFAULT:'#fafcfd',foreground:'#1d2939'},muted:{DEFAULT:'#e8ecf0',foreground:'#6b7b8a'},secondary:{DEFAULT:'#e5e9ed',foreground:'#1d2939'},border:'#d5dbe1'},fontFamily:{serif:['Playfair Display','Georgia','serif'],sans:['Inter','system-ui','sans-serif']},boxShadow:{soft:'0 2px 15px -3px rgba(52,114,176,0.08),0 4px 6px -4px rgba(52,114,176,0.05)',card:'0 4px 25px -5px rgba(29,41,57,0.06),0 8px 10px -6px rgba(29,41,57,0.04)',elevated:'0 10px 40px -10px rgba(29,41,57,0.12),0 4px 15px -5px rgba(29,41,57,0.06)'}}}};
+  </script>
+  <style>
+  body{font-family:'Inter',system-ui,sans-serif;color:#1d2939;background:#f2f5f7;margin:0}
+  .font-serif{font-family:'Playfair Display',Georgia,serif}
+  .header-scrolled{background:#F0F4F8!important;box-shadow:0 2px 15px -3px rgba(52,114,176,0.08)}
+  .header-scrolled .nav-link,.header-scrolled .logo-name{color:#2B3540!important}
+  .header-scrolled .logo-sub{color:#6b7d8e!important}
+  details summary::-webkit-details-marker{display:none}
+  details summary{list-style:none}
+  .container{max-width:100%!important}
+  @media(min-width:1536px){.container{max-width:1536px!important}}
+  </style>
+  {{SCHEMA}}
+</head>
+<body class="min-h-screen">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P4XWHK5D"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- ===== STICKY CALL BAR (desktop only, matches StickyCallBar.tsx) ===== -->
+  <div class="hidden lg:block fixed top-0 left-0 right-0 z-[60] bg-foreground text-white shadow-soft">
+    <div class="container mx-auto flex items-center justify-between px-4 lg:px-8 py-2">
+      <div class="flex items-center gap-3">
+        <svg class="w-4 h-4 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.36 1.75.7 2.58a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.83.34 1.7.57 2.58.7A2 2 0 0 1 22 16.92z"/></svg>
+        <a href="tel:1800465893" class="font-semibold text-sm hover:text-accent transition-colors">1800-465-893</a>
+        <span class="text-xs text-white/60 hidden xl:inline">— Premium Shutters, Blinds & Curtains in {{NAME}}</span>
+      </div>
+      <div class="flex items-center gap-4">
+        <span class="text-xs text-white/50 hidden xl:inline">Serving {{NAME}} & Regional NSW</span>
+        <a href="tel:1800465893" class="bg-accent text-white hover:bg-accent/90 h-8 px-4 rounded-md text-xs font-semibold inline-flex items-center">Call Now</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== HEADER (matches Header.tsx — transparent on hero, solid on scroll) ===== -->
+  <header id="site-header" class="fixed left-0 right-0 z-50 top-0 lg:top-[44px] transition-all duration-300 bg-transparent">
+    <div class="container mx-auto flex items-center justify-between py-4 px-4 lg:px-8">
+      <a href="https://luxeshutters.com.au/" class="flex flex-col group">
+        <span class="logo-name font-serif font-bold text-xl leading-tight text-white transition-colors duration-300">Luxe Shutters</span>
+        <span class="logo-sub text-[10px] tracking-widest uppercase hidden sm:block text-white/60 transition-colors duration-300">Shutters · Blinds · Curtains</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-1" id="nav">
+        <a href="https://luxeshutters.com.au/" class="nav-link px-3 py-2 text-sm font-medium text-white/90 hover:text-white rounded-lg transition-colors">Home</a>
+        <a href="https://luxeshutters.com.au/services" class="nav-link px-3 py-2 text-sm font-medium text-white/90 hover:text-white rounded-lg transition-colors">Services</a>
+        <a href="https://luxeshutters.com.au/gallery" class="nav-link px-3 py-2 text-sm font-medium text-white/90 hover:text-white rounded-lg transition-colors">Gallery</a>
+        <a href="/blog/" class="nav-link px-3 py-2 text-sm font-medium text-white/90 hover:text-white rounded-lg transition-colors">Blog</a>
+        <a href="https://luxeshutters.com.au/#about" class="nav-link px-3 py-2 text-sm font-medium text-white/90 hover:text-white rounded-lg transition-colors">About</a>
+        <a href="https://luxeshutters.com.au/contact" class="nav-link px-3 py-2 text-sm font-medium text-white/90 hover:text-white rounded-lg transition-colors">Contact</a>
+      </nav>
+      <div class="hidden lg:flex items-center gap-3">
+        <a href="tel:1800465893" class="nav-link flex items-center gap-1.5 text-sm text-white/90 hover:text-white transition-colors">
+          <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.36 1.75.7 2.58a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.83.34 1.7.57 2.58.7A2 2 0 0 1 22 16.92z"/></svg>
+          1800-465-893
+        </a>
+        <a href="https://luxeshutters.com.au/#booking" class="bg-primary text-white hover:bg-primary/90 font-medium px-4 py-2 rounded-lg text-sm transition-colors">Get a Free Quote</a>
+      </div>
+      <button class="lg:hidden p-2 text-white" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" aria-label="Toggle menu">
+        <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+    </div>
+    <!-- Mobile menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-background/98 backdrop-blur-md border-t border-border">
+      <nav class="container mx-auto py-4 px-4 flex flex-col gap-1">
+        <a href="https://luxeshutters.com.au/" class="px-4 py-3 text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg">Home</a>
+        <a href="https://luxeshutters.com.au/services" class="px-4 py-3 text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg">Services</a>
+        <a href="https://luxeshutters.com.au/gallery" class="px-4 py-3 text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg">Gallery</a>
+        <a href="/blog/" class="px-4 py-3 text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg">Blog</a>
+        <a href="https://luxeshutters.com.au/contact" class="px-4 py-3 text-foreground/80 hover:text-primary hover:bg-primary/5 rounded-lg">Contact</a>
+        <div class="border-t border-border mt-2 pt-3">
+          <a href="https://luxeshutters.com.au/#booking" class="block w-full bg-primary text-white hover:bg-primary/90 font-medium text-center py-3 rounded-lg">Get a Free Quote</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== HERO (matches HeroSection.tsx — 90vh, gradient, trust chips) ===== -->
+  <section class="relative min-h-[90vh] flex items-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://luxeshutters.com.au/assets/hero-shutters-DdkkjlGw.webp" alt="Luxurious living room with premium plantation shutters in {{NAME}}" class="w-full h-full object-cover" loading="eager" fetchpriority="high">
+      <div class="absolute inset-0 bg-gradient-to-r from-[#1a1f2e]/95 via-[#1a1f2e]/75 to-[#1a1f2e]/30"></div>
+    </div>
+    <div class="container mx-auto px-4 lg:px-8 relative z-10 py-32 lg:py-40" >
+      <div class="max-w-2xl text-left">
+        <p class="text-sm md:text-base uppercase tracking-[0.2em] text-white/60 mb-4 font-medium">
+          {{NAME}}, {{REGION}} — Where Style Meets Everyday Comfort.
+        </p>
+        <h1 class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-6">
+          Premium Shutters & Blinds in <span class="text-accent">{{NAME}}</span>
+        </h1>
+        <p class="text-lg md:text-xl text-white/75 mb-8 leading-relaxed">
+          {{HERO_TAGLINE}}. Custom-made, professionally installed, and backed by our quality guarantee.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 mb-10">
+          <a href="https://luxeshutters.com.au/#booking" class="bg-primary hover:bg-primary/90 text-white font-medium shadow-lg px-8 py-4 rounded-lg text-lg inline-flex items-center justify-center">Get a Free Quote</a>
+          <a href="tel:1800465893" class="border border-white/30 text-white bg-transparent hover:bg-white/10 backdrop-blur-sm px-8 py-4 rounded-lg text-lg font-medium inline-flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.36 1.75.7 2.58a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.83.34 1.7.57 2.58.7A2 2 0 0 1 22 16.92z"/></svg>
+            Call Us
+          </a>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/10">
+            <svg class="w-4 h-4 text-white/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span class="text-sm text-white/85">Licensed & insured</span>
+          </div>
+          <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/10">
+            <svg class="w-4 h-4 text-white/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+            <span class="text-sm text-white/85">Certified installers</span>
+          </div>
+          <div class="flex items-center gap-2 bg-white/10 backdrop-blur-md rounded-full px-4 py-2 border border-white/10">
+            <svg class="w-4 h-4 text-white/70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            <span class="text-sm text-white/85">Energy-efficient experts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT / LOCAL EXPERTISE ===== -->
+  <section class="py-16 md:py-20 bg-secondary/30">
+    <div class="container mx-auto px-4 lg:px-8 max-w-4xl text-center">
+      <span class="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">Serving {{NAME}}</span>
+      <h2 class="font-serif text-2xl font-bold sm:text-3xl mb-4">Your Local Window Furnishing Experts</h2>
+      <p class="text-muted-foreground leading-relaxed max-w-3xl mx-auto mb-10">{{DESCRIPTION}}</p>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        {{HIGHLIGHTS}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODUCTS (matches ServicesPreview — 3-col cards) ===== -->
+  <section class="py-16 md:py-20">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="text-center mb-10 md:mb-14">
+        <span class="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">Our Products</span>
+        <h2 class="font-serif text-2xl font-bold sm:text-3xl">Available in {{NAME}}</h2>
+        <p class="mx-auto mt-3 max-w-lg text-muted-foreground">Every product custom-made to your specifications and professionally installed.</p>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="https://luxeshutters.com.au/services#shutters" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-shutters-Dfng9GS2.webp" alt="Shutters in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Shutters</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Our shutters combine timeless elegance with exceptional craftsmanship, adding a touch of sophistication to any space.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
+        </a>
+        <a href="https://luxeshutters.com.au/services#blinds" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-blinds-DMmHyikZ.webp" alt="Blinds in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Blinds</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">With their versatility and functionality, our blinds are the perfect blend of fashion and practicality.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
+        </a>
+        <a href="https://luxeshutters.com.au/services#curtains" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-curtains-DrwC3v-e.webp" alt="Curtains in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Curtains</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">From sheer elegance to opulent drapes, our curtains offer a wide range of options to suit your personal taste.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
+        </a>
+        <a href="https://luxeshutters.com.au/services#zipscreens" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-zipscreens-C5wqX4qA.webp" alt="Zipscreens in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Zipscreens</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Sleek design, smooth operation, and customizable options — seamlessly blending into your existing architecture.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
+        </a>
+        <a href="https://luxeshutters.com.au/services#awnings" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-awnings-BcmSuHmw.webp" alt="Awnings in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Awnings</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Our awnings provide the perfect shade solution, protecting you from the scorching sun while adding elegance.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
+        </a>
+        <a href="https://luxeshutters.com.au/services#security-roller-shutters" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-roller-shutters-BYnkIdHt.webp" alt="Security roller shutters in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Security Roller Shutters</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Designed to protect your windows and doors with robust defense, privacy, and insulation.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PROCESS / HOW IT WORKS (matches WhyChooseUs.tsx) ===== -->
+  <section class="relative py-24 lg:py-32 overflow-hidden" style="background:linear-gradient(180deg,#eff2f5,#f2f4f7)">
+    <div class="absolute inset-0 overflow-hidden">
+      <img src="https://luxeshutters.com.au/assets/hero-shutters-DdkkjlGw.webp" alt="" class="w-full h-full object-cover opacity-[0.08]" loading="lazy">
+    </div>
+    <div class="container mx-auto px-4 lg:px-8 relative z-10">
+      <div class="max-w-3xl mb-20">
+        <p class="text-sm tracking-[0.2em] uppercase text-muted-foreground mb-4">Our Process</p>
+        <h2 class="font-serif text-4xl md:text-5xl font-semibold leading-[1.15] mb-6">How Does it Work?</h2>
+        <p class="text-lg text-muted-foreground leading-relaxed max-w-xl">Here at Luxe Shutters, we pride ourselves on being a service based company who supplies and installs the highest quality window furnishings. We help our {{NAME}} clients with a simple, step by step process.</p>
+      </div>
+      <div class="border-t border-border">
+        <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr_1.5fr] gap-4 md:gap-8 py-8 md:py-10 border-b border-border items-start">
+          <span class="font-serif text-3xl md:text-4xl font-semibold text-foreground/15">01</span>
+          <h3 class="text-xl md:text-2xl font-medium font-sans">Get in Touch With Us</h3>
+          <p class="text-muted-foreground leading-relaxed font-medium">Request a Free Quote, Book a discovery call or Upload your plans. We will then organize a time to visit your {{NAME}} home for a Free Measure & Quote consultation.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr_1.5fr] gap-4 md:gap-8 py-8 md:py-10 border-b border-border items-start">
+          <span class="font-serif text-3xl md:text-4xl font-semibold text-foreground/15">02</span>
+          <h3 class="text-xl md:text-2xl font-medium font-sans">Mobile Showroom</h3>
+          <p class="text-muted-foreground leading-relaxed font-medium">Our consultants will come to your {{NAME}} home and discuss your needs for each window. We bring our Mobile Showroom so you can see and feel the quality.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr_1.5fr] gap-4 md:gap-8 py-8 md:py-10 border-b border-border items-start">
+          <span class="font-serif text-3xl md:text-4xl font-semibold text-foreground/15">03</span>
+          <h3 class="text-xl md:text-2xl font-medium font-sans">Fast Quote & Follow Up</h3>
+          <p class="text-muted-foreground leading-relaxed font-medium">You will receive a quote in 48 hours. Our team will follow up with you to answer any questions and make sure you're completely happy.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr_1.5fr] gap-4 md:gap-8 py-8 md:py-10 border-b border-border items-start">
+          <span class="font-serif text-3xl md:text-4xl font-semibold text-foreground/15">04</span>
+          <h3 class="text-xl md:text-2xl font-medium font-sans">Swift Order Processing</h3>
+          <p class="text-muted-foreground leading-relaxed font-medium">As soon as the quote is accepted and the 50% deposit is paid, we place your order immediately with clear lead times.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-[4rem_1fr_1.5fr] gap-4 md:gap-8 py-8 md:py-10 border-b border-border items-start">
+          <span class="font-serif text-3xl md:text-4xl font-semibold text-foreground/15">05</span>
+          <h3 class="text-xl md:text-2xl font-medium font-sans">Installation Day</h3>
+          <p class="text-muted-foreground leading-relaxed font-medium">Our professional installers treat your {{NAME}} home with care and ensure a flawless finish. We walk you through your new products afterwards.</p>
+        </div>
+      </div>
+      <!-- Stats bar -->
+      <div class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-px bg-border rounded-2xl overflow-hidden">
+        <div class="bg-card p-10 text-center">
+          <div class="font-serif text-3xl md:text-4xl font-semibold mb-2">4.9 / 5</div>
+          <div class="text-sm text-muted-foreground tracking-wide">Average customer rating</div>
+        </div>
+        <div class="bg-card p-10 text-center">
+          <div class="font-serif text-3xl md:text-4xl font-semibold mb-2">10+ yrs</div>
+          <div class="text-sm text-muted-foreground tracking-wide">Industry experience</div>
+        </div>
+        <div class="bg-card p-10 text-center">
+          <div class="font-serif text-3xl md:text-4xl font-semibold mb-2">5,000+</div>
+          <div class="text-sm text-muted-foreground tracking-wide">Products installed</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REVIEWS (3 real reviews) ===== -->
+  <section class="py-16 md:py-24">
+    <div class="container mx-auto px-4 lg:px-8">
+      <div class="text-center mb-10">
+        <span class="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">Testimonials</span>
+        <h2 class="font-serif text-2xl font-bold sm:text-3xl">What Our Clients Say</h2>
+      </div>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <!-- Jo Tuck-Lee -->
+        <div class="bg-card rounded-2xl border border-border/60 p-6 shadow-card">
+          <div class="flex gap-0.5 mb-3 text-accent">★★★★★</div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-3">"Thank you Chris, Campbell and team for my beautiful curtains and blinds. Great service and high quality products. I couldn't be happier and highly recommend Luxe Shutters — they really went out of their way to help me achieve the results I wanted."</p>
+          <div class="review-photos flex gap-2 mb-4 overflow-x-auto">
+            <img src="https://luxeshutters.com.au/assets/reviews/jo-tuck-lee-1.webp" alt="Jo Tuck-Lee curtains" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+            <img src="https://luxeshutters.com.au/assets/reviews/jo-tuck-lee-2.webp" alt="Jo Tuck-Lee blinds" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+            <img src="https://luxeshutters.com.au/assets/reviews/jo-tuck-lee-3.webp" alt="Jo Tuck-Lee installation" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+          </div>
+          <div class="flex items-center gap-3"><img src="https://luxeshutters.com.au/assets/reviews/prof-jo-tuck-lee.webp" alt="Jo Tuck-Lee" class="w-10 h-10 rounded-full object-cover"><div><div class="font-medium text-sm">Jo Tuck-Lee</div><div class="text-xs text-muted-foreground">Curtains & Blinds · NSW</div></div></div>
+        </div>
+        <!-- Kirsty Hanlon -->
+        <div class="bg-card rounded-2xl border border-border/60 p-6 shadow-card">
+          <div class="flex gap-0.5 mb-3 text-accent">★★★★★</div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-3">"We searched statewide trying to find someone to fit automatic shutters to our skylight. We had given up, then by chance we came across Luxe Shutters in Temora. Chris and Campbell were honest and realistic with timeframes. We have no hesitation in recommending Luxe Shutters!"</p>
+          <div class="review-photos flex gap-2 mb-4 overflow-x-auto">
+            <img src="https://luxeshutters.com.au/assets/reviews/kirsty-hanlon-1.webp" alt="Kirsty Hanlon shutters" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+            <img src="https://luxeshutters.com.au/assets/reviews/kirsty-hanlon-2.webp" alt="Kirsty Hanlon skylight" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+            <img src="https://luxeshutters.com.au/assets/reviews/kirsty-hanlon-3.webp" alt="Kirsty Hanlon automatic shutters" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+          </div>
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">KH</div><div><div class="font-medium text-sm">Kirsty Hanlon</div><div class="text-xs text-muted-foreground">Automatic Skylight Shutters · NSW</div></div></div>
+        </div>
+        <!-- Pete Broady -->
+        <div class="bg-card rounded-2xl border border-border/60 p-6 shadow-card">
+          <div class="flex gap-0.5 mb-3 text-accent">★★★★★</div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-3">"We just had outdoor patio screens installed and the whole process from start to finish was fantastic. Chris and the boys were professional, courteous and did a magnificent job. The screens will make the back patio usable 52 weeks of the year."</p>
+          <div class="review-photos flex gap-2 mb-4 overflow-x-auto">
+            <img src="https://luxeshutters.com.au/assets/reviews/pete-broady-1.webp" alt="Pete Broady patio screens" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+            <img src="https://luxeshutters.com.au/assets/reviews/pete-broady-2.webp" alt="Pete Broady outdoor screens" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+            <img src="https://luxeshutters.com.au/assets/reviews/pete-broady-3.webp" alt="Pete Broady installation" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+          </div>
+          <div class="flex items-center gap-3"><img src="https://luxeshutters.com.au/assets/reviews/prof-pete-broady.webp" alt="Pete Broady" class="w-10 h-10 rounded-full object-cover"><div><div class="font-medium text-sm">Pete Broady</div><div class="text-xs text-muted-foreground">Outdoor Patio Screens · NSW</div></div></div>
+        </div>
+        <!-- Bec Tidd -->
+        <div class="bg-card rounded-2xl border border-border/60 p-6 shadow-card">
+          <div class="flex gap-0.5 mb-3 text-accent">★★★★★</div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-3">"Chris and Cam are so easy to work with. He is very knowledgeable and came prepared bringing out a range of samples and colours. We were very impressed with the quick turn around from finalising our order to installation. Highly recommend!"</p>
+          <div class="review-photos flex gap-2 mb-4 overflow-x-auto">
+            <img src="https://luxeshutters.com.au/assets/reviews/bec-tidd-1.webp" alt="Bec Tidd curtains" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+            <img src="https://luxeshutters.com.au/assets/reviews/bec-tidd-2.webp" alt="Bec Tidd blinds" class="h-20 w-auto rounded-lg object-cover" loading="lazy">
+          </div>
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">BT</div><div><div class="font-medium text-sm">Bec Tidd</div><div class="text-xs text-muted-foreground">Curtains & Blinds · NSW</div></div></div>
+        </div>
+        <!-- Be Patrick -->
+        <div class="bg-card rounded-2xl border border-border/60 p-6 shadow-card">
+          <div class="flex gap-0.5 mb-3 text-accent">★★★★★</div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-4">"Terrific job well done by Ethan and Chris. So nice to have professionals come into your home with more than just a sales pitch. The knowledge and ideas from both Chris and Campbell were exceptional. We cannot recommend Luxe highly enough."</p>
+          <div class="flex items-center gap-3"><img src="https://luxeshutters.com.au/assets/reviews/prof-be-patrick.webp" alt="Be Patrick" class="w-10 h-10 rounded-full object-cover"><div><div class="font-medium text-sm">Be Patrick</div><div class="text-xs text-muted-foreground">Shutters, Blinds & Crimsafe · NSW</div></div></div>
+        </div>
+        <!-- Benny C -->
+        <div class="bg-card rounded-2xl border border-border/60 p-6 shadow-card">
+          <div class="flex gap-0.5 mb-3 text-accent">★★★★★</div>
+          <p class="text-sm text-muted-foreground leading-relaxed mb-4">"Chris and the team were so easy to deal with. A simple phone call and before I knew it they were in Griffith measuring up. Received a large zip blind for our back area and a front crimsafe security door. Quality of the products are amazing and they look so good."</p>
+          <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-sm font-semibold text-primary">BC</div><div><div class="font-medium text-sm">Benny C</div><div class="text-xs text-muted-foreground">Zip Blind & Crimsafe · Griffith, NSW</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="bg-primary/5 py-14 md:py-18 text-center">
+    <div class="container mx-auto px-4 lg:px-8">
+      <h2 class="font-serif text-2xl font-bold sm:text-3xl">Ready to transform your {{NAME}} home?</h2>
+      <p class="mx-auto mt-3 max-w-md text-muted-foreground">Request a free quote and we'll provide a detailed estimate before any work begins.</p>
+      <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
+        <a href="https://luxeshutters.com.au/#booking" class="bg-primary text-white hover:bg-primary/90 font-medium px-6 py-3 rounded-lg text-base inline-flex items-center gap-2">
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Get a free quote
+        </a>
+        <a href="https://luxeshutters.com.au/contact" class="border border-border text-foreground hover:bg-secondary font-medium px-6 py-3 rounded-lg text-base">Contact us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ (matches FAQSection.tsx) ===== -->
+  <section class="py-16 md:py-24 bg-secondary/30">
+    <div class="container mx-auto px-4 lg:px-8 max-w-4xl">
+      <div class="text-center mb-10 md:mb-14">
+        <span class="mb-3 inline-block text-xs font-semibold uppercase tracking-widest text-primary">Common Questions</span>
+        <h2 class="font-serif text-2xl font-bold sm:text-3xl md:text-4xl">Frequently Asked Questions</h2>
+        <p class="mx-auto mt-3 max-w-lg text-muted-foreground">Everything you need to know about our products, installation, and services in {{NAME}}.</p>
+      </div>
+      <div class="space-y-3">
+        {{FAQS}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== OTHER LOCATIONS ===== -->
+  <section class="py-14 md:py-18 bg-secondary/30">
+    <div class="container mx-auto px-4 lg:px-8 text-center">
+      <h2 class="font-serif text-xl font-bold sm:text-2xl mb-6">We also serve</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        {{OTHER_LOCATIONS}}
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER (matches Footer.tsx) ===== -->
+  <footer class="bg-foreground text-white">
+    <div class="container mx-auto px-4 lg:px-8 py-16">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+        <div>
+          <span class="font-serif font-bold text-xl">Luxe Shutters</span>
+          <p class="text-white/60 text-sm leading-relaxed my-6">Where Style Meets Everyday Comfort. Premium shutters, blinds, curtains, and outdoor screens — professionally installed across the Temora & Riverina region.</p>
+          <div class="flex gap-3">
+            <a href="https://www.facebook.com/Luxeshutters" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white/10 hover:bg-primary/30 flex items-center justify-center transition-colors"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+            <a href="https://www.instagram.com/luxe_shutters" target="_blank" rel="noopener noreferrer" class="w-9 h-9 rounded-full bg-white/10 hover:bg-primary/30 flex items-center justify-center transition-colors"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-serif font-semibold mb-4">Quick Links</h4>
+          <ul class="space-y-2.5">
+            <li><a href="https://luxeshutters.com.au/services" class="text-sm text-white/60 hover:text-white transition-colors">Services</a></li>
+            <li><a href="/blog/" class="text-sm text-white/60 hover:text-white transition-colors">Blog</a></li>
+            <li><a href="https://luxeshutters.com.au/contact" class="text-sm text-white/60 hover:text-white transition-colors">Contact</a></li>
+          </ul>
+          <h4 class="font-serif font-semibold mb-3 mt-6">Service Areas</h4>
+          <ul class="space-y-1.5">
+            {{FOOTER_LOCATIONS}}
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-serif font-semibold mb-4">Contact Us</h4>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-2.5 text-sm text-white/60"><svg class="w-4 h-4 mt-0.5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Temora, New South Wales 2666, Australia</li>
+            <li class="flex items-center gap-2.5 text-sm text-white/60"><svg class="w-4 h-4 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.36 1.75.7 2.58a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.83.34 1.7.57 2.58.7A2 2 0 0 1 22 16.92z"/></svg><a href="tel:1800465893" class="hover:text-white transition-colors">1800-465-893</a></li>
+            <li class="flex items-center gap-2.5 text-sm text-white/60"><svg class="w-4 h-4 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg><a href="mailto:admin@luxeshutters.com.au" class="hover:text-white transition-colors">admin@luxeshutters.com.au</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-serif font-semibold mb-4">Hours and Service Area</h4>
+          <ul class="space-y-2.5">
+            <li class="flex items-start gap-2.5 text-sm text-white/60">
+              <svg class="w-4 h-4 mt-0.5 shrink-0 text-primary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <div><p>Monday – Friday: 9:00 am – 5:00 pm</p><p>Saturday: Closed</p><p>Sunday: Closed</p></div>
+            </li>
+          </ul>
+          <p class="text-xs text-white/40 mt-4">Serving Temora, Wagga Wagga, Young, West Wyalong, Cootamundra, Junee, Griffith, Cowra, and surrounding areas across regional NSW.</p>
+        </div>
+      </div>
+      <div class="border-t border-white/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-white/40">© {{YEAR}} Luxe Shutters. All rights reserved. Licensed and Insured.</p>
+        <div class="flex gap-4 text-xs text-white/40">
+          <a href="#" class="hover:text-white/60 transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-white/60 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== MOBILE FLOATING CTA BAR (matches FloatingCallButton.tsx) ===== -->
+  <div class="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-background/95 backdrop-blur-md border-t border-border px-4 py-3 flex gap-3">
+    <a href="tel:1800465893" class="flex-1 h-12 bg-primary text-white hover:bg-primary/90 shadow-soft rounded-lg text-base font-semibold inline-flex items-center justify-center gap-2">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.88.36 1.75.7 2.58a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.83.34 1.7.57 2.58.7A2 2 0 0 1 22 16.92z"/></svg>
+      Call us
+    </a>
+    <a href="https://luxeshutters.com.au/#booking" class="flex-1 h-12 border-2 border-border bg-background text-foreground rounded-lg text-base font-semibold inline-flex items-center justify-center gap-2">
+      <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Consultation
+    </a>
+  </div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="fixed inset-0 z-[100] hidden bg-black/90 backdrop-blur-sm items-center justify-center" onclick="if(event.target===this)closeLB()">
+    <button onclick="closeLB()" class="absolute top-4 right-4 text-white/80 hover:text-white z-10 p-2" aria-label="Close">
+      <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <button onclick="navLB(-1)" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2" aria-label="Previous">
+      <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button onclick="navLB(1)" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/80 hover:text-white p-2" aria-label="Next">
+      <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+    <img id="lb-img" src="" alt="" class="max-h-[85vh] max-w-[90vw] rounded-lg object-contain">
+  </div>
+
+  <!-- Header scroll + Lightbox script -->
+  <script>
+  window.addEventListener('scroll',function(){
+    var h=document.getElementById('site-header');
+    if(window.scrollY>20){h.classList.add('header-scrolled');}
+    else{h.classList.remove('header-scrolled');}
+  });
+
+  var lbImages=[], lbIdx=0;
+  document.querySelectorAll('.review-photos img').forEach(function(img){
+    img.style.cursor='pointer';
+    img.addEventListener('click',function(){
+      var parent=this.closest('.review-photos');
+      lbImages=Array.from(parent.querySelectorAll('img')).map(function(i){return i.src;});
+      lbIdx=lbImages.indexOf(this.src);
+      openLB();
+    });
+  });
+  function openLB(){
+    var lb=document.getElementById('lightbox');
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+    document.getElementById('lb-img').src=lbImages[lbIdx];
+    document.body.style.overflow='hidden';
+  }
+  function closeLB(){
+    var lb=document.getElementById('lightbox');
+    lb.classList.add('hidden');
+    lb.classList.remove('flex');
+    document.body.style.overflow='';
+  }
+  function navLB(dir){
+    lbIdx=(lbIdx+dir+lbImages.length)%lbImages.length;
+    document.getElementById('lb-img').src=lbImages[lbIdx];
+  }
+  document.addEventListener('keydown',function(e){
+    if(document.getElementById('lightbox').classList.contains('hidden'))return;
+    if(e.key==='Escape')closeLB();
+    if(e.key==='ArrowLeft')navLB(-1);
+    if(e.key==='ArrowRight')navLB(1);
+  });
+  </script>
+</body>
+</html>

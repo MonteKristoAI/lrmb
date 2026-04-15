@@ -1,0 +1,85 @@
+{
+  "domain": "voice-booking",
+  "version": "1.0",
+  "created": "2026-04-14",
+  "description": "Binary pass/fail criteria for voice agent booking rate optimization",
+  "criteria": [
+    {
+      "id": "vb_001",
+      "name": "booking_rate_above_baseline",
+      "description": "Booking conversion rate must exceed current baseline",
+      "check": "booking_rate > baseline_booking_rate",
+      "weight": 3,
+      "category": "performance",
+      "hard_gate": true
+    },
+    {
+      "id": "vb_002",
+      "name": "call_completion_stable",
+      "description": "Call completion rate must not decrease vs baseline",
+      "check": "completion_rate >= baseline_completion_rate * 0.95",
+      "weight": 3,
+      "category": "performance",
+      "hard_gate": true
+    },
+    {
+      "id": "vb_003",
+      "name": "compliance_language_preserved",
+      "description": "All IMMUTABLE compliance sections must be unchanged in prompt",
+      "check": "compliance_sections_intact == true",
+      "weight": 3,
+      "category": "compliance",
+      "hard_gate": true
+    },
+    {
+      "id": "vb_004",
+      "name": "payment_gating_active",
+      "description": "Payment gating (Text2Pay) flow must remain functional",
+      "check": "payment_gating_active == true",
+      "weight": 3,
+      "category": "compliance",
+      "hard_gate": true
+    },
+    {
+      "id": "vb_005",
+      "name": "minimum_call_sample",
+      "description": "At least 30 calls per variant before declaring winner",
+      "check": "total_calls >= 30",
+      "weight": 2,
+      "category": "statistical_validity",
+      "hard_gate": true
+    },
+    {
+      "id": "vb_006",
+      "name": "duration_in_normal_range",
+      "description": "Average call duration within 0.5x-2x of baseline (no anomalies)",
+      "check": "avg_duration >= baseline_duration * 0.5 AND avg_duration <= baseline_duration * 2.0",
+      "weight": 2,
+      "category": "quality",
+      "hard_gate": false
+    },
+    {
+      "id": "vb_007",
+      "name": "positive_sentiment_stable",
+      "description": "User sentiment ratio must not decrease",
+      "check": "positive_sentiment_ratio >= baseline_sentiment_ratio",
+      "weight": 1,
+      "category": "quality",
+      "hard_gate": false
+    },
+    {
+      "id": "vb_008",
+      "name": "observation_window_met",
+      "description": "Minimum 7 days observation before declaring results",
+      "check": "days_observed >= 7",
+      "weight": 2,
+      "category": "statistical_validity",
+      "hard_gate": true
+    }
+  ],
+  "scoring": {
+    "max_score": 8,
+    "pass_threshold": 6,
+    "hard_gate_count": 6
+  }
+}

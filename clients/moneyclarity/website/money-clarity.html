@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Money Clarity — Know Where You Stand</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Source+Sans+3:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal-dark:#0a2e2a;--teal-mid:#0d3d38;--teal-light:#19a08a;--teal-bright:#00b8a0;--teal-pale:#e0f5f2;
+  --orange:#ff5500;--orange-light:#ff7733;--orange-pale:#fff2ec;
+  --white:#fff;--cream:#f8fffe;
+  --text-dark:#0a2e2a;--text-mid:#1a4a44;--text-muted:#4a8a82;--text-light:#7ab8b0;
+  --border:rgba(10,46,42,0.14);--border-orange:rgba(255,85,0,0.22);
+}
+html,body{margin:0;padding:0;background:var(--cream);}
+#mc{font-family:'Source Sans 3',sans-serif;background:var(--cream);min-height:100vh;max-width:420px;margin:0 auto;}
+.sc{display:none;min-height:100vh;flex-direction:column;animation:fu 0.3s ease;}
+.sc.on{display:flex;}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+/* LANDING */
+.lbg{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px 28px 40px;text-align:center;position:relative;overflow:hidden;}
+.lbg::before{content:'';position:absolute;top:-80px;right:-80px;width:300px;height:300px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.lbg::after{content:'';position:absolute;bottom:-80px;left:-80px;width:280px;height:280px;border-radius:50%;background:rgba(0,184,160,0.08);}
+.lbg-topline{position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#ff5500 35%,#ff5500 65%,transparent);}
+
+.wm{font-family:'Lora',serif;font-size:20px;letter-spacing:0.16em;text-transform:uppercase;margin-bottom:20px;position:relative;z-index:1;}
+.wm-m{color:rgba(255,255,255,0.95);}
+.wm-c{color:#ff5500;}
+
+.tina-photo-wrap{position:relative;margin-bottom:20px;z-index:1;}
+.tina-photo{width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top;border:4px solid rgba(255,255,255,0.2);box-shadow:0 8px 32px rgba(0,0,0,0.3),0 0 0 5px rgba(255,85,0,0.2);}
+.tina-photo-badge{position:absolute;bottom:6px;right:-8px;background:#ff5500;color:#fff;font-size:12px;font-weight:500;padding:5px 12px;border-radius:20px;font-family:'Source Sans 3',sans-serif;letter-spacing:0.04em;white-space:nowrap;box-shadow:0 3px 12px rgba(255,85,0,0.4);}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:7px;background:rgba(255,85,0,0.12);border:1px solid rgba(255,85,0,0.3);color:#ff7733;font-size:14px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;padding:6px 16px;border-radius:20px;margin-bottom:18px;position:relative;z-index:1;}
+.hero-dot{width:6px;height:6px;background:#ff5500;border-radius:50%;}
+
+.lh1{font-family:'Lora',serif;font-size:38px;font-weight:500;color:#fff;line-height:1.18;margin-bottom:0;position:relative;z-index:1;letter-spacing:-0.01em;}
+.lh1 em{color:#ff5500;font-style:italic;text-shadow:0 2px 12px rgba(255,85,0,0.4);}
+
+.ldiv{width:44px;height:2px;background:linear-gradient(90deg,transparent,#ff5500,transparent);margin:20px auto 18px;border-radius:2px;position:relative;z-index:1;}
+
+.lsub{font-size:18px;color:rgba(255,255,255,0.65);line-height:1.65;max-width:300px;margin-bottom:10px;font-weight:300;position:relative;z-index:1;}
+
+.trust-line{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:26px;position:relative;z-index:1;font-weight:300;font-style:italic;font-family:'Lora',serif;}
+
+.btn-p{background:#ff5500;color:#fff;border:none;border-radius:12px;font-family:'Source Sans 3',sans-serif;font-size:20px;font-weight:500;padding:18px 36px;cursor:pointer;width:100%;max-width:320px;position:relative;z-index:1;letter-spacing:0.01em;box-shadow:0 6px 28px rgba(255,85,0,0.4);transition:background 0.2s,box-shadow 0.2s,transform 0.1s;}
+.btn-p:hover{background:#ff7733;box-shadow:0 10px 36px rgba(255,85,0,0.5);}
+.btn-p:active{transform:scale(0.98);}
+
+.bio-strip{background:rgba(255,255,255,0.05);border-top:1px solid rgba(255,255,255,0.08);border-bottom:1px solid rgba(255,255,255,0.08);padding:18px 24px;text-align:center;position:relative;z-index:1;margin-top:20px;width:100%;}
+.bio-name{font-family:'Lora',serif;font-size:16px;color:#fff;font-weight:500;margin-bottom:4px;}
+.bio-text{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.6;font-weight:300;max-width:280px;margin:0 auto;}
+.bio-text strong{color:#00b8a0;font-weight:500;}
+
+.micro{font-size:14px;color:rgba(255,255,255,0.3);margin-top:12px;position:relative;z-index:1;font-weight:300;}
+.pills{display:flex;gap:8px;margin-top:22px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center;}
+.pill{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.4);font-size:13px;padding:5px 14px;border-radius:20px;}
+
+/* QUESTION CHROME */
+.qh{background:var(--teal-dark);padding:18px 22px 14px;}
+.pt{height:4px;background:rgba(255,255,255,0.1);border-radius:2px;margin-bottom:10px;}
+.pf{height:100%;background:#ff5500;border-radius:2px;transition:width 0.4s ease;}
+.qm{display:flex;justify-content:space-between;}
+.ql{font-size:13px;color:rgba(255,255,255,0.4);letter-spacing:0.06em;text-transform:uppercase;}
+.qp{font-size:13px;color:#ff7733;font-weight:500;}
+
+/* QUESTION BODY */
+.qb{flex:1;background:var(--cream);padding:28px 20px 20px;display:flex;flex-direction:column;}
+.qt{font-family:'Lora',serif;font-size:26px;font-weight:500;color:var(--text-dark);line-height:1.3;margin-bottom:8px;}
+.qsub{font-size:16px;color:var(--text-muted);margin-bottom:22px;font-weight:300;line-height:1.5;}
+.iw{position:relative;}
+.csym{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:20px;color:var(--text-muted);pointer-events:none;}
+.inf{border:2px solid var(--border);border-radius:10px;padding:14px 16px;font-family:'Source Sans 3',sans-serif;font-size:20px;color:var(--text-dark);width:100%;outline:none;background:#fff;transition:border-color 0.2s;}
+.inf:focus{border-color:#ff5500;}
+.hp{padding-left:30px;}
+.os{display:flex;flex-direction:column;gap:10px;}
+.ob{background:#fff;border:2px solid var(--border);border-radius:12px;padding:15px 17px;text-align:left;font-family:'Source Sans 3',sans-serif;font-size:16px;color:var(--text-dark);cursor:pointer;transition:border-color 0.18s,background 0.18s;display:flex;align-items:center;gap:13px;line-height:1.4;}
+.ob:hover{border-color:#ff5500;background:var(--orange-pale);}
+.ob.sel{border-color:#ff5500;background:var(--orange-pale);font-weight:500;}
+.oc{width:18px;height:18px;border-radius:50%;border:2px solid var(--border);flex-shrink:0;transition:background 0.18s,border-color 0.18s;}
+.ob.sel .oc{background:#ff5500;border-color:#ff5500;}
+.nr{display:flex;gap:10px;margin-top:auto;padding-top:20px;}
+.bb{border:2px solid var(--border);border-radius:10px;background:#fff;color:var(--text-muted);font-family:'Source Sans 3',sans-serif;font-size:16px;font-weight:500;padding:13px 20px;cursor:pointer;}
+.bn{flex:1;background:var(--teal-dark);color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:16px;font-weight:500;padding:14px;cursor:pointer;transition:background 0.2s,transform 0.1s;}
+.bn:hover{background:var(--teal-mid);}
+.bn:active{transform:scale(0.98);}
+
+/* PREVIEW */
+.pw{background:var(--teal-dark);flex:1;display:flex;flex-direction:column;padding:40px 26px 30px;position:relative;overflow:hidden;}
+.pw::before{content:'';position:absolute;top:-80px;right:-80px;width:240px;height:240px;border-radius:50%;background:rgba(255,85,0,0.08);}
+.pe{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;color:#ff7733;margin-bottom:6px;}
+.pname{font-family:'Lora',serif;font-size:16px;font-style:italic;color:rgba(255,255,255,0.45);margin-bottom:12px;}
+.age-badge{display:inline-block;background:rgba(0,184,160,0.15);border:1px solid rgba(0,184,160,0.3);color:#00b8a0;font-size:12px;padding:4px 12px;border-radius:20px;margin-bottom:14px;font-family:'Source Sans 3',sans-serif;}
+.pi{font-family:'Lora',serif;font-size:22px;color:#fff;line-height:1.5;font-weight:400;margin-bottom:10px;position:relative;z-index:1;}
+.tension-line{font-size:16px;color:rgba(255,255,255,0.5);font-style:italic;font-family:'Lora',serif;margin-bottom:24px;line-height:1.5;position:relative;z-index:1;}
+.bc2{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:12px;padding:16px;margin-bottom:22px;position:relative;overflow:hidden;}
+.br2 div{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;margin-bottom:7px;}
+.br2 div:nth-child(2){width:75%;}.br2 div:nth-child(3){width:50%;}
+.bo2{position:absolute;inset:0;background:rgba(5,20,18,0.7);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;border-radius:12px;}
+.lk{width:36px;height:36px;background:rgba(255,85,0,0.15);border:1.5px solid rgba(255,85,0,0.4);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#ff7733;font-size:16px;}
+.ll{font-size:14px;color:rgba(255,255,255,0.4);}
+.pn2{font-size:15px;color:rgba(255,255,255,0.4);text-align:center;margin-bottom:16px;font-weight:300;line-height:1.5;}
+.pw-tl{font-family:'Lora',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.18);text-align:center;margin-top:14px;}
+.dl{display:flex;gap:6px;justify-content:center;margin:14px 0;}
+.dl span{width:7px;height:7px;background:#ff5500;border-radius:50%;animation:dp 1.2s ease-in-out infinite;}
+.dl span:nth-child(2){animation-delay:0.2s;}.dl span:nth-child(3){animation-delay:0.4s;}
+@keyframes dp{0%,100%{opacity:0.25;transform:scale(0.8)}50%{opacity:1;transform:scale(1)}}
+
+/* EMAIL */
+.ew{background:var(--cream);flex:1;display:flex;flex-direction:column;padding:28px 20px 22px;}
+.eh{background:var(--teal-dark);border-radius:14px;padding:22px 20px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden;}
+.eh::after{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;border-radius:50%;background:rgba(255,85,0,0.1);}
+.eht{font-family:'Lora',serif;font-size:24px;color:#fff;margin-bottom:8px;font-weight:500;position:relative;z-index:1;line-height:1.3;}
+.ehs{font-size:15px;color:rgba(255,255,255,0.5);line-height:1.6;font-weight:300;position:relative;z-index:1;}
+.etl{font-family:'Lora',serif;font-size:13px;font-style:italic;color:rgba(255,255,255,0.22);margin-top:10px;position:relative;z-index:1;}
+.fl2{font-size:13px;font-weight:500;color:var(--text-muted);letter-spacing:0.06em;text-transform:uppercase;display:block;margin-bottom:6px;}
+.fg{margin-bottom:14px;}
+.pv{font-size:13px;color:var(--text-light);text-align:center;line-height:1.65;margin-top:14px;font-weight:300;}
+
+/* RESULTS */
+.rw{background:var(--cream);flex:1;display:flex;flex-direction:column;}
+.rh{padding:26px 20px 22px;background:var(--teal-dark);}
+.re{font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#ff7733;margin-bottom:4px;}
+.rht{font-family:'Lora',serif;font-size:26px;color:#fff;font-weight:500;}
+.rtl{font-family:'Lora',serif;font-size:14px;font-style:italic;color:rgba(255,255,255,0.25);margin-top:5px;}
+.rb{padding:18px 15px;display:flex;flex-direction:column;gap:12px;}
+.cd{background:#fff;border-radius:13px;border:1px solid rgba(10,46,42,0.1);padding:16px;}
+.ce{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff5500;margin-bottom:11px;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.sc3{background:var(--cream);border-radius:8px;padding:10px 12px;}
+.sk{font-size:12px;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-light);margin-bottom:3px;}
+.sv{font-size:15px;font-weight:500;color:var(--text-dark);}
+.mc3{border-radius:13px;padding:18px;background:#ff5500;}
+.mce{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:rgba(255,255,255,0.6);margin-bottom:5px;}
+.mname{font-family:'Lora',serif;font-style:italic;font-size:15px;color:rgba(255,255,255,0.65);margin-bottom:10px;display:block;}
+.if-nothing{font-size:14px;color:rgba(255,255,255,0.7);margin-bottom:10px;font-weight:300;font-style:italic;border-left:2px solid rgba(255,255,255,0.3);padding-left:12px;}
+.mr2{font-family:'Lora',serif;font-size:20px;color:#fff;line-height:1.4;font-weight:500;}
+.wl{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.wl li{display:flex;gap:10px;font-size:15px;color:var(--text-dark);line-height:1.6;font-weight:300;}
+.wd{width:12px;height:2px;background:#ff5500;flex-shrink:0;margin-top:11px;border-radius:1px;}
+.sl3{display:flex;flex-direction:column;gap:10px;}
+.st{display:flex;gap:12px;align-items:flex-start;}
+.sn{width:26px;height:26px;background:var(--teal-pale);border:2px solid rgba(0,184,160,0.3);border-radius:50%;font-size:12px;font-weight:500;color:var(--teal-dark);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.sx{font-size:15px;color:var(--text-dark);line-height:1.6;font-weight:300;}
+.ac{background:var(--teal-pale);border-radius:13px;padding:16px;border:1px solid rgba(0,184,160,0.2);}
+.age-context{font-size:13px;font-weight:500;color:var(--teal-mid);margin-bottom:8px;font-family:'Source Sans 3',sans-serif;line-height:1.5;}
+.at{font-family:'Lora',serif;font-size:15px;color:var(--teal-dark);line-height:1.8;font-style:italic;}
+.vid-card{background:var(--teal-dark);border-radius:13px;padding:18px;text-align:center;}
+.vid-label{font-size:12px;font-weight:500;text-transform:uppercase;letter-spacing:0.09em;color:#ff7733;margin-bottom:8px;}
+.vid-h{font-family:'Lora',serif;font-size:18px;color:#fff;margin-bottom:6px;font-weight:500;line-height:1.35;}
+.vid-sub{font-size:14px;color:rgba(255,255,255,0.4);margin-bottom:16px;font-weight:300;}
+.vc{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;height:88px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.pr2{width:40px;height:40px;border-radius:50%;background:rgba(255,85,0,0.15);border:1.5px solid rgba(255,85,0,0.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.pt3{width:0;height:0;border-top:7px solid transparent;border-bottom:7px solid transparent;border-left:12px solid #ff7733;margin-left:3px;}
+.vl2{font-size:13px;color:rgba(255,255,255,0.35);text-align:left;}
+.cs3{display:flex;flex-direction:column;gap:9px;}
+.bm{background:#ff5500;color:#fff;border:none;border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:18px;font-weight:500;padding:16px;cursor:pointer;text-align:center;transition:background 0.2s;width:100%;box-shadow:0 4px 16px rgba(255,85,0,0.3);}
+.bm:hover{background:#ff7733;}
+.bs2{background:#fff;color:var(--teal-dark);border:2px solid var(--border);border-radius:10px;font-family:'Source Sans 3',sans-serif;font-size:16px;font-weight:500;padding:13px;cursor:pointer;text-align:center;width:100%;}
+.ft{font-size:12px;color:var(--text-light);text-align:center;padding:12px 18px;line-height:1.6;font-weight:300;}
+.ftd{font-size:12px;color:rgba(255,255,255,0.2);text-align:center;padding:12px 18px;background:var(--teal-dark);}
+</style>
+</head>
+<body>
+<div id="mc">
+
+<div class="sc on" id="s0">
+  <div class="lbg">
+    <div class="lbg-topline"></div>
+    <div class="wm"><span class="wm-m">Money</span><span class="wm-c">Clarity</span></div>
+    <div class="tina-photo-wrap">
+      <img class="tina-photo" src="Tina_headshot_crop.jpg" alt="Tina Singh">
+      <div class="tina-photo-badge">25 yrs Wall Street</div>
+    </div>
+    <div class="hero-eyebrow"><span class="hero-dot"></span>Know where you stand</div>
+    <h1 class="lh1">"I make good money…<br>so why don't I feel <em>ahead?</em>"</h1>
+    <div class="ldiv"></div>
+    <p class="lsub">Answer a few quick questions and see exactly where you stand — and what to do next.</p>
+    <p class="trust-line">Built on 25 years of Wall Street experience. Now for everyone.</p>
+    <button class="btn-p" onclick="gt(1)">See Where I Stand</button>
+    <p class="micro">Takes under 60 seconds. Free. No spreadsheets.</p>
+    <div class="pills">
+      <div class="pill">Private &amp; secure</div>
+      <div class="pill">Educational only</div>
+      <div class="pill">No obligation</div>
+    </div>
+    <div class="bio-strip">
+      <div class="bio-name">Tina Singh</div>
+      <div class="bio-text">Former Wall Street capital raiser. <strong>$11 billion raised</strong> for Apollo, Brookfield &amp; DoubleLine. Now helping everyday people get the clarity that institutions take for granted.</div>
+    </div>
+  </div>
+  <div class="ft" style="background:var(--teal-dark);color:rgba(255,255,255,0.2);">This tool is for educational purposes only and does not constitute financial advice.</div>
+</div>
+
+<div class="sc" id="s1">
+  <div class="qh"><div class="pt"><div class="pf" style="width:14%"></div></div><div class="qm"><span class="ql">First question</span><span class="qp">Let's start</span></div></div>
+  <div class="qb">
+    <h2 class="qt">Which of these feels most like you right now?</h2>
+    <p class="qsub">Be honest — there's no wrong answer. This shapes everything that follows.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'feeling','I feel behind','behind')"><div class="oc"></div>I feel behind financially</button>
+      <button class="ob" onclick="so(this,'feeling',&quot;I'm not sure what I should be doing&quot;,'unsure')"><div class="oc"></div>I'm not sure what I should be doing</button>
+      <button class="ob" onclick="so(this,'feeling',&quot;I've saved some, but I don't know if it's enough&quot;,'unsure-enough')"><div class="oc"></div>I've saved some, but don't know if it's enough</button>
+      <button class="ob" onclick="so(this,'feeling','I want to make better financial decisions','better')"><div class="oc"></div>I want to make better financial decisions</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(0)">Back</button><button class="bn" onclick="nq(1,2,'feeling')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s2">
+  <div class="qh"><div class="pt"><div class="pf" style="width:25%"></div></div><div class="qm"><span class="ql">Question 1 of 5</span><span class="qp">25%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is your age?</h2>
+    <p class="qsub">This frames your situation for where you actually are in life.</p>
+    <input type="number" class="inf" id="ia" placeholder="e.g. 48" min="18" max="85" oninput="A.age=this.value">
+    <div class="nr"><button class="bb" onclick="gt(1)">Back</button><button class="bn" onclick="nq(2,3,'age')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s3">
+  <div class="qh"><div class="pt"><div class="pf" style="width:40%"></div></div><div class="qm"><span class="ql">Question 2 of 5</span><span class="qp">40%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What is your annual income?</h2>
+    <p class="qsub">Approximate is fine. Completely private.</p>
+    <div class="iw"><span class="csym">$</span><input type="number" class="inf hp" id="ii" placeholder="e.g. 95,000" min="0" oninput="A.income=parseFloat(this.value)||0"></div>
+    <div class="nr"><button class="bb" onclick="gt(2)">Back</button><button class="bn" onclick="nq(3,4,'income')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s4">
+  <div class="qh"><div class="pt"><div class="pf" style="width:57%"></div></div><div class="qm"><span class="ql">Question 3 of 5</span><span class="qp">57%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">How much do you have saved or invested right now?</h2>
+    <p class="qsub">Include everything — savings, retirement, investments combined.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'savings','Under $1,000','low')"><div class="oc"></div>Under $1,000</button>
+      <button class="ob" onclick="so(this,'savings','$1,000 – $10,000','low-mid')"><div class="oc"></div>$1,000 – $10,000</button>
+      <button class="ob" onclick="so(this,'savings','$10,000 – $50,000','mid')"><div class="oc"></div>$10,000 – $50,000</button>
+      <button class="ob" onclick="so(this,'savings','$50,000 – $150,000','mid-high')"><div class="oc"></div>$50,000 – $150,000</button>
+      <button class="ob" onclick="so(this,'savings','$150,000+','high')"><div class="oc"></div>$150,000+</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(3)">Back</button><button class="bn" onclick="nq(4,5,'savings')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s5">
+  <div class="qh"><div class="pt"><div class="pf" style="width:72%"></div></div><div class="qm"><span class="ql">Question 4 of 5</span><span class="qp">72%</span></div></div>
+  <div class="qb">
+    <h2 class="qt">What matters most to you financially right now?</h2>
+    <p class="qsub">Pick the one that feels most true.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'goal','Get control of my money','control')"><div class="oc"></div>Get control of my money</button>
+      <button class="ob" onclick="so(this,'goal','Build my savings','savings-goal')"><div class="oc"></div>Build my savings</button>
+      <button class="ob" onclick="so(this,'goal','Invest smarter','invest')"><div class="oc"></div>Invest smarter</button>
+      <button class="ob" onclick="so(this,'goal','Generate income from what I have','income-goal')"><div class="oc"></div>Generate income from what I have</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(4)">Back</button><button class="bn" onclick="nq(5,6,'goal')">Continue</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s6">
+  <div class="qh"><div class="pt"><div class="pf" style="width:90%"></div></div><div class="qm"><span class="ql">Question 5 of 5</span><span class="qp">Almost there</span></div></div>
+  <div class="qb">
+    <h2 class="qt">How do you think about risk with your money?</h2>
+    <p class="qsub">Be honest about how you actually feel.</p>
+    <div class="os">
+      <button class="ob" onclick="so(this,'risk','Conservative','conservative')"><div class="oc"></div>Conservative — I prefer stability over growth</button>
+      <button class="ob" onclick="so(this,'risk','Moderate','moderate')"><div class="oc"></div>Moderate — I can handle some ups and downs</button>
+      <button class="ob" onclick="so(this,'risk','Growth-oriented','growth')"><div class="oc"></div>Growth-oriented — I'm focused on the long game</button>
+    </div>
+    <div class="nr"><button class="bb" onclick="gt(5)">Back</button><button class="bn" onclick="sp()">See My Insight</button></div>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s7">
+  <div class="pw">
+    <p class="pe">Your initial read</p>
+    <p class="pname" id="pname"></p>
+    <div class="age-badge" id="age-badge"></div>
+    <p class="pi" id="pt2"></p>
+    <p class="tension-line" id="tension"></p>
+    <div class="bc2">
+      <div class="br2"><div></div><div></div><div></div></div>
+      <div class="bo2"><div class="lk">&#128274;</div><div class="ll">Your full plan is inside</div></div>
+    </div>
+    <p class="pn2">Your next move, why it matters, and exactly what to do — all inside.</p>
+    <button class="btn-p" style="max-width:100%;background:#ff5500;color:#fff;box-shadow:0 6px 24px rgba(255,85,0,0.4);" onclick="gt(8)">Show Me The Full Picture</button>
+    <div class="dl"><span></span><span></span><span></span></div>
+    <div class="pw-tl">Money Clarity &mdash; Know where you stand.</div>
+  </div>
+  <div class="ftd">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s8">
+  <div class="ew">
+    <div class="eh">
+      <h2 class="eht" id="email-h">See exactly where you stand</h2>
+      <p class="ehs">Your next financial move, why it matters, and what to do next — based on your situation.</p>
+      <p class="etl">Know where you stand.</p>
+    </div>
+    <div class="fg"><label class="fl2">First name</label><input type="text" class="inf" id="in2" placeholder="Your first name" oninput="A.firstName=this.value;updateEmail()"></div>
+    <div class="fg"><label class="fl2">Email address</label><input type="email" class="inf" id="ie" placeholder="you@example.com" oninput="A.email=this.value"></div>
+    <button class="btn-p" style="max-width:100%;margin-top:4px;background:#ff5500;color:#fff;" onclick="sr()" id="show-btn">Show My Plan</button>
+    <p class="pv">Educational guidance only, not financial advice.<br>Your information is private and never shared.</p>
+  </div>
+  <div class="ft">Educational purposes only. Not financial advice.</div>
+</div>
+
+<div class="sc" id="s9">
+  <div class="rw">
+    <div class="rh" id="rh" style="background:var(--teal-dark)">
+      <p class="re" id="rey"></p>
+      <h2 class="rht" id="rht">Your Money Clarity</h2>
+      <p class="rtl">Know where you stand.</p>
+    </div>
+    <div class="rb">
+      <div class="cd">
+        <div class="ce">Your snapshot</div>
+        <div class="sg">
+          <div class="sc3"><div class="sk">Income</div><div class="sv" id="si"></div></div>
+          <div class="sc3"><div class="sk">Savings</div><div class="sv" id="ss"></div></div>
+          <div class="sc3"><div class="sk">Goal</div><div class="sv" id="sg2"></div></div>
+          <div class="sc3"><div class="sk">Risk</div><div class="sv" id="sk2"></div></div>
+        </div>
+      </div>
+      <div class="mc3" id="mc3">
+        <div class="mce">Your next financial move</div>
+        <span class="mname" id="mname"></span>
+        <p class="if-nothing">If you do nothing else, start here:</p>
+        <p class="mr2" id="rm"></p>
+      </div>
+      <div class="cd">
+        <div class="ce">Why this matters</div>
+        <ul class="wl" id="rw2"></ul>
+      </div>
+      <div class="cd">
+        <div class="ce">What to do next</div>
+        <div class="sl3" id="rs"></div>
+      </div>
+      <div class="ac">
+        <div class="age-context" id="age-context"></div>
+        <div class="ce" style="color:var(--teal-mid)">Quick guidance</div>
+        <p class="at" id="rsum"></p>
+      </div>
+      <div class="vid-card">
+        <div class="vid-label">Watch this</div>
+        <h3 class="vid-h">It explains exactly what to do next</h3>
+        <p class="vid-sub">A short walkthrough of your recommended next move.</p>
+        <div style="width:100%;max-width:220px;margin:0 auto;border-radius:10px;overflow:hidden;aspect-ratio:9/16;">
+          <iframe src="https://www.veed.io/embed/b65ac4e1-cd18-4b8e-b814-f433a91bb26b?watermark=0&color=&sharing=1&title=0" width="100%" height="100%" frameborder="0" title="Tina Singh — Take The First Step" webkitallowfullscreen mozallowfullscreen allowfullscreen style="display:block;"></iframe>
+        </div>
+      </div>
+      <div class="cs3">
+        <button class="bm" id="cta-btn" onclick="window.location.href='subscribe.html'"></button>
+        <button class="bs2" onclick="window.location.href='MoneyClarityGuide.pdf'">Download My Plan</button>
+      </div>
+      <p style="font-family:'Lora',serif;font-style:italic;font-size:13px;color:var(--text-light);text-align:center;padding:4px 0 10px;">Money Clarity &mdash; Know where you stand.</p>
+      <a href="index.html" style="display:block;text-align:center;font-size:13px;color:#4a8a82;margin-top:8px;margin-bottom:4px;text-decoration:none;font-weight:300;">Explore all tools at <span style="color:#ff5500;">moneyclarity.me/tools</span> →</a>
+    </div>
+    <div class="ft">Educational purposes only. Not financial advice. &copy; 2026 moneyclarity.me</div>
+  </div>
+</div>
+
+</div>
+<script>
+const A={age:null,income:0,savings:'',savingsKey:'',goal:'',goalKey:'',feeling:'',feelingKey:'',risk:'',riskKey:'',firstName:'',email:''};
+function gt(n){document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));document.getElementById('s'+n).classList.add('on');window.scrollTo(0,0);}
+function so(el,f,v,k){el.closest('.os').querySelectorAll('.ob').forEach(b=>b.classList.remove('sel'));el.classList.add('sel');A[f]=v;A[f+'Key']=k;}
+function nq(c,nx,f){
+  const v=A[f];
+  if(!v&&v!==0){alert('Please answer this question to continue.');return;}
+  if(f==='age'&&(!A.age||A.age<18||A.age>99)){alert('Please enter a valid age.');return;}
+  if(f==='income'&&A.income<=0){alert('Please enter your annual income.');return;}
+  gt(nx);
+}
+function getAgeTone(age){
+  const n=parseInt(age)||45;
+  if(n<=45)return{badge:'Building phase · 35–45',context:'You\'re in the building phase. The decisions you lock in now compound more than most people realize.'};
+  if(n<=55)return{badge:'Momentum decade · 46–55',context:'This is the decade that tends to define the outcome. Clarity now matters more than it ever has.'};
+  return{badge:'Clarity stage · 56–65',context:'Knowing exactly where you stand at this stage changes what\'s still possible from here.'};
+}
+function getGoalBg(gk){
+  return{control:'#0a3028',invest:'#0a2e2a','savings-goal':'#0d3d38','income-goal':'#1a2a10'}[gk]||'#0a2e2a';
+}
+function updateEmail(){
+  const n=A.firstName.trim();
+  const btn=document.getElementById('show-btn');
+  if(n){document.getElementById('email-h').textContent='Almost there, '+n;btn.textContent='Show '+n+"'s Plan";}
+  else{document.getElementById('email-h').textContent='See exactly where you stand';btn.textContent='Show My Plan';}
+  btn.style.background='#ff5500';btn.style.color='#fff';
+}
+function getFeeling(){
+  return{behind:'feeling behind',unsure:'not being sure what to do next','unsure-enough':'wondering if what you\'ve saved is enough',better:'wanting better financial decisions'}[A.feelingKey]||'your financial situation';
+}
+function gl(){
+  const{income,savingsKey,goalKey,feelingKey,age,firstName}=A;
+  const hi=income>=80000,lo=['low','low-mid'].includes(savingsKey),mid=savingsKey==='mid',sh=['mid-high','high'].includes(savingsKey),fb=['behind','no-progress'].includes(feelingKey),an=parseInt(age)||45;
+  const n=firstName.trim()||'you';
+  const tone=getAgeTone(age);
+  let move,why,steps,preview,tension;
+  if(lo&&hi){
+    move="Increase your savings rate before taking on more investment risk";
+    preview="You're earning well — but right now you may be making progress without the structure that supports where you actually want to go.";
+    tension="Most people who close this gap don't do it with a windfall. They do it with a decision they make this week.";
+    why=["A high income without savings means you're one disruption away from real financial stress.","If your current approach stays the same, you may continue feeling unsure — despite a strong income.","More income alone doesn't create financial progress. Structure does."];
+    steps=["Calculate your real monthly spending — most people underestimate it by 20%.","Set up an automatic savings transfer on payday — before anything else gets spent.","Target at least 15% of take-home saved before putting more into investments."];
+  } else if(lo){
+    move="Build your first $1,000 savings buffer — before anything else";
+    preview="You're doing some things right — but without a savings foundation, every unexpected expense becomes a setback.";
+    tension="A small buffer changes everything. It's not about the amount — it's about what it makes possible.";
+    why=["Without a buffer, financial progress stays fragile — one expense away from starting over.","Debt fills the gap when savings run dry, quietly slowing everything down.","A specific, achievable first goal builds momentum that changes how you relate to money."];
+    steps=["Open a savings account separate from your everyday checking account.","Set a fixed weekly transfer — even $25 adds up to $1,300 in a year.","Hold everything else until this buffer is in place. It's the foundation."];
+  } else if(goalKey==='income-goal'){
+    move="Get clear on how much income your money actually needs to generate";
+    preview="You've built something worth working with — but your money may not be positioned to generate the income you're looking for.";
+    tension="Income investing and growth investing are completely different strategies. Most people are set up for one but want the other.";
+    why=["Income-generating assets require a deliberate allocation — they don't appear by default.","Many people confuse growth investing with income investing. They require different approaches entirely.","Without knowing your income number, every investment decision is made without a target."];
+    steps=["Calculate the monthly income that would actually make a difference to you.","Identify what percentage of your portfolio is positioned for income versus growth.","Research income-focused approaches appropriate for your risk level and timeline."];
+  } else if(goalKey==='invest'&&mid){
+    move="Get clearer on how your portfolio is actually allocated";
+    preview="You're in a reasonable position — but you may be holding a mix of assets without a clear strategy behind them.";
+    tension="Owning investments and having an investment strategy are two completely different things.";
+    why=["Most investors hold money across multiple accounts without a clear strategy.","Unclear allocation creates either too much risk or too little growth — sometimes both.","Bringing structure to your investments is what separates saving from building lasting wealth."];
+    steps=["List every account you have and what it's actually invested in.","Understand your split: stocks, bonds, cash, real assets — what percentage each?","Set a written target allocation that reflects your goal and where you are in life."];
+  } else if(fb||feelingKey==='behind'){
+    move="Your foundation is stronger than it feels — define one clear next milestone";
+    preview="You may be further along than you think. The feeling of being behind is real — but it's often a comparison problem, not a numbers problem.";
+    tension="Progress without a clear target is hard to feel, even when it's happening.";
+    why=["The feeling of being behind is almost always rooted in unclear benchmarks, not an actual gap.","Without a specific milestone, progress is invisible — and invisible progress doesn't feel like progress.","Defining a concrete next goal changes how every financial decision looks and feels."];
+    steps=["Write your next financial milestone — a specific number and a specific date.","Compare your position to where you were 12 months ago — not to someone else.","Consider one session with a fee-only planner to get an objective read on where you stand."];
+  } else if(goalKey==='control'||feelingKey==='unsure'){
+    move="Get a clear picture of where every dollar is actually going";
+    preview="Before any strategy or plan, there's one thing that makes everything else possible — knowing your actual numbers.";
+    tension="You can't direct money you haven't tracked. Clarity here changes everything that follows.";
+    why=["Most people overestimate what they save and underestimate what they spend — often significantly.","Financial control starts with clarity, not restriction.","Small unexamined spending patterns quietly erode years of potential progress."];
+    steps=["Track every dollar in and out for 30 days — approximately is fine.","Group spending into needs, wants, and future-focused. See where the weight falls.","Identify one area where money leaves consistently without clear intention."];
+  } else {
+    move="Define one clear, time-bound financial goal to anchor your next decision";
+    preview="Your finances are in a workable position — the missing piece is a direction clear enough to act on.";
+    tension="A goal without a number and a date is just a wish.";
+    why=["Vague goals stay as intentions. Specific goals become decisions.","A defined target makes every financial choice simpler — you either move toward it or away from it.","The right next move depends entirely on what you're actually working toward."];
+    steps=["Write your top financial goal with a specific dollar amount and a target date.","Work backward: what do you need to do monthly to reach it?","Look at your spending and savings. How aligned are they with that goal?"];
+  }
+  const il=income>=150000?'High':income>=80000?'Above average':income>=40000?'Moderate':'Building';
+  const sl={low:'Early stage','low-mid':'Growing',mid:'Moderate','mid-high':'Established',high:'Strong'}[savingsKey]||'Moderate';
+  const feeling=getFeeling();
+  const sum=`${n.charAt(0).toUpperCase()+n.slice(1)}, here's what the numbers actually say. At ${an}, with ${il.toLowerCase()} income and a ${sl.toLowerCase()} savings position, you came in with ${feeling} — and that's worth taking seriously. ${tone.context} The people who make the most financial progress don't usually do it with a dramatic change. They do it with one clear decision made consistently. ${move}. That's your move. Everything else is secondary.`;
+  return{move,why,steps,preview,tension,il,sl,sum,tone};
+}
+function sp(){
+  if(!A.riskKey){alert('Please select your risk tolerance.');return;}
+  const L=gl();
+  const tone=getAgeTone(A.age);
+  document.getElementById('pname').textContent=A.firstName?'A read for you, '+A.firstName:'';
+  document.getElementById('age-badge').textContent=tone.badge;
+  document.getElementById('pt2').textContent=L.preview;
+  document.getElementById('tension').textContent=L.tension;
+  gt(7);
+}
+function sr(){
+  const n=A.firstName.trim(),e=A.email.trim();
+  if(!n){alert('Please enter your first name.');return;}
+  if(!e||!e.includes('@')){alert('Please enter a valid email address.');return;}
+  fetch('https://primary-production-5fdce.up.railway.app/webhook/moneyclarity-lead',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({firstName:n,email:e,quizType:'money-clarity',quizData:{savingsKey:A.savingsKey,goalKey:A.goalKey,feelingKey:A.feelingKey,riskKey:A.riskKey},source:'moneyclarity.me'})}).catch(()=>{});
+  const L=gl();
+  document.getElementById('rh').style.background=getGoalBg(A.goalKey);
+  document.getElementById('rey').textContent=n+"'s Report";
+  document.getElementById('rht').textContent=n+"'s Money Clarity";
+  document.getElementById('mname').textContent="Here's where you stand, "+n+":";
+  document.getElementById('si').textContent=L.il;
+  document.getElementById('ss').textContent=L.sl;
+  document.getElementById('sg2').textContent=A.goal;
+  document.getElementById('sk2').textContent=A.risk;
+  document.getElementById('rm').textContent=L.move;
+  document.getElementById('age-context').textContent=L.tone.context;
+  document.getElementById('rw2').innerHTML=L.why.map(w=>`<li><div class="wd"></div><span>${w}</span></li>`).join('');
+  document.getElementById('rs').innerHTML=L.steps.map((s,i)=>`<div class="st"><div class="sn">${i+1}</div><div class="sx">${s}</div></div>`).join('');
+  document.getElementById('rsum').textContent=L.sum;
+  document.getElementById('cta-btn').textContent="Get "+n+"'s Ongoing Clarity";
+  gt(9);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+# Dependencies
+**/node_modules/
+.pnpm-store/
+.yarn-integrity
+
+# Build outputs
+**/dist/
+**/build/
+**/.next/
+**/.cache/
+**/.parcel-cache/
+
+# Environment & secrets
+.env
+.env.*
+*.pem
+*.key
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test coverage
+coverage/
+.nyc_output/
+aiiaco-blog/

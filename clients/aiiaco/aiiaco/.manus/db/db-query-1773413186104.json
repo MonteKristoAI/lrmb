@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, name, email, company, phone, industry, leadSource, callTrack, callDurationSeconds, conversationId, conversationSummary, painPoints, wants, currentSolutions, leadBrief, diagnosticSnapshot, status, emailStatus, createdAt FROM leads WHERE LOWER(name) LIKE '%jjinco%' OR LOWER(name) LIKE '%jinco%' OR LOWER(email) LIKE '%jjinco%' OR LOWER(email) LIKE '%jinco%' ORDER BY createdAt DESC LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, company, phone, industry, leadSource, callTrack, callDurationSeconds, conversationId, conversationSummary, painPoints, wants, currentSolutions, leadBrief, diagnosticSnapshot, status, emailStatus, createdAt FROM leads WHERE LOWER(name) LIKE '%jjinco%' OR LOWER(name) LIKE '%jinco%' OR LOWER(email) LIKE '%jjinco%' OR LOWER(email) LIKE '%jinco%' ORDER BY createdAt DESC LIMIT 5;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 474
+}

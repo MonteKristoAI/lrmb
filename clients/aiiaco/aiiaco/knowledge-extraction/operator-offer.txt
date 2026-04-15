@@ -1,0 +1,79 @@
+OPERATORS — AiiA INTRO OFFER
+"AiiA: The Intelligence Layer for Real Estate Operations"
+
+TARGET: Real estate operators/property managers (teams of 5+, managing 100+ units)
+TAGLINE: "Stop Managing Chaos. Start Scaling Value."
+
+PROBLEM: Most RE Operators don't have a "software" problem — they have a "Data Gap." They have a PMS, CRM, 24/7 staff, yet office is still a hub for manual coordination, missing photos, and "he-said-she-said" maintenance disputes.
+
+SOLUTION: AiiA (AI Integration Authority) doesn't ask you to replace your stack. We install an Intelligence Layer on top of it to automate the friction between field staff, tenants, and bottom line.
+
+THE THREE PILLARS OF AN INTELLIGENT ESTATE:
+
+1. The Autonomous Field Bridge
+   - Stop relying on WhatsApp and spreadsheets. "Mobile-first" wedge allows field staff to capture data at the source — no apps to download, no passwords to lose.
+   - Instant Verification: Every task is geofenced, timestamped, and photo-verified
+   - Auto-Sync: Data flows directly into PMS (TravelNet, Yardi, AppFolio) without admin typing a single word
+
+2. Predictive Asset Protection
+   - Transition from reactive repairs to predictive maintenance
+   - Risk Triage: AI identifies "High-Risk" anomalies (e.g., repeating plumbing issues in a specific building) before they become $20k insurance claims
+   - Vision AI: Automated damage tagging from field photos to categorize wear-and-tear vs. tenant negligence
+
+3. The "Executive Dashboard" (NOI Intelligence)
+   - Stop making decisions based on last month's PDF
+   - Real-Time EBITDA: See exactly how maintenance spikes are affecting portfolio's performance today
+   - Admin Elimination: Target 40-60% reduction in manual coordination tasks, allowing team to focus on business development
+
+WHY AiiA? (THE COMPETITIVE EDGE):
+   - Unlike generic property management software, AiiA is an Integration Authority. Specializes in the "Glue" that big providers refuse to build.
+   - "No Rip and Replace": Work with your current tools
+   - "Old-School Friendly": If your janitor can send a text, they can use AiiA
+   - Montreal/Miami Expertise: Built for high-stakes reality of luxury condos and high-volume multifamily portfolios
+
+THE 4-WEEK OPERATIONAL SPRINT (RISK-FREE PILOT):
+   "We don't sell theories. We prove value in 30 days."
+   - Week 1: The Audit — Map current "Admin Touches" and identify biggest time-leaks
+   - Week 2: The Wedge — Deploy mobile interface to 10-20 "Pilot Properties"
+   - Week 3: The Data Flow — Office begins receiving real-time, verified field data without picking up the phone
+   - Week 4: The Proof — Present "Before vs. After" ROI analysis. If we haven't measurably reduced admin time and improved field visibility, we walk away.
+
+QUANTIFIABLE IMPACT:
+   - Admin Time per Task: 15-20 Minutes → < 2 Minutes
+   - Maintenance Proof: Verbal/Text → GPS/Timestamped Photo
+   - Data Accuracy: 70-80% (Manual) → 99%+ (Automated)
+   - Portfolio Scalability: Hire 1 Admin per 100 Units → Scale 5x without New Staff
+
+QUOTE: "We aren't selling you software. We are selling you back 10+ hours a week and the peace of mind that your assets are actually being maintained."
+
+PERFORMANCE-DRIVEN PRICING:
+   "Investing in Efficiency, Not Overhead."
+   - No "per-user" licenses. Pricing built on Realized Value: only win when operations become measurably leaner.
+   
+   Option A: Portfolio Scalability Model (Per Door)
+   - Best for owners with 100+ units looking to fix long-term costs
+   - Investment: $2-$5 per door/month (Volume-tiered)
+   - ROI: If admin costs $25/hr and we save just 15 minutes of coordination per unit per month, system is effectively free
+   - Goal: Scale from 100 to 500 units without hiring additional admin staff
+   
+   Option B: Efficiency-Linked Model (Labor Recovery)
+   - Best for lean operations looking to maximize EBITDA
+   - Base Subscription + % of Recovered Labor Value
+   - Establish baseline of "Admin Touches" during 4-week pilot, then charge based on Hours Saved
+   - You only pay for the "digital employee" that is actually doing the work of a human admin
+
+WHAT'S INCLUDED:
+   - Custom Integration Bridge: No manual data entry between field and TravelNet/Yardi
+   - Unlimited Field Access: No "per-seat" fees. Every janitor, super, and contractor is connected
+   - Liability Vault: Secure, timestamped storage of every photo and work order forever
+   - Monthly ROI Audit: "Executive Brief" showing exactly how many hours were saved
+
+THE "AiiA GUARANTEE":
+   1. The $0 Onboarding Pilot: Set up first 10-20 units at our expense
+   2. The Proof Point: If after 30 days we haven't reduced admin coordination by at least 30%, you keep your data and we part ways. No questions asked.
+   3. The Partnership: Once proven, move to simple monthly agreement. You stay because of the ROI, not the contract.
+
+THE COST OF WAITING:
+   In a 100-unit portfolio, every month of manual coordination costs an estimated $1,500-$3,000 in "invisible" labor waste, lost photos, and delayed tenant bill-backs.
+
+CLOSING: "Let's stop the leak this month." — AiiA Integration Authority, Contact: JCB, Web: AiiACo.com

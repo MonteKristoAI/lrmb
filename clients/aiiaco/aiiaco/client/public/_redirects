@@ -1,0 +1,3 @@
+/videostudio    https://aiivideo-zyf9pqt6.manus.space/  200
+/videostudio/*  https://aiivideo-zyf9pqt6.manus.space/:splat  200
+/*    /index.html   200

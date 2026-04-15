@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+    <!-- Resource hints for CWV: preconnect to critical third parties before they are requested -->
+    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="preconnect" href="https://www.google-analytics.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.google-analytics.com" />
+
+    <!-- Preload hero background for fastest LCP on homepage (responsive srcset) -->
+    <link rel="preload" as="image" href="/images/hero-bg-1280.webp" imagesrcset="/images/hero-bg-640.webp 640w, /images/hero-bg-960.webp 960w, /images/hero-bg-1280.webp 1280w, /images/hero-bg-1920.webp 1920w" imagesizes="100vw" fetchpriority="high" />
+
+    <!-- Google tag (gtag.js) - deferred so it does not block LCP -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6XQ3T33HTF"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6XQ3T33HTF');
+    </script>
+
+    <!--
+      NOTE: title, meta description, canonical, OG, Twitter, and robots tags are injected
+      per-page via react-helmet-async through client/src/seo/SEO.tsx.
+      DO NOT hardcode them here - they will duplicate or conflict with per-page values.
+      The only fallback title below exists so Googlebot sees SOMETHING if helmet fails.
+    -->
+    <title>AiiACo | AI Integration Company for Real Estate, Mortgage &amp; Management Consulting</title>
+    <meta name="author" content="AiiACo" />
+    <!-- Open Graph Image (global fallback, overridden per page by SEO.tsx). Absolute URLs required by OG spec. -->
+    <meta property="og:image" content="https://aiiaco.com/images/og-default.webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="AiiACo - AI Integration Authority for the Corporate Age" />
+    <meta property="og:site_name" content="AiiACo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@aiiaco" />
+    <meta name="twitter:image" content="https://aiiaco.com/images/og-default.webp" />
+    <meta name="twitter:image:alt" content="AiiACo - AI Integration Authority for the Corporate Age" />
+    <meta name="theme-color" content="#03050A" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="manifest" href="/manifest.json" />
+    <!-- Favicons - 192px+ required for Google site icon display -->
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png?v=3" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png?v=3" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon-64.png?v=3" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48.png?v=3" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png?v=3" />
+    <link rel="icon" href="/favicon.ico?v=3" sizes="any" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=3" />
+    <!-- Skip to content link - visible only on keyboard focus (WCAG 2.4.1) -->
+    <style>
+      .skip-to-content {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        z-index: 10000;
+        padding: 12px 20px;
+        background: #D4A843;
+        color: #03050A;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 0 0 8px 0;
+      }
+      .skip-to-content:focus {
+        left: 0;
+      }
+    </style>
+    <!-- System font stack: SF Pro on Apple, Segoe UI on Windows, system-ui elsewhere -->
+    <!-- ═══ STRUCTURED DATA - CRAWLER-READABLE WITHOUT JS ═══ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://aiiaco.com/#organization",
+      "name": "AiiACo",
+      "alternateName": ["AiiACo", "AI Integration Authority"],
+      "url": "https://aiiaco.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://aiiaco.com/images/logo-gold.webp",
+        "width": 512,
+        "height": 512
+      },
+      "image": "https://aiiaco.com/images/og-default.webp",
+      "description": "AiiACo is the AI Integration Authority for the Corporate Age. We design, deploy, and manage complete AI operational systems for mid-market and enterprise businesses across 20+ industries. Services include enterprise AI integration, workflow automation, AI workforce deployment, and performance-based managed AI infrastructure.",
+      "slogan": "AI Integration Authority for the Corporate Age",
+      "foundingDate": "2025",
+      "founder": { "@id": "https://aiiaco.com/#nemr-hallak" },
+      "numberOfEmployees": { "@type": "QuantitativeValue", "minValue": 2, "maxValue": 15 },
+      "areaServed": ["United States", "Canada", "United Kingdom", "Worldwide"],
+      "knowsAbout": [
+        "Enterprise AI Integration",
+        "AI Workflow Automation",
+        "Managed AI Infrastructure",
+        "AI Implementation Services",
+        "Operational AI Systems",
+        "AI Strategy Consulting",
+        "Real Estate AI Automation",
+        "Mortgage Industry AI",
+        "Management Consulting AI"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "AI Integration Services",
+        "itemListElement": [
+          { "@type": "Offer", "name": "Strategic Intelligence Blueprint", "description": "Full operational diagnostic and AI integration architecture for enterprise businesses." },
+          { "@type": "Offer", "name": "Full AI Integration", "description": "Complete AI operational infrastructure - design, deployment, and managed optimization." },
+          { "@type": "Offer", "name": "Performance Partnership", "description": "Performance-based AI integration with success-linked fees tied to measurable outcomes." }
+        ]
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Business Inquiry",
+        "url": "https://aiiaco.com/upgrade",
+        "availableLanguage": "English"
+      },
+      "sameAs": [
+        "https://www.linkedin.com/company/aiiaco",
+        "https://www.wikidata.org/wiki/Q138638897",
+        "https://www.crunchbase.com/organization/aiiaco"
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://aiiaco.com/#website",
+      "name": "AiiACo - AI Integration Authority",
+      "url": "https://aiiaco.com",
+      "description": "AiiACo designs, deploys, and manages complete AI operational systems for businesses that intend to lead. Enterprise AI integration, automation, and performance-based AI consulting across 20+ industries.",
+      "inLanguage": "en-US",
+      "publisher": { "@id": "https://aiiaco.com/#organization" }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "@id": "https://aiiaco.com/#service",
+      "name": "AiiACo Enterprise AI Integration",
+      "provider": { "@id": "https://aiiaco.com/#organization" },
+      "serviceType": "AI Integration and Implementation Consulting",
+      "areaServed": ["United States", "Canada", "United Kingdom", "Worldwide"],
+      "description": "End-to-end AI integration for mid-market and enterprise businesses. AiiACo designs operational AI systems, deploys AI workforce infrastructure, and manages ongoing AI optimization - all performance-based.",
+      "category": "Artificial Intelligence Consulting",
+      "priceRange": "$$$$",
+      "paymentAccepted": ["Wire Transfer", "ACH", "Credit Card", "Invoice"],
+      "audience": {
+        "@type": "BusinessAudience",
+        "audienceType": "Mid-market and enterprise operators",
+        "name": "Companies with $5M to $100M+ annual revenue"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "AI Integration Service Lines",
+        "itemListElement": [
+          { "@type": "Offer", "name": "AI Integration", "url": "https://aiiaco.com/ai-integration", "description": "Enterprise AI integration across operational architecture." },
+          { "@type": "Offer", "name": "AI Revenue Engine", "url": "https://aiiaco.com/ai-revenue-engine", "description": "Five-component AI revenue system: lead gen, nurture, pipeline, reactivation, attribution." },
+          { "@type": "Offer", "name": "AI CRM Integration", "url": "https://aiiaco.com/ai-crm-integration", "description": "Embed AI directly into Salesforce, HubSpot, Pipedrive, GoHighLevel." },
+          { "@type": "Offer", "name": "AI Workflow Automation", "url": "https://aiiaco.com/ai-workflow-automation", "description": "Operational automation across revenue and operations functions." },
+          { "@type": "Offer", "name": "AI for Real Estate", "url": "https://aiiaco.com/ai-for-real-estate", "description": "AI integration for real estate brokerages." },
+          { "@type": "Offer", "name": "AI for Vacation Rentals", "url": "https://aiiaco.com/ai-for-vacation-rentals", "description": "AI integration for vacation rental operators." }
+        ]
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "@id": "https://aiiaco.com/#nemr-hallak",
+      "name": "Nemr Hallak",
+      "givenName": "Nemr",
+      "familyName": "Hallak",
+      "jobTitle": "Founder and CEO",
+      "description": "Nemr Hallak is the founder and CEO of AiiACo, an AI Systems Architect who designs and deploys operational AI infrastructure for enterprise and mid-market businesses in real estate, mortgage lending, commercial property, and management consulting.",
+      "worksFor": { "@id": "https://aiiaco.com/#organization" },
+      "url": "https://nemrhallak.com",
+      "sameAs": [
+        "https://www.linkedin.com/in/nemrhallak",
+        "https://nemrhallak.com"
+      ],
+      "knowsAbout": [
+        "Enterprise AI Integration",
+        "AI Workflow Automation",
+        "AI Revenue Systems",
+        "Operational AI Infrastructure",
+        "Real Estate AI Automation",
+        "Mortgage Industry AI"
+      ]
+    }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script
+      defer
+      src="%VITE_ANALYTICS_ENDPOINT%/umami"
+      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%">
+    </script>
+  </body>
+</html>

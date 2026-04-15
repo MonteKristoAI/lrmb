@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Insights & Innovation | Apparent</title>
+  <meta name="description" content="Perspectives on renewable energy technology, grid intelligence, and the future of power from Apparent Inc. Expert insights on solar water heating, data center energy, and ML-driven grid management.">
+  <link rel="canonical" href="https://www.apparent.com/blog/">
+
+  <!-- OG -->
+  <meta property="og:title" content="Blog - Insights & Innovation | Apparent">
+  <meta property="og:description" content="Perspectives on renewable energy technology, grid intelligence, and the future of power from Apparent Inc.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.apparent.com/blog/">
+  <meta property="og:image" content="../images/og-image.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Blog - Insights & Innovation | Apparent">
+  <meta name="twitter:description" content="Expert insights on solar water heating, data center energy, and ML-driven grid management.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="../images/logo-small.webp">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            energy: { 50:'#FFF8ED', 100:'#FFEDD5', 200:'#FED7AA', 300:'#FDBA74', 400:'#FB923C', 500:'#F97316', 600:'#EA580C', 700:'#C2410C' },
+            electric: { 50:'#EFF6FF', 100:'#DBEAFE', 400:'#60A5FA', 500:'#3B82F6', 600:'#2563EB', 900:'#1E3A5F' },
+            solar: { 400:'#FACC15', 500:'#EAB308' },
+            midnight: { 50:'#F8FAFC', 100:'#F1F5F9', 200:'#E2E8F0', 300:'#CBD5E1', 400:'#94A3B8', 500:'#64748B', 600:'#475569', 700:'#334155', 800:'#1E293B', 900:'#0F172A', 950:'#020617' },
+            cream: '#FAFAF8'
+          },
+          fontFamily: {
+            heading: ['Outfit', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body class="font-body text-midnight-950 bg-white overflow-x-hidden antialiased">
+
+  <!-- Skip to content -->
+  <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[60] focus:px-4 focus:py-2 focus:bg-energy-500 focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold">Skip to content</a>
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- BRANDED LOADER -->
+  <div id="site-loader" class="site-loader" aria-hidden="true">
+    <img src="../images/logo.webp" alt="" class="loader-logo" width="80" height="80">
+  </div>
+
+  <!-- ============================================
+       STICKY GLASS HEADER
+       ============================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 header-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <a href="../index.html" class="flex items-center shrink-0" aria-label="Apparent Home">
+          <img src="../images/logo.webp" alt="Apparent" class="h-10 w-auto" width="160" height="40">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+          <!-- Products mega dropdown -->
+          <div id="mega-trigger" class="relative">
+            <a href="../exel.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors flex items-center gap-1">
+              Products <i data-lucide="chevron-down" class="w-3.5 h-3.5 opacity-50"></i>
+            </a>
+            <div id="mega-dropdown" class="mega-dropdown w-[420px]">
+              <div class="bg-midnight-900/95 backdrop-blur-xl border border-white/[0.06] rounded-2xl p-5 shadow-2xl">
+                <div class="space-y-1">
+                  <a href="../exel.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-energy-500/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="flame" class="w-5 h-5 text-energy-400"></i></div>
+                    <div>
+                      <div class="text-sm font-semibold text-white group-hover:text-energy-400 transition-colors">eXeL Solar Water Heater</div>
+                      <div class="text-xs text-white/60 mt-0.5">Patented hybrid solar water heating for homes and businesses</div>
+                    </div>
+                  </a>
+                  <a href="../igos.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-electric-500/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="cpu" class="w-5 h-5 text-electric-400"></i></div>
+                    <div>
+                      <div class="text-sm font-semibold text-white group-hover:text-electric-400 transition-colors">igOS Platform</div>
+                      <div class="text-xs text-white/60 mt-0.5">Intelligent Grid Operating System powered by machine learning</div>
+                    </div>
+                  </a>
+                  <a href="../data-centers.html" class="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.04] transition-colors group">
+                    <div class="w-10 h-10 rounded-lg bg-solar-400/10 flex items-center justify-center mt-0.5 shrink-0"><i data-lucide="server" class="w-5 h-5 text-solar-400"></i></div>
+                    <div>
+                      <div class="text-sm font-semibold text-white group-hover:text-solar-400 transition-colors">Data Center Solutions</div>
+                      <div class="text-xs text-white/60 mt-0.5">Enterprise-grade energy management for data centers</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <a href="../igos.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Technology</a>
+          <a href="../about.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">About</a>
+          <a href="./" class="px-4 py-2 text-sm font-medium text-white transition-colors border-b-2 border-energy-500">Blog</a>
+          <a href="../contact.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        <!-- CTA -->
+        <div class="hidden lg:block">
+          <a href="../contact.html" class="magnetic-wrap">
+            <span class="btn-energy text-sm px-5 py-2.5">Get a Quote</span>
+          </a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu" aria-expanded="false">
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-opacity duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 top-20 bg-midnight-950/98 backdrop-blur-xl z-40">
+      <nav class="flex flex-col items-center justify-center h-full gap-8 text-xl" aria-label="Mobile navigation">
+        <a href="../exel.html" class="text-white/80 hover:text-white font-medium transition-colors">eXeL Water Heater</a>
+        <a href="../igos.html" class="text-white/80 hover:text-white font-medium transition-colors">Technology</a>
+        <a href="../data-centers.html" class="text-white/80 hover:text-white font-medium transition-colors">Data Centers</a>
+        <a href="../about.html" class="text-white/80 hover:text-white font-medium transition-colors">About</a>
+        <a href="./" class="text-white hover:text-white font-medium transition-colors">Blog</a>
+        <a href="../contact.html" class="text-white/80 hover:text-white font-medium transition-colors">Contact</a>
+        <a href="../contact.html" class="btn-energy mt-4">Get a Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================
+         SECTION 1: BLOG HERO
+         ============================================ -->
+    <section class="subpage-hero photo-section relative min-h-[50vh] flex items-center justify-center bg-midnight-950 overflow-hidden" aria-label="Blog hero">
+      <!-- Photo background -->
+      <div class="photo-section-bg photo-tint-warm">
+        <img src="../images/hero/energy-landscape.jpg" alt="" class="w-full h-full object-cover object-center" width="1920" height="1280" aria-hidden="true" style="opacity: 0.35;">
+      </div>
+      <div class="photo-section-overlay photo-overlay-dark-heavy"></div>
+
+      <!-- Aurora Gradient Mesh (reduced) -->
+      <div class="aurora" aria-hidden="true" style="opacity: 0.25;">
+        <div class="aurora-blob aurora-blob-1"></div>
+        <div class="aurora-blob aurora-blob-2"></div>
+        <div class="aurora-blob aurora-blob-3"></div>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-b from-midnight-950/40 via-transparent to-midnight-950 z-[2]"></div>
+
+      <div class="relative z-10 text-center px-6 pt-32 pb-16 photo-section-content">
+        <p class="text-center mb-4 reveal" style="font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--energy-400);">Our Blog</p>
+        <h1 class="font-heading font-bold text-white reveal reveal-delay-1" style="font-size: var(--text-hero);">Insights &amp; Innovation</h1>
+        <div class="w-20 h-[2px] mx-auto mt-6 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--solar-400), var(--energy-500)); background-size: 200% 100%; animation: gradientShift 3s ease infinite;" aria-hidden="true"></div>
+        <p class="text-white/60 mt-4 max-w-xl mx-auto reveal reveal-delay-2">Perspectives on renewable energy technology, grid intelligence, and the future of power.</p>
+      </div>
+
+      <div class="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-midnight-950 to-transparent z-[3]" aria-hidden="true"></div>
+    </section>
+
+    <!-- ============================================
+         SECTION 2: ARTICLE CARDS GRID
+         ============================================ -->
+    <section class="py-24 lg:py-32 bg-midnight-950 photo-section relative noise" aria-labelledby="articles-heading">
+      <div class="photo-section-bg photo-tint-cool">
+        <img src="../images/hero/tech-circuit.jpg" alt="" class="w-full h-full object-cover" width="1920" height="1280" loading="lazy" decoding="async" aria-hidden="true" style="opacity: 0.1;">
+      </div>
+      <div class="photo-section-overlay photo-overlay-dark-heavy"></div>
+      <div class="pattern-dots-dark absolute inset-0 opacity-30 z-[2]" aria-hidden="true"></div>
+
+      <div class="max-w-6xl mx-auto px-6 photo-section-content">
+        <h2 id="articles-heading" class="sr-only">Latest Articles</h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+          <!-- Card 1 -->
+          <a href="#" class="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div class="relative h-48 overflow-hidden">
+              <img src="../images/hero/solar-golden-hour.jpg" alt="Solar panels at golden hour" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" width="600" height="400" loading="lazy" decoding="async">
+              <div class="absolute inset-0 bg-gradient-to-t from-midnight-950/60 to-transparent"></div>
+            </div>
+            <div class="p-6">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-energy-500/15 text-energy-400 mb-3">Energy Savings</span>
+              <h3 class="font-heading font-semibold text-white text-lg mb-2 group-hover:text-energy-400 transition-colors">The Future of Solar Water Heating: How eXeL Transforms Home Energy</h3>
+              <p class="text-white/55 text-sm leading-relaxed mb-4">Discover how patented hybrid solar water heating technology is eliminating up to 25% of residential energy bills while providing hot water during power outages.</p>
+              <div class="flex items-center justify-between text-white/40 text-xs">
+                <span>March 15, 2026</span>
+                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 5 min read</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 2 -->
+          <a href="#" class="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div class="relative h-48 overflow-hidden">
+              <img src="../images/hero/datacenter-dark.jpg" alt="Data center server racks" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" width="600" height="400" loading="lazy" decoding="async">
+              <div class="absolute inset-0 bg-gradient-to-t from-midnight-950/60 to-transparent"></div>
+            </div>
+            <div class="p-6">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-electric-500/15 text-electric-400 mb-3">Technology</span>
+              <h3 class="font-heading font-semibold text-white text-lg mb-2 group-hover:text-electric-400 transition-colors">Data Center Energy Crisis: Why the Industry Needs a New Approach</h3>
+              <p class="text-white/55 text-sm leading-relaxed mb-4">With data centers consuming 4.4% of US electricity and AI workloads driving exponential growth, the industry faces an urgent reckoning with its energy infrastructure.</p>
+              <div class="flex items-center justify-between text-white/40 text-xs">
+                <span>March 8, 2026</span>
+                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 7 min read</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Card 3 -->
+          <a href="#" class="group block rounded-2xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div class="relative h-48 overflow-hidden">
+              <img src="../images/hero/tech-circuit.jpg" alt="Technology circuit board" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" width="600" height="400" loading="lazy" decoding="async">
+              <div class="absolute inset-0 bg-gradient-to-t from-midnight-950/60 to-transparent"></div>
+            </div>
+            <div class="p-6">
+              <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-solar-400/15 text-solar-400 mb-3">Industry</span>
+              <h3 class="font-heading font-semibold text-white text-lg mb-2 group-hover:text-solar-400 transition-colors">Grid Intelligence Explained: How igOS Brings ML to Energy Management</h3>
+              <p class="text-white/55 text-sm leading-relaxed mb-4">An inside look at how machine learning algorithms monitor, predict, and optimize energy flows across the grid in real-time with sub-second response.</p>
+              <div class="flex items-center justify-between text-white/40 text-xs">
+                <span>February 28, 2026</span>
+                <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> 6 min read</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       MEGA FOOTER
+       ============================================ -->
+  <footer class="bg-midnight-950 border-t border-white/[0.04] pt-16 pb-8" role="contentinfo">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+        <!-- Brand -->
+        <div>
+          <img src="../images/logo.webp" alt="Apparent" class="h-8 mb-4" width="128" height="32" loading="lazy">
+          <p class="text-white/55 text-sm leading-relaxed">Science backed. Data driven. Future focused. Leveraging science to solve the world's energy problems.</p>
+        </div>
+
+        <!-- Products -->
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Products</h3>
+          <ul class="space-y-2.5">
+            <li><a href="../exel.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">eXeL Solar Water Heater</a></li>
+            <li><a href="../igos.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">igOS Platform</a></li>
+            <li><a href="../data-centers.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">Data Center Solutions</a></li>
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Company</h3>
+          <ul class="space-y-2.5">
+            <li><a href="../about.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">About Us</a></li>
+            <li><a href="../about.html#leadership" class="text-white/40 hover:text-white/70 text-sm transition-colors">Leadership</a></li>
+            <li><a href="../contact.html" class="text-white/40 hover:text-white/70 text-sm transition-colors">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Connect -->
+        <div>
+          <h3 class="font-heading font-semibold text-white text-sm mb-4">Connect</h3>
+          <ul class="space-y-2.5">
+            <li><a href="mailto:sales@apparent.com" class="text-white/40 hover:text-white/70 text-sm transition-colors">sales@apparent.com</a></li>
+            <li><a href="https://www.linkedin.com/company/apparent-inc/" class="text-white/40 hover:text-white/70 text-sm transition-colors" target="_blank" rel="noopener noreferrer">LinkedIn</a></li>
+            <li><a href="https://www.instagram.com/apparentinc/" class="text-white/40 hover:text-white/70 text-sm transition-colors" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-white/[0.04] pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-white/50 text-xs">&copy; 2026 Apparent Inc. All rights reserved.</p>
+        <p class="text-white/50 text-xs">5 Hamilton Landing, Suite 160, Novato, CA 94949</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE CTA BAR -->
+  <div class="mobile-cta-bar" aria-label="Quick actions">
+    <a href="tel:+14155551234" class="btn-ghost flex-1 text-center text-sm py-3"><i data-lucide="phone" class="w-4 h-4 inline mr-1"></i> Call</a>
+    <a href="../contact.html" class="btn-energy flex-1 text-center text-sm py-3">Get a Quote</a>
+  </div>
+
+  <!-- JS -->
+  <script src="../js/main.js"></script>
+  <script src="../js/review-modal.js"></script>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

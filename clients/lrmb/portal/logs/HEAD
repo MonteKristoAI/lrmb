@@ -1,0 +1,4 @@
+0000000000000000000000000000000000000000 020c0da8f0e539ab65e317a8e2cdbfa6fad8e452 MonteKristoAI <contact@montekristobelgrade.com> 1775837135 +0200	clone: from github.com:MonteKristoAI/aiia-portal.git
+020c0da8f0e539ab65e317a8e2cdbfa6fad8e452 b426ff3c60adda1e8f69c70811d8331ca2383115 MonteKristoAI <contact@montekristobelgrade.com> 1775839763 +0200	commit: Add shared Supabase persistence + fixed Save button for onboarding form
+b426ff3c60adda1e8f69c70811d8331ca2383115 2ef13deec819f76a70f82062af97d24b69d55fc0 MonteKristoAI <contact@montekristobelgrade.com> 1775840118 +0200	commit: Fix: beforeunload save, race condition guard, error handling
+2ef13deec819f76a70f82062af97d24b69d55fc0 965f6126e8d50b027eb1eb9567e17f2faa881222 MonteKristoAI <contact@montekristobelgrade.com> 1775840760 +0200	commit: Switch to UPDATE pattern with RLS policy for DRAFT saves

@@ -1,0 +1,76 @@
+<h2>Bridge Hospice - Site Architecture</h2>
+<p class="subtitle">Which page structure best serves Bridge Hospice's audiences? Their current site has 15 pages but poor organization. The new site needs clear paths for families, healthcare providers, and community supporters.</p>
+
+<div class="cards">
+  <!-- Option A -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #1e3a5f; min-height: 300px; padding: 24px; color: #f8f6f2; font-family: monospace; font-size: 0.7rem; line-height: 1.8;">
+      <div style="color: #c8a96e; font-weight: bold; font-size: 0.8rem; margin-bottom: 12px;">COMPREHENSIVE (12 pages)</div>
+      <div>
+        <span style="color: #8fb3d4;">Homepage</span> (hero + all previews)<br>
+        ├── <span style="color: #c8a96e;">For Families/</span><br>
+        │&nbsp;&nbsp;&nbsp;├── Services<br>
+        │&nbsp;&nbsp;&nbsp;├── What to Expect (patient journey)<br>
+        │&nbsp;&nbsp;&nbsp;└── FAQs<br>
+        ├── <span style="color: #c8a96e;">For Providers/</span><br>
+        │&nbsp;&nbsp;&nbsp;└── Referral Portal<br>
+        ├── <span style="color: #c8a96e;">Programs/</span><br>
+        │&nbsp;&nbsp;&nbsp;├── Valor (Veterans)<br>
+        │&nbsp;&nbsp;&nbsp;└── Dave's Wish (Nonprofit)<br>
+        ├── About (Story + Team + Awards)<br>
+        ├── Get Involved (Volunteer + Careers + Donate)<br>
+        ├── Blog<br>
+        └── Contact
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Comprehensive (12 pages)</h3>
+      <p>Dedicated pages for each audience. "What to Expect" patient journey page. Separate referral portal for providers. Valor and Dave's Wish get their own spotlight pages. Most complete but most build effort.</p>
+    </div>
+  </div>
+
+  <!-- Option B -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #1e3a5f; min-height: 300px; padding: 24px; color: #f8f6f2; font-family: monospace; font-size: 0.7rem; line-height: 1.8;">
+      <div style="color: #c8a96e; font-weight: bold; font-size: 0.8rem; margin-bottom: 12px;">FOCUSED (8 pages)</div>
+      <div>
+        <span style="color: #8fb3d4;">Homepage</span> (hero + services + programs + testimonials + CTA)<br>
+        ├── Services (all services + "What to Expect" section)<br>
+        ├── Valor (Veterans program)<br>
+        ├── Dave's Wish (Nonprofit + Donate)<br>
+        ├── About (Story + Team + Awards + Gallery)<br>
+        ├── Referral (provider form)<br>
+        ├── Blog<br>
+        └── Contact (form + volunteer + careers links)
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Focused (8 pages) — RECOMMENDED</h3>
+      <p>Every page earns its place. Valor and Dave's Wish get dedicated pages (they deserve it). Services includes "What to Expect". About consolidates story + team + gallery. Contact handles volunteer/careers. Clean, purposeful, buildable.</p>
+    </div>
+  </div>
+
+  <!-- Option C -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)">
+    <div class="card-image" style="background: #1e3a5f; min-height: 300px; padding: 24px; color: #f8f6f2; font-family: monospace; font-size: 0.7rem; line-height: 1.8;">
+      <div style="color: #c8a96e; font-weight: bold; font-size: 0.8rem; margin-bottom: 12px;">MINIMAL (5 pages)</div>
+      <div>
+        <span style="color: #8fb3d4;">Homepage</span> (long-scroll: hero → services → programs → team → testimonials → FAQ → contact)<br>
+        ├── Valor (Veterans program)<br>
+        ├── Dave's Wish (Nonprofit)<br>
+        ├── About (Story + Team)<br>
+        └── Blog
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Minimal (5 pages)</h3>
+      <p>Long-scroll homepage does the heavy lifting. Only Valor, Dave's Wish, About and Blog get separate pages. Fastest to build, simplest for users. Risk: homepage becomes too long, referral path is weak.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section" style="margin-top: 24px; padding: 16px; background: rgba(255,255,255,0.05); border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
+  <p style="font-size: 0.85rem; opacity: 0.7;">
+    <strong>Key audiences:</strong> (1) Families exploring hospice for a loved one — need reassurance, clear info, easy contact. (2) Healthcare providers making referrals — need fast, frictionless referral form. (3) Community supporters — volunteers, donors (Dave's Wish), job seekers. The architecture must serve all three without overwhelming any.
+  </p>
+</div>

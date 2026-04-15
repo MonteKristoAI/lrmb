@@ -1,0 +1,71 @@
+{
+  "_comment": "Template for service pages. Replace all {{PLACEHOLDER}} values before deploying. Applicable pages: /ai-integration, /ai-implementation-services, /ai-automation-for-business, /ai-governance",
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://aiiaco.com/{{SERVICE_SLUG}}/#webpage",
+      "url": "https://aiiaco.com/{{SERVICE_SLUG}}/",
+      "name": "{{SERVICE_NAME}} | AIIA Co",
+      "description": "{{SERVICE_DESCRIPTION}}",
+      "isPartOf": {
+        "@id": "https://aiiaco.com/#website"
+      },
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "breadcrumb": {
+        "@id": "https://aiiaco.com/{{SERVICE_SLUG}}/#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "https://aiiaco.com/{{SERVICE_SLUG}}/#service"
+      },
+      "inLanguage": "en-US"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://aiiaco.com/{{SERVICE_SLUG}}/#service",
+      "name": "{{SERVICE_NAME}}",
+      "alternateName": "{{SERVICE_ALTERNATE_NAME}}",
+      "description": "{{SERVICE_DESCRIPTION}}",
+      "url": "https://aiiaco.com/{{SERVICE_SLUG}}/",
+      "provider": {
+        "@id": "https://aiiaco.com/#organization"
+      },
+      "serviceType": "{{SERVICE_TYPE}}",
+      "areaServed": {
+        "@type": "Country",
+        "name": "United States"
+      },
+      "audience": {
+        "@type": "Audience",
+        "audienceType": "Mid-market and enterprise businesses"
+      },
+      "offers": {
+        "@type": "Offer",
+        "url": "https://aiiaco.com/{{SERVICE_SLUG}}/",
+        "seller": {
+          "@id": "https://aiiaco.com/#organization"
+        }
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://aiiaco.com/{{SERVICE_SLUG}}/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://aiiaco.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "{{SERVICE_NAME}}",
+          "item": "https://aiiaco.com/{{SERVICE_SLUG}}/"
+        }
+      ]
+    }
+  ]
+}

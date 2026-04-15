@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIVA: How Digital Platforms Are Transforming Well Integrity Management | EV Blog</title>
+  <meta name="description" content="The shift from scattered spreadsheets to centralized digital platforms for well integrity management, and how EV's AIVA platform is changing operator workflows.">
+  <meta property="og:title" content="AIVA: How Digital Platforms Are Transforming Well Integrity Management">
+  <meta property="og:description" content="How EV's AIVA platform is replacing fragmented data management with centralized digital well integrity workflows.">
+  <meta property="og:type" content="article">
+  <link rel="canonical" href="https://evcam.com/blog/aiva-platform-digital-transformation">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  tailwind.config = {
+    theme: { extend: {
+      colors: {
+        'ev-orange': { 500: '#FF5A00', 400: '#FF7A33', 600: '#CC4800' },
+        'ev-dark': { 900: '#050A14', 800: '#0A1128', 700: '#111B36', 600: '#1A2744' },
+        'ev-blue': { 500: '#007BFF', 400: '#3395FF' }
+      },
+      fontFamily: { heading: ['Space Grotesk', 'sans-serif'], body: ['DM Sans', 'sans-serif'] }
+    }}
+  }
+  </script>
+  <script defer src="https://unpkg.com/lucide@0.468.0"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/styles.css">
+
+  <!-- JSON-LD Schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "AIVA: How Digital Platforms Are Transforming Well Integrity Management",
+    "description": "The shift from scattered spreadsheets to centralized digital platforms for well integrity management, and how EV's AIVA platform is changing operator workflows.",
+    "author": {
+      "@type": "Organization",
+      "name": "EV Technical Team",
+      "url": "https://evcam.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "EV - The Visual Analytics Company",
+      "url": "https://evcam.com"
+    },
+    "datePublished": "2026-02-10",
+    "dateModified": "2026-02-10",
+    "mainEntityOfPage": "https://evcam.com/blog/aiva-platform-digital-transformation",
+    "articleSection": "Software / Digital",
+    "wordCount": 1000
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://evcam.com" },
+      { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://evcam.com/blog/" },
+      { "@type": "ListItem", "position": 3, "name": "AIVA: Digital Transformation in Well Integrity" }
+    ]
+  }
+  </script>
+  <link rel="icon" type="image/png" href="https://www.evcam.com/assets/fav/favicon-32x32.png">
+</head>
+<body class="bg-ev-dark-900 text-gray-200 font-body">
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+  <!-- ============ HEADER ============ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(5,10,20,0.6);backdrop-filter:blur(8px)">
+    <div class="container flex items-center justify-between py-4">
+      <a href="../index.html" class="flex items-center gap-2">
+        <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+          <span class="text-white font-heading font-bold text-lg">EV</span>
+        </div>
+        <span class="font-heading font-semibold text-white text-lg hidden sm:inline">The Visual Analytics Company</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
+        <a href="../index.html" class="hover:text-ev-orange-500 transition-colors">Home</a>
+        <a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">Solutions</a>
+        <a href="../technology.html" class="hover:text-ev-orange-500 transition-colors">Technology</a>
+        <a href="../case-studies.html" class="hover:text-ev-orange-500 transition-colors">Case Studies</a>
+        <a href="../about.html" class="hover:text-ev-orange-500 transition-colors">About</a>
+        <a href="./" class="text-ev-orange-500 transition-colors">Blog</a>
+        <a href="../contact.html" class="hover:text-ev-orange-500 transition-colors">Contact</a>
+      </nav>
+      <div class="hidden lg:flex items-center gap-3">
+        <a href="../index.html#booking" class="btn btn-primary btn-sm">Book a Demo</a>
+      </div>
+      <button id="menu-toggle" class="lg:hidden text-white" aria-label="Open menu" aria-expanded="false">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+    </div>
+    <div id="mobile-menu" class="fixed inset-0 bg-ev-dark-900/98 z-50 flex flex-col p-6 transform translate-x-full opacity-0 transition-all duration-300 lg:hidden" style="backdrop-filter:blur(16px)">
+      <div class="flex justify-between items-center mb-10">
+        <span class="font-heading font-semibold text-white text-lg">EV</span>
+        <button id="menu-close" class="text-white" aria-label="Close menu"><i data-lucide="x" class="w-6 h-6"></i></button>
+      </div>
+      <nav class="flex flex-col gap-6 text-lg font-medium">
+        <a href="../index.html" class="text-gray-300 hover:text-ev-orange-500">Home</a>
+        <a href="../solutions.html" class="text-gray-300 hover:text-ev-orange-500">Solutions</a>
+        <a href="../technology.html" class="text-gray-300 hover:text-ev-orange-500">Technology</a>
+        <a href="../case-studies.html" class="text-gray-300 hover:text-ev-orange-500">Case Studies</a>
+        <a href="../about.html" class="text-gray-300 hover:text-ev-orange-500">About</a>
+        <a href="./" class="text-ev-orange-500">Blog</a>
+        <a href="../contact.html" class="text-gray-300 hover:text-ev-orange-500">Contact</a>
+      </nav>
+      <div class="mt-auto"><a href="../index.html#booking" class="btn btn-primary w-full">Book a Demo</a></div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ============ ARTICLE HERO ============ -->
+  <section class="section section-photo bg-grid relative" style="min-height:50vh;display:flex;align-items:center;padding-top:7rem">
+    <div class="section-bg fade-right"><img src="../img/headers/perforation-header.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.11; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="absolute inset-0 bg-radial-glow pointer-events-none"></div>
+    <div class="container relative z-10 max-w-4xl mx-auto">
+      <nav class="flex items-center gap-2 text-sm text-gray-400 mb-6 animate-hero-1">
+        <a href="../index.html" class="hover:text-ev-orange-500 transition-colors">Home</a>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        <a href="./" class="hover:text-ev-orange-500 transition-colors">Blog</a>
+        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+        <span class="text-gray-200">Software / Digital</span>
+      </nav>
+      <span class="badge badge-orange animate-hero-1">Software / Digital</span>
+      <h1 class="font-heading text-white mt-4 animate-hero-2 leading-tight" style="font-size:var(--text-h1)">AIVA: How Digital Platforms Are Transforming Well Integrity Management</h1>
+      <div class="flex flex-wrap items-center gap-4 mt-6 text-sm text-gray-400 animate-hero-3">
+        <span class="flex items-center gap-1.5"><i data-lucide="user" class="w-4 h-4"></i> By EV Technical Team</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="calendar" class="w-4 h-4"></i> February 10, 2026</span>
+        <span class="flex items-center gap-1.5"><i data-lucide="clock" class="w-4 h-4"></i> 6 min read</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- ============ ARTICLE BODY ============ -->
+  <article class="section section-photo">
+    <div class="container" style="max-width:720px">
+      <div class="prose-custom reveal" style="line-height:1.8">
+
+        <p class="text-gray-300 text-lg leading-relaxed">The oil and gas industry has talked about digital transformation for a decade. In well integrity management, that conversation is moving from aspiration to operational reality. Operators who once managed inspection data across disconnected spreadsheets, email chains, and shared drives are migrating to centralized platforms that consolidate data, automate reporting, and enable team-wide collaboration on well condition assessments.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-6">EV's AIVA (Asset Inspection, Visualisation & Analytics) platform represents this shift. Built specifically for the inspection and well integrity domain, AIVA addresses the data management problems that have plagued operators for years, while adding visualization and analytics capabilities that standalone tools cannot replicate.</p>
+
+        <h2 class="font-heading text-white text-2xl font-bold mt-12 mb-4">The Problem with Traditional Data Management</h2>
+
+        <p class="text-gray-300 leading-relaxed">Well integrity data has historically been fragmented by design. Each inspection run produces its own dataset: video files, log data, caliper surveys, corrosion maps, and analyst reports. These datasets are generated by different service companies, in different formats, at different times. The operator's challenge is to assemble these disparate inputs into a coherent picture of well condition.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4">In practice, this assembly process is manual and error-prone. Inspection reports sit in email inboxes. Video files are stored on portable drives. Comparative analysis between inspection campaigns requires manually locating, loading, and aligning datasets from different sources and different years. The institutional knowledge about a specific well's history often resides in the memory of individual engineers rather than in an accessible system.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4">The consequences of this fragmentation are real and measurable. Decisions about intervention timing, inspection frequency, and well retirement are made with incomplete data because assembling the complete picture takes too long. Regulatory reporting consumes engineering hours that would be better spent on analysis. When key personnel leave or change roles, knowledge about well condition history goes with them.</p>
+
+        <h2 class="font-heading text-white text-2xl font-bold mt-12 mb-4">What AIVA Changes</h2>
+
+        <p class="text-gray-300 leading-relaxed">AIVA consolidates all inspection data for a well, a field, or an entire portfolio into a single, secure, cloud-hosted platform. The system is built around four functional pillars:</p>
+
+        <p class="text-gray-300 leading-relaxed mt-6"><strong class="text-white">Secure, centralized storage.</strong> All inspection data, regardless of source or format, lives in one place. Video footage, log data, analyst reports, and visual analytics outputs are stored against the specific well and specific inspection campaign that generated them. Role-based access controls ensure that data is available to authorized users and protected from unauthorized access.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4"><strong class="text-white">Real-time collaboration.</strong> Multiple users can access, review, and annotate inspection data simultaneously. An engineer in Aberdeen can review the same visual analytics output as a colleague in Houston, with annotations and notes visible to both in real time. This eliminates the delays inherent in emailing files and waiting for responses.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4"><strong class="text-white">3D visualization.</strong> AIVA renders downhole data in a three-dimensional well model. Rather than scrolling through a flat video file or reviewing a tabular corrosion report, engineers can navigate the well in 3D, zooming into specific intervals, rotating the view, and overlaying multiple data types (video, caliper, wall thickness) on the same model. This spatial context makes patterns visible that flat presentations obscure.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4"><strong class="text-white">Automated reporting.</strong> AIVA generates standardized inspection reports from stored data, reducing the manual effort required for regulatory submissions and internal reporting. Report templates are configurable to match operator-specific or regulator-specific requirements, and reports can be generated for individual wells or across entire portfolios.</p>
+
+        <h2 class="font-heading text-white text-2xl font-bold mt-12 mb-4">Integration with Visual Analytics Data</h2>
+
+        <p class="text-gray-300 leading-relaxed">AIVA was designed to work with EV's visual analytics products. When a Corrosion VA, Scale VA, or any other visual analytics assessment is completed, the quantified output feeds directly into AIVA. This means that the measured severity of corrosion, the percentage coverage of scale, or the dimensions of a restriction are automatically associated with the correct well, the correct depth interval, and the correct inspection campaign.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4">Over time, this creates a longitudinal dataset that shows how well condition is evolving. Each inspection campaign adds another data point. Trend analysis becomes straightforward because the data is structured, time-stamped, and location-referenced consistently across all campaigns.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4">For operators managing large well portfolios, this longitudinal perspective is particularly valuable. AIVA can surface wells where degradation rates are accelerating, flag wells approaching integrity thresholds, and support risk-based prioritization of inspection and intervention programs across the portfolio.</p>
+
+        <h2 class="font-heading text-white text-2xl font-bold mt-12 mb-4">Where AIVA Is Heading</h2>
+
+        <p class="text-gray-300 leading-relaxed">The AIVA development roadmap is focused on expanding analytics capabilities and deepening integration with third-party data sources. Machine learning classifiers trained on EV's 25-year library of downhole video are being developed to automate feature detection and severity grading. Integration with SCADA systems, production databases, and other operational platforms will enrich the well integrity picture with operational context.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4">The broader trajectory is toward predictive well integrity management: using historical inspection data, production trends, and operational parameters to forecast when a well will require intervention, rather than discovering the need during a scheduled inspection. AIVA provides the data foundation on which that predictive capability will be built.</p>
+
+        <p class="text-gray-300 leading-relaxed mt-4">For operators still managing inspection data through manual processes, the transition to a platform like AIVA represents a step change in capability. The data exists. The question is whether it is organized and accessible in a way that supports faster, better-informed decisions about well integrity and asset management.</p>
+
+      </div>
+
+      <!-- ============ CTA BOX ============ -->
+      <div class="card-glass !p-8 mt-12 text-center reveal">
+        <h3 class="font-heading text-white text-xl font-bold">Ready to centralize your inspection data?</h3>
+        <p class="text-gray-400 mt-3">Schedule a consultation to see how AIVA can consolidate your well integrity data, streamline reporting, and enable collaborative decision-making across your organization.</p>
+        <a href="../contact.html" class="btn btn-primary mt-5">
+          <i data-lucide="calendar" class="w-4 h-4"></i>
+          Schedule a Consultation
+        </a>
+      </div>
+
+      <!-- ============ AUTHOR BOX ============ -->
+      <div class="card-glass mt-8 flex items-start gap-5 reveal">
+        <div class="w-14 h-14 rounded-xl bg-ev-orange-500/10 flex items-center justify-center flex-shrink-0">
+          <i data-lucide="users" class="w-7 h-7 text-ev-orange-400"></i>
+        </div>
+        <div>
+          <h4 class="font-heading font-bold text-white">EV Technical Team</h4>
+          <p class="text-gray-400 text-sm mt-1 leading-relaxed">The EV Technical Team brings 25 years of combined expertise in downhole camera systems, visual analytics, and pipeline inspection technology across the global energy industry.</p>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <div class="section-divider"></div>
+
+  <!-- ============ RELATED POSTS ============ -->
+  <section class="section section-photo">
+    <div class="section-bg fade-bottom-left"><img src="../img/headers/animation-poster.jpg" alt="" class="w-full h-full object-cover" style="opacity:0.14; filter:saturate(0.5);"></div>
+    <div class="absolute inset-0 z-[1]" style="background:radial-gradient(ellipse at 50% 50%, rgba(5,10,20,0.3), rgba(5,10,20,0.92) 75%);"></div>
+    <div class="container section-content" style="max-width:720px">
+      <h2 class="font-heading text-white text-2xl font-bold mb-8 reveal">Related Articles</h2>
+      <div class="grid sm:grid-cols-2 gap-6">
+        <a href="visual-analytics-geothermal.html" class="card-glass !p-0 overflow-hidden group reveal">
+          <div class="h-40" style="background:linear-gradient(135deg,#1A2744,#111B36);position:relative">
+            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="flame" class="w-10 h-10 text-ev-orange-500/20"></i></div>
+          </div>
+          <div class="p-5">
+            <span class="text-xs text-ev-orange-400 font-semibold">Geothermal</span>
+            <h3 class="font-heading text-white text-base font-bold mt-1 group-hover:text-ev-orange-500 transition-colors leading-snug">The Role of Visual Analytics in Geothermal Energy Production</h3>
+            <p class="text-gray-500 text-xs mt-2">Mar 15, 2026</p>
+          </div>
+        </a>
+        <a href="pipeline-inspection-ccus.html" class="card-glass !p-0 overflow-hidden group reveal reveal-delay-1">
+          <div class="h-40" style="background:linear-gradient(135deg,#111B36,#0A1128);position:relative">
+            <div class="absolute inset-0 flex items-center justify-center"><i data-lucide="scan-line" class="w-10 h-10 text-ev-orange-500/20"></i></div>
+          </div>
+          <div class="p-5">
+            <span class="text-xs text-ev-orange-400 font-semibold">Pipeline / CCUS</span>
+            <h3 class="font-heading text-white text-base font-bold mt-1 group-hover:text-ev-orange-500 transition-colors leading-snug">Pipeline Inspection Technology for CCUS: Preparing Legacy Infrastructure</h3>
+            <p class="text-gray-500 text-xs mt-2">Feb 28, 2026</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="section-photo border-t border-white/5">
+    <div class="container py-16">
+      <div class="grid md:grid-cols-4 gap-10">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-9 h-9 rounded-lg bg-ev-orange-500 flex items-center justify-center">
+              <span class="text-white font-heading font-bold text-lg">EV</span>
+            </div>
+            <span class="font-heading font-semibold text-white">The Visual Analytics Company</span>
+          </div>
+          <p class="text-gray-500 text-sm leading-relaxed">25 years of pioneering downhole video technology and visual analytics for the global energy industry.</p>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Solutions</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">Visual Analytics</a></li>
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">Pipeline Inspection</a></li>
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">AIVA Platform</a></li>
+            <li><a href="../solutions.html" class="hover:text-ev-orange-500 transition-colors">ClearVision</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Company</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li><a href="../about.html" class="hover:text-ev-orange-500 transition-colors">About EV</a></li>
+            <li><a href="../case-studies.html" class="hover:text-ev-orange-500 transition-colors">Case Studies</a></li>
+            <li><a href="./" class="hover:text-ev-orange-500 transition-colors">Blog</a></li>
+            <li><a href="../contact.html" class="hover:text-ev-orange-500 transition-colors">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-heading font-semibold text-white mb-4">Contact</h4>
+          <ul class="space-y-2 text-sm text-gray-400">
+            <li class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-ev-orange-400 flex-shrink-0"></i>Aberdeenshire, Scotland</li>
+            <li><a href="tel:+447525916610" class="flex items-center gap-2 hover:text-ev-orange-500 transition-colors"><i data-lucide="phone" class="w-4 h-4 text-ev-orange-400"></i>+44 7525 916610</a></li>
+            <li><a href="mailto:info@evcam.com" class="flex items-center gap-2 hover:text-ev-orange-500 transition-colors"><i data-lucide="mail" class="w-4 h-4 text-ev-orange-400"></i>info@evcam.com</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-white/5 mt-12 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-gray-500">
+        <p>&copy; 2026 EV. The Visual Analytics Company. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a href="javascript:void(0)" title="Coming Soon" class="hover:text-ev-orange-500 transition-colors">Privacy Policy</a>
+          <a href="javascript:void(0)" title="Coming Soon" class="hover:text-ev-orange-500 transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button id="chatbot-toggle" class="chatbot-btn" aria-label="Open chat">
+    <i data-lucide="message-circle" class="w-6 h-6"></i>
+  </button>
+  <div id="chatbot-panel" class="hidden fixed bottom-24 right-6 z-50 w-80 bg-ev-dark-800 border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
+    <div class="bg-ev-orange-500 px-5 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-2"><i data-lucide="bot" class="w-5 h-5 text-white"></i><span class="font-heading font-semibold text-white text-sm">EV Assistant</span></div>
+      <button onclick="document.getElementById('chatbot-panel').classList.add('hidden')" class="text-white/80 hover:text-white"><i data-lucide="x" class="w-4 h-4"></i></button>
+    </div>
+    <div class="p-5">
+      <p class="text-gray-300 text-sm">Welcome to EV. How can we help you with your wellbore or pipeline challenges?</p>
+      <div class="mt-4 space-y-2">
+        <a href="../index.html#booking" class="block text-sm text-ev-orange-400 hover:text-ev-orange-500 transition-colors">Book a Demo</a>
+        <a href="tel:+447525916610" class="block text-sm text-ev-orange-400 hover:text-ev-orange-500 transition-colors">Call Us</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-cta-bar">
+    <a href="tel:+447525916610" class="bg-ev-orange-500 text-white rounded-lg"><i data-lucide="phone" class="w-4 h-4"></i> Call</a>
+    <a href="../index.html#booking" class="bg-white/10 text-white border border-white/15 rounded-lg"><i data-lucide="calendar" class="w-4 h-4"></i> Book Demo</a>
+  </div>
+
+  <script src="../js/components.js"></script>
+</body>
+</html>

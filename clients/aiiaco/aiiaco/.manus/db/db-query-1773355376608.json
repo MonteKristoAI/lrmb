@@ -1,0 +1,9 @@
+{
+  "query": "SELECT id, name, email, phone, status FROM leads WHERE name LIKE '%marc%' OR name LIKE '%sleiman%' OR name LIKE '%Marc%' OR name LIKE '%Sleiman%' OR name LIKE '%sleim%';",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, phone, status FROM leads WHERE name LIKE '%marc%' OR name LIKE '%sleiman%' OR name LIKE '%Marc%' OR name LIKE '%Sleiman%' OR name LIKE '%sleim%';",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 383
+}

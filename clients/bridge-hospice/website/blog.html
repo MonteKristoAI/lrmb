@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - Bridge Hospice | Insights, Guides & Stories from Our Care Team</title>
+  <meta name="description" content="Explore articles from Bridge Hospice's care team covering hospice education, caregiver support, pain management, grief resources, and stories of compassion from Lubbock, TX.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Design System CSS -->
+  <link rel="stylesheet" href="css/styles.css?v=3">
+
+  <style>
+    /* ================================================================
+       BLOG PAGE — CINEMATIC OVERRIDES
+       ================================================================ */
+
+    /* Nav */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 56px;
+      background: rgba(6,12,24,0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    @media (max-width: 768px) {
+      .nav { padding: 20px 24px; }
+    }
+    .nav-logo {
+      font-family: var(--font-heading);
+      font-size: 1.35rem;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      color: rgba(240,236,228,0.95);
+    }
+    .nav-logo em {
+      font-style: italic;
+      color: var(--gold-400);
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: rgba(240,236,228,0.45);
+      list-style: none;
+    }
+    .nav-links a {
+      position: relative;
+      transition: color 0.4s;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0; right: 0;
+      height: 1px;
+      background: var(--gold-500);
+      transform: scaleX(0);
+      transition: transform 0.4s var(--ease);
+    }
+    .nav-links a:hover { color: rgba(240,236,228,1); }
+    .nav-links a:hover::after { transform: scaleX(1); }
+    .nav-links a.active { color: var(--gold-400); }
+    .nav-links a.active::after { transform: scaleX(1); opacity: 0.5; }
+    .nav-phone {
+      font-size: 0.72rem;
+      color: var(--gold-500);
+      letter-spacing: 0.05em;
+      padding: 10px 24px;
+      border: 1px solid rgba(200,169,110,0.25);
+      border-radius: 6px;
+      transition: all 0.4s;
+    }
+    .nav-phone:hover {
+      background: rgba(200,169,110,0.08);
+      border-color: rgba(200,169,110,0.5);
+    }
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 768px) {
+      .nav-phone { font-size: 0.65rem; padding: 8px 16px; }
+    }
+
+    /* ================================================================
+       HERO — 60vh CINEMATIC
+       ================================================================ */
+    .blog-hero {
+      position: relative;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    .blog-hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('assets/bg-family-gathering.png') center/cover no-repeat;
+    }
+    .blog-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6,12,24,0.8) 0%, rgba(6,12,24,0.5) 40%, rgba(6,12,24,0.7) 100%),
+        radial-gradient(ellipse 60% 50% at 50% 45%, rgba(6,12,24,0.7) 0%, transparent 100%);
+    }
+    .blog-hero-blur {
+      position: absolute;
+      inset: 0;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      mask-image: radial-gradient(ellipse 55% 45% at 50% 45%, black 0%, transparent 100%);
+      -webkit-mask-image: radial-gradient(ellipse 55% 45% at 50% 45%, black 0%, transparent 100%);
+    }
+    .blog-hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 140px 24px 72px;
+    }
+    .blog-hero-content .section-overline {
+      color: var(--gold-300);
+      margin-bottom: 24px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+    .blog-hero-content h1 {
+      font-size: var(--text-hero);
+      color: #ffffff;
+      text-shadow: 0 4px 32px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.3);
+      margin-bottom: 20px;
+      letter-spacing: -0.03em;
+    }
+    .blog-hero-content .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,0.8);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.3);
+      max-width: 540px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ================================================================
+       FEATURED POST — EDITORIAL MAGAZINE
+       ================================================================ */
+    .featured-post {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 0;
+      background: var(--white);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      transition: all var(--duration) var(--ease);
+    }
+    .featured-post:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-4px);
+    }
+    .featured-img {
+      position: relative;
+      overflow: hidden;
+      min-height: 380px;
+    }
+    .featured-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.8s var(--ease);
+    }
+    .featured-post:hover .featured-img img {
+      transform: scale(1.04);
+    }
+    .featured-body {
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .featured-tag {
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold-600);
+      margin-bottom: 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .featured-tag::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--gold-500);
+    }
+    .featured-body h2 {
+      font-size: var(--text-h3);
+      margin-bottom: 16px;
+      line-height: 1.3;
+    }
+    .featured-body .featured-meta {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .featured-body p {
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .read-more {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gold-600);
+      transition: gap 0.3s var(--ease);
+    }
+    .read-more:hover { gap: 14px; }
+    .read-more svg { width: 14px; height: 14px; }
+    @media (max-width: 768px) {
+      .featured-post { grid-template-columns: 1fr; }
+      .featured-img { min-height: 240px; }
+      .featured-body { padding: 32px 24px; }
+    }
+
+    /* ================================================================
+       BLOG GRID
+       ================================================================ */
+    .blog-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    @media (max-width: 1024px) { .blog-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .blog-grid { grid-template-columns: 1fr; } }
+
+    .blog-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      transition: all var(--duration) var(--ease);
+    }
+    .blog-card:hover {
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-6px);
+    }
+    .blog-card-img {
+      overflow: hidden;
+      position: relative;
+    }
+    .blog-card-img img {
+      width: 100%;
+      aspect-ratio: 16/10;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s var(--ease);
+    }
+    .blog-card:hover .blog-card-img img {
+      transform: scale(1.06);
+    }
+    .blog-card .card-body {
+      padding: 24px 24px 28px;
+    }
+    .blog-card .card-body h3 {
+      font-size: 1.1rem;
+      line-height: 1.35;
+      margin-bottom: 8px;
+    }
+    .blog-card .card-body .blog-date {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .blog-card .card-body .blog-excerpt {
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      margin-bottom: 16px;
+    }
+
+    /* ================================================================
+       NEWSLETTER — IMAGE BG + GLASS
+       ================================================================ */
+    .newsletter-section {
+      position: relative;
+      overflow: hidden;
+    }
+    .newsletter-bg {
+      position: absolute;
+      inset: 0;
+      background: url('assets/bg-prairie-path.png') center/cover no-repeat;
+    }
+    .newsletter-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6,12,24,0.85) 0%, rgba(6,12,24,0.8) 50%, rgba(6,12,24,0.88) 100%);
+    }
+    .newsletter-section .container {
+      position: relative;
+      z-index: 2;
+    }
+    .newsletter-glass {
+      max-width: 640px;
+      margin: 0 auto;
+      background: rgba(255,255,255,0.04);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-xl);
+      padding: 56px 48px;
+      text-align: center;
+    }
+    @media (max-width: 640px) {
+      .newsletter-glass { padding: 40px 24px; }
+    }
+    .newsletter-glass h2 {
+      color: var(--cream);
+      margin-bottom: 12px;
+    }
+    .newsletter-glass .newsletter-desc {
+      color: rgba(240,236,228,0.5);
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+    .newsletter-form {
+      display: flex;
+      gap: 12px;
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 14px 20px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-md);
+      color: var(--cream);
+      font-family: var(--font-body);
+      font-size: var(--text-sm);
+    }
+    .newsletter-form input::placeholder { color: rgba(240,236,228,0.3); }
+    .newsletter-form input:focus { outline: none; border-color: var(--gold-500); }
+    @media (max-width: 480px) {
+      .newsletter-form { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="sr-only skip-link">Skip to content</a>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo" style="display:flex; align-items:center;"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:40px; width:auto;"></a>
+    <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="valor.html">Valor</a></li>
+      <li><a href="daves-wish.html">Dave's Wish</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="referral.html">Referral</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <a href="tel:8069933900" class="nav-phone">806-993-3900</a>
+  </nav>
+
+  <main id="main">
+
+    <!-- ============================================
+         HERO — 60vh CINEMATIC
+         ============================================ -->
+    <section class="blog-hero">
+      <div class="blog-hero-bg"></div>
+      <div class="blog-hero-overlay"></div>
+      <div class="blog-hero-blur"></div>
+      <div class="blog-hero-content">
+        <div class="section-overline reveal">Resources</div>
+        <h1 class="reveal">Bridge Hospice Blog</h1>
+        <p class="hero-sub reveal">Insights, guides, and stories from our care team</p>
+      </div>
+    </section>
+
+    <!-- ============================================
+         FEATURED POST — EDITORIAL MAGAZINE
+         ============================================ -->
+    <section class="section section-cream">
+      <div class="container">
+        <a href="#" class="featured-post reveal">
+          <div class="featured-img">
+            <img src="assets/family-support.jpg" alt="Social worker talking with a family about hospice care options" loading="eager">
+          </div>
+          <div class="featured-body">
+            <div class="featured-tag">Featured</div>
+            <h2>Top 10 Questions Families Ask About Hospice</h2>
+            <div class="featured-meta">April 10, 2026</div>
+            <p>From eligibility and costs to what a typical day looks like, we answer the most common questions families bring to us when considering hospice care for a loved one.</p>
+            <span class="read-more">
+              Read Article
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============================================
+         BLOG GRID
+         ============================================ -->
+    <section class="section" style="background: var(--white);">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="section-overline">Latest Articles</div>
+          <h2>From Our Care Team</h2>
+        </div>
+
+        <div class="blog-grid">
+
+          <!-- Card 1 -->
+          <article class="card blog-card reveal reveal-delay-1">
+            <div class="blog-card-img">
+              <img src="assets/team-hearts.jpg" alt="Bridge Hospice nurses making heart shapes with their hands" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="blog-date">March 28, 2026</div>
+              <h3>How Hospice Volunteers Change Lives</h3>
+              <p class="blog-excerpt">Our volunteer program pairs trained companions with patients and families, offering presence, comfort, and connection during the most meaningful moments.</p>
+              <a href="#" class="read-more">
+                Read More
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="card blog-card reveal reveal-delay-2">
+            <div class="blog-card-img">
+              <img src="assets/care-worker.jpg" alt="Senior woman greeting a hospice care worker at her doorstep" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="blog-date">March 15, 2026</div>
+              <h3>How to Talk to a Loved One About Hospice</h3>
+              <p class="blog-excerpt">Starting the conversation about hospice can feel overwhelming. Here are gentle approaches our social workers recommend for navigating this important discussion.</p>
+              <a href="#" class="read-more">
+                Read More
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="card blog-card reveal reveal-delay-3">
+            <div class="blog-card-img">
+              <img src="assets/bridge-office.jpg" alt="Bridge Hospice office building in Lubbock, Texas" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="blog-date">March 2, 2026</div>
+              <h3>Pain Awareness Month: Managing Pain in Hospice Care</h3>
+              <p class="blog-excerpt">Effective pain management is central to quality end-of-life care. Our physician-led team explains how we approach pain relief with precision and compassion.</p>
+              <a href="#" class="read-more">
+                Read More
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="card blog-card reveal reveal-delay-1">
+            <div class="blog-card-img">
+              <img src="assets/bg-hands-care.png" alt="Caring hands representing the hospice mission" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="blog-date">February 18, 2026</div>
+              <h3>HOPE Assessment: Improved Personalized Care</h3>
+              <p class="blog-excerpt">We have integrated the HOPE Assessment framework into our intake process, enabling more personalized care plans from the very first visit.</p>
+              <a href="#" class="read-more">
+                Read More
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="card blog-card reveal reveal-delay-2">
+            <div class="blog-card-img">
+              <img src="assets/family-support.jpg" alt="Social worker supporting a family during hospice care" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="blog-date">February 5, 2026</div>
+              <h3>Time as a Gift: Making Every Moment Count</h3>
+              <p class="blog-excerpt">When time becomes precious, small gestures carry enormous weight. Our chaplain shares reflections on presence, gratitude, and the beauty of being together.</p>
+              <a href="#" class="read-more">
+                Read More
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="card blog-card reveal reveal-delay-3">
+            <div class="blog-card-img">
+              <img src="assets/team-hearts.jpg" alt="Bridge Hospice care team showing compassion and unity" loading="lazy">
+            </div>
+            <div class="card-body">
+              <div class="blog-date">January 22, 2026</div>
+              <h3>Trying to Grow While Trying to Grieve</h3>
+              <p class="blog-excerpt">Grief and personal growth often share the same season. A bereavement counselor on our team explores how families find resilience in the hardest chapters.</p>
+              <a href="#" class="read-more">
+                Read More
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================
+         NEWSLETTER — IMAGE BG + GLASS
+         ============================================ -->
+    <section class="section newsletter-section" style="padding: 100px 0;">
+      <div class="newsletter-bg"></div>
+      <div class="newsletter-overlay"></div>
+      <div class="container">
+        <div class="newsletter-glass reveal">
+          <div class="section-overline" style="color: var(--gold-400); margin-bottom: 20px;">Stay Connected</div>
+          <h2>Updates from Our Care Team</h2>
+          <p class="newsletter-desc">Receive articles on hospice education, caregiver tips, and community stories delivered to your inbox.</p>
+          <form class="newsletter-form" onsubmit="event.preventDefault(); this.querySelector('button').textContent='Subscribed'; this.querySelector('input').value='';">
+            <input type="email" placeholder="Your email address" required aria-label="Email address">
+            <button type="submit" class="btn-primary">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       FOOTER
+       ============================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" style="font-family:var(--font-heading);font-size:1.35rem;color:rgba(240,236,228,0.95);"><img src="assets/logo-white.png" alt="Bridge Hospice" style="height:36px; width:auto; margin-bottom:16px; display:block;"></a>
+          <p>Physician-led, 24/7 end-of-life care that honors every life and every family. Serving Lubbock and surrounding communities since 2018.</p>
+        </div>
+        <div>
+          <div class="footer-heading">Quick Links</div>
+          <div class="footer-links">
+            <a href="services.html">Services</a>
+            <a href="valor.html">Valor Program</a>
+            <a href="daves-wish.html">Dave's Wish</a>
+            <a href="about.html">About Us</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Resources</div>
+          <div class="footer-links">
+            <a href="blog.html">Blog</a>
+            <a href="referral.html">Make a Referral</a>
+            <a href="careers.html">Careers</a>
+            <a href="volunteer.html">Volunteer</a>
+          </div>
+        </div>
+        <div>
+          <div class="footer-heading">Contact</div>
+          <div class="footer-links">
+            <a href="https://maps.google.com/?q=3532+34th+Street+Lubbock+TX+79410" target="_blank" rel="noopener">3532 34th Street<br>Lubbock, TX 79410</a>
+            <a href="tel:8069933900">806-993-3900</a>
+            <a href="mailto:support@bridge-hospice.com">support@bridge-hospice.com</a>
+            <span>Mon-Fri 8am-5pm<br>24/7 On-Call Nursing</span>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 Bridge Hospice, LLC. All rights reserved.</span>
+        <div class="footer-social">
+          <a href="https://facebook.com/bridgehospice" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
+          <a href="https://instagram.com/bridgehospice" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+          <a href="https://linkedin.com/company/bridge-hospice" target="_blank" rel="noopener" aria-label="LinkedIn">IN</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile CTA Bar -->
+  <div class="mobile-cta">
+    <a href="tel:8069933900" class="mobile-cta-call">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+      Call Now
+    </a>
+    <a href="contact.html" class="mobile-cta-book">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+      Contact Us
+    </a>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

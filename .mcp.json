@@ -1,0 +1,173 @@
+{
+  "mcpServers": {
+    "firecrawl-mcp": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "fc-6ada27dcb9ec4652858765a051fe33be"
+      }
+    },
+    "mem0-mcp": {
+      "command": "npx",
+      "args": ["-y", "@pinkpixel/mem0-mcp"],
+      "env": {
+        "MEM0_API_KEY": "REPLACE_WITH_MEM0_API_KEY",
+        "MEM0_DEFAULT_USER_ID": "montekristo"
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "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"
+      }
+    },
+    "rube": {
+      "type": "http",
+      "url": "https://rube.app/mcp"
+    },
+    "airtable": {
+      "command": "npx",
+      "args": ["-y", "airtable-mcp-server"],
+      "env": {
+        "AIRTABLE_API_KEY": "patNYf2QsKKexx8CS.a1438d461e9532b4e1cf0e647f0f4be344bd625fca34222c960e6a1f4a181645"
+      }
+    },
+    "n8n-mcp": {
+      "command": "npx",
+      "args": ["-y", "n8n-mcp"],
+      "env": {
+        "MCP_MODE": "stdio",
+        "LOG_LEVEL": "error",
+        "DISABLE_CONSOLE_OUTPUT": "true",
+        "N8N_API_URL": "https://primary-production-5fdce.up.railway.app/",
+        "N8N_API_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWQ5NjZkNy1kNWRiLTQ4MjgtOWViMi05YTExZTRkYjZjMmQiLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwianRpIjoiNjAzNGVjNTgtZTkwNC00MGY1LWIwMDgtZTE1YWE5NjNjNTFiIiwiaWF0IjoxNzcxMTcxMzkxfQ.lXOwMYeump6OHd0Q6lc78PXaHUedvbHCxSXsypxra38"
+      }
+    },
+    "nanobanana-mcp": {
+      "command": "npx",
+      "args": ["-y", "@ycse/nanobanana-mcp"],
+      "env": {
+        "GOOGLE_AI_API_KEY": "AIzaSyC_Momu-QgQlEhYOrPrhbIc6KXxozG1Qso",
+        "NANOBANANA_MODEL": "gemini-2.0-flash-preview-image-generation"
+      }
+    },
+    "perplexity": {
+      "command": "npx",
+      "args": ["-y", "mcp-server-perplexity"],
+      "env": {
+        "PERPLEXITY_API_KEY": "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",
+        "BASE_URL": "https://api.perplexity.ai/chat/completions"
+      }
+    },
+    "google-workspace": {
+      "command": "npx",
+      "args": ["-y", "google-workspace-mcp", "serve"]
+    },
+    "openai": {
+      "command": "/Users/milanmandic/.npm-global/bin/openai-mcp",
+      "args": [],
+      "env": {
+        "OPENAI_API_KEY": "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"
+      }
+    },
+    "ghl-gymtest": {
+      "type": "http",
+      "url": "https://services.leadconnectorhq.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer pit-318b21b0-cd8a-4da9-874c-a34e7c264621",
+        "locationId": "YESvqOS2vsCLnJUXzsa1"
+      }
+    },
+    "ghl-pulse": {
+      "type": "http",
+      "url": "https://services.leadconnectorhq.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer pit-ec5a586d-0b66-429f-8734-9d0e7de5ee9e",
+        "locationId": "NnfeZFhrOArPQEjVgCfa"
+      }
+    },
+    "ghl-luxeshutters": {
+      "type": "http",
+      "url": "https://services.leadconnectorhq.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer pit-64318814-9706-4a69-a5b4-a46a65f6f0be",
+        "locationId": "ZXqCNDMy4vQxmO5Lwj37"
+      }
+    },
+    "ghl-projectpro": {
+      "type": "http",
+      "url": "https://services.leadconnectorhq.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer pit-e0b51ff4-afe4-44d3-bc2f-4814916fbd9a",
+        "locationId": "a285qm0t8o1lXULFoIbn"
+      }
+    },
+    "retellai-mcp-server": {
+      "command": "node",
+      "args": ["/Users/milanmandic/.local/retell-mcp/node_modules/@abhaybabbar/retellai-mcp-server/build/index.js"],
+      "env": {
+        "RETELL_API_KEY": "key_9e18f86802125dee1d88262897be"
+      }
+    },
+    "canva": {
+      "type": "http",
+      "url": "https://mcp.canva.com/mcp"
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest", "--access-token", "sbp_9a53f54537e0bc2016ed9a438d5e3eac1fc26b7c"]
+    },
+    "supabase-mk": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest", "--access-token", "sbp_543c0bb6d232da8516e164a4d1d73ad27d36182a"]
+    },
+    "supabase-blogeditor": {
+      "command": "npx",
+      "args": ["-y", "@supabase/mcp-server-supabase@latest", "--access-token", "sbp_2063f4af46225a6ba76310795e02cb03ee08417f"]
+    },
+    "wordpress-reig": {
+      "command": "npx",
+      "args": ["-y", "@adsim/wordpress-mcp-server"],
+      "env": {
+        "WP_API_URL": "https://www.reig-us.com",
+        "WP_API_USERNAME": "Alex",
+        "WP_API_PASSWORD": "dYvD JomZ PBwJ p4QR mVlx 0zqU",
+        "WP_TOOL_CATEGORIES": "content,seo,taxonomy,media",
+        "WP_DRAFT_ONLY": "false"
+      }
+    },
+    "codex": {
+      "command": "/Users/milanmandic/.npm-global/lib/node_modules/@openai/codex/node_modules/@openai/codex-darwin-arm64/vendor/aarch64-apple-darwin/codex/codex",
+      "args": ["mcp-server"]
+    },
+    "obsidian-mcp": {
+      "command": "npx",
+      "args": ["-y", "obsidian-mcp", "/Users/milanmandic/Documents/MonteKristo Vault"]
+    },
+    "mcp-obsidian": {
+      "command": "uvx",
+      "args": ["mcp-obsidian"],
+      "env": {
+        "OBSIDIAN_API_KEY": "ae76f478f8ac2327c27f2c315ced1b024d172f63cd12fca3f19a67dc866e4458",
+        "OBSIDIAN_HOST": "127.0.0.1",
+        "OBSIDIAN_PORT": "27124"
+      }
+    },
+    "ghl-moneyclarity": {
+      "type": "http",
+      "url": "https://services.leadconnectorhq.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer pit-57a74b8d-8930-46c4-9cd8-22e5e281b946",
+        "locationId": "eUasvZBDtX6BJxWBOahU"
+      }
+    },
+    "cloudflare": {
+      "type": "http",
+      "url": "https://mcp.cloudflare.com/mcp",
+      "headers": {
+        "Authorization": "Bearer cfat_MCQ4lgcLl6MMloPUisdSk0BZDVYiCpUPk9uXpTr3c0b976df"
+      }
+    }
+  }
+}

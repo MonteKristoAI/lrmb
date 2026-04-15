@@ -1,0 +1,19 @@
+{
+  "query": "SELECT * FROM admin_users LIMIT 5;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT * FROM admin_users LIMIT 5;",
+  "rows": [
+    {
+      "id": "1",
+      "username": "montehuedechristo",
+      "passwordHash": "$2b$12$X85OytQsOVdQUZ3lNASay.VENdOqYWyroF9r/h7C3NawJ8j5FptC6",
+      "displayName": "Monte",
+      "adminRole": "owner",
+      "createdAt": "2026-02-28 18:37:42",
+      "updatedAt": "2026-02-28 18:37:42"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tusername\tpasswordHash\tdisplayName\tadminRole\tcreatedAt\tupdatedAt\n1\tmontehuedechristo\t$2b$12$X85OytQsOVdQUZ3lNASay.VENdOqYWyroF9r/h7C3NawJ8j5FptC6\tMonte\towner\t2026-02-28 18:37:42\t2026-02-28 18:37:42\n",
+  "stderr": "",
+  "execution_time_ms": 59
+}

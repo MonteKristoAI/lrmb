@@ -1,0 +1,17 @@
+{
+  "query": "SELECT id, username, displayName, adminRole, createdAt FROM admin_users;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, username, displayName, adminRole, createdAt FROM admin_users;",
+  "rows": [
+    {
+      "id": "1",
+      "username": "montehuedechristo",
+      "displayName": "Monte",
+      "adminRole": "owner",
+      "createdAt": "2026-02-28 18:37:42"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tusername\tdisplayName\tadminRole\tcreatedAt\n1\tmontehuedechristo\tMonte\towner\t2026-02-28 18:37:42\n",
+  "stderr": "",
+  "execution_time_ms": 60
+}

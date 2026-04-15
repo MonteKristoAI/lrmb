@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Font infrastructure — Futura active, others uncomment once .woff2 files are added to public/fonts/ */
+/*
+@font-face {
+  font-family: 'Balboa Plus Fill';
+  src: url('/fonts/BalboaPlusFill.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Roc Grotesk';
+  src: url('/fonts/RocGrotesk-Light.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+/* Futura 100 (Book) — drop Futura-Book.woff2 into public/fonts/ to activate */
+@font-face {
+  font-family: 'Futura';
+  src: url('/fonts/Futura-Book.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 240 6% 7%;
+    --foreground: 0 0% 95%;
+
+    --card: 240 5% 10%;
+    --card-foreground: 0 0% 95%;
+
+    --popover: 240 5% 10%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 45 78% 52%;
+    --primary-foreground: 240 6% 7%;
+
+    --secondary: 240 4% 14%;
+    --secondary-foreground: 0 0% 95%;
+
+    --muted: 240 4% 14%;
+    --muted-foreground: 220 10% 55%;
+
+    --accent: 45 78% 52%;
+    --accent-foreground: 240 6% 7%;
+
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 95%;
+
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 45 78% 52%;
+
+    --radius: 0.75rem;
+
+    /* Brand tokens */
+    --gold: 45 78% 52%;
+    --gold-glow: 45 78% 62%;
+    --txt-secondary: 220 10% 55%;
+    --star: 38 92% 50%;
+    --cream: 36 56% 96%;
+
+    /* Effect colors — official brand palette */
+    --effect-relaxed: 166 98% 31%;
+    --effect-balanced: 45 78% 52%;
+    --effect-uplifted: 348 72% 41%;
+
+    --sidebar-background: 240 6% 7%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-primary: 45 78% 52%;
+    --sidebar-primary-foreground: 240 6% 7%;
+    --sidebar-accent: 240 4% 14%;
+    --sidebar-accent-foreground: 0 0% 95%;
+    --sidebar-border: 240 4% 16%;
+    --sidebar-ring: 45 78% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Futura', 'Jost', 'Inter', system-ui, sans-serif;
+    font-feature-settings: "ss01" 1; /* single-storey 'a' in Jost to match Futura */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  .gold-gradient {
+    @apply bg-gradient-to-r from-primary to-[hsl(var(--gold-glow))];
+  }
+
+  .text-gold {
+    color: hsl(var(--gold));
+  }
+
+  .section-divider {
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  .hr-accent {
+    width: 3rem;
+    height: 2px;
+    background: hsl(var(--gold));
+    border: none;
+    margin-bottom: 1.5rem;
+  }
+
+  .stars-color {
+    color: hsl(var(--star));
+  }
+
+  .gold-check-bg {
+    background: hsl(var(--gold) / 0.1);
+  }
+
+  .card-hover {
+    @apply transition-all duration-300;
+  }
+  .card-hover:hover {
+    transform: translateY(-4px);
+    border-color: hsl(var(--gold) / 0.3);
+  }
+
+  .glass-card {
+    background: hsl(0 0% 100% / 0.04);
+    border: 1px solid hsl(0 0% 100% / 0.08);
+    backdrop-filter: blur(20px);
+  }
+
+  .effect-glow-relaxed {
+    box-shadow: 0 0 30px hsl(var(--effect-relaxed) / 0.15), 0 0 60px hsl(var(--effect-relaxed) / 0.05);
+  }
+  .effect-glow-balanced {
+    box-shadow: 0 0 30px hsl(var(--effect-balanced) / 0.15), 0 0 60px hsl(var(--effect-balanced) / 0.05);
+  }
+  .effect-glow-uplifted {
+    box-shadow: 0 0 30px hsl(var(--effect-uplifted) / 0.15), 0 0 60px hsl(var(--effect-uplifted) / 0.05);
+  }
+}
+
+@layer utilities {
+  .fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+
+  .stagger-1 { animation-delay: 0.1s; }
+  .stagger-2 { animation-delay: 0.2s; }
+  .stagger-3 { animation-delay: 0.3s; }
+  .stagger-4 { animation-delay: 0.4s; }
+
+  .text-effect-relaxed { color: hsl(var(--effect-relaxed)); }
+  .text-effect-balanced { color: hsl(var(--effect-balanced)); }
+  .text-effect-uplifted { color: hsl(var(--effect-uplifted)); }
+
+  .bg-effect-relaxed { background-color: hsl(var(--effect-relaxed)); }
+  .bg-effect-balanced { background-color: hsl(var(--effect-balanced)); }
+  .bg-effect-uplifted { background-color: hsl(var(--effect-uplifted)); }
+
+  .border-effect-relaxed { border-color: hsl(var(--effect-relaxed)); }
+  .border-effect-balanced { border-color: hsl(var(--effect-balanced)); }
+  .border-effect-uplifted { border-color: hsl(var(--effect-uplifted)); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}

@@ -1,0 +1,1 @@
+ALTER TABLE `leads` MODIFY COLUMN `status` enum('new','diagnostic_ready','reviewed','contacted','closed','incomplete','abandoned') NOT NULL DEFAULT 'new';

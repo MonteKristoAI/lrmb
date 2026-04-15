@@ -1,0 +1,66 @@
+{
+  "query": "SELECT id, name, email, phone, status FROM leads WHERE status != 'abandoned' ORDER BY id DESC;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3u5F3XZPfiBR6CY.root --database jiUKWZNCEesKEKgdJkoZwj --execute SELECT id, name, email, phone, status FROM leads WHERE status != 'abandoned' ORDER BY id DESC;",
+  "rows": [
+    {
+      "id": "90011",
+      "name": "is regarding",
+      "email": "sleiman.mark@gmail.com",
+      "phone": "888-808-0001",
+      "status": "diagnostic_ready"
+    },
+    {
+      "id": "90006",
+      "name": "Michael",
+      "email": "mm.elite@outlook.com",
+      "phone": "NULL",
+      "status": "incomplete"
+    },
+    {
+      "id": "90005",
+      "name": "Nimmer",
+      "email": "NEMR@AIIACO.com",
+      "phone": "NULL",
+      "status": "new"
+    },
+    {
+      "id": "90004",
+      "name": "Namadou",
+      "email": "nemr@iaco.com",
+      "phone": "NULL",
+      "status": "new"
+    },
+    {
+      "id": "90003",
+      "name": "Maria Castronovo",
+      "email": "MLCastronovo@gmail.com",
+      "phone": "NULL",
+      "status": "new"
+    },
+    {
+      "id": "60001",
+      "name": "Phone Caller",
+      "email": "john.smith@nexusrealty.com",
+      "phone": "NULL",
+      "status": "diagnostic_ready"
+    },
+    {
+      "id": "30001",
+      "name": "Maria L Castronovo",
+      "email": "alliedbestsellers@gmail.com",
+      "phone": "5149099983",
+      "status": "contacted"
+    },
+    {
+      "id": "1",
+      "name": "Montehue ",
+      "email": "montehuedechristo@gmail.com",
+      "phone": "NULL",
+      "status": "closed"
+    }
+  ],
+  "messages": [],
+  "stdout": "id\tname\temail\tphone\tstatus\n90011\tis regarding\tsleiman.mark@gmail.com\t888-808-0001\tdiagnostic_ready\n90006\tMichael\tmm.elite@outlook.com\tNULL\tincomplete\n90005\tNimmer\tNEMR@AIIACO.com\tNULL\tnew\n90004\tNamadou\tnemr@iaco.com\tNULL\tnew\n90003\tMaria Castronovo\tMLCastronovo@gmail.com\tNULL\tnew\n60001\tPhone Caller\tjohn.smith@nexusrealty.com\tNULL\tdiagnostic_ready\n30001\tMaria L Castronovo\talliedbestsellers@gmail.com\t5149099983\tcontacted\n1\tMontehue \tmontehuedechristo@gmail.com\tNULL\tclosed\n",
+  "stderr": "",
+  "execution_time_ms": 361
+}

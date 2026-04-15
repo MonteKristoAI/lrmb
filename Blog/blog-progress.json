@@ -1,0 +1,322 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-04-11",
+  "clients": {
+    "sds": {
+      "last_session": "2026-04-11",
+      "posts_completed_total": 0,
+      "wip": null,
+      "last_completed": null,
+      "next_priority": "sds-001"
+    },
+    "breathmastery": {
+      "last_session": "2026-03-30",
+      "posts_completed_total": 12,
+      "wip": null,
+      "wip_fix": null,
+      "last_completed": "breath-and-nervous-system-regulation-vagal-tone-guide",
+      "next_priority": "recBcK1209KnlVIRp"
+    },
+    "reig-solar": {
+      "last_session": "2026-04-01",
+      "posts_completed_total": 58,
+      "wip": null,
+      "last_completed": "solar-das-networking-fiber-vs-copper-vs-radio",
+      "next_priority": "recBdbiOHag44gr1j"
+    },
+    "gummygurl": {
+      "last_session": "2026-04-09",
+      "posts_completed_total": 0,
+      "wip": {
+        "slug": "delta-8-vs-delta-9-thc-edibles",
+        "phase": "phase-2-write-complete",
+        "started_at": "2026-04-09"
+      },
+      "last_completed": null,
+      "next_priority": null
+    }
+  },
+  "sessions": [
+    {
+      "session_id": "2026-03-26-001",
+      "date": "2026-03-26",
+      "client": "breathmastery",
+      "tasks_completed": [
+        "rec55WAa7myR6vbsH",
+        "recaaFpK2FKQJGTWN",
+        "receehfZEoE3uSm6t",
+        "recuqZX5bS8B51fSy",
+        "recvj1uQG0a5PoFnc"
+      ],
+      "posts_written": [
+        "breathing-techniques-anxiety-3-patterns-calm-body-fast",
+        "pineal-gland-activation-whats-realistic",
+        "conscious-breathing-shift-your-state",
+        "breathwork-beginners-common-mistakes-quick-fixes",
+        "breath-and-nervous-system-why-exhale-changes-everything"
+      ],
+      "exit_state": "clean",
+      "notes": "Initial BreathMastery batch \u2014 5 posts written and published. Airtable updated on both tables."
+    },
+    {
+      "session_id": "2026-03-26-002",
+      "date": "2026-03-26",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "rec3yY7nCEmZf6eyu",
+        "rec5cookBsD2AILh8",
+        "rec8ZzBIRrRGisg6C",
+        "recAGWnEaJ3miKTh2",
+        "recBEMyeLUIX915JK",
+        "recKcK4VSmFivGtkR",
+        "recL5ohw5MqJAvAZJ",
+        "recP8wlSU2UdWEDbh",
+        "recaHeWgP31b2U3gx",
+        "reccSXvLYSD55nNfp",
+        "reccoyJLHU2cz0bAB",
+        "recm3U6oqnMUv0Lzq",
+        "recqv8YtjdedXWzXR",
+        "recsWfuhbX3nZtLHc",
+        "rectd2LH1qBFExZc4",
+        "recwQhc0mOcqRLXS2"
+      ],
+      "posts_written": [
+        "pyranometer-utility-scale-pv-accuracy-classes",
+        "solar-scada-architecture-control-signals-utility-scale-pv",
+        "utility-scale-solar-monitoring-kpis-pr-availability-curtailment",
+        "solar-scada-commissioning-to-cod-timeline-milestones",
+        "utility-scale-solar-monitoring-dashboards-ops-vs-asset-managers",
+        "solar-scada-integrator-roles-deliverables",
+        "scada-integration-services-scope-deliverables-prevent-rework",
+        "solar-data-acquisition-system-sensor-map-data-flow",
+        "fiber-optic-installation-solar-farm-route-design-splice-planning",
+        "solar-plant-scada-system-reference-architecture-diagram",
+        "solar-das-tagging-units-scaling-qc",
+        "scada-integration-services-testing-end-to-end-verification-plan",
+        "solar-das-commissioning-targets-completeness-accuracy-latency",
+        "solar-scada-roi-controls-data-increase-revenue",
+        "pyranometer-installation-mounting-leveling-shading-rules",
+        "fiber-optic-installation-solar-farm-direct-buried-vs-conduit"
+      ],
+      "exit_state": "clean",
+      "notes": "REIG Solar initial batch \u2014 16 posts written (linked requests only). 49 total posts now published."
+    },
+    {
+      "session_id": "2026-03-28-001",
+      "date": "2026-03-28",
+      "client": "breathmastery",
+      "tasks_completed": [
+        "rec8blVtQSBWlr15v",
+        "recCpb4znKpMXpmx1",
+        "recfVN0QkF15BpRbm",
+        "recs9Rz60xmifQdxS"
+      ],
+      "posts_written": [
+        "science-of-breathing-co2-calm-slow-breathing",
+        "breathwork-certification-legit-program",
+        "breathing-exercises-stress-5-minute-reset",
+        "breathing-techniques-anxiety-night-stop-spiral-sleep"
+      ],
+      "exit_state": "clean",
+      "notes": "Priority batch P1-P4 from CONTENT.md completed. HTML files saved to /posts/. CONTENT.md updated to complete. Airtable updated on both tables."
+    },
+    {
+      "session_id": "2026-03-29-001",
+      "date": "2026-03-29",
+      "client": "breathmastery",
+      "tasks_completed": [],
+      "posts_written": [],
+      "exit_state": "clean",
+      "notes": "WordPress + internal link audit. Fixed 4 published posts (breathwork-certification, breathing-exercises-stress, science-of-breathing-co2, breathing-techniques-anxiety-night): removed <article>/<section> tags (\u2192 <div>), corrected all internal links to absolute https://breathmastery.com/{slug}/ format. CLAUDE.md Section 4 /blog/ prefix does not apply to BreathMastery \u2014 documented as D-010. No new posts written. next_priority unchanged."
+    },
+    {
+      "session_id": "2026-03-29-002",
+      "date": "2026-03-29",
+      "client": "breathmastery",
+      "tasks_completed": [
+        "rec4IlLocm4vbxTcV",
+        "rec6TpS3oF3oIGoso",
+        "rec7a6ghfGPONTKeb"
+      ],
+      "posts_written": [
+        "breathing-meditation-busy-minds-simple-practice",
+        "breathing-exercises-stress-vs-anxiety-same-tool-different-settings",
+        "breath-and-nervous-system-regulation-vagal-tone-guide"
+      ],
+      "exit_state": "clean",
+      "notes": "Posts 10-12 written via /loop cron (job 237daa16, 20 min interval). P10: breathing-meditation (Mastering The Breath CTA). P11: stress-vs-anxiety (Breath & Beyond CTA). P12: nervous-system-regulation (Legacy Collection CTA). All uploaded to Drive. Cron self-terminates on next fire after detecting all 3 tasks done."
+    },
+    {
+      "session_id": "2026-03-30-001",
+      "date": "2026-03-30",
+      "client": "breathmastery",
+      "tasks_completed": [],
+      "posts_written": [],
+      "exit_state": "clean",
+      "notes": "STEP 3.6 external link audit on posts 10-12. Fixed 6 broken/wrong links: 2 Harvard Health 404s replaced with working URLs, 3 wrong PubMed IDs replaced (30612561\u219220666590, 29616846\u219230245619, 28579842\u219228478782), 1 wrong PMC reference replaced (PMC5579396\u219228478782 Goessl 2017 meta-analysis). All 3 HTML files re-uploaded to Drive; stale versions trashed."
+    },
+    {
+      "session_id": "2026-03-30-002",
+      "date": "2026-03-30",
+      "client": "breathmastery",
+      "tasks_completed": [],
+      "posts_written": [],
+      "exit_state": "clean",
+      "notes": "BLOG FIX LOOP cron 3deb9425 \u2014 blog10 quality pass. Score: 76\u219282\u219287\u219284\u219291. Fixes: schema (5 types + speakable + BreadcrumbList), article wrapper, 2nd image, 2nd SVG chart, JAMA\u2192PubMed24395196, NIH external link, author byline style, em dash \u22648, banned word cleanup, keyword density 0.68% (in range), broken paragraph tag, hero loading=eager, transition density improved, 11 adverb opener rewrites, Further Reading restored to 4 links. blog10 quality_scores set to 91 in blog-tasks.json. Uploaded to Drive (ID: 1tMRHvlpGnRKIL3qJr3mhEE1VSexvxRpw), stale version trashed. wip_fix advanced to blog11."
+    },
+    {
+      "session_id": "2026-03-30-003",
+      "date": "2026-03-30",
+      "client": "breathmastery",
+      "tasks_completed": [],
+      "posts_written": [],
+      "exit_state": "clean",
+      "notes": "BLOG FIX LOOP cron 63f73023 \u2014 blog11 first pass. Reviewer score: 72/100. Applied all mechanical fixes (FIX A-H): article wrapper, author byline, BreadcrumbList 4 levels, Person+Organization schema, speakable schema, SEO title 55 chars, meta description 156 chars, Twitter image, 4 Further Reading links deduplicated, 4 H2 question rewrites + 4 more heading keyword rewrites (now 7/21 = 33%), keyword added to 1st paragraph, 2nd image added (Pexels 5699917), Key Takeaways stats added (2 bullets), keyword added to conclusion/CTA, vocabulary substitutions for TTR improvement (exhalation/inhalation/autonomic/diaphragmatic/cortisol/vagal tone). wip_fix stays blog11. Next cron re-scores."
+    },
+    {
+      "session_id": "2026-03-31-001",
+      "date": "2026-03-31",
+      "client": "breathmastery",
+      "tasks_completed": [],
+      "posts_written": [],
+      "exit_state": "clean",
+      "notes": "BLOG FIX LOOP cron continued \u2014 blog11 second pass. Reviewer score: 83/100. Applied: em dash purge (63\u2192~5), H1 keyword fix, OG/Twitter char limit fixes, SVG accessibility, Person schema image+knowsAbout, 8 external citations total. Third pass fixes: dual FAQPage inline microdata removed, both Pexels images upgraded to WebP (fm=webp), 5 H2 opening paragraphs expanded to 40-60 words with stats. wip_fix stays blog11. Next cron trigger re-scores."
+    },
+    {
+      "session_id": "2026-03-31-002",
+      "date": "2026-03-31",
+      "client": "breathmastery",
+      "tasks_completed": [],
+      "posts_written": [],
+      "exit_state": "clean",
+      "notes": "BLOG FIX LOOP cron \u2014 blog11 third pass. Reviewer score: 84/100. Fixed: JSON-LD parse error (HTML in schema text field), LCP image loading=eager, em dashes 22\u21926, author bio block added, 2nd SVG chart added (HRV timeline line chart), research section expanded to 3x120w+ AI-citable paragraphs, resilience section expanded to 150w+ AI-citable block, stat added to first H2 opener, transition words improved, TTR synonym enrichment (neuromodulatory/downregulation/cardiac deceleration/neural safety cues/autonomic recovery/homeostasis). wip_fix stays blog11. Next cron re-score expected 88-91."
+    },
+    {
+      "session_id": "2026-03-31-003",
+      "date": "2026-03-31",
+      "client": "breathmastery",
+      "tasks_completed": [
+        "rec6TpS3oF3oIGoso"
+      ],
+      "posts_written": [],
+      "exit_state": "clean",
+      "notes": "BLOG FIX LOOP final \u2014 blog11 scored 91/100. Fixes: split 2 oversized paragraphs (129w+169w), APA 77% stat added to Key Takeaways, 5-min protocol converted to <ol><li>, FAQ wrapped in <section class=faq-section>, transitions added (however/as a result/therefore/this is why), meta description trimmed to 155 chars, H3 heading updated to reach 31.8% keyword coverage, PubMed link added to Frontiers in Psychology 2017 citation. quality_scores set in blog-tasks.json. Uploaded to Drive (ID: 1PlOeeaBVcbwCNUKhEIpA31sbBggBBpG3), stale version trashed. Cron 63f73023 deleted. wip_fix set to null per user instruction (stop at >86)."
+    },
+    {
+      "session_id": "2026-03-31-004",
+      "date": "2026-03-31",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "recB3DjnEs5fCYEVT",
+        "recREIG051",
+        "recREIG052"
+      ],
+      "posts_written": [
+        "solar-plant-scada-system-modernization-upgrade-roadmap",
+        "solar-scada-redundancy-failover-architecture-high-availability",
+        "modbus-tcp-vs-dnp3-solar-scada-protocol-selection-guide"
+      ],
+      "exit_state": "clean",
+      "notes": "3 REIG Solar posts written. #50 SCADA Modernization (keyword: solar plant scada system), #51 SCADA Redundancy (solar scada, hot/warm/cold standby, NERC CIP, IEC 61850), #52 Modbus TCP vs DNP3 (solar scada, IEEE 1815, protocol selection). All HTML saved to /posts/. CONTENT.md, SITEMAP.md, blog-tasks.json updated. posts_completed_total 49\u219252. New cluster 'SCADA Modernization & Protocols' added to SITEMAP.md."
+    },
+    {
+      "session_id": "2026-04-01-001",
+      "date": "2026-04-01",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "rec2izcJWmPuURlf9"
+      ],
+      "posts_written": [
+        "solar-das-commissioning-irradiance-weather-qa"
+      ],
+      "exit_state": "clean",
+      "notes": "blog20 completed: Solar DAS Commissioning \u2014 Irradiance and Weather QA. Resumed from prior context with score at 83/100. Applied 4 analysis passes total; final score 88/100 PASS (user threshold reduced to 88). Key fixes: FAQ schema answers aligned to body text, transition words added, em dash count held to 7, keyword density 0.823%, H2/H3 coverage 33.3%. WordPress ID 4005 (draft), Drive ID 1arxWlzKKl5Y7QfEqiktxfBxH58z0fxnp. Airtable Completed=Done. next_priority \u2192 rec2jDYO5uSCUdCr9 (Utility Scale Solar Monitoring vs SCADA)."
+    },
+    {
+      "session_id": "2026-04-01-002",
+      "date": "2026-04-01",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "rec2jDYO5uSCUdCr9"
+      ],
+      "posts_written": [
+        "utility-scale-solar-monitoring-vs-scada"
+      ],
+      "exit_state": "clean",
+      "notes": "blog21 completed: Utility-Scale Solar Monitoring vs SCADA: What Each Should Do. Score 89/100 (3 reviewer passes). All 7 REIG non-negotiables PASS. Keyword density 0.719%, em dashes 7, H2/H3 coverage 34.8%, transition coverage 37.4%. WP ID 4006 (draft), Drive ID 1DQ-xsWpRhrXMxXiKnaQthrRYi0ebSGpR. Airtable Completed=Done. next_priority \u2192 rec3NG9fRdVURyAty (Solar SCADA Alarm Rules)."
+    },
+    {
+      "session_id": "2026-04-01-003",
+      "date": "2026-04-01",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "rec3NG9fRdVURyAty"
+      ],
+      "posts_written": [
+        "solar-scada-alarm-rules-cut-nuisance-alarms-fast"
+      ],
+      "exit_state": "clean",
+      "notes": "blog22 completed: Solar SCADA Alarm Rules: Cut Nuisance Alarms Fast. 4 reviewer passes across sessions; final score 91/100 (previous session GO verdict). Applied ISA-18.2 table accuracy fix (removed non-standard Manageable tier), H2 opener trims, image alt fix (solar SCADA added), schema sameAs fix, Cromarty spelling correction, Key Takeaways h3->p fix. WP ID 4007 (draft), Drive ID 17EDibYVbxRNwa5PTGaAOBFFuBUPa_ByT. Airtable Completed=Done. next_priority -> rec7WdtMZg6QeJmBv (Fiber Optic OTDR Testing)."
+    },
+    {
+      "session_id": "2026-04-01-004",
+      "date": "2026-04-01",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "rec7WdtMZg6QeJmBv"
+      ],
+      "posts_written": [
+        "fiber-optic-installation-solar-farm-otdr-testing-acceptance-basics"
+      ],
+      "exit_state": "clean",
+      "notes": "blog23 completed: Fiber Optic Installation Solar Farm OTDR Testing: What Acceptance Requires. 4 analyze runs used (context continuation from prior session). Reviewer run-4 scored 88/100. All REIG gates 10/10, SEO 25/25, Technical 10/10. Reviewer projected 93-95 after micro-edits; all edits applied post-run-4 (paragraph merges, rhetorical questions, OTDR checklist box, FAQ trimming to 40-60w, heading hierarchy fix, consecutive opener fix). KW density 0.734%, em dashes 8, FAQ 6 pairs all 40-60w. next_priority -> rec8ryZ3yVkRZg5k4 (Solar SCADA Commissioning Utility Witness Pack)."
+    },
+    {
+      "session_id": "2026-04-01-005",
+      "date": "2026-04-01",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "rec8ryZ3yVkRZg5k4"
+      ],
+      "posts_written": [
+        "solar-scada-commissioning-utility-witness-pack"
+      ],
+      "exit_state": "clean",
+      "notes": "blog24 completed: Solar SCADA Commissioning for Interconnection: Utility Witness Pack. 4 analyze runs across sessions (83\u219283\u219288\u219291). All 10 REIG gates pass. 3 high-priority fixes applied post-run-4 (38% inline attribution, sentence splits, passive voice); reviewer predicted 93-94 final. KW density 0.69%, em dashes 6, FAQ 6 pairs 40-60w, keyword density 0.69%. WP ID 4010 (draft), Drive ID 1FQ25gCbeSGD8ka6pmwErukZut-efRE0f. Airtable Completed=Done. SVG2 source text overflow fixed. next_priority -> recALWcWGg3JjBtja (DAS Networking: Fiber vs Copper vs Radio)."
+    },
+    {
+      "session_id": "2026-04-01-006",
+      "date": "2026-04-01",
+      "client": "reig-solar",
+      "tasks_completed": [
+        "recALWcWGg3JjBtja"
+      ],
+      "posts_written": [
+        "solar-das-networking-fiber-vs-copper-vs-radio"
+      ],
+      "exit_state": "clean",
+      "notes": "blog25 completed: Solar DAS Networking: Fiber vs Copper vs Radio. 4 analyze runs (76\u219283\u219286\u219289). Final score 89/100 after mechanical fixes post-run-4 (keyword in first para, Fluke anchor text, 'furthermore' removed). Reviewer Issue 2 (Further Reading duplicates) was incorrect \u2014 all 8 internal links are unique. KW density 0.736%, em dashes 7, transitions 36.4%, H2/H3 coverage 33.3%. WP ID 4011 (draft), Drive ID 19FwsOf2VLC6dwbg0qb3nS4zH_hwkPjj9. Airtable Completed=Done. next_priority \u2192 recBdbiOHag44gr1j (SCADA Integration Services RFP)."
+    }
+  ],
+  "sds_onboarding_note": "SDS blog client onboarded 2026-04-11 at Level 10: full research, hub-and-spoke strategy, 8 launch posts briefed, persona JSON (sds-warrior), brief.json. Client files in /Blog/clients/sds/. MK operates as 'Alex Srdic' \u2014 NEVER use MonteKristo AI in SDS-facing output. Airtable not configured; using placeholder IDs sds-001 through sds-008. Next session: run /blog write sds-001.",
+  "error_log": [
+    {
+      "date": "2026-03-30",
+      "client": "breathmastery",
+      "task_id": "rec6TpS3oF3oIGoso",
+      "error": "blog11 score 72/100 after mechanical fixes pass. Critical gaps: keyword missing from 1st paragraph (fixed), headings only 14% keyword coverage (added 4 more = 33%), TTR 0.285 (vocabulary substitutions applied), only 1 image (2nd image added), speakable schema missing (added), Key Takeaways no stats (fixed), keyword absent from conclusion (fixed). All fixes applied. Next cron re-score."
+    },
+    {
+      "date": "2026-03-31",
+      "client": "breathmastery",
+      "task_id": "rec6TpS3oF3oIGoso",
+      "error": "blog11 score 83/100 after em dash purge + citation + H1 fix pass. Remaining gaps: dual FAQPage schema (inline microdata removed this pass), JPEG-only images (WebP fm=webp added this pass), 5 H2 opening paragraphs under 40 words (expanded to 40-60 words with stats this pass). No 120-180 word citeable blocks (medium priority). Next cron re-score expected 88+."
+    },
+    {
+      "date": "2026-03-31",
+      "client": "breathmastery",
+      "task_id": "rec6TpS3oF3oIGoso",
+      "error": "blog11 score 84/100 after FAQPage microdata removal + WebP + H2 paragraph expansion pass. Reviewer found: (1) JSON-LD parse error from HTML anchor in schema text field (fixed), (2) LCP image loading=lazy (changed to eager), (3) 22 em dashes (reduced to 6), (4) author bio added, (5) missing 2nd SVG (added HRV timeline line chart), (6) zero 120-word AI-citable passages (expanded research section to 3x120w+ paragraphs + resilience to 150w+), (7) stat added to first H2 opener. Next cron re-score expected 88-91."
+    }
+  ]
+}

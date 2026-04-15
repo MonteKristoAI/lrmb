@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Apparent</title>
+  <meta name="description" content="The page you are looking for could not be found. Return to the Apparent homepage to explore our renewable energy solutions.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/webp" href="images/logo-small.webp">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            energy: { 50:'#FFF8ED', 100:'#FFEDD5', 200:'#FED7AA', 300:'#FDBA74', 400:'#FB923C', 500:'#F97316', 600:'#EA580C', 700:'#C2410C' },
+            electric: { 50:'#EFF6FF', 100:'#DBEAFE', 400:'#60A5FA', 500:'#3B82F6', 600:'#2563EB', 900:'#1E3A5F' },
+            solar: { 400:'#FACC15', 500:'#EAB308' },
+            midnight: { 50:'#F8FAFC', 100:'#F1F5F9', 200:'#E2E8F0', 300:'#CBD5E1', 400:'#94A3B8', 500:'#64748B', 600:'#475569', 700:'#334155', 800:'#1E293B', 900:'#0F172A', 950:'#020617' },
+            cream: '#FAFAF8'
+          },
+          fontFamily: {
+            heading: ['Outfit', 'system-ui', 'sans-serif'],
+            body: ['"DM Sans"', 'system-ui', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.468.0"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="font-body text-midnight-950 bg-midnight-950 overflow-x-hidden antialiased">
+
+  <!-- SCROLL PROGRESS BAR -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- ============================================
+       SIMPLIFIED HEADER
+       ============================================ -->
+  <header id="site-header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 header-transparent">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center shrink-0" aria-label="Apparent Home">
+          <img src="images/logo.webp" alt="Apparent" class="h-10 w-auto" width="160" height="40">
+        </a>
+
+        <!-- Desktop Nav -->
+        <nav class="hidden lg:flex items-center gap-1" aria-label="Main navigation">
+          <a href="exel.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Products</a>
+          <a href="igos.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Technology</a>
+          <a href="about.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">About</a>
+          <a href="blog/" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Blog</a>
+          <a href="contact.html" class="px-4 py-2 text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a>
+        </nav>
+
+        <!-- CTA -->
+        <div class="hidden lg:block">
+          <a href="contact.html" class="magnetic-wrap">
+            <span class="btn-energy text-sm px-5 py-2.5">Get a Quote</span>
+          </a>
+        </div>
+
+        <!-- Mobile hamburger -->
+        <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 p-2" aria-label="Toggle menu" aria-expanded="false">
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-opacity duration-300"></span>
+          <span class="menu-bar w-6 h-0.5 bg-white rounded-full transition-transform duration-300"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden fixed inset-0 top-20 bg-midnight-950/98 backdrop-blur-xl z-40">
+      <nav class="flex flex-col items-center justify-center h-full gap-8 text-xl" aria-label="Mobile navigation">
+        <a href="exel.html" class="text-white/80 hover:text-white font-medium transition-colors">eXeL Water Heater</a>
+        <a href="igos.html" class="text-white/80 hover:text-white font-medium transition-colors">Technology</a>
+        <a href="data-centers.html" class="text-white/80 hover:text-white font-medium transition-colors">Data Centers</a>
+        <a href="about.html" class="text-white/80 hover:text-white font-medium transition-colors">About</a>
+        <a href="contact.html" class="text-white/80 hover:text-white font-medium transition-colors">Contact</a>
+        <a href="contact.html" class="btn-energy mt-4">Get a Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- ============================================
+         404 FULL PAGE
+         ============================================ -->
+    <section class="min-h-screen flex items-center justify-center photo-section relative overflow-hidden noise" aria-label="Page not found">
+      <!-- Photo background -->
+      <div class="photo-section-bg photo-tint-dramatic">
+        <img src="images/hero/datacenter-dark.jpg" alt="" class="w-full h-full object-cover object-center" width="1920" height="1280" aria-hidden="true" style="opacity: 0.35;">
+      </div>
+      <div class="photo-section-overlay photo-overlay-dark-heavy"></div>
+
+      <!-- Aurora background (reduced) -->
+      <div class="aurora" aria-hidden="true" style="opacity: 0.2;">
+        <div class="aurora-blob aurora-blob-1"></div>
+        <div class="aurora-blob aurora-blob-2"></div>
+        <div class="aurora-blob aurora-blob-3"></div>
+      </div>
+      <div class="pattern-dots-dark absolute inset-0 opacity-20 z-[2]" aria-hidden="true"></div>
+
+      <div class="photo-section-content text-center px-6 py-32 max-w-2xl mx-auto">
+        <!-- Animated gradient accent line -->
+        <div class="w-16 h-[2px] mx-auto mb-8 reveal" style="background: linear-gradient(90deg, var(--energy-500), var(--solar-400), var(--energy-500)); background-size: 200% 100%; animation: gradientShift 3s ease infinite;" aria-hidden="true"></div>
+
+        <!-- Massive 404 -->
+        <h1 class="font-heading font-bold text-gradient-energy reveal" style="font-size: clamp(8rem, 20vw, 16rem); line-height: 1; margin-bottom: 0;">
+          404
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="font-heading font-semibold text-white text-xl lg:text-2xl mt-6 mb-4 reveal reveal-delay-1">
+          This page seems to have lost power.
+        </p>
+        <div class="w-20 h-[2px] mx-auto mb-6 reveal reveal-delay-1" style="background: linear-gradient(90deg, var(--energy-500), var(--solar-400));" aria-hidden="true"></div>
+        <p class="text-white/60 text-sm lg:text-base max-w-md mx-auto mb-12 reveal reveal-delay-2">
+          The page you are looking for may have been moved, removed, or might never have existed. Let us get you back on track.
+        </p>
+
+        <!-- Navigation links -->
+        <div class="grid sm:grid-cols-2 gap-4 max-w-lg mx-auto mb-12 reveal reveal-delay-3">
+          <a href="index.html" class="glass-card p-5 text-left hover:border-energy-500/30 transition-all group" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-energy-500/10 flex items-center justify-center shrink-0">
+                <i data-lucide="home" class="w-5 h-5 text-energy-400"></i>
+              </div>
+              <div>
+                <div class="text-white font-medium text-sm group-hover:text-energy-400 transition-colors">Homepage</div>
+                <div class="text-white/55 text-xs">Back to the start</div>
+              </div>
+            </div>
+          </a>
+          <a href="exel.html" class="glass-card p-5 text-left hover:border-energy-500/30 transition-all group" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-energy-500/10 flex items-center justify-center shrink-0">
+                <i data-lucide="flame" class="w-5 h-5 text-energy-400"></i>
+              </div>
+              <div>
+                <div class="text-white font-medium text-sm group-hover:text-energy-400 transition-colors">eXeL Water Heater</div>
+                <div class="text-white/55 text-xs">Our flagship product</div>
+              </div>
+            </div>
+          </a>
+          <a href="about.html" class="glass-card p-5 text-left hover:border-electric-500/30 transition-all group" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-electric-500/10 flex items-center justify-center shrink-0">
+                <i data-lucide="users" class="w-5 h-5 text-electric-400"></i>
+              </div>
+              <div>
+                <div class="text-white font-medium text-sm group-hover:text-electric-400 transition-colors">About Us</div>
+                <div class="text-white/55 text-xs">Our story and team</div>
+              </div>
+            </div>
+          </a>
+          <a href="contact.html" class="glass-card p-5 text-left hover:border-solar-400/30 transition-all group" style="background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-lg bg-solar-400/10 flex items-center justify-center shrink-0">
+                <i data-lucide="mail" class="w-5 h-5 text-solar-400"></i>
+              </div>
+              <div>
+                <div class="text-white font-medium text-sm group-hover:text-solar-400 transition-colors">Contact</div>
+                <div class="text-white/55 text-xs">Get in touch</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Back button -->
+        <div class="reveal reveal-delay-4">
+          <a href="index.html" class="magnetic-wrap">
+            <span class="btn-energy text-base px-8 py-4">
+              <i data-lucide="arrow-left" class="w-5 h-5"></i> Return Home
+            </span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================
+       MINIMAL FOOTER
+       ============================================ -->
+  <footer class="bg-midnight-950 border-t border-white/[0.04] py-8" role="contentinfo">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-4">
+          <img src="images/logo.webp" alt="Apparent" class="h-6" width="96" height="24" loading="lazy">
+          <p class="text-white/50 text-xs">&copy; 2026 Apparent Inc. All rights reserved.</p>
+        </div>
+        <p class="text-white/50 text-xs">5 Hamilton Landing, Suite 160, Novato, CA 94949</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MOBILE CTA BAR -->
+  <div class="mobile-cta-bar" aria-label="Quick actions">
+    <a href="tel:+14155551234" class="btn-ghost flex-1 text-center text-sm py-3"><i data-lucide="phone" class="w-4 h-4 inline mr-1"></i> Call</a>
+    <a href="contact.html" class="btn-energy flex-1 text-center text-sm py-3">Get a Quote</a>
+  </div>
+
+  <!-- JS -->
+  <script src="js/main.js"></script>
+  <script src="js/review-modal.js"></script>
+
+  <!-- Initialize Lucide icons -->
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

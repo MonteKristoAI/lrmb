@@ -1,0 +1,14 @@
+{
+  "name": "entouragess-blog",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Entourage Gummies blog — static HTML served via Cloudflare Pages + Worker proxy at getentouragegummies.com/blog/",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "node build.js && npx serve dist -l 3003",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "serve": "^14.0.0"
+  }
+}
