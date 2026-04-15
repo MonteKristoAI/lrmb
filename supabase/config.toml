@@ -1,0 +1,4 @@
+project_id = "hfpvnsbiewudpqbtlvte"
+
+[functions.escalate-overdue-tasks]
+verify_jwt = false
