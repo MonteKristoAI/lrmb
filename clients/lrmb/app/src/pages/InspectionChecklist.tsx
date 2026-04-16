@@ -98,14 +98,14 @@ const InspectionChecklist = () => {
 
         {/* Progress indicator */}
         {items.length > 0 && (
-          <div className="sticky top-12 z-20 rounded-lg border border-border bg-card p-3 space-y-2">
+          <div className="sticky top-14 z-20 rounded-lg border border-border bg-card p-3 space-y-2">
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Progress</span>
               <span className="font-semibold text-foreground">
-                {responses.filter((r) => r.response_value).length} / {items.length} checked
+                {responses.filter((r) => r.response_value || r.flagged_issue).length} / {items.length} addressed
               </span>
             </div>
-            <Progress value={items.length > 0 ? (responses.filter((r) => r.response_value).length / items.length) * 100 : 0} className="h-2" />
+            <Progress value={items.length > 0 ? (responses.filter((r) => r.response_value || r.flagged_issue).length / items.length) * 100 : 0} className="h-2" />
           </div>
         )}
 

@@ -36,16 +36,18 @@ const OpenTasksQueue = () => {
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
           open.length ? open.map((t) => (
-            <div key={t.id} className="relative">
+            <div key={t.id} className="space-y-1">
               <TaskCard task={t} />
-              <Button
-                size="sm"
-                variant="ghost"
-                className="absolute top-2 right-2 text-xs text-muted-foreground"
-                onClick={(e) => { e.stopPropagation(); setReassignId(t.id); }}
-              >
-                Reassign
-              </Button>
+              <div className="flex justify-end px-1">
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  className="text-xs text-muted-foreground h-7"
+                  onClick={() => setReassignId(t.id)}
+                >
+                  Reassign
+                </Button>
+              </div>
             </div>
           )) : <p className="text-muted-foreground text-center py-8">No open tasks.</p>
         )}

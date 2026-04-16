@@ -47,6 +47,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
+    let initialLoad = true;
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         setSession(session);
@@ -57,18 +59,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setRoles([]);
         }
         setLoading(false);
+        initialLoad = false;
       }
     );
 
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
+    // Fallback: if onAuthStateChange hasn't fired within 100ms, use getSession
+    const timeout = setTimeout(async () => {
+      if (!initialLoad) return;
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!initialLoad) return; // onAuthStateChange fired while we awaited
       setSession(session);
       if (session?.user) {
         await fetchProfileAndRoles(session.user.id);
       }
       setLoading(false);
-    });
+      initialLoad = false;
+    }, 100);
 
-    return () => subscription.unsubscribe();
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
   }, []);
 
   const hasRole = (role: AppRole) => roles.includes(role);
