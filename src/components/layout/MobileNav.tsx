@@ -25,7 +25,7 @@ export function MobileNav() {
   items.push({ label: t("Completed"), icon: CheckSquare, path: "/tasks/completed" });
 
   return (
-    <nav className="sticky bottom-0 z-30 border-t border-border bg-card flex">
+    <nav className="sticky bottom-0 z-30 flex" style={{ background: "rgba(8,14,26,0.97)", borderTop: "1px solid rgba(196,186,177,0.06)", backdropFilter: "blur(12px)" }}>
       {items.map((item) => {
         const isActive = item.path === "/tasks"
           ? location.pathname === "/tasks" || (location.pathname.startsWith("/tasks/") && !location.pathname.startsWith("/tasks/completed"))
@@ -34,11 +34,10 @@ export function MobileNav() {
           <button
             key={item.path}
             onClick={() => navigate(item.path)}
-            className={cn(
-              "flex-1 flex flex-col items-center gap-1 py-2 tap-target transition-colors",
-              isActive ? "text-primary" : "text-muted-foreground"
-            )}
+            className="flex-1 flex flex-col items-center gap-1 py-2.5 tap-target transition-colors relative"
+            style={{ color: isActive ? "#C4BAB1" : "#4A4540" }}
           >
+            {isActive && <div className="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-0.5 rounded-full" style={{ background: "#C4BAB1" }} />}
             <item.icon className="h-5 w-5" />
             <span className="text-[10px] font-medium">{item.label}</span>
           </button>
