@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 import { ClipboardList, LayoutDashboard, ShieldCheck, CheckSquare } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 interface NavItem { label: string; icon: React.ElementType; path: string; }
 
