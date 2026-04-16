@@ -136,6 +136,18 @@ All tables have Row Level Security (RLS) enabled.
 
 ---
 
+## Real Staff (from Emma Benson, Apr 15, 2026)
+
+| # | Name | Email | Phone | Role | Notes |
+|---|------|-------|-------|------|-------|
+| 1 | Tony Rajeh | trajeh@lrmb.com | 786-493-2611 | Admin | Owner/investor |
+| 2 | Jennifer Jingco | jjingco@lrmb.com | 907-227-5430 | Admin | |
+| 3 | Emma Benson | ebenson@lrmb.com | 208-602-4170 | Admin | Ops lead, primary contact |
+| 4 | Alan Dourado | adourado@lrmb.com | 786-389-0553 | Admin | |
+| 5 | Kent Calero | kent@myryc.com | 305-484-3788 | Admin | External partner (myryc.com) |
+
+**MISSING:** Field staff, cleaners, maintenance workers, inspectors. Need to request from Emma.
+
 ## Test Accounts (Pilot)
 
 | # | Email | Password | Name | Role |
@@ -153,8 +165,10 @@ All tables have Row Level Security (RLS) enabled.
 
 | System | Purpose | Integration Status |
 |--------|---------|-------------------|
-| **TravelNet Solutions** | PMS/CRM — reservations, work orders, channel mgmt, accounting, owner statements | Stub ready (`reservation_events` table + `external_source`/`external_id` fields on properties/units) |
-| **Akia** | Guest messaging + contract sending | Not yet integrated |
+| **TravelNet Solutions (TRACK)** | PMS/CRM — reservations, work orders, channel mgmt, accounting, owner statements | Stub ready. Emma confirms TRACK has open API. She can create channel + provide key/secret. Waiting on her. |
+| **Akia** | Guest messaging + contract sending | Emma contacted Akia support re: webhook support. Waiting on response. |
+| **Safely** | Damage claim submissions | NO API access. Use platform directly. Emma has SOP to share. |
+| **Rental Guardian** | Damage claim submissions | NO API access. Use platform directly. Same SOP as Safely. |
 | **PriceLabs** | Dynamic pricing | Not relevant to ops layer |
 | **KeyData** | Market analytics | Not relevant to ops layer |
 | **Excel** | Still used heavily — being replaced by this system | Being displaced |
