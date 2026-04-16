@@ -5,61 +5,62 @@
 @layer base {
   :root {
     /* LRMB Branding — luxuryrentalsmiamibeach.com
-       Navy: #0F1828 | Taupe: #C4BAB1 | White: #FFFFFF
+       Deep Navy: #080E1A | Card Navy: #0D1526 | Taupe: #C4BAB1
+       Accent Champagne: #D4C5A9 | Accent Blue: #4A90B8
        Fonts: Raleway (body) + Lora (headings) */
-    --background: 218 45% 11%;
-    --foreground: 28 14% 92%;
+    --background: 222 52% 7%;
+    --foreground: 30 20% 90%;
 
-    --card: 218 40% 14%;
-    --card-foreground: 28 14% 92%;
+    --card: 222 42% 10%;
+    --card-foreground: 30 20% 90%;
 
-    --popover: 218 40% 14%;
-    --popover-foreground: 28 14% 92%;
+    --popover: 222 42% 10%;
+    --popover-foreground: 30 20% 90%;
 
-    --primary: 28 14% 73%;
-    --primary-foreground: 218 45% 11%;
+    --primary: 30 22% 80%;
+    --primary-foreground: 222 52% 7%;
 
-    --secondary: 218 30% 20%;
-    --secondary-foreground: 28 14% 92%;
+    --secondary: 222 30% 15%;
+    --secondary-foreground: 30 20% 85%;
 
-    --muted: 218 30% 18%;
-    --muted-foreground: 218 15% 55%;
+    --muted: 222 25% 14%;
+    --muted-foreground: 222 12% 48%;
 
-    --accent: 28 20% 65%;
-    --accent-foreground: 218 45% 11%;
+    --accent: 205 45% 50%;
+    --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 218 20% 22%;
-    --input: 218 20% 22%;
-    --ring: 28 14% 73%;
+    --border: 222 20% 16%;
+    --input: 222 22% 14%;
+    --ring: 30 22% 80%;
 
-    --radius: 0.625rem;
+    --radius: 0.5rem;
 
     /* Status colors */
-    --status-new: 210 80% 55%;
-    --status-assigned: 200 70% 50%;
-    --status-in-progress: 38 92% 50%;
-    --status-waiting: 28 80% 52%;
+    --status-new: 205 65% 52%;
+    --status-assigned: 200 60% 48%;
+    --status-in-progress: 38 85% 52%;
+    --status-waiting: 30 70% 55%;
     --status-blocked: 0 72% 51%;
-    --status-completed: 142 60% 45%;
-    --status-verified: 160 55% 42%;
+    --status-completed: 152 55% 42%;
+    --status-verified: 165 50% 40%;
 
     /* Priority colors */
-    --priority-low: 210 15% 50%;
-    --priority-medium: 28 14% 73%;
-    --priority-high: 25 90% 55%;
+    --priority-low: 222 12% 48%;
+    --priority-medium: 30 22% 75%;
+    --priority-high: 25 85% 55%;
     --priority-urgent: 0 72% 51%;
 
-    --sidebar-background: 218 40% 12%;
-    --sidebar-foreground: 28 14% 92%;
-    --sidebar-primary: 28 14% 73%;
-    --sidebar-primary-foreground: 218 45% 11%;
-    --sidebar-accent: 218 30% 18%;
-    --sidebar-accent-foreground: 28 14% 92%;
-    --sidebar-border: 218 20% 22%;
-    --sidebar-ring: 28 14% 73%;
+    --sidebar-background: 222 45% 8%;
+    --sidebar-foreground: 30 20% 90%;
+    --sidebar-primary: 30 22% 80%;
+    --sidebar-primary-foreground: 222 52% 7%;
+    --sidebar-accent: 222 30% 14%;
+    --sidebar-accent-foreground: 30 20% 85%;
+    --sidebar-border: 222 20% 16%;
+    --sidebar-ring: 30 22% 80%;
   }
 }
 
