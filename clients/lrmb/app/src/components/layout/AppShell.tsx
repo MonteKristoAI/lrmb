@@ -13,9 +13,12 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <header className="sticky top-0 z-30 border-b border-border bg-card px-4 py-3 flex items-center justify-between">
-        <div className="min-w-0">
-          <h1 className="text-lg font-bold text-primary truncate">{title || "LRMB Ops"}</h1>
-          <p className="text-xs text-muted-foreground truncate">{profile?.full_name || ""}</p>
+        <div className="min-w-0 flex items-center gap-3">
+          <img src="/lrmb-logo-horizontal-white.webp" alt="LRMB" className="h-7 w-auto object-contain flex-shrink-0" />
+          <div className="min-w-0">
+            <h1 className="text-sm font-semibold text-foreground truncate">{title || ""}</h1>
+            <p className="text-xs text-muted-foreground truncate">{profile?.full_name || ""}</p>
+          </div>
         </div>
         <div className="flex items-center gap-1">
           {isSupported && (
