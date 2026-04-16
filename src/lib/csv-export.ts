@@ -2,23 +2,19 @@ export function exportToCSV(data: Record<string, unknown>[], filename: string) {
   if (!data.length) return;
 
   const headers = Object.keys(data[0]);
+  const escapeCell = (val: unknown): string => {
+    if (val === null || val === undefined) return "";
+    const str = String(val).replace(/"/g, '""');
+    // Quote if the value contains any CSV-breaking characters
+    return /[,"\n\r\t;]/.test(str) ? `"${str}"` : str;
+  };
+
   const csvRows = [
-    headers.join(","),
-    ...data.map((row) =>
-      headers
-        .map((h) => {
-          const val = row[h];
-          if (val === null || val === undefined) return "";
-          const str = String(val).replace(/"/g, '""');
-          return str.includes(",") || str.includes('"') || str.includes("\n")
-            ? `"${str}"`
-            : str;
-        })
-        .join(",")
-    ),
+    headers.map(escapeCell).join(","),
+    ...data.map((row) => headers.map((h) => escapeCell(row[h])).join(",")),
   ];
 
-  const blob = new Blob([csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
+  const blob = new Blob(["\uFEFF" + csvRows.join("\n")], { type: "text/csv;charset=utf-8;" });
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
   link.href = url;

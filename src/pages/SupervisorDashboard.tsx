@@ -35,11 +35,9 @@ const SupervisorDashboard = () => {
     ? Math.max(0, Math.round(completed.reduce((sum, t) => sum + (t.completed_at && t.created_at ? Math.max(0, differenceInHours(new Date(t.completed_at), new Date(t.created_at))) : 0), 0) / completed.length))
     : 0;
 
-  const photoCompliance = completed.length
-    ? Math.round((completed.filter((t) => t.requires_photo).length === 0 ? 100 :
-        (tasks.filter((t) => t.requires_photo && ["completed", "verified", "processed"].includes(t.status)).length /
-         Math.max(tasks.filter((t) => t.requires_photo).length, 1)) * 100))
-    : 100;
+  const photoRequiredTotal = tasks.filter((t) => t.requires_photo).length;
+  const photoRequiredDone = completed.filter((t) => t.requires_photo).length;
+  const photoCompliance = photoRequiredTotal === 0 ? 100 : Math.round((photoRequiredDone / photoRequiredTotal) * 100);
 
   const repeatRate = tasks.length
     ? Math.round((tasks.filter((t) => t.reopened_count > 0).length / tasks.length) * 100)
@@ -61,7 +59,7 @@ const SupervisorDashboard = () => {
               <KPICard label="Pending Verification" value={pendingVerify.length} icon={CheckCircle2} />
               <KPICard label="Avg Cycle Time" value={`${avgCycleHrs}h`} icon={Clock} />
               <KPICard label="Overdue" value={overdue.length} icon={TrendingUp} />
-              <KPICard label="Photo Compliance" value={`${photoCompliance}%`} icon={BarChart3} />
+              <KPICard label="Photo Tasks Done" value={`${photoCompliance}%`} sub={`${photoRequiredDone}/${photoRequiredTotal}`} icon={BarChart3} />
               <KPICard label="Repeat Rate" value={`${repeatRate}%`} sub="Target: < 20%" icon={RotateCcw} />
             </div>
 
@@ -75,14 +73,18 @@ const SupervisorDashboard = () => {
             <Card>
               <CardContent className="p-4">
                 <p className="text-sm font-semibold text-foreground mb-3">Tasks by Category</p>
-                <ResponsiveContainer width="100%" height={160}>
-                  <BarChart data={byCategory}>
-                    <XAxis dataKey="name" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                    <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                    <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
-                    <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+                {tasks.length === 0 ? (
+                  <p className="text-sm text-muted-foreground text-center py-8">No task data yet.</p>
+                ) : (
+                  <ResponsiveContainer width="100%" height={160}>
+                    <BarChart data={byCategory}>
+                      <XAxis dataKey="name" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                      <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                      <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+                      <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
               </CardContent>
             </Card>
           </>

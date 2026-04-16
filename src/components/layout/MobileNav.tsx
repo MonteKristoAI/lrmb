@@ -17,9 +17,9 @@ export function MobileNav() {
   ];
 
   if (hasAdminAccess()) {
-    items.push({ label: "Admin", icon: LayoutDashboard, path: "/admin" });
+    items.push({ label: t("Admin"), icon: LayoutDashboard, path: "/admin" });
   }
-  if (hasRole("supervisor") || hasRole("manager")) {
+  if (hasRole("supervisor") || hasRole("manager") || hasRole("admin")) {
     items.push({ label: t("Supervisor"), icon: ShieldCheck, path: "/supervisor" });
   }
   items.push({ label: t("Completed"), icon: CheckSquare, path: "/tasks/completed" });

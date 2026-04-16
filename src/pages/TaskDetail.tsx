@@ -95,7 +95,11 @@ const TaskDetail = () => {
       if (newStatus === "processed") { taskUpdates.processed_at = now; taskUpdates.processed_by = user.id; }
 
       await updateTask.mutateAsync({ id: task.id, ...taskUpdates });
-      await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "status_change", old_status: task.status, new_status: newStatus });
+      try {
+        await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "status_change", old_status: task.status, new_status: newStatus });
+      } catch {
+        // Status changed but audit trail failed - log but don't block the user
+      }
       toast({ title: `Task ${newStatus.replace(/_/g, " ")}` });
     } catch {
       toast({ title: "Action failed", description: "Could not update task status.", variant: "destructive" });
@@ -144,6 +148,7 @@ const TaskDetail = () => {
     if (!file || !user) return;
     if (file.size > 10 * 1024 * 1024) {
       toast({ title: "File too large", description: "Maximum photo size is 10 MB.", variant: "destructive" });
+      if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
     try {
@@ -151,6 +156,8 @@ const TaskDetail = () => {
       toast({ title: "Photo uploaded" });
     } catch (err) {
       toast({ title: "Upload failed", description: err instanceof Error ? err.message : "Unknown error", variant: "destructive" });
+    } finally {
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 

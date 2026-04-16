@@ -42,8 +42,8 @@ const VerificationQueue = () => {
                   <div className="flex gap-2"><StatusBadge status={t.status} /><PriorityBadge priority={t.priority} /></div>
                   <p className="text-xs text-muted-foreground">{t.properties?.name}</p>
                 </div>
-                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleVerify(t.id); }} className="tap-target gap-1 bg-status-verified hover:bg-status-verified/90 text-primary-foreground shrink-0">
-                  <CheckCircle2 className="h-4 w-4" /> Verify
+                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleVerify(t.id); }} disabled={updateTask.isPending} className="tap-target gap-1 bg-status-verified hover:bg-status-verified/90 text-primary-foreground shrink-0">
+                  <CheckCircle2 className="h-4 w-4" /> {updateTask.isPending ? "Verifying..." : "Verify"}
                 </Button>
               </CardContent>
             </Card>

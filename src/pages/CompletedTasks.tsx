@@ -10,7 +10,8 @@ const DONE_STATUSES: TaskStatus[] = ["completed", "verified", "processed"];
 const CompletedTasks = () => {
   const { user, hasAdminAccess } = useAuth();
   const isAdmin = hasAdminAccess();
-  const myCompleted = useTasks(user && !isAdmin ? { assigned_to: user.id, status: DONE_STATUSES } : undefined);
+  // Staff: fetch only their completed tasks; Admin: reuse the allTasks cache
+  const myCompleted = useTasks(!isAdmin && user ? { assigned_to: user.id, status: DONE_STATUSES } : { status: DONE_STATUSES });
   const allTasks = useAllTasks();
   const { data: rawTasks, isLoading } = isAdmin
     ? { data: (allTasks.data ?? []).filter((t) => DONE_STATUSES.includes(t.status)), isLoading: allTasks.isLoading }
