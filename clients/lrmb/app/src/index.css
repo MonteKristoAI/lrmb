@@ -4,39 +4,40 @@
 
 @layer base {
   :root {
-    /* LRMB Dark Navy + Gold Design System */
-    --background: 216 39% 10%;
-    --foreground: 40 20% 92%;
+    /* LRMB Branding — luxuryrentalsmiamibeach.com
+       Primary: Ocean Teal #0680A2 | Accent: Warm Taupe #C4BAB1 | Dark: Deep Navy #0F1828 */
+    --background: 218 45% 11%;
+    --foreground: 28 14% 92%;
 
-    --card: 216 35% 14%;
-    --card-foreground: 40 20% 92%;
+    --card: 218 40% 14%;
+    --card-foreground: 28 14% 92%;
 
-    --popover: 216 35% 14%;
-    --popover-foreground: 40 20% 92%;
+    --popover: 218 40% 14%;
+    --popover-foreground: 28 14% 92%;
 
-    --primary: 43 52% 54%;
-    --primary-foreground: 216 39% 10%;
+    --primary: 193 93% 33%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 216 25% 20%;
-    --secondary-foreground: 40 20% 92%;
+    --secondary: 218 30% 20%;
+    --secondary-foreground: 28 14% 92%;
 
-    --muted: 216 25% 18%;
-    --muted-foreground: 216 15% 55%;
+    --muted: 218 30% 18%;
+    --muted-foreground: 218 15% 55%;
 
-    --accent: 43 52% 54%;
-    --accent-foreground: 216 39% 10%;
+    --accent: 28 14% 73%;
+    --accent-foreground: 218 45% 11%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 216 20% 22%;
-    --input: 216 20% 22%;
-    --ring: 43 52% 54%;
+    --border: 218 20% 22%;
+    --input: 218 20% 22%;
+    --ring: 193 93% 33%;
 
     --radius: 0.625rem;
 
     /* Status colors */
-    --status-new: 210 80% 55%;
+    --status-new: 193 80% 40%;
     --status-assigned: 200 70% 50%;
     --status-in-progress: 38 92% 50%;
     --status-waiting: 28 80% 52%;
@@ -46,18 +47,18 @@
 
     /* Priority colors */
     --priority-low: 210 15% 50%;
-    --priority-medium: 43 52% 54%;
+    --priority-medium: 193 70% 40%;
     --priority-high: 25 90% 55%;
     --priority-urgent: 0 72% 51%;
 
-    --sidebar-background: 216 35% 12%;
-    --sidebar-foreground: 40 20% 92%;
-    --sidebar-primary: 43 52% 54%;
-    --sidebar-primary-foreground: 216 39% 10%;
-    --sidebar-accent: 216 25% 18%;
-    --sidebar-accent-foreground: 40 20% 92%;
-    --sidebar-border: 216 20% 22%;
-    --sidebar-ring: 43 52% 54%;
+    --sidebar-background: 218 40% 12%;
+    --sidebar-foreground: 28 14% 92%;
+    --sidebar-primary: 193 93% 33%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 218 30% 18%;
+    --sidebar-accent-foreground: 28 14% 92%;
+    --sidebar-border: 218 20% 22%;
+    --sidebar-ring: 193 93% 33%;
   }
 }
 
@@ -68,7 +69,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Raleway', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
 }
