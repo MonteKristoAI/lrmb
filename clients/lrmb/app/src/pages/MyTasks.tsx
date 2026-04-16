@@ -31,7 +31,7 @@ const MyTasks = () => {
           sorted.map((t) => <TaskCard key={t.id} task={t} />)
         ) : (
           <div className="rounded-lg border border-border bg-card p-6 text-center">
-            <p className="text-muted-foreground">No active tasks assigned.</p>
+            <p className="text-muted-foreground">No active tasks assigned yet.</p>
           </div>
         )}
       </div>

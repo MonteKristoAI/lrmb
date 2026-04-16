@@ -45,7 +45,7 @@ const KPIOverview = () => {
   const cycleTimeTrend = (() => {
     const days: Record<string, { total: number; count: number }> = {};
     completed.filter((t) => t.completed_at).forEach((t) => {
-      const day = new Date(t.completed_at!).toISOString().slice(5, 10); // MM-DD
+      const day = new Date(t.completed_at!).toISOString().slice(0, 10); // YYYY-MM-DD
       const hrs = Math.max(0, differenceInHours(new Date(t.completed_at!), new Date(t.created_at)));
       if (!days[day]) days[day] = { total: 0, count: 0 };
       days[day].total += hrs;
@@ -77,28 +77,36 @@ const KPIOverview = () => {
             <Card>
               <CardContent className="p-4">
                 <p className="text-sm font-semibold text-foreground mb-3">Tasks by Status</p>
-                <ResponsiveContainer width="100%" height={200}>
-                  <BarChart data={byStatus}>
-                    <XAxis dataKey="name" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} angle={-30} textAnchor="end" height={50} />
-                    <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                    <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
-                    <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                  </BarChart>
-                </ResponsiveContainer>
+                {tasks.length === 0 ? (
+                  <p className="text-sm text-muted-foreground text-center py-8">No task data yet.</p>
+                ) : (
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={byStatus}>
+                      <XAxis dataKey="name" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} angle={-30} textAnchor="end" height={50} />
+                      <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                      <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+                      <Bar dataKey="count" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                )}
               </CardContent>
             </Card>
 
             <Card>
               <CardContent className="p-4">
                 <p className="text-sm font-semibold text-foreground mb-3">Priority Distribution</p>
-                <ResponsiveContainer width="100%" height={180}>
-                  <PieChart>
-                    <Pie data={byPriority} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={({ name, count }) => `${name}: ${count}`}>
-                      {byPriority.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-                    </Pie>
-                    <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
-                  </PieChart>
-                </ResponsiveContainer>
+                {tasks.length === 0 ? (
+                  <p className="text-sm text-muted-foreground text-center py-8">No task data yet.</p>
+                ) : (
+                  <ResponsiveContainer width="100%" height={180}>
+                    <PieChart>
+                      <Pie data={byPriority} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={({ name, count }) => `${name}: ${count}`}>
+                        {byPriority.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                      </Pie>
+                      <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                )}
               </CardContent>
             </Card>
 

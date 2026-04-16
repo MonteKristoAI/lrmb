@@ -169,7 +169,8 @@ export function useAllTasks() {
       const { data, error } = await supabase
         .from("tasks")
         .select("*, properties(name, region, zone), units(unit_code, short_name, bedrooms)")
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .limit(500);
       if (error) throw error;
       return data as (Task & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null; bedrooms: number | null } | null })[];
     },

@@ -70,10 +70,10 @@ export const TASK_CATEGORY_LABELS: Record<TaskCategory, string> = {
 export const TASK_CATEGORY_LABELS_ES: Record<TaskCategory, string> = {
   maintenance: "Mantenimiento",
   housekeeping: "Limpieza",
-  inspection: "Inspeccion",
+  inspection: "Inspección",
   general: "General",
-  property_management: "Gestion de Propiedad",
-  concierge: "Conserjeria",
+  property_management: "Gestión de Propiedad",
+  concierge: "Conserjería",
 };
 
 export const HOUSEKEEPING_TYPE_LABELS: Record<HousekeepingType, string> = {
@@ -87,11 +87,11 @@ export const HOUSEKEEPING_TYPE_LABELS: Record<HousekeepingType, string> = {
 
 export const HOUSEKEEPING_TYPE_LABELS_ES: Record<HousekeepingType, string> = {
   checkout_clean: "Limpieza de Salida",
-  mid_stay_clean: "Limpieza Media Estadia",
+  mid_stay_clean: "Limpieza Media Estadía",
   deep_clean: "Limpieza Profunda",
-  linen_change: "Cambio de Sabanas",
+  linen_change: "Cambio de Sábanas",
   intermittent_clean: "Limpieza Intermitente",
-  owner_specific_clean: "Limpieza Especifica del Dueno",
+  owner_specific_clean: "Limpieza Específica del Dueño",
 };
 
 export const DAMAGE_CLASSIFICATION_LABELS: Record<DamageClassification, string> = {

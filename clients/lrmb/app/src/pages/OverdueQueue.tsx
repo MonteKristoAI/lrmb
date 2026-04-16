@@ -13,6 +13,7 @@ const OverdueQueue = () => {
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
           overdue.length ? overdue.map((t) => <TaskCard key={t.id} task={t} />) : <p className="text-muted-foreground text-center py-8">No overdue tasks.</p>
+
         )}
       </div>
     </AppShell>

@@ -30,9 +30,9 @@ export const INSPECTION_TYPE_LABELS: Record<InspectionType, string> = {
 };
 
 export const INSPECTION_TYPE_LABELS_ES: Record<InspectionType, string> = {
-  after_final_clean: "Despues de Limpieza Final",
+  after_final_clean: "Después de Limpieza Final",
   owner_arrival: "Llegada del Propietario",
   owner_departure: "Salida del Propietario",
-  damage: "Evaluacion de Danos",
-  guest_ready: "Listo para Huesped",
+  damage: "Evaluación de Daños",
+  guest_ready: "Listo para Huésped",
 };
