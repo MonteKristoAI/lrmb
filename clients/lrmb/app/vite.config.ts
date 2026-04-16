@@ -7,7 +7,7 @@ import { VitePWA } from "vite-plugin-pwa";
 export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
-    port: 8080,
+    port: 5174,
     hmr: {
       overlay: false,
     },
@@ -16,14 +16,20 @@ export default defineConfig(({ mode }) => ({
     react(),
     mode === "development" && componentTagger(),
     VitePWA({
+      strategies: "injectManifest",
+      srcDir: "src",
+      filename: "sw.ts",
       registerType: "autoUpdate",
       includeAssets: ["favicon.ico", "apple-touch-icon.png"],
+      injectManifest: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
+      },
       manifest: {
         name: "LRMB Field Ops",
         short_name: "LRMB Ops",
         description: "Field operations management for Luxury Rentals Miami Beach",
-        theme_color: "#152238",
-        background_color: "#152238",
+        theme_color: "#080E1A",
+        background_color: "#080E1A",
         display: "standalone",
         orientation: "portrait",
         scope: "/",
@@ -38,32 +44,6 @@ export default defineConfig(({ mode }) => ({
           { src: "icons/icon-384x384.png", sizes: "384x384", type: "image/png" },
           { src: "icons/icon-512x512.png", sizes: "512x512", type: "image/png" },
           { src: "icons/maskable-icon-512x512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
-        ],
-      },
-      workbox: {
-        globPatterns: ["**/*.{js,css,html,ico,png,svg,woff2}"],
-        runtimeCaching: [
-          {
-            urlPattern: /^https:\/\/hfpvnsbiewudpqbtlvte\.supabase\.co\/rest\/v1\/.*/i,
-            handler: "NetworkFirst",
-            options: {
-              cacheName: "supabase-api-cache",
-              expiration: { maxEntries: 100, maxAgeSeconds: 300 },
-              networkTimeoutSeconds: 3,
-            },
-          },
-          {
-            urlPattern: /^https:\/\/hfpvnsbiewudpqbtlvte\.supabase\.co\/storage\/.*/i,
-            handler: "CacheFirst",
-            options: {
-              cacheName: "supabase-storage-cache",
-              expiration: { maxEntries: 50, maxAgeSeconds: 3600 },
-            },
-          },
-          {
-            urlPattern: /^https:\/\/hfpvnsbiewudpqbtlvte\.supabase\.co\/auth\/.*/i,
-            handler: "NetworkOnly",
-          },
         ],
       },
     }),

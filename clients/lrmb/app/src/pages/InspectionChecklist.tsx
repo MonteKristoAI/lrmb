@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useToast } from "@/hooks/use-toast";
 import { AlertTriangle, CheckCircle2 } from "lucide-react";
@@ -94,6 +95,19 @@ const InspectionChecklist = () => {
         <div className="text-xs text-muted-foreground">
           {inspection.properties?.name}{inspection.units ? ` - ${inspection.units.short_name || inspection.units.unit_code}` : ""}
         </div>
+
+        {/* Progress indicator */}
+        {items.length > 0 && (
+          <div className="sticky top-12 z-20 rounded-lg border border-border bg-card p-3 space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-muted-foreground">Progress</span>
+              <span className="font-semibold text-foreground">
+                {responses.filter((r) => r.response_value).length} / {items.length} checked
+              </span>
+            </div>
+            <Progress value={items.length > 0 ? (responses.filter((r) => r.response_value).length / items.length) * 100 : 0} className="h-2" />
+          </div>
+        )}
 
         {sections.map(([section, sectionItems]) => (
           <div key={section} className="space-y-2">
