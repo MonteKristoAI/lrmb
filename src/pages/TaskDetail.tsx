@@ -54,19 +54,28 @@ const TaskDetail = () => {
   const [billingNotes, setBillingNotes] = useState("");
 
   const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({});
+  const loadedPathsRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     const loadUrls = async () => {
-      for (const p of photos) {
-        if (photoUrls[p.storage_path]) continue;
-        const { data } = await supabase.storage.from("task-photos").createSignedUrl(p.storage_path, 3600);
-        if (data?.signedUrl) {
-          setPhotoUrls((prev) => ({ ...prev, [p.storage_path]: data.signedUrl }));
+      const newPhotos = photos.filter((p) => !loadedPathsRef.current.has(p.storage_path));
+      if (newPhotos.length === 0) return;
+      const results = await Promise.all(
+        newPhotos.map((p) => supabase.storage.from("task-photos").createSignedUrl(p.storage_path, 86400).then(({ data }) => ({ path: p.storage_path, url: data?.signedUrl })))
+      );
+      const urls: Record<string, string> = {};
+      for (const r of results) {
+        if (r.url) {
+          urls[r.path] = r.url;
+          loadedPathsRef.current.add(r.path);
         }
+      }
+      if (Object.keys(urls).length > 0) {
+        setPhotoUrls((prev) => ({ ...prev, ...urls }));
       }
     };
     if (photos.length > 0) loadUrls();
-  }, [photos.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [photos]);
 
   if (isLoading) return <AppShell title="Task"><div className="p-4 space-y-3">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-8" />)}</div></AppShell>;
   if (!task) return <AppShell title="Task"><div className="p-4 text-muted-foreground">Task not found.</div></AppShell>;
@@ -133,6 +142,10 @@ const TaskDetail = () => {
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !user) return;
+    if (file.size > 10 * 1024 * 1024) {
+      toast({ title: "File too large", description: "Maximum photo size is 10 MB.", variant: "destructive" });
+      return;
+    }
     try {
       await uploadPhoto.mutateAsync({ taskId: task.id, propertyId: task.property_id, file, userId: user.id });
       toast({ title: "Photo uploaded" });
@@ -251,22 +264,22 @@ const TaskDetail = () => {
         {canAct && !isTerminal && (
           <div className="grid grid-cols-2 gap-2">
             {task.status === "assigned" && (
-              <Button onClick={() => transition("in_progress")} className="tap-target gap-2">
+              <Button onClick={() => transition("in_progress")} disabled={updateTask.isPending} className="tap-target gap-2">
                 <Play className="h-4 w-4" /> Start
               </Button>
             )}
             {task.status === "vendor_not_started" && (
-              <Button onClick={() => transition("in_progress")} className="tap-target gap-2">
+              <Button onClick={() => transition("in_progress")} disabled={updateTask.isPending} className="tap-target gap-2">
                 <Play className="h-4 w-4" /> Vendor Started
               </Button>
             )}
             {task.status === "new" && (
-              <Button onClick={() => transition("assigned", { assigned_to: user?.id })} className="tap-target gap-2">
+              <Button onClick={() => transition("assigned", { assigned_to: user?.id })} disabled={updateTask.isPending} className="tap-target gap-2">
                 <UserCheck className="h-4 w-4" /> Accept
               </Button>
             )}
             {(task.status === "blocked" || task.status === "waiting_parts") && (
-              <Button onClick={() => transition("in_progress", { blocked_reason: null })} className="tap-target gap-2">
+              <Button onClick={() => transition("in_progress", { blocked_reason: null })} disabled={updateTask.isPending} className="tap-target gap-2">
                 <Play className="h-4 w-4" /> Resume
               </Button>
             )}
@@ -276,11 +289,10 @@ const TaskDetail = () => {
             <Button variant="outline" onClick={() => fileInputRef.current?.click()} className="tap-target gap-2">
               <Camera className="h-4 w-4" /> Photo
             </Button>
-            <input ref={fileInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhotoUpload} />
-            <Button variant="outline" onClick={() => setBlockOpen(true)} className="tap-target gap-2 text-destructive">
+            <Button variant="outline" onClick={() => setBlockOpen(true)} disabled={updateTask.isPending} className="tap-target gap-2 text-destructive">
               <Ban className="h-4 w-4" /> Block
             </Button>
-            <Button variant="outline" onClick={() => setWaitingOpen(true)} className="tap-target gap-2 text-status-waiting">
+            <Button variant="outline" onClick={() => setWaitingOpen(true)} disabled={updateTask.isPending} className="tap-target gap-2 text-status-waiting">
               <Pause className="h-4 w-4" /> Waiting Parts
             </Button>
             {["in_progress", "assigned", "vendor_not_started", "waiting_parts"].includes(task.status) && (
@@ -294,10 +306,10 @@ const TaskDetail = () => {
         {/* Verify for supervisors */}
         {canAct && task.status === "completed" && hasAdminAccess() && (
           <div className="flex gap-2">
-            <Button onClick={() => transition("verified")} className="flex-1 tap-target gap-2 bg-status-verified hover:bg-status-verified/90 text-primary-foreground">
+            <Button onClick={() => transition("verified")} disabled={updateTask.isPending} className="flex-1 tap-target gap-2 bg-status-verified hover:bg-status-verified/90 text-primary-foreground">
               <CheckCircle2 className="h-4 w-4" /> Verify
             </Button>
-            <Button variant="outline" onClick={handleReopen} className="tap-target gap-2">
+            <Button variant="outline" onClick={handleReopen} disabled={updateTask.isPending} className="tap-target gap-2">
               <RotateCcw className="h-4 w-4" /> Reopen
             </Button>
           </div>
@@ -307,7 +319,7 @@ const TaskDetail = () => {
         {canAct && task.status === "verified" && hasAdminAccess() && (
           <div className="flex gap-2">
             {task.task_category === "inspection" ? (
-              <Button onClick={() => transition("processed")} className="flex-1 tap-target gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
+              <Button onClick={() => transition("processed")} disabled={updateTask.isPending} className="flex-1 tap-target gap-2 bg-emerald-600 hover:bg-emerald-700 text-white">
                 <FileCheck className="h-4 w-4" /> Mark Processed
               </Button>
             ) : (
@@ -315,7 +327,7 @@ const TaskDetail = () => {
                 <DollarSign className="h-4 w-4" /> Complete Billing
               </Button>
             )}
-            <Button variant="outline" onClick={handleReopen} className="tap-target gap-2">
+            <Button variant="outline" onClick={handleReopen} disabled={updateTask.isPending} className="tap-target gap-2">
               <RotateCcw className="h-4 w-4" /> Reopen
             </Button>
           </div>
@@ -323,10 +335,25 @@ const TaskDetail = () => {
 
         {/* Processed - show reopen only */}
         {canAct && task.status === "processed" && hasAdminAccess() && (
-          <Button variant="outline" onClick={handleReopen} className="w-full tap-target gap-2">
+          <Button variant="outline" onClick={handleReopen} disabled={updateTask.isPending} className="w-full tap-target gap-2">
             <RotateCcw className="h-4 w-4" /> Reopen
           </Button>
         )}
+
+        {/* Note/Photo for admins on terminal tasks (documentation) */}
+        {canAct && isTerminal && hasAdminAccess() && (
+          <div className="flex gap-2">
+            <Button variant="outline" onClick={() => setNoteOpen(true)} className="flex-1 tap-target gap-2">
+              <MessageSquare className="h-4 w-4" /> Add Note
+            </Button>
+            <Button variant="outline" onClick={() => fileInputRef.current?.click()} className="flex-1 tap-target gap-2">
+              <Camera className="h-4 w-4" /> Add Photo
+            </Button>
+          </div>
+        )}
+
+        {/* Hidden file input for photo upload (shared by action buttons) */}
+        <input ref={fileInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhotoUpload} />
 
         {/* Photos */}
         {photos.length > 0 && (
@@ -343,9 +370,9 @@ const TaskDetail = () => {
                   {canAct && (
                     <button
                       onClick={() => setDeletePhotoId({ id: p.id, path: p.storage_path })}
-                      className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 max-sm:opacity-80"
+                      className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1.5 opacity-0 group-hover:opacity-100 transition-opacity sm:opacity-0 sm:group-hover:opacity-100 max-sm:opacity-90 min-w-[28px] min-h-[28px] flex items-center justify-center"
                     >
-                      <X className="h-3 w-3" />
+                      <X className="h-3.5 w-3.5" />
                     </button>
                   )}
                 </div>

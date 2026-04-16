@@ -1,14 +1,22 @@
+import { useNavigate } from "react-router-dom";
+import { AppShell } from "@/components/layout/AppShell";
+import { Button } from "@/components/ui/button";
+
 const NotFound = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">404</h1>
-        <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
-        <a href="/" className="text-primary underline hover:text-primary/90">
-          Return to Home
-        </a>
+    <AppShell title="Not Found">
+      <div className="flex flex-1 items-center justify-center p-6">
+        <div className="text-center space-y-4">
+          <h1 className="text-4xl font-bold text-foreground">404</h1>
+          <p className="text-lg text-muted-foreground">Page not found</p>
+          <Button onClick={() => navigate("/tasks")} className="tap-target">
+            Back to Tasks
+          </Button>
+        </div>
       </div>
-    </div>
+    </AppShell>
   );
 };
 

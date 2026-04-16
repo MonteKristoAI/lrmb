@@ -14,7 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 function StatCard({ label, value, icon: Icon, color, onClick, subtitle }: { label: string; value: number | string; icon: React.ElementType; color: string; onClick?: () => void; subtitle?: string }) {
   return (
-    <Card className={`cursor-pointer hover:bg-secondary/50 transition-colors ${color}`} onClick={onClick}>
+    <Card className={`${onClick ? "cursor-pointer hover:bg-secondary/50" : ""} transition-colors ${color}`} onClick={onClick}>
       <CardContent className="p-4 flex items-center gap-3">
         <Icon className="h-8 w-8 shrink-0" />
         <div>
@@ -56,7 +56,7 @@ const AdminDashboard = () => {
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-foreground">Overview</h2>
           <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="gap-1 tap-target" onClick={() => exportToCSV(tasksToCSV(tasks), "lrmb_tasks")}>
+            <Button variant="outline" size="sm" className="gap-1 tap-target" onClick={() => exportToCSV(tasksToCSV(open), "lrmb_open_tasks")}>
               <Download className="h-4 w-4" /> CSV
             </Button>
             <Button onClick={() => navigate("/admin/tasks/create")} size="sm" className="gap-1 tap-target">

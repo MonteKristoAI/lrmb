@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { X, Download } from "lucide-react";
 
@@ -8,6 +9,7 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export function InstallPrompt() {
+  const { session } = useAuth();
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [dismissed, setDismissed] = useState(false);
 
@@ -24,7 +26,7 @@ export function InstallPrompt() {
     return () => window.removeEventListener("beforeinstallprompt", handler);
   }, []);
 
-  if (!deferredPrompt || dismissed) return null;
+  if (!session || !deferredPrompt || dismissed) return null;
 
   const handleInstall = async () => {
     await deferredPrompt.prompt();
@@ -40,7 +42,7 @@ export function InstallPrompt() {
   };
 
   return (
-    <div className="fixed bottom-16 left-4 right-4 z-50 rounded-lg border border-primary/30 bg-card p-4 shadow-lg flex items-center gap-3 animate-in slide-in-from-bottom-4">
+    <div className="fixed top-14 left-4 right-4 z-50 rounded-lg border border-primary/30 bg-card p-4 shadow-lg flex items-center gap-3 animate-in slide-in-from-top-4">
       <Download className="h-8 w-8 text-primary shrink-0" />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-foreground">Install LRMB Ops</p>
