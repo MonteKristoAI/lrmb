@@ -11,11 +11,11 @@ const CompletedTasks = () => {
   const { user, hasAdminAccess } = useAuth();
   const isAdmin = hasAdminAccess();
   // Staff: fetch only their completed tasks; Admin: reuse the allTasks cache
-  const myCompleted = useTasks(!isAdmin && user ? { assigned_to: user.id, status: DONE_STATUSES } : { status: DONE_STATUSES });
+  const myCompleted = useTasks(!isAdmin && user ? { assigned_to: user.id, status: DONE_STATUSES } : undefined);
   const allTasks = useAllTasks();
   const { data: rawTasks, isLoading } = isAdmin
     ? { data: (allTasks.data ?? []).filter((t) => DONE_STATUSES.includes(t.status)), isLoading: allTasks.isLoading }
-    : myCompleted;
+    : { data: myCompleted.data, isLoading: myCompleted.isLoading };
   // Limit to most recent 100 completed tasks for performance
   const tasks = rawTasks?.slice(0, 100);
 

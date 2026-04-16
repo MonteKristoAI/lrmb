@@ -41,6 +41,7 @@ const TaskDetail = () => {
   const deletePhoto = useDeleteTaskPhoto();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const transitioningRef = useRef(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [blockOpen, setBlockOpen] = useState(false);
   const [waitingOpen, setWaitingOpen] = useState(false);
@@ -85,7 +86,8 @@ const TaskDetail = () => {
   const isTerminal = ["completed", "verified", "processed"].includes(task.status);
 
   const transition = async (newStatus: TaskStatus, extra?: Record<string, unknown>) => {
-    if (!user) return;
+    if (!user || transitioningRef.current) return;
+    transitioningRef.current = true;
     try {
       const now = new Date().toISOString();
       const taskUpdates: Record<string, unknown> = { status: newStatus, ...extra };
@@ -103,6 +105,8 @@ const TaskDetail = () => {
       toast({ title: `Task ${newStatus.replace(/_/g, " ")}` });
     } catch {
       toast({ title: "Action failed", description: "Could not update task status.", variant: "destructive" });
+    } finally {
+      transitioningRef.current = false;
     }
   };
 
@@ -177,6 +181,10 @@ const TaskDetail = () => {
 
   const handleProcessBilling = async () => {
     const charges = ownerCharges ? parseFloat(ownerCharges) : null;
+    if (charges !== null && isNaN(charges)) {
+      toast({ title: "Invalid amount", description: "Enter a valid number for owner charges.", variant: "destructive" });
+      return;
+    }
     await transition("processed", {
       billing_ready: true,
       owner_charges_amount: charges,

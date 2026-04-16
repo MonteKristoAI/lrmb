@@ -57,7 +57,7 @@ const AdminDashboard = () => {
           <h2 className="text-lg font-bold text-foreground">Overview</h2>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" className="gap-1 tap-target" onClick={() => exportToCSV(tasksToCSV(open), "lrmb_open_tasks")}>
-              <Download className="h-4 w-4" /> CSV
+              <Download className="h-4 w-4" /> Export Open
             </Button>
             <Button onClick={() => navigate("/admin/tasks/create")} size="sm" className="gap-1 tap-target">
               <Plus className="h-4 w-4" /> New Task
@@ -75,7 +75,7 @@ const AdminDashboard = () => {
             <StatCard label="Due Today" value={tasks.filter((t) => { if (!t.due_at || ["completed", "verified", "processed"].includes(t.status)) return false; const d = new Date(t.due_at); const today = new Date(); return d.toDateString() === today.toDateString(); }).length} icon={Clock} color="text-status-in-progress" />
             <StatCard label="Avg Cycle Time" value={`${avgCycleHrs}h`} icon={Timer} color="text-primary" />
             <StatCard label="Admin Touches" value={adminTouches ?? "—"} icon={MousePointerClick} color="text-primary" subtitle="Avg per task" />
-            <StatCard label="Active Staff" value={staffIds.size} icon={Users} color="text-primary" onClick={() => navigate("/supervisor/staff")} />
+            <StatCard label="Active Staff" value={staffIds.size} icon={Users} color="text-primary" />
           </div>
         )}
 

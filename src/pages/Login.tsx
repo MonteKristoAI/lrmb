@@ -1,17 +1,28 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 
 const Login = () => {
+  const { session, loading: authLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
+  const from = (location.state as { from?: string })?.from || "/tasks";
+
+  if (authLoading) return (
+    <div className="flex min-h-screen items-center justify-center" style={{ background: "linear-gradient(180deg, #060B14 0%, #0D1526 50%, #080E1A 100%)" }}>
+      <div className="text-lg animate-pulse" style={{ color: "#C4BAB1" }}>Loading...</div>
+    </div>
+  );
+  if (session) return <Navigate to={from} replace />;
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +32,7 @@ const Login = () => {
     if (error) {
       toast({ title: "Login failed", description: error.message, variant: "destructive" });
     } else {
-      navigate("/tasks");
+      navigate(from, { replace: true });
     }
   };
 

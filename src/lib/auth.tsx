@@ -32,25 +32,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [roles, setRoles] = useState<AppRole[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchProfileAndRoles = async (userId: string) => {
+  const fetchProfileAndRoles = async (userId: string): Promise<boolean> => {
     try {
       const [profileRes, rolesRes] = await Promise.all([
         supabase.from("profiles").select("*").eq("id", userId).single(),
         supabase.from("user_roles").select("role").eq("user_id", userId),
       ]);
-      if (profileRes.data) setProfile(profileRes.data as Profile);
+      if (profileRes.data) {
+        const p = profileRes.data as Profile;
+        if (p.active === false) {
+          await supabase.auth.signOut();
+          setSession(null);
+          setProfile(null);
+          setRoles([]);
+          return false;
+        }
+        setProfile(p);
+      }
       if (rolesRes.data) setRoles((rolesRes.data as { role: AppRole }[]).map((r) => r.role));
+      return true;
     } catch {
       setProfile(null);
       setRoles([]);
+      return false;
     }
   };
 
   useEffect(() => {
-    let initialLoad = true;
+    let resolved = false;
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
+        if (resolved) return;
+        resolved = true;
         setSession(session);
         if (session?.user) {
           await fetchProfileAndRoles(session.user.id);
@@ -59,22 +73,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           setRoles([]);
         }
         setLoading(false);
-        initialLoad = false;
       }
     );
 
-    // Fallback: if onAuthStateChange hasn't fired within 100ms, use getSession
+    // Fallback: if onAuthStateChange hasn't fired within 200ms, use getSession
     const timeout = setTimeout(async () => {
-      if (!initialLoad) return;
+      if (resolved) return;
       const { data: { session } } = await supabase.auth.getSession();
-      if (!initialLoad) return; // onAuthStateChange fired while we awaited
+      if (resolved) return;
+      resolved = true;
       setSession(session);
       if (session?.user) {
         await fetchProfileAndRoles(session.user.id);
       }
       setLoading(false);
-      initialLoad = false;
-    }, 100);
+    }, 200);
 
     return () => {
       subscription.unsubscribe();

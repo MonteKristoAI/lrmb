@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
 import { useAllTasks, useUpdateTask, useAddTaskUpdate } from "@/hooks/useTasks";
@@ -18,15 +19,19 @@ const VerificationQueue = () => {
   const updateTask = useUpdateTask();
   const addUpdate = useAddTaskUpdate();
   const pending = tasks.filter((t) => t.status === "completed");
+  const [verifyingId, setVerifyingId] = useState<string | null>(null);
 
   const handleVerify = async (taskId: string) => {
-    if (!user) return;
+    if (!user || verifyingId) return;
+    setVerifyingId(taskId);
     try {
       await updateTask.mutateAsync({ id: taskId, status: "verified", verified_at: new Date().toISOString() });
       await addUpdate.mutateAsync({ task_id: taskId, actor_id: user.id, update_type: "status_change", old_status: "completed", new_status: "verified" });
       toast({ title: "Task verified" });
     } catch {
       toast({ title: "Failed to verify task", variant: "destructive" });
+    } finally {
+      setVerifyingId(null);
     }
   };
 
@@ -42,8 +47,8 @@ const VerificationQueue = () => {
                   <div className="flex gap-2"><StatusBadge status={t.status} /><PriorityBadge priority={t.priority} /></div>
                   <p className="text-xs text-muted-foreground">{t.properties?.name}</p>
                 </div>
-                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleVerify(t.id); }} disabled={updateTask.isPending} className="tap-target gap-1 bg-status-verified hover:bg-status-verified/90 text-primary-foreground shrink-0">
-                  <CheckCircle2 className="h-4 w-4" /> {updateTask.isPending ? "Verifying..." : "Verify"}
+                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleVerify(t.id); }} disabled={verifyingId === t.id} className="tap-target gap-1 bg-status-verified hover:bg-status-verified/90 text-primary-foreground shrink-0">
+                  <CheckCircle2 className="h-4 w-4" /> {verifyingId === t.id ? "Verifying..." : "Verify"}
                 </Button>
               </CardContent>
             </Card>

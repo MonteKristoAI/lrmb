@@ -21,8 +21,15 @@ const OpenTasksQueue = () => {
 
   const handleReassign = async () => {
     if (!reassignId || !newAssignee) return;
+    const task = open.find((t) => t.id === reassignId);
+    const newStatus = task && task.status === "new" ? "assigned" : undefined;
     try {
-      await updateTask.mutateAsync({ id: reassignId, assigned_to: newAssignee, status: "assigned" });
+      await updateTask.mutateAsync({
+        id: reassignId,
+        assigned_to: newAssignee,
+        ...(newStatus ? { status: newStatus } : {}),
+        ...(task?.status === "blocked" ? { blocked_reason: null } : {}),
+      });
       toast({ title: "Task reassigned" });
       setReassignId(null);
       setNewAssignee("");
@@ -49,7 +56,7 @@ const OpenTasksQueue = () => {
                 </Button>
               </div>
             </div>
-          )) : <p className="text-muted-foreground text-center py-8">No open tasks.</p>
+          )) : <p className="text-muted-foreground text-center py-8">No open tasks yet.</p>
         )}
       </div>
 

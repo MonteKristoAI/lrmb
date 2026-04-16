@@ -8,6 +8,7 @@ import { I18nProvider } from "@/lib/i18n";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { InstallPrompt } from "@/components/pwa/InstallPrompt";
 import { UpdatePrompt } from "@/components/pwa/UpdatePrompt";
+import { OfflineBanner } from "@/components/pwa/OfflineBanner";
 import { lazy, Suspense } from "react";
 
 const Login = lazy(() => import("./pages/Login"));
@@ -53,11 +54,12 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <InstallPrompt />
-      <UpdatePrompt />
       <BrowserRouter>
         <I18nProvider>
           <AuthProvider>
+          <InstallPrompt />
+          <UpdatePrompt />
+          <OfflineBanner />
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/login" element={<Login />} />
@@ -76,11 +78,11 @@ const App = () => (
               <Route path="/admin/inspections" element={<ProtectedRoute requireAdminAccess><InspectionQueue /></ProtectedRoute>} />
               <Route path="/admin/vendors" element={<ProtectedRoute requireAdminAccess><VendorManagement /></ProtectedRoute>} />
               <Route path="/inspections/:id" element={<ProtectedRoute><InspectionChecklist /></ProtectedRoute>} />
-              <Route path="/supervisor" element={<ProtectedRoute requireAdminAccess><SupervisorDashboard /></ProtectedRoute>} />
-              <Route path="/supervisor/verify" element={<ProtectedRoute requireAdminAccess><VerificationQueue /></ProtectedRoute>} />
-              <Route path="/supervisor/kpi" element={<ProtectedRoute requireAdminAccess><KPIOverview /></ProtectedRoute>} />
-              <Route path="/supervisor/staff" element={<ProtectedRoute requireAdminAccess><StaffWorkload /></ProtectedRoute>} />
-              <Route path="/supervisor/trends" element={<ProtectedRoute requireAdminAccess><TrendCharts /></ProtectedRoute>} />
+              <Route path="/supervisor" element={<ProtectedRoute requireSupervisorAccess><SupervisorDashboard /></ProtectedRoute>} />
+              <Route path="/supervisor/verify" element={<ProtectedRoute requireSupervisorAccess><VerificationQueue /></ProtectedRoute>} />
+              <Route path="/supervisor/kpi" element={<ProtectedRoute requireSupervisorAccess><KPIOverview /></ProtectedRoute>} />
+              <Route path="/supervisor/staff" element={<ProtectedRoute requireSupervisorAccess><StaffWorkload /></ProtectedRoute>} />
+              <Route path="/supervisor/trends" element={<ProtectedRoute requireSupervisorAccess><TrendCharts /></ProtectedRoute>} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

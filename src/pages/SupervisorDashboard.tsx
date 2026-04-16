@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { CheckCircle2, Clock, TrendingUp, Users, BarChart3, RotateCcw } from "lucide-react";
+import { CheckCircle2, Clock, AlertTriangle, Users, BarChart3, RotateCcw } from "lucide-react";
 import { isPast, differenceInHours } from "date-fns";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
 
@@ -58,8 +58,8 @@ const SupervisorDashboard = () => {
             <div className="grid grid-cols-2 gap-3">
               <KPICard label="Pending Verification" value={pendingVerify.length} icon={CheckCircle2} />
               <KPICard label="Avg Cycle Time" value={`${avgCycleHrs}h`} icon={Clock} />
-              <KPICard label="Overdue" value={overdue.length} icon={TrendingUp} />
-              <KPICard label="Photo Tasks Done" value={`${photoCompliance}%`} sub={`${photoRequiredDone}/${photoRequiredTotal}`} icon={BarChart3} />
+              <KPICard label="Overdue" value={overdue.length} icon={AlertTriangle} />
+              <KPICard label="Photo Compliance" value={`${photoCompliance}%`} sub={`${photoRequiredDone} completed / ${photoRequiredTotal} requiring photos`} icon={BarChart3} />
               <KPICard label="Repeat Rate" value={`${repeatRate}%`} sub="Target: < 20%" icon={RotateCcw} />
             </div>
 
