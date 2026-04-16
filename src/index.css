@@ -5,7 +5,8 @@
 @layer base {
   :root {
     /* LRMB Branding — luxuryrentalsmiamibeach.com
-       Primary: Ocean Teal #0680A2 | Accent: Warm Taupe #C4BAB1 | Dark: Deep Navy #0F1828 */
+       Navy: #0F1828 | Taupe: #C4BAB1 | White: #FFFFFF
+       Fonts: Raleway (body) + Lora (headings) */
     --background: 218 45% 11%;
     --foreground: 28 14% 92%;
 
@@ -15,8 +16,8 @@
     --popover: 218 40% 14%;
     --popover-foreground: 28 14% 92%;
 
-    --primary: 193 93% 33%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 28 14% 73%;
+    --primary-foreground: 218 45% 11%;
 
     --secondary: 218 30% 20%;
     --secondary-foreground: 28 14% 92%;
@@ -24,7 +25,7 @@
     --muted: 218 30% 18%;
     --muted-foreground: 218 15% 55%;
 
-    --accent: 28 14% 73%;
+    --accent: 28 20% 65%;
     --accent-foreground: 218 45% 11%;
 
     --destructive: 0 72% 51%;
@@ -32,12 +33,12 @@
 
     --border: 218 20% 22%;
     --input: 218 20% 22%;
-    --ring: 193 93% 33%;
+    --ring: 28 14% 73%;
 
     --radius: 0.625rem;
 
     /* Status colors */
-    --status-new: 193 80% 40%;
+    --status-new: 210 80% 55%;
     --status-assigned: 200 70% 50%;
     --status-in-progress: 38 92% 50%;
     --status-waiting: 28 80% 52%;
@@ -47,18 +48,18 @@
 
     /* Priority colors */
     --priority-low: 210 15% 50%;
-    --priority-medium: 193 70% 40%;
+    --priority-medium: 28 14% 73%;
     --priority-high: 25 90% 55%;
     --priority-urgent: 0 72% 51%;
 
     --sidebar-background: 218 40% 12%;
     --sidebar-foreground: 28 14% 92%;
-    --sidebar-primary: 193 93% 33%;
-    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-primary: 28 14% 73%;
+    --sidebar-primary-foreground: 218 45% 11%;
     --sidebar-accent: 218 30% 18%;
     --sidebar-accent-foreground: 28 14% 92%;
     --sidebar-border: 218 20% 22%;
-    --sidebar-ring: 193 93% 33%;
+    --sidebar-ring: 28 14% 73%;
   }
 }
 

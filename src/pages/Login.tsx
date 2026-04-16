@@ -28,9 +28,9 @@ const Login = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="w-full max-w-sm space-y-8">
-        <div className="text-center space-y-2">
-          <h1 className="text-3xl font-bold text-primary">LRMB</h1>
-          <p className="text-sm text-muted-foreground">Field Ops Warp-Speed Module</p>
+        <div className="text-center space-y-4">
+          <img src="/lrmb-logo-white.png" alt="Luxury Rentals Miami Beach" className="h-20 w-auto mx-auto object-contain" />
+          <p className="text-sm text-muted-foreground">Field Operations</p>
         </div>
 
         <form onSubmit={handleLogin} className="space-y-4">
