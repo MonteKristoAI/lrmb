@@ -1,15 +1,13 @@
 import { ReactNode } from "react";
 import { useAuth } from "@/lib/auth";
-import { useI18n } from "@/lib/i18n";
 import { usePushNotifications } from "@/hooks/usePushNotifications";
 import { MobileNav } from "./MobileNav";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
-import { LogOut, Globe, BellRing, BellOff } from "lucide-react";
+import { LogOut, BellRing, BellOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function AppShell({ children, title }: { children: ReactNode; title?: string }) {
   const { profile, signOut } = useAuth();
-  const { locale, setLocale } = useI18n();
   const { isSupported, isSubscribed, subscribe, unsubscribe } = usePushNotifications();
 
   return (
@@ -20,16 +18,6 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
           <p className="text-xs text-muted-foreground truncate">{profile?.full_name || ""}</p>
         </div>
         <div className="flex items-center gap-1">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setLocale(locale === "en" ? "es" : "en")}
-            className="tap-target text-xs px-2"
-            title={locale === "en" ? "Switch to Spanish" : "Cambiar a Ingles"}
-          >
-            <Globe className="h-4 w-4 mr-1" />
-            {locale.toUpperCase()}
-          </Button>
           {isSupported && (
             <Button
               variant="ghost"
