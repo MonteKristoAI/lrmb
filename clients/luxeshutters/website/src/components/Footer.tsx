@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { MapPin, Phone, Mail, Clock, Facebook, Instagram } from "lucide-react";
 import { CLINIC } from "@/data/clinicData";
+
 const LOCATION_LINKS = [
   { slug: "temora", name: "Temora" },
   { slug: "wagga-wagga", name: "Wagga Wagga" },
@@ -12,6 +13,15 @@ const LOCATION_LINKS = [
   { slug: "cowra", name: "Cowra" },
 ];
 
+const QUICK_LINKS = [
+  { label: "Services", href: "/services" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
+];
+
+const PHONE_TEL = CLINIC.phone.replace(/[^\d+]/g, "");
+
 export default function Footer() {
   return (
     <footer className="bg-foreground text-primary-foreground">
@@ -22,25 +32,33 @@ export default function Footer() {
               <span className="font-serif font-bold text-xl">{CLINIC.name}</span>
             </div>
             <p className="text-primary-foreground/60 text-sm leading-relaxed mb-6">
-              {CLINIC.slogan} Premium shutters, blinds, curtains, and outdoor screens — professionally installed across the Temora & Riverina region.
+              {CLINIC.slogan} Premium shutters, blinds, curtains, and outdoor screens — professionally installed across the Temora &amp; Riverina region.
             </p>
             <div className="flex gap-3">
-              <a href="https://www.facebook.com/Luxeshutters" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-primary/30 flex items-center justify-center transition-colors"><Facebook className="w-4 h-4" /></a>
-              <a href="https://www.instagram.com/luxe_shutters" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-primary/30 flex items-center justify-center transition-colors"><Instagram className="w-4 h-4" /></a>
+              <a href="https://www.facebook.com/Luxeshutters" target="_blank" rel="noopener noreferrer" aria-label="Luxe Shutters on Facebook" className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-primary/30 flex items-center justify-center transition-colors">
+                <Facebook className="w-4 h-4" aria-hidden="true" />
+              </a>
+              <a href="https://www.instagram.com/luxe_shutters" target="_blank" rel="noopener noreferrer" aria-label="Luxe Shutters on Instagram" className="w-9 h-9 rounded-full bg-primary-foreground/10 hover:bg-primary/30 flex items-center justify-center transition-colors">
+                <Instagram className="w-4 h-4" aria-hidden="true" />
+              </a>
             </div>
           </div>
 
           <div>
             <h4 className="font-serif font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2.5">
-              {["Services", "Blog", "Contact"].map((link) => (
-                <li key={link}><Link to={`/${link.toLowerCase()}`} className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors">{link}</Link></li>
+              {QUICK_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link to={link.href} className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors">{link.label}</Link>
+                </li>
               ))}
             </ul>
             <h4 className="font-serif font-semibold mb-3 mt-6">Service Areas</h4>
             <ul className="space-y-1.5">
               {LOCATION_LINKS.map((loc) => (
-                <li key={loc.slug}><a href={`/${loc.slug}/`} className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors">{loc.name}</a></li>
+                <li key={loc.slug}>
+                  <a href={`/${loc.slug}`} className="text-sm text-primary-foreground/60 hover:text-primary-foreground transition-colors">{loc.name}</a>
+                </li>
               ))}
             </ul>
           </div>
@@ -48,18 +66,31 @@ export default function Footer() {
           <div>
             <h4 className="font-serif font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-3">
-              <li className="flex items-start gap-2.5 text-sm text-primary-foreground/60"><MapPin className="w-4 h-4 mt-0.5 shrink-0 text-primary" />{CLINIC.address}</li>
-              <li className="flex items-center gap-2.5 text-sm text-primary-foreground/60"><Phone className="w-4 h-4 shrink-0 text-primary" /><a href={`tel:${CLINIC.phone.replace(/[^\d+]/g, "")}`} className="hover:text-primary-foreground transition-colors">{CLINIC.phone}</a></li>
-              <li className="flex items-center gap-2.5 text-sm text-primary-foreground/60"><Mail className="w-4 h-4 shrink-0 text-primary" /><a href={`mailto:${CLINIC.email}`} className="hover:text-primary-foreground transition-colors">{CLINIC.email}</a></li>
+              <li className="flex items-start gap-2.5 text-sm text-primary-foreground/60">
+                <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+                <span>{CLINIC.address}</span>
+              </li>
+              <li className="flex items-center gap-2.5 text-sm text-primary-foreground/60">
+                <Phone className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" />
+                <a href={`tel:${PHONE_TEL}`} className="hover:text-primary-foreground transition-colors">{CLINIC.phone}</a>
+              </li>
+              <li className="flex items-center gap-2.5 text-sm text-primary-foreground/60">
+                <Mail className="w-4 h-4 shrink-0 text-primary" aria-hidden="true" />
+                <a href={`mailto:${CLINIC.email}`} className="hover:text-primary-foreground transition-colors">{CLINIC.email}</a>
+              </li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-serif font-semibold mb-4">Hours and Service Area</h4>
+            <h4 className="font-serif font-semibold mb-4">Hours &amp; Service Area</h4>
             <ul className="space-y-2.5">
               <li className="flex items-start gap-2.5 text-sm text-primary-foreground/60">
-                <Clock className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
-                <div><p>{CLINIC.hours.weekday}</p><p>{CLINIC.hours.saturday}</p><p>{CLINIC.hours.sunday}</p></div>
+                <Clock className="w-4 h-4 mt-0.5 shrink-0 text-primary" aria-hidden="true" />
+                <div>
+                  <p>{CLINIC.hours.weekday}</p>
+                  <p>{CLINIC.hours.saturday}</p>
+                  <p>{CLINIC.hours.sunday}</p>
+                </div>
               </li>
             </ul>
             <p className="text-xs text-primary-foreground/40 mt-4">Serving Temora, Wagga Wagga, Young, West Wyalong, Cootamundra, Junee, Griffith, Cowra, and surrounding areas across regional NSW.</p>
@@ -67,11 +98,11 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-primary-foreground/10 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-primary-foreground/40">© {new Date().getFullYear()} {CLINIC.name}. All rights reserved. Licensed and Insured.</p>
-          <div className="flex gap-4 text-xs text-primary-foreground/40">
-            <a href="#" className="hover:text-primary-foreground/60 transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-primary-foreground/60 transition-colors">Terms of Service</a>
-          </div>
+          <p className="text-xs text-primary-foreground/40">© {new Date().getFullYear()} {CLINIC.name}. All rights reserved. Licensed and insured.</p>
+          <nav aria-label="Legal" className="flex gap-4 text-xs text-primary-foreground/40">
+            <Link to="/privacy" className="hover:text-primary-foreground/60 transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="hover:text-primary-foreground/60 transition-colors">Terms of Service</Link>
+          </nav>
         </div>
       </div>
     </footer>

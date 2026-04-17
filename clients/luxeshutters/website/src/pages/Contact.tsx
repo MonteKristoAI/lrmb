@@ -13,7 +13,7 @@ const Contact = () => (
     />
     <StructuredData data={buildBreadcrumbData([{ name: "Home", url: `${SITE_URL}/` }, { name: "Contact", url: `${SITE_URL}/contact` }])} id="ld-breadcrumb" />
     <Header />
-    <main className="pt-24">
+    <main id="main" className="pt-24">
       <ConsultationForm />
     </main>
     <Footer />

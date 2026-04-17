@@ -1,0 +1,32 @@
+{
+  "name": "Luxe Shutters",
+  "short_name": "Luxe Shutters",
+  "description": "Premium shutters, blinds, curtains, zipscreens and awnings — custom-made and professionally installed in Temora and the Riverina, NSW.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f5f7",
+  "theme_color": "#1E5AA8",
+  "lang": "en-AU",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

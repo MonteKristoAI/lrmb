@@ -23,35 +23,52 @@
 
   <title>{{TITLE}}</title>
   <meta name="description" content="{{META_DESCRIPTION}}">
+  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+
+  <!-- Favicons (served from main luxeshutters.com.au domain) -->
+  <link rel="icon" type="image/x-icon" href="https://luxeshutters.com.au/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://luxeshutters.com.au/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://luxeshutters.com.au/favicon-16x16.png">
   <link rel="icon" type="image/webp" href="https://luxeshutters.com.au/favicon.webp">
-  <link rel="canonical" href="https://luxeshutters.com.au/{{SLUG}}/">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://luxeshutters.com.au/apple-touch-icon.png">
+  <link rel="manifest" href="https://luxeshutters.com.au/site.webmanifest">
+  <meta name="theme-color" content="#1E5AA8">
+  <meta name="msapplication-TileColor" content="#1E5AA8">
+  <meta name="apple-mobile-web-app-title" content="Luxe Shutters">
+  <meta name="application-name" content="Luxe Shutters">
+
+  <link rel="canonical" href="https://luxeshutters.com.au/{{SLUG}}">
+  <link rel="alternate" hreflang="en-AU" href="https://luxeshutters.com.au/{{SLUG}}">
+  <link rel="alternate" hreflang="x-default" href="https://luxeshutters.com.au/{{SLUG}}">
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://luxeshutters.com.au/{{SLUG}}/">
+  <meta property="og:url" content="https://luxeshutters.com.au/{{SLUG}}">
   <meta property="og:title" content="{{TITLE}}">
   <meta property="og:description" content="{{META_DESCRIPTION}}">
   <meta property="og:image" content="https://luxeshutters.com.au/og-image.webp">
+  <meta property="og:image:type" content="image/webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Luxe Shutters — premium shutters, blinds and curtains serving {{NAME}} and regional NSW">
   <meta property="og:site_name" content="Luxe Shutters">
+  <meta property="og:locale" content="en_AU">
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{TITLE}}">
+  <meta name="twitter:description" content="{{META_DESCRIPTION}}">
+  <meta name="twitter:image" content="https://luxeshutters.com.au/og-image.webp">
+  <meta name="twitter:image:alt" content="Luxe Shutters — premium shutters, blinds and curtains serving {{NAME}} and regional NSW">
+
   <meta name="geo.region" content="AU-NSW">
   <meta name="geo.placename" content="{{NAME}}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-  tailwind.config={theme:{extend:{colors:{primary:{DEFAULT:'#3472b0',foreground:'#f2f5f7'},accent:{DEFAULT:'#d97a1e',foreground:'#f2f5f7'},foreground:'#1d2939',background:'#f2f5f7',card:{DEFAULT:'#fafcfd',foreground:'#1d2939'},muted:{DEFAULT:'#e8ecf0',foreground:'#6b7b8a'},secondary:{DEFAULT:'#e5e9ed',foreground:'#1d2939'},border:'#d5dbe1'},fontFamily:{serif:['Playfair Display','Georgia','serif'],sans:['Inter','system-ui','sans-serif']},boxShadow:{soft:'0 2px 15px -3px rgba(52,114,176,0.08),0 4px 6px -4px rgba(52,114,176,0.05)',card:'0 4px 25px -5px rgba(29,41,57,0.06),0 8px 10px -6px rgba(29,41,57,0.04)',elevated:'0 10px 40px -10px rgba(29,41,57,0.12),0 4px 15px -5px rgba(29,41,57,0.06)'}}}};
-  </script>
-  <style>
-  body{font-family:'Inter',system-ui,sans-serif;color:#1d2939;background:#f2f5f7;margin:0}
-  .font-serif{font-family:'Playfair Display',Georgia,serif}
-  .header-scrolled{background:#F0F4F8!important;box-shadow:0 2px 15px -3px rgba(52,114,176,0.08)}
-  .header-scrolled .nav-link,.header-scrolled .logo-name{color:#2B3540!important}
-  .header-scrolled .logo-sub{color:#6b7d8e!important}
-  details summary::-webkit-details-marker{display:none}
-  details summary{list-style:none}
-  .container{max-width:100%!important}
-  @media(min-width:1536px){.container{max-width:1536px!important}}
-  </style>
+
+  <!-- Pre-compiled Tailwind CSS (no CDN runtime JIT). Served from main CF Pages to avoid cross-project coupling. -->
+  <link rel="stylesheet" href="https://luxeshutters.com.au/css/location.css">
   {{SCHEMA}}
 </head>
 <body class="min-h-screen">
@@ -119,7 +136,7 @@
   <!-- ===== HERO (matches HeroSection.tsx — 90vh, gradient, trust chips) ===== -->
   <section class="relative min-h-[90vh] flex items-center overflow-hidden">
     <div class="absolute inset-0">
-      <img src="https://luxeshutters.com.au/assets/hero-shutters-DdkkjlGw.webp" alt="Luxurious living room with premium plantation shutters in {{NAME}}" class="w-full h-full object-cover" loading="eager" fetchpriority="high">
+      <img src="https://luxeshutters.com.au/hero-shutters.webp" alt="Luxurious living room with premium plantation shutters in {{NAME}}" class="w-full h-full object-cover" loading="eager" fetchpriority="high">
       <div class="absolute inset-0 bg-gradient-to-r from-[#1a1f2e]/95 via-[#1a1f2e]/75 to-[#1a1f2e]/30"></div>
     </div>
     <div class="container mx-auto px-4 lg:px-8 relative z-10 py-32 lg:py-40" >
@@ -180,27 +197,27 @@
       </div>
       <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <a href="https://luxeshutters.com.au/services#shutters" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-shutters-Dfng9GS2.webp" alt="Shutters in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/service-shutters.webp" alt="Shutters in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
           <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Shutters</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Our shutters combine timeless elegance with exceptional craftsmanship, adding a touch of sophistication to any space.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
         </a>
         <a href="https://luxeshutters.com.au/services#blinds" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-blinds-DMmHyikZ.webp" alt="Blinds in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/service-blinds.webp" alt="Blinds in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
           <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Blinds</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">With their versatility and functionality, our blinds are the perfect blend of fashion and practicality.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
         </a>
         <a href="https://luxeshutters.com.au/services#curtains" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-curtains-DrwC3v-e.webp" alt="Curtains in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/service-curtains.webp" alt="Curtains in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
           <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Curtains</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">From sheer elegance to opulent drapes, our curtains offer a wide range of options to suit your personal taste.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
         </a>
         <a href="https://luxeshutters.com.au/services#zipscreens" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-zipscreens-C5wqX4qA.webp" alt="Zipscreens in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/service-zipscreens.webp" alt="Zipscreens in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
           <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Zipscreens</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Sleek design, smooth operation, and customizable options — seamlessly blending into your existing architecture.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
         </a>
         <a href="https://luxeshutters.com.au/services#awnings" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-awnings-BcmSuHmw.webp" alt="Awnings in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/service-awnings.webp" alt="Awnings in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
           <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Awnings</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Our awnings provide the perfect shade solution, protecting you from the scorching sun while adding elegance.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
         </a>
         <a href="https://luxeshutters.com.au/services#security-roller-shutters" class="group text-left rounded-2xl border border-border/60 bg-card shadow-card overflow-hidden transition-all duration-300 hover:shadow-elevated hover:-translate-y-1">
-          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/assets/service-roller-shutters-BYnkIdHt.webp" alt="Security roller shutters in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
+          <div class="aspect-[16/10] overflow-hidden"><img src="https://luxeshutters.com.au/service-roller-shutters.webp" alt="Security roller shutters in {{NAME}}" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy"></div>
           <div class="p-5 sm:p-6"><h3 class="font-serif text-lg font-semibold">Security Roller Shutters</h3><p class="mt-1.5 text-sm text-muted-foreground leading-relaxed">Designed to protect your windows and doors with robust defense, privacy, and insulation.</p><span class="mt-3 inline-flex items-center gap-1 text-sm font-medium text-primary group-hover:gap-2 transition-all">Learn more →</span></div>
         </a>
       </div>
@@ -210,7 +227,7 @@
   <!-- ===== PROCESS / HOW IT WORKS (matches WhyChooseUs.tsx) ===== -->
   <section class="relative py-24 lg:py-32 overflow-hidden" style="background:linear-gradient(180deg,#eff2f5,#f2f4f7)">
     <div class="absolute inset-0 overflow-hidden">
-      <img src="https://luxeshutters.com.au/assets/hero-shutters-DdkkjlGw.webp" alt="" class="w-full h-full object-cover opacity-[0.08]" loading="lazy">
+      <img src="https://luxeshutters.com.au/hero-shutters.webp" alt="" class="w-full h-full object-cover opacity-[0.08]" loading="lazy">
     </div>
     <div class="container mx-auto px-4 lg:px-8 relative z-10">
       <div class="max-w-3xl mb-20">

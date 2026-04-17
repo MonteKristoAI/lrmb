@@ -22,12 +22,16 @@ const urgencyOptions = [
 { label: "Ready to get started", description: "Want to schedule ASAP" }];
 
 
+// n8n webhook — source of truth in clients/luxeshutters/INTEGRATIONS.md
+const QUOTE_WEBHOOK = "https://primary-production-5fdce.up.railway.app/webhook/luxe-quote-generate";
+
 export default function BookingSection() {
   const [step, setStep] = useState(1);
   const [service, setService] = useState("");
   const [urgency, setUrgency] = useState("");
   const [form, setForm] = useState({ firstName: "", lastName: "", phone: "", email: "", address: "", city: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const { ref, isVisible } = useScrollAnimation();
 
   const nextStep = () => setStep((s) => Math.min(s + 1, 4));
@@ -36,17 +40,22 @@ export default function BookingSection() {
 
   const handleSubmit = async () => {
     setSubmitting(true);
+    setErrorMsg(null);
     try {
-      await fetch("https://primary-production-5fdce.up.railway.app/webhook/luxe-quote", {
+      const res = await fetch(QUOTE_WEBHOOK, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, service, urgency }),
       });
-    } catch (_) {
-      // Silent fail — still show success to user
+      if (!res.ok) {
+        throw new Error(`Server responded ${res.status}`);
+      }
+      setSubmitted(true);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Unknown error";
+      setErrorMsg(msg);
     } finally {
       setSubmitting(false);
-      setSubmitted(true);
     }
   };
 
@@ -120,7 +129,7 @@ export default function BookingSection() {
                 <button onClick={prevStep} className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-4"><ChevronLeft className="w-4 h-4" /> Back</button>
                 <h3 className="font-serif text-xl font-semibold mb-4">Your location</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                  <div className="sm:col-span-2"><label className="text-sm text-muted-foreground mb-1 block">Street address *</label><Input value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} placeholder="123 Desert View Dr" /></div>
+                  <div className="sm:col-span-2"><label className="text-sm text-muted-foreground mb-1 block">Street address *</label><Input value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} placeholder="e.g. 12 Main St" /></div>
                   <div className="sm:col-span-2"><label className="text-sm text-muted-foreground mb-1 block">City *</label><Input value={form.city} onChange={(e) => setForm({ ...form, city: e.target.value })} placeholder="Temora" /></div>
                 </div>
                 {form.address && form.city && <Button variant="hero" className="w-full" onClick={nextStep}>Continue</Button>}
@@ -146,6 +155,15 @@ export default function BookingSection() {
                   </div>
                 </div>
                 <Button variant="hero" size="lg" className="w-full" onClick={handleSubmit} disabled={!form.firstName || !form.lastName || !form.phone || submitting}>{submitting ? "Submitting…" : "Submit quote request"}</Button>
+                {errorMsg && (
+                  <div role="alert" aria-live="assertive" className="mt-3 rounded-lg border border-destructive/40 bg-destructive/5 p-4 text-sm">
+                    <p className="font-medium text-destructive mb-1">We couldn't submit your request.</p>
+                    <p className="text-muted-foreground mb-2">
+                      Please try again, or call us directly at <a href={`tel:${CLINIC.phone.replace(/[^\d+]/g, "")}`} className="font-medium text-foreground hover:text-primary transition-colors">{CLINIC.phone}</a> and we'll book your consultation over the phone.
+                    </p>
+                    <p className="text-xs text-muted-foreground/70">Error: {errorMsg}</p>
+                  </div>
+                )}
                 <p className="text-xs text-muted-foreground text-center mt-3">We'll contact you within 1 business day to schedule your free consultation.</p>
               </div>
             }

@@ -16,7 +16,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const DIST = join(__dirname, "..", "dist");
 const PORT = 4173;
-const ROUTES = ["/", "/services", "/gallery", "/blog", "/contact"];
+const ROUTES = ["/", "/services", "/gallery", "/blog", "/contact", "/privacy", "/terms"];
 
 // Simple static file server for dist/
 function startServer() {

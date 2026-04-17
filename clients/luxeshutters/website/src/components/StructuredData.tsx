@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import type { Review } from "@/data/clinicData";
 
 interface StructuredDataProps {
   data: Record<string, unknown> | Record<string, unknown>[];
@@ -22,16 +23,27 @@ export default function StructuredData({ data, id = "structured-data" }: Structu
 }
 
 const SITE_URL = import.meta.env.VITE_SITE_URL || "https://luxeshutters.com.au";
+const BUSINESS_ID = `${SITE_URL}/#business`;
+const ORG_ID = `${SITE_URL}/#org`;
+
+// E.164 phone for Schema.org (no separators per ITU-T E.164). Display format stays in clinicData.CLINIC.phone.
+const TELEPHONE_E164 = "+611800465893";
 
 export const ORGANIZATION_DATA = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": ORG_ID,
   name: "Luxe Shutters",
   url: SITE_URL,
-  logo: `${SITE_URL}/logo-widget.png`,
+  logo: {
+    "@type": "ImageObject",
+    url: `${SITE_URL}/logo-widget.webp`,
+    width: 512,
+    height: 512,
+  },
   contactPoint: {
     "@type": "ContactPoint",
-    telephone: "1800-465-893",
+    telephone: TELEPHONE_E164,
     contactType: "customer service",
     areaServed: "AU",
     availableLanguage: "English",
@@ -42,19 +54,48 @@ export const ORGANIZATION_DATA = {
   ],
 };
 
+export function buildAggregateRating(reviews: Review[]) {
+  const validRatings = reviews.map((r) => r.rating).filter((r) => typeof r === "number");
+  if (validRatings.length === 0) return undefined;
+  const avg = validRatings.reduce((s, r) => s + r, 0) / validRatings.length;
+  return {
+    "@type": "AggregateRating",
+    ratingValue: avg.toFixed(1),
+    reviewCount: validRatings.length.toString(),
+    bestRating: "5",
+    worstRating: "1",
+  };
+}
+
+export function buildReviewSchema(review: Review) {
+  return {
+    "@type": "Review",
+    author: { "@type": "Person", name: review.name },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: review.rating.toString(),
+      bestRating: "5",
+      worstRating: "1",
+    },
+    reviewBody: review.text,
+    itemReviewed: { "@id": BUSINESS_ID },
+  };
+}
+
 export const LOCAL_BUSINESS_DATA = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
+  "@id": BUSINESS_ID,
   name: "Luxe Shutters",
-  description: "Premium shutters, blinds, curtains, zipscreens, and awnings -- custom-made and professionally installed in Temora and the Riverina region.",
+  description: "Premium shutters, blinds, curtains, zipscreens, and awnings — custom-made and professionally installed in Temora and the Riverina region.",
   url: SITE_URL,
-  telephone: "1800-465-893",
+  telephone: TELEPHONE_E164,
   email: "admin@luxeshutters.com.au",
   address: {
     "@type": "PostalAddress",
     streetAddress: "185 Hoskins St",
     addressLocality: "Temora",
-    addressRegion: "New South Wales",
+    addressRegion: "NSW",
     postalCode: "2666",
     addressCountry: "AU",
   },
@@ -72,7 +113,8 @@ export const LOCAL_BUSINESS_DATA = {
     },
   ],
   priceRange: "$$",
-  image: `${SITE_URL}/og-image.png`,
+  image: `${SITE_URL}/og-image.webp`,
+  logo: `${SITE_URL}/logo-widget.webp`,
   areaServed: [
     { "@type": "City", name: "Temora" },
     { "@type": "City", name: "Wagga Wagga" },
@@ -83,7 +125,22 @@ export const LOCAL_BUSINESS_DATA = {
     { "@type": "City", name: "Junee" },
     { "@type": "City", name: "Cowra" },
   ],
+  sameAs: [
+    "https://www.facebook.com/Luxeshutters",
+    "https://www.instagram.com/luxe_shutters",
+  ],
 };
+
+/** Build a LocalBusiness augmented with AggregateRating + top-N reviews */
+export function buildLocalBusinessWithReviews(reviews: Review[], topReviewCount = 5) {
+  const aggregateRating = buildAggregateRating(reviews);
+  const topReviews = reviews.slice(0, topReviewCount).map(buildReviewSchema);
+  return {
+    ...LOCAL_BUSINESS_DATA,
+    ...(aggregateRating ? { aggregateRating } : {}),
+    ...(topReviews.length > 0 ? { review: topReviews } : {}),
+  };
+}
 
 export function buildServiceData(serviceName: string, serviceDescription: string) {
   return {
@@ -91,11 +148,7 @@ export function buildServiceData(serviceName: string, serviceDescription: string
     "@type": "Service",
     name: serviceName,
     description: serviceDescription,
-    provider: {
-      "@type": "LocalBusiness",
-      name: "Luxe Shutters",
-      url: SITE_URL,
-    },
+    provider: { "@id": BUSINESS_ID },
     areaServed: {
       "@type": "State",
       name: "New South Wales",
@@ -103,7 +156,19 @@ export function buildServiceData(serviceName: string, serviceDescription: string
   };
 }
 
-export { SITE_URL };
+/** All 6 product-line services in one array (Services page) */
+export function buildAllServiceSchemas() {
+  return [
+    buildServiceData("Plantation Shutters", "Custom plantation shutters in timber, PVC, and aluminium — professionally installed across Temora and the Riverina."),
+    buildServiceData("Window Blinds", "Roller, venetian, vertical, and motorised blinds in a wide range of fabrics and colours."),
+    buildServiceData("Curtains", "Custom sheer, block-out, and thermal-lined curtains with S-fold, pinch pleat, and eyelet heading styles."),
+    buildServiceData("Zipscreens", "Wind-rated outdoor zipscreens with UV protection up to 99%, motorised with smart-home control."),
+    buildServiceData("Awnings", "Retractable and fixed awnings for outdoor living areas — weather-resistant fabrics and frames."),
+    buildServiceData("Security Roller Shutters", "Insurance-approved security roller shutters with motorised operation and thermal insulation."),
+  ];
+}
+
+export { SITE_URL, BUSINESS_ID, ORG_ID, TELEPHONE_E164 };
 
 export function buildFAQData(faqs: { q: string; a: string }[]) {
   return {

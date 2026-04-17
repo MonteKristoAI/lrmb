@@ -9,6 +9,8 @@ import Blog from "./pages/Blog";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Gallery from "./pages/Gallery";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import FloatingCallButton from "./components/FloatingCallButton";
@@ -28,6 +30,8 @@ function AppRoutes() {
         <Route path="/services" element={<Services />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

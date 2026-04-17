@@ -11,79 +11,9 @@ export const CLINIC = {
   },
 };
 
-export interface TeamMember {
-  name: string;
-  role: string;
-  focus: string;
-  image: string;
-  credentials?: string[];
-}
-
-export const TEAM: TeamMember[] = [
-  {
-    name: "Ryan Caldwell",
-    role: "Owner & Lead Estimator",
-    focus: "15+ years designing and installing premium window furnishings — from shutters and blinds to outdoor screens",
-    image: "team-ryan",
-  },
-  {
-    name: "Marco Vasquez",
-    role: "Senior Project Manager",
-    focus: "Full-scale shutter and blind installation projects, from initial measurement to final inspection",
-    image: "team-marco",
-  },
-  {
-    name: "Jenna Park",
-    role: "Design Consultant",
-    focus: "Custom window furnishing selection, style recommendations, and client collaboration on home aesthetics",
-    image: "team-jenna",
-  },
-  {
-    name: "Derek Sullivan",
-    role: "Lead Installer",
-    focus: "Precision shutter fitting, blind installation, zipscreen mounting, and finish detailing",
-    image: "team-derek",
-  },
-  {
-    name: "Lisa Nguyen",
-    role: "Estimator & Project Planner",
-    focus: "On-site measurements, project scoping, timelines, and detailed cost planning",
-    image: "team-lisa",
-  },
-];
-
-export const SERVICES = [
-  {
-    title: "Shutters",
-    description: "Our shutters combine timeless elegance with exceptional craftsmanship, adding a touch of sophistication to any space.",
-    icon: "blinds",
-  },
-  {
-    title: "Blinds",
-    description: "With their versatility and functionality, our blinds are the perfect blend of fashion and practicality.",
-    icon: "sliders-horizontal",
-  },
-  {
-    title: "Curtains",
-    description: "From sheer elegance to opulent drapes, our curtains offer a wide range of options to suit your personal taste and interior decor.",
-    icon: "curtains",
-  },
-  {
-    title: "Zipscreens",
-    description: "Sleek design, smooth operation, and customizable options, our zip screens seamlessly blend into your existing architecture.",
-    icon: "monitor",
-  },
-  {
-    title: "Awnings",
-    description: "Our awnings provide the perfect shade solution, protecting you from the scorching sun while adding a touch of elegance.",
-    icon: "umbrella",
-  },
-  {
-    title: "Security Roller Shutters",
-    description: "Designed to protect your home, our roller shutters offer a robust defense against intruders, while adding a layer of privacy and insulation.",
-    icon: "shield",
-  },
-];
+// NOTE: Real founders and team content live in components/AboutTeam.tsx
+// (Campbell & Claire Maxwell, Chris & Amber Hanlon). This file holds only
+// CLINIC metadata, REVIEWS, and BLOG_POSTS actually consumed by components.
 
 export interface Review {
   name: string;

@@ -20,7 +20,8 @@ import {
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import FAQSection from "@/components/FAQSection";
 import SEOHead from "@/components/SEOHead";
-import StructuredData, { buildBreadcrumbData, SITE_URL } from "@/components/StructuredData";
+import StructuredData, { buildBreadcrumbData, buildFAQData, buildAllServiceSchemas, SITE_URL } from "@/components/StructuredData";
+import { FAQS } from "@/data/faqData";
 
 import serviceShutters from "@/assets/service-shutters.webp";
 import serviceBlinds from "@/assets/service-blinds.webp";
@@ -97,41 +98,6 @@ const TRUST_POINTS = [
 { icon: Shield, text: "Licensed and insured" },
 { icon: Zap, text: "Quality craftsmanship" },
 { icon: ClipboardList, text: "Free in-home measurements" }];
-
-
-const FAQS = [
-{
-  q: "How long does installation take?",
-  a: "Most standard installations take 1–3 hours per window. Larger projects like whole-home shutters or zipscreens may take 1–2 days. We provide detailed timelines during your consultation."
-},
-{
-  q: "Do you offer free estimates?",
-  a: "Yes. In-home consultations and estimates are completely free with no obligation. We provide detailed written proposals with transparent pricing."
-},
-{
-  q: "What products do you recommend for maximum privacy?",
-  a: "Shutters and security roller shutters offer the best privacy. Block-out blinds and curtains with thermal lining are also excellent options for bedrooms and living areas."
-},
-{
-  q: "Are you licensed and insured?",
-  a: "Absolutely. We're fully licensed and insured with experienced installers on every project."
-},
-{
-  q: "Do you offer motorised options?",
-  a: "Yes! Most of our products are available with motorised operation, including smart-home integration with remotes, wall switches, or app control."
-},
-{
-  q: "What about warranty coverage?",
-  a: "All our products come with manufacturer warranties. We also provide a workmanship warranty on every installation. Ask about specific coverage during your consultation."
-},
-{
-  q: "Do you offer financing?",
-  a: "Yes. We offer flexible payment options on qualifying projects. Ask about our payment plans during your consultation."
-},
-{
-  q: "Can you match my existing decor?",
-  a: "Absolutely. We offer a huge range of colours, fabrics, and finishes across all product lines. Bring in a sample or photo and we'll find the perfect match."
-}];
 
 
 function ServiceCard({ service }: {service: (typeof SERVICES)[0];}) {
@@ -223,7 +189,10 @@ export default function Services() {
         canonical="/services"
       />
       <StructuredData data={buildBreadcrumbData([{ name: "Home", url: `${SITE_URL}/` }, { name: "Services", url: `${SITE_URL}/services` }])} id="ld-breadcrumb" />
+      <StructuredData data={buildAllServiceSchemas()} id="ld-services" />
+      <StructuredData data={buildFAQData(FAQS)} id="ld-faq-services" />
       <Header />
+      <main id="main">
 
       <section className="bg-secondary/50 pt-32 pb-14 md:pt-36 md:pb-20">
         <div className="container mx-auto px-4 lg:px-8 grid gap-10 lg:grid-cols-2 lg:gap-16 items-center">
@@ -269,6 +238,7 @@ export default function Services() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>);

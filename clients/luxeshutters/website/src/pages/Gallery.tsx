@@ -23,7 +23,7 @@ export default function Gallery() {
       />
       <StructuredData data={buildBreadcrumbData([{ name: "Home", url: `${SITE_URL}/` }, { name: "Gallery", url: `${SITE_URL}/gallery` }])} id="ld-breadcrumb" />
       <Header />
-      <main className="pt-24 lg:pt-32">
+      <main id="main" className="pt-24 lg:pt-32">
         <section ref={ref} className="relative py-20 lg:py-28 overflow-hidden bg-background">
           <div className="container mx-auto px-4 lg:px-8 relative z-10">
             <div className="text-center max-w-2xl mx-auto mb-10">

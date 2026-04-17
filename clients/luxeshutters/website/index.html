@@ -2,7 +2,6 @@
 <html lang="en-AU">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/webp" href="/favicon.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Google Tag Manager -->
@@ -26,45 +25,195 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="dns-prefetch" href="https://primary-production-5fdce.up.railway.app" />
+    <link rel="dns-prefetch" href="https://dashboard.retellai.com" />
+
+    <!-- LCP hero image preload — matches /hero-shutters.webp used by HeroSection -->
+    <link rel="preload" as="image" href="/hero-shutters.webp" type="image/webp" fetchpriority="high" />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/webp" href="/favicon.webp" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#1E5AA8" />
+    <meta name="msapplication-TileColor" content="#1E5AA8" />
+    <meta name="apple-mobile-web-app-title" content="Luxe Shutters" />
+    <meta name="application-name" content="Luxe Shutters" />
 
     <!-- Canonical and geo targeting -->
     <link rel="canonical" href="https://luxeshutters.com.au/" />
     <link rel="alternate" hreflang="en-AU" href="https://luxeshutters.com.au/" />
+    <link rel="alternate" hreflang="x-default" href="https://luxeshutters.com.au/" />
     <meta name="geo.region" content="AU-NSW" />
     <meta name="geo.placename" content="Temora" />
     <meta name="geo.position" content="-34.4468;147.5344" />
     <meta name="ICBM" content="-34.4468, 147.5344" />
-    <title>Luxe Shutters | Premium Shutters, Blinds &amp; Curtains</title>
+
+    <title>Luxe Shutters | Premium Shutters, Blinds &amp; Curtains in Temora &amp; the Riverina, NSW</title>
     <meta
       name="description"
-      content="Premium shutters, blinds, curtains, zipscreens, and awnings in Temora and the Riverina, NSW. Custom-made and professionally installed. Free in-home consultation."
+      content="Premium shutters, blinds, curtains, zipscreens, and awnings in Temora and the Riverina, NSW. Custom-made and professionally installed. Free in-home consultation. Call 1800-465-893."
     />
     <meta name="author" content="Luxe Shutters" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
+    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://luxeshutters.com.au/" />
     <meta property="og:site_name" content="Luxe Shutters" />
-    <meta name="twitter:card" content="summary_large_image" />
-
-    <meta
-      property="og:image"
-      content="https://luxeshutters.com.au/og-image.webp"
-    />
-    <meta
-      name="twitter:image"
-      content="https://luxeshutters.com.au/og-image.webp"
-    />
-
-    <meta property="og:title" content="Luxe Shutters | Premium Shutters, Blinds &amp; Curtains" />
-    <meta name="twitter:title" content="Luxe Shutters | Premium Shutters, Blinds &amp; Curtains" />
+    <meta property="og:locale" content="en_AU" />
+    <meta property="og:title" content="Luxe Shutters | Premium Shutters, Blinds &amp; Curtains in Temora &amp; the Riverina, NSW" />
     <meta
       property="og:description"
       content="Premium shutters, blinds, curtains, zipscreens, and awnings in Temora and the Riverina, NSW. Custom-made and professionally installed. Free in-home consultation."
     />
+    <meta property="og:image" content="https://luxeshutters.com.au/og-image.webp" />
+    <meta property="og:image:type" content="image/webp" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Luxe Shutters — premium shutters, blinds and curtains in Temora and the Riverina" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Luxe Shutters | Premium Shutters, Blinds &amp; Curtains in Temora &amp; the Riverina, NSW" />
     <meta
       name="twitter:description"
       content="Premium shutters, blinds, curtains, zipscreens, and awnings in Temora and the Riverina, NSW. Custom-made and professionally installed. Free in-home consultation."
     />
+    <meta name="twitter:image" content="https://luxeshutters.com.au/og-image.webp" />
+    <meta name="twitter:image:alt" content="Luxe Shutters — premium shutters, blinds and curtains in Temora and the Riverina" />
+
+    <!-- Static JSON-LD — LocalBusiness with AggregateRating + reviews (crawlable without JS) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://luxeshutters.com.au/#business",
+      "name": "Luxe Shutters",
+      "description": "Premium shutters, blinds, curtains, zipscreens, and awnings — custom-made and professionally installed in Temora and the Riverina region.",
+      "url": "https://luxeshutters.com.au/",
+      "telephone": "+611800465893",
+      "email": "admin@luxeshutters.com.au",
+      "image": "https://luxeshutters.com.au/og-image.webp",
+      "logo": "https://luxeshutters.com.au/logo-widget.webp",
+      "priceRange": "$$",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "185 Hoskins St",
+        "addressLocality": "Temora",
+        "addressRegion": "NSW",
+        "postalCode": "2666",
+        "addressCountry": "AU"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -34.4468,
+        "longitude": 147.5344
+      },
+      "openingHoursSpecification": [{
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+        "opens": "09:00",
+        "closes": "17:00"
+      }],
+      "areaServed": [
+        { "@type": "City", "name": "Temora" },
+        { "@type": "City", "name": "Wagga Wagga" },
+        { "@type": "City", "name": "Young" },
+        { "@type": "City", "name": "Cootamundra" },
+        { "@type": "City", "name": "West Wyalong" },
+        { "@type": "City", "name": "Griffith" },
+        { "@type": "City", "name": "Junee" },
+        { "@type": "City", "name": "Cowra" }
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "16",
+        "bestRating": "5",
+        "worstRating": "1"
+      },
+      "review": [
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Jo Tuck-Lee" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+          "reviewBody": "Thank you Chris, Campbell and team for my beautiful curtains and blinds. Great service and high quality products. I couldn't be happier and highly recommend Luxe Shutters."
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Kirsty Hanlon" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+          "reviewBody": "Chris and Campbell came across, measured up and gave us quite a few options. They were honest and realistic with timeframes. We have no hesitation in recommending Luxe Shutters to everyone!"
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Pete Broady" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+          "reviewBody": "Chris and the boys were professional, courteous and did a magnificent job. The screens have improved our property and will make the back patio usable 52 weeks of the year regardless of the weather."
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Bec Tidd" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+          "reviewBody": "Chris and Cam are so easy to work with. Very knowledgeable and came prepared with samples and colours. Quick turn around from finalising our order to installation. Highly recommend Luxe Shutters!"
+        },
+        {
+          "@type": "Review",
+          "author": { "@type": "Person", "name": "Bron Atkinson" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5", "worstRating": "1" },
+          "reviewBody": "Luxe Shutters are amazing. Chris and Cam are so friendly, professional and deliver what they promise. I can't believe how much shutters have transformed our home. Feels like luxury!"
+        }
+      ],
+      "sameAs": [
+        "https://www.facebook.com/Luxeshutters",
+        "https://www.instagram.com/luxe_shutters"
+      ]
+    }
+    </script>
+
+    <!-- Static JSON-LD — Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": "https://luxeshutters.com.au/#org",
+      "name": "Luxe Shutters",
+      "url": "https://luxeshutters.com.au/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://luxeshutters.com.au/logo-widget.webp",
+        "width": 512,
+        "height": 512
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+611800465893",
+        "contactType": "customer service",
+        "areaServed": "AU",
+        "availableLanguage": "English"
+      },
+      "sameAs": [
+        "https://www.facebook.com/Luxeshutters",
+        "https://www.instagram.com/luxe_shutters"
+      ]
+    }
+    </script>
+
+    <!-- Static JSON-LD — WebSite (enables sitelinks searchbox) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://luxeshutters.com.au/#website",
+      "url": "https://luxeshutters.com.au/",
+      "name": "Luxe Shutters",
+      "publisher": { "@id": "https://luxeshutters.com.au/#org" },
+      "inLanguage": "en-AU"
+    }
+    </script>
   </head>
 
   <body>
@@ -74,21 +223,43 @@
     <!-- End Google Tag Manager (noscript) -->
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      id="retell-widget"
-      src="https://dashboard.retellai.com/retell-widget.js"
-      type="module"
-      data-public-key="public_key_462b3086b404893b6a625"
-      data-agent-id="agent_869a95e48b30ebc1c7317dd682"
-      data-agent-version="V2"
-      data-title="Luxe Shutters"
-      data-bot-name="Max"
-      data-popup-message="Hi, I'm Max from Luxe Shutters 🪟 Thinking about shutters, blinds or curtains? I can help you get started."
-      data-show-ai-popup="true"
-      data-show-ai-popup-time="4"
-      data-auto-open="false"
-      data-color="#1E5AA8"
-      data-logo-url="/logo-widget.webp"
-    ></script>
+
+    <!-- Retell chat widget — lazy-loaded after first user interaction (or idle callback) to protect LCP/INP -->
+    <script>
+      (function () {
+        var loaded = false;
+        function loadRetell() {
+          if (loaded) return;
+          loaded = true;
+          var s = document.createElement('script');
+          s.id = 'retell-widget';
+          s.src = 'https://dashboard.retellai.com/retell-widget.js';
+          s.type = 'module';
+          s.setAttribute('data-public-key', 'public_key_462b3086b404893b6a625');
+          s.setAttribute('data-agent-id', 'agent_869a95e48b30ebc1c7317dd682');
+          s.setAttribute('data-agent-version', 'V2');
+          s.setAttribute('data-title', 'Luxe Shutters');
+          s.setAttribute('data-bot-name', 'Max');
+          s.setAttribute('data-popup-message', "Hi, I'm Max from Luxe Shutters \uD83E\uDE9F Thinking about shutters, blinds or curtains? I can help you get started.");
+          s.setAttribute('data-show-ai-popup', 'true');
+          s.setAttribute('data-show-ai-popup-time', '4');
+          s.setAttribute('data-auto-open', 'false');
+          s.setAttribute('data-color', '#1E5AA8');
+          s.setAttribute('data-logo-url', '/logo-widget.webp');
+          document.body.appendChild(s);
+        }
+        var events = ['pointerdown', 'keydown', 'scroll', 'touchstart'];
+        function onInteract() {
+          events.forEach(function (e) { window.removeEventListener(e, onInteract, { passive: true }); });
+          loadRetell();
+        }
+        events.forEach(function (e) { window.addEventListener(e, onInteract, { passive: true, once: true }); });
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(loadRetell, { timeout: 5000 });
+        } else {
+          setTimeout(loadRetell, 4000);
+        }
+      })();
+    </script>
   </body>
 </html>
