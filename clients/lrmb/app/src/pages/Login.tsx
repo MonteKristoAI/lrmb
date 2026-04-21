@@ -12,6 +12,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -26,10 +27,12 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrorMessage(null);
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
+      setErrorMessage(error.message);
       toast({ title: "Login failed", description: error.message, variant: "destructive" });
     } else {
       navigate(from, { replace: true });
@@ -82,10 +85,15 @@ const Login = () => {
           >
             {loading ? "Signing in..." : "Sign In"}
           </Button>
+          {errorMessage && (
+            <p role="alert" aria-live="assertive" className="text-xs mt-2" style={{ color: "#FCA5A5" }}>
+              {errorMessage}
+            </p>
+          )}
         </form>
 
         <p className="text-center text-[11px] mt-6" style={{ color: "#4A4540" }}>
-          Contact your administrator for account access
+          Accounts are admin-provisioned. Contact your administrator for access.
         </p>
       </div>
     </div>

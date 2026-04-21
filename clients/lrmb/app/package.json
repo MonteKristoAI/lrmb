@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "verify:prod": "npm run lint && npm run test && npm run build && node ./scripts/production-smoke.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

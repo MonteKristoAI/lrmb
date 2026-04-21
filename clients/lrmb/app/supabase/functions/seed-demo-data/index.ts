@@ -5,6 +5,10 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+type PropertyRow = { id: string; name: string };
+type UnitRow = { id: string; property_id: string };
+type TemplateRow = { id: string; name: string };
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
@@ -73,13 +77,13 @@ Deno.serve(async (req) => {
     const { data: existingProps } = await sb.from("properties").select("id, name");
     const propMap: Record<string, string> = {};
     if (existingProps && existingProps.length > 0) {
-      existingProps.forEach((p: any) => (propMap[p.name] = p.id));
+      existingProps.forEach((p: PropertyRow) => (propMap[p.name] = p.id));
     }
     const newProps = propertyNames.filter((p) => !propMap[p.name]);
     if (newProps.length > 0) {
       const { data: props, error: propErr } = await sb.from("properties").insert(newProps).select("id, name");
       if (propErr) throw new Error(`Properties: ${propErr.message}`);
-      props!.forEach((p: any) => (propMap[p.name] = p.id));
+      (props ?? []).forEach((p: PropertyRow) => (propMap[p.name] = p.id));
     }
 
     // 4. Units (2-3 per property)
@@ -98,7 +102,7 @@ Deno.serve(async (req) => {
     // Re-fetch units
     const { data: allUnits } = await sb.from("units").select("id, property_id, unit_code");
     const unitMap: Record<string, string[]> = {};
-    allUnits?.forEach((u: any) => {
+    allUnits?.forEach((u: UnitRow) => {
       if (!unitMap[u.property_id]) unitMap[u.property_id] = [];
       unitMap[u.property_id].push(u.id);
     });
@@ -158,7 +162,7 @@ Deno.serve(async (req) => {
       { title: "Hot water heater repair", property_id: propIds[1], task_category: "maintenance", priority: "high", status: "in_progress", assigned_to: staffIds[0], started_at: ago(2), due_at: h(12), reopened_count: 1, created_at: ago(96) },
     ].map((t) => ({ requires_photo: false, requires_note: false, requires_timestamp: true, reopened_count: 0, ...t, created_by: userIds["admin@lrmb.test"], source_type: "manual" as const }));
 
-    const { error: taskErr } = await sb.from("tasks").insert(taskData as any);
+    const { error: taskErr } = await sb.from("tasks").insert(taskData);
     if (taskErr) throw new Error(`Tasks: ${taskErr.message}`);
 
     // 7. Inspection templates
@@ -168,12 +172,12 @@ Deno.serve(async (req) => {
     ]).select("id, name");
 
     const templateMap: Record<string, string> = {};
-    if (templates) templates.forEach((t: any) => (templateMap[t.name] = t.id));
+    if (templates) templates.forEach((t: TemplateRow) => (templateMap[t.name] = t.id));
 
     // Re-fetch if upsert returned empty
     if (!templates?.length) {
       const { data: existing } = await sb.from("inspection_templates").select("id, name");
-      existing?.forEach((t: any) => (templateMap[t.name] = t.id));
+      existing?.forEach((t: TemplateRow) => (templateMap[t.name] = t.id));
     }
 
     const turnoverItems = [
@@ -209,11 +213,11 @@ Deno.serve(async (req) => {
 
     if (templateMap["Standard Unit Turnover"]) {
       const items = turnoverItems.map((it, i) => ({ ...it, template_id: templateMap["Standard Unit Turnover"], sort_order: i }));
-      await sb.from("inspection_template_items").insert(items as any);
+      await sb.from("inspection_template_items").insert(items);
     }
     if (templateMap["Monthly Safety Check"]) {
       const items = safetyItems.map((it, i) => ({ ...it, template_id: templateMap["Monthly Safety Check"], sort_order: i }));
-      await sb.from("inspection_template_items").insert(items as any);
+      await sb.from("inspection_template_items").insert(items);
     }
 
     // 8. Sample inspections
@@ -225,7 +229,7 @@ Deno.serve(async (req) => {
     ].filter((i) => i.template_id); // only insert if template exists
 
     if (inspData.length) {
-      await sb.from("inspections").insert(inspData as any);
+      await sb.from("inspections").insert(inspData);
     }
 
     return new Response(

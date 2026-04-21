@@ -6,6 +6,10 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type",
 };
 
+type UserRoleRow = { user_id: string };
+type TaskRow = { id: string; title: string };
+type NotificationRow = { task_id: string };
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -35,11 +39,11 @@ Deno.serve(async (req) => {
 
     if (rolesErr) throw rolesErr;
 
-    const adminIds = [...new Set(adminRoles.map((r: any) => r.user_id))];
+    const adminIds = [...new Set((adminRoles ?? []).map((r: UserRoleRow) => r.user_id))];
 
     // Check which overdue tasks already have a recent escalation notification (last 24h)
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
-    const overdueTaskIds = (overdueTasks || []).map((t: any) => t.id);
+    const overdueTaskIds = (overdueTasks ?? []).map((t: TaskRow) => t.id);
 
     const { data: existingNotifs } = await supabase
       .from("notification_events")
@@ -48,10 +52,10 @@ Deno.serve(async (req) => {
       .in("task_id", overdueTaskIds)
       .gte("created_at", oneDayAgo);
 
-    const alreadyNotified = new Set((existingNotifs || []).map((n: any) => n.task_id));
+    const alreadyNotified = new Set((existingNotifs ?? []).map((n: NotificationRow) => n.task_id));
 
-    const notifications: any[] = [];
-    for (const task of overdueTasks || []) {
+    const notifications: Array<{ recipient_id: string; task_id: string; event_type: string; title: string; body: string }> = [];
+    for (const task of (overdueTasks ?? []) as TaskRow[]) {
       if (alreadyNotified.has(task.id)) continue;
       for (const adminId of adminIds) {
         notifications.push({
