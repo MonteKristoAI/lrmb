@@ -69,4 +69,29 @@ describe("ProtectedRoute", () => {
 
     expect(screen.getByText("Tasks page")).toBeInTheDocument();
   });
+
+  it("blocks supervisor users from admin route", () => {
+    authState.session = { user: { id: "supervisor-id" } };
+    authState.loading = false;
+    authState.hasRole = (role) => role === "supervisor";
+    authState.hasAdminAccess = () => false;
+
+    render(
+      <MemoryRouter initialEntries={["/admin"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <Routes>
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute requireAdminAccess>
+                <div>Admin content</div>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/tasks" element={<div>Tasks page</div>} />
+        </Routes>
+      </MemoryRouter>,
+    );
+
+    expect(screen.getByText("Tasks page")).toBeInTheDocument();
+  });
 });
