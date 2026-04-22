@@ -18,6 +18,35 @@
 - Created and set production secret:
   - `TRAVELNET_WEBHOOK_SECRET` (value should be shared only via secure channel with integration owner).
 
+## 2026-04-22 Go-Live Validation (Completed)
+- PR merged to `main` with green checks:
+  - `https://github.com/MonteKristoAI/lrmb/pull/1`
+- CI gate verified:
+  - `npm run verify:prod` passes in repository root.
+- Supabase runtime state verified:
+  - `TRAVELNET_WEBHOOK_SECRET` configured.
+  - `travelnet-webhook` re-deployed after secret confirmation.
+
+### TravelNet End-to-End Proof (Webhook + Dedupe)
+- Test external id: `travelnet-e2e-1776853545649`
+- Webhook call #1 response:
+  - status: `200`
+  - reservation_event_id: `3d0a395f-c4d3-419e-980d-b40f91d2da70`
+- Webhook call #2 response (same payload):
+  - status: `200`
+  - reservation_event_id: `cf284759-ab57-47db-87a3-3df4c87fda9a`
+- DB/API validation result:
+  - `reservation_events` rows for external id: `2` (expected - both inbound events logged)
+  - `tasks` rows for external id + housekeeping category: `1` (expected - dedupe works)
+  - created task id: `6b226f2d-68f2-4025-9fa5-7b2ef6048f64`
+
+### Fix Applied During E2E
+- Root cause found: legacy non-UUID value in `units.default_housekeeper` caused trigger failure.
+- Migration applied:
+  - `supabase/migrations/20260422120500_7b2d5a11_safe_default_housekeeper_cast.sql`
+- Outcome:
+  - Trigger now safely parses UUID-only values and falls back to unassigned task when legacy text exists.
+
 ## Email Findings (Last 3 Days)
 - Only 1 relevant message found in mailbox:
   - Subject: `Fwd: Final items before launch`

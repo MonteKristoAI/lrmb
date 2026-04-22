@@ -98,7 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const hasRole = (role: AppRole) => roles.includes(role);
-  const hasAdminAccess = () => roles.some((r) => ["admin", "supervisor", "manager"].includes(r));
+  const hasAdminAccess = () => roles.some((r) => ["admin", "manager"].includes(r));
 
   const signOut = async () => {
     await supabase.auth.signOut();
