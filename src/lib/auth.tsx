@@ -59,39 +59,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   useEffect(() => {
-    let resolved = false;
+    let isMounted = true;
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        if (resolved) return;
-        resolved = true;
-        setSession(session);
-        if (session?.user) {
-          await fetchProfileAndRoles(session.user.id);
-        } else {
-          setProfile(null);
-          setRoles([]);
-        }
-        setLoading(false);
-      }
-    );
+    const syncSessionState = async (nextSession: Session | null) => {
+      if (!isMounted) return;
 
-    // Fallback: if onAuthStateChange hasn't fired within 200ms, use getSession
-    const timeout = setTimeout(async () => {
-      if (resolved) return;
-      const { data: { session } } = await supabase.auth.getSession();
-      if (resolved) return;
-      resolved = true;
-      setSession(session);
-      if (session?.user) {
-        await fetchProfileAndRoles(session.user.id);
+      setSession(nextSession);
+      if (nextSession?.user) {
+        await fetchProfileAndRoles(nextSession.user.id);
+      } else {
+        setProfile(null);
+        setRoles([]);
       }
-      setLoading(false);
-    }, 200);
+      if (isMounted) setLoading(false);
+    };
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+      // Keep callback synchronous to avoid gotrue lock contention.
+      queueMicrotask(() => {
+        void syncSessionState(nextSession);
+      });
+    });
+
+    const initialize = async () => {
+      setLoading(true);
+      const {
+        data: { session: initialSession },
+      } = await supabase.auth.getSession();
+      await syncSessionState(initialSession);
+    };
+
+    void initialize();
 
     return () => {
+      isMounted = false;
       subscription.unsubscribe();
-      clearTimeout(timeout);
     };
   }, []);
 

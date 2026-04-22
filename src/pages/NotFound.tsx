@@ -7,7 +7,13 @@ const NotFound = () => {
   const navigate = useNavigate();
   const { session, loading } = useAuth();
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center" style={{ background: "#080E1A" }}>
+        <div className="text-lg animate-pulse" style={{ color: "#C4BAB1" }}>Loading...</div>
+      </div>
+    );
+  }
 
   // Unauthenticated: redirect to login instead of showing broken AppShell
   if (!session) {
