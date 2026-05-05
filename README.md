@@ -1,73 +1,102 @@
-# Welcome to your Lovable project
+# LRMB Field Ops
 
-## Project info
+Field-operations PWA for Luxury Rentals Miami Beach. Mobile-first task
+coordination on top of the existing TRACK PMS, supporting maintenance,
+housekeeping, inspections, vendor management, and damage claims.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## Stack
 
-## How can I edit this code?
+| Layer    | Tech |
+|----------|------|
+| Frontend | React 18 + TypeScript + Vite + Tailwind + shadcn/ui + TanStack Query v5 |
+| Backend  | Supabase (Postgres 17, Auth, Storage, Edge Functions) |
+| PWA      | vite-plugin-pwa (injectManifest), Web Push, offline cache |
+| Hosting  | Vercel - production at https://lrmb.vercel.app |
+| CI       | GitHub Actions (`lrmb-app-ci.yml` on PRs, `lrmb-prod-monitor.yml` every 30 min) |
 
-There are several ways of editing your application.
+## Run locally
 
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+npm install
+cp .env.example .env  # if you keep an example; otherwise see env vars below
+npm run dev           # http://localhost:5174
 ```
 
-**Edit a file directly in GitHub**
+### Required env vars
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+VITE_SUPABASE_URL=https://hfpvnsbiewudpqbtlvte.supabase.co
+VITE_SUPABASE_PUBLISHABLE_KEY=...   # the publishable / anon key (safe to expose)
+VITE_VAPID_PUBLIC_KEY=...           # public VAPID key for Web Push
+```
 
-**Use GitHub Codespaces**
+These same three vars must be set on Vercel under Settings -> Environment
+Variables for Production, Preview, and Development. The Supabase service-role
+key is never used in the frontend.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Tests + verification
 
-## What technologies are used for this project?
+```bash
+npm run lint        # eslint
+npm run test        # vitest
+npm run build       # production build
+npm run verify:prod # full gate: lint + test + build + production-smoke probes
+```
 
-This project is built with:
+## Deployment
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+Main branch auto-deploys to https://lrmb.vercel.app via the Vercel-GitHub
+integration. Pull requests get preview deployments under
+`*-montekristoais-projects.vercel.app`.
 
-## How can I deploy this project?
+The Vercel project lives at https://vercel.com/montekristoais-projects/lrmb.
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+### Required Vercel env vars (Production + Preview + Development)
 
-## Can I connect a custom domain to my Lovable project?
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_PUBLISHABLE_KEY`
+- `VITE_VAPID_PUBLIC_KEY`
 
-Yes, you can!
+### Required Supabase Auth dashboard configuration
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- Site URL: `https://lrmb.vercel.app`
+- Additional Redirect URLs:
+  - `https://lrmb.vercel.app/**`
+  - `https://*-montekristoais-projects.vercel.app/**` (preview deployments)
+  - `http://localhost:5174/**` (local dev)
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### Production smoke monitor
+
+GitHub Actions runs the smoke probes every 30 minutes against the live
+Supabase backend (signup disabled, webhook unauthorized, CORS lockdown).
+Failures email the repo collaborators. See
+`.github/workflows/lrmb-prod-monitor.yml`.
+
+## Database
+
+- Project: `hfpvnsbiewudpqbtlvte` (Postgres 17.4, us-east-2)
+- 18 tables, all with RLS enabled
+- Migrations in `supabase/migrations/`
+- Auth: email + password, public signup blocked at config + DB trigger level
+- Roles: `field_staff`, `admin`, `supervisor`, `manager` (see `app_role` enum)
+- Admin gate: SQL function `has_admin_access(uuid)` granting access to `admin` and `manager`
+
+## Three modules
+
+1. **Maintenance / Work Orders** - mobile-first task lifecycle with photo proof
+2. **Housekeeping Coordination** - auto-created from TRACK reservation events
+3. **Inspection Reporting** - 4 templates, 308 items, auto-creates maintenance tickets when items are flagged
+
+## Damage claims
+
+Follows LRMB's existing Trainual SOP (Safely / Rental Guardian); see
+`docs/DAMAGE-CLAIM-SOP-MAPPING.md` for the field-by-field mapping.
+45-day claim deadline auto-tracked via `tasks.claim_deadline_at`.
+
+## Branding
+
+- App name: `LRMB Field Ops`
+- Primary color (taupe): `#C4BAB1` (HSL 28 14% 73%)
+- Accent color (teal): `#0680A2` (HSL 193 93% 33%)
+- Fonts: Inter (body) + Poppins (headings)
+- PWA theme color: `#080E1A` (deep navy canvas)
