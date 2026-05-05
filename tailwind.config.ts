@@ -15,8 +15,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Raleway", "system-ui", "-apple-system", "sans-serif"],
-        heading: ["Lora", "Georgia", "serif"],
+        // Per Emma's onboarding form 2026-04-16: "Clean modern (Inter, Poppins)"
+        sans: ["Inter", "system-ui", "-apple-system", "sans-serif"],
+        heading: ["Poppins", "Inter", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

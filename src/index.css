@@ -5,9 +5,10 @@
 @layer base {
   :root {
     /* LRMB Branding — luxuryrentalsmiamibeach.com
-       Deep Navy: #080E1A | Card Navy: #0D1526 | Taupe: #C4BAB1
-       Accent Champagne: #D4C5A9 | Accent Blue: #4A90B8
-       Fonts: Raleway (body) + Lora (headings) */
+       Deep Navy: #080E1A | Card Navy: #0D1526
+       Primary Taupe (Emma 2026-04-16): #C4BAB1 -> hsl(28 14% 73%)
+       Accent Teal  (Emma 2026-04-16): #0680A2 -> hsl(193 93% 33%)
+       Fonts (Emma 2026-04-16): Inter (body) + Poppins (headings) */
     --background: 222 52% 7%;
     --foreground: 30 20% 90%;
 
@@ -17,7 +18,8 @@
     --popover: 222 42% 10%;
     --popover-foreground: 30 20% 90%;
 
-    --primary: 30 22% 80%;
+    /* Primary = Emma's #C4BAB1 (warm taupe) */
+    --primary: 28 14% 73%;
     --primary-foreground: 222 52% 7%;
 
     --secondary: 222 30% 15%;
@@ -26,7 +28,8 @@
     --muted: 222 25% 14%;
     --muted-foreground: 222 12% 48%;
 
-    --accent: 205 45% 50%;
+    /* Accent = Emma's #0680A2 (deep teal) */
+    --accent: 193 93% 33%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 72% 51%;
@@ -34,7 +37,8 @@
 
     --border: 222 20% 16%;
     --input: 222 22% 14%;
-    --ring: 30 22% 80%;
+    /* Ring uses primary taupe so focus halos match Emma's palette */
+    --ring: 28 14% 73%;
 
     --radius: 0.5rem;
 
@@ -55,12 +59,12 @@
 
     --sidebar-background: 222 45% 8%;
     --sidebar-foreground: 30 20% 90%;
-    --sidebar-primary: 30 22% 80%;
+    --sidebar-primary: 28 14% 73%;
     --sidebar-primary-foreground: 222 52% 7%;
     --sidebar-accent: 222 30% 14%;
     --sidebar-accent-foreground: 30 20% 85%;
     --sidebar-border: 222 20% 16%;
-    --sidebar-ring: 30 22% 80%;
+    --sidebar-ring: 28 14% 73%;
   }
 }
 
@@ -71,8 +75,15 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Raleway', system-ui, -apple-system, sans-serif;
+    /* Per Emma's onboarding form 2026-04-16: Inter for body */
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    /* Per Emma's onboarding form 2026-04-16: Poppins for headings */
+    font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+    font-weight: 600;
   }
 }
 
