@@ -3,11 +3,16 @@ name: LRMB Production Monitor
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
+
+concurrency:
+  group: lrmb-prod-monitor
+  cancel-in-progress: false
 
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    timeout-minutes: 8
     env:
       VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
       VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
