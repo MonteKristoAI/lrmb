@@ -31,6 +31,7 @@ const StaffTasks = lazy(() => import("./pages/StaffTasks"));
 const StaffWorkload = lazy(() => import("./pages/StaffWorkload"));
 const TrendCharts = lazy(() => import("./pages/TrendCharts"));
 const VendorManagement = lazy(() => import("./pages/VendorManagement"));
+const OperationsOverview = lazy(() => import("./pages/OperationsOverview"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient({
@@ -63,6 +64,8 @@ const App = () => (
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/login" element={<Login />} />
+              {/* Public read-only leadership view — HMAC-token validated inside the page (no Supabase session) */}
+              <Route path="/operations" element={<OperationsOverview />} />
               <Route path="/" element={<Navigate to="/tasks" replace />} />
               <Route path="/tasks" element={<ProtectedRoute><MyTasks /></ProtectedRoute>} />
               <Route path="/tasks/completed" element={<ProtectedRoute><CompletedTasks /></ProtectedRoute>} />
