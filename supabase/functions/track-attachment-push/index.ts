@@ -151,7 +151,15 @@ Deno.serve(async (req) => {
 
       if (!res.ok) {
         const text = await res.text().catch(() => "");
-        throw new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`);
+        // v4: 404 on attachment endpoint is PERMANENT — verified 2026-05-20 that
+        // TRACK API has no /attachments, /files, /photos, or /media child resource
+        // on work orders (HK or maintenance). Probe results in
+        // docs/TRACK-ATTACHMENT-FINDING-2026-05-20.md. Don't waste 4 more retries
+        // on a 404 — dead-letter immediately so the queue stays clean.
+        const isPermanentFailure = res.status === 404 || res.status === 405;
+        throw Object.assign(new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`), {
+          permanent: isPermanentFailure,
+        });
       }
 
       const json = await res.json().catch(() => ({} as Record<string, unknown>));
@@ -169,16 +177,19 @@ Deno.serve(async (req) => {
       summary.pushed++;
     } catch (err) {
       const reason = err instanceof Error ? err.message : String(err);
-      const attempts = (row.track_sync_attempts ?? 0) + 1;
+      const permanent = err instanceof Error && (err as Error & { permanent?: boolean }).permanent === true;
+      // v4: skip backoff on permanent failures (e.g. 404 endpoint missing).
+      // Dead-letter immediately.
+      const attempts = permanent ? MAX_ATTEMPTS : (row.track_sync_attempts ?? 0) + 1;
       const isDeadLetter = attempts >= MAX_ATTEMPTS;
       const nextMinutes = BACKOFF_MINUTES[Math.min(attempts, MAX_ATTEMPTS - 1)];
-      const nextAt = new Date(Date.now() + nextMinutes * 60_000).toISOString();
+      const nextAt = isDeadLetter ? null : new Date(Date.now() + nextMinutes * 60_000).toISOString();
 
       await supabase
         .from("task_photos")
         .update({
           track_sync_attempts: attempts,
-          track_sync_error: reason,
+          track_sync_error: permanent ? `PERMANENT: ${reason}` : reason,
           track_next_attempt_at: nextAt,
         })
         .eq("id", row.id);
