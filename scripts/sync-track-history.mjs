@@ -45,8 +45,12 @@ const COLLECTIONS = [
   { name: "housekeeping", path: "/housekeeping/work-orders", embeddedKey: "workOrders", handler: (r) => upsertWO(r, "housekeeping") },
 ];
 
-const PAGE_SIZE = 100;
-const MAX_PAGES = 50; // safety cap
+// TRACK silently caps response size to 25 regardless of `limit` param,
+// so we set PAGE_SIZE=25 to match reality (no wasted bytes asking for more).
+// MAX_PAGES set high enough to reach 32k+ records (TRACK's largest collection
+// is housekeeping at ~32,134 records → 1,286 pages).
+const PAGE_SIZE = 25;
+const MAX_PAGES = 1500;
 
 async function fetchPage(path, page) {
   const url = new URL(`${base}${path}`);
