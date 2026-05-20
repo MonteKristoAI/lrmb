@@ -83,7 +83,7 @@ Deno.serve(async (req) => {
 
   const { data: reservationsRaw } = await supabase.from("reservation_events")
     .select("external_id, event_type, event_at, payload_json, created_at")
-    .eq("external_source", "track").order("event_at", { ascending: false }).limit(1500);
+    .eq("external_source", "track").order("event_at", { ascending: false }).limit(3000);
 
   const latestByReservation = new Map<string, { externalId: string; payload: Record<string, unknown>; eventAt: string | null }>();
   for (const ev of reservationsRaw ?? []) {
@@ -113,7 +113,7 @@ Deno.serve(async (req) => {
   const { data: hkTasks } = await supabase.from("tasks")
     .select("id, title, status, started_at, completed_at, due_at, unit_id, external_id, updated_at")
     .eq("task_category", "housekeeping").in("status", ["new", "assigned", "in_progress", "completed"])
-    .order("updated_at", { ascending: false }).limit(200);
+    .order("updated_at", { ascending: false }).limit(1000);
   const hkScheduledToday = (hkTasks ?? []).filter((t) =>
     (t.due_at && inDayWindow(t.due_at as string, startOfToday, endOfToday)) ||
     (t.started_at && inDayWindow(t.started_at as string, startOfToday, endOfToday))).map(toTaskCard);
@@ -123,7 +123,7 @@ Deno.serve(async (req) => {
   const { data: maintTasks } = await supabase.from("tasks")
     .select("id, title, status, due_at, completed_at, blocked_reason, unit_id, external_id, updated_at")
     .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress", "blocked", "completed"])
-    .order("updated_at", { ascending: false }).limit(200);
+    .order("updated_at", { ascending: false }).limit(1000);
   const open = (maintTasks ?? []).filter((t) => ["new", "assigned", "in_progress"].includes(t.status as string)).map(toTaskCard);
   const overdue = (maintTasks ?? []).filter((t) => t.due_at && new Date(t.due_at as string) < now && !["completed", "verified"].includes(t.status as string)).map(toTaskCard);
   const blocked = (maintTasks ?? []).filter((t) => t.status === "blocked").map(toTaskCard);

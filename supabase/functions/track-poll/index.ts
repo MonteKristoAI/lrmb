@@ -454,13 +454,13 @@ async function upsertTaskFromTrackWO(
 }
 
 function mapTrackStatus(s: string): string {
-  // Map onto the AiiA task_status enum:
-  // new / assigned / vendor_not_started / in_progress / waiting_parts /
-  // blocked / completed / verified / processed
+  // v5: cap at 'completed' to avoid trg_check_billing_requirements blocking
+  // historical TRACK records that have status=processed but no vendor_invoice_amount.
+  // Supervisors mark verified/processed via the normal AiiA workflow once billing
+  // is filled. Source-of-truth for the original TRACK state is preserved in
+  // tasks.processed_at and the payload_json on reservation_events.
   if (!s) return "new";
-  if (s.includes("processed")) return "processed";
-  if (s.includes("verify") || s.includes("verified")) return "verified";
-  if (s.includes("complete")) return "completed";
+  if (s.includes("complete") || s.includes("processed") || s.includes("verify") || s.includes("verified") || s.includes("done") || s.includes("closed")) return "completed";
   if (s.includes("inprogress") || s.includes("in_progress") || s.includes("started")) return "in_progress";
   if (s.includes("assign")) return "assigned";
   if (s.includes("hold") || s.includes("block")) return "blocked";
