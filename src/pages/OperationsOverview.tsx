@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { AlertCircle, CheckCircle2, Clock, Home, RefreshCw, Wrench, Eye, Sparkles, ArrowDownToLine, ArrowUpFromLine } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, Home, RefreshCw, Wrench, Eye, Sparkles, ArrowDownToLine, ArrowUpFromLine, Camera, Activity, Database, Image as ImageIcon } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 
 type Health =
@@ -34,10 +34,44 @@ interface TaskCard {
   updatedAt: string;
 }
 
+interface ActivityRow {
+  id: string;
+  created_at: string;
+  task_id: string;
+  task_title: string | null;
+  task_category: string;
+  actor_name: string | null;
+  update_type: string;
+  old_status: string | null;
+  new_status: string | null;
+  note: string | null;
+  photo_count: number;
+}
+
+interface PhotoRow {
+  photo_id: string;
+  uploaded_at: string;
+  task_id: string;
+  storage_path: string;
+  photo_subtype: string | null;
+  caption: string | null;
+  task_title: string | null;
+  task_category: string;
+  task_status: string;
+  uploaded_by_name: string | null;
+  signed_url: string | null;
+}
+
+interface Totals {
+  trackMirroredTasks: number;
+  photosUploaded: number;
+}
+
 interface OverviewPayload {
   viewer: string | null;
   generatedAt: string;
   windowUTC: { start: string; end: string };
+  totals?: Totals;
   reservations: {
     arrivalsToday: ReservationCard[];
     inHouse: ReservationCard[];
@@ -56,6 +90,8 @@ interface OverviewPayload {
     completedPendingVerify: TaskCard[];
   };
   pollHealth: Health[];
+  recentActivity?: ActivityRow[];
+  recentPhotos?: PhotoRow[];
 }
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
@@ -86,7 +122,6 @@ export default function OperationsOverview() {
     staleTime: 60 * 1000,
     retry: (failureCount, err) => {
       const code = (err as { code?: string } | null)?.code;
-      // Don't retry on auth/format failures - they won't resolve.
       if (code && ["expired", "bad_signature", "bad_format", "missing_token", "unsupported_version"].includes(code)) {
         return false;
       }
@@ -94,7 +129,6 @@ export default function OperationsOverview() {
     },
   });
 
-  // Manual refresh button state for visual feedback
   const [justRefreshed, setJustRefreshed] = useState(false);
   useEffect(() => {
     if (!isFetching && justRefreshed) {
@@ -147,6 +181,14 @@ export default function OperationsOverview() {
       <main className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 space-y-8">
         <PollHealthBanner health={data.pollHealth} />
 
+        {data.totals && (
+          <section aria-label="Top-line counts" className="grid gap-3 sm:grid-cols-3">
+            <Stat icon={Database} label="TRACK records mirrored" value={data.totals.trackMirroredTasks.toLocaleString()} />
+            <Stat icon={Camera} label="Photos uploaded (all time)" value={data.totals.photosUploaded.toLocaleString()} />
+            <Stat icon={Activity} label="Activity events (last 24h)" value={(data.recentActivity?.length ?? 0).toString()} />
+          </section>
+        )}
+
         <section aria-labelledby="reservations-heading" className="space-y-4">
           <SectionHeading id="reservations-heading" icon={Home} title="Reservation pipeline (today)" />
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -176,6 +218,20 @@ export default function OperationsOverview() {
           </div>
         </section>
 
+        {data.recentPhotos && data.recentPhotos.length > 0 && (
+          <section aria-labelledby="photos-heading" className="space-y-4">
+            <SectionHeading id="photos-heading" icon={ImageIcon} title="Recent photo proof" />
+            <PhotoGallery photos={data.recentPhotos} />
+          </section>
+        )}
+
+        {data.recentActivity && data.recentActivity.length > 0 && (
+          <section aria-labelledby="activity-heading" className="space-y-4">
+            <SectionHeading id="activity-heading" icon={Activity} title="Recent activity (last 24h)" />
+            <ActivityFeed activity={data.recentActivity} />
+          </section>
+        )}
+
         <footer className="text-xs text-muted-foreground border-t pt-4">
           Auto-refresh every 5 minutes. Generated {format(new Date(data.generatedAt), "PPpp")}.
           This page is read-only. To make changes, log into AiiA Admin.
@@ -191,6 +247,20 @@ function SectionHeading({ id, icon: Icon, title }: { id: string; icon: React.Ele
       <Icon className="h-5 w-5 text-primary" />
       {title}
     </h2>
+  );
+}
+
+function Stat({ icon: Icon, label, value }: { icon: React.ElementType; label: string; value: string }) {
+  return (
+    <Card>
+      <CardContent className="flex items-center gap-3 p-4">
+        <Icon className="h-8 w-8 text-primary shrink-0" />
+        <div>
+          <p className="text-2xl font-bold tabular-nums">{value}</p>
+          <p className="text-xs text-muted-foreground">{label}</p>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
@@ -280,6 +350,72 @@ function TaskQueueCard({
             {tasks.length > 25 && <li className="text-xs italic">+ {tasks.length - 25} more</li>}
           </ul>
         )}
+      </CardContent>
+    </Card>
+  );
+}
+
+function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
+  return (
+    <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-8">
+      {photos.map((p) => (
+        <a
+          key={p.photo_id}
+          href={p.signed_url ?? "#"}
+          target="_blank"
+          rel="noreferrer noopener"
+          className="group relative overflow-hidden rounded-md border bg-card hover:ring-2 hover:ring-primary/40 transition aspect-square"
+          title={`${p.task_title ?? ""} — ${p.task_status} — ${p.uploaded_by_name ?? "unknown"}`}
+        >
+          {p.signed_url ? (
+            <img
+              src={p.signed_url}
+              alt={p.caption ?? p.task_title ?? "Photo proof"}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">
+              No preview
+            </div>
+          )}
+          <span className="absolute bottom-0 inset-x-0 truncate bg-black/70 px-1 py-0.5 text-[10px] text-white">
+            {p.task_title ?? "Photo"} · {formatDistanceToNow(new Date(p.uploaded_at), { addSuffix: true })}
+          </span>
+        </a>
+      ))}
+    </div>
+  );
+}
+
+function ActivityFeed({ activity }: { activity: ActivityRow[] }) {
+  return (
+    <Card>
+      <CardContent className="p-0">
+        <ul className="divide-y" aria-label="Recent activity feed">
+          {activity.slice(0, 50).map((a) => (
+            <li key={a.id} className="flex items-start gap-3 p-3 text-sm">
+              <span className="mt-0.5 shrink-0">
+                {a.new_status === "completed" ? <CheckCircle2 className="h-4 w-4 text-emerald-600" /> :
+                 a.new_status === "blocked" ? <AlertCircle className="h-4 w-4 text-destructive" /> :
+                 a.new_status === "verified" ? <CheckCircle2 className="h-4 w-4 text-primary" /> :
+                 <Activity className="h-4 w-4 text-muted-foreground" />}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="truncate font-medium">{a.task_title ?? `Task ${a.task_id.slice(0, 8)}`}</p>
+                <p className="text-xs text-muted-foreground">
+                  {a.actor_name ?? "Unknown"} · {a.update_type}
+                  {a.old_status && a.new_status ? ` · ${a.old_status} → ${a.new_status}` : ""}
+                  {a.photo_count > 0 ? ` · ${a.photo_count} photo${a.photo_count === 1 ? "" : "s"}` : ""}
+                </p>
+                {a.note && <p className="mt-1 text-xs italic text-muted-foreground line-clamp-2">"{a.note}"</p>}
+              </div>
+              <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
+              </span>
+            </li>
+          ))}
+        </ul>
       </CardContent>
     </Card>
   );
