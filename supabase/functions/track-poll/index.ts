@@ -268,18 +268,17 @@ async function logError(
   collection: string,
   message: string,
   context: Record<string, unknown>,
+  severity: "error" | "warning" | "info" = "error",
 ) {
-  // audit_logs.entity_id is UUID; we use a deterministic UUID per collection so
-  // recurring errors per collection are queryable. Stable namespace UUID v5
-  // would be ideal, but a randomUUID per error is fine and avoids needing the
-  // crypto dependency here. Loss: can't group errors by collection via entity_id
-  // (group by description text or payload_json->collection instead).
+  // v8: severity parameter so unit-not-mapped (expected for TRACK-only/archived
+  // units) can be demoted to severity=info under action='track_poll_info'.
+  // Keeps poll-health metric clean (only true errors hit records_errored).
   await supabase.from("audit_logs").insert({
-    action: "track_poll_error",
+    action: severity === "info" ? "track_poll_info" : "track_poll_error",
     entity_type: "edge_function",
     entity_id: crypto.randomUUID(),
     description: `track-poll ${collection}: ${message}`,
-    payload_json: { collection, message, severity: "error", ...context },
+    payload_json: { collection, message, severity, ...context },
   });
 }
 
@@ -396,10 +395,18 @@ async function upsertTaskFromTrackWO(
   }
 
   if (!localUnitId || !propertyId) {
-    await logError(supabase, `${category}-work-orders`, "Unit not yet mapped from TRACK", {
-      externalId,
-      trackUnitId: trackUnitIdNum,
-    });
+    // v8: demote to severity=info. Expected for TRACK-only units (archived
+    // listings, units LRMB hasn't imported into AiiA — see
+    // documents/TONY-BRIEFING-2026-05-20.md Q1+Q2 for the 34 unmapped units).
+    // Surfaces in audit_logs under action='track_poll_info' so poll-health
+    // metric stays clean.
+    await logError(
+      supabase,
+      `${category}-work-orders`,
+      "Unit not yet mapped from TRACK",
+      { externalId, trackUnitId: trackUnitIdNum },
+      "info",
+    );
     return;
   }
 
