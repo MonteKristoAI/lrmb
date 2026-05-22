@@ -476,14 +476,33 @@ function mapTrackStatus(s: string): string {
   // Map onto the AiiA task_status enum:
   // new / assigned / vendor_not_started / in_progress / waiting_parts /
   // blocked / completed / verified / processed
+  //
+  // 2026-05-23: live TRACK probe revealed the full status enum is wider
+  // than the original mapper handled. Real-world values:
+  //   cancelled, processed, completed, verified
+  //   pending, open                            -> still new (future / unstarted)
+  //   in-progress (with hyphen!)               -> in_progress
+  //   vendor-not-start                         -> vendor_not_started
+  //   vendor-assigned                          -> assigned
+  //   exception                                -> blocked
+  // The old mapper missed cancelled / in-progress / vendor-not-start /
+  // exception and dumped them all into "new", causing ~11.9K terminal
+  // or in-flight WOs to surface as Open on the Admin Dashboard. cancelled
+  // is terminal in TRACK (no further work happens) so we surface it as
+  // completed; if a downstream report ever needs to distinguish cancelled
+  // from completed we can extend the enum then.
   if (!s) return "new";
-  if (s.includes("processed")) return "processed";
-  if (s.includes("verify") || s.includes("verified")) return "verified";
-  if (s.includes("complete")) return "completed";
-  if (s.includes("inprogress") || s.includes("in_progress") || s.includes("started")) return "in_progress";
-  if (s.includes("assign")) return "assigned";
-  if (s.includes("hold") || s.includes("block")) return "blocked";
-  if (s.includes("wait")) return "waiting_parts";
+  const t = s.toLowerCase();
+  const normalized = t.replace(/[-_]/g, "");
+  if (t.includes("cancel") || t.includes("void") || t.includes("archive") || t.includes("reject")) return "completed";
+  if (t.includes("processed")) return "processed";
+  if (t.includes("verify")) return "verified";
+  if (t.includes("complete")) return "completed";
+  if (normalized.includes("inprogress") || t.includes("started")) return "in_progress";
+  if (t.includes("assign")) return "assigned";
+  if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
+  if (t.includes("exception") || t.includes("hold") || t.includes("block")) return "blocked";
+  if (t.includes("wait")) return "waiting_parts";
   return "new";
 }
 
