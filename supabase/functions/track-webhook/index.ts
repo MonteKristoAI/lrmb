@@ -59,18 +59,26 @@ Deno.serve(async (req) => {
     return ok({ runId, error: "invalid_json" });
   }
 
-  // Optional HMAC signature check (TRACK_WEBHOOK_SECRET set = enforce)
+  // QA P0 Q-SEC-3: mandatory HMAC signature check. Previously this accepted ALL
+  // requests when TRACK_WEBHOOK_SECRET was unset — anyone could forge events and
+  // write arbitrary reservation_events + tasks via service role. Now fail closed:
+  // if the secret isn't configured, reject with 503 instead of accepting forgeries.
   const expectedSecret = Deno.env.get("TRACK_WEBHOOK_SECRET");
-  if (expectedSecret) {
-    const signature = req.headers.get("x-track-signature") ?? req.headers.get("X-Track-Signature") ?? "";
-    const ok = await verifyHmac(rawBody, signature, expectedSecret);
-    if (!ok) {
-      await logEvent(supabase, runId, "signature_invalid", { headerPresent: !!signature }, "error");
-      return new Response(JSON.stringify({ error: "invalid_signature" }), {
-        status: 401,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
+  if (!expectedSecret) {
+    await logEvent(supabase, runId, "secret_unconfigured", {}, "error");
+    return new Response(
+      JSON.stringify({ error: "webhook_unconfigured", message: "Webhook not yet configured" }),
+      { status: 503, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
+  }
+  const signature = req.headers.get("x-track-signature") ?? req.headers.get("X-Track-Signature") ?? "";
+  const sigOk = await verifyHmac(rawBody, signature, expectedSecret);
+  if (!sigOk) {
+    await logEvent(supabase, runId, "signature_invalid", { headerPresent: !!signature }, "error");
+    return new Response(
+      JSON.stringify({ error: "invalid_signature" }),
+      { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+    );
   }
 
   // Route by event type + entity

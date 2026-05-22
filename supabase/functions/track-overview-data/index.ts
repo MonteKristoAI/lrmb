@@ -156,10 +156,11 @@ Deno.serve(async (req) => {
   const queryNames = ["units", "reservations", "hk_tasks", "maint_tasks", "kpi_mv", "poll_health", "recent_activity", "recent_photos", "damage_claims", "kpi_by_property"];
   const firstError = results.findIndex((r) => r.error);
   if (firstError >= 0) {
+    // QA P2 Q-SEC-22: log internal details server-side; return generic to caller.
+    console.error("track-overview-data db_query_failed", queryNames[firstError], results[firstError].error);
     return json(500, {
       error: "db_query_failed",
       query: queryNames[firstError],
-      message: results[firstError].error?.message ?? "unknown",
     });
   }
   const [

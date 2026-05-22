@@ -76,6 +76,18 @@ Deno.serve(async (req) => {
     return json(400, { error: "missing_param", message: "Provide ?id=<task_uuid> or ?reservation=<track_id>" });
   }
 
+  // QA P0 Q-SEC-20: validate UUID format BEFORE the DB call. Previously a malformed
+  // id (path traversal probe, 10K char garbage, SQL-ish input) caused the DB to
+  // return its internal error verbatim, leaking column type info to the caller.
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (taskId && !UUID_RE.test(taskId)) {
+    return json(400, { error: "invalid_id_format", message: "id must be a UUID" });
+  }
+  // Reservation IDs from TRACK are numeric strings ("322890"). Accept digits only.
+  if (reservationId && !/^\d+$/.test(reservationId)) {
+    return json(400, { error: "invalid_reservation_format", message: "reservation must be numeric" });
+  }
+
   if (taskId) {
     // Task detail
     const [taskRes, photosRes, activityRes] = await Promise.all([
@@ -108,18 +120,20 @@ Deno.serve(async (req) => {
         .limit(100),
     ]);
 
-    // Distinguish "no task with that id" (404) from "DB query failed" (500)
+    // QA P2 Q-SEC-21..27: don't leak raw DB error messages to clients. Log
+    // server-side, return generic message to caller.
     if (taskRes.error) {
-      return json(500, { error: "db_query_failed", query: "task", message: taskRes.error.message });
+      console.error("track-detail task query failed", taskRes.error);
+      return json(500, { error: "db_query_failed", query: "task" });
     }
-    if (!taskRes.data) {
-      return json(404, { error: "task_not_found" });
-    }
+    if (!taskRes.data) return json(404, { error: "task_not_found" });
     if (photosRes.error) {
-      return json(500, { error: "db_query_failed", query: "photos", message: photosRes.error.message });
+      console.error("track-detail photos query failed", photosRes.error);
+      return json(500, { error: "db_query_failed", query: "photos" });
     }
     if (activityRes.error) {
-      return json(500, { error: "db_query_failed", query: "activity", message: activityRes.error.message });
+      console.error("track-detail activity query failed", activityRes.error);
+      return json(500, { error: "db_query_failed", query: "activity" });
     }
 
     // Sign photo URLs
@@ -181,10 +195,12 @@ Deno.serve(async (req) => {
 
     // Distinguish DB failure (500) from "reservation not in our cache" (404)
     if (resRes.error) {
-      return json(500, { error: "db_query_failed", query: "reservation_events", message: resRes.error.message });
+      console.error("track-detail reservation_events query failed", resRes.error);
+      return json(500, { error: "db_query_failed", query: "reservation_events" });
     }
     if (tasksRes.error) {
-      return json(500, { error: "db_query_failed", query: "linked_tasks", message: tasksRes.error.message });
+      console.error("track-detail linked_tasks query failed", tasksRes.error);
+      return json(500, { error: "db_query_failed", query: "linked_tasks" });
     }
     if (!resRes.data || resRes.data.length === 0) {
       return json(404, { error: "reservation_not_found" });
