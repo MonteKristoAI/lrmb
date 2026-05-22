@@ -172,6 +172,11 @@ async function upsertTask(
     completed_at: (row.dateCompleted as string | undefined) ?? (row.completedAt as string | undefined) ?? null,
     processed_at: (row.dateProcessed as string | undefined) ?? (row.processedAt as string | undefined) ?? null,
     scheduled_for: (row.scheduledAt as string | undefined) ?? (row.dateScheduled as string | undefined) ?? null,
+    // QA P1 Q-DB-1: align created_at with TRACK's createdAt.
+    created_at: (row.createdAt as string | undefined) ??
+      (row.dateOpened as string | undefined) ??
+      (row.dateCreated as string | undefined) ??
+      (row.updatedAt as string | undefined) ?? new Date().toISOString(),
     updated_at: (row.updatedAt as string | undefined) ?? new Date().toISOString(),
   };
 

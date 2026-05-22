@@ -38,6 +38,13 @@ export function useTask(id: string | undefined) {
   });
 }
 
+// QA P1 Q-PERF-5,6: explicit column lists + cap.
+const TASK_UPDATE_COLUMNS =
+  "id, task_id, actor_id, update_type, old_status, new_status, note, metadata_json, created_at";
+const TASK_PHOTO_COLUMNS =
+  "id, task_id, storage_path, photo_type, photo_subtype, caption, uploaded_by, created_at, " +
+  "track_attachment_id, track_synced_at, track_sync_attempts, track_sync_error, track_next_attempt_at";
+
 export function useTaskUpdates(taskId: string | undefined) {
   return useQuery({
     queryKey: ["task_updates", taskId],
@@ -45,9 +52,10 @@ export function useTaskUpdates(taskId: string | undefined) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("task_updates")
-        .select("*")
+        .select(TASK_UPDATE_COLUMNS)
         .eq("task_id", taskId!)
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .limit(200);
       if (error) throw error;
       return data as TaskUpdateRow[];
     },
@@ -61,9 +69,10 @@ export function useTaskPhotos(taskId: string | undefined) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("task_photos")
-        .select("*")
+        .select(TASK_PHOTO_COLUMNS)
         .eq("task_id", taskId!)
-        .order("created_at", { ascending: false });
+        .order("created_at", { ascending: false })
+        .limit(200);
       if (error) throw error;
       return data as TaskPhoto[];
     },
