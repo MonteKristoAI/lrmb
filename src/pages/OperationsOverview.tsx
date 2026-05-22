@@ -13,7 +13,7 @@ import {
   ArrowDownToLine, ArrowUpFromLine, Camera, Activity, Building2,
   Image as ImageIcon, ShieldAlert, TrendingUp, TrendingDown, Minus,
   ListChecks, MapPin, Users, AlertTriangle, X, Calendar, FileText, Tag,
-  Link2, History, User,
+  Link2, History, User, Search, Filter,
 } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 
@@ -170,6 +170,36 @@ function propertyMatchesFilter(item: { propertyName: string | null }, filter: st
   return item.propertyName === filter;
 }
 
+function searchMatchesTask(t: TaskCard, q: string): boolean {
+  if (!q) return true;
+  const needle = q.toLowerCase().trim();
+  return (
+    (t.title?.toLowerCase().includes(needle) ?? false) ||
+    (t.unitCode?.toLowerCase().includes(needle) ?? false) ||
+    (t.propertyName?.toLowerCase().includes(needle) ?? false) ||
+    (t.externalId?.toLowerCase().includes(needle) ?? false) ||
+    (t.id?.toLowerCase().includes(needle) ?? false)
+  );
+}
+
+function searchMatchesRes(r: ReservationCard, q: string): boolean {
+  if (!q) return true;
+  const needle = q.toLowerCase().trim();
+  return (
+    (r.externalId?.toLowerCase().includes(needle) ?? false) ||
+    (r.unitCode?.toLowerCase().includes(needle) ?? false) ||
+    (r.propertyName?.toLowerCase().includes(needle) ?? false) ||
+    (r.status?.toLowerCase().includes(needle) ?? false)
+  );
+}
+
+function priorityMatchesFilter(t: TaskCard, prio: string): boolean {
+  if (prio === "ALL") return true;
+  // Coalesce "urgent" into "high" (the displayTitle/badge logic groups them)
+  const p = t.priority === "urgent" ? "high" : t.priority;
+  return p === prio;
+}
+
 function deltaIcon(curr: number, prev: number) {
   if (prev === 0 && curr === 0) return { Icon: Minus, color: "text-muted-foreground", label: "no change" };
   if (prev === 0) return { Icon: TrendingUp, color: "text-[hsl(152_60%_60%)]", label: "new" };
@@ -247,6 +277,8 @@ export default function OperationsOverview() {
   const [params, setParams] = useSearchParams();
   const token = params.get("t") ?? "";
   const [propertyFilter, setPropertyFilter] = useState<string>(params.get("property") ?? "ALL");
+  const [searchQuery, setSearchQuery] = useState<string>(params.get("q") ?? "");
+  const [priorityFilter, setPriorityFilter] = useState<string>(params.get("prio") ?? "ALL");
   const activeTab = params.get("tab") ?? "today";
   const detailParam = params.get("detail"); // "task:UUID" or "res:ID"
 
@@ -265,6 +297,26 @@ export default function OperationsOverview() {
       const next = new URLSearchParams(prev);
       if (v === "ALL") next.delete("property");
       else next.set("property", v);
+      return next;
+    });
+  }, [setParams]);
+
+  const setSearch = useCallback((v: string) => {
+    setSearchQuery(v);
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (v.trim() === "") next.delete("q");
+      else next.set("q", v);
+      return next;
+    });
+  }, [setParams]);
+
+  const setPriority = useCallback((v: string) => {
+    setPriorityFilter(v);
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (v === "ALL") next.delete("prio");
+      else next.set("prio", v);
       return next;
     });
   }, [setParams]);
@@ -309,11 +361,16 @@ export default function OperationsOverview() {
     }
   }, [isFetching, justRefreshed]);
 
-  // Apply property filter
+  // Apply property + search + priority filters (compose)
   const filtered = useMemo(() => {
     if (!data) return null;
-    const filterTask = (t: TaskCard) => propertyMatchesFilter(t, propertyFilter);
-    const filterRes = (r: ReservationCard) => propertyMatchesFilter(r, propertyFilter);
+    const filterTask = (t: TaskCard) =>
+      propertyMatchesFilter(t, propertyFilter) &&
+      searchMatchesTask(t, searchQuery) &&
+      priorityMatchesFilter(t, priorityFilter);
+    const filterRes = (r: ReservationCard) =>
+      propertyMatchesFilter(r, propertyFilter) &&
+      searchMatchesRes(r, searchQuery);
     return {
       reservations: {
         arrivalsToday: data.reservations.arrivalsToday.filter(filterRes),
@@ -333,7 +390,32 @@ export default function OperationsOverview() {
         completedPendingVerify: data.maintenance.completedPendingVerify.filter(filterTask),
       },
     };
-  }, [data, propertyFilter]);
+  }, [data, propertyFilter, searchQuery, priorityFilter]);
+
+  const hasActiveFilter = propertyFilter !== "ALL" || searchQuery !== "" || priorityFilter !== "ALL";
+  const totalFilteredItems =
+    (filtered?.reservations?.arrivalsToday.length ?? 0) +
+    (filtered?.reservations?.inHouse.length ?? 0) +
+    (filtered?.reservations?.checkoutsToday.length ?? 0) +
+    (filtered?.reservations?.upcoming7d.length ?? 0) +
+    (filtered?.housekeeping?.scheduledToday.length ?? 0) +
+    (filtered?.housekeeping?.inProgress.length ?? 0) +
+    (filtered?.housekeeping?.completedPendingVerify.length ?? 0) +
+    (filtered?.maintenance?.open.length ?? 0) +
+    (filtered?.maintenance?.overdue.length ?? 0) +
+    (filtered?.maintenance?.blocked.length ?? 0) +
+    (filtered?.maintenance?.completedPendingVerify.length ?? 0);
+
+  const clearAllFilters = useCallback(() => {
+    setPropertyFilter("ALL");
+    setSearchQuery("");
+    setPriorityFilter("ALL");
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete("property"); next.delete("q"); next.delete("prio");
+      return next;
+    });
+  }, [setParams]);
 
   if (!token) return <ErrorState title="Missing share link token" detail="Open this page via the shareable URL with a token in the query string." />;
   if (isLoading) return <LoadingState />;
@@ -390,6 +472,17 @@ export default function OperationsOverview() {
 
       <main className="mx-auto max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8 space-y-6">
         <PollHealthBanner health={data.pollHealth} />
+
+        {/* FILTER BAR */}
+        <FilterBar
+          searchQuery={searchQuery}
+          onSearchChange={setSearch}
+          priorityFilter={priorityFilter}
+          onPriorityChange={setPriority}
+          hasActiveFilter={hasActiveFilter}
+          totalFilteredItems={totalFilteredItems}
+          onClear={clearAllFilters}
+        />
 
         {/* KPI STRIP */}
         <section aria-label="Key metrics">
@@ -563,6 +656,101 @@ function PropertyFilter({ propertyList, value, onChange }: { propertyList: strin
         <option key={p} value={p}>{p}</option>
       ))}
     </select>
+  );
+}
+
+function FilterBar({
+  searchQuery,
+  onSearchChange,
+  priorityFilter,
+  onPriorityChange,
+  hasActiveFilter,
+  totalFilteredItems,
+  onClear,
+}: {
+  searchQuery: string;
+  onSearchChange: (v: string) => void;
+  priorityFilter: string;
+  onPriorityChange: (v: string) => void;
+  hasActiveFilter: boolean;
+  totalFilteredItems: number;
+  onClear: () => void;
+}) {
+  const priorities = [
+    { value: "ALL", label: "All priorities" },
+    { value: "high", label: "High" },
+    { value: "medium", label: "Medium" },
+    { value: "low", label: "Low" },
+  ] as const;
+
+  return (
+    <section
+      aria-label="Search and filters"
+      className="rounded-lg border border-border bg-card/50 px-3 py-3 sm:px-4 sm:py-3"
+    >
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+        {/* Search */}
+        <div className="relative flex-1 sm:max-w-md">
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <input
+            type="search"
+            value={searchQuery}
+            onChange={(e) => onSearchChange(e.target.value)}
+            placeholder="Search tasks, units, properties, IDs…"
+            className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-9 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
+            aria-label="Search tasks and reservations"
+          />
+          {searchQuery && (
+            <button
+              type="button"
+              onClick={() => onSearchChange("")}
+              className="absolute right-2 top-1/2 -translate-y-1/2 rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground"
+              aria-label="Clear search"
+            >
+              <X className="h-3.5 w-3.5" />
+            </button>
+          )}
+        </div>
+
+        {/* Priority chips */}
+        <div className="flex items-center gap-1.5" role="group" aria-label="Filter by priority">
+          <Filter className="hidden h-4 w-4 text-muted-foreground sm:inline" aria-hidden="true" />
+          {priorities.map((p) => (
+            <button
+              key={p.value}
+              type="button"
+              onClick={() => onPriorityChange(p.value)}
+              aria-pressed={priorityFilter === p.value}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs font-medium transition",
+                priorityFilter === p.value
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground",
+              )}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Active filter summary + clear */}
+        {hasActiveFilter && (
+          <div className="flex items-center gap-2 text-xs text-muted-foreground sm:ml-auto">
+            <span>
+              {totalFilteredItems} item{totalFilteredItems === 1 ? "" : "s"} match
+            </span>
+            <button
+              type="button"
+              onClick={onClear}
+              className="rounded-md border border-border bg-card px-2.5 py-1 text-xs font-medium hover:bg-muted"
+              aria-label="Clear all filters"
+            >
+              Clear
+            </button>
+          </div>
+        )}
+      </div>
+    </section>
   );
 }
 
