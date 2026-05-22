@@ -1326,7 +1326,7 @@ interface TaskDetailPayload {
 interface ResDetailPayload {
   reservation: Record<string, unknown>;
   eventHistory: Array<{ eventType: string; eventAt: string; createdAt: string }>;
-  linkedTasks: Array<{ id: string; title: string; status: string; priority: string; task_category: string; housekeeping_type: string | null; external_id: string | null; due_at: string | null; scheduled_for: string | null; started_at: string | null; completed_at: string | null; updated_at: string | null; units: { unit_code: string | null; short_name: string | null } | null; properties: { name: string } | null }>;
+  linkedTasks: Array<{ id: string; title: string; status: string; priority: string; task_category: string; housekeeping_type: string | null; task_type: string | null; external_id: string | null; description: string | null; due_at: string | null; scheduled_for: string | null; started_at: string | null; completed_at: string | null; updated_at: string | null; units: { unit_code: string | null; short_name: string | null } | null; properties: { name: string } | null }>;
 }
 
 async function fetchDetail(token: string, detailParam: string): Promise<TaskDetailPayload | ResDetailPayload> {
@@ -1559,34 +1559,50 @@ function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPa
             Linked work orders ({linkedTasks.length})
           </h4>
           <ul className="space-y-1.5">
-            {linkedTasks.map((t) => (
-              <li key={t.id}>
-                <button
-                  onClick={() => onOpenDetail("task", t.id)}
-                  className="w-full text-left rounded-md border border-border bg-muted/30 p-2 hover:bg-muted hover:border-accent/40 transition"
-                >
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="font-medium capitalize">{t.task_category}</span>
-                    <span className="text-muted-foreground">·</span>
-                    <span className="text-muted-foreground">{t.housekeeping_type ? hkTypeLabel(t.housekeeping_type) : (t.title ?? "—")}</span>
-                    <Badge variant="outline" className="ml-auto text-[10px]">{statusLabel(t.status)}</Badge>
-                  </div>
-                  <div className="text-xs text-muted-foreground mt-1">
-                    {t.units?.short_name ?? t.units?.unit_code ?? ""}{t.properties?.name ? ` · ${t.properties.name}` : ""}
-                    {" · "}
-                    {t.due_at
-                      ? `Due ${safeDistance(t.due_at)}`
-                      : t.scheduled_for
-                        ? `Scheduled ${safeDistance(t.scheduled_for)}`
-                        : t.started_at
-                          ? `Started ${safeDistance(t.started_at)}`
-                          : t.updated_at
-                            ? `Updated ${safeDistance(t.updated_at)}`
-                            : ""}
-                  </div>
-                </button>
-              </li>
-            ))}
+            {linkedTasks.map((t) => {
+              // TRACK PMS creates a separate "Inspection" task alongside every Checkout clean WO.
+              // Detect it from description so the two rows aren't indistinguishable in the UI.
+              const isInspection = (t.description ?? "").toLowerCase().includes("inspection");
+              const subLabel = isInspection
+                ? "Inspection"
+                : t.housekeeping_type
+                  ? hkTypeLabel(t.housekeeping_type)
+                  : (t.title ?? "—");
+              return (
+                <li key={t.id}>
+                  <button
+                    type="button"
+                    onClick={() => onOpenDetail("task", t.id)}
+                    className="w-full text-left rounded-md border border-border bg-muted/30 p-2 hover:bg-muted hover:border-accent/40 transition"
+                  >
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="font-medium capitalize">{t.task_category}</span>
+                      <span className="text-muted-foreground">·</span>
+                      <span className="text-muted-foreground">{subLabel}</span>
+                      {t.external_id && (
+                        <span className="text-[10px] font-mono text-muted-foreground/70">
+                          WO #{t.external_id}
+                        </span>
+                      )}
+                      <Badge variant="outline" className="ml-auto text-[10px]">{statusLabel(t.status)}</Badge>
+                    </div>
+                    <div className="text-xs text-muted-foreground mt-1">
+                      {t.units?.short_name ?? t.units?.unit_code ?? ""}{t.properties?.name ? ` · ${t.properties.name}` : ""}
+                      {" · "}
+                      {t.due_at
+                        ? `Due ${safeDistance(t.due_at)}`
+                        : t.scheduled_for
+                          ? `Scheduled ${safeDistance(t.scheduled_for)}`
+                          : t.started_at
+                            ? `Started ${safeDistance(t.started_at)}`
+                            : t.updated_at
+                              ? `Updated ${safeDistance(t.updated_at)}`
+                              : ""}
+                    </div>
+                  </button>
+                </li>
+              );
+            })}
           </ul>
         </div>
       )}
