@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
-import { useAllTasks, useUpdateTask } from "@/hooks/useTasks";
+import { useTasksByStatus, useUpdateTask } from "@/hooks/useTasks";
 import { useProfiles } from "@/hooks/useProperties";
 import { TaskCard } from "@/components/tasks/TaskCard";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -10,11 +10,14 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 const OpenTasksQueue = () => {
-  const { data: tasks = [], isLoading } = useAllTasks();
+  // v32: real "open" query (any non-terminal status), not a filter on the 500-row slice.
+  const { data: open = [], isLoading } = useTasksByStatus(
+    ["new", "assigned", "in_progress", "vendor_not_started", "waiting_parts", "blocked"],
+    { orderBy: "due_at", ascending: true, limit: 500 },
+  );
   const { data: profiles = [] } = useProfiles();
   const updateTask = useUpdateTask();
   const { toast } = useToast();
-  const open = tasks.filter((t) => !["completed", "verified", "processed"].includes(t.status));
 
   const [reassignId, setReassignId] = useState<string | null>(null);
   const [newAssignee, setNewAssignee] = useState("");

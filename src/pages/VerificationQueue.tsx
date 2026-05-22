@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
-import { useAllTasks, useUpdateTask, useAddTaskUpdate } from "@/hooks/useTasks";
+import { useTasksByStatus, useUpdateTask, useAddTaskUpdate } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/tasks/StatusBadge";
 import { PriorityBadge } from "@/components/tasks/PriorityBadge";
@@ -15,10 +15,12 @@ const VerificationQueue = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
-  const { data: tasks = [], isLoading } = useAllTasks();
+  // v32: real status=completed query for verification queue, not a filter on 500-row slice.
+  const { data: pending = [], isLoading } = useTasksByStatus(["completed"], {
+    orderBy: "completed_at", ascending: false, limit: 500,
+  });
   const updateTask = useUpdateTask();
   const addUpdate = useAddTaskUpdate();
-  const pending = tasks.filter((t) => t.status === "completed");
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
 
   const handleVerify = async (taskId: string) => {

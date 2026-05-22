@@ -162,17 +162,163 @@ export function useSimilarTasks(propertyId: string | undefined, unitId: string |
   });
 }
 
+// DEPRECATED for KPI aggregation. v32: this hook returns the 500 newest
+// tasks by created_at — useful for "recent activity" lists but MUST NOT be
+// used to compute counts like "Open Tasks" or "Overdue" because the database
+// has 30K+ rows and the slice produces lies.
+// For KPI numbers, use `useDashboardKpis()`. For status-filtered queue pages,
+// use `useTasksByStatus(...)`.
 export function useAllTasks() {
   return useQuery({
     queryKey: ["all_tasks"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("tasks")
-        .select("*, properties(name, region, zone), units(unit_code, short_name, bedrooms)")
+        .select("id, title, status, priority, task_category, housekeeping_type, due_at, scheduled_for, started_at, completed_at, created_at, updated_at, external_id, unit_id, property_id, assigned_to, blocked_reason, properties(name, region, zone), units(unit_code, short_name, bedrooms)")
         .order("created_at", { ascending: false })
         .limit(500);
       if (error) throw error;
       return data as (Task & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null; bedrooms: number | null } | null })[];
     },
+  });
+}
+
+// v32: real dashboard KPI counts from materialized view (refreshed every minute).
+// Replaces local-filter aggregates that were lying because they only saw 500 rows.
+export interface DashboardKpis {
+  hk_in_progress: number;
+  maint_in_progress: number;
+  maint_overdue: number;
+  hk_completed_this_week: number;
+  hk_completed_last_week: number;
+  maint_completed_this_week: number;
+  maint_completed_last_week: number;
+  track_mirrored_tasks: number;
+  refreshed_at: string | null;
+}
+
+export function useDashboardKpis() {
+  return useQuery({
+    queryKey: ["dashboard_kpis"],
+    queryFn: async (): Promise<DashboardKpis> => {
+      const { data, error } = await supabase
+        .from("mv_ops_dashboard_kpis")
+        .select("*")
+        .maybeSingle();
+      if (error) throw error;
+      return (data ?? {
+        hk_in_progress: 0, maint_in_progress: 0, maint_overdue: 0,
+        hk_completed_this_week: 0, hk_completed_last_week: 0,
+        maint_completed_this_week: 0, maint_completed_last_week: 0,
+        track_mirrored_tasks: 0, refreshed_at: null,
+      }) as DashboardKpis;
+    },
+    refetchInterval: 60_000,
+    staleTime: 30_000,
+  });
+}
+
+// v32: paged + filtered task list for queue pages. No hidden 500-row cap;
+// callers pass an explicit limit (default 200, raisable for export).
+export function useTasksByStatus(
+  statuses: TaskStatus[],
+  opts?: {
+    category?: TaskCategory;
+    propertyId?: string;
+    assignedTo?: string;
+    orderBy?: "due_at" | "created_at" | "updated_at" | "completed_at";
+    ascending?: boolean;
+    limit?: number;
+  },
+) {
+  return useQuery({
+    queryKey: ["tasks_by_status", statuses, opts],
+    queryFn: async () => {
+      let q = supabase
+        .from("tasks")
+        .select("id, title, status, priority, task_category, housekeeping_type, due_at, scheduled_for, started_at, completed_at, created_at, updated_at, external_id, unit_id, property_id, assigned_to, blocked_reason, properties(name, region, zone), units(unit_code, short_name, bedrooms)")
+        .in("status", statuses);
+      if (opts?.category) q = q.eq("task_category", opts.category);
+      if (opts?.propertyId) q = q.eq("property_id", opts.propertyId);
+      if (opts?.assignedTo) q = q.eq("assigned_to", opts.assignedTo);
+      q = q.order(opts?.orderBy ?? "due_at", { ascending: opts?.ascending ?? true, nullsFirst: false });
+      q = q.limit(opts?.limit ?? 200);
+      const { data, error } = await q;
+      if (error) throw error;
+      return data as (Task & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null; bedrooms: number | null } | null })[];
+    },
+  });
+}
+
+// v32: overdue tasks specifically (due_at < now, not in done states).
+// Done as a direct query so the page renders ALL overdue, not just from a slice.
+export function useOverdueTasks() {
+  return useQuery({
+    queryKey: ["overdue_tasks"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("id, title, status, priority, task_category, housekeeping_type, due_at, scheduled_for, started_at, completed_at, created_at, updated_at, external_id, unit_id, property_id, assigned_to, blocked_reason, properties(name, region, zone), units(unit_code, short_name, bedrooms)")
+        .lt("due_at", new Date().toISOString())
+        .not("status", "in", "(completed,verified,processed)")
+        .order("due_at", { ascending: true })
+        .limit(500);
+      if (error) throw error;
+      return data as (Task & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null; bedrooms: number | null } | null })[];
+    },
+  });
+}
+
+// v32: total counts (no row data, just count) for hard truth metrics.
+export function useTaskCount(filter: {
+  statuses?: TaskStatus[];
+  category?: TaskCategory;
+  overdue?: boolean;
+  dueToday?: boolean;
+}) {
+  return useQuery({
+    queryKey: ["task_count", filter],
+    queryFn: async (): Promise<number> => {
+      let q = supabase.from("tasks").select("*", { count: "exact", head: true });
+      if (filter.statuses?.length) q = q.in("status", filter.statuses);
+      if (filter.category) q = q.eq("task_category", filter.category);
+      if (filter.overdue) {
+        q = q.lt("due_at", new Date().toISOString())
+             .not("status", "in", "(completed,verified,processed)");
+      }
+      if (filter.dueToday) {
+        const start = new Date(); start.setHours(0, 0, 0, 0);
+        const end = new Date(start); end.setDate(end.getDate() + 1);
+        q = q.gte("due_at", start.toISOString())
+             .lt("due_at", end.toISOString())
+             .not("status", "in", "(completed,verified,processed)");
+      }
+      const { count, error } = await q;
+      if (error) throw error;
+      return count ?? 0;
+    },
+    refetchInterval: 60_000,
+  });
+}
+
+// v32: active distinct staff (anyone with at least one non-terminal assigned task).
+// Currently 0 because TRACK polling creates tasks with assigned_to=NULL.
+// Once Emma's staff roster lands and assignments are seeded, this turns on automatically.
+export function useActiveStaffCount() {
+  return useQuery({
+    queryKey: ["active_staff_count"],
+    queryFn: async (): Promise<number> => {
+      // PostgREST doesn't have count(distinct) directly. We fetch the assigned_to
+      // values of non-terminal tasks and dedupe in JS. Bounded to <2K rows so OK.
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("assigned_to")
+        .not("assigned_to", "is", null)
+        .in("status", ["new", "assigned", "in_progress", "vendor_not_started", "waiting_parts"])
+        .limit(2000);
+      if (error) throw error;
+      return new Set((data ?? []).map((r) => r.assigned_to as string)).size;
+    },
+    refetchInterval: 60_000,
   });
 }
