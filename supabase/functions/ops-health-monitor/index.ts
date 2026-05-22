@@ -18,6 +18,7 @@
 //   OPS_VIEW_HMAC_SECRET (used to detect expiry by decoding embedded token)
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireCronSecret } from "../_shared/cron-auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -26,6 +27,10 @@ const corsHeaders = {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  // QA P1 Q-SEC-14: cron-only endpoint.
+  const cronErr = requireCronSecret(req);
+  if (cronErr) return cronErr;
 
   const runId = crypto.randomUUID();
   const startedAt = Date.now();

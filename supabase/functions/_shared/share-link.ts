@@ -1,15 +1,31 @@
 // Shared HMAC-SHA256 share-link helpers used by both
-// track-overview-token (signs) and track-overview-data (verifies).
+// track-overview-token (signs) and track-overview-data + track-detail (verify).
+//
+// v1 tokens (legacy): { iat, exp, v:1, viewer? } - implicit audience = full overview
+// v2 tokens (QA P1):  { iat, exp, v:2, viewer?, aud, jti } - explicit scope + revokable
 
 const TEXT = new TextEncoder();
 const ALG = { name: "HMAC", hash: "SHA-256" } as const;
 
-export interface SharePayload {
+export type ShareAudience = "ops_overview" | "ops_detail" | "ops_full";
+
+export interface SharePayloadV1 {
   iat: number;
   exp: number;
   v: 1;
   viewer?: string;
 }
+
+export interface SharePayloadV2 {
+  iat: number;
+  exp: number;
+  v: 2;
+  viewer?: string;
+  aud: ShareAudience;
+  jti: string;
+}
+
+export type SharePayload = SharePayloadV1 | SharePayloadV2;
 
 export class ShareLinkError extends Error {
   constructor(public readonly code:
@@ -19,7 +35,9 @@ export class ShareLinkError extends Error {
     | "bad_signature"
     | "expired"
     | "unsupported_version"
-    | "future_iat",
+    | "future_iat"
+    | "wrong_audience"
+    | "revoked",
   message: string) {
     super(message);
   }
@@ -53,7 +71,26 @@ export async function signShareToken(payload: SharePayload, secret: string): Pro
   return `${payloadEnc}.${b64UrlEncode(sig)}`;
 }
 
-export async function verifyShareToken(token: string, secret: string, nowSec?: number): Promise<SharePayload> {
+interface VerifyOptions {
+  /**
+   * Required audience for v2 tokens. v1 tokens are accepted for any audience
+   * to preserve existing share links until they expire naturally.
+   */
+  requiredAudience?: ShareAudience;
+  /**
+   * Optional revocation predicate. Returns true if the jti has been revoked.
+   * Pass a function backed by the revoked_share_tokens table.
+   */
+  isRevoked?: (jti: string) => Promise<boolean>;
+  /** Overrides Date.now() — for testing. */
+  nowSec?: number;
+}
+
+export async function verifyShareToken(
+  token: string,
+  secret: string,
+  opts: VerifyOptions = {},
+): Promise<SharePayload> {
   if (!secret) throw new ShareLinkError("missing_secret", "Cannot verify without secret");
   if (!token) throw new ShareLinkError("missing_token", "Token absent");
   const parts = token.split(".");
@@ -73,16 +110,31 @@ export async function verifyShareToken(token: string, secret: string, nowSec?: n
     throw new ShareLinkError("bad_format", "Payload not valid JSON");
   }
 
-  if (payload.v !== 1) {
-    throw new ShareLinkError("unsupported_version", `Token version ${payload.v} not supported`);
+  if (payload.v !== 1 && payload.v !== 2) {
+    throw new ShareLinkError("unsupported_version", `Token version ${(payload as { v: unknown }).v} not supported`);
   }
 
-  const now = nowSec ?? Math.floor(Date.now() / 1000);
+  const now = opts.nowSec ?? Math.floor(Date.now() / 1000);
   if (payload.iat > now + 60) {
     throw new ShareLinkError("future_iat", "Token issued in the future");
   }
   if (payload.exp <= now) {
     throw new ShareLinkError("expired", "Token expired");
   }
+
+  if (payload.v === 2) {
+    if (!payload.aud || !payload.jti) {
+      throw new ShareLinkError("bad_format", "v2 token missing aud/jti");
+    }
+    if (opts.requiredAudience && payload.aud !== opts.requiredAudience && payload.aud !== "ops_full") {
+      throw new ShareLinkError("wrong_audience", `Token audience ${payload.aud} != ${opts.requiredAudience}`);
+    }
+    if (opts.isRevoked && (await opts.isRevoked(payload.jti))) {
+      throw new ShareLinkError("revoked", "Token has been revoked");
+    }
+  }
+  // v1 tokens: implicitly accepted for any audience (legacy compatibility).
+  // They will all expire by 2026-07-19 (Tony's longest-lived token).
+
   return payload;
 }

@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireCronSecret } from "../_shared/cron-auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -14,6 +15,10 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
+
+  // QA P1 Q-SEC-15: cron-only endpoint (was previously verify_jwt=false in config).
+  const cronErr = requireCronSecret(req);
+  if (cronErr) return cronErr;
 
   try {
     const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
