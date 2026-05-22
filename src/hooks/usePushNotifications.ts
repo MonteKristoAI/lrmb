@@ -62,17 +62,23 @@ export function usePushNotifications() {
 
       const subJson = sub.toJSON();
 
-      // Save to Supabase
-      await supabase.from("push_subscriptions").upsert({
+      // v34: surface upsert errors. Previously we silently said "subscribed" even when the
+      // server-side row wasn't saved, so push delivery would fail mysteriously.
+      const { error: upsertErr } = await supabase.from("push_subscriptions").upsert({
         user_id: user.id,
         endpoint: subJson.endpoint!,
         p256dh: subJson.keys!.p256dh!,
         auth_key: subJson.keys!.auth!,
       }, { onConflict: "user_id,endpoint" });
+      if (upsertErr) {
+        console.error("push subscription save failed", upsertErr);
+        return false;
+      }
 
       setIsSubscribed(true);
       return true;
-    } catch {
+    } catch (err) {
+      console.error("push subscribe failed", err);
       return false;
     }
   };
@@ -85,15 +91,21 @@ export function usePushNotifications() {
       const sub = await reg.pushManager.getSubscription();
       if (sub) {
         await sub.unsubscribe();
-        await supabase
+        // v34: check delete error before flipping local state. If the DB row still
+        // exists, the server will keep sending pushes — better to know than pretend.
+        const { error: delErr } = await supabase
           .from("push_subscriptions")
           .delete()
           .eq("user_id", user.id)
           .eq("endpoint", sub.endpoint);
+        if (delErr) {
+          console.error("push subscription delete failed", delErr);
+          return; // keep isSubscribed=true so UI knows it's still active server-side
+        }
       }
       setIsSubscribed(false);
-    } catch {
-      // Silent fail
+    } catch (err) {
+      console.error("push unsubscribe failed", err);
     }
   };
 

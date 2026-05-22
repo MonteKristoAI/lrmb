@@ -18,7 +18,8 @@ import {
   UserCheck, Image as ImageIcon, AlertTriangle, Pause, RotateCcw,
   X, DollarSign, FileCheck, Truck, User, Building2
 } from "lucide-react";
-import { format, formatDistanceToNow, isPast } from "date-fns";
+import { isPast } from "date-fns";
+import { safeFormat, safeDistance } from "@/lib/utils";
 import {
   TASK_CATEGORY_LABELS,
   HOUSEKEEPING_TYPE_LABELS,
@@ -228,7 +229,7 @@ const TaskDetail = () => {
             {task.units && (
               <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{task.units.short_name || task.units.unit_code}</span>
             )}
-            {task.due_at && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{format(new Date(task.due_at), "MMM d, h:mm a")}</span>}
+            {task.due_at && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{safeFormat(task.due_at, "MMM d, h:mm a")}</span>}
             <span>Category: {TASK_CATEGORY_LABELS[task.task_category]}</span>
             {task.task_type && <span>Type: {task.task_type}</span>}
             {hkType && <span>HK: {HOUSEKEEPING_TYPE_LABELS[hkType]}</span>}
@@ -249,7 +250,7 @@ const TaskDetail = () => {
               <Truck className="h-3 w-3" />
               Vendor: {task.assigned_vendor_name}
               {task.vendor_invoice_received && <span className="ml-2 text-green-600">Invoice received</span>}
-              {task.vendor_invoice_amount && <span className="ml-2">${task.vendor_invoice_amount.toFixed(2)}</span>}
+              {task.vendor_invoice_amount != null && <span className="ml-2">${task.vendor_invoice_amount.toFixed(2)}</span>}
             </div>
           )}
 
@@ -258,7 +259,7 @@ const TaskDetail = () => {
             <div className="flex items-center gap-1 pt-1 text-xs text-emerald-600">
               <DollarSign className="h-3 w-3" />
               Billing processed
-              {task.owner_charges_amount && <span className="ml-2">Owner charges: ${task.owner_charges_amount.toFixed(2)}</span>}
+              {task.owner_charges_amount != null && <span className="ml-2">Owner charges: ${task.owner_charges_amount.toFixed(2)}</span>}
               {task.billing_notes && <span className="ml-2">- {task.billing_notes}</span>}
             </div>
           )}
@@ -412,7 +413,7 @@ const TaskDetail = () => {
                 <div key={u.id} className="rounded border border-border bg-card p-3 text-xs space-y-1">
                   <div className="flex justify-between">
                     <span className="font-medium text-foreground capitalize">{u.update_type.replace(/_/g, " ")}</span>
-                    <span className="text-muted-foreground">{formatDistanceToNow(new Date(u.created_at), { addSuffix: true })}</span>
+                    <span className="text-muted-foreground">{safeDistance(u.created_at)}</span>
                   </div>
                   {u.note && <p className="text-muted-foreground">{u.note}</p>}
                   {u.old_status && u.new_status && <p className="text-muted-foreground">{u.old_status} &rarr; {u.new_status}</p>}

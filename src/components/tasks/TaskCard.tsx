@@ -4,7 +4,8 @@ import { StatusBadge } from "./StatusBadge";
 import { PriorityBadge } from "./PriorityBadge";
 import type { Task } from "@/types/task";
 import { MapPin, Clock, ChevronRight, User } from "lucide-react";
-import { formatDistanceToNow, isPast } from "date-fns";
+import { isPast } from "date-fns";
+import { safeDistance } from "@/lib/utils";
 
 interface TaskUnit { unit_code: string; short_name?: string | null; bedrooms?: number | null }
 interface TaskProperty { name: string; region?: string | null; zone?: string | null }
@@ -46,7 +47,7 @@ export function TaskCard({ task }: TaskCardProps) {
               <span className={`flex items-center gap-1 ${isOverdue ? "text-destructive font-medium" : ""}`}>
                 <Clock className="h-3 w-3" />
                 {isOverdue ? "Overdue " : "Due "}
-                {formatDistanceToNow(new Date(task.due_at), { addSuffix: true })}
+                {safeDistance(task.due_at)}
               </span>
             )}
           </div>
