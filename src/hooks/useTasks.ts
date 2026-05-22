@@ -374,10 +374,80 @@ export function useTaskCount(filter: {
   });
 }
 
-// v35: analytics hook — fetches up to 50K tasks with minimal columns for client-side
-// aggregation. Used by SupervisorDashboard, StaffWorkload, KPIOverview, TrendCharts.
-// 50K rows × ~200 bytes = ~10MB transfer; with 5-min cache this is OK for desktop
-// admin analytics. NOT for mobile or high-frequency refresh.
+// QA P1 Q-PERF-7..10: server-side aggregation RPCs. SupervisorDashboard,
+// KPIOverview, TrendCharts, StaffWorkload now read tiny JSON payloads
+// instead of pulling 50K rows and filtering in JS.
+export type AnalyticsSummary = {
+  total: number;
+  byStatus: Record<string, number>;
+  byPriority: Record<string, number>;
+  byCategory: Record<string, number>;
+  overdue: number;
+  pendingVerify: number;
+  completedTotal: number;
+  avgCycleHours: number | null;
+  photoComplianceTotal: number;
+  photoComplianceDone: number;
+  computedAt: string;
+};
+
+export function useAnalyticsSummary() {
+  return useQuery({
+    queryKey: ["analytics_summary"],
+    queryFn: async (): Promise<AnalyticsSummary> => {
+      const { data, error } = await supabase.rpc("analytics_dashboard_summary");
+      if (error) throw error;
+      return data as AnalyticsSummary;
+    },
+    staleTime: 5 * 60_000,
+    refetchInterval: 5 * 60_000,
+  });
+}
+
+export type AnalyticsTrendDay = {
+  day: string;
+  created: number;
+  completed: number;
+  overdue: number;
+};
+
+export function useAnalyticsTrends(days: number = 30) {
+  return useQuery({
+    queryKey: ["analytics_trends", days],
+    queryFn: async (): Promise<AnalyticsTrendDay[]> => {
+      const { data, error } = await supabase.rpc("analytics_trends_daily", { p_days: days });
+      if (error) throw error;
+      return (data ?? []) as AnalyticsTrendDay[];
+    },
+    staleTime: 5 * 60_000,
+    refetchInterval: 5 * 60_000,
+  });
+}
+
+export type AnalyticsStaffWorkload = {
+  profile_id: string;
+  full_name: string;
+  assigned: number;
+  active: number;
+  done: number;
+};
+
+export function useAnalyticsStaffWorkload() {
+  return useQuery({
+    queryKey: ["analytics_staff_workload"],
+    queryFn: async (): Promise<AnalyticsStaffWorkload[]> => {
+      const { data, error } = await supabase.rpc("analytics_staff_workload");
+      if (error) throw error;
+      return (data ?? []) as AnalyticsStaffWorkload[];
+    },
+    staleTime: 5 * 60_000,
+    refetchInterval: 5 * 60_000,
+  });
+}
+
+// DEPRECATED — analytics pages now use the per-page RPC hooks above.
+// Kept available with a tighter limit (5K vs 50K) to avoid main-thread block
+// if a caller still references it during migration.
 export function useTasksForAnalytics() {
   return useQuery({
     queryKey: ["tasks_for_analytics"],
@@ -386,7 +456,7 @@ export function useTasksForAnalytics() {
         .from("tasks")
         .select("id, status, priority, task_category, assigned_to, due_at, completed_at, created_at, property_id")
         .order("created_at", { ascending: false })
-        .limit(50000);
+        .limit(5000);
       if (error) throw error;
       return data ?? [];
     },

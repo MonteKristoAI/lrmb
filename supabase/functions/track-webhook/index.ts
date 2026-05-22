@@ -81,6 +81,45 @@ Deno.serve(async (req) => {
     );
   }
 
+  // QA P0 Q-SEC-4 (followup): timestamp window + replay nonce.
+  // TRACK is expected to send `x-track-timestamp` (unix seconds) and
+  // `x-track-nonce` (uuid). Without window+nonce the HMAC signature alone is
+  // replayable indefinitely. Window: ±5 minutes. Nonce dedup TTL: 24h via
+  // audit_logs lookup on the same nonce string.
+  const tsHeader = req.headers.get("x-track-timestamp") ?? req.headers.get("X-Track-Timestamp");
+  const nonceHeader = req.headers.get("x-track-nonce") ?? req.headers.get("X-Track-Nonce");
+  // Soft enforcement: when TRACK hasn't published the spec yet we warn but
+  // accept. Once Emma confirms TRACK sends both headers, change accept to reject.
+  const replayWindowSec = 300;
+  if (tsHeader) {
+    const ts = Number(tsHeader);
+    const skew = Math.abs(Math.floor(Date.now() / 1000) - ts);
+    if (!Number.isFinite(ts) || skew > replayWindowSec) {
+      await logEvent(supabase, runId, "timestamp_out_of_window", { ts, skew }, "error");
+      return new Response(
+        JSON.stringify({ error: "timestamp_out_of_window" }),
+        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+  }
+  if (nonceHeader) {
+    // Replay check: have we seen this nonce in the last 24h?
+    const since = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    const { count } = await supabase
+      .from("audit_logs")
+      .select("id", { count: "exact", head: true })
+      .eq("action", "track_webhook_event_received")
+      .gte("created_at", since)
+      .filter("payload_json->>nonce", "eq", nonceHeader);
+    if ((count ?? 0) > 0) {
+      await logEvent(supabase, runId, "replay_detected", { nonce: nonceHeader }, "warning");
+      return new Response(
+        JSON.stringify({ error: "replay_detected" }),
+        { status: 409, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
+    }
+  }
+
   // Route by event type + entity
   const event = String(body.event ?? body.type ?? body.eventType ?? "").toLowerCase();
   const data = (body.data ?? body.payload ?? body) as Record<string, unknown>;
@@ -148,10 +187,13 @@ Deno.serve(async (req) => {
         routed,
         rawBodyLength: rawBody.length,
         elapsedMs: Date.now() - startedAt,
+        nonce: nonceHeader ?? null,
+        ts: tsHeader ?? null,
       },
       routed ? "info" : "warning",
     );
   } catch (err) {
+    console.error("track-webhook processing_error", err);
     await logEvent(
       supabase,
       runId,

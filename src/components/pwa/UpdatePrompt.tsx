@@ -1,19 +1,32 @@
+import { useEffect, useRef } from "react";
 import { useRegisterSW } from "virtual:pwa-register/react";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
 
 export function UpdatePrompt() {
+  // QA P2 Q-PERF-24: keep a ref to the active registration so we can clear
+  // the interval on unmount. Previously the setInterval captured by
+  // onRegistered could outlive the component if it ever remounted (HMR
+  // during dev, future route restructure, etc.) and leak.
+  const intervalRef = useRef<number | null>(null);
   const {
     needRefresh: [needRefresh],
     updateServiceWorker,
   } = useRegisterSW({
     onRegistered(r) {
-      if (r) {
-        // Check for updates every 30 minutes
-        setInterval(() => r.update(), 30 * 60 * 1000);
-      }
+      if (!r || intervalRef.current !== null) return;
+      intervalRef.current = window.setInterval(() => r.update(), 30 * 60 * 1000);
     },
   });
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current !== null) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
+    };
+  }, []);
 
   if (!needRefresh) return null;
 
