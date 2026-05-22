@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useAuth } from "@/lib/auth";
 import { useNotifications, useUnreadCount, useMarkRead, useMarkAllRead } from "@/hooks/useNotifications";
-import { formatDistanceToNow } from "date-fns";
+import { safeDistance } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function NotificationBell() {
@@ -46,7 +46,7 @@ export function NotificationBell() {
               >
                 <p className="text-sm font-medium text-foreground">{n.title || n.event_type}</p>
                 {n.body && <p className="text-xs text-muted-foreground mt-0.5">{n.body}</p>}
-                <p className="text-[10px] text-muted-foreground mt-1">{formatDistanceToNow(new Date(n.created_at), { addSuffix: true })}</p>
+                <p className="text-[10px] text-muted-foreground mt-1">{safeDistance(n.created_at)}</p>
               </button>
             ))
           )}
