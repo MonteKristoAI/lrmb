@@ -1,9 +1,15 @@
-// v7 (2026-05-22): major rewrite for dashboard quality
-//   - Joins units + properties so every task/reservation shows context
-//     (property name + unit code instead of opaque TRACK IDs)
-//   - Week-over-week KPIs (cleans completed this week vs last week, etc)
-//   - Returns full breakdown by property for filtering on the frontend
-//   - Hides internal jargon (TRACK IDs, UUIDs) — surfaces operational language
+// v14 (2026-05-22): SQL-side date-window filter on mv_track_reservations_latest
+//   - fixes v13 bug: PostgREST 1000-row default cut off relevant reservations
+//   - now: arrival in [today-14d, today+8d] OR departure today -> ~150 rows
+// v13: switch reservations from raw payload_json to mv_track_reservations_latest
+//   - was: fetch 1500 raw reservation_events with payload_json = 13MB transfer
+//   - now: read pre-extracted MV with only 5 columns = ~2MB transfer + already-deduped
+//   - MV refreshed every 2 min by pg_cron alongside mv_ops_dashboard_kpis
+// v12: single Promise.all across ALL reads (no perf win, queries already fast)
+// v11: KPI counts from materialized view mv_ops_dashboard_kpis (refreshed every minute by pg_cron)
+// v10: Promise.all parallelization of count + view reads
+// v9:  per-panel array trim to top 100 + total counts
+// v7:  joins units + properties, week-over-week KPIs, property breakdown
 // v5/v6: + damageClaims + maint limit bumped
 // v2/v3: + totals + recentActivity + recentPhotos
 // Auth: HMAC-signed share-link token in ?t= query param. No Supabase session needed.
@@ -94,11 +100,44 @@ Deno.serve(async (req) => {
   const weekAgo = new Date(now.getTime() - 7 * 86400 * 1000);
   const twoWeeksAgo = new Date(now.getTime() - 14 * 86400 * 1000);
 
+  // v12: fire ALL reads in parallel. Total wait = max(query), not sum(query).
+  const [
+    { data: unitsRows },
+    { data: reservationsRaw },
+    { data: hkTasks },
+    { data: maintTasks },
+    { data: kpiRow },
+    { data: health },
+    { data: recentActivity },
+    { data: recentPhotos },
+    { data: damageClaims },
+  ] = await Promise.all([
+    supabase.from("units")
+      .select("id, unit_code, short_name, track_id, property_id, properties(name)")
+      .eq("active", true),
+    // v13: use materialized view with pre-extracted JSON fields (200B/row vs 9KB/row).
+    // v14: filter at SQL: only reservations relevant to the dashboard date windows
+    // (arrival in [today-7d, today+8d] OR departure in [today, today+1d]) -> ~150 rows vs 10k.
+    supabase.from("mv_track_reservations_latest")
+      .select("external_id, event_at, event_type, unit_id, arrival_date, departure_date, status, occupants, nights")
+      .or(`and(arrival_date.gte.${new Date(startOfToday.getTime() - 14 * 86400 * 1000).toISOString().slice(0,10)},arrival_date.lt.${new Date(startOfToday.getTime() + 8 * 86400 * 1000).toISOString().slice(0,10)}),and(departure_date.gte.${startOfToday.toISOString().slice(0,10)},departure_date.lt.${endOfToday.toISOString().slice(0,10)})`)
+      .limit(2000),
+    supabase.from("tasks")
+      .select("id, title, status, priority, housekeeping_type, started_at, completed_at, due_at, scheduled_for, unit_id, external_id, updated_at, reservation_id")
+      .eq("task_category", "housekeeping").in("status", ["new", "assigned", "in_progress", "completed"])
+      .order("updated_at", { ascending: false }).limit(500),
+    supabase.from("tasks")
+      .select("id, title, status, priority, due_at, completed_at, blocked_reason, unit_id, external_id, updated_at, reservation_id")
+      .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress", "blocked", "completed"])
+      .order("updated_at", { ascending: false }).limit(1500),
+    supabase.from("mv_ops_dashboard_kpis").select("*").maybeSingle(),
+    supabase.from("v_track_poll_latest").select("*"),
+    supabase.from("v_operations_recent_activity").select("*"),
+    supabase.from("v_operations_recent_photos").select("*"),
+    supabase.from("v_operations_damage_claims").select("*").limit(50),
+  ]);
+
   // Build unit lookup map: { unit_id (uuid): {unit_code, property_name, track_id}, track_id (int): same }
-  const { data: unitsRows } = await supabase
-    .from("units")
-    .select("id, unit_code, short_name, track_id, property_id, properties(name)")
-    .eq("active", true);
   const unitsByUuid = new Map<string, Unit>();
   const unitsByTrackId = new Map<number, Unit>();
   for (const u of unitsRows ?? []) {
@@ -116,27 +155,13 @@ Deno.serve(async (req) => {
     if (unit.track_id != null) unitsByTrackId.set(unit.track_id, unit);
   }
 
-  // === Reservations ===
-  const { data: reservationsRaw } = await supabase.from("reservation_events")
-    .select("external_id, event_type, event_at, payload_json, created_at")
-    .eq("external_source", "track").order("event_at", { ascending: false }).limit(1500);
-
-  const latestByReservation = new Map<string, { externalId: string; payload: Record<string, unknown>; eventAt: string | null }>();
-  for (const ev of reservationsRaw ?? []) {
-    if (!latestByReservation.has(ev.external_id as string)) {
-      latestByReservation.set(ev.external_id as string, {
-        externalId: ev.external_id as string,
-        payload: (ev.payload_json as Record<string, unknown>) ?? {},
-        eventAt: ev.event_at as string | null,
-      });
-    }
-  }
+  // === Reservations === (already deduped + extracted in mv_track_reservations_latest)
   const arrivalsToday: ReturnType<typeof toReservationCard>[] = [];
   const inHouse: ReturnType<typeof toReservationCard>[] = [];
   const checkoutsToday: ReturnType<typeof toReservationCard>[] = [];
   const upcoming7d: ReturnType<typeof toReservationCard>[] = [];
-  for (const { externalId, payload } of latestByReservation.values()) {
-    const card = toReservationCard(externalId, payload, unitsByTrackId);
+  for (const row of reservationsRaw ?? []) {
+    const card = toReservationCard(row, unitsByTrackId);
     if (!card) continue;
     const arr = card.arrivalDate ? new Date(card.arrivalDate) : null;
     const dep = card.departureDate ? new Date(card.departureDate) : null;
@@ -146,11 +171,7 @@ Deno.serve(async (req) => {
     if (arr && arr >= endOfToday && arr < in7d) upcoming7d.push(card);
   }
 
-  // === Housekeeping ===
-  const { data: hkTasks } = await supabase.from("tasks")
-    .select("id, title, status, priority, housekeeping_type, started_at, completed_at, due_at, scheduled_for, unit_id, external_id, updated_at, reservation_id")
-    .eq("task_category", "housekeeping").in("status", ["new", "assigned", "in_progress", "completed"])
-    .order("updated_at", { ascending: false }).limit(500);
+  // === Housekeeping === (data already fetched in Promise.all above)
   const hkCards = (hkTasks ?? []).map((t) => toTaskCard(t, "housekeeping", unitsByUuid));
   const hkScheduledToday = hkCards.filter((t) =>
     (t.dueAt && inDayWindow(t.dueAt, startOfToday, endOfToday)) ||
@@ -159,53 +180,15 @@ Deno.serve(async (req) => {
   const hkInProgress = hkCards.filter((t) => t.status === "in_progress");
   const hkPendingVerify = hkCards.filter((t) => t.status === "completed");
 
-  // === Maintenance ===
-  const { data: maintTasks } = await supabase.from("tasks")
-    .select("id, title, status, priority, due_at, completed_at, blocked_reason, unit_id, external_id, updated_at, reservation_id")
-    .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress", "blocked", "completed"])
-    .order("updated_at", { ascending: false }).limit(1500);
+  // === Maintenance === (data already fetched in Promise.all above)
   const maintCards = (maintTasks ?? []).map((t) => toTaskCard(t, "maintenance", unitsByUuid));
   const open = maintCards.filter((t) => ["new", "assigned", "in_progress"].includes(t.status));
   const overdue = maintCards.filter((t) => t.dueAt && new Date(t.dueAt) < now && !["completed", "verified"].includes(t.status));
   const blocked = maintCards.filter((t) => t.status === "blocked");
   const maintPendingVerify = maintCards.filter((t) => t.status === "completed");
 
-  // === Week-over-week KPIs ===
-  // Exact counts for KPIs (separate from card slices so volume is accurate)
-  const [
-    hkInProgressTotal,
-    maintInProgressTotal,
-    maintOverdueTotal,
-    hkCompletedThisWeek,
-    hkCompletedLastWeek,
-    maintCompletedThisWeek,
-    maintCompletedLastWeek,
-  ] = await Promise.all([
-    supabase.from("tasks").select("id", { count: "planned", head: true })
-      .eq("task_category", "housekeeping").eq("status", "in_progress"),
-    supabase.from("tasks").select("id", { count: "planned", head: true })
-      .eq("task_category", "maintenance").eq("status", "in_progress"),
-    supabase.from("tasks").select("id", { count: "planned", head: true })
-      .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress"])
-      .lt("due_at", now.toISOString()),
-    supabase.from("tasks").select("id", { count: "planned", head: true })
-      .eq("task_category", "housekeeping").eq("status", "completed")
-      .gte("completed_at", weekAgo.toISOString()).lte("completed_at", now.toISOString()),
-    supabase.from("tasks").select("id", { count: "planned", head: true })
-      .eq("task_category", "housekeeping").eq("status", "completed")
-      .gte("completed_at", twoWeeksAgo.toISOString()).lt("completed_at", weekAgo.toISOString()),
-    supabase.from("tasks").select("id", { count: "planned", head: true })
-      .eq("task_category", "maintenance").eq("status", "completed")
-      .gte("completed_at", weekAgo.toISOString()).lte("completed_at", now.toISOString()),
-    supabase.from("tasks").select("id", { count: "planned", head: true })
-      .eq("task_category", "maintenance").eq("status", "completed")
-      .gte("completed_at", twoWeeksAgo.toISOString()).lt("completed_at", weekAgo.toISOString()),
-  ]);
-
-  const { data: health } = await supabase.from("v_track_poll_latest").select("*");
-  const { data: recentActivity } = await supabase.from("v_operations_recent_activity").select("*");
-  const { data: recentPhotos } = await supabase.from("v_operations_recent_photos").select("*");
-  const { data: damageClaims } = await supabase.from("v_operations_damage_claims").select("*").limit(50);
+  // v11: KPI counts from MV (fetched in top Promise.all). 8 count(*) -> 1 row read.
+  const kpi = (kpiRow as Record<string, number | string> | null) ?? {};
 
   const STORAGE_BUCKET = "task-photos";
   const photosWithUrls = await Promise.all((recentPhotos ?? []).map(async (p) => {
@@ -217,8 +200,8 @@ Deno.serve(async (req) => {
     }
   }));
 
-  const { count: trackTaskCount } = await supabase.from("tasks")
-    .select("id", { count: "planned", head: true }).eq("external_source", "track");
+  // v11: trackTaskCount sourced from MV (was a separate count query)
+  const trackTaskCount = (kpi.track_mirrored_tasks as number) ?? 0;
 
   // Property breakdown (for filter dropdown in UI)
   const propertyList = Array.from(new Set(
@@ -251,16 +234,17 @@ Deno.serve(async (req) => {
     },
     kpis: {
       hkCompleted: {
-        thisWeek: hkCompletedThisWeek.count ?? 0,
-        lastWeek: hkCompletedLastWeek.count ?? 0,
+        thisWeek: (kpi.hk_completed_this_week as number) ?? 0,
+        lastWeek: (kpi.hk_completed_last_week as number) ?? 0,
       },
       maintCompleted: {
-        thisWeek: maintCompletedThisWeek.count ?? 0,
-        lastWeek: maintCompletedLastWeek.count ?? 0,
+        thisWeek: (kpi.maint_completed_this_week as number) ?? 0,
+        lastWeek: (kpi.maint_completed_last_week as number) ?? 0,
       },
-      hkInProgress: hkInProgressTotal.count ?? 0,
-      maintInProgress: maintInProgressTotal.count ?? 0,
-      maintOverdue: maintOverdueTotal.count ?? 0,
+      hkInProgress: (kpi.hk_in_progress as number) ?? 0,
+      maintInProgress: (kpi.maint_in_progress as number) ?? 0,
+      maintOverdue: (kpi.maint_overdue as number) ?? 0,
+      kpiRefreshedAt: kpi.refreshed_at as string | undefined,
     },
     propertyList,
     // v9: trimmed arrays + total counts for "+ N more" indicator
@@ -294,20 +278,20 @@ Deno.serve(async (req) => {
   });
 });
 
-function toReservationCard(externalId: string, payload: Record<string, unknown>, unitsByTrackId: Map<number, Unit>) {
-  if (!payload) return null;
-  const trackUnitId = (payload.unitId as number | undefined) ?? null;
+function toReservationCard(row: Record<string, unknown>, unitsByTrackId: Map<number, Unit>) {
+  if (!row) return null;
+  const trackUnitId = (row.unit_id as number | undefined) ?? null;
   const unit = trackUnitId != null ? unitsByTrackId.get(trackUnitId) : null;
   return {
-    externalId,
+    externalId: row.external_id as string,
     unitId: trackUnitId,
     unitCode: unit?.short_name ?? unit?.unit_code ?? null,
     propertyName: unit?.property_name ?? null,
-    arrivalDate: (payload.arrivalDate as string | undefined) ?? null,
-    departureDate: (payload.departureDate as string | undefined) ?? null,
-    status: (payload.status as string | undefined) ?? null,
-    occupants: (payload.occupants as number | undefined) ?? null,
-    nights: (payload.nights as number | undefined) ?? null,
+    arrivalDate: (row.arrival_date as string | undefined) ?? null,
+    departureDate: (row.departure_date as string | undefined) ?? null,
+    status: (row.status as string | undefined) ?? null,
+    occupants: row.occupants ?? null,
+    nights: (row.nights as number | undefined) ?? null,
   };
 }
 
