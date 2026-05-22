@@ -28,7 +28,18 @@ function b64UrlDecode(s: string): Uint8Array {
 async function importKey(secret: string) {
   return crypto.subtle.importKey("raw", TEXT.encode(secret), ALG, false, ["sign", "verify"]);
 }
-async function verifyShareToken(token: string, secret: string) {
+// QA P1 Q-SEC-16: accept v1 (legacy) AND v2 (scoped + revokable).
+// v2 tokens must carry aud="ops_detail" or "ops_full". v1 tokens accepted
+// for backward compatibility until they expire naturally.
+type TokenPayload =
+  | { v: 1; iat: number; exp: number; viewer?: string }
+  | { v: 2; iat: number; exp: number; viewer?: string; aud: string; jti: string };
+
+async function verifyShareToken(
+  token: string,
+  secret: string,
+  isRevoked?: (jti: string) => Promise<boolean>,
+): Promise<TokenPayload> {
   if (!secret) throw new ShareLinkError("missing_secret", "no secret");
   if (!token) throw new ShareLinkError("missing_token", "no token");
   const parts = token.split(".");
@@ -38,16 +49,28 @@ async function verifyShareToken(token: string, secret: string) {
   const sig = b64UrlDecode(sigB64);
   const ok = await crypto.subtle.verify("HMAC", key, sig, TEXT.encode(payloadB64));
   if (!ok) throw new ShareLinkError("bad_signature", "sig mismatch");
-  let payload: { iat: number; exp: number; v: number; viewer?: string };
+  let payload: TokenPayload;
   try {
     payload = JSON.parse(new TextDecoder().decode(b64UrlDecode(payloadB64)));
   } catch {
     throw new ShareLinkError("bad_format", "payload not json");
   }
-  if (payload.v !== 1) throw new ShareLinkError("unsupported_version", `v=${payload.v}`);
+  if (payload.v !== 1 && payload.v !== 2) {
+    throw new ShareLinkError("unsupported_version", `v=${(payload as { v: unknown }).v}`);
+  }
   const now = Math.floor(Date.now() / 1000);
   if (payload.iat > now + 60) throw new ShareLinkError("future_iat", "iat in future");
   if (payload.exp <= now) throw new ShareLinkError("expired", "expired");
+
+  if (payload.v === 2) {
+    if (!payload.aud || !payload.jti) throw new ShareLinkError("bad_format", "v2 missing aud/jti");
+    if (payload.aud !== "ops_detail" && payload.aud !== "ops_full" && payload.aud !== "ops_overview") {
+      throw new ShareLinkError("wrong_audience", `aud=${payload.aud}`);
+    }
+    if (isRevoked && (await isRevoked(payload.jti))) {
+      throw new ShareLinkError("revoked", "token revoked");
+    }
+  }
   return payload;
 }
 
@@ -58,17 +81,22 @@ Deno.serve(async (req) => {
   const secret = Deno.env.get("OPS_VIEW_HMAC_SECRET");
   if (!secret) return json(500, { error: "Server missing OPS_VIEW_HMAC_SECRET" });
 
-  try {
-    await verifyShareToken(token ?? "", secret);
-  } catch (err) {
-    if (err instanceof ShareLinkError) return json(401, { error: err.code, message: err.message });
-    return json(401, { error: "verification_failed" });
-  }
-
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceRoleKey) return json(500, { error: "Server missing Supabase env" });
   const supabase = createClient(supabaseUrl, serviceRoleKey);
+
+  const isRevoked = async (jti: string): Promise<boolean> => {
+    const { data } = await supabase.rpc("has_revoked_share_token", { p_jti: jti });
+    return Boolean(data);
+  };
+
+  try {
+    await verifyShareToken(token ?? "", secret, isRevoked);
+  } catch (err) {
+    if (err instanceof ShareLinkError) return json(401, { error: err.code, message: err.message });
+    return json(401, { error: "verification_failed" });
+  }
 
   const taskId = url.searchParams.get("id");
   const reservationId = url.searchParams.get("reservation");

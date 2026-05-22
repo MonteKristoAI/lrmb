@@ -29,6 +29,23 @@ function toIsoDate(value?: string): string | null {
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
 
+// QA P1 Q-SEC-18: constant-time secret comparison. Previously used `!==` which
+// returned in the first mismatching character — an attacker can deduce the
+// secret one byte at a time by measuring response latency.
+function timingSafeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) {
+    // Still run the loop on a same-length zero buffer so the early-return
+    // path doesn't leak whether length matched.
+    const filler = "0".repeat(a.length);
+    let dummy = 0;
+    for (let i = 0; i < a.length; i++) dummy |= a.charCodeAt(i) ^ filler.charCodeAt(i);
+    return false;
+  }
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return diff === 0;
+}
+
 Deno.serve(async (req) => {
   const corsHeaders = buildCorsHeaders(req.headers.get("origin"));
 
@@ -54,7 +71,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    if (receivedSecret !== expectedSecret) {
+    if (!receivedSecret || !timingSafeEqual(receivedSecret, expectedSecret)) {
       return new Response(JSON.stringify({ error: "Unauthorized webhook secret" }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -138,7 +155,9 @@ Deno.serve(async (req) => {
       { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
-    return new Response(JSON.stringify({ error: (error as Error).message }), {
+    // QA P2: don't leak DB internals or stack info to webhook caller.
+    console.error("travelnet-webhook error", error);
+    return new Response(JSON.stringify({ error: "webhook_processing_failed" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

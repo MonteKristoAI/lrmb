@@ -18,6 +18,7 @@
 //   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (auto-injected)
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireCronSecret } from "../_shared/cron-auth.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -58,6 +59,10 @@ Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
+
+  // QA P1 Q-SEC-10: cron-only endpoint. Require x-cron-secret header.
+  const cronErr = requireCronSecret(req);
+  if (cronErr) return cronErr;
 
   const startedAt = Date.now();
   const runId = crypto.randomUUID();
