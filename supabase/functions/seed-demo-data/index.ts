@@ -12,6 +12,30 @@ type TemplateRow = { id: string; name: string };
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  // QA P0 Q-SEC-2: this function creates admin users with known credentials and
+  // previously returned the plaintext passwords in the response body. Anyone with
+  // the function URL could escalate to admin. Gate it behind an explicit env
+  // toggle that defaults to off in production. Set SEED_DEMO_DATA_ENABLED=true
+  // only in dev/staging projects.
+  const seedEnabled = (Deno.env.get("SEED_DEMO_DATA_ENABLED") ?? "").toLowerCase() === "true";
+  if (!seedEnabled) {
+    return new Response(JSON.stringify({ error: "disabled", message: "Demo seed function is disabled in this environment" }), {
+      status: 403,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+  // Additionally require a one-shot shared secret in Authorization header so even
+  // when enabled, the URL alone isn't enough.
+  const expectedSecret = Deno.env.get("SEED_DEMO_DATA_SECRET");
+  const authHeader = req.headers.get("authorization") ?? "";
+  if (!expectedSecret || authHeader !== `Bearer ${expectedSecret}`) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
   const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
   const sb = createClient(supabaseUrl, serviceKey, { auth: { autoRefreshToken: false, persistSession: false } });
@@ -233,17 +257,19 @@ Deno.serve(async (req) => {
     }
 
     return new Response(
-      JSON.stringify({ 
-        success: true, 
-        users: Object.keys(userIds).length, 
-        properties: propIds.length, 
-        message: "Seed data created. Login credentials: any @lrmb.test email with password Test1234!",
-        logins: users.map(u => ({ email: u.email, password: u.password, role: u.role }))
+      // QA P0 Q-SEC-2: never return credentials in response. Caller already has
+      // the secret in their env to invoke this function; they don't need passwords back.
+      JSON.stringify({
+        success: true,
+        users: Object.keys(userIds).length,
+        properties: propIds.length,
+        message: "Seed data created. Test logins are in your local .env.development; rotate before production.",
       }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
-    return new Response(JSON.stringify({ error: (err as Error).message }), {
+    console.error("seed-demo-data failed", err);
+    return new Response(JSON.stringify({ error: "internal_error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
