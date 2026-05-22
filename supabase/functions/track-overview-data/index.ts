@@ -1,5 +1,13 @@
-// v2/v3: adds totals + recentActivity + recentPhotos sections.
+// v7 (2026-05-22): major rewrite for dashboard quality
+//   - Joins units + properties so every task/reservation shows context
+//     (property name + unit code instead of opaque TRACK IDs)
+//   - Week-over-week KPIs (cleans completed this week vs last week, etc)
+//   - Returns full breakdown by property for filtering on the frontend
+//   - Hides internal jargon (TRACK IDs, UUIDs) — surfaces operational language
+// v5/v6: + damageClaims + maint limit bumped
+// v2/v3: + totals + recentActivity + recentPhotos
 // Auth: HMAC-signed share-link token in ?t= query param. No Supabase session needed.
+
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
@@ -15,12 +23,6 @@ class ShareLinkError extends Error {
   constructor(public readonly code: string, msg: string) { super(msg); }
 }
 
-function b64UrlEncode(bytes: ArrayBuffer | Uint8Array): string {
-  const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
-  let bin = "";
-  for (const b of arr) bin += String.fromCharCode(b);
-  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
 function b64UrlDecode(s: string): Uint8Array {
   const pad = "=".repeat((4 - (s.length % 4)) % 4);
   const b64 = (s + pad).replace(/-/g, "+").replace(/_/g, "/");
@@ -55,6 +57,15 @@ async function verifyShareToken(token: string, secret: string) {
   return payload;
 }
 
+type Unit = {
+  id: string;
+  unit_code: string | null;
+  short_name: string | null;
+  track_id: number | null;
+  property_id: string | null;
+  property_name: string | null;
+};
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
   const url = new URL(req.url);
@@ -80,7 +91,32 @@ Deno.serve(async (req) => {
   const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
   const endOfToday = new Date(startOfToday.getTime() + 86400 * 1000);
   const in7d = new Date(endOfToday.getTime() + 7 * 86400 * 1000);
+  const weekAgo = new Date(now.getTime() - 7 * 86400 * 1000);
+  const twoWeeksAgo = new Date(now.getTime() - 14 * 86400 * 1000);
 
+  // Build unit lookup map: { unit_id (uuid): {unit_code, property_name, track_id}, track_id (int): same }
+  const { data: unitsRows } = await supabase
+    .from("units")
+    .select("id, unit_code, short_name, track_id, property_id, properties(name)")
+    .eq("active", true);
+  const unitsByUuid = new Map<string, Unit>();
+  const unitsByTrackId = new Map<number, Unit>();
+  for (const u of unitsRows ?? []) {
+    const props = (u.properties as { name: string } | { name: string }[] | null);
+    const propertyName = Array.isArray(props) ? (props[0]?.name ?? null) : (props?.name ?? null);
+    const unit: Unit = {
+      id: u.id as string,
+      unit_code: (u.unit_code as string) ?? null,
+      short_name: (u.short_name as string) ?? null,
+      track_id: (u.track_id as number) ?? null,
+      property_id: (u.property_id as string) ?? null,
+      property_name: propertyName,
+    };
+    unitsByUuid.set(unit.id, unit);
+    if (unit.track_id != null) unitsByTrackId.set(unit.track_id, unit);
+  }
+
+  // === Reservations ===
   const { data: reservationsRaw } = await supabase.from("reservation_events")
     .select("external_id, event_type, event_at, payload_json, created_at")
     .eq("external_source", "track").order("event_at", { ascending: false }).limit(1500);
@@ -100,7 +136,7 @@ Deno.serve(async (req) => {
   const checkoutsToday: ReturnType<typeof toReservationCard>[] = [];
   const upcoming7d: ReturnType<typeof toReservationCard>[] = [];
   for (const { externalId, payload } of latestByReservation.values()) {
-    const card = toReservationCard(externalId, payload);
+    const card = toReservationCard(externalId, payload, unitsByTrackId);
     if (!card) continue;
     const arr = card.arrivalDate ? new Date(card.arrivalDate) : null;
     const dep = card.departureDate ? new Date(card.departureDate) : null;
@@ -110,24 +146,45 @@ Deno.serve(async (req) => {
     if (arr && arr >= endOfToday && arr < in7d) upcoming7d.push(card);
   }
 
+  // === Housekeeping ===
   const { data: hkTasks } = await supabase.from("tasks")
-    .select("id, title, status, started_at, completed_at, due_at, unit_id, external_id, updated_at")
+    .select("id, title, status, priority, housekeeping_type, started_at, completed_at, due_at, scheduled_for, unit_id, external_id, updated_at, reservation_id")
     .eq("task_category", "housekeeping").in("status", ["new", "assigned", "in_progress", "completed"])
-    .order("updated_at", { ascending: false }).limit(200);
-  const hkScheduledToday = (hkTasks ?? []).filter((t) =>
-    (t.due_at && inDayWindow(t.due_at as string, startOfToday, endOfToday)) ||
-    (t.started_at && inDayWindow(t.started_at as string, startOfToday, endOfToday))).map(toTaskCard);
-  const hkInProgress = (hkTasks ?? []).filter((t) => t.status === "in_progress").map(toTaskCard);
-  const hkPendingVerify = (hkTasks ?? []).filter((t) => t.status === "completed").map(toTaskCard);
+    .order("updated_at", { ascending: false }).limit(500);
+  const hkCards = (hkTasks ?? []).map((t) => toTaskCard(t, "housekeeping", unitsByUuid));
+  const hkScheduledToday = hkCards.filter((t) =>
+    (t.dueAt && inDayWindow(t.dueAt, startOfToday, endOfToday)) ||
+    (t.startedAt && inDayWindow(t.startedAt, startOfToday, endOfToday)) ||
+    (t.scheduledFor && inDayWindow(t.scheduledFor, startOfToday, endOfToday)));
+  const hkInProgress = hkCards.filter((t) => t.status === "in_progress");
+  const hkPendingVerify = hkCards.filter((t) => t.status === "completed");
 
+  // === Maintenance ===
   const { data: maintTasks } = await supabase.from("tasks")
-    .select("id, title, status, due_at, completed_at, blocked_reason, unit_id, external_id, updated_at")
+    .select("id, title, status, priority, due_at, completed_at, blocked_reason, unit_id, external_id, updated_at, reservation_id")
     .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress", "blocked", "completed"])
-    .order("updated_at", { ascending: false }).limit(1000);
-  const open = (maintTasks ?? []).filter((t) => ["new", "assigned", "in_progress"].includes(t.status as string)).map(toTaskCard);
-  const overdue = (maintTasks ?? []).filter((t) => t.due_at && new Date(t.due_at as string) < now && !["completed", "verified"].includes(t.status as string)).map(toTaskCard);
-  const blocked = (maintTasks ?? []).filter((t) => t.status === "blocked").map(toTaskCard);
-  const maintPendingVerify = (maintTasks ?? []).filter((t) => t.status === "completed").map(toTaskCard);
+    .order("updated_at", { ascending: false }).limit(1500);
+  const maintCards = (maintTasks ?? []).map((t) => toTaskCard(t, "maintenance", unitsByUuid));
+  const open = maintCards.filter((t) => ["new", "assigned", "in_progress"].includes(t.status));
+  const overdue = maintCards.filter((t) => t.dueAt && new Date(t.dueAt) < now && !["completed", "verified"].includes(t.status));
+  const blocked = maintCards.filter((t) => t.status === "blocked");
+  const maintPendingVerify = maintCards.filter((t) => t.status === "completed");
+
+  // === Week-over-week KPIs ===
+  const [hkCompletedThisWeek, hkCompletedLastWeek, maintCompletedThisWeek, maintCompletedLastWeek] = await Promise.all([
+    supabase.from("tasks").select("id", { count: "exact", head: true })
+      .eq("task_category", "housekeeping").eq("status", "completed")
+      .gte("completed_at", weekAgo.toISOString()).lte("completed_at", now.toISOString()),
+    supabase.from("tasks").select("id", { count: "exact", head: true })
+      .eq("task_category", "housekeeping").eq("status", "completed")
+      .gte("completed_at", twoWeeksAgo.toISOString()).lt("completed_at", weekAgo.toISOString()),
+    supabase.from("tasks").select("id", { count: "exact", head: true })
+      .eq("task_category", "maintenance").eq("status", "completed")
+      .gte("completed_at", weekAgo.toISOString()).lte("completed_at", now.toISOString()),
+    supabase.from("tasks").select("id", { count: "exact", head: true })
+      .eq("task_category", "maintenance").eq("status", "completed")
+      .gte("completed_at", twoWeeksAgo.toISOString()).lt("completed_at", weekAgo.toISOString()),
+  ]);
 
   const { data: health } = await supabase.from("v_track_poll_latest").select("*");
   const { data: recentActivity } = await supabase.from("v_operations_recent_activity").select("*");
@@ -146,14 +203,32 @@ Deno.serve(async (req) => {
 
   const { count: trackTaskCount } = await supabase.from("tasks")
     .select("id", { count: "exact", head: true }).eq("external_source", "track");
-  const { count: photoCount } = await supabase.from("task_photos")
-    .select("id", { count: "exact", head: true });
+
+  // Property breakdown (for filter dropdown in UI)
+  const propertyList = Array.from(new Set(
+    [...hkCards, ...maintCards].map((t) => t.propertyName).filter((p): p is string => !!p),
+  )).sort();
 
   return json(200, {
     viewer,
     generatedAt: new Date().toISOString(),
     windowUTC: { start: startOfToday.toISOString(), end: endOfToday.toISOString() },
-    totals: { trackMirroredTasks: trackTaskCount ?? 0, photosUploaded: photoCount ?? 0 },
+    totals: {
+      trackMirroredTasks: trackTaskCount ?? 0,
+      activeUnits: unitsByUuid.size,
+      activeProperties: propertyList.length,
+    },
+    kpis: {
+      hkCompleted: {
+        thisWeek: hkCompletedThisWeek.count ?? 0,
+        lastWeek: hkCompletedLastWeek.count ?? 0,
+      },
+      maintCompleted: {
+        thisWeek: maintCompletedThisWeek.count ?? 0,
+        lastWeek: maintCompletedLastWeek.count ?? 0,
+      },
+    },
+    propertyList,
     reservations: { arrivalsToday, inHouse, checkoutsToday, upcoming7d },
     housekeeping: { scheduledToday: hkScheduledToday, inProgress: hkInProgress, completedPendingVerify: hkPendingVerify },
     maintenance: { open, overdue, blocked, completedPendingVerify: maintPendingVerify },
@@ -170,11 +245,15 @@ Deno.serve(async (req) => {
   });
 });
 
-function toReservationCard(externalId: string, payload: Record<string, unknown>) {
+function toReservationCard(externalId: string, payload: Record<string, unknown>, unitsByTrackId: Map<number, Unit>) {
   if (!payload) return null;
+  const trackUnitId = (payload.unitId as number | undefined) ?? null;
+  const unit = trackUnitId != null ? unitsByTrackId.get(trackUnitId) : null;
   return {
     externalId,
-    unitId: (payload.unitId as number | undefined) ?? null,
+    unitId: trackUnitId,
+    unitCode: unit?.short_name ?? unit?.unit_code ?? null,
+    propertyName: unit?.property_name ?? null,
     arrivalDate: (payload.arrivalDate as string | undefined) ?? null,
     departureDate: (payload.departureDate as string | undefined) ?? null,
     status: (payload.status as string | undefined) ?? null,
@@ -182,23 +261,35 @@ function toReservationCard(externalId: string, payload: Record<string, unknown>)
     nights: (payload.nights as number | undefined) ?? null,
   };
 }
-function toTaskCard(t: Record<string, unknown>) {
+
+function toTaskCard(t: Record<string, unknown>, category: "housekeeping" | "maintenance", unitsByUuid: Map<string, Unit>) {
+  const unit = t.unit_id ? unitsByUuid.get(t.unit_id as string) : null;
   return {
     id: t.id as string,
     title: (t.title as string) ?? "",
     status: (t.status as string) ?? "new",
+    category,
+    priority: (t.priority as string) ?? "medium",
+    housekeepingType: (t.housekeeping_type as string | undefined) ?? null,
     unitId: (t.unit_id as string | undefined) ?? null,
+    unitCode: unit?.short_name ?? unit?.unit_code ?? null,
+    propertyName: unit?.property_name ?? null,
     externalId: (t.external_id as string | undefined) ?? null,
+    reservationId: (t.reservation_id as string | undefined) ?? null,
     dueAt: (t.due_at as string | undefined) ?? null,
     startedAt: (t.started_at as string | undefined) ?? null,
     completedAt: (t.completed_at as string | undefined) ?? null,
+    scheduledFor: (t.scheduled_for as string | undefined) ?? null,
+    blockedReason: (t.blocked_reason as string | undefined) ?? null,
     updatedAt: (t.updated_at as string) ?? new Date().toISOString(),
   };
 }
+
 function inDayWindow(iso: string, startUTC: Date, endUTC: Date): boolean {
   const d = new Date(iso);
   return d >= startUTC && d < endUTC;
 }
+
 function json(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
 }
