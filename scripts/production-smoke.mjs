@@ -73,6 +73,42 @@ await runCheck("TravelNet CORS locked down", async () => {
   }
 });
 
+// Dashboard share-link auth — added 2026-05-22 alongside the v15 edge fn rollout.
+await runCheck("track-overview-data rejects missing token", async () => {
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/track-overview-data`);
+  if (response.status !== 401) {
+    throw new Error(`Expected 401, got ${response.status}`);
+  }
+  const data = await response.json();
+  if (data.error !== "missing_token") {
+    throw new Error(`Expected error=missing_token, got ${data.error ?? "undefined"}`);
+  }
+});
+
+await runCheck("track-overview-data rejects bad signature", async () => {
+  // Valid-format payload (base64url-encoded JSON), invalid sig
+  const fakeToken = "eyJpYXQiOjE3NzAwMDAwMDAsImV4cCI6OTk5OTk5OTk5OSwidiI6MX0.aW52YWxpZHNpZ25hdHVyZQ";
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/track-overview-data?t=${fakeToken}`);
+  if (response.status !== 401) {
+    throw new Error(`Expected 401, got ${response.status}`);
+  }
+  const data = await response.json();
+  if (data.error !== "bad_signature") {
+    throw new Error(`Expected error=bad_signature, got ${data.error ?? "undefined"}`);
+  }
+});
+
+await runCheck("track-detail rejects missing token", async () => {
+  const response = await fetch(`${SUPABASE_URL}/functions/v1/track-detail?id=00000000-0000-0000-0000-000000000000`);
+  if (response.status !== 401) {
+    throw new Error(`Expected 401, got ${response.status}`);
+  }
+  const data = await response.json();
+  if (data.error !== "missing_token") {
+    throw new Error(`Expected error=missing_token, got ${data.error ?? "undefined"}`);
+  }
+});
+
 const failed = checks.filter((check) => !check.ok);
 for (const check of checks) {
   console.log(`${check.ok ? "PASS" : "FAIL"} - ${check.name}${check.ok ? "" : `: ${check.error}`}`);

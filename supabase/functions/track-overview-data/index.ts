@@ -1,4 +1,9 @@
-// v15 (2026-05-22): Miami-local date windows + error surfacing
+// v16 (2026-05-22): per-property KPI breakdown via mv_ops_dashboard_kpis_by_property
+//   - new kpisByProperty[] array in payload so FE can render per-property tiles
+//     even for week-over-week metrics when a property filter is active.
+//   - kpisByProperty[i] = { property, hkInProgress, maintInProgress, maintOverdue,
+//     hkCompleted: {thisWeek, lastWeek}, maintCompleted: {thisWeek, lastWeek} }.
+// v15: Miami-local date windows + error surfacing
 //   - date windows previously computed in UTC, causing arrivals/checkouts to
 //     drift +/-1 day around UTC midnight (which is 8 PM EST / 7 PM EDT in Miami).
 //   - now: arrival_date / departure_date (date-only strings) are compared
@@ -143,10 +148,12 @@ Deno.serve(async (req) => {
     supabase.from("v_operations_recent_activity").select("*"),
     supabase.from("v_operations_recent_photos").select("*"),
     supabase.from("v_operations_damage_claims").select("*").limit(50),
+    // v16: per-property KPI breakdown
+    supabase.from("mv_ops_dashboard_kpis_by_property").select("*"),
   ]);
 
   // v15: surface any query failures instead of silently returning empty data
-  const queryNames = ["units", "reservations", "hk_tasks", "maint_tasks", "kpi_mv", "poll_health", "recent_activity", "recent_photos", "damage_claims"];
+  const queryNames = ["units", "reservations", "hk_tasks", "maint_tasks", "kpi_mv", "poll_health", "recent_activity", "recent_photos", "damage_claims", "kpi_by_property"];
   const firstError = results.findIndex((r) => r.error);
   if (firstError >= 0) {
     return json(500, {
@@ -165,6 +172,7 @@ Deno.serve(async (req) => {
     { data: recentActivity },
     { data: recentPhotos },
     { data: damageClaims },
+    { data: kpiByProperty },
   ] = results;
 
   // Build unit lookup map: { unit_id (uuid): {unit_code, property_name, track_id}, track_id (int): same }
@@ -278,6 +286,21 @@ Deno.serve(async (req) => {
       maintOverdue: (kpi.maint_overdue as number) ?? 0,
       kpiRefreshedAt: kpi.refreshed_at as string | undefined,
     },
+    // v16: per-property breakdown for filtered KPI tiles
+    kpisByProperty: (kpiByProperty ?? []).map((r) => ({
+      property: r.property_name as string,
+      hkInProgress: (r.hk_in_progress as number) ?? 0,
+      maintInProgress: (r.maint_in_progress as number) ?? 0,
+      maintOverdue: (r.maint_overdue as number) ?? 0,
+      hkCompleted: {
+        thisWeek: (r.hk_completed_this_week as number) ?? 0,
+        lastWeek: (r.hk_completed_last_week as number) ?? 0,
+      },
+      maintCompleted: {
+        thisWeek: (r.maint_completed_this_week as number) ?? 0,
+        lastWeek: (r.maint_completed_last_week as number) ?? 0,
+      },
+    })),
     propertyList,
     // v9: trimmed arrays + total counts for "+ N more" indicator
     reservations: {

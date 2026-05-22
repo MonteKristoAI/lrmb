@@ -45,6 +45,21 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
+describe("OperationsOverview — loading state", () => {
+  it("renders the structured skeleton while the fetch is pending", async () => {
+    // Mock a fetch that never resolves so the loading state stays mounted
+    vi.stubGlobal("fetch", vi.fn(() => new Promise(() => {})));
+    renderAt("/operations?t=eyJ.valid");
+    // aria-live announcement for screen readers
+    await waitFor(() => {
+      expect(screen.getByText(/Loading operations data/i)).toBeInTheDocument();
+    });
+    // 4 KPI skeleton cards are mounted (one per metric tile)
+    const skeletons = document.querySelectorAll('[data-slot="skeleton"], .animate-pulse');
+    expect(skeletons.length).toBeGreaterThan(8);
+  });
+});
+
 describe("OperationsOverview — error states", () => {
   it("renders the missing-token error when no ?t= is present", () => {
     renderAt("/operations");

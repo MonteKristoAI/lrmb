@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -117,6 +117,15 @@ interface OverviewPayload {
     maintInProgress?: number;
     maintOverdue?: number;
   };
+  // v16: per-property KPI breakdown so filtered view shows true per-property metrics
+  kpisByProperty?: Array<{
+    property: string;
+    hkInProgress: number;
+    maintInProgress: number;
+    maintOverdue: number;
+    hkCompleted: KpiPeriodCount;
+    maintCompleted: KpiPeriodCount;
+  }>;
   propertyList: string[];
   reservations: {
     arrivalsToday: ReservationCard[];
@@ -526,62 +535,66 @@ export default function OperationsOverview() {
           onClear={clearAllFilters}
         />
 
-        {/* KPI STRIP — when a property filter is active, the "in progress" + "overdue"
-            tiles reflect the filter; the week-over-week completed tiles stay portfolio-
-            wide because they're served from a global materialized view. The label
-            below the strip surfaces this distinction honestly. */}
+        {/* KPI STRIP — v16: per-property breakdown when property filter is active.
+            Backend serves a kpisByProperty[] array (sourced from mv_ops_dashboard_kpis_by_property,
+            refreshed every 2 minutes) so even week-over-week tiles reflect the filtered property. */}
         <section aria-label="Key metrics">
           {(() => {
             const propertyFiltered = propertyFilter !== "ALL";
-            // "Now" metrics: when property-filtered, count from filtered task arrays.
-            // Otherwise read from MV (which has portfolio-wide counts).
-            const hkInProgressNow = propertyFiltered
-              ? filtered.housekeeping.inProgress.length
-              : (data.kpis.hkInProgress ?? filtered.housekeeping.inProgress.length);
-            const maintInProgressNow = propertyFiltered
-              ? filtered.maintenance.open.filter((t) => t.status === "in_progress").length
-              : (data.kpis.maintInProgress ?? 0);
-            const maintOverdueNow = propertyFiltered
-              ? filtered.maintenance.overdue.length
-              : (data.kpis.maintOverdue ?? filtered.maintenance.overdue.length);
+            const perPropertyKpi = propertyFiltered
+              ? data.kpisByProperty?.find((p) => p.property === propertyFilter)
+              : null;
+
+            const hkCompletedTW = perPropertyKpi?.hkCompleted.thisWeek ?? data.kpis.hkCompleted.thisWeek;
+            const hkCompletedLW = perPropertyKpi?.hkCompleted.lastWeek ?? data.kpis.hkCompleted.lastWeek;
+            const maintCompletedTW = perPropertyKpi?.maintCompleted.thisWeek ?? data.kpis.maintCompleted.thisWeek;
+            const maintCompletedLW = perPropertyKpi?.maintCompleted.lastWeek ?? data.kpis.maintCompleted.lastWeek;
+            const hkInProgressNow = perPropertyKpi?.hkInProgress
+              ?? (propertyFiltered ? filtered.housekeeping.inProgress.length : (data.kpis.hkInProgress ?? filtered.housekeeping.inProgress.length));
+            const maintInProgressNow = perPropertyKpi?.maintInProgress
+              ?? (propertyFiltered ? filtered.maintenance.open.filter((t) => t.status === "in_progress").length : (data.kpis.maintInProgress ?? 0));
+            const maintOverdueNow = perPropertyKpi?.maintOverdue
+              ?? (propertyFiltered ? filtered.maintenance.overdue.length : (data.kpis.maintOverdue ?? filtered.maintenance.overdue.length));
+            const labelSuffix = propertyFiltered ? ` — ${propertyFilter}` : "";
+
             return (
               <>
                 <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
                   <KpiTile
                     icon={Sparkles}
                     accent="#0680A2"
-                    label={`Cleans completed (7d)${propertyFiltered ? " — portfolio" : ""}`}
-                    value={data.kpis.hkCompleted.thisWeek}
-                    delta={deltaIcon(data.kpis.hkCompleted.thisWeek, data.kpis.hkCompleted.lastWeek)}
-                    context={`vs ${data.kpis.hkCompleted.lastWeek} last week`}
+                    label={`Cleans completed (7d)${labelSuffix}`}
+                    value={hkCompletedTW}
+                    delta={deltaIcon(hkCompletedTW, hkCompletedLW)}
+                    context={`vs ${hkCompletedLW} last week`}
                   />
                   <KpiTile
                     icon={Wrench}
                     accent="#1D1F28"
-                    label={`Maintenance completed (7d)${propertyFiltered ? " — portfolio" : ""}`}
-                    value={data.kpis.maintCompleted.thisWeek}
-                    delta={deltaIcon(data.kpis.maintCompleted.thisWeek, data.kpis.maintCompleted.lastWeek)}
-                    context={`vs ${data.kpis.maintCompleted.lastWeek} last week`}
+                    label={`Maintenance completed (7d)${labelSuffix}`}
+                    value={maintCompletedTW}
+                    delta={deltaIcon(maintCompletedTW, maintCompletedLW)}
+                    context={`vs ${maintCompletedLW} last week`}
                   />
                   <KpiTile
                     icon={Activity}
                     accent="#FF5C5C"
-                    label={`In progress now${propertyFiltered ? ` — ${propertyFilter}` : ""}`}
+                    label={`In progress now${labelSuffix}`}
                     value={hkInProgressNow + maintInProgressNow}
                     context={`${hkInProgressNow} cleans · ${maintInProgressNow} maint`}
                   />
                   <KpiTile
                     icon={AlertTriangle}
                     accent={maintOverdueNow > 0 ? "#cc0000" : "#999"}
-                    label={`Overdue maintenance${propertyFiltered ? ` — ${propertyFilter}` : ""}`}
+                    label={`Overdue maintenance${labelSuffix}`}
                     value={maintOverdueNow}
                     context={maintOverdueNow === 0 ? "all on track" : "needs attention"}
                     alert={maintOverdueNow > 0}
                   />
                 </div>
-                {propertyFiltered && (
+                {propertyFiltered && !perPropertyKpi && (
                   <p className="mt-2 text-xs text-muted-foreground">
-                    "In progress" and "Overdue" reflect <strong className="text-foreground">{propertyFilter}</strong>. Weekly completion counts stay portfolio-wide.
+                    Per-property breakdown for <strong className="text-foreground">{propertyFilter}</strong> not in cache yet — showing live counts; week-over-week is portfolio-wide.
                   </p>
                 )}
               </>
@@ -1029,6 +1042,26 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
   const [eventFilter, setEventFilter] = useState<"all" | "completed" | "blocked" | "in_progress" | "with_note" | "with_photo">("all");
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
 
+  // v30: track IDs seen on previous render so we can show "N new since last refresh"
+  // on auto-refetch (default 5-min interval). Cleared when user clicks the badge.
+  const seenIdsRef = useRef<Set<string>>(new Set());
+  const isFirstRenderRef = useRef(true);
+  const [newSinceRefresh, setNewSinceRefresh] = useState<string[]>([]);
+  useEffect(() => {
+    if (isFirstRenderRef.current) {
+      // First render — seed seen set without showing badge
+      isFirstRenderRef.current = false;
+      seenIdsRef.current = new Set(activity.map((a) => a.id));
+      return;
+    }
+    const fresh = activity.filter((a) => !seenIdsRef.current.has(a.id)).map((a) => a.id);
+    if (fresh.length > 0) {
+      setNewSinceRefresh((prev) => [...new Set([...prev, ...fresh])]);
+      for (const id of fresh) seenIdsRef.current.add(id);
+    }
+  }, [activity]);
+  const dismissNewBadge = useCallback(() => setNewSinceRefresh([]), []);
+
   const filtered = useMemo(() => {
     return activity.filter((a) => {
       if (categoryFilter !== "all" && a.task_category !== categoryFilter) return false;
@@ -1121,8 +1154,22 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
             </button>
           ))}
         </div>
-        <div className="sm:ml-auto text-xs text-muted-foreground">
-          {totalEvents} event{totalEvents === 1 ? "" : "s"} shown
+        <div className="sm:ml-auto flex items-center gap-2 text-xs text-muted-foreground">
+          {newSinceRefresh.length > 0 && (
+            <button
+              type="button"
+              onClick={dismissNewBadge}
+              className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-accent hover:bg-accent/15 transition"
+              aria-label={`${newSinceRefresh.length} new event${newSinceRefresh.length === 1 ? "" : "s"} since last refresh — click to dismiss`}
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" aria-hidden="true"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+              </span>
+              <span>{newSinceRefresh.length} new</span>
+            </button>
+          )}
+          <span>{totalEvents} event{totalEvents === 1 ? "" : "s"} shown</span>
         </div>
       </div>
 
@@ -1154,7 +1201,13 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
                       if (onOpenDetail && a.task_id) onOpenDetail("task", a.task_id);
                     };
                     return (
-                      <li key={a.id} className="group flex items-start gap-3 p-3 text-sm hover:bg-muted/40 transition">
+                      <li
+                        key={a.id}
+                        className={cn(
+                          "group flex items-start gap-3 p-3 text-sm hover:bg-muted/40 transition",
+                          newSinceRefresh.includes(a.id) && "bg-accent/[0.06] border-l-2 border-accent/60",
+                        )}
+                      >
                         <span className="mt-0.5 shrink-0">{icon}</span>
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-baseline gap-x-2">

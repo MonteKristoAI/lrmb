@@ -3,6 +3,7 @@ const translations = {
   "Tasks": { es: "Tareas" },
   "Completed": { es: "Completado" },
   "Supervisor": { es: "Supervisor" },
+  "Admin": { es: "Admin" },
   "Admin Dashboard": { es: "Panel de Admin" },
 
   // Common
