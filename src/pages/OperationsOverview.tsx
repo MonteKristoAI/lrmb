@@ -615,7 +615,7 @@ export default function OperationsOverview() {
           <TabsContent value="activity" className="space-y-3">
             <SectionHeading title="Recent activity" subtitle="Last 24 hours · status changes, completions, assignments" />
             {data.recentActivity && data.recentActivity.length > 0
-              ? <ActivityFeed activity={data.recentActivity} />
+              ? <ActivityFeed activity={data.recentActivity} onOpenDetail={openDetail} />
               : <EmptyState message="No activity in the last 24 hours yet." />}
           </TabsContent>
 
@@ -943,12 +943,28 @@ function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
   );
 }
 
-function ActivityFeed({ activity }: { activity: ActivityRow[] }) {
+function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onOpenDetail?: (kind: "task" | "res", id: string) => void }) {
+  const [categoryFilter, setCategoryFilter] = useState<"all" | "housekeeping" | "maintenance">("all");
+  const [eventFilter, setEventFilter] = useState<"all" | "completed" | "blocked" | "in_progress" | "with_note" | "with_photo">("all");
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  const filtered = useMemo(() => {
+    return activity.filter((a) => {
+      if (categoryFilter !== "all" && a.task_category !== categoryFilter) return false;
+      if (eventFilter === "completed" && a.new_status !== "completed") return false;
+      if (eventFilter === "blocked" && a.new_status !== "blocked") return false;
+      if (eventFilter === "in_progress" && a.new_status !== "in_progress") return false;
+      if (eventFilter === "with_note" && !a.note) return false;
+      if (eventFilter === "with_photo" && a.photo_count <= 0) return false;
+      return true;
+    });
+  }, [activity, categoryFilter, eventFilter]);
+
   // Group by hour for scannability
   const grouped = useMemo(() => {
     const groups: { hourLabel: string; items: ActivityRow[] }[] = [];
     let currentHour: string | null = null;
-    for (const a of activity) {
+    for (const a of filtered) {
       const date = new Date(a.created_at);
       const hourKey = format(date, "MMM d, h a");
       if (hourKey !== currentHour) {
@@ -958,50 +974,163 @@ function ActivityFeed({ activity }: { activity: ActivityRow[] }) {
       groups[groups.length - 1].items.push(a);
     }
     return groups;
-  }, [activity]);
+  }, [filtered]);
+
+  const totalEvents = filtered.length;
+  const categoryChips = [
+    { value: "all" as const, label: `All (${activity.length})` },
+    { value: "housekeeping" as const, label: `Housekeeping (${activity.filter(a => a.task_category === "housekeeping").length})` },
+    { value: "maintenance" as const, label: `Maintenance (${activity.filter(a => a.task_category === "maintenance").length})` },
+  ];
+  const eventChips = [
+    { value: "all" as const, label: "All events" },
+    { value: "completed" as const, label: "Completed" },
+    { value: "in_progress" as const, label: "Started" },
+    { value: "blocked" as const, label: "Blocked" },
+    { value: "with_note" as const, label: "With note" },
+    { value: "with_photo" as const, label: "With photo" },
+  ];
 
   return (
-    <Card>
-      <CardContent className="p-0">
-        {grouped.map((g, gi) => (
-          <div key={`${g.hourLabel}-${gi}`}>
-            <div className="sticky top-0 bg-muted/95 backdrop-blur px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground border-b border-border">
-              {g.hourLabel}
-            </div>
-            <ul className="divide-y divide-border" aria-label="Activity events">
-              {g.items.map((a) => {
-                const icon = a.new_status === "completed" ? <CheckCircle2 className="h-4 w-4 text-[hsl(152_60%_60%)]" />
-                  : a.new_status === "blocked" ? <AlertCircle className="h-4 w-4 text-destructive" />
-                  : a.new_status === "verified" ? <CheckCircle2 className="h-4 w-4 text-[#0680A2]" />
-                  : a.new_status === "in_progress" ? <Activity className="h-4 w-4 text-[#0680A2]" />
-                  : <Activity className="h-4 w-4 text-muted-foreground" />;
-                const verb = a.update_type === "status_change" && a.old_status && a.new_status
-                  ? `moved to ${a.new_status.replace(/_/g, " ")}`
-                  : a.update_type === "priority_change" ? "priority updated"
-                  : a.update_type === "create" ? "created"
-                  : a.update_type.replace(/_/g, " ");
-                return (
-                  <li key={a.id} className="flex items-start gap-3 p-3 text-sm">
-                    <span className="mt-0.5 shrink-0">{icon}</span>
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-medium">{a.task_title ?? `Task (no title)`}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {a.actor_name && a.actor_name !== "System" ? a.actor_name : "System"} · {verb}
-                        {a.photo_count > 0 ? ` · ${a.photo_count} 📷` : ""}
-                      </p>
-                      {a.note && <p className="mt-1 text-xs italic text-muted-foreground line-clamp-2">"{a.note}"</p>}
-                    </div>
-                    <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
-                      {format(new Date(a.created_at), "h:mm a")}
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
+    <div className="space-y-3">
+      {/* Filter chips */}
+      <div className="flex flex-col gap-2 rounded-md border border-border bg-card/40 p-3 sm:flex-row sm:items-center sm:gap-3">
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Filter activity by category">
+          {categoryChips.map((c) => (
+            <button
+              key={c.value}
+              type="button"
+              onClick={() => setCategoryFilter(c.value)}
+              aria-pressed={categoryFilter === c.value}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs font-medium transition",
+                categoryFilter === c.value
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground",
+              )}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+        <div className="hidden h-4 w-px bg-border sm:block" aria-hidden="true" />
+        <div className="flex flex-wrap items-center gap-1.5" role="group" aria-label="Filter activity by event type">
+          {eventChips.map((c) => (
+            <button
+              key={c.value}
+              type="button"
+              onClick={() => setEventFilter(c.value)}
+              aria-pressed={eventFilter === c.value}
+              className={cn(
+                "rounded-full border px-3 py-1 text-xs font-medium transition",
+                eventFilter === c.value
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-border bg-card text-muted-foreground hover:bg-muted hover:text-foreground",
+              )}
+            >
+              {c.label}
+            </button>
+          ))}
+        </div>
+        <div className="sm:ml-auto text-xs text-muted-foreground">
+          {totalEvents} event{totalEvents === 1 ? "" : "s"} shown
+        </div>
+      </div>
+
+      {totalEvents === 0 ? (
+        <EmptyState message="No activity matches the current filters." />
+      ) : (
+        <Card>
+          <CardContent className="p-0">
+            {grouped.map((g, gi) => (
+              <div key={`${g.hourLabel}-${gi}`}>
+                <div className="sticky top-0 z-10 bg-muted/95 backdrop-blur px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground border-b border-border">
+                  {g.hourLabel}
+                </div>
+                <ul className="divide-y divide-border" aria-label="Activity events">
+                  {g.items.map((a) => {
+                    const isExpanded = expanded[a.id] ?? false;
+                    const icon = a.new_status === "completed" ? <CheckCircle2 className="h-4 w-4 text-[hsl(152_60%_60%)]" />
+                      : a.new_status === "blocked" ? <AlertCircle className="h-4 w-4 text-destructive" />
+                      : a.new_status === "verified" ? <CheckCircle2 className="h-4 w-4 text-[#0680A2]" />
+                      : a.new_status === "in_progress" ? <Activity className="h-4 w-4 text-[#0680A2]" />
+                      : <Activity className="h-4 w-4 text-muted-foreground" />;
+                    const verb = a.update_type === "status_change" && a.old_status && a.new_status
+                      ? `moved to ${a.new_status.replace(/_/g, " ")}`
+                      : a.update_type === "priority_change" ? "priority updated"
+                      : a.update_type === "create" ? "created"
+                      : a.update_type.replace(/_/g, " ");
+                    const hasExpandableContent = !!a.note;
+                    const handleRowClick = () => {
+                      if (onOpenDetail && a.task_id) onOpenDetail("task", a.task_id);
+                    };
+                    return (
+                      <li key={a.id} className="group flex items-start gap-3 p-3 text-sm hover:bg-muted/40 transition">
+                        <span className="mt-0.5 shrink-0">{icon}</span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-baseline gap-x-2">
+                            <button
+                              type="button"
+                              onClick={handleRowClick}
+                              className="truncate text-left font-medium hover:underline focus:outline-none focus:underline"
+                              title={a.task_title ?? undefined}
+                            >
+                              {a.task_title ?? "Task (no title)"}
+                            </button>
+                            <Badge
+                              variant="outline"
+                              className={cn(
+                                "shrink-0 text-[10px] uppercase tracking-wide",
+                                a.task_category === "housekeeping"
+                                  ? "border-accent/40 text-accent"
+                                  : "border-amber-500/40 text-amber-400",
+                              )}
+                            >
+                              {a.task_category}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-muted-foreground">
+                            {a.actor_name && a.actor_name !== "System" ? a.actor_name : "System"} · {verb}
+                            {a.photo_count > 0 ? ` · ${a.photo_count} 📷` : ""}
+                          </p>
+                          {a.note && (
+                            <div className="mt-1 text-xs italic text-muted-foreground">
+                              <p className={isExpanded ? "" : "line-clamp-2"}>"{a.note}"</p>
+                              {a.note.length > 120 && (
+                                <button
+                                  type="button"
+                                  onClick={() => setExpanded((s) => ({ ...s, [a.id]: !isExpanded }))}
+                                  className="mt-0.5 text-[10px] font-medium uppercase tracking-wide text-accent hover:underline"
+                                  aria-expanded={isExpanded}
+                                >
+                                  {isExpanded ? "Show less" : "Show more"}
+                                </button>
+                              )}
+                            </div>
+                          )}
+                          {hasExpandableContent || onOpenDetail ? (
+                            <button
+                              type="button"
+                              onClick={handleRowClick}
+                              className="mt-1 text-[10px] font-medium uppercase tracking-wide text-muted-foreground opacity-0 transition group-hover:opacity-100 hover:text-accent hover:underline"
+                            >
+                              Open task →
+                            </button>
+                          ) : null}
+                        </div>
+                        <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
+                          {format(new Date(a.created_at), "h:mm a")}
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))}
+          </CardContent>
+        </Card>
+      )}
+    </div>
   );
 }
 
