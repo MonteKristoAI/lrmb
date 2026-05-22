@@ -181,23 +181,23 @@ Deno.serve(async (req) => {
     maintCompletedThisWeek,
     maintCompletedLastWeek,
   ] = await Promise.all([
-    supabase.from("tasks").select("id", { count: "exact", head: true })
+    supabase.from("tasks").select("id", { count: "planned", head: true })
       .eq("task_category", "housekeeping").eq("status", "in_progress"),
-    supabase.from("tasks").select("id", { count: "exact", head: true })
+    supabase.from("tasks").select("id", { count: "planned", head: true })
       .eq("task_category", "maintenance").eq("status", "in_progress"),
-    supabase.from("tasks").select("id", { count: "exact", head: true })
+    supabase.from("tasks").select("id", { count: "planned", head: true })
       .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress"])
       .lt("due_at", now.toISOString()),
-    supabase.from("tasks").select("id", { count: "exact", head: true })
+    supabase.from("tasks").select("id", { count: "planned", head: true })
       .eq("task_category", "housekeeping").eq("status", "completed")
       .gte("completed_at", weekAgo.toISOString()).lte("completed_at", now.toISOString()),
-    supabase.from("tasks").select("id", { count: "exact", head: true })
+    supabase.from("tasks").select("id", { count: "planned", head: true })
       .eq("task_category", "housekeeping").eq("status", "completed")
       .gte("completed_at", twoWeeksAgo.toISOString()).lt("completed_at", weekAgo.toISOString()),
-    supabase.from("tasks").select("id", { count: "exact", head: true })
+    supabase.from("tasks").select("id", { count: "planned", head: true })
       .eq("task_category", "maintenance").eq("status", "completed")
       .gte("completed_at", weekAgo.toISOString()).lte("completed_at", now.toISOString()),
-    supabase.from("tasks").select("id", { count: "exact", head: true })
+    supabase.from("tasks").select("id", { count: "planned", head: true })
       .eq("task_category", "maintenance").eq("status", "completed")
       .gte("completed_at", twoWeeksAgo.toISOString()).lt("completed_at", weekAgo.toISOString()),
   ]);
@@ -218,7 +218,7 @@ Deno.serve(async (req) => {
   }));
 
   const { count: trackTaskCount } = await supabase.from("tasks")
-    .select("id", { count: "exact", head: true }).eq("external_source", "track");
+    .select("id", { count: "planned", head: true }).eq("external_source", "track");
 
   // Property breakdown (for filter dropdown in UI)
   const propertyList = Array.from(new Set(
