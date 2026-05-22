@@ -86,6 +86,39 @@ export function useUpdateTask() {
   });
 }
 
+// v33: guarded status transition. Use this when you know what status the task
+// SHOULD be in before your change applies. Prevents lost updates if two devices
+// race to verify/complete/reopen the same task — only the first one wins.
+//
+// Throws if the task is no longer in `expectedStatus` (likely because someone
+// else changed it). Caller should refetch + show a "this task was updated by
+// someone else" toast instead of silently overwriting.
+export function useGuardedTaskTransition() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({
+      id, expectedStatus, ...updates
+    }: TaskUpdate & { id: string; expectedStatus: TaskStatus }) => {
+      const { data, error } = await supabase
+        .from("tasks")
+        .update(updates)
+        .eq("id", id)
+        .eq("status", expectedStatus)
+        .select();
+      if (error) throw error;
+      if (!data || data.length === 0) {
+        throw new Error(`Task is no longer in '${expectedStatus}' state — refresh and try again. Someone else may have updated it.`);
+      }
+      return data[0];
+    },
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["tasks"] });
+      qc.invalidateQueries({ queryKey: ["task", data.id] });
+      qc.invalidateQueries({ queryKey: ["all_tasks"] });
+    },
+  });
+}
+
 export function useCreateTask() {
   const qc = useQueryClient();
   return useMutation({
@@ -124,7 +157,11 @@ export function useUploadTaskPhoto() {
       const { error: uploadErr } = await supabase.storage.from("task-photos").upload(path, file);
       if (uploadErr) throw uploadErr;
       const { error: dbErr } = await supabase.from("task_photos").insert({ task_id: taskId, storage_path: path, uploaded_by: userId, photo_type: "proof" });
-      if (dbErr) throw dbErr;
+      // v33: if DB insert fails, roll back the storage upload so we don't leave orphan files.
+      if (dbErr) {
+        try { await supabase.storage.from("task-photos").remove([path]); } catch { /* swallow rollback error */ }
+        throw dbErr;
+      }
       return path;
     },
     onSuccess: (_d, v) => qc.invalidateQueries({ queryKey: ["task_photos", v.taskId] }),
@@ -137,7 +174,13 @@ export function useDeleteTaskPhoto() {
     mutationFn: async ({ id, storagePath }: { id: string; storagePath: string }) => {
       const { error: dbErr } = await supabase.from("task_photos").delete().eq("id", id);
       if (dbErr) throw dbErr;
-      await supabase.storage.from("task-photos").remove([storagePath]);
+      // v33: check storage delete result. If the row is gone but the blob remains,
+      // we surface the partial-success so caller can retry or alert.
+      const { error: storageErr } = await supabase.storage.from("task-photos").remove([storagePath]);
+      if (storageErr) {
+        console.warn("photo row deleted but storage blob remains", { storagePath, storageErr });
+        throw new Error("Photo metadata removed but file blob delete failed. Retry to clean up.");
+      }
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["task_photos"] });

@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
-import { useTasksByStatus, useUpdateTask } from "@/hooks/useTasks";
+import { useTasksByStatus, useUpdateTask, useAddTaskUpdate } from "@/hooks/useTasks";
 import { useProfiles } from "@/hooks/useProperties";
+import { useAuth } from "@/lib/auth";
 import { TaskCard } from "@/components/tasks/TaskCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
@@ -16,16 +17,19 @@ const OpenTasksQueue = () => {
     { orderBy: "due_at", ascending: true, limit: 500 },
   );
   const { data: profiles = [] } = useProfiles();
+  const { user } = useAuth();
   const updateTask = useUpdateTask();
+  const addUpdate = useAddTaskUpdate();
   const { toast } = useToast();
 
   const [reassignId, setReassignId] = useState<string | null>(null);
   const [newAssignee, setNewAssignee] = useState("");
 
   const handleReassign = async () => {
-    if (!reassignId || !newAssignee) return;
+    if (!reassignId || !newAssignee || !user) return;
     const task = open.find((t) => t.id === reassignId);
     const newStatus = task && task.status === "new" ? "assigned" : undefined;
+    const previousAssignee = task?.assigned_to ?? null;
     try {
       await updateTask.mutateAsync({
         id: reassignId,
@@ -33,6 +37,20 @@ const OpenTasksQueue = () => {
         ...(newStatus ? { status: newStatus } : {}),
         ...(task?.status === "blocked" ? { blocked_reason: null } : {}),
       });
+      // v33: audit trail for reassignment so reviewers can trace who moved a task to whom.
+      try {
+        await addUpdate.mutateAsync({
+          task_id: reassignId,
+          actor_id: user.id,
+          update_type: "assignment_change" as never,
+          old_status: task?.status ?? null,
+          new_status: newStatus ?? task?.status ?? null,
+          note: `Reassigned from ${previousAssignee ?? "unassigned"} to ${newAssignee}`,
+        });
+      } catch (logErr) {
+        // Don't fail the reassignment if the audit row fails — log it.
+        console.warn("audit log for reassignment failed", logErr);
+      }
       toast({ title: "Task reassigned" });
       setReassignId(null);
       setNewAssignee("");
