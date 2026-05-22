@@ -5,14 +5,20 @@ import type { Database } from "@/integrations/supabase/types";
 
 type InspectionUpdate = Database["public"]["Tables"]["inspections"]["Update"];
 
+// QA P1 Q-PERF-4: explicit column lists + page cap.
+const INSPECTION_COLUMNS =
+  "id, inspector_id, property_id, unit_id, template_id, status, started_at, completed_at, created_at, updated_at, " +
+  "properties(name, region, zone), units(unit_code, short_name), inspection_templates(name)";
+
 export function useInspections() {
   return useQuery({
     queryKey: ["inspections"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("inspections")
-        .select("*, properties(name, region, zone), units(unit_code, short_name), inspection_templates(name)")
-        .order("created_at", { ascending: false });
+        .select(INSPECTION_COLUMNS)
+        .order("created_at", { ascending: false })
+        .limit(500);
       if (error) throw error;
       return data as (Inspection & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null } | null; inspection_templates: { name: string } | null })[];
     },
@@ -26,7 +32,7 @@ export function useInspection(id: string | undefined) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("inspections")
-        .select("*, properties(name, region, zone), units(unit_code, short_name), inspection_templates(name)")
+        .select(INSPECTION_COLUMNS)
         .eq("id", id!)
         .single();
       if (error) throw error;

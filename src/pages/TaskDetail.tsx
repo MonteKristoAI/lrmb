@@ -62,14 +62,33 @@ const TaskDetail = () => {
     const loadUrls = async () => {
       const newPhotos = photos.filter((p) => !loadedPathsRef.current.has(p.storage_path));
       if (newPhotos.length === 0) return;
-      const results = await Promise.all(
-        newPhotos.map((p) => supabase.storage.from("task-photos").createSignedUrl(p.storage_path, 86400).then(({ data }) => ({ path: p.storage_path, url: data?.signedUrl })))
-      );
+      // QA P1 Q-PERF-3: batch signed-URL creation in a single round-trip
+      // instead of N parallel HTTP calls. Falls back to per-photo on error.
+      const paths = newPhotos.map((p) => p.storage_path);
       const urls: Record<string, string> = {};
-      for (const r of results) {
-        if (r.url) {
-          urls[r.path] = r.url;
-          loadedPathsRef.current.add(r.path);
+      try {
+        const { data: signed, error } = await supabase.storage
+          .from("task-photos")
+          .createSignedUrls(paths, 86400);
+        if (error) throw error;
+        for (const r of signed ?? []) {
+          if (r.signedUrl && r.path) {
+            urls[r.path] = r.signedUrl;
+            loadedPathsRef.current.add(r.path);
+          }
+        }
+      } catch {
+        const fallback = await Promise.all(
+          newPhotos.map((p) =>
+            supabase.storage.from("task-photos").createSignedUrl(p.storage_path, 86400)
+              .then(({ data }) => ({ path: p.storage_path, url: data?.signedUrl }))
+          )
+        );
+        for (const r of fallback) {
+          if (r.url) {
+            urls[r.path] = r.url;
+            loadedPathsRef.current.add(r.path);
+          }
         }
       }
       if (Object.keys(urls).length > 0) {
@@ -384,7 +403,7 @@ const TaskDetail = () => {
               {photos.map((p) => (
                 <div key={p.id} className="relative aspect-square rounded-md overflow-hidden bg-muted group">
                   {photoUrls[p.storage_path] ? (
-                    <img src={photoUrls[p.storage_path]} alt="Task proof" className="w-full h-full object-cover" />
+                    <img src={photoUrls[p.storage_path]} alt="Task proof" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   ) : (
                     <Skeleton className="w-full h-full" />
                   )}

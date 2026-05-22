@@ -452,6 +452,13 @@ async function upsertTaskFromTrackWO(
       (row.processedAt as string | undefined) ?? null,
     scheduled_for: (row.scheduledAt as string | undefined) ??
       (row.dateScheduled as string | undefined) ?? null,
+    // QA P1 Q-DB-1: map TRACK's createdAt to our created_at on insert so
+    // cycle-time analytics don't see updated_at < created_at. UPSERT on
+    // conflict ignores created_at (column not in the update set by default).
+    created_at: (row.createdAt as string | undefined) ??
+      (row.dateOpened as string | undefined) ??
+      (row.dateCreated as string | undefined) ??
+      (row.updatedAt as string | undefined) ?? new Date().toISOString(),
     updated_at: (row.updatedAt as string | undefined) ?? new Date().toISOString(),
   };
 

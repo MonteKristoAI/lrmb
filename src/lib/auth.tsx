@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, ReactNode } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -121,32 +121,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  const hasRole = (role: AppRole) => roles.includes(role);
-  const hasAdminAccess = () => roles.some((r) => ["admin", "manager"].includes(r));
-
-  const signOut = async () => {
+  // QA P1 Q-FE-1: stable function identities + memoized context value so we
+  // don't re-render every consumer on each provider render.
+  const hasRole = useCallback((role: AppRole) => roles.includes(role), [roles]);
+  const hasAdminAccess = useCallback(
+    () => roles.some((r) => ["admin", "manager"].includes(r)),
+    [roles],
+  );
+  const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     setSession(null);
     setProfile(null);
     setRoles([]);
-  };
+  }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        session,
-        user: session?.user ?? null,
-        profile,
-        roles,
-        loading,
-        hasRole,
-        hasAdminAccess,
-        signOut,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      session,
+      user: session?.user ?? null,
+      profile,
+      roles,
+      loading,
+      hasRole,
+      hasAdminAccess,
+      signOut,
+    }),
+    [session, profile, roles, loading, hasRole, hasAdminAccess, signOut],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
