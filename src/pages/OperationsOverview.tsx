@@ -1,16 +1,19 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import {
   AlertCircle, CheckCircle2, Clock, RefreshCw, Wrench, Sparkles,
   ArrowDownToLine, ArrowUpFromLine, Camera, Activity, Building2,
   Image as ImageIcon, ShieldAlert, TrendingUp, TrendingDown, Minus,
-  ListChecks, MapPin, Users, AlertTriangle,
+  ListChecks, MapPin, Users, AlertTriangle, X, Calendar, FileText, Tag,
+  Link2, History, User,
 } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 
@@ -241,9 +244,46 @@ function statusLabel(s: string): string {
 // Top-level component
 // ============================================================
 export default function OperationsOverview() {
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
   const token = params.get("t") ?? "";
-  const [propertyFilter, setPropertyFilter] = useState<string>("ALL");
+  const [propertyFilter, setPropertyFilter] = useState<string>(params.get("property") ?? "ALL");
+  const activeTab = params.get("tab") ?? "today";
+  const detailParam = params.get("detail"); // "task:UUID" or "res:ID"
+
+  const setTab = useCallback((v: string) => {
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (v === "today") next.delete("tab");
+      else next.set("tab", v);
+      return next;
+    });
+  }, [setParams]);
+
+  const setProperty = useCallback((v: string) => {
+    setPropertyFilter(v);
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      if (v === "ALL") next.delete("property");
+      else next.set("property", v);
+      return next;
+    });
+  }, [setParams]);
+
+  const openDetail = useCallback((kind: "task" | "res", id: string) => {
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set("detail", `${kind}:${id}`);
+      return next;
+    });
+  }, [setParams]);
+
+  const closeDetail = useCallback(() => {
+    setParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.delete("detail");
+      return next;
+    });
+  }, [setParams]);
 
   const { data, error, isLoading, dataUpdatedAt, refetch, isFetching } = useQuery({
     queryKey: ["track-overview", token],
@@ -324,7 +364,7 @@ export default function OperationsOverview() {
               <PropertyFilter
                 propertyList={data.propertyList}
                 value={propertyFilter}
-                onChange={setPropertyFilter}
+                onChange={setProperty}
               />
               <span className="hidden items-center gap-1.5 sm:flex">
                 <Clock className="h-3.5 w-3.5" />
@@ -389,7 +429,7 @@ export default function OperationsOverview() {
         </section>
 
         {/* TABS */}
-        <Tabs defaultValue="today" className="space-y-6">
+        <Tabs value={activeTab} onValueChange={setTab} className="space-y-6">
           <TabsList className="flex w-full justify-start overflow-x-auto bg-card border border-border p-1">
             <TabsTrigger value="today" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
               <ListChecks className="h-3.5 w-3.5 mr-1.5" />Today
@@ -420,10 +460,10 @@ export default function OperationsOverview() {
             <section>
               <SectionHeading title="Reservation pipeline" subtitle={`${filtered.reservations.arrivalsToday.length} arriving · ${filtered.reservations.inHouse.length} in house · ${filtered.reservations.checkoutsToday.length} checking out`} />
               <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4 mt-3">
-                <ReservationPanel icon={ArrowDownToLine} accent="#0680A2" label="Arrivals today" cards={filtered.reservations.arrivalsToday} />
-                <ReservationPanel icon={Users} accent="#0680A2" label="In house now" cards={filtered.reservations.inHouse} />
-                <ReservationPanel icon={ArrowUpFromLine} accent="#FF5C5C" label="Checkouts today" cards={filtered.reservations.checkoutsToday} />
-                <ReservationPanel icon={Clock} accent="#1D1F28" label="Upcoming 7 days" cards={filtered.reservations.upcoming7d} />
+                <ReservationPanel icon={ArrowDownToLine} accent="#0680A2" label="Arrivals today" cards={filtered.reservations.arrivalsToday} onOpenDetail={openDetail} />
+                <ReservationPanel icon={Users} accent="#0680A2" label="In house now" cards={filtered.reservations.inHouse} onOpenDetail={openDetail} />
+                <ReservationPanel icon={ArrowUpFromLine} accent="#FF5C5C" label="Checkouts today" cards={filtered.reservations.checkoutsToday} onOpenDetail={openDetail} />
+                <ReservationPanel icon={Clock} accent="#1D1F28" label="Upcoming 7 days" cards={filtered.reservations.upcoming7d} onOpenDetail={openDetail} />
               </div>
             </section>
 
@@ -436,13 +476,14 @@ export default function OperationsOverview() {
                   accent="#0680A2"
                   tasks={[...filtered.housekeeping.scheduledToday, ...filtered.housekeeping.inProgress]}
                   emptyLabel="No cleans scheduled for today"
-                />
+                onOpenDetail={openDetail} />
                 <TaskPanel
                   title="Active maintenance"
                   icon={Wrench}
                   accent="#1D1F28"
                   tasks={filtered.maintenance.open.filter((t) => t.status === "in_progress" || t.status === "assigned")}
                   emptyLabel="No maintenance in flight"
+                  onOpenDetail={openDetail}
                 />
               </div>
             </section>
@@ -452,9 +493,9 @@ export default function OperationsOverview() {
           <TabsContent value="housekeeping" className="space-y-6">
             <SectionHeading title="Housekeeping" subtitle="Cleans across the portfolio" />
             <div className="grid gap-3 lg:grid-cols-3">
-              <TaskPanel title="Scheduled today" icon={Clock} accent="#0680A2" tasks={filtered.housekeeping.scheduledToday} emptyLabel="Nothing scheduled today" />
-              <TaskPanel title="In progress" icon={Activity} accent="#0680A2" tasks={filtered.housekeeping.inProgress} emptyLabel="No cleaners on the clock" />
-              <TaskPanel title="Pending verification" icon={CheckCircle2} accent="#FF5C5C" tasks={filtered.housekeeping.completedPendingVerify} emptyLabel="Caught up" tone="warning" />
+              <TaskPanel title="Scheduled today" icon={Clock} accent="#0680A2" tasks={filtered.housekeeping.scheduledToday} emptyLabel="Nothing scheduled today" onOpenDetail={openDetail} />
+              <TaskPanel title="In progress" icon={Activity} accent="#0680A2" tasks={filtered.housekeeping.inProgress} emptyLabel="No cleaners on the clock" onOpenDetail={openDetail} />
+              <TaskPanel title="Pending verification" icon={CheckCircle2} accent="#FF5C5C" tasks={filtered.housekeeping.completedPendingVerify} emptyLabel="Caught up" tone="warning" onOpenDetail={openDetail} />
             </div>
           </TabsContent>
 
@@ -462,10 +503,10 @@ export default function OperationsOverview() {
           <TabsContent value="maintenance" className="space-y-6">
             <SectionHeading title="Maintenance" subtitle="Work orders across the portfolio" />
             <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-4">
-              <TaskPanel title="Open" icon={ListChecks} accent="#1D1F28" tasks={filtered.maintenance.open} emptyLabel="No open tickets" />
-              <TaskPanel title="Overdue" icon={AlertTriangle} accent="#cc0000" tasks={filtered.maintenance.overdue} emptyLabel="Nothing past due" tone="danger" />
-              <TaskPanel title="Blocked" icon={AlertCircle} accent="#FF5C5C" tasks={filtered.maintenance.blocked} emptyLabel="Nothing blocked" tone="warning" />
-              <TaskPanel title="Pending verification" icon={CheckCircle2} accent="#FF5C5C" tasks={filtered.maintenance.completedPendingVerify} emptyLabel="Caught up" tone="warning" />
+              <TaskPanel title="Open" icon={ListChecks} accent="#1D1F28" tasks={filtered.maintenance.open} emptyLabel="No open tickets" onOpenDetail={openDetail} />
+              <TaskPanel title="Overdue" icon={AlertTriangle} accent="#cc0000" tasks={filtered.maintenance.overdue} emptyLabel="Nothing past due" tone="danger" onOpenDetail={openDetail} />
+              <TaskPanel title="Blocked" icon={AlertCircle} accent="#FF5C5C" tasks={filtered.maintenance.blocked} emptyLabel="Nothing blocked" tone="warning" onOpenDetail={openDetail} />
+              <TaskPanel title="Pending verification" icon={CheckCircle2} accent="#FF5C5C" tasks={filtered.maintenance.completedPendingVerify} emptyLabel="Caught up" tone="warning" onOpenDetail={openDetail} />
             </div>
           </TabsContent>
 
@@ -498,6 +539,9 @@ export default function OperationsOverview() {
           Auto-refresh every 5 minutes · Generated {format(new Date(data.generatedAt), "PPpp")} · Read-only view
         </footer>
       </main>
+
+      {/* Drill-down modal — controlled by ?detail=task:UUID or res:ID URL param */}
+      <DetailModal token={token} detailParam={detailParam} onClose={closeDetail} onOpenDetail={openDetail} />
     </div>
   );
 }
@@ -562,11 +606,12 @@ function KpiTile({ icon: Icon, accent, label, value, delta, context, alert }: {
   );
 }
 
-function ReservationPanel({ icon: Icon, accent, label, cards }: {
+function ReservationPanel({ icon: Icon, accent, label, cards, onOpenDetail }: {
   icon: React.ElementType;
   accent: string;
   label: string;
   cards: ReservationCard[];
+  onOpenDetail?: (kind: "task" | "res", id: string) => void;
 }) {
   return (
     <Card>
@@ -585,7 +630,17 @@ function ReservationPanel({ icon: Icon, accent, label, cards }: {
         ) : (
           <ul className="space-y-2 max-h-64 overflow-auto" aria-label={label}>
             {cards.slice(0, 12).map((c) => (
-              <li key={c.externalId} className="flex flex-col gap-0.5 rounded-md border border-border bg-muted/40 p-2">
+              <li
+                key={c.externalId}
+                onClick={() => onOpenDetail?.("res", c.externalId)}
+                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpenDetail?.("res", c.externalId); } }}
+                role={onOpenDetail ? "button" : undefined}
+                tabIndex={onOpenDetail ? 0 : undefined}
+                className={cn(
+                  "flex flex-col gap-0.5 rounded-md border border-border bg-muted/40 p-2",
+                  onOpenDetail && "cursor-pointer hover:bg-muted hover:border-accent/40 transition",
+                )}
+              >
                 <div className="flex items-center gap-1.5">
                   <MapPin className="h-3 w-3 text-muted-foreground" />
                   <span className="text-xs font-medium truncate">{locationLabel(c)}</span>
@@ -608,13 +663,14 @@ function ReservationPanel({ icon: Icon, accent, label, cards }: {
   );
 }
 
-function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "default" }: {
+function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "default", onOpenDetail }: {
   title: string;
   icon: React.ElementType;
   accent: string;
   tasks: TaskCard[];
   emptyLabel: string;
   tone?: "default" | "warning" | "danger";
+  onOpenDetail?: (kind: "task" | "res", id: string) => void;
 }) {
   const toneCls =
     tone === "danger" ? "border-destructive/30 bg-destructive/10" :
@@ -639,7 +695,17 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
             {tasks.slice(0, 30).map((t) => {
               const pri = priorityBadge(t.priority);
               return (
-                <li key={t.id} className="flex flex-col gap-0.5 rounded-md border border-border bg-card p-2">
+                <li
+                  key={t.id}
+                  onClick={() => onOpenDetail?.("task", t.id)}
+                  onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpenDetail?.("task", t.id); } }}
+                  role={onOpenDetail ? "button" : undefined}
+                  tabIndex={onOpenDetail ? 0 : undefined}
+                  className={cn(
+                    "flex flex-col gap-0.5 rounded-md border border-border bg-card p-2",
+                    onOpenDetail && "cursor-pointer hover:bg-muted hover:border-accent/40 transition",
+                  )}
+                >
                   <div className="flex items-center gap-1.5">
                     <MapPin className="h-3 w-3 text-muted-foreground shrink-0" />
                     <span className="text-xs font-medium truncate" title={locationLabel(t)}>{locationLabel(t)}</span>
@@ -866,4 +932,342 @@ function ErrorState({ title, detail }: { title: string; detail: string }) {
       </Card>
     </div>
   );
+}
+
+// ============================================================
+// Drill-down detail modal
+// ============================================================
+interface TaskDetailPayload {
+  task: {
+    id: string;
+    title: string | null;
+    description: string | null;
+    status: string;
+    priority: string;
+    task_category: string;
+    housekeeping_type: string | null;
+    task_type: string | null;
+    external_source: string | null;
+    external_id: string | null;
+    reservation_id: string | null;
+    blocked_reason: string | null;
+    due_at: string | null;
+    scheduled_for: string | null;
+    started_at: string | null;
+    completed_at: string | null;
+    processed_at: string | null;
+    updated_at: string;
+    created_at: string;
+    requires_photo: boolean;
+    requires_note: boolean;
+    requires_timestamp: boolean;
+    damage_classification: string | null;
+    claim_status: string | null;
+    claim_filed_amount: number | null;
+    claim_deadline_at: string | null;
+    units: { unit_code: string | null; short_name: string | null; track_id: number | null } | null;
+    properties: { name: string; address: string | null } | null;
+  };
+  photos: Array<{ id: string; storage_path: string; photo_type: string; photo_subtype: string | null; caption: string | null; created_at: string; signed_url: string | null; track_attachment_id: string | null; track_synced_at: string | null }>;
+  activity: Array<{ id: string; action: string; actor_name: string | null; payload_json: Record<string, unknown>; description: string | null; created_at: string }>;
+  linkedReservation: Record<string, unknown> | null;
+}
+
+interface ResDetailPayload {
+  reservation: Record<string, unknown>;
+  eventHistory: Array<{ eventType: string; eventAt: string; createdAt: string }>;
+  linkedTasks: Array<{ id: string; title: string; status: string; priority: string; task_category: string; housekeeping_type: string | null; external_id: string | null; due_at: string | null; scheduled_for: string | null; started_at: string | null; completed_at: string | null; updatedAt: string; units: { unit_code: string | null; short_name: string | null } | null; properties: { name: string } | null }>;
+}
+
+async function fetchDetail(token: string, detailParam: string): Promise<TaskDetailPayload | ResDetailPayload> {
+  if (!SUPABASE_URL) throw new Error("VITE_SUPABASE_URL not configured");
+  const [kind, id] = detailParam.split(":");
+  const qs = kind === "task" ? `id=${encodeURIComponent(id)}` : `reservation=${encodeURIComponent(id)}`;
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/track-detail?t=${encodeURIComponent(token)}&${qs}`);
+  if (!res.ok) {
+    const b = await res.json().catch(() => ({}));
+    throw new Error(b?.message ?? b?.error ?? `HTTP ${res.status}`);
+  }
+  return res.json();
+}
+
+function DetailModal({ token, detailParam, onClose, onOpenDetail }: {
+  token: string;
+  detailParam: string | null;
+  onClose: () => void;
+  onOpenDetail: (kind: "task" | "res", id: string) => void;
+}) {
+  const isOpen = !!detailParam;
+  const kind = detailParam?.split(":")[0] as "task" | "res" | undefined;
+
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["detail", detailParam],
+    queryFn: () => fetchDetail(token, detailParam!),
+    enabled: isOpen && !!detailParam,
+    staleTime: 30_000,
+  });
+
+  return (
+    <Dialog open={isOpen} onOpenChange={(open) => { if (!open) onClose(); }}>
+      <DialogContent className="max-w-3xl max-h-[90vh] p-0 gap-0">
+        <DialogHeader className="px-6 pt-5 pb-3 border-b border-border">
+          <DialogTitle className="text-base">
+            {kind === "task" ? "Task detail" : kind === "res" ? "Reservation detail" : "Detail"}
+          </DialogTitle>
+          <DialogDescription className="text-xs">
+            Read-only · click outside or press Esc to close
+          </DialogDescription>
+        </DialogHeader>
+        <ScrollArea className="max-h-[calc(90vh-90px)]">
+          <div className="p-6">
+            {isLoading && <ModalSkeleton />}
+            {error && <ModalError detail={String((error as Error).message)} />}
+            {data && kind === "task" && <TaskDetailView payload={data as TaskDetailPayload} onOpenDetail={onOpenDetail} />}
+            {data && kind === "res" && <ReservationDetailView payload={data as ResDetailPayload} onOpenDetail={onOpenDetail} />}
+          </div>
+        </ScrollArea>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ModalSkeleton() {
+  return (
+    <div className="space-y-4">
+      <Skeleton className="h-8 w-3/4" />
+      <Skeleton className="h-4 w-1/2" />
+      <div className="grid grid-cols-2 gap-3">
+        {Array.from({ length: 6 }).map((_, i) => <Skeleton key={i} className="h-12" />)}
+      </div>
+      <Skeleton className="h-32 w-full" />
+    </div>
+  );
+}
+
+function ModalError({ detail }: { detail: string }) {
+  return (
+    <div className="flex flex-col items-center gap-3 py-8 text-center">
+      <AlertCircle className="h-8 w-8 text-destructive" />
+      <p className="text-sm font-medium">Could not load detail</p>
+      <p className="text-xs text-muted-foreground">{detail}</p>
+    </div>
+  );
+}
+
+function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload; onOpenDetail: (kind: "task" | "res", id: string) => void }) {
+  const t = payload.task;
+  const u = t.units;
+  const p = t.properties;
+  const displayName = t.task_category === "housekeeping"
+    ? (t.housekeeping_type ? hkTypeLabel(t.housekeeping_type) : "Clean")
+    : (t.title ?? "Maintenance task");
+  const locLabel = u && p
+    ? `${u.short_name ?? u.unit_code ?? ""} · ${p.name}`
+    : (p?.name ?? "Unknown property");
+
+  return (
+    <div className="space-y-5">
+      {/* Header block */}
+      <div>
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <h3 className="text-lg font-semibold">{displayName}</h3>
+          <Badge variant="outline" className="capitalize">{statusLabel(t.status)}</Badge>
+          {priorityBadge(t.priority) && (
+            <Badge variant="outline" className={cn(priorityBadge(t.priority)!.className)}>
+              {priorityBadge(t.priority)!.label} priority
+            </Badge>
+          )}
+        </div>
+        <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <MapPin className="h-3.5 w-3.5" />
+          <span>{locLabel}</span>
+        </div>
+      </div>
+
+      {/* Metadata grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        <KV icon={Tag} label="Type" value={t.task_category === "housekeeping" ? `Housekeeping · ${hkTypeLabel(t.housekeeping_type ?? "")}` : "Maintenance"} />
+        {t.due_at && <KV icon={Calendar} label="Due" value={format(new Date(t.due_at), "PPp")} />}
+        {t.scheduled_for && <KV icon={Calendar} label="Scheduled" value={format(new Date(t.scheduled_for), "PPp")} />}
+        {t.started_at && <KV icon={Activity} label="Started" value={format(new Date(t.started_at), "PPp")} />}
+        {t.completed_at && <KV icon={CheckCircle2} label="Completed" value={format(new Date(t.completed_at), "PPp")} />}
+        <KV icon={Clock} label="Last update" value={formatDistanceToNow(new Date(t.updated_at), { addSuffix: true })} tooltip={format(new Date(t.updated_at), "PPpp")} />
+        {t.external_id && <KV icon={Link2} label="TRACK ref" value={`#${t.external_id}`} />}
+      </div>
+
+      {/* Description / blocked reason */}
+      {t.description && (
+        <div className="rounded-md border border-border bg-muted/30 p-3">
+          <p className="text-xs font-medium text-muted-foreground mb-1">Description</p>
+          <p className="text-sm">{t.description}</p>
+        </div>
+      )}
+      {t.blocked_reason && (
+        <div className="rounded-md border border-destructive/40 bg-destructive/10 p-3">
+          <p className="text-xs font-medium text-destructive mb-1">Blocked</p>
+          <p className="text-sm">{t.blocked_reason}</p>
+        </div>
+      )}
+
+      {/* Photos */}
+      {payload.photos.length > 0 && (
+        <div>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">Photos ({payload.photos.length})</h4>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            {payload.photos.map((ph) => (
+              <a key={ph.id} href={ph.signed_url ?? "#"} target="_blank" rel="noreferrer noopener" className="block aspect-square overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition">
+                {ph.signed_url
+                  ? <img src={ph.signed_url} alt={ph.caption ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
+                  : <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">No preview</div>}
+              </a>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Linked reservation */}
+      {payload.linkedReservation && t.reservation_id && (
+        <div>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">Linked reservation</h4>
+          <button
+            onClick={() => onOpenDetail("res", t.reservation_id!)}
+            className="w-full text-left rounded-md border border-border bg-muted/30 p-3 hover:bg-muted hover:border-accent/40 transition"
+          >
+            <div className="flex items-center gap-2 text-sm">
+              <Link2 className="h-3.5 w-3.5 text-accent" />
+              <span className="font-medium">Reservation #{t.reservation_id}</span>
+              {payload.linkedReservation.status && (
+                <Badge variant="outline" className="ml-auto text-[10px]">{String(payload.linkedReservation.status)}</Badge>
+              )}
+            </div>
+            <div className="text-xs text-muted-foreground mt-1">
+              {payload.linkedReservation.arrivalDate ? format(new Date(String(payload.linkedReservation.arrivalDate)), "PP") : "—"}
+              {" → "}
+              {payload.linkedReservation.departureDate ? format(new Date(String(payload.linkedReservation.departureDate)), "PP") : "—"}
+              {payload.linkedReservation.nights ? ` · ${payload.linkedReservation.nights} nights` : ""}
+            </div>
+          </button>
+        </div>
+      )}
+
+      {/* Activity history */}
+      {payload.activity.length > 0 && (
+        <div>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
+            <History className="h-3 w-3" />
+            Activity history ({payload.activity.length})
+          </h4>
+          <ul className="space-y-1.5 max-h-64 overflow-auto rounded-md border border-border bg-muted/20">
+            {payload.activity.map((a) => (
+              <li key={a.id} className="px-3 py-2 text-xs border-b border-border/40 last:border-0">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="font-medium">{describeActivity(a)}</span>
+                  <span className="text-muted-foreground tabular-nums shrink-0" title={format(new Date(a.created_at), "PPpp")}>
+                    {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
+                  </span>
+                </div>
+                {a.actor_name && a.actor_name !== "System" && (
+                  <div className="text-muted-foreground mt-0.5"><User className="inline h-3 w-3 mr-0.5" />{a.actor_name}</div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPayload; onOpenDetail: (kind: "task" | "res", id: string) => void }) {
+  const r = payload.reservation;
+  return (
+    <div className="space-y-5">
+      <div>
+        <div className="flex flex-wrap items-center gap-2 mb-2">
+          <h3 className="text-lg font-semibold">Reservation #{String(r.id ?? "")}</h3>
+          {r.status && <Badge variant="outline">{String(r.status)}</Badge>}
+        </div>
+        {r.unitId != null && <p className="text-sm text-muted-foreground">TRACK unit #{String(r.unitId)}</p>}
+      </div>
+
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+        {r.arrivalDate && <KV icon={ArrowDownToLine} label="Arrival" value={format(new Date(String(r.arrivalDate)), "PPP")} />}
+        {r.departureDate && <KV icon={ArrowUpFromLine} label="Departure" value={format(new Date(String(r.departureDate)), "PPP")} />}
+        {r.nights != null && <KV icon={Clock} label="Nights" value={String(r.nights)} />}
+        {r.occupants != null && <KV icon={Users} label="Occupants" value={occupantsLabel(r.occupants as ReservationCard["occupants"])} />}
+      </div>
+
+      {payload.linkedTasks.length > 0 && (
+        <div>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
+            <ListChecks className="h-3 w-3" />
+            Linked work orders ({payload.linkedTasks.length})
+          </h4>
+          <ul className="space-y-1.5">
+            {payload.linkedTasks.map((t) => (
+              <li key={t.id}>
+                <button
+                  onClick={() => onOpenDetail("task", t.id)}
+                  className="w-full text-left rounded-md border border-border bg-muted/30 p-2 hover:bg-muted hover:border-accent/40 transition"
+                >
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="font-medium capitalize">{t.task_category}</span>
+                    <span className="text-muted-foreground">·</span>
+                    <span className="text-muted-foreground">{t.housekeeping_type ? hkTypeLabel(t.housekeeping_type) : (t.title ?? "—")}</span>
+                    <Badge variant="outline" className="ml-auto text-[10px]">{statusLabel(t.status)}</Badge>
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-1">
+                    {t.units?.short_name ?? t.units?.unit_code ?? ""}{t.properties?.name ? ` · ${t.properties.name}` : ""}
+                    {" · "}
+                    {t.dueAt ? `Due ${formatDistanceToNow(new Date(t.dueAt), { addSuffix: true })}` : `Updated ${formatDistanceToNow(new Date(t.updatedAt), { addSuffix: true })}`}
+                  </div>
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {payload.eventHistory.length > 0 && (
+        <div>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
+            <History className="h-3 w-3" />
+            Event history ({payload.eventHistory.length})
+          </h4>
+          <ul className="text-xs space-y-1 max-h-48 overflow-auto rounded-md border border-border bg-muted/20 p-2">
+            {payload.eventHistory.map((ev, i) => (
+              <li key={i} className="flex items-center justify-between gap-2">
+                <span className="font-mono">{ev.eventType}</span>
+                <span className="text-muted-foreground tabular-nums" title={format(new Date(ev.eventAt), "PPpp")}>
+                  {formatDistanceToNow(new Date(ev.eventAt), { addSuffix: true })}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function KV({ icon: Icon, label, value, tooltip }: { icon: React.ElementType; label: string; value: string; tooltip?: string }) {
+  return (
+    <div className="rounded-md border border-border bg-muted/30 p-2.5">
+      <div className="flex items-center gap-1.5 text-[11px] uppercase tracking-wide text-muted-foreground">
+        <Icon className="h-3 w-3" />
+        {label}
+      </div>
+      <p className="text-sm font-medium mt-0.5 truncate" title={tooltip ?? value}>{value}</p>
+    </div>
+  );
+}
+
+function describeActivity(a: { action: string; payload_json: Record<string, unknown>; description: string | null }): string {
+  if (a.description) return a.description;
+  if (a.action === "status_change") {
+    const old_s = (a.payload_json?.old as { status?: string } | undefined)?.status;
+    const new_s = (a.payload_json?.new as { status?: string } | undefined)?.status;
+    if (old_s && new_s) return `Status: ${statusLabel(old_s)} → ${statusLabel(new_s)}`;
+  }
+  return a.action.replace(/_/g, " ");
 }
