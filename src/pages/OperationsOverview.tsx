@@ -954,7 +954,7 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
 function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
   return (
     <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      {taskPhotos.map((p) => (
+      {(photos ?? []).map((p) => (
         <a
           key={p.photo_id}
           href={p.signed_url ?? "#"}
@@ -1011,7 +1011,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
 
   const totalEvents = filtered.length;
   const categoryChips = [
-    { value: "all" as const, label: `All (${taskActivity.length})` },
+    { value: "all" as const, label: `All (${activity.length})` },
     { value: "housekeeping" as const, label: `Housekeeping (${activity.filter(a => a.task_category === "housekeeping").length})` },
     { value: "maintenance" as const, label: `Maintenance (${activity.filter(a => a.task_category === "maintenance").length})` },
   ];
