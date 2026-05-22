@@ -151,6 +151,20 @@ async function upsertTask(
   const trackStatus = String(row.status ?? "").toLowerCase();
   const aiiaStatus = mapTrackStatus(trackStatus);
 
+  const updatedAtVal = (row.updatedAt as string | undefined) ?? new Date().toISOString();
+  let startedAt = (row.dateStarted as string | undefined) ?? (row.scheduledAt as string | undefined) ?? null;
+  let completedAt = (row.dateCompleted as string | undefined) ?? (row.completedAt as string | undefined) ?? null;
+
+  // Backfill timestamps so the tasks_status_timestamp_consistency CHECK
+  // constraint never blocks an upsert of a cancelled WO whose TRACK row
+  // has null completedAt / dateStarted.
+  if (["in_progress", "completed", "verified", "processed"].includes(aiiaStatus) && !startedAt) {
+    startedAt = completedAt ?? updatedAtVal;
+  }
+  if (["completed", "verified", "processed"].includes(aiiaStatus) && !completedAt) {
+    completedAt = startedAt ?? updatedAtVal;
+  }
+
   const task = {
     external_source: "track",
     external_id: externalId,
@@ -168,16 +182,16 @@ async function upsertTask(
     requires_note: true,
     requires_timestamp: true,
     status: aiiaStatus,
-    started_at: (row.dateStarted as string | undefined) ?? (row.scheduledAt as string | undefined) ?? null,
-    completed_at: (row.dateCompleted as string | undefined) ?? (row.completedAt as string | undefined) ?? null,
+    started_at: startedAt,
+    completed_at: completedAt,
     processed_at: (row.dateProcessed as string | undefined) ?? (row.processedAt as string | undefined) ?? null,
     scheduled_for: (row.scheduledAt as string | undefined) ?? (row.dateScheduled as string | undefined) ?? null,
     // QA P1 Q-DB-1: align created_at with TRACK's createdAt.
     created_at: (row.createdAt as string | undefined) ??
       (row.dateOpened as string | undefined) ??
       (row.dateCreated as string | undefined) ??
-      (row.updatedAt as string | undefined) ?? new Date().toISOString(),
-    updated_at: (row.updatedAt as string | undefined) ?? new Date().toISOString(),
+      updatedAtVal,
+    updated_at: updatedAtVal,
   };
 
   const { error } = await supabase

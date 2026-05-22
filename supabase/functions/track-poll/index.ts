@@ -421,6 +421,25 @@ async function upsertTaskFromTrackWO(
 
   const reservationId = row.reservationId ?? row.nextReservationId ?? null;
 
+  const updatedAtVal = (row.updatedAt as string | undefined) ?? new Date().toISOString();
+  let startedAt = (row.dateStarted as string | undefined) ??
+    (row.scheduledAt as string | undefined) ?? null;
+  let completedAt = (row.dateCompleted as string | undefined) ??
+    (row.completedAt as string | undefined) ?? null;
+
+  // CHECK constraint tasks_status_timestamp_consistency requires:
+  //   started_at NOT NULL for in_progress / completed / verified / processed
+  //   completed_at NOT NULL for completed / verified / processed
+  // TRACK frequently leaves those timestamps NULL on cancelled WOs even
+  // though the row reaches terminal state. Use updatedAt as a defensible
+  // fallback so the constraint never blocks an INSERT.
+  if (["in_progress", "completed", "verified", "processed"].includes(aiiaStatus) && !startedAt) {
+    startedAt = completedAt ?? updatedAtVal;
+  }
+  if (["completed", "verified", "processed"].includes(aiiaStatus) && !completedAt) {
+    completedAt = startedAt ?? updatedAtVal;
+  }
+
   const baseTask = {
     // Identification + linkage
     external_source: "track",
@@ -444,10 +463,8 @@ async function upsertTaskFromTrackWO(
     requires_timestamp: true,
     // Lifecycle
     status: aiiaStatus,
-    started_at: (row.dateStarted as string | undefined) ??
-      (row.scheduledAt as string | undefined) ?? null,
-    completed_at: (row.dateCompleted as string | undefined) ??
-      (row.completedAt as string | undefined) ?? null,
+    started_at: startedAt,
+    completed_at: completedAt,
     processed_at: (row.dateProcessed as string | undefined) ??
       (row.processedAt as string | undefined) ?? null,
     scheduled_for: (row.scheduledAt as string | undefined) ??
@@ -458,8 +475,8 @@ async function upsertTaskFromTrackWO(
     created_at: (row.createdAt as string | undefined) ??
       (row.dateOpened as string | undefined) ??
       (row.dateCreated as string | undefined) ??
-      (row.updatedAt as string | undefined) ?? new Date().toISOString(),
-    updated_at: (row.updatedAt as string | undefined) ?? new Date().toISOString(),
+      updatedAtVal,
+    updated_at: updatedAtVal,
   };
 
   // Upsert on (external_source, external_id)
