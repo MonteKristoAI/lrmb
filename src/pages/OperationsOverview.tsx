@@ -170,6 +170,23 @@ function propertyMatchesFilter(item: { propertyName: string | null }, filter: st
   return item.propertyName === filter;
 }
 
+// Safe date formatters — production crashed with "Invalid time value" because
+// new Date(null|undefined|"") yields Invalid Date and format()/formatDistanceToNow()
+// then throw a RangeError that takes down the whole modal.
+// Use these everywhere instead of calling format() directly.
+function safeFormat(value: string | null | undefined, pattern: string, fallback = "—"): string {
+  if (!value) return fallback;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return fallback;
+  try { return format(d, pattern); } catch { return fallback; }
+}
+function safeDistance(value: string | null | undefined, fallback = "—"): string {
+  if (!value) return fallback;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return fallback;
+  try { return formatDistanceToNow(d, { addSuffix: true }); } catch { return fallback; }
+}
+
 function searchMatchesTask(t: TaskCard, q: string): boolean {
   if (!q) return true;
   const needle = q.toLowerCase().trim();
@@ -371,23 +388,27 @@ export default function OperationsOverview() {
     const filterRes = (r: ReservationCard) =>
       propertyMatchesFilter(r, propertyFilter) &&
       searchMatchesRes(r, searchQuery);
+    // Defensive: any of these can be missing if backend returns partial payload
+    const res = data.reservations ?? {};
+    const hk = data.housekeeping ?? {};
+    const mt = data.maintenance ?? {};
     return {
       reservations: {
-        arrivalsToday: data.reservations.arrivalsToday.filter(filterRes),
-        inHouse: data.reservations.inHouse.filter(filterRes),
-        checkoutsToday: data.reservations.checkoutsToday.filter(filterRes),
-        upcoming7d: data.reservations.upcoming7d.filter(filterRes),
+        arrivalsToday: (res.arrivalsToday ?? []).filter(filterRes),
+        inHouse: (res.inHouse ?? []).filter(filterRes),
+        checkoutsToday: (res.checkoutsToday ?? []).filter(filterRes),
+        upcoming7d: (res.upcoming7d ?? []).filter(filterRes),
       },
       housekeeping: {
-        scheduledToday: data.housekeeping.scheduledToday.filter(filterTask),
-        inProgress: data.housekeeping.inProgress.filter(filterTask),
-        completedPendingVerify: data.housekeeping.completedPendingVerify.filter(filterTask),
+        scheduledToday: (hk.scheduledToday ?? []).filter(filterTask),
+        inProgress: (hk.inProgress ?? []).filter(filterTask),
+        completedPendingVerify: (hk.completedPendingVerify ?? []).filter(filterTask),
       },
       maintenance: {
-        open: data.maintenance.open.filter(filterTask),
-        overdue: data.maintenance.overdue.filter(filterTask),
-        blocked: data.maintenance.blocked.filter(filterTask),
-        completedPendingVerify: data.maintenance.completedPendingVerify.filter(filterTask),
+        open: (mt.open ?? []).filter(filterTask),
+        overdue: (mt.overdue ?? []).filter(filterTask),
+        blocked: (mt.blocked ?? []).filter(filterTask),
+        completedPendingVerify: (mt.completedPendingVerify ?? []).filter(filterTask),
       },
     };
   }, [data, propertyFilter, searchQuery, priorityFilter]);
@@ -450,7 +471,7 @@ export default function OperationsOverview() {
               />
               <span className="hidden items-center gap-1.5 sm:flex">
                 <Clock className="h-3.5 w-3.5" />
-                <span>{dataUpdatedAt ? formatDistanceToNow(new Date(dataUpdatedAt), { addSuffix: true }) : "—"}</span>
+                <span>{dataUpdatedAt ? safeDistance(new Date(dataUpdatedAt).toISOString()) : "—"}</span>
               </span>
               <button
                 type="button"
@@ -483,7 +504,7 @@ export default function OperationsOverview() {
       </header>
 
       <main className="mx-auto max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8 space-y-6">
-        <PollHealthBanner health={data.pollHealth} />
+        <PollHealthBanner health={data.pollHealth ?? []} />
 
         {/* FILTER BAR */}
         <FilterBar
@@ -641,7 +662,7 @@ export default function OperationsOverview() {
         </Tabs>
 
         <footer className="border-t border-border pt-4 text-xs text-muted-foreground">
-          Auto-refresh every 5 minutes · Generated {format(new Date(data.generatedAt), "PPpp")} · Read-only view
+          Auto-refresh every 5 minutes · Generated {safeFormat(data.generatedAt, "PPpp")} · Read-only view
         </footer>
       </main>
 
@@ -848,9 +869,9 @@ function ReservationPanel({ icon: Icon, accent, label, cards, onOpenDetail }: {
                   {c.status && <Badge variant="outline" className="ml-auto text-[10px] py-0 h-4">{c.status}</Badge>}
                 </div>
                 <div className="text-[11px] text-muted-foreground tabular-nums">
-                  {c.arrivalDate ? format(new Date(c.arrivalDate), "MMM d") : "—"}
+                  {safeFormat(c.arrivalDate, "MMM d")}
                   {" → "}
-                  {c.departureDate ? format(new Date(c.departureDate), "MMM d") : "—"}
+                  {safeFormat(c.departureDate, "MMM d")}
                   {c.nights ? ` · ${c.nights}n` : ""}
                   {" · "}{occupantsLabel(c.occupants)}
                 </div>
@@ -914,9 +935,9 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
                   </div>
                   <div className="text-[11px] text-muted-foreground truncate" title={t.title}>{displayTitle(t)} · {statusLabel(t.status)}</div>
                   <div className="text-[11px] text-muted-foreground tabular-nums">
-                    {t.dueAt ? `Due ${formatDistanceToNow(new Date(t.dueAt), { addSuffix: true })}`
-                      : t.startedAt ? `Started ${formatDistanceToNow(new Date(t.startedAt), { addSuffix: true })}`
-                      : `Updated ${formatDistanceToNow(new Date(t.updatedAt), { addSuffix: true })}`}
+                    {t.dueAt ? `Due ${safeDistance(t.dueAt)}`
+                      : t.startedAt ? `Started ${safeDistance(t.startedAt)}`
+                      : t.updatedAt ? `Updated ${safeDistance(t.updatedAt)}` : ""}
                     {t.blockedReason ? ` · blocked: ${t.blockedReason}` : ""}
                   </div>
                 </li>
@@ -933,7 +954,7 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
 function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
   return (
     <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      {photos.map((p) => (
+      {taskPhotos.map((p) => (
         <a
           key={p.photo_id}
           href={p.signed_url ?? "#"}
@@ -948,7 +969,7 @@ function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
             <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">No preview</div>
           )}
           <span className="absolute bottom-0 inset-x-0 truncate bg-gradient-to-t from-black/85 to-transparent px-2 py-1 text-[10px] text-white">
-            {p.task_title ?? "Photo"} · {formatDistanceToNow(new Date(p.uploaded_at), { addSuffix: true })}
+            {p.task_title ?? "Photo"} · {safeDistance(p.uploaded_at)}
           </span>
         </a>
       ))}
@@ -978,8 +999,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
     const groups: { hourLabel: string; items: ActivityRow[] }[] = [];
     let currentHour: string | null = null;
     for (const a of filtered) {
-      const date = new Date(a.created_at);
-      const hourKey = format(date, "MMM d, h a");
+      const hourKey = safeFormat(a.created_at, "MMM d, h a", "Unknown time");
       if (hourKey !== currentHour) {
         currentHour = hourKey;
         groups.push({ hourLabel: hourKey, items: [] });
@@ -991,7 +1011,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
 
   const totalEvents = filtered.length;
   const categoryChips = [
-    { value: "all" as const, label: `All (${activity.length})` },
+    { value: "all" as const, label: `All (${taskActivity.length})` },
     { value: "housekeeping" as const, label: `Housekeeping (${activity.filter(a => a.task_category === "housekeeping").length})` },
     { value: "maintenance" as const, label: `Maintenance (${activity.filter(a => a.task_category === "maintenance").length})` },
   ];
@@ -1132,7 +1152,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
                           ) : null}
                         </div>
                         <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
-                          {format(new Date(a.created_at), "h:mm a")}
+                          {safeFormat(a.created_at, "h:mm a")}
                         </span>
                       </li>
                     );
@@ -1306,7 +1326,7 @@ interface TaskDetailPayload {
 interface ResDetailPayload {
   reservation: Record<string, unknown>;
   eventHistory: Array<{ eventType: string; eventAt: string; createdAt: string }>;
-  linkedTasks: Array<{ id: string; title: string; status: string; priority: string; task_category: string; housekeeping_type: string | null; external_id: string | null; due_at: string | null; scheduled_for: string | null; started_at: string | null; completed_at: string | null; updatedAt: string; units: { unit_code: string | null; short_name: string | null } | null; properties: { name: string } | null }>;
+  linkedTasks: Array<{ id: string; title: string; status: string; priority: string; task_category: string; housekeeping_type: string | null; external_id: string | null; due_at: string | null; scheduled_for: string | null; started_at: string | null; completed_at: string | null; updated_at: string | null; units: { unit_code: string | null; short_name: string | null } | null; properties: { name: string } | null }>;
 }
 
 async function fetchDetail(token: string, detailParam: string): Promise<TaskDetailPayload | ResDetailPayload> {
@@ -1331,7 +1351,7 @@ function DetailModal({ token, detailParam, onClose, onOpenDetail }: {
   const kind = detailParam?.split(":")[0] as "task" | "res" | undefined;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["detail", detailParam],
+    queryKey: ["detail", token, detailParam],
     queryFn: () => fetchDetail(token, detailParam!),
     enabled: isOpen && !!detailParam,
     staleTime: 30_000,
@@ -1388,6 +1408,9 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
   const t = payload.task;
   const u = t.units;
   const p = t.properties;
+  // Defensive: API may return null/missing arrays on partial deploy or DB error
+  const taskPhotos = payload.photos ?? [];
+  const taskActivity = payload.activity ?? [];
   const displayName = t.task_category === "housekeeping"
     ? (t.housekeeping_type ? hkTypeLabel(t.housekeeping_type) : "Clean")
     : (t.title ?? "Maintenance task");
@@ -1417,11 +1440,11 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
       {/* Metadata grid */}
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <KV icon={Tag} label="Type" value={t.task_category === "housekeeping" ? `Housekeeping · ${hkTypeLabel(t.housekeeping_type ?? "")}` : "Maintenance"} />
-        {t.due_at && <KV icon={Calendar} label="Due" value={format(new Date(t.due_at), "PPp")} />}
-        {t.scheduled_for && <KV icon={Calendar} label="Scheduled" value={format(new Date(t.scheduled_for), "PPp")} />}
-        {t.started_at && <KV icon={Activity} label="Started" value={format(new Date(t.started_at), "PPp")} />}
-        {t.completed_at && <KV icon={CheckCircle2} label="Completed" value={format(new Date(t.completed_at), "PPp")} />}
-        <KV icon={Clock} label="Last update" value={formatDistanceToNow(new Date(t.updated_at), { addSuffix: true })} tooltip={format(new Date(t.updated_at), "PPpp")} />
+        {t.due_at && <KV icon={Calendar} label="Due" value={safeFormat(t.due_at, "PPp")} />}
+        {t.scheduled_for && <KV icon={Calendar} label="Scheduled" value={safeFormat(t.scheduled_for, "PPp")} />}
+        {t.started_at && <KV icon={Activity} label="Started" value={safeFormat(t.started_at, "PPp")} />}
+        {t.completed_at && <KV icon={CheckCircle2} label="Completed" value={safeFormat(t.completed_at, "PPp")} />}
+        {t.updated_at && <KV icon={Clock} label="Last update" value={safeDistance(t.updated_at)} tooltip={safeFormat(t.updated_at, "PPpp")} />}
         {t.external_id && <KV icon={Link2} label="TRACK ref" value={`#${t.external_id}`} />}
       </div>
 
@@ -1440,11 +1463,11 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
       )}
 
       {/* Photos */}
-      {payload.photos.length > 0 && (
+      {taskPhotos.length > 0 && (
         <div>
-          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">Photos ({payload.photos.length})</h4>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">Photos ({taskPhotos.length})</h4>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-            {payload.photos.map((ph) => (
+            {taskPhotos.map((ph) => (
               <a key={ph.id} href={ph.signed_url ?? "#"} target="_blank" rel="noreferrer noopener" className="block aspect-square overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition">
                 {ph.signed_url
                   ? <img src={ph.signed_url} alt={ph.caption ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
@@ -1471,9 +1494,9 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
               )}
             </div>
             <div className="text-xs text-muted-foreground mt-1">
-              {payload.linkedReservation.arrivalDate ? format(new Date(String(payload.linkedReservation.arrivalDate)), "PP") : "—"}
+              {safeFormat(payload.linkedReservation.arrivalDate as string | null | undefined, "PP")}
               {" → "}
-              {payload.linkedReservation.departureDate ? format(new Date(String(payload.linkedReservation.departureDate)), "PP") : "—"}
+              {safeFormat(payload.linkedReservation.departureDate as string | null | undefined, "PP")}
               {payload.linkedReservation.nights ? ` · ${payload.linkedReservation.nights} nights` : ""}
             </div>
           </button>
@@ -1481,19 +1504,19 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
       )}
 
       {/* Activity history */}
-      {payload.activity.length > 0 && (
+      {taskActivity.length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
             <History className="h-3 w-3" />
-            Activity history ({payload.activity.length})
+            Activity history ({taskActivity.length})
           </h4>
           <ul className="space-y-1.5 max-h-64 overflow-auto rounded-md border border-border bg-muted/20">
-            {payload.activity.map((a) => (
+            {taskActivity.map((a) => (
               <li key={a.id} className="px-3 py-2 text-xs border-b border-border/40 last:border-0">
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-medium">{describeActivity(a)}</span>
-                  <span className="text-muted-foreground tabular-nums shrink-0" title={format(new Date(a.created_at), "PPpp")}>
-                    {formatDistanceToNow(new Date(a.created_at), { addSuffix: true })}
+                  <span className="text-muted-foreground tabular-nums shrink-0" title={safeFormat(a.created_at, "PPpp")}>
+                    {safeDistance(a.created_at)}
                   </span>
                 </div>
                 {a.actor_name && a.actor_name !== "System" && (
@@ -1509,7 +1532,9 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
 }
 
 function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPayload; onOpenDetail: (kind: "task" | "res", id: string) => void }) {
-  const r = payload.reservation;
+  const r = (payload.reservation ?? {}) as Record<string, unknown>;
+  const linkedTasks = payload.linkedTasks ?? [];
+  const eventHistory = payload.eventHistory ?? [];
   return (
     <div className="space-y-5">
       <div>
@@ -1521,20 +1546,20 @@ function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPa
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {r.arrivalDate && <KV icon={ArrowDownToLine} label="Arrival" value={format(new Date(String(r.arrivalDate)), "PPP")} />}
-        {r.departureDate && <KV icon={ArrowUpFromLine} label="Departure" value={format(new Date(String(r.departureDate)), "PPP")} />}
+        {r.arrivalDate && <KV icon={ArrowDownToLine} label="Arrival" value={safeFormat(String(r.arrivalDate), "PPP")} />}
+        {r.departureDate && <KV icon={ArrowUpFromLine} label="Departure" value={safeFormat(String(r.departureDate), "PPP")} />}
         {r.nights != null && <KV icon={Clock} label="Nights" value={String(r.nights)} />}
         {r.occupants != null && <KV icon={Users} label="Occupants" value={occupantsLabel(r.occupants as ReservationCard["occupants"])} />}
       </div>
 
-      {payload.linkedTasks.length > 0 && (
+      {linkedTasks.length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
             <ListChecks className="h-3 w-3" />
-            Linked work orders ({payload.linkedTasks.length})
+            Linked work orders ({linkedTasks.length})
           </h4>
           <ul className="space-y-1.5">
-            {payload.linkedTasks.map((t) => (
+            {linkedTasks.map((t) => (
               <li key={t.id}>
                 <button
                   onClick={() => onOpenDetail("task", t.id)}
@@ -1549,7 +1574,15 @@ function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPa
                   <div className="text-xs text-muted-foreground mt-1">
                     {t.units?.short_name ?? t.units?.unit_code ?? ""}{t.properties?.name ? ` · ${t.properties.name}` : ""}
                     {" · "}
-                    {t.dueAt ? `Due ${formatDistanceToNow(new Date(t.dueAt), { addSuffix: true })}` : `Updated ${formatDistanceToNow(new Date(t.updatedAt), { addSuffix: true })}`}
+                    {t.due_at
+                      ? `Due ${safeDistance(t.due_at)}`
+                      : t.scheduled_for
+                        ? `Scheduled ${safeDistance(t.scheduled_for)}`
+                        : t.started_at
+                          ? `Started ${safeDistance(t.started_at)}`
+                          : t.updated_at
+                            ? `Updated ${safeDistance(t.updated_at)}`
+                            : ""}
                   </div>
                 </button>
               </li>
@@ -1558,18 +1591,18 @@ function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPa
         </div>
       )}
 
-      {payload.eventHistory.length > 0 && (
+      {eventHistory.length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
             <History className="h-3 w-3" />
-            Event history ({payload.eventHistory.length})
+            Event history ({eventHistory.length})
           </h4>
           <ul className="text-xs space-y-1 max-h-48 overflow-auto rounded-md border border-border bg-muted/20 p-2">
-            {payload.eventHistory.map((ev, i) => (
+            {eventHistory.map((ev, i) => (
               <li key={i} className="flex items-center justify-between gap-2">
                 <span className="font-mono">{ev.eventType}</span>
-                <span className="text-muted-foreground tabular-nums" title={format(new Date(ev.eventAt), "PPpp")}>
-                  {formatDistanceToNow(new Date(ev.eventAt), { addSuffix: true })}
+                <span className="text-muted-foreground tabular-nums" title={safeFormat(ev.eventAt, "PPpp")}>
+                  {safeDistance(ev.eventAt)}
                 </span>
               </li>
             ))}
