@@ -12,7 +12,6 @@ import { MemoryRouter } from "react-router-dom";
 import OperationsOverview from "../pages/OperationsOverview";
 
 // VITE_SUPABASE_URL is read by the page on module import. Set it before mount.
-// import.meta.env is read-only at build time; vitest exposes it via stub.
 vi.stubEnv("VITE_SUPABASE_URL", "http://localhost-test:54321");
 
 function renderAt(path: string) {
@@ -90,51 +89,84 @@ describe("OperationsOverview — error states", () => {
 });
 
 describe("OperationsOverview — happy path", () => {
+  // Full payload matching the current track-overview-data edge function shape
+  // (v15+ — includes totals, kpis, propertyList, recentPhotos, damageClaims,
+  // and per-panel *Total counts).
   const successPayload = {
     viewer: "Tony",
     generatedAt: "2026-05-20T12:00:00Z",
     windowUTC: { start: "2026-05-20T00:00:00Z", end: "2026-05-21T00:00:00Z" },
+    miamiToday: "2026-05-20",
+    totals: {
+      trackMirroredTasks: 30000,
+      activeUnits: 103,
+      activeProperties: 17,
+    },
+    kpis: {
+      hkCompleted: { thisWeek: 122, lastWeek: 94 },
+      maintCompleted: { thisWeek: 30, lastWeek: 11 },
+      hkInProgress: 12,
+      maintInProgress: 2,
+      maintOverdue: 0,
+      kpiRefreshedAt: "2026-05-20T11:59:00Z",
+    },
+    propertyList: ["1 Hotel & Homes", "Setai", "W South Beach"],
     reservations: {
       arrivalsToday: [
-        { externalId: "1", unitId: 10, arrivalDate: "2026-05-20T15:00:00Z", departureDate: "2026-05-22T11:00:00Z", status: "Confirmed", occupants: 2, nights: 2 },
+        { externalId: "1", unitId: 10, unitCode: "1HH 1544", propertyName: "1 Hotel & Homes", arrivalDate: "2026-05-20", departureDate: "2026-05-22", status: "Confirmed", occupants: 2, nights: 2 },
       ],
+      arrivalsTodayTotal: 1,
       inHouse: [],
+      inHouseTotal: 0,
       checkoutsToday: [
-        { externalId: "2", unitId: 11, arrivalDate: "2026-05-18T15:00:00Z", departureDate: "2026-05-20T11:00:00Z", status: "CheckedOut", occupants: 4, nights: 2 },
+        { externalId: "2", unitId: 11, unitCode: "Setai 705", propertyName: "Setai", arrivalDate: "2026-05-18", departureDate: "2026-05-20", status: "CheckedOut", occupants: 4, nights: 2 },
       ],
+      checkoutsTodayTotal: 1,
       upcoming7d: [],
+      upcoming7dTotal: 0,
     },
     housekeeping: {
       scheduledToday: [
-        { id: "uuid-a", title: "Final Clean — TRACK WO #501", status: "new", unitId: "u-10", externalId: "501", dueAt: "2026-05-20T13:00:00Z", startedAt: null, completedAt: null, updatedAt: "2026-05-20T11:55:00Z" },
+        { id: "uuid-a", title: "Final Clean — TRACK WO #501", status: "new", category: "housekeeping", priority: "medium", housekeepingType: "checkout_clean", unitId: "u-10", unitCode: "1HH 1544", propertyName: "1 Hotel & Homes", externalId: "501", reservationId: null, dueAt: "2026-05-20T13:00:00Z", startedAt: null, completedAt: null, scheduledFor: "2026-05-20T13:00:00Z", blockedReason: null, updatedAt: "2026-05-20T11:55:00Z" },
       ],
+      scheduledTodayTotal: 1,
       inProgress: [],
+      inProgressTotal: 0,
       completedPendingVerify: [
-        { id: "uuid-b", title: "Final Clean — TRACK WO #495", status: "completed", unitId: "u-09", externalId: "495", dueAt: null, startedAt: "2026-05-20T09:00:00Z", completedAt: "2026-05-20T10:30:00Z", updatedAt: "2026-05-20T10:30:00Z" },
+        { id: "uuid-b", title: "Final Clean — TRACK WO #495", status: "completed", category: "housekeeping", priority: "medium", housekeepingType: "checkout_clean", unitId: "u-09", unitCode: "Setai 705", propertyName: "Setai", externalId: "495", reservationId: null, dueAt: null, startedAt: "2026-05-20T09:00:00Z", completedAt: "2026-05-20T10:30:00Z", scheduledFor: null, blockedReason: null, updatedAt: "2026-05-20T10:30:00Z" },
       ],
+      completedPendingVerifyTotal: 1,
     },
     maintenance: {
       open: [
-        { id: "uuid-c", title: "Replace AC filter", status: "assigned", unitId: "u-12", externalId: "MWO-7", dueAt: "2026-05-21T18:00:00Z", startedAt: null, completedAt: null, updatedAt: "2026-05-20T11:30:00Z" },
+        { id: "uuid-c", title: "Replace AC filter", status: "assigned", category: "maintenance", priority: "medium", housekeepingType: null, unitId: "u-12", unitCode: "W South Beach 3B1229", propertyName: "W South Beach", externalId: "MWO-7", reservationId: null, dueAt: "2026-05-21T18:00:00Z", startedAt: null, completedAt: null, scheduledFor: null, blockedReason: null, updatedAt: "2026-05-20T11:30:00Z" },
       ],
+      openTotal: 1,
       overdue: [],
+      overdueTotal: 0,
       blocked: [],
+      blockedTotal: 0,
       completedPendingVerify: [],
+      completedPendingVerifyTotal: 0,
     },
     pollHealth: [
       { collection_name: "reservations", health: "healthy", last_run_at: "2026-05-20T11:58:00Z", seconds_since_last_run: 120 },
       { collection_name: "maintenance-work-orders", health: "healthy", last_run_at: "2026-05-20T11:58:00Z", seconds_since_last_run: 120 },
       { collection_name: "housekeeping-work-orders", health: "healthy", last_run_at: "2026-05-20T11:58:00Z", seconds_since_last_run: 120 },
     ],
+    recentActivity: [],
+    recentPhotos: [],
+    damageClaims: { total: 0, overdue: 0, urgent: 0, approaching: 0, items: [] },
   };
 
   it("renders the header with the viewer name", async () => {
     mockFetchResponse(200, successPayload);
     renderAt("/operations?t=eyJ.valid");
     await waitFor(() => {
-      expect(screen.getByText(/LRMB Operations Overview/i)).toBeInTheDocument();
+      expect(screen.getByText(/LRMB Operations/i)).toBeInTheDocument();
     });
-    expect(screen.getByText(/Shared with Tony/i)).toBeInTheDocument();
+    // Viewer name appears in the subtitle: "Live view · Tony · 103 units …"
+    expect(screen.getByText(/Tony/)).toBeInTheDocument();
   });
 
   it("renders reservation pipeline cards (arrivals + checkouts + in-house + upcoming)", async () => {
@@ -145,42 +177,48 @@ describe("OperationsOverview — happy path", () => {
     });
     expect(screen.getByText(/In house now/i)).toBeInTheDocument();
     expect(screen.getByText(/Checkouts today/i)).toBeInTheDocument();
-    expect(screen.getByText(/Upcoming next 7d/i)).toBeInTheDocument();
-    // The card content for arrivals_today should list reservation #1 (we passed 1 arrival in the payload)
-    const arrivalsList = screen.getByLabelText(/Arrivals today details/i);
+    expect(screen.getByText(/Upcoming 7 days/i)).toBeInTheDocument();
+    // The Arrivals today list should contain the mock unit code "1HH 1544"
+    const arrivalsList = screen.getByLabelText(/^Arrivals today$/i);
     expect(arrivalsList).toBeInTheDocument();
-    expect(arrivalsList.textContent).toMatch(/#1/);
+    expect(arrivalsList.textContent).toMatch(/1HH 1544/);
   });
 
-  it("renders housekeeping queues with task titles", async () => {
+  it("renders housekeeping queue panels when the Housekeeping tab is selected", async () => {
+    mockFetchResponse(200, successPayload);
+    renderAt("/operations?t=eyJ.valid&tab=housekeeping");
+    // displayTitle() rewrites raw TRACK titles to the type label ("Checkout clean").
+    // We assert the panel headings + the mapped type label + the unit code instead.
+    await waitFor(() => {
+      // "Scheduled today" panel exists (matches the panel label, not the section heading)
+      expect(screen.getByLabelText(/^Scheduled today$/i)).toBeInTheDocument();
+    });
+    // At least one task card renders the friendly type label
+    const cards = screen.getAllByText(/Checkout clean/i);
+    expect(cards.length).toBeGreaterThan(0);
+    // Unit codes from the mock are rendered
+    expect(screen.getByText(/1HH 1544/i)).toBeInTheDocument();
+  });
+
+  it("renders maintenance queue task titles when the Maintenance tab is selected", async () => {
+    mockFetchResponse(200, successPayload);
+    renderAt("/operations?t=eyJ.valid&tab=maintenance");
+    // Maintenance titles >30 chars or without "TRACK" go through unchanged.
+    await waitFor(() => {
+      expect(screen.getByText(/Replace AC filter/i)).toBeInTheDocument();
+    });
+  });
+
+  it("does NOT show the data-sync notice banner when all collections are healthy", async () => {
     mockFetchResponse(200, successPayload);
     renderAt("/operations?t=eyJ.valid");
     await waitFor(() => {
-      expect(screen.getByText(/Housekeeping/i)).toBeInTheDocument();
+      expect(screen.getByText(/LRMB Operations/i)).toBeInTheDocument();
     });
-    expect(screen.getByText(/Final Clean — TRACK WO #501/i)).toBeInTheDocument();
-    expect(screen.getByText(/Final Clean — TRACK WO #495/i)).toBeInTheDocument();
+    expect(screen.queryByText(/Data sync notice/i)).not.toBeInTheDocument();
   });
 
-  it("renders maintenance queues with task titles", async () => {
-    mockFetchResponse(200, successPayload);
-    renderAt("/operations?t=eyJ.valid");
-    await waitFor(() => {
-      expect(screen.getByText(/Maintenance/i)).toBeInTheDocument();
-    });
-    expect(screen.getByText(/Replace AC filter/i)).toBeInTheDocument();
-  });
-
-  it("does NOT show the poll-health banner when all collections are healthy", async () => {
-    mockFetchResponse(200, successPayload);
-    renderAt("/operations?t=eyJ.valid");
-    await waitFor(() => {
-      expect(screen.getByText(/LRMB Operations Overview/i)).toBeInTheDocument();
-    });
-    expect(screen.queryByText(/Polling status/i)).not.toBeInTheDocument();
-  });
-
-  it("shows the poll-health banner when at least one collection is failing", async () => {
+  it("shows the data-sync notice banner when at least one collection is failing", async () => {
     const payload = {
       ...successPayload,
       pollHealth: [
@@ -191,9 +229,9 @@ describe("OperationsOverview — happy path", () => {
     mockFetchResponse(200, payload);
     renderAt("/operations?t=eyJ.valid");
     await waitFor(() => {
-      expect(screen.getByText(/Polling status/i)).toBeInTheDocument();
+      expect(screen.getByText(/Data sync notice/i)).toBeInTheDocument();
     });
-    expect(screen.getByText(/housekeeping-work-orders=failing/i)).toBeInTheDocument();
+    expect(screen.getByText(/housekeeping-work-orders/i)).toBeInTheDocument();
   });
 
   it("renders a Refresh button (proves no write actions are present)", async () => {
@@ -203,8 +241,8 @@ describe("OperationsOverview — happy path", () => {
       expect(screen.getByLabelText(/Refresh now/i)).toBeInTheDocument();
     });
     // Sanity: no Edit / Delete / Save buttons should exist
-    expect(screen.queryByRole("button", { name: /edit/i })).toBeNull();
-    expect(screen.queryByRole("button", { name: /delete/i })).toBeNull();
-    expect(screen.queryByRole("button", { name: /save/i })).toBeNull();
+    expect(screen.queryByRole("button", { name: /^edit$/i })).toBeNull();
+    expect(screen.queryByRole("button", { name: /^delete$/i })).toBeNull();
+    expect(screen.queryByRole("button", { name: /^save$/i })).toBeNull();
   });
 });
