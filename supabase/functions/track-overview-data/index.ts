@@ -171,7 +171,23 @@ Deno.serve(async (req) => {
   const maintPendingVerify = maintCards.filter((t) => t.status === "completed");
 
   // === Week-over-week KPIs ===
-  const [hkCompletedThisWeek, hkCompletedLastWeek, maintCompletedThisWeek, maintCompletedLastWeek] = await Promise.all([
+  // Exact counts for KPIs (separate from card slices so volume is accurate)
+  const [
+    hkInProgressTotal,
+    maintInProgressTotal,
+    maintOverdueTotal,
+    hkCompletedThisWeek,
+    hkCompletedLastWeek,
+    maintCompletedThisWeek,
+    maintCompletedLastWeek,
+  ] = await Promise.all([
+    supabase.from("tasks").select("id", { count: "exact", head: true })
+      .eq("task_category", "housekeeping").eq("status", "in_progress"),
+    supabase.from("tasks").select("id", { count: "exact", head: true })
+      .eq("task_category", "maintenance").eq("status", "in_progress"),
+    supabase.from("tasks").select("id", { count: "exact", head: true })
+      .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress"])
+      .lt("due_at", now.toISOString()),
     supabase.from("tasks").select("id", { count: "exact", head: true })
       .eq("task_category", "housekeeping").eq("status", "completed")
       .gte("completed_at", weekAgo.toISOString()).lte("completed_at", now.toISOString()),
@@ -227,6 +243,9 @@ Deno.serve(async (req) => {
         thisWeek: maintCompletedThisWeek.count ?? 0,
         lastWeek: maintCompletedLastWeek.count ?? 0,
       },
+      hkInProgress: hkInProgressTotal.count ?? 0,
+      maintInProgress: maintInProgressTotal.count ?? 0,
+      maintOverdue: maintOverdueTotal.count ?? 0,
     },
     propertyList,
     reservations: { arrivalsToday, inHouse, checkoutsToday, upcoming7d },

@@ -107,7 +107,13 @@ interface OverviewPayload {
   generatedAt: string;
   windowUTC: { start: string; end: string };
   totals: { trackMirroredTasks: number; activeUnits: number; activeProperties: number };
-  kpis: { hkCompleted: KpiPeriodCount; maintCompleted: KpiPeriodCount };
+  kpis: {
+    hkCompleted: KpiPeriodCount;
+    maintCompleted: KpiPeriodCount;
+    hkInProgress?: number;
+    maintInProgress?: number;
+    maintOverdue?: number;
+  };
   propertyList: string[];
   reservations: {
     arrivalsToday: ReservationCard[];
@@ -191,6 +197,44 @@ function priorityBadge(priority: string) {
   if (priority === "high" || priority === "urgent") return { className: "bg-rose-100 text-rose-700 border-rose-200", label: "High" };
   if (priority === "low") return { className: "bg-slate-100 text-slate-600 border-slate-200", label: "Low" };
   return null;
+}
+
+function displayTitle(t: TaskCard): string {
+  // Most TRACK titles are like "Clean - TRACK WO #31451" — replace with human-friendly derived title.
+  if (t.category === "housekeeping") {
+    const hkLabel = t.housekeepingType ? hkTypeLabel(t.housekeepingType) : "Clean";
+    return hkLabel;
+  }
+  // Maintenance: title is usually description summary, keep but trim TRACK fluff
+  const raw = t.title ?? "Maintenance task";
+  if (raw.includes("TRACK") && raw.length < 30) return "Maintenance task";
+  return raw;
+}
+
+function hkTypeLabel(type: string): string {
+  switch (type) {
+    case "checkout_clean": return "Checkout clean";
+    case "mid_stay_clean": return "Mid-stay clean";
+    case "deep_clean": return "Deep clean";
+    case "linen_change": return "Linen change";
+    case "owner_specific_clean": return "Owner clean";
+    case "intermittent_clean": return "Intermittent clean";
+    default: return "Clean";
+  }
+}
+
+function statusLabel(s: string): string {
+  switch (s) {
+    case "new": return "New";
+    case "assigned": return "Assigned";
+    case "in_progress": return "In progress";
+    case "completed": return "Completed";
+    case "verified": return "Verified";
+    case "blocked": return "Blocked";
+    case "waiting_parts": return "Waiting on parts";
+    case "processed": return "Processed";
+    default: return s.replace(/_/g, " ");
+  }
 }
 
 // ============================================================
@@ -330,16 +374,16 @@ export default function OperationsOverview() {
               icon={Activity}
               accent="#FF5C5C"
               label="In progress now"
-              value={filtered.housekeeping.inProgress.length + filtered.maintenance.open.filter((t) => t.status === "in_progress").length}
-              context={`${filtered.housekeeping.inProgress.length} hk · ${filtered.maintenance.open.filter((t) => t.status === "in_progress").length} maint`}
+              value={(data.kpis.hkInProgress ?? filtered.housekeeping.inProgress.length) + (data.kpis.maintInProgress ?? 0)}
+              context={`${data.kpis.hkInProgress ?? filtered.housekeeping.inProgress.length} cleans · ${data.kpis.maintInProgress ?? 0} maint`}
             />
             <KpiTile
               icon={AlertTriangle}
-              accent={filtered.maintenance.overdue.length > 0 ? "#cc0000" : "#999"}
+              accent={(data.kpis.maintOverdue ?? filtered.maintenance.overdue.length) > 0 ? "#cc0000" : "#999"}
               label="Overdue maintenance"
-              value={filtered.maintenance.overdue.length}
-              context={filtered.maintenance.overdue.length === 0 ? "all on track" : "needs attention"}
-              alert={filtered.maintenance.overdue.length > 0}
+              value={data.kpis.maintOverdue ?? filtered.maintenance.overdue.length}
+              context={(data.kpis.maintOverdue ?? filtered.maintenance.overdue.length) === 0 ? "all on track" : "needs attention"}
+              alert={(data.kpis.maintOverdue ?? filtered.maintenance.overdue.length) > 0}
             />
           </div>
         </section>
@@ -601,7 +645,7 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
                     <span className="text-xs font-medium truncate" title={locationLabel(t)}>{locationLabel(t)}</span>
                     {pri && <Badge variant="outline" className={cn("ml-auto text-[10px] py-0 h-4", pri.className)}>{pri.label}</Badge>}
                   </div>
-                  <div className="text-[11px] text-slate-500 truncate" title={t.title}>{t.title}</div>
+                  <div className="text-[11px] text-slate-500 truncate" title={t.title}>{displayTitle(t)} · {statusLabel(t.status)}</div>
                   <div className="text-[11px] text-slate-400 tabular-nums">
                     {t.dueAt ? `Due ${formatDistanceToNow(new Date(t.dueAt), { addSuffix: true })}`
                       : t.startedAt ? `Started ${formatDistanceToNow(new Date(t.startedAt), { addSuffix: true })}`
