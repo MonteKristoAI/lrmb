@@ -1,11 +1,25 @@
-// D2.3 — Push AiiA photos into TRACK as work-order attachments.
+// D2.3 — Push AiiA photos into TRACK as reservation attachments.
+//
+// v5 architecture (2026-05-22): TRACK API has no /work-orders/{id}/attachments
+// endpoint. Photos attach at the RESERVATION level via
+//   POST /api/pms/reservations/{reservationId}/attachments
+// with body { fileUrl, name, isPublic }. TRACK server-side fetches the fileUrl
+// (a Supabase signed URL with 7-day TTL) and stores it in their S3 bucket. The
+// attachment is visible under the parent reservation in TRACK UI; field staff
+// and supervisors viewing any work order on that reservation see the photo
+// proof at the reservation header level.
+//
+// Discovered via dev portal v12.0 schema + live probe 2026-05-22:
+//   - POST /api/files (universal file upload)
+//   - POST /api/pms/reservations/{id}/attachments (1-step: upload + attach)
+//   - Work orders have NO native attachment child resource
+//   - Reservation-level attachment is the correct TRACK pattern for proof photos
 //
 // Runs every 60s via pg_cron. Picks up to BATCH_SIZE task_photos rows where
-// track_synced_at IS NULL AND track_next_attempt_at <= now(), looks up each
-// row's parent task to find the TRACK work-order external_id, fetches the
-// photo bytes from Supabase Storage, and POSTs multipart/form-data to TRACK.
+// track_synced_at IS NULL AND track_next_attempt_at <= now().
 //
 // Backoff schedule: 1m, 5m, 30m, 4h, 24h (5 attempts then dead-letter).
+// 404/405 = permanent failure → dead-letter immediately.
 //
 // SAFETY GATE: This function refuses to actually call TRACK unless the function
 // secret TRACK_ATTACHMENT_PUSH_ENABLED is set to "true". Until Emma confirms
@@ -88,10 +102,10 @@ Deno.serve(async (req) => {
   };
 
   for (const row of queue ?? []) {
-    // Resolve parent task -> external_id + category (maintenance vs housekeeping)
+    // Resolve parent task -> external_id + reservation_id + category
     const { data: task } = await supabase
       .from("tasks")
-      .select("id, external_source, external_id, task_category")
+      .select("id, external_source, external_id, task_category, reservation_id")
       .eq("id", row.task_id)
       .maybeSingle();
 
@@ -109,53 +123,71 @@ Deno.serve(async (req) => {
       continue;
     }
 
+    // v5: photos attach to TRACK at the reservation level (not work-order level).
+    // TRACK's API has no `/work-orders/{id}/attachments` endpoint — verified live
+    // probe 2026-05-22 against dev portal v12.0 schema. The correct flow is:
+    //   POST /api/pms/reservations/{reservationId}/attachments
+    //        body: { fileUrl, name, isPublic }
+    // TRACK fetches the fileUrl, stores it in S3, and links to the reservation.
+    // Field staff + supervisors view photos under the parent reservation in TRACK UI.
+    if (!task.reservation_id) {
+      await supabase
+        .from("task_photos")
+        .update({
+          track_synced_at: new Date().toISOString(),
+          track_sync_error: "task has no reservation_id — TRACK attachments require parent reservation",
+          track_attachment_id: "n/a-no-reservation",
+        })
+        .eq("id", row.id);
+      summary.skippedNoExternalId++;
+      continue;
+    }
+
     if (!PUSH_ENABLED) {
       // Dry-run: defer indefinitely but log what we would do
       summary.skippedDisabled++;
       continue;
     }
 
-    const category = task.task_category as string; // 'maintenance' | 'housekeeping' | other
-    const trackPath =
-      category === "housekeeping"
-        ? `${BASE}/housekeeping/work-orders/${task.external_id}/attachments`
-        : `${BASE}/maintenance/work-orders/${task.external_id}/attachments`;
-
     try {
-      // Fetch the photo bytes
-      const { data: file, error: dlErr } = await supabase.storage
+      // Generate a Supabase signed URL with 7-day TTL. TRACK fetches the URL
+      // server-side and downloads bytes into their own S3 bucket. The URL only
+      // needs to be valid long enough for TRACK to fetch (seconds), but we use
+      // 7d as a margin in case their fetch is queued.
+      const { data: urlData, error: urlErr } = await supabase.storage
         .from(STORAGE_BUCKET)
-        .download(row.storage_path);
-      if (dlErr || !file) throw new Error(`storage download failed: ${dlErr?.message ?? "no file"}`);
+        .createSignedUrl(row.storage_path, 7 * 24 * 3600);
+      if (urlErr || !urlData?.signedUrl) {
+        throw new Error(`storage signing failed: ${urlErr?.message ?? "no url"}`);
+      }
 
-      // Derive filename + mime type from storage_path (task_photos doesn't store them).
       const fileName = deriveFileName(row.storage_path);
-      const mime = file.type || guessMime(fileName);
-      const blob = new Blob([await file.arrayBuffer()], { type: mime });
+      const photoTypeTag = row.photo_subtype ? ` (${row.photo_subtype})` : "";
+      const attachmentName = `AiiA proof — ${task.task_category} WO #${task.external_id}${photoTypeTag} — ${fileName}`;
 
-      const form = new FormData();
-      form.append("file", blob, fileName);
-      form.append("source", "aiia");
-      form.append("aiia_task_photo_id", row.id);
-      if (row.photo_subtype) form.append("photo_subtype", row.photo_subtype);
-
-      const res = await fetch(trackPath, {
-        method: "POST",
-        headers: {
-          Authorization: trackAuth,
-          Accept: "application/json",
-          "User-Agent": "MonteKristo-AI/LRMB-AttachmentPush/1.0",
+      const res = await fetch(
+        `${BASE}/reservations/${task.reservation_id}/attachments`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: trackAuth,
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            "User-Agent": "MonteKristo-AI/LRMB-AttachmentPush/2.0",
+          },
+          body: JSON.stringify({
+            fileUrl: urlData.signedUrl,
+            name: attachmentName,
+            isPublic: false,
+          }),
         },
-        body: form,
-      });
+      );
 
       if (!res.ok) {
         const text = await res.text().catch(() => "");
-        // v4: 404 on attachment endpoint is PERMANENT — verified 2026-05-20 that
-        // TRACK API has no /attachments, /files, /photos, or /media child resource
-        // on work orders (HK or maintenance). Probe results in
-        // docs/TRACK-ATTACHMENT-FINDING-2026-05-20.md. Don't waste 4 more retries
-        // on a 404 — dead-letter immediately so the queue stays clean.
+        // 404/405 on the reservation_attachments path = permanent (endpoint or
+        // reservation gone). Dead-letter immediately. Other 4xx may be transient
+        // (rate limit, signature expiry) — retry per backoff.
         const isPermanentFailure = res.status === 404 || res.status === 405;
         throw Object.assign(new Error(`HTTP ${res.status}: ${text.slice(0, 200)}`), {
           permanent: isPermanentFailure,
@@ -163,7 +195,7 @@ Deno.serve(async (req) => {
       }
 
       const json = await res.json().catch(() => ({} as Record<string, unknown>));
-      const trackAttachmentId = (json?.id ?? json?.attachmentId ?? "unknown") as string;
+      const trackAttachmentId = (json?.id ?? "unknown") as string;
 
       await supabase
         .from("task_photos")
@@ -229,16 +261,6 @@ Deno.serve(async (req) => {
 function deriveFileName(storagePath: string): string {
   const seg = storagePath.split("/").pop() ?? "photo.jpg";
   return seg || "photo.jpg";
-}
-
-function guessMime(fileName: string): string {
-  const ext = fileName.split(".").pop()?.toLowerCase() ?? "";
-  if (ext === "jpg" || ext === "jpeg") return "image/jpeg";
-  if (ext === "png") return "image/png";
-  if (ext === "heic") return "image/heic";
-  if (ext === "webp") return "image/webp";
-  if (ext === "gif") return "image/gif";
-  return "application/octet-stream";
 }
 
 function json(status: number, body: unknown): Response {
