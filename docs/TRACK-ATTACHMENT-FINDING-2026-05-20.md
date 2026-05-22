@@ -1,126 +1,110 @@
-# TRACK API — Attachment endpoint discovery results
+# TRACK API — Attachment Architecture (RESOLVED)
 
-**Date:** 2026-05-20 11:00 UTC
-**Probed by:** MonteKristo (Alex) via direct curl against `https://lrmb.trackhs.com/api/pms/...` using key #51
+**Last update:** 2026-05-22 — Resolution shipped as v5
+**Discovered by:** MonteKristo (Alex) via dev portal v12.0 schema + live probe with key #51
 
-## Finding
+---
 
-**TRACK does not expose work-order attachment endpoints via the PMS API.** The architecture we deployed in D2.3 (`track-attachment-push` → `POST /maintenance/work-orders/{id}/attachments`) returns 404 unconditionally — there is no such endpoint.
+## Resolution (v5)
 
-## Probe matrix
+**Photos attach to TRACK at the reservation level**, not the work-order level. The correct flow is a single API call:
 
-### Endpoint discovery — 404 across the board
+```
+POST https://lrmb.trackhs.com/api/pms/reservations/{reservationId}/attachments
+Authorization: Basic <key#51 credentials>
+Content-Type: application/json
 
-| Method | URL | Status |
-|---|---|---|
-| POST | `/api/pms/housekeeping/work-orders/1/attachments` | 404 |
-| POST | `/api/pms/housekeeping/work-orders/1/files` | 404 |
-| POST | `/api/pms/housekeeping/work-orders/1/photos` | 404 |
-| POST | `/api/pms/housekeeping/work-orders/1/media` | 404 |
-| POST | `/api/pms/housekeeping/work-orders/1/documents` | 404 |
-| POST | `/api/pms/maintenance/work-orders/1/attachments` | 404 |
-| POST | `/api/pms/maintenance/work-orders/1/files` | 404 |
-| POST | `/api/pms/maintenance/work-orders/1/photos` | 404 |
-| POST | `/api/pms/maintenance/work-orders/1/media` | 404 |
-| POST | `/api/pms/maintenance/work-orders/1/documents` | 404 |
-| GET | `/api/pms/attachments` | 404 |
-| GET | `/api/pms/files` | 404 |
-| GET | `/api/pms/photos` | 404 |
-| GET | `/api/files/...` | 404 |
-| GET | `/api/storage/...` | 404 |
-| GET | `/api/v2/pms/...` | 404 |
+{
+  "fileUrl": "<Supabase signed URL with 7-day TTL>",
+  "name": "AiiA proof — housekeeping WO #32227 — <fileName>",
+  "isPublic": false
+}
+```
 
-### What DOES work — confirmed write paths on key #51
+TRACK server-side fetches the `fileUrl`, downloads bytes into their own S3 bucket (`track-pm.s3.amazonaws.com/lrmb/image/...`), and links the resulting file to the reservation. Field staff + supervisors viewing any work order on that reservation see the photo proof at the reservation header level in the TRACK UI.
 
-| Method | URL | Status | Result |
+Response on success (201):
+```json
+{
+  "id": 9513,
+  "type": "attachment",
+  "name": "AiiA proof — housekeeping WO #32227 — ...",
+  "fileType": "image",
+  "mimeType": "image/jpeg",
+  "size": 3434700,
+  "fileUrl": "https://track-pm.s3.amazonaws.com/lrmb/image/...",
+  "createdAt": "2026-05-22T04:51:02-04:00",
+  "createdBy": "system",
+  "_links": { "self": { "href": ".../attachments/9513/" } }
+}
+```
+
+### E2E verification (2026-05-22 08:51 UTC)
+
+| Step | Result |
+|---|---|
+| Inject task_photo row pointing to TRACK-backed HK task 59701b2c, reservation 322890 | ✅ Inserted id `f12abc2a` |
+| Cron fires (60s cadence) | ✅ Picked up row |
+| Push v5: signed URL → POST `/api/pms/reservations/322890/attachments` | ✅ TRACK returned 201 + attachment id 9513 |
+| `task_photos.track_attachment_id = "9513"`, `track_synced_at` set, errors=0 | ✅ |
+| GET `/api/pms/reservations/322890/attachments/9513` on TRACK | ✅ 200 — attachment visible |
+| DELETE attachment 9513 + delete task_photos row | ✅ Cleanup complete |
+
+---
+
+## Original discovery (kept for reference)
+
+Initial probe (2026-05-20) showed `POST /work-orders/{id}/attachments` returns 404 across all variants (`/attachments`, `/files`, `/photos`, `/media`, `/documents`). We initially suspected an attachment endpoint was missing entirely.
+
+Kent Schoen (LRMB internal) replied with critical context on 2026-05-22:
+- TRACK API keys are NOT delegated — permissions selected at key creation
+- 2 key types exist: Channel API + Server API
+- `developer.trackhs.com` is the official dev portal (Auth0-gated)
+- TRACK security model is "dangerous by design"
+
+Dev portal v12.0 schema then revealed:
+- `POST /api/files` — universal file upload (returns file id)
+- `POST /api/pms/reservations/{id}/attachments` — reservation-level attachment (accepts `fileUrl` directly, does 1-step upload + link)
+- `POST /api/pms/housekeeping/work-orders/{id}/tasks/{taskId}/comments` — text-only sub-task comments
+- **NO work-order-level attachment endpoint** in either HK or maintenance namespace
+
+The reservation-level path is the correct TRACK pattern — work orders are children of reservations, so attaching at the parent gives field staff visibility from any WO on that reservation.
+
+### Live probe matrix (which paths work with key #51)
+
+| Method | URL | Result | Note |
 |---|---|---|---|
-| POST | `/api/pms/reservations/1/notes` | 422 | Scope OK (rejected on bad data) |
-| POST | `/api/pms/maintenance/work-orders` | 422 | Scope OK (rejected on bad data — CAN CREATE WOs) |
-| POST | `/api/pms/housekeeping/work-orders` | 422 | Scope OK (rejected on bad data — CAN CREATE WOs) |
-| PATCH | `/api/pms/housekeeping/work-orders/{id}` | 200 | UPDATE works (verified no mutation of WO #1 — `updatedAt` unchanged from 2023-03-09) |
-| PATCH | `/api/pms/maintenance/work-orders/{id}` | 200 | UPDATE works |
+| GET | `/api/files` | 200 | Listing existing files works |
+| POST | `/api/files` | 201 | Upload via `{fileUrl, name, type}` payload — but doesn't link to anything |
+| DELETE | `/api/files/{id}` | 204 | Cleanup works |
+| GET | `/api/pms/reservations/{id}/attachments` | 200 | Listing per-reservation attachments |
+| POST | `/api/pms/reservations/{id}/attachments` | 201 | ⭐ **1-step upload + link** with `{fileUrl, name, isPublic}` |
+| DELETE | `/api/pms/reservations/{id}/attachments/{attId}` | 204 | Cleanup works |
+| POST | `/api/crm/companies/{id}/attachments` | 422 (scope OK) | Company-level — not what we need |
+| POST | `/api/pms/housekeeping/work-orders/{id}/tasks/{taskId}/comments` | 422 "Comment is required" (scope OK) | Text-only proof channel |
+| POST | `/api/pms/housekeeping/work-orders/{id}/attachments` | 404 | Endpoint does not exist |
+| POST | `/api/pms/maintenance/work-orders/{id}/attachments` | 404 | Endpoint does not exist |
 
-### Inspection of WO response payload
+### Why the original push fn 404'd
 
-GET `/api/pms/housekeeping/work-orders/1` returns:
-- 33 top-level fields (id, status, scheduledAt, comments, unitId, vendorId, assignees, etc.)
-- `_links`: `self`, `tasks` (sub-tasks like "make beds")
-- `_embedded`: `cleanType`, `unit`, `user`, `reservation`, `nextReservation`
-- **NO `attachments` link, NO `_embedded.attachments`, NO file/photo field**
+We deployed `track-attachment-push` v1-v4 targeting `/api/pms/housekeeping/work-orders/{id}/attachments` — an endpoint that doesn't exist in TRACK's API. The queue was always empty (only AiiA-native test photos), so no real production impact. Architecture rebuilt as v5 + verified end-to-end.
 
-### Negative probe — PATCH with `attachments` field
+---
 
-```http
-PATCH /api/pms/housekeeping/work-orders/1
-{ "attachments": [{ "url": "https://example.com/probe.jpg", "name": "probe" }] }
-```
-→ Returns 200, **but `attachments` is silently dropped** (not in response, not persisted).
+## Code reference
 
-## Root cause hypothesis
+- Edge function: `supabase/functions/track-attachment-push/index.ts` (v5, deployed 2026-05-22)
+- Cron: `pg_cron` job `track-attachment-push-every-1min`
+- Safety gate: `TRACK_ATTACHMENT_PUSH_ENABLED=true` (flipped 2026-05-20 08:43 UTC)
+- Backoff: 1m → 5m → 30m → 4h → 24h, then dead-letter
+- Permanent failures (404/405): dead-letter immediately, no retry
 
-Three possibilities:
-1. **TRACK PMS API doesn't support attachments at all** — file attachments are admin-portal-only (TRACK UI), not API-exposed.
-2. **A different API tier** (TRACK Plus / Enterprise) exposes attachments — not available to LRMB's current plan.
-3. **A different mechanism we haven't found** — perhaps an older REST endpoint, GraphQL, or webhook-based file ingestion.
+---
 
-Emma's original mention of TRACK auto-creating Final Clean / Inspection work orders with attached completion photos may refer to a TRACK-UI-only mechanism, not an API path.
+## Open items
 
-## Impact on D2.3 (photo push to TRACK)
+- ✅ ~~Attachment endpoint discovery~~ — RESOLVED
+- ✅ ~~Write scope confirmation on key #51~~ — confirmed working
+- ✅ ~~Push fn end-to-end~~ — verified live with cleanup
 
-The architecture deployed in `track-attachment-push` cannot push photos to TRACK via the PMS API. Every push attempt would 404.
-
-### Mitigation deployed (track-attachment-push v4, this session)
-
-1. **Detect 404/405 as permanent failure** — don't retry 5× on a definitively-missing endpoint
-2. **Dead-letter immediately** on permanent failure (set `track_sync_attempts = MAX_ATTEMPTS`, `track_next_attempt_at = NULL`)
-3. **Tag error with `PERMANENT:` prefix** so it's distinguishable from transient errors
-4. Photo push currently sees 0 queue depth (only 1 historical photo, on a non-TRACK task, correctly skipped). No functional impact today.
-
-### Working alternative: comments-field embed
-
-The only writable evidence-attachment path we have is **PATCH the work-order `comments` field** with a text reference to the photo.
-
-Two options to surface AiiA photos in TRACK without an attachments endpoint:
-
-**Option A — direct signed URL in comments**
-```http
-PATCH /api/pms/housekeeping/work-orders/{id}
-{ "comments": "AiiA proof of completion (2026-05-20 13:00 UTC):\nhttps://supabase-signed-url-1.jpg\nhttps://supabase-signed-url-2.jpg" }
-```
-Pros: Photos viewable directly from TRACK comments
-Cons: Signed URLs expire (need long TTL or re-sign cron), comments balloon with each upload
-
-**Option B — single AiiA URL pointing to a public proof page**
-```http
-PATCH /api/pms/housekeeping/work-orders/{id}
-{ "comments": "AiiA proof of completion: https://lrmb.vercel.app/proof/{taskId}?t=<HMAC>" }
-```
-Pros: One URL per WO regardless of photo count, no signed URL expiry, all photos visible
-Cons: Requires building a `/proof/{taskId}` page (similar to `/operations` but per-task)
-
-**Recommendation:** Option B if Tony wants TRACK-side photo proof. Option A as quick demo.
-
-Both require Emma's confirmation that we should write to the WO `comments` field (it's a customer-visible audit trail in TRACK).
-
-## Open question for Emma
-
-Add to the existing Q3 email follow-up:
-
-> **Q7: Photo attachments.** Our test probe shows there's no public API endpoint
-> for posting photo attachments to work orders (`POST /work-orders/{id}/attachments`
-> returns 404, as do `/files`, `/photos`, `/media`, `/documents`). Three possibilities:
->
-> (a) Is there a different attachment API path we should be using? If yes, can
->     you share the docs?
-> (b) Is attachment upload an admin-portal-only feature (no API), or a paid TRACK
->     tier we'd need to add?
-> (c) If neither (a) nor (b), are you OK with us embedding photo URLs in the
->     work-order `comments` field as the workaround?
-
-## Status
-
-- ✅ Write scope on key #51: **CONFIRMED** for create/update on reservations + work orders (3 WRITE_OK paths)
-- ✅ No accidental mutations during probe (verified `updatedAt` unchanged on WO #1)
-- ❌ Attachment push (D2.3) architecture: **BLOCKED** until Emma clarifies, or until we pivot to comments-field embed
-- ✅ Push fn hardened (v4): 404 = dead-letter immediately, no retry waste
-- ✅ Photo queue empty in production right now (no functional impact while we await Emma)
+No outstanding blockers on the photo push pipeline. Once real field staff complete TRACK-backed tasks with photos via the AiiA mobile app, the existing cron will pick them up within 60s and push to TRACK reservation attachments automatically.
