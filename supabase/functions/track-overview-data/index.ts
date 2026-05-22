@@ -225,6 +225,21 @@ Deno.serve(async (req) => {
     [...hkCards, ...maintCards].map((t) => t.propertyName).filter((p): p is string => !!p),
   )).sort();
 
+  // v9: trim per-panel arrays to top N to reduce response size.
+  // UI shows max ~30 cards per panel; we send 100 to allow client-side filter.
+  const PANEL_LIMIT = 100;
+  const trimmedHkScheduledToday = hkScheduledToday.slice(0, PANEL_LIMIT);
+  const trimmedHkInProgress = hkInProgress.slice(0, PANEL_LIMIT);
+  const trimmedHkPendingVerify = hkPendingVerify.slice(0, PANEL_LIMIT);
+  const trimmedOpen = open.slice(0, PANEL_LIMIT);
+  const trimmedOverdue = overdue.slice(0, PANEL_LIMIT);
+  const trimmedBlocked = blocked.slice(0, PANEL_LIMIT);
+  const trimmedMaintPendingVerify = maintPendingVerify.slice(0, PANEL_LIMIT);
+  const trimmedArrivalsToday = arrivalsToday.slice(0, PANEL_LIMIT);
+  const trimmedInHouse = inHouse.slice(0, PANEL_LIMIT);
+  const trimmedCheckoutsToday = checkoutsToday.slice(0, PANEL_LIMIT);
+  const trimmedUpcoming7d = upcoming7d.slice(0, PANEL_LIMIT);
+
   return json(200, {
     viewer,
     generatedAt: new Date().toISOString(),
@@ -248,9 +263,24 @@ Deno.serve(async (req) => {
       maintOverdue: maintOverdueTotal.count ?? 0,
     },
     propertyList,
-    reservations: { arrivalsToday, inHouse, checkoutsToday, upcoming7d },
-    housekeeping: { scheduledToday: hkScheduledToday, inProgress: hkInProgress, completedPendingVerify: hkPendingVerify },
-    maintenance: { open, overdue, blocked, completedPendingVerify: maintPendingVerify },
+    // v9: trimmed arrays + total counts for "+ N more" indicator
+    reservations: {
+      arrivalsToday: trimmedArrivalsToday, arrivalsTodayTotal: arrivalsToday.length,
+      inHouse: trimmedInHouse, inHouseTotal: inHouse.length,
+      checkoutsToday: trimmedCheckoutsToday, checkoutsTodayTotal: checkoutsToday.length,
+      upcoming7d: trimmedUpcoming7d, upcoming7dTotal: upcoming7d.length,
+    },
+    housekeeping: {
+      scheduledToday: trimmedHkScheduledToday, scheduledTodayTotal: hkScheduledToday.length,
+      inProgress: trimmedHkInProgress, inProgressTotal: hkInProgress.length,
+      completedPendingVerify: trimmedHkPendingVerify, completedPendingVerifyTotal: hkPendingVerify.length,
+    },
+    maintenance: {
+      open: trimmedOpen, openTotal: open.length,
+      overdue: trimmedOverdue, overdueTotal: overdue.length,
+      blocked: trimmedBlocked, blockedTotal: blocked.length,
+      completedPendingVerify: trimmedMaintPendingVerify, completedPendingVerifyTotal: maintPendingVerify.length,
+    },
     pollHealth: health ?? [],
     recentActivity: recentActivity ?? [],
     recentPhotos: photosWithUrls,
