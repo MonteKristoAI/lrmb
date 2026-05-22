@@ -155,6 +155,16 @@ Deno.serve(async (req) => {
           .eq("track_id", trackUnitId)
           .maybeSingle();
         if (unit) {
+          const status = mapStatus(String(data?.status ?? "").toLowerCase());
+          const nowIso = new Date().toISOString();
+          // Same defensive timestamp backfill as track-poll so a terminal
+          // status from TRACK never violates the CHECK constraint.
+          const startedAt = ["in_progress", "completed", "verified", "processed"].includes(status)
+            ? ((data?.dateStarted as string | undefined) ?? (data?.scheduledAt as string | undefined) ?? nowIso)
+            : ((data?.dateStarted as string | undefined) ?? null);
+          const completedAt = ["completed", "verified", "processed"].includes(status)
+            ? ((data?.completedAt as string | undefined) ?? (data?.dateCompleted as string | undefined) ?? startedAt ?? nowIso)
+            : ((data?.completedAt as string | undefined) ?? null);
           await supabase.from("tasks").upsert(
             {
               external_source: "track",
@@ -164,8 +174,10 @@ Deno.serve(async (req) => {
               task_type: category === "housekeeping" ? "checkout_turnover" : "maintenance",
               unit_id: unit.id,
               property_id: unit.property_id,
-              status: mapStatus(String(data?.status ?? "").toLowerCase()),
-              updated_at: new Date().toISOString(),
+              status,
+              started_at: startedAt,
+              completed_at: completedAt,
+              updated_at: nowIso,
               requires_photo: true,
               requires_note: true,
               requires_timestamp: true,
