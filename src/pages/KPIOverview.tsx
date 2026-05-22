@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/layout/AppShell";
-import { useAllTasks } from "@/hooks/useTasks";
+import { useTasksForAnalytics } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, LineChart, Line, PieChart, Pie, Cell } from "recharts";
@@ -11,7 +11,7 @@ import { MousePointerClick } from "lucide-react";
 const COLORS = ["hsl(var(--primary))", "hsl(var(--status-completed))", "hsl(var(--status-in-progress))", "hsl(var(--status-blocked))"];
 
 const KPIOverview = () => {
-  const { data: tasks = [], isLoading } = useAllTasks();
+  const { data: tasks = [], isLoading } = useTasksForAnalytics();
 
   const { data: adminTouches } = useQuery({
     queryKey: ["admin_touches_avg"],

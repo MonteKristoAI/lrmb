@@ -1,12 +1,12 @@
 import { AppShell } from "@/components/layout/AppShell";
-import { useAllTasks } from "@/hooks/useTasks";
+import { useTasksForAnalytics } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar } from "recharts";
 import { subDays, format } from "date-fns";
 
 const TrendCharts = () => {
-  const { data: tasks = [], isLoading } = useAllTasks();
+  const { data: tasks = [], isLoading } = useTasksForAnalytics();
 
   // Tasks created per day (last 14 days)
   const days = Array.from({ length: 14 }, (_, i) => {
