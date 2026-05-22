@@ -82,7 +82,12 @@ const TaskDetail = () => {
   if (!task) return <AppShell title="Task"><div className="p-4 text-muted-foreground">Task not found.</div></AppShell>;
 
   const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !["completed", "verified", "processed"].includes(task.status);
-  const canAct = task.assigned_to === user?.id || hasAdminAccess();
+  // v33: unassigned "new" tasks should be claimable by any field staff (not just the
+  // person they're already assigned to). Previously Accept never appeared for
+  // unclaimed work, so cleaners had no way to grab their own next job.
+  const canAct = task.assigned_to === user?.id
+    || hasAdminAccess()
+    || (task.status === "new" && !task.assigned_to);
   const isTerminal = ["completed", "verified", "processed"].includes(task.status);
 
   const transition = async (newStatus: TaskStatus, extra?: Record<string, unknown>) => {

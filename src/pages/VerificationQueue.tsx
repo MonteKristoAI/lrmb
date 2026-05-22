@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
-import { useTasksByStatus, useUpdateTask, useAddTaskUpdate } from "@/hooks/useTasks";
+import { useTasksByStatus, useGuardedTaskTransition, useAddTaskUpdate } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/tasks/StatusBadge";
 import { PriorityBadge } from "@/components/tasks/PriorityBadge";
@@ -19,7 +19,7 @@ const VerificationQueue = () => {
   const { data: pending = [], isLoading } = useTasksByStatus(["completed"], {
     orderBy: "completed_at", ascending: false, limit: 500,
   });
-  const updateTask = useUpdateTask();
+  const guardedTransition = useGuardedTaskTransition();
   const addUpdate = useAddTaskUpdate();
   const [verifyingId, setVerifyingId] = useState<string | null>(null);
 
@@ -27,11 +27,19 @@ const VerificationQueue = () => {
     if (!user || verifyingId) return;
     setVerifyingId(taskId);
     try {
-      await updateTask.mutateAsync({ id: taskId, status: "verified", verified_at: new Date().toISOString() });
+      // v33: guarded transition — only verifies if the task is still "completed".
+      // If someone else verified or reopened it in the meantime, this throws.
+      await guardedTransition.mutateAsync({
+        id: taskId,
+        expectedStatus: "completed",
+        status: "verified",
+        verified_at: new Date().toISOString(),
+      });
       await addUpdate.mutateAsync({ task_id: taskId, actor_id: user.id, update_type: "status_change", old_status: "completed", new_status: "verified" });
       toast({ title: "Task verified" });
-    } catch {
-      toast({ title: "Failed to verify task", variant: "destructive" });
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Failed to verify task";
+      toast({ title: msg, variant: "destructive" });
     } finally {
       setVerifyingId(null);
     }
