@@ -137,3 +137,114 @@ input, textarea, [contenteditable] {
   -webkit-user-select: auto;
   user-select: auto;
 }
+
+/* ============================================================
+   Print stylesheet — Operations Overview
+   Designed for B&W or color printing of the dashboard for
+   shift handoffs, manager reviews, or status snapshots.
+   ============================================================ */
+@media print {
+  /* Force light theme on paper */
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* Hide interactive chrome that doesn't belong on paper */
+  [data-print="hide"],
+  button[aria-label="Refresh now"],
+  button[aria-label="Clear search"],
+  button[aria-label="Clear all filters"],
+  input[type="search"],
+  [role="group"][aria-label*="priority"],
+  [role="group"][aria-label*="category"],
+  [role="group"][aria-label*="event"],
+  [role="tablist"] {
+    display: none !important;
+  }
+
+  /* Show every Tab panel on paper, not just the active one. */
+  [role="tabpanel"] {
+    display: block !important;
+    page-break-before: always;
+    margin-top: 1.5rem;
+  }
+  [role="tabpanel"]:first-of-type {
+    page-break-before: avoid;
+  }
+
+  /* Cards: simple borders on paper, no shadows or backdrop blur */
+  .bg-card,
+  .bg-card\/40,
+  .bg-card\/50,
+  .bg-card\/95 {
+    background: #fff !important;
+    border: 1px solid #d4d4d8 !important;
+    backdrop-filter: none !important;
+  }
+  .bg-background,
+  .bg-muted,
+  .bg-muted\/40,
+  .bg-muted\/95 {
+    background: #fff !important;
+  }
+
+  .text-foreground,
+  .text-card-foreground { color: #111 !important; }
+  .text-muted-foreground { color: #555 !important; }
+  .text-accent,
+  .text-accent-foreground { color: #075985 !important; } /* darken teal for paper contrast */
+  .text-destructive { color: #b91c1c !important; }
+
+  .border-border,
+  .border-accent,
+  .border-accent\/30,
+  .border-accent\/40,
+  .border-amber-500\/40 { border-color: #d4d4d8 !important; }
+
+  /* Sticky headers behave as block on paper */
+  .sticky { position: static !important; }
+
+  /* Avoid breaks inside individual task/reservation cards */
+  ul[aria-label] > li,
+  [role="article"],
+  .card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  /* Drill-down dialogs hidden on paper */
+  [role="dialog"] { display: none !important; }
+
+  /* Generous margins */
+  @page {
+    margin: 16mm 14mm;
+    size: A4;
+  }
+}
+
+/* ============================================================
+   Mobile polish: touch targets + smooth tap highlight
+   ============================================================ */
+@media (max-width: 640px) {
+  /* Enlarge any small clickable to meet 44x44 target */
+  button[aria-label],
+  a[role="button"] {
+    min-height: 36px;
+    min-width: 36px;
+  }
+  /* Tighter tab list scrolling */
+  [role="tablist"] {
+    scroll-snap-type: x mandatory;
+  }
+  [role="tab"] {
+    scroll-snap-align: start;
+  }
+}
+
+/* Remove Safari/Chrome's blue tap flash on iOS */
+* {
+  -webkit-tap-highlight-color: transparent;
+}

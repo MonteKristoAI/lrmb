@@ -13,7 +13,7 @@ import {
   ArrowDownToLine, ArrowUpFromLine, Camera, Activity, Building2,
   Image as ImageIcon, ShieldAlert, TrendingUp, TrendingDown, Minus,
   ListChecks, MapPin, Users, AlertTriangle, X, Calendar, FileText, Tag,
-  Link2, History, User, Search, Filter,
+  Link2, History, User, Search, Filter, Printer,
 } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 
@@ -442,7 +442,7 @@ export default function OperationsOverview() {
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
+            <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground sm:gap-3">
               <PropertyFilter
                 propertyList={data.propertyList}
                 value={propertyFilter}
@@ -461,9 +461,21 @@ export default function OperationsOverview() {
                   isFetching && "opacity-50 cursor-wait",
                 )}
                 aria-label="Refresh now"
+                data-print="hide"
               >
                 <RefreshCw className={cn("h-3.5 w-3.5", (isFetching || justRefreshed) && "animate-spin")} />
                 <span>Refresh</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="hidden sm:inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium hover:bg-muted transition"
+                aria-label="Print or save as PDF"
+                data-print="hide"
+                title="Print or save as PDF (Cmd/Ctrl+P)"
+              >
+                <Printer className="h-3.5 w-3.5" />
+                <span>Print</span>
               </button>
             </div>
           </div>
@@ -686,6 +698,7 @@ function FilterBar({
   return (
     <section
       aria-label="Search and filters"
+      data-print="hide"
       className="rounded-lg border border-border bg-card/50 px-3 py-3 sm:px-4 sm:py-3"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
