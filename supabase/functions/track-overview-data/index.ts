@@ -123,7 +123,7 @@ Deno.serve(async (req) => {
   const { data: maintTasks } = await supabase.from("tasks")
     .select("id, title, status, due_at, completed_at, blocked_reason, unit_id, external_id, updated_at")
     .eq("task_category", "maintenance").in("status", ["new", "assigned", "in_progress", "blocked", "completed"])
-    .order("updated_at", { ascending: false }).limit(200);
+    .order("updated_at", { ascending: false }).limit(1000);
   const open = (maintTasks ?? []).filter((t) => ["new", "assigned", "in_progress"].includes(t.status as string)).map(toTaskCard);
   const overdue = (maintTasks ?? []).filter((t) => t.due_at && new Date(t.due_at as string) < now && !["completed", "verified"].includes(t.status as string)).map(toTaskCard);
   const blocked = (maintTasks ?? []).filter((t) => t.status === "blocked").map(toTaskCard);
@@ -132,6 +132,7 @@ Deno.serve(async (req) => {
   const { data: health } = await supabase.from("v_track_poll_latest").select("*");
   const { data: recentActivity } = await supabase.from("v_operations_recent_activity").select("*");
   const { data: recentPhotos } = await supabase.from("v_operations_recent_photos").select("*");
+  const { data: damageClaims } = await supabase.from("v_operations_damage_claims").select("*").limit(50);
 
   const STORAGE_BUCKET = "task-photos";
   const photosWithUrls = await Promise.all((recentPhotos ?? []).map(async (p) => {
@@ -159,6 +160,13 @@ Deno.serve(async (req) => {
     pollHealth: health ?? [],
     recentActivity: recentActivity ?? [],
     recentPhotos: photosWithUrls,
+    damageClaims: {
+      total: damageClaims?.length ?? 0,
+      overdue: damageClaims?.filter((c) => c.deadline_status === "overdue").length ?? 0,
+      urgent: damageClaims?.filter((c) => c.deadline_status === "urgent").length ?? 0,
+      approaching: damageClaims?.filter((c) => c.deadline_status === "approaching").length ?? 0,
+      items: damageClaims ?? [],
+    },
   });
 });
 
