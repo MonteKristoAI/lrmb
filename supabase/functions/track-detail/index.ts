@@ -108,8 +108,18 @@ Deno.serve(async (req) => {
         .limit(100),
     ]);
 
-    if (taskRes.error || !taskRes.data) {
-      return json(404, { error: "task_not_found", message: taskRes.error?.message ?? "no task" });
+    // Distinguish "no task with that id" (404) from "DB query failed" (500)
+    if (taskRes.error) {
+      return json(500, { error: "db_query_failed", query: "task", message: taskRes.error.message });
+    }
+    if (!taskRes.data) {
+      return json(404, { error: "task_not_found" });
+    }
+    if (photosRes.error) {
+      return json(500, { error: "db_query_failed", query: "photos", message: photosRes.error.message });
+    }
+    if (activityRes.error) {
+      return json(500, { error: "db_query_failed", query: "activity", message: activityRes.error.message });
     }
 
     // Sign photo URLs
@@ -169,6 +179,13 @@ Deno.serve(async (req) => {
         .order("updated_at", { ascending: false }),
     ]);
 
+    // Distinguish DB failure (500) from "reservation not in our cache" (404)
+    if (resRes.error) {
+      return json(500, { error: "db_query_failed", query: "reservation_events", message: resRes.error.message });
+    }
+    if (tasksRes.error) {
+      return json(500, { error: "db_query_failed", query: "linked_tasks", message: tasksRes.error.message });
+    }
     if (!resRes.data || resRes.data.length === 0) {
       return json(404, { error: "reservation_not_found" });
     }

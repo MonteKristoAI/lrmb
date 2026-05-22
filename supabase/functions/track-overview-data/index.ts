@@ -1,4 +1,12 @@
-// v14 (2026-05-22): SQL-side date-window filter on mv_track_reservations_latest
+// v15 (2026-05-22): Miami-local date windows + error surfacing
+//   - date windows previously computed in UTC, causing arrivals/checkouts to
+//     drift +/-1 day around UTC midnight (which is 8 PM EST / 7 PM EDT in Miami).
+//   - now: arrival_date / departure_date (date-only strings) are compared
+//     against today's date in America/New_York timezone, which matches how
+//     LRMB / TRACK think about a "stay day".
+//   - Promise.all now returns full responses so a single failing query can
+//     surface as 500 instead of silently returning {data: null}.
+// v14: SQL-side date-window filter on mv_track_reservations_latest
 //   - fixes v13 bug: PostgREST 1000-row default cut off relevant reservations
 //   - now: arrival in [today-14d, today+8d] OR departure today -> ~150 rows
 // v13: switch reservations from raw payload_json to mv_track_reservations_latest
@@ -94,33 +102,33 @@ Deno.serve(async (req) => {
   const supabase = createClient(supabaseUrl, serviceRoleKey);
 
   const now = new Date();
-  const startOfToday = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
-  const endOfToday = new Date(startOfToday.getTime() + 86400 * 1000);
-  const in7d = new Date(endOfToday.getTime() + 7 * 86400 * 1000);
-  const weekAgo = new Date(now.getTime() - 7 * 86400 * 1000);
-  const twoWeeksAgo = new Date(now.getTime() - 14 * 86400 * 1000);
+  // v15: compute today's date in America/New_York (LRMB property timezone) so
+  // arrivals/checkouts buckets align with how Miami staff think about "today".
+  // Returns a YYYY-MM-DD string ready to compare to TRACK's date-only fields.
+  const miamiToday = todayInMiami(now);
+  const miamiTomorrow = addDaysISO(miamiToday, 1);
+  const miamiPlus7 = addDaysISO(miamiToday, 7);
+  const miamiPlus8 = addDaysISO(miamiToday, 8);
+  const miamiMinus14 = addDaysISO(miamiToday, -14);
+  // For "in-house" we still need a UTC timestamp comparison (uses arrival_date
+  // and departure_date strings — a guest is in-house if arrival <= today <= departure).
+  const startOfToday = new Date(`${miamiToday}T00:00:00-04:00`);
+  const endOfToday = new Date(`${miamiTomorrow}T00:00:00-04:00`);
 
   // v12: fire ALL reads in parallel. Total wait = max(query), not sum(query).
-  const [
-    { data: unitsRows },
-    { data: reservationsRaw },
-    { data: hkTasks },
-    { data: maintTasks },
-    { data: kpiRow },
-    { data: health },
-    { data: recentActivity },
-    { data: recentPhotos },
-    { data: damageClaims },
-  ] = await Promise.all([
+  // v15: capture full responses so a single failing query can be surfaced
+  // instead of silently returning empty data.
+  const results = await Promise.all([
     supabase.from("units")
       .select("id, unit_code, short_name, track_id, property_id, properties(name)")
       .eq("active", true),
     // v13: use materialized view with pre-extracted JSON fields (200B/row vs 9KB/row).
     // v14: filter at SQL: only reservations relevant to the dashboard date windows
     // (arrival in [today-7d, today+8d] OR departure in [today, today+1d]) -> ~150 rows vs 10k.
+    // v15: compare arrival_date/departure_date strings against Miami-local YYYY-MM-DD.
     supabase.from("mv_track_reservations_latest")
       .select("external_id, event_at, event_type, unit_id, arrival_date, departure_date, status, occupants, nights")
-      .or(`and(arrival_date.gte.${new Date(startOfToday.getTime() - 14 * 86400 * 1000).toISOString().slice(0,10)},arrival_date.lt.${new Date(startOfToday.getTime() + 8 * 86400 * 1000).toISOString().slice(0,10)}),and(departure_date.gte.${startOfToday.toISOString().slice(0,10)},departure_date.lt.${endOfToday.toISOString().slice(0,10)})`)
+      .or(`and(arrival_date.gte.${miamiMinus14},arrival_date.lt.${miamiPlus8}),and(departure_date.gte.${miamiToday},departure_date.lt.${miamiTomorrow})`)
       .limit(2000),
     supabase.from("tasks")
       .select("id, title, status, priority, housekeeping_type, started_at, completed_at, due_at, scheduled_for, unit_id, external_id, updated_at, reservation_id")
@@ -136,6 +144,28 @@ Deno.serve(async (req) => {
     supabase.from("v_operations_recent_photos").select("*"),
     supabase.from("v_operations_damage_claims").select("*").limit(50),
   ]);
+
+  // v15: surface any query failures instead of silently returning empty data
+  const queryNames = ["units", "reservations", "hk_tasks", "maint_tasks", "kpi_mv", "poll_health", "recent_activity", "recent_photos", "damage_claims"];
+  const firstError = results.findIndex((r) => r.error);
+  if (firstError >= 0) {
+    return json(500, {
+      error: "db_query_failed",
+      query: queryNames[firstError],
+      message: results[firstError].error?.message ?? "unknown",
+    });
+  }
+  const [
+    { data: unitsRows },
+    { data: reservationsRaw },
+    { data: hkTasks },
+    { data: maintTasks },
+    { data: kpiRow },
+    { data: health },
+    { data: recentActivity },
+    { data: recentPhotos },
+    { data: damageClaims },
+  ] = results;
 
   // Build unit lookup map: { unit_id (uuid): {unit_code, property_name, track_id}, track_id (int): same }
   const unitsByUuid = new Map<string, Unit>();
@@ -156,6 +186,8 @@ Deno.serve(async (req) => {
   }
 
   // === Reservations === (already deduped + extracted in mv_track_reservations_latest)
+  // v15: bucket by comparing arrival_date / departure_date (YYYY-MM-DD strings)
+  // against Miami-local today instead of UTC Date arithmetic.
   const arrivalsToday: ReturnType<typeof toReservationCard>[] = [];
   const inHouse: ReturnType<typeof toReservationCard>[] = [];
   const checkoutsToday: ReturnType<typeof toReservationCard>[] = [];
@@ -163,12 +195,12 @@ Deno.serve(async (req) => {
   for (const row of reservationsRaw ?? []) {
     const card = toReservationCard(row, unitsByTrackId);
     if (!card) continue;
-    const arr = card.arrivalDate ? new Date(card.arrivalDate) : null;
-    const dep = card.departureDate ? new Date(card.departureDate) : null;
-    if (arr && arr >= startOfToday && arr < endOfToday) arrivalsToday.push(card);
-    if (arr && dep && arr < now && dep > now) inHouse.push(card);
-    if (dep && dep >= startOfToday && dep < endOfToday) checkoutsToday.push(card);
-    if (arr && arr >= endOfToday && arr < in7d) upcoming7d.push(card);
+    const arr = card.arrivalDate;  // "YYYY-MM-DD" string
+    const dep = card.departureDate;
+    if (arr === miamiToday) arrivalsToday.push(card);
+    if (arr && dep && arr <= miamiToday && dep >= miamiTomorrow) inHouse.push(card);
+    if (dep === miamiToday) checkoutsToday.push(card);
+    if (arr && arr > miamiToday && arr < miamiPlus8) upcoming7d.push(card);
   }
 
   // === Housekeeping === (data already fetched in Promise.all above)
@@ -321,6 +353,23 @@ function toTaskCard(t: Record<string, unknown>, category: "housekeeping" | "main
 function inDayWindow(iso: string, startUTC: Date, endUTC: Date): boolean {
   const d = new Date(iso);
   return d >= startUTC && d < endUTC;
+}
+
+// Returns today's date in America/New_York as "YYYY-MM-DD".
+// Uses Intl.DateTimeFormat which handles DST transitions correctly.
+function todayInMiami(now: Date): string {
+  const fmt = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/New_York",
+    year: "numeric", month: "2-digit", day: "2-digit",
+  });
+  return fmt.format(now); // "en-CA" returns YYYY-MM-DD natively
+}
+
+function addDaysISO(iso: string, delta: number): string {
+  const [y, m, d] = iso.split("-").map(Number);
+  // Date.UTC + setUTCDate handles month/year rollover safely
+  const t = Date.UTC(y, m - 1, d) + delta * 86400 * 1000;
+  return new Date(t).toISOString().slice(0, 10);
 }
 
 function json(status: number, body: unknown): Response {

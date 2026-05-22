@@ -217,6 +217,18 @@ function priorityMatchesFilter(t: TaskCard, prio: string): boolean {
   return p === prio;
 }
 
+function dedupeById<T extends { id: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const it of items) {
+    if (!seen.has(it.id)) {
+      seen.add(it.id);
+      out.push(it);
+    }
+  }
+  return out;
+}
+
 function deltaIcon(curr: number, prev: number) {
   if (prev === 0 && curr === 0) return { Icon: Minus, color: "text-muted-foreground", label: "no change" };
   if (prev === 0) return { Icon: TrendingUp, color: "text-[hsl(152_60%_60%)]", label: "new" };
@@ -293,9 +305,12 @@ function statusLabel(s: string): string {
 export default function OperationsOverview() {
   const [params, setParams] = useSearchParams();
   const token = params.get("t") ?? "";
-  const [propertyFilter, setPropertyFilter] = useState<string>(params.get("property") ?? "ALL");
-  const [searchQuery, setSearchQuery] = useState<string>(params.get("q") ?? "");
-  const [priorityFilter, setPriorityFilter] = useState<string>(params.get("prio") ?? "ALL");
+  // v27: derive filter state directly from URL params so browser back/forward
+  // navigation keeps the UI in sync. Previously these were copied into local
+  // state on first render and never re-synced.
+  const propertyFilter = params.get("property") ?? "ALL";
+  const searchQuery = params.get("q") ?? "";
+  const priorityFilter = params.get("prio") ?? "ALL";
   const activeTab = params.get("tab") ?? "today";
   const detailParam = params.get("detail"); // "task:UUID" or "res:ID"
 
@@ -309,7 +324,6 @@ export default function OperationsOverview() {
   }, [setParams]);
 
   const setProperty = useCallback((v: string) => {
-    setPropertyFilter(v);
     setParams((prev) => {
       const next = new URLSearchParams(prev);
       if (v === "ALL") next.delete("property");
@@ -319,7 +333,6 @@ export default function OperationsOverview() {
   }, [setParams]);
 
   const setSearch = useCallback((v: string) => {
-    setSearchQuery(v);
     setParams((prev) => {
       const next = new URLSearchParams(prev);
       if (v.trim() === "") next.delete("q");
@@ -329,7 +342,6 @@ export default function OperationsOverview() {
   }, [setParams]);
 
   const setPriority = useCallback((v: string) => {
-    setPriorityFilter(v);
     setParams((prev) => {
       const next = new URLSearchParams(prev);
       if (v === "ALL") next.delete("prio");
@@ -428,9 +440,6 @@ export default function OperationsOverview() {
     (filtered?.maintenance?.completedPendingVerify.length ?? 0);
 
   const clearAllFilters = useCallback(() => {
-    setPropertyFilter("ALL");
-    setSearchQuery("");
-    setPriorityFilter("ALL");
     setParams((prev) => {
       const next = new URLSearchParams(prev);
       next.delete("property"); next.delete("q"); next.delete("prio");
@@ -600,7 +609,7 @@ export default function OperationsOverview() {
                   title="Cleans in motion"
                   icon={Sparkles}
                   accent="#0680A2"
-                  tasks={[...filtered.housekeeping.scheduledToday, ...filtered.housekeeping.inProgress]}
+                  tasks={dedupeById([...filtered.housekeeping.scheduledToday, ...filtered.housekeeping.inProgress])}
                   emptyLabel="No cleans scheduled for today"
                 onOpenDetail={openDetail} />
                 <TaskPanel
@@ -853,7 +862,7 @@ function ReservationPanel({ icon: Icon, accent, label, cards, onOpenDetail }: {
           <ul className="space-y-2 max-h-64 overflow-auto" aria-label={label}>
             {cards.slice(0, 12).map((c) => (
               <li
-                key={c.externalId}
+                key={`${c.externalId ?? "no-id"}-${c.arrivalDate ?? ""}-${c.unitId ?? ""}`}
                 onClick={() => onOpenDetail?.("res", c.externalId)}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpenDetail?.("res", c.externalId); } }}
                 role={onOpenDetail ? "button" : undefined}
@@ -954,25 +963,37 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
 function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
   return (
     <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-      {(photos ?? []).map((p) => (
-        <a
-          key={p.photo_id}
-          href={p.signed_url ?? "#"}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="group relative overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition aspect-square"
-          title={`${p.task_title ?? ""} — ${p.task_status} — ${p.uploaded_by_name ?? "unknown"}`}
-        >
-          {p.signed_url ? (
-            <img src={p.signed_url} alt={p.caption ?? p.task_title ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">No preview</div>
-          )}
+      {(photos ?? []).map((p) => {
+        const tooltip = `${p.task_title ?? ""} — ${p.task_status} — ${p.uploaded_by_name ?? "unknown"}`;
+        const caption = (
           <span className="absolute bottom-0 inset-x-0 truncate bg-gradient-to-t from-black/85 to-transparent px-2 py-1 text-[10px] text-white">
             {p.task_title ?? "Photo"} · {safeDistance(p.uploaded_at)}
           </span>
-        </a>
-      ))}
+        );
+        // Render <a> only when there's an actual URL; otherwise a non-clickable div.
+        return p.signed_url ? (
+          <a
+            key={p.photo_id}
+            href={p.signed_url}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="group relative overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition aspect-square"
+            title={tooltip}
+          >
+            <img src={p.signed_url} alt={p.caption ?? p.task_title ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
+            {caption}
+          </a>
+        ) : (
+          <div
+            key={p.photo_id}
+            className="group relative overflow-hidden rounded-md border border-border bg-card aspect-square"
+            title={tooltip}
+          >
+            <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">No preview</div>
+            {caption}
+          </div>
+        );
+      })}
     </div>
   );
 }
@@ -1010,10 +1031,19 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
   }, [filtered]);
 
   const totalEvents = filtered.length;
+  // v27: compute category counts in a single pass instead of filtering twice per render
+  const categoryCounts = useMemo(() => {
+    let hk = 0, mt = 0;
+    for (const a of activity) {
+      if (a.task_category === "housekeeping") hk++;
+      else if (a.task_category === "maintenance") mt++;
+    }
+    return { all: activity.length, housekeeping: hk, maintenance: mt };
+  }, [activity]);
   const categoryChips = [
-    { value: "all" as const, label: `All (${activity.length})` },
-    { value: "housekeeping" as const, label: `Housekeeping (${activity.filter(a => a.task_category === "housekeeping").length})` },
-    { value: "maintenance" as const, label: `Maintenance (${activity.filter(a => a.task_category === "maintenance").length})` },
+    { value: "all" as const, label: `All (${categoryCounts.all})` },
+    { value: "housekeeping" as const, label: `Housekeeping (${categoryCounts.housekeeping})` },
+    { value: "maintenance" as const, label: `Maintenance (${categoryCounts.maintenance})` },
   ];
   const eventChips = [
     { value: "all" as const, label: "All events" },
@@ -1467,13 +1497,17 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
         <div>
           <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">Photos ({taskPhotos.length})</h4>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-            {taskPhotos.map((ph) => (
-              <a key={ph.id} href={ph.signed_url ?? "#"} target="_blank" rel="noreferrer noopener" className="block aspect-square overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition">
-                {ph.signed_url
-                  ? <img src={ph.signed_url} alt={ph.caption ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
-                  : <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">No preview</div>}
-              </a>
-            ))}
+            {taskPhotos.map((ph) =>
+              ph.signed_url ? (
+                <a key={ph.id} href={ph.signed_url} target="_blank" rel="noreferrer noopener" className="block aspect-square overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition">
+                  <img src={ph.signed_url} alt={ph.caption ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
+                </a>
+              ) : (
+                <div key={ph.id} className="flex aspect-square w-full items-center justify-center rounded-md border border-border bg-card text-xs text-muted-foreground" title="No preview available">
+                  No preview
+                </div>
+              ),
+            )}
           </div>
         </div>
       )}
@@ -1615,7 +1649,7 @@ function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPa
           </h4>
           <ul className="text-xs space-y-1 max-h-48 overflow-auto rounded-md border border-border bg-muted/20 p-2">
             {eventHistory.map((ev, i) => (
-              <li key={i} className="flex items-center justify-between gap-2">
+              <li key={`${ev.eventType}-${ev.eventAt}-${ev.createdAt}-${i}`} className="flex items-center justify-between gap-2">
                 <span className="font-mono">{ev.eventType}</span>
                 <span className="text-muted-foreground tabular-nums" title={safeFormat(ev.eventAt, "PPpp")}>
                   {safeDistance(ev.eventAt)}
