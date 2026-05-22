@@ -1,6 +1,5 @@
 import { AppShell } from "@/components/layout/AppShell";
-import { useTasksForAnalytics } from "@/hooks/useTasks";
-import { useProfiles } from "@/hooks/useProperties";
+import { useAnalyticsStaffWorkload } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from "recharts";
@@ -8,16 +7,18 @@ import { useNavigate } from "react-router-dom";
 
 const StaffWorkload = () => {
   const navigate = useNavigate();
-  const { data: tasks = [], isLoading: loadingTasks } = useTasksForAnalytics();
-  const { data: profiles = [], isLoading: loadingProfiles } = useProfiles();
-  const isLoading = loadingTasks || loadingProfiles;
+  // QA P1 Q-PERF-7..10: server-side aggregation per profile.
+  const { data: rows = [], isLoading } = useAnalyticsStaffWorkload();
 
-  const staffData = profiles.map((p) => {
-    const assigned = tasks.filter((t) => t.assigned_to === p.id);
-    const active = assigned.filter((t) => !["completed", "verified", "processed"].includes(t.status));
-    const done = assigned.filter((t) => ["completed", "verified", "processed"].includes(t.status));
-    return { id: p.id, name: p.full_name || p.email || "Unknown", active: active.length, done: done.length, total: assigned.length };
-  }).filter((s) => s.total > 0).sort((a, b) => b.active - a.active);
+  const staffData = rows
+    .filter((s) => s.assigned > 0)
+    .map((s) => ({
+      id: s.profile_id,
+      name: s.full_name || "Unknown",
+      active: s.active,
+      done: s.done,
+      total: s.assigned,
+    }));
 
   return (
     <AppShell title="Staff Workload">
