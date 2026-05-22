@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { AlertCircle, CheckCircle2, Clock, Home, RefreshCw, Wrench, Eye, Sparkles, ArrowDownToLine, ArrowUpFromLine, Camera, Activity, Database, Image as ImageIcon } from "lucide-react";
+import { AlertCircle, CheckCircle2, Clock, Home, RefreshCw, Wrench, Eye, Sparkles, ArrowDownToLine, ArrowUpFromLine, Camera, Activity, Database, Image as ImageIcon, ShieldAlert } from "lucide-react";
 import { format, formatDistanceToNow } from "date-fns";
 
 type Health =
@@ -92,6 +92,31 @@ interface OverviewPayload {
   pollHealth: Health[];
   recentActivity?: ActivityRow[];
   recentPhotos?: PhotoRow[];
+  damageClaims?: {
+    total: number;
+    overdue: number;
+    urgent: number;
+    approaching: number;
+    items: DamageClaim[];
+  };
+}
+
+interface DamageClaim {
+  task_id: string;
+  track_wo: string | null;
+  title: string;
+  damage_classification: string;
+  claim_status: string | null;
+  claim_filed_amount: number | null;
+  claim_approved_amount: number | null;
+  claim_id: string | null;
+  claim_provider: string | null;
+  claim_filed_at: string | null;
+  claim_deadline_at: string | null;
+  deadline_status: "overdue" | "urgent" | "approaching" | "fine" | null;
+  hours_to_deadline: number | null;
+  unit_code: string | null;
+  property: string | null;
 }
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL as string | undefined;
@@ -217,6 +242,13 @@ export default function OperationsOverview() {
             <TaskQueueCard title="Pending verification" tasks={data.maintenance.completedPendingVerify} emptyLabel="Caught up" tone="warning" />
           </div>
         </section>
+
+        {data.damageClaims && data.damageClaims.total > 0 && (
+          <section aria-labelledby="claims-heading" className="space-y-4">
+            <SectionHeading id="claims-heading" icon={ShieldAlert} title="Damage claims (active)" />
+            <DamageClaimsTable claims={data.damageClaims} />
+          </section>
+        )}
 
         {data.recentPhotos && data.recentPhotos.length > 0 && (
           <section aria-labelledby="photos-heading" className="space-y-4">
@@ -433,6 +465,65 @@ function PollHealthBanner({ health }: { health: Health[] }) {
         {". Data on this page may be stale. Check track_poll_state."}
       </div>
     </div>
+  );
+}
+
+function DamageClaimsTable({ claims }: { claims: { total: number; overdue: number; urgent: number; approaching: number; items: DamageClaim[] } }) {
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center gap-2 text-sm">
+          <span>{claims.total} active claim{claims.total !== 1 ? "s" : ""}</span>
+          {claims.overdue > 0 && (
+            <Badge variant="destructive" className="text-xs">{claims.overdue} overdue</Badge>
+          )}
+          {claims.urgent > 0 && (
+            <Badge className="bg-amber-500 text-amber-50 text-xs">{claims.urgent} urgent (&lt;3d)</Badge>
+          )}
+          {claims.approaching > 0 && (
+            <Badge variant="secondary" className="text-xs">{claims.approaching} approaching (&lt;7d)</Badge>
+          )}
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs">
+            <thead className="text-muted-foreground border-b">
+              <tr>
+                <th className="text-left py-2 pr-3">Deadline</th>
+                <th className="text-left py-2 pr-3">Property / Unit</th>
+                <th className="text-left py-2 pr-3">Title</th>
+                <th className="text-left py-2 pr-3">Status</th>
+                <th className="text-right py-2 pr-3">Filed amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {claims.items.slice(0, 20).map((c) => (
+                <tr key={c.task_id} className="border-b border-border/40">
+                  <td className="py-2 pr-3">
+                    {c.deadline_status === "overdue" && <Badge variant="destructive" className="text-xs">Overdue</Badge>}
+                    {c.deadline_status === "urgent" && <Badge className="bg-amber-500 text-amber-50 text-xs">Urgent</Badge>}
+                    {c.deadline_status === "approaching" && <Badge variant="secondary" className="text-xs">Approaching</Badge>}
+                    {c.deadline_status === "fine" && <span className="text-muted-foreground">—</span>}
+                    {c.hours_to_deadline != null && (
+                      <span className="ml-2 text-muted-foreground">
+                        {Math.abs(c.hours_to_deadline) < 48
+                          ? `${Math.round(c.hours_to_deadline)}h`
+                          : `${Math.round(c.hours_to_deadline / 24)}d`}
+                      </span>
+                    )}
+                  </td>
+                  <td className="py-2 pr-3">{c.property ?? "—"} {c.unit_code && <span className="text-muted-foreground">/ {c.unit_code}</span>}</td>
+                  <td className="py-2 pr-3 max-w-md truncate">{c.title}</td>
+                  <td className="py-2 pr-3">{c.claim_status ?? "pending"}</td>
+                  <td className="py-2 pr-3 text-right">{c.claim_filed_amount != null ? `$${c.claim_filed_amount.toLocaleString()}` : "—"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
 
