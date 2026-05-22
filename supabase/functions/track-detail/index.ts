@@ -160,8 +160,8 @@ Deno.serve(async (req) => {
       supabase
         .from("tasks")
         .select(`
-          id, title, status, priority, task_category, housekeeping_type, external_id,
-          due_at, scheduled_for, started_at, completed_at, updated_at,
+          id, title, status, priority, task_category, housekeeping_type, task_type, external_id,
+          description, due_at, scheduled_for, started_at, completed_at, updated_at,
           units!tasks_unit_id_fkey(unit_code, short_name),
           properties!tasks_property_id_fkey(name)
         `)
