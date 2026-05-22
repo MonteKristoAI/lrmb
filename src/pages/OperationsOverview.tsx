@@ -526,41 +526,67 @@ export default function OperationsOverview() {
           onClear={clearAllFilters}
         />
 
-        {/* KPI STRIP */}
+        {/* KPI STRIP — when a property filter is active, the "in progress" + "overdue"
+            tiles reflect the filter; the week-over-week completed tiles stay portfolio-
+            wide because they're served from a global materialized view. The label
+            below the strip surfaces this distinction honestly. */}
         <section aria-label="Key metrics">
-          <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-            <KpiTile
-              icon={Sparkles}
-              accent="#0680A2"
-              label="Cleans completed (7d)"
-              value={data.kpis.hkCompleted.thisWeek}
-              delta={deltaIcon(data.kpis.hkCompleted.thisWeek, data.kpis.hkCompleted.lastWeek)}
-              context={`vs ${data.kpis.hkCompleted.lastWeek} last week`}
-            />
-            <KpiTile
-              icon={Wrench}
-              accent="#1D1F28"
-              label="Maintenance completed (7d)"
-              value={data.kpis.maintCompleted.thisWeek}
-              delta={deltaIcon(data.kpis.maintCompleted.thisWeek, data.kpis.maintCompleted.lastWeek)}
-              context={`vs ${data.kpis.maintCompleted.lastWeek} last week`}
-            />
-            <KpiTile
-              icon={Activity}
-              accent="#FF5C5C"
-              label="In progress now"
-              value={(data.kpis.hkInProgress ?? filtered.housekeeping.inProgress.length) + (data.kpis.maintInProgress ?? 0)}
-              context={`${data.kpis.hkInProgress ?? filtered.housekeeping.inProgress.length} cleans · ${data.kpis.maintInProgress ?? 0} maint`}
-            />
-            <KpiTile
-              icon={AlertTriangle}
-              accent={(data.kpis.maintOverdue ?? filtered.maintenance.overdue.length) > 0 ? "#cc0000" : "#999"}
-              label="Overdue maintenance"
-              value={data.kpis.maintOverdue ?? filtered.maintenance.overdue.length}
-              context={(data.kpis.maintOverdue ?? filtered.maintenance.overdue.length) === 0 ? "all on track" : "needs attention"}
-              alert={(data.kpis.maintOverdue ?? filtered.maintenance.overdue.length) > 0}
-            />
-          </div>
+          {(() => {
+            const propertyFiltered = propertyFilter !== "ALL";
+            // "Now" metrics: when property-filtered, count from filtered task arrays.
+            // Otherwise read from MV (which has portfolio-wide counts).
+            const hkInProgressNow = propertyFiltered
+              ? filtered.housekeeping.inProgress.length
+              : (data.kpis.hkInProgress ?? filtered.housekeeping.inProgress.length);
+            const maintInProgressNow = propertyFiltered
+              ? filtered.maintenance.open.filter((t) => t.status === "in_progress").length
+              : (data.kpis.maintInProgress ?? 0);
+            const maintOverdueNow = propertyFiltered
+              ? filtered.maintenance.overdue.length
+              : (data.kpis.maintOverdue ?? filtered.maintenance.overdue.length);
+            return (
+              <>
+                <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+                  <KpiTile
+                    icon={Sparkles}
+                    accent="#0680A2"
+                    label={`Cleans completed (7d)${propertyFiltered ? " — portfolio" : ""}`}
+                    value={data.kpis.hkCompleted.thisWeek}
+                    delta={deltaIcon(data.kpis.hkCompleted.thisWeek, data.kpis.hkCompleted.lastWeek)}
+                    context={`vs ${data.kpis.hkCompleted.lastWeek} last week`}
+                  />
+                  <KpiTile
+                    icon={Wrench}
+                    accent="#1D1F28"
+                    label={`Maintenance completed (7d)${propertyFiltered ? " — portfolio" : ""}`}
+                    value={data.kpis.maintCompleted.thisWeek}
+                    delta={deltaIcon(data.kpis.maintCompleted.thisWeek, data.kpis.maintCompleted.lastWeek)}
+                    context={`vs ${data.kpis.maintCompleted.lastWeek} last week`}
+                  />
+                  <KpiTile
+                    icon={Activity}
+                    accent="#FF5C5C"
+                    label={`In progress now${propertyFiltered ? ` — ${propertyFilter}` : ""}`}
+                    value={hkInProgressNow + maintInProgressNow}
+                    context={`${hkInProgressNow} cleans · ${maintInProgressNow} maint`}
+                  />
+                  <KpiTile
+                    icon={AlertTriangle}
+                    accent={maintOverdueNow > 0 ? "#cc0000" : "#999"}
+                    label={`Overdue maintenance${propertyFiltered ? ` — ${propertyFilter}` : ""}`}
+                    value={maintOverdueNow}
+                    context={maintOverdueNow === 0 ? "all on track" : "needs attention"}
+                    alert={maintOverdueNow > 0}
+                  />
+                </div>
+                {propertyFiltered && (
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    "In progress" and "Overdue" reflect <strong className="text-foreground">{propertyFilter}</strong>. Weekly completion counts stay portfolio-wide.
+                  </p>
+                )}
+              </>
+            );
+          })()}
         </section>
 
         {/* TABS */}
@@ -658,7 +684,7 @@ export default function OperationsOverview() {
             <SectionHeading title="Recent activity" subtitle="Last 24 hours · status changes, completions, assignments" />
             {data.recentActivity && data.recentActivity.length > 0
               ? <ActivityFeed activity={data.recentActivity} onOpenDetail={openDetail} />
-              : <EmptyState message="No activity in the last 24 hours yet." />}
+              : <EmptyState icon={Activity} message="No activity in the last 24 hours yet." hint="Status changes, completions, and notes from field staff show up here in real time." />}
           </TabsContent>
 
           {/* CLAIMS */}
@@ -1101,7 +1127,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
       </div>
 
       {totalEvents === 0 ? (
-        <EmptyState message="No activity matches the current filters." />
+        <EmptyState icon={Filter} message="No activity matches the current filters." hint="Try widening the category or event filter." />
       ) : (
         <Card>
           <CardContent className="p-0">
@@ -1269,11 +1295,15 @@ function DamageClaimsTable({ claims }: { claims: { total: number; overdue: numbe
   );
 }
 
-function EmptyState({ message }: { message: string }) {
+function EmptyState({ message, icon: Icon = CheckCircle2, hint }: { message: string; icon?: React.ElementType; hint?: string }) {
   return (
     <Card>
-      <CardContent className="p-8 text-center text-sm text-muted-foreground">
-        {message}
+      <CardContent className="flex flex-col items-center justify-center gap-2 p-10 text-center">
+        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted/60 ring-1 ring-border">
+          <Icon className="h-6 w-6 text-muted-foreground/70" aria-hidden="true" />
+        </div>
+        <p className="text-sm font-medium text-foreground">{message}</p>
+        {hint && <p className="text-xs text-muted-foreground max-w-sm">{hint}</p>}
       </CardContent>
     </Card>
   );
@@ -1281,17 +1311,98 @@ function EmptyState({ message }: { message: string }) {
 
 function LoadingState() {
   return (
-    <div className="min-h-screen bg-background p-6">
-      <div className="mx-auto max-w-screen-2xl space-y-6">
-        <Skeleton className="h-16 w-full" />
+    <div className="min-h-screen bg-background">
+      {/* Header skeleton — mirror real header so transition to data is seamless */}
+      <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur">
+        <div className="mx-auto max-w-screen-2xl px-4 py-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <Skeleton className="h-10 w-10 rounded-lg" />
+              <div className="space-y-1.5">
+                <Skeleton className="h-5 w-40" />
+                <Skeleton className="h-3 w-56" />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-7 w-40" />
+              <Skeleton className="h-7 w-20" />
+              <Skeleton className="h-7 w-20" />
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-screen-2xl px-4 py-6 sm:px-6 lg:px-8 space-y-6">
+        {/* Filter bar skeleton */}
+        <div className="rounded-lg border border-border bg-card/50 px-4 py-3 flex flex-wrap items-center gap-2">
+          <Skeleton className="h-9 w-full sm:max-w-md" />
+          <Skeleton className="h-7 w-16 rounded-full" />
+          <Skeleton className="h-7 w-16 rounded-full" />
+          <Skeleton className="h-7 w-20 rounded-full" />
+          <Skeleton className="h-7 w-16 rounded-full" />
+        </div>
+
+        {/* KPI strip skeleton */}
         <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-28" />)}
+          {Array.from({ length: 4 }).map((_, i) => (
+            <Card key={i}>
+              <CardContent className="p-4 space-y-2">
+                <Skeleton className="h-4 w-24" />
+                <Skeleton className="h-8 w-16" />
+                <Skeleton className="h-3 w-32" />
+              </CardContent>
+            </Card>
+          ))}
         </div>
-        <Skeleton className="h-10 w-72" />
-        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
-          {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-72" />)}
+
+        {/* Tabs strip skeleton */}
+        <Skeleton className="h-10 w-full max-w-xl" />
+
+        {/* Reservation pipeline skeleton */}
+        <div>
+          <Skeleton className="h-5 w-44 mb-3" />
+          <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Card key={i}>
+                <CardHeader className="pb-2">
+                  <Skeleton className="h-4 w-32" />
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {Array.from({ length: 3 }).map((_, j) => (
+                    <div key={j} className="space-y-1.5 rounded-md border border-border bg-muted/40 p-2">
+                      <Skeleton className="h-3 w-full" />
+                      <Skeleton className="h-2 w-3/4" />
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
-      </div>
+
+        {/* Today's queue skeleton */}
+        <div>
+          <Skeleton className="h-5 w-44 mb-3" />
+          <div className="grid gap-3 lg:grid-cols-2">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <Card key={i}>
+                <CardHeader className="pb-2">
+                  <Skeleton className="h-4 w-40" />
+                </CardHeader>
+                <CardContent className="space-y-2">
+                  {Array.from({ length: 5 }).map((_, j) => (
+                    <Skeleton key={j} className="h-12 w-full" />
+                  ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+
+        <p className="text-center text-xs text-muted-foreground" aria-live="polite">
+          Loading operations data…
+        </p>
+      </main>
     </div>
   );
 }
