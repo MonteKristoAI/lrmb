@@ -33,27 +33,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchProfileAndRoles = async (userId: string): Promise<boolean> => {
+    // v31: harden auth flow — any failure mode in profile or roles fetch
+    // must sign the user out instead of leaving them in a half-authenticated
+    // state with stale roles. Previously a profile fetch error silently kept
+    // the prior roles, and an inactive profile that errored on fetch would
+    // remain signed in with admin role granted from a previous session.
+    setRoles([]);
+    setProfile(null);
     try {
       const [profileRes, rolesRes] = await Promise.all([
-        supabase.from("profiles").select("*").eq("id", userId).single(),
+        supabase.from("profiles").select("*").eq("id", userId).maybeSingle(),
         supabase.from("user_roles").select("role").eq("user_id", userId),
       ]);
-      if (profileRes.data) {
-        const p = profileRes.data as Profile;
-        if (p.active === false) {
-          await supabase.auth.signOut();
-          setSession(null);
-          setProfile(null);
-          setRoles([]);
-          return false;
-        }
-        setProfile(p);
+
+      if (profileRes.error) {
+        console.error("auth: profile fetch failed", profileRes.error);
+        await supabase.auth.signOut();
+        setSession(null);
+        return false;
       }
-      if (rolesRes.data) setRoles((rolesRes.data as { role: AppRole }[]).map((r) => r.role));
+      if (!profileRes.data) {
+        console.warn("auth: no profile row for user", userId);
+        await supabase.auth.signOut();
+        setSession(null);
+        return false;
+      }
+      const p = profileRes.data as Profile;
+      if (p.active === false) {
+        await supabase.auth.signOut();
+        setSession(null);
+        return false;
+      }
+      if (rolesRes.error) {
+        console.error("auth: roles fetch failed", rolesRes.error);
+        await supabase.auth.signOut();
+        setSession(null);
+        return false;
+      }
+
+      setProfile(p);
+      setRoles((rolesRes.data ?? []).map((r) => (r as { role: AppRole }).role));
       return true;
-    } catch {
-      setProfile(null);
-      setRoles([]);
+    } catch (err) {
+      console.error("auth: unexpected error in fetchProfileAndRoles", err);
+      try { await supabase.auth.signOut(); } catch { /* ignore */ }
+      setSession(null);
       return false;
     }
   };
