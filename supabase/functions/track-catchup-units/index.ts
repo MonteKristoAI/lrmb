@@ -187,15 +187,21 @@ async function upsertTask(
 }
 
 function mapTrackStatus(s: string): string {
+  // See track-poll/index.ts mapTrackStatus for the full TRACK status enum
+  // and rationale. Real values: cancelled, processed, completed, verified,
+  // pending, open, in-progress, vendor-not-start, vendor-assigned, exception.
   if (!s) return "new";
-  if (
-    s.includes("complete") || s.includes("processed") || s.includes("verify") ||
-    s.includes("verified") || s.includes("done") || s.includes("closed")
-  ) return "completed";
-  if (s.includes("inprogress") || s.includes("in_progress") || s.includes("started")) return "in_progress";
-  if (s.includes("assign")) return "assigned";
-  if (s.includes("hold") || s.includes("block")) return "blocked";
-  if (s.includes("wait")) return "waiting_parts";
+  const t = s.toLowerCase();
+  const normalized = t.replace(/[-_]/g, "");
+  if (t.includes("cancel") || t.includes("void") || t.includes("archive") || t.includes("reject")) return "completed";
+  if (t.includes("processed")) return "processed";
+  if (t.includes("verify")) return "verified";
+  if (t.includes("complete")) return "completed";
+  if (normalized.includes("inprogress") || t.includes("started")) return "in_progress";
+  if (t.includes("assign")) return "assigned";
+  if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
+  if (t.includes("exception") || t.includes("hold") || t.includes("block")) return "blocked";
+  if (t.includes("wait")) return "waiting_parts";
   return "new";
 }
 
