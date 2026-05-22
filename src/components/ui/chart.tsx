@@ -58,10 +58,21 @@ const ChartContainer = React.forwardRef<
 });
 ChartContainer.displayName = "Chart";
 
+// QA P2 Q-SEC-30: sanitize id + key + color before embedding in CSS. The
+// chart shadcn primitive was built for the case where these are author-defined
+// constants; sanitize anyway in case a future caller passes user input.
+const SAFE_ID_RE = /^[A-Za-z0-9_-]+$/;
+const SAFE_COLOR_RE = /^(#[0-9a-fA-F]{3,8}|(hsl|rgb|rgba|hsla)\([^)<>;{}"']*\)|[a-zA-Z]+)$/;
+
 const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
   const colorConfig = Object.entries(config).filter(([_, config]) => config.theme || config.color);
 
   if (!colorConfig.length) {
+    return null;
+  }
+
+  // Drop the whole style block if the chart id is not a safe identifier.
+  if (!SAFE_ID_RE.test(id)) {
     return null;
   }
 
@@ -74,9 +85,12 @@ const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
 ${prefix} [data-chart=${id}] {
 ${colorConfig
   .map(([key, itemConfig]) => {
+    if (!SAFE_ID_RE.test(key)) return null;
     const color = itemConfig.theme?.[theme as keyof typeof itemConfig.theme] || itemConfig.color;
-    return color ? `  --color-${key}: ${color};` : null;
+    if (!color || !SAFE_COLOR_RE.test(color)) return null;
+    return `  --color-${key}: ${color};`;
   })
+  .filter(Boolean)
   .join("\n")}
 }
 `,

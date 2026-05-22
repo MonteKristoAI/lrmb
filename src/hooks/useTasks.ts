@@ -157,16 +157,37 @@ export function useAddTaskUpdate() {
   });
 }
 
+// QA P2 Q-SEC-28: MIME + extension allowlist on photo upload. SVG is banned
+// because it can carry inline <script>; HTML is banned because the storage
+// bucket isn't tagged Content-Disposition:attachment. Mobile cameras default
+// to JPEG; HEIC is included for iOS native shots.
+const ALLOWED_PHOTO_MIME = new Set([
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+  "image/heic",
+  "image/heif",
+]);
+const ALLOWED_PHOTO_EXT = new Set(["jpg", "jpeg", "png", "webp", "heic", "heif"]);
+
 export function useUploadTaskPhoto() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: async ({ taskId, propertyId, file, userId }: { taskId: string; propertyId: string; file: File; userId: string }) => {
-      const ext = file.name.split(".").pop() || "jpg";
+      const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
+      const mime = (file.type || "").toLowerCase();
+      if (!ALLOWED_PHOTO_EXT.has(ext) || !ALLOWED_PHOTO_MIME.has(mime)) {
+        throw new Error(`Unsupported photo format: ${mime || ext}. Use JPEG, PNG, WebP, or HEIC.`);
+      }
       const path = `${propertyId}/${taskId}/${crypto.randomUUID()}.${ext}`;
-      const { error: uploadErr } = await supabase.storage.from("task-photos").upload(path, file);
+      const { error: uploadErr } = await supabase.storage.from("task-photos").upload(path, file, {
+        contentType: mime,
+        cacheControl: "3600",
+        upsert: false,
+      });
       if (uploadErr) throw uploadErr;
       const { error: dbErr } = await supabase.from("task_photos").insert({ task_id: taskId, storage_path: path, uploaded_by: userId, photo_type: "proof" });
-      // v33: if DB insert fails, roll back the storage upload so we don't leave orphan files.
       if (dbErr) {
         try { await supabase.storage.from("task-photos").remove([path]); } catch { /* swallow rollback error */ }
         throw dbErr;
