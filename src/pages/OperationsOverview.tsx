@@ -169,11 +169,11 @@ function propertyMatchesFilter(item: { propertyName: string | null }, filter: st
 
 function deltaIcon(curr: number, prev: number) {
   if (prev === 0 && curr === 0) return { Icon: Minus, color: "text-muted-foreground", label: "no change" };
-  if (prev === 0) return { Icon: TrendingUp, color: "text-emerald-600", label: "new" };
+  if (prev === 0) return { Icon: TrendingUp, color: "text-[hsl(152_60%_60%)]", label: "new" };
   const pct = Math.round(((curr - prev) / prev) * 100);
   if (Math.abs(pct) < 5) return { Icon: Minus, color: "text-muted-foreground", label: `${pct}%` };
-  if (pct > 0) return { Icon: TrendingUp, color: "text-emerald-600", label: `+${pct}%` };
-  return { Icon: TrendingDown, color: "text-rose-600", label: `${pct}%` };
+  if (pct > 0) return { Icon: TrendingUp, color: "text-[hsl(152_60%_60%)]", label: `+${pct}%` };
+  return { Icon: TrendingDown, color: "text-destructive", label: `${pct}%` };
 }
 
 function locationLabel(item: { unitCode: string | null; propertyName: string | null; unitId: unknown }) {
@@ -194,8 +194,8 @@ function occupantsLabel(o: ReservationCard["occupants"]): string {
 }
 
 function priorityBadge(priority: string) {
-  if (priority === "high" || priority === "urgent") return { className: "bg-rose-100 text-rose-700 border-rose-200", label: "High" };
-  if (priority === "low") return { className: "bg-slate-100 text-slate-600 border-slate-200", label: "Low" };
+  if (priority === "high" || priority === "urgent") return { className: "bg-destructive/20 text-destructive border-destructive/30", label: "High" };
+  if (priority === "low") return { className: "bg-muted text-muted-foreground border-border", label: "Low" };
   return null;
 }
 
@@ -306,21 +306,21 @@ export default function OperationsOverview() {
   if (!data || !filtered) return <ErrorState title="No data" detail="The overview returned empty." />;
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
+    <div className="min-h-screen bg-background text-foreground">
       {/* HEADER */}
-      <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/95 backdrop-blur dark:border-slate-800 dark:bg-slate-950/95">
+      <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur">
         <div className="mx-auto max-w-screen-2xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-[#0680A2] font-bold text-white">L</div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent font-bold text-accent-foreground">L</div>
               <div>
                 <h1 className="text-xl font-bold tracking-tight sm:text-2xl">LRMB Operations</h1>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-muted-foreground">
                   Live view {data.viewer ? `· ${data.viewer}` : ""} · {data.totals.activeUnits} units · {data.totals.activeProperties} properties
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
+            <div className="flex items-center gap-3 text-xs text-muted-foreground">
               <PropertyFilter
                 propertyList={data.propertyList}
                 value={propertyFilter}
@@ -335,7 +335,7 @@ export default function OperationsOverview() {
                 onClick={() => { setJustRefreshed(true); refetch(); }}
                 disabled={isFetching}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800 transition",
+                  "inline-flex items-center gap-1.5 rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium hover:bg-muted transition",
                   isFetching && "opacity-50 cursor-wait",
                 )}
                 aria-label="Refresh now"
@@ -390,26 +390,26 @@ export default function OperationsOverview() {
 
         {/* TABS */}
         <Tabs defaultValue="today" className="space-y-6">
-          <TabsList className="flex w-full justify-start overflow-x-auto bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-1">
-            <TabsTrigger value="today" className="data-[state=active]:bg-[#0680A2] data-[state=active]:text-white">
+          <TabsList className="flex w-full justify-start overflow-x-auto bg-card border border-border p-1">
+            <TabsTrigger value="today" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
               <ListChecks className="h-3.5 w-3.5 mr-1.5" />Today
             </TabsTrigger>
-            <TabsTrigger value="housekeeping" className="data-[state=active]:bg-[#0680A2] data-[state=active]:text-white">
+            <TabsTrigger value="housekeeping" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
               <Sparkles className="h-3.5 w-3.5 mr-1.5" />Cleaning ({filtered.housekeeping.scheduledToday.length + filtered.housekeeping.inProgress.length + filtered.housekeeping.completedPendingVerify.length})
             </TabsTrigger>
-            <TabsTrigger value="maintenance" className="data-[state=active]:bg-[#0680A2] data-[state=active]:text-white">
+            <TabsTrigger value="maintenance" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
               <Wrench className="h-3.5 w-3.5 mr-1.5" />Maintenance ({filtered.maintenance.open.length + filtered.maintenance.blocked.length})
             </TabsTrigger>
             {data.recentPhotos && data.recentPhotos.length > 0 && (
-              <TabsTrigger value="photos" className="data-[state=active]:bg-[#0680A2] data-[state=active]:text-white">
+              <TabsTrigger value="photos" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
                 <ImageIcon className="h-3.5 w-3.5 mr-1.5" />Photos ({data.recentPhotos.length})
               </TabsTrigger>
             )}
-            <TabsTrigger value="activity" className="data-[state=active]:bg-[#0680A2] data-[state=active]:text-white">
+            <TabsTrigger value="activity" className="data-[state=active]:bg-accent data-[state=active]:text-accent-foreground">
               <Activity className="h-3.5 w-3.5 mr-1.5" />Activity ({data.recentActivity?.length ?? 0})
             </TabsTrigger>
             {data.damageClaims && data.damageClaims.total > 0 && (
-              <TabsTrigger value="claims" className="data-[state=active]:bg-rose-600 data-[state=active]:text-white">
+              <TabsTrigger value="claims" className="data-[state=active]:bg-destructive data-[state=active]:text-destructive-foreground">
                 <ShieldAlert className="h-3.5 w-3.5 mr-1.5" />Claims ({data.damageClaims.total})
               </TabsTrigger>
             )}
@@ -494,7 +494,7 @@ export default function OperationsOverview() {
           )}
         </Tabs>
 
-        <footer className="border-t border-slate-200 pt-4 text-xs text-slate-500 dark:border-slate-800 dark:text-slate-400">
+        <footer className="border-t border-border pt-4 text-xs text-muted-foreground">
           Auto-refresh every 5 minutes · Generated {format(new Date(data.generatedAt), "PPpp")} · Read-only view
         </footer>
       </main>
@@ -511,7 +511,7 @@ function PropertyFilter({ propertyList, value, onChange }: { propertyList: strin
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="rounded-md border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-[#0680A2]/30 dark:border-slate-700 dark:bg-slate-900"
+      className="rounded-md border border-border bg-card px-3 py-1.5 text-xs font-medium focus:outline-none focus:ring-2 focus:ring-accent/30"
       aria-label="Filter by property"
     >
       <option value="ALL">All properties ({propertyList.length})</option>
@@ -526,7 +526,7 @@ function SectionHeading({ title, subtitle }: { title: string; subtitle?: string 
   return (
     <div>
       <h2 className="text-lg font-bold tracking-tight">{title}</h2>
-      {subtitle && <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{subtitle}</p>}
+      {subtitle && <p className="text-xs text-muted-foreground mt-0.5">{subtitle}</p>}
     </div>
   );
 }
@@ -541,7 +541,7 @@ function KpiTile({ icon: Icon, accent, label, value, delta, context, alert }: {
   alert?: boolean;
 }) {
   return (
-    <Card className={cn("border", alert && "border-rose-200 bg-rose-50 dark:border-rose-900 dark:bg-rose-950/30")}>
+    <Card className={cn("border", alert && "border-destructive/30 bg-destructive/10")}>
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md" style={{ backgroundColor: `${accent}15`, color: accent }}>
@@ -555,8 +555,8 @@ function KpiTile({ icon: Icon, accent, label, value, delta, context, alert }: {
           )}
         </div>
         <p className="mt-2 text-3xl font-bold tabular-nums">{value.toLocaleString()}</p>
-        <p className="text-xs font-medium text-slate-700 dark:text-slate-300">{label}</p>
-        {context && <p className="text-[11px] text-slate-500 dark:text-slate-500 mt-0.5">{context}</p>}
+        <p className="text-xs font-medium text-foreground">{label}</p>
+        {context && <p className="text-[11px] text-muted-foreground mt-0.5">{context}</p>}
       </CardContent>
     </Card>
   );
@@ -571,7 +571,7 @@ function ReservationPanel({ icon: Icon, accent, label, cards }: {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400">
+        <CardTitle className="flex items-center justify-between text-xs font-medium text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <Icon className="h-3.5 w-3.5" style={{ color: accent }} />
             {label}
@@ -581,17 +581,17 @@ function ReservationPanel({ icon: Icon, accent, label, cards }: {
       </CardHeader>
       <CardContent>
         {cards.length === 0 ? (
-          <p className="text-xs italic text-slate-400">none</p>
+          <p className="text-xs italic text-muted-foreground">none</p>
         ) : (
           <ul className="space-y-2 max-h-64 overflow-auto" aria-label={label}>
             {cards.slice(0, 12).map((c) => (
-              <li key={c.externalId} className="flex flex-col gap-0.5 rounded-md border border-slate-100 bg-slate-50 p-2 dark:border-slate-800 dark:bg-slate-900">
+              <li key={c.externalId} className="flex flex-col gap-0.5 rounded-md border border-border bg-muted/40 p-2">
                 <div className="flex items-center gap-1.5">
-                  <MapPin className="h-3 w-3 text-slate-400" />
+                  <MapPin className="h-3 w-3 text-muted-foreground" />
                   <span className="text-xs font-medium truncate">{locationLabel(c)}</span>
                   {c.status && <Badge variant="outline" className="ml-auto text-[10px] py-0 h-4">{c.status}</Badge>}
                 </div>
-                <div className="text-[11px] text-slate-500 tabular-nums">
+                <div className="text-[11px] text-muted-foreground tabular-nums">
                   {c.arrivalDate ? format(new Date(c.arrivalDate), "MMM d") : "—"}
                   {" → "}
                   {c.departureDate ? format(new Date(c.departureDate), "MMM d") : "—"}
@@ -600,7 +600,7 @@ function ReservationPanel({ icon: Icon, accent, label, cards }: {
                 </div>
               </li>
             ))}
-            {cards.length > 12 && <li className="text-[11px] italic text-slate-400">+ {cards.length - 12} more</li>}
+            {cards.length > 12 && <li className="text-[11px] italic text-muted-foreground">+ {cards.length - 12} more</li>}
           </ul>
         )}
       </CardContent>
@@ -617,13 +617,13 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
   tone?: "default" | "warning" | "danger";
 }) {
   const toneCls =
-    tone === "danger" ? "border-rose-200 bg-rose-50/50 dark:border-rose-900 dark:bg-rose-950/20" :
-    tone === "warning" ? "border-amber-200 bg-amber-50/50 dark:border-amber-900 dark:bg-amber-950/20" :
+    tone === "danger" ? "border-destructive/30 bg-destructive/10" :
+    tone === "warning" ? "border-amber-500/30 bg-amber-500/10" :
     "";
   return (
     <Card className={cn(toneCls)}>
       <CardHeader className="pb-2">
-        <CardTitle className="flex items-center justify-between text-xs font-medium text-slate-600 dark:text-slate-400">
+        <CardTitle className="flex items-center justify-between text-xs font-medium text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <Icon className="h-3.5 w-3.5" style={{ color: accent }} />
             {title}
@@ -633,20 +633,20 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
       </CardHeader>
       <CardContent>
         {tasks.length === 0 ? (
-          <p className="text-xs italic text-slate-400">{emptyLabel}</p>
+          <p className="text-xs italic text-muted-foreground">{emptyLabel}</p>
         ) : (
           <ul className="space-y-2 max-h-80 overflow-auto" aria-label={title}>
             {tasks.slice(0, 30).map((t) => {
               const pri = priorityBadge(t.priority);
               return (
-                <li key={t.id} className="flex flex-col gap-0.5 rounded-md border border-slate-100 bg-white p-2 dark:border-slate-800 dark:bg-slate-900">
+                <li key={t.id} className="flex flex-col gap-0.5 rounded-md border border-border bg-card p-2">
                   <div className="flex items-center gap-1.5">
-                    <MapPin className="h-3 w-3 text-slate-400 shrink-0" />
+                    <MapPin className="h-3 w-3 text-muted-foreground shrink-0" />
                     <span className="text-xs font-medium truncate" title={locationLabel(t)}>{locationLabel(t)}</span>
                     {pri && <Badge variant="outline" className={cn("ml-auto text-[10px] py-0 h-4", pri.className)}>{pri.label}</Badge>}
                   </div>
-                  <div className="text-[11px] text-slate-500 truncate" title={t.title}>{displayTitle(t)} · {statusLabel(t.status)}</div>
-                  <div className="text-[11px] text-slate-400 tabular-nums">
+                  <div className="text-[11px] text-muted-foreground truncate" title={t.title}>{displayTitle(t)} · {statusLabel(t.status)}</div>
+                  <div className="text-[11px] text-muted-foreground tabular-nums">
                     {t.dueAt ? `Due ${formatDistanceToNow(new Date(t.dueAt), { addSuffix: true })}`
                       : t.startedAt ? `Started ${formatDistanceToNow(new Date(t.startedAt), { addSuffix: true })}`
                       : `Updated ${formatDistanceToNow(new Date(t.updatedAt), { addSuffix: true })}`}
@@ -655,7 +655,7 @@ function TaskPanel({ title, icon: Icon, accent, tasks, emptyLabel, tone = "defau
                 </li>
               );
             })}
-            {tasks.length > 30 && <li className="text-[11px] italic text-slate-400">+ {tasks.length - 30} more</li>}
+            {tasks.length > 30 && <li className="text-[11px] italic text-muted-foreground">+ {tasks.length - 30} more</li>}
           </ul>
         )}
       </CardContent>
@@ -672,13 +672,13 @@ function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
           href={p.signed_url ?? "#"}
           target="_blank"
           rel="noreferrer noopener"
-          className="group relative overflow-hidden rounded-md border border-slate-200 bg-white hover:ring-2 hover:ring-[#0680A2]/40 transition aspect-square dark:border-slate-800 dark:bg-slate-900"
+          className="group relative overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition aspect-square"
           title={`${p.task_title ?? ""} — ${p.task_status} — ${p.uploaded_by_name ?? "unknown"}`}
         >
           {p.signed_url ? (
             <img src={p.signed_url} alt={p.caption ?? p.task_title ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
           ) : (
-            <div className="flex h-full w-full items-center justify-center bg-slate-100 text-xs text-slate-400 dark:bg-slate-800">No preview</div>
+            <div className="flex h-full w-full items-center justify-center bg-muted text-xs text-muted-foreground">No preview</div>
           )}
           <span className="absolute bottom-0 inset-x-0 truncate bg-gradient-to-t from-black/85 to-transparent px-2 py-1 text-[10px] text-white">
             {p.task_title ?? "Photo"} · {formatDistanceToNow(new Date(p.uploaded_at), { addSuffix: true })}
@@ -711,16 +711,16 @@ function ActivityFeed({ activity }: { activity: ActivityRow[] }) {
       <CardContent className="p-0">
         {grouped.map((g, gi) => (
           <div key={`${g.hourLabel}-${gi}`}>
-            <div className="sticky top-0 bg-slate-100/95 dark:bg-slate-800/95 px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-slate-600 dark:text-slate-400 border-b border-slate-200 dark:border-slate-700">
+            <div className="sticky top-0 bg-muted/95 backdrop-blur px-3 py-1.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground border-b border-border">
               {g.hourLabel}
             </div>
-            <ul className="divide-y divide-slate-100 dark:divide-slate-800" aria-label="Activity events">
+            <ul className="divide-y divide-border" aria-label="Activity events">
               {g.items.map((a) => {
-                const icon = a.new_status === "completed" ? <CheckCircle2 className="h-4 w-4 text-emerald-600" />
-                  : a.new_status === "blocked" ? <AlertCircle className="h-4 w-4 text-rose-600" />
+                const icon = a.new_status === "completed" ? <CheckCircle2 className="h-4 w-4 text-[hsl(152_60%_60%)]" />
+                  : a.new_status === "blocked" ? <AlertCircle className="h-4 w-4 text-destructive" />
                   : a.new_status === "verified" ? <CheckCircle2 className="h-4 w-4 text-[#0680A2]" />
                   : a.new_status === "in_progress" ? <Activity className="h-4 w-4 text-[#0680A2]" />
-                  : <Activity className="h-4 w-4 text-slate-400" />;
+                  : <Activity className="h-4 w-4 text-muted-foreground" />;
                 const verb = a.update_type === "status_change" && a.old_status && a.new_status
                   ? `moved to ${a.new_status.replace(/_/g, " ")}`
                   : a.update_type === "priority_change" ? "priority updated"
@@ -731,13 +731,13 @@ function ActivityFeed({ activity }: { activity: ActivityRow[] }) {
                     <span className="mt-0.5 shrink-0">{icon}</span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-medium">{a.task_title ?? `Task (no title)`}</p>
-                      <p className="text-xs text-slate-500">
+                      <p className="text-xs text-muted-foreground">
                         {a.actor_name && a.actor_name !== "System" ? a.actor_name : "System"} · {verb}
                         {a.photo_count > 0 ? ` · ${a.photo_count} 📷` : ""}
                       </p>
-                      {a.note && <p className="mt-1 text-xs italic text-slate-500 line-clamp-2">"{a.note}"</p>}
+                      {a.note && <p className="mt-1 text-xs italic text-muted-foreground line-clamp-2">"{a.note}"</p>}
                     </div>
-                    <span className="shrink-0 text-xs text-slate-400 tabular-nums">
+                    <span className="shrink-0 text-xs text-muted-foreground tabular-nums">
                       {format(new Date(a.created_at), "h:mm a")}
                     </span>
                   </li>
@@ -755,11 +755,11 @@ function PollHealthBanner({ health }: { health: Health[] }) {
   const issues = useMemo(() => health.filter((h) => h.health !== "healthy"), [health]);
   if (issues.length === 0) return null;
   return (
-    <div className="flex items-start gap-3 rounded-md border border-amber-300 bg-amber-50 px-4 py-3 text-sm dark:border-amber-700 dark:bg-amber-950/40">
+    <div className="flex items-start gap-3 rounded-md border border-amber-600/40 bg-amber-500/10 px-4 py-3 text-sm">
       <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-amber-600" />
       <div className="flex-1">
-        <p className="font-medium text-amber-900 dark:text-amber-100">Data sync notice</p>
-        <p className="text-xs text-amber-800 dark:text-amber-200">
+        <p className="font-medium text-amber-200">Data sync notice</p>
+        <p className="text-xs text-amber-300/80">
           Some live data feeds are slightly delayed (
           {issues.map((h) => h.collection_name).join(", ")}
           ). The numbers below may be a few minutes behind. We're investigating.
@@ -776,14 +776,14 @@ function DamageClaimsTable({ claims }: { claims: { total: number; overdue: numbe
         <CardTitle className="flex items-center gap-2 text-sm">
           <span>{claims.total} active claim{claims.total !== 1 ? "s" : ""}</span>
           {claims.overdue > 0 && <Badge variant="destructive" className="text-xs">{claims.overdue} overdue</Badge>}
-          {claims.urgent > 0 && <Badge className="bg-amber-500 text-amber-50 text-xs">{claims.urgent} urgent</Badge>}
+          {claims.urgent > 0 && <Badge className="bg-amber-500 text-white text-xs">{claims.urgent} urgent</Badge>}
           {claims.approaching > 0 && <Badge variant="secondary" className="text-xs">{claims.approaching} approaching</Badge>}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
-            <thead className="text-slate-500 border-b border-slate-200 dark:border-slate-800">
+            <thead className="text-muted-foreground border-b border-border">
               <tr>
                 <th className="text-left py-2 pr-3 font-medium">Deadline</th>
                 <th className="text-left py-2 pr-3 font-medium">Property / Unit</th>
@@ -794,21 +794,21 @@ function DamageClaimsTable({ claims }: { claims: { total: number; overdue: numbe
             </thead>
             <tbody>
               {claims.items.slice(0, 20).map((c) => (
-                <tr key={c.task_id} className="border-b border-slate-100 dark:border-slate-800">
+                <tr key={c.task_id} className="border-b border-border">
                   <td className="py-2 pr-3">
                     {c.deadline_status === "overdue" && <Badge variant="destructive" className="text-[10px]">Overdue</Badge>}
-                    {c.deadline_status === "urgent" && <Badge className="bg-amber-500 text-amber-50 text-[10px]">Urgent</Badge>}
+                    {c.deadline_status === "urgent" && <Badge className="bg-amber-500 text-white text-[10px]">Urgent</Badge>}
                     {c.deadline_status === "approaching" && <Badge variant="secondary" className="text-[10px]">Approaching</Badge>}
-                    {c.deadline_status === "fine" && <span className="text-slate-400">—</span>}
+                    {c.deadline_status === "fine" && <span className="text-muted-foreground">—</span>}
                     {c.hours_to_deadline != null && (
-                      <span className="ml-2 text-slate-500 tabular-nums">
+                      <span className="ml-2 text-muted-foreground tabular-nums">
                         {Math.abs(c.hours_to_deadline) < 48 ? `${Math.round(c.hours_to_deadline)}h` : `${Math.round(c.hours_to_deadline / 24)}d`}
                       </span>
                     )}
                   </td>
                   <td className="py-2 pr-3">
                     <div className="font-medium">{c.property ?? "—"}</div>
-                    {c.unit_code && <div className="text-slate-500 text-[11px]">{c.unit_code}</div>}
+                    {c.unit_code && <div className="text-muted-foreground text-[11px]">{c.unit_code}</div>}
                   </td>
                   <td className="py-2 pr-3 max-w-md truncate">{c.title}</td>
                   <td className="py-2 pr-3">{c.claim_status ?? "pending"}</td>
@@ -826,7 +826,7 @@ function DamageClaimsTable({ claims }: { claims: { total: number; overdue: numbe
 function EmptyState({ message }: { message: string }) {
   return (
     <Card>
-      <CardContent className="p-8 text-center text-sm text-slate-500">
+      <CardContent className="p-8 text-center text-sm text-muted-foreground">
         {message}
       </CardContent>
     </Card>
@@ -835,7 +835,7 @@ function EmptyState({ message }: { message: string }) {
 
 function LoadingState() {
   return (
-    <div className="min-h-screen bg-slate-50 p-6 dark:bg-slate-950">
+    <div className="min-h-screen bg-background p-6">
       <div className="mx-auto max-w-screen-2xl space-y-6">
         <Skeleton className="h-16 w-full" />
         <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
@@ -852,16 +852,16 @@ function LoadingState() {
 
 function ErrorState({ title, detail }: { title: string; detail: string }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6 dark:bg-slate-950">
+    <div className="min-h-screen flex items-center justify-center bg-background p-6">
       <Card className="max-w-md">
         <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-rose-600">
+          <CardTitle className="flex items-center gap-2 text-destructive">
             <AlertCircle className="h-5 w-5" />
             {title}
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-slate-600 dark:text-slate-400">{detail}</p>
+          <p className="text-sm text-muted-foreground">{detail}</p>
         </CardContent>
       </Card>
     </div>
