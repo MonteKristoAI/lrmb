@@ -1,7 +1,7 @@
 import { useAuth } from "@/lib/auth";
 import { AppShell } from "@/components/layout/AppShell";
 import { TaskCard } from "@/components/tasks/TaskCard";
-import { useTasks, useAllTasks } from "@/hooks/useTasks";
+import { useTasks, useTasksByStatus } from "@/hooks/useTasks";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { TaskStatus } from "@/types/task";
 
@@ -10,14 +10,17 @@ const DONE_STATUSES: TaskStatus[] = ["completed", "verified", "processed"];
 const CompletedTasks = () => {
   const { user, hasAdminAccess } = useAuth();
   const isAdmin = hasAdminAccess();
-  // Staff: fetch only their completed tasks; Admin: reuse the allTasks cache
+  // v35: admin path now reads a real status=done query ordered by completed_at,
+  // not a filter on the 500-newest-by-created_at slice that lost older work.
+  const adminCompleted = useTasksByStatus(
+    isAdmin ? DONE_STATUSES : [],
+    isAdmin ? { orderBy: "completed_at", ascending: false, limit: 500 } : undefined,
+  );
   const myCompleted = useTasks(!isAdmin && user ? { assigned_to: user.id, status: DONE_STATUSES } : undefined);
-  const allTasks = useAllTasks();
   const { data: rawTasks, isLoading } = isAdmin
-    ? { data: (allTasks.data ?? []).filter((t) => DONE_STATUSES.includes(t.status)), isLoading: allTasks.isLoading }
+    ? { data: adminCompleted.data, isLoading: adminCompleted.isLoading }
     : { data: myCompleted.data, isLoading: myCompleted.isLoading };
-  // Limit to most recent 100 completed tasks for performance
-  const tasks = rawTasks?.slice(0, 100);
+  const tasks = rawTasks?.slice(0, 200);
 
   return (
     <AppShell title="Completed">

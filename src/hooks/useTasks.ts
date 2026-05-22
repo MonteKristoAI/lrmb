@@ -344,6 +344,27 @@ export function useTaskCount(filter: {
   });
 }
 
+// v35: analytics hook — fetches up to 50K tasks with minimal columns for client-side
+// aggregation. Used by SupervisorDashboard, StaffWorkload, KPIOverview, TrendCharts.
+// 50K rows × ~200 bytes = ~10MB transfer; with 5-min cache this is OK for desktop
+// admin analytics. NOT for mobile or high-frequency refresh.
+export function useTasksForAnalytics() {
+  return useQuery({
+    queryKey: ["tasks_for_analytics"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("id, status, priority, task_category, assigned_to, due_at, completed_at, created_at, property_id")
+        .order("created_at", { ascending: false })
+        .limit(50000);
+      if (error) throw error;
+      return data ?? [];
+    },
+    staleTime: 5 * 60_000,
+    refetchInterval: 5 * 60_000,
+  });
+}
+
 // v32: active distinct staff (anyone with at least one non-terminal assigned task).
 // Currently 0 because TRACK polling creates tasks with assigned_to=NULL.
 // Once Emma's staff roster lands and assignments are seeded, this turns on automatically.

@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/layout/AppShell";
-import { useAllTasks } from "@/hooks/useTasks";
+import { useTasksForAnalytics } from "@/hooks/useTasks";
 import { useProfiles } from "@/hooks/useProperties";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 const StaffWorkload = () => {
   const navigate = useNavigate();
-  const { data: tasks = [], isLoading: loadingTasks } = useAllTasks();
+  const { data: tasks = [], isLoading: loadingTasks } = useTasksForAnalytics();
   const { data: profiles = [], isLoading: loadingProfiles } = useProfiles();
   const isLoading = loadingTasks || loadingProfiles;
 

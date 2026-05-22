@@ -1,5 +1,5 @@
 import { AppShell } from "@/components/layout/AppShell";
-import { useAllTasks } from "@/hooks/useTasks";
+import { useTasksForAnalytics } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
@@ -25,7 +25,7 @@ function KPICard({ label, value, sub, icon: Icon }: { label: string; value: stri
 
 const SupervisorDashboard = () => {
   const navigate = useNavigate();
-  const { data: tasks = [], isLoading } = useAllTasks();
+  const { data: tasks = [], isLoading } = useTasksForAnalytics();
 
   const completed = tasks.filter((t) => ["completed", "verified", "processed"].includes(t.status));
   const pendingVerify = tasks.filter((t) => t.status === "completed");
