@@ -50,17 +50,25 @@ export function usePropertiesByRegion() {
   });
 }
 
-export function useUnits(propertyId: string | undefined) {
+// Per Nemr Directive §20+§21: operations view defaults to active units only;
+// reporting view can opt into 'inactive' or 'all'. Pass filter explicitly so
+// the caller is intentional.
+export type UnitActiveFilter = "active" | "inactive" | "all";
+
+export function useUnits(propertyId: string | undefined, activeFilter: UnitActiveFilter = "active") {
   return useQuery({
-    queryKey: ["units", propertyId],
+    queryKey: ["units", propertyId, activeFilter],
     enabled: !!propertyId,
     queryFn: async () => {
-      const { data, error } = await supabase
+      let q = supabase
         .from("units")
         .select(UNIT_COLUMNS)
         .eq("property_id", propertyId!)
-        .eq("active", true)
         .order("unit_code");
+      if (activeFilter === "active") q = q.eq("active", true);
+      else if (activeFilter === "inactive") q = q.eq("active", false);
+      // "all" => no filter
+      const { data, error } = await q;
       if (error) throw error;
       return data as Unit[];
     },

@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "./StatusBadge";
 import { PriorityBadge } from "./PriorityBadge";
 import type { Task } from "@/types/task";
-import { MapPin, Clock, ChevronRight, User } from "lucide-react";
+import { MapPin, Clock, ChevronRight, User, Bot } from "lucide-react";
 import { isPast } from "date-fns";
 import { safeDistance } from "@/lib/utils";
 
@@ -32,6 +32,11 @@ export function TaskCard({ task }: TaskCardProps) {
             {task.is_guest_facing && (
               <span className="text-[10px] bg-blue-500/20 text-blue-600 px-1.5 py-0.5 rounded flex items-center gap-0.5">
                 <User className="h-2.5 w-2.5" />Guest
+              </span>
+            )}
+            {task.external_source === "aiia_generated" && (
+              <span className="text-[10px] bg-amber-500/20 text-amber-600 px-1.5 py-0.5 rounded flex items-center gap-0.5" title="Auto-created by AiiA Final Clean orchestrator">
+                <Bot className="h-2.5 w-2.5" />Auto
               </span>
             )}
           </div>
