@@ -158,6 +158,32 @@ Deno.serve(async (req) => {
     }
   }
 
+  // Signal 7: unknown TRACK status enum detected by track-poll
+  // The mapper writes a track_poll_unknown_status audit_log entry when TRACK
+  // sends a status string it doesn't recognise. Surface those here so they
+  // hit the alert pipeline within 15 min of first occurrence.
+  {
+    const { data: unknownRows } = await supabase
+      .from("audit_logs")
+      .select("payload_json, created_at")
+      .eq("action", "track_poll_unknown_status")
+      .gte("created_at", new Date(Date.now() - 60 * 60 * 1000).toISOString())
+      .order("created_at", { ascending: false })
+      .limit(5);
+    if ((unknownRows?.length ?? 0) > 0) {
+      const allUnknown = new Set<string>();
+      for (const r of unknownRows ?? []) {
+        const arr = (r.payload_json as Record<string, unknown>)?.unknownStatuses as string[] | undefined;
+        for (const s of arr ?? []) allUnknown.add(s);
+      }
+      issues.push({
+        signal: "track_status_enum_drift",
+        severity: "warning",
+        detail: `TRACK sent unknown status value(s) in the last hour: ${Array.from(allUnknown).join(", ")}. Update mapTrackStatus().`,
+      });
+    }
+  }
+
   const overallSeverity: "info" | "warning" | "error" =
     issues.some((i) => i.severity === "error")
       ? "error"
