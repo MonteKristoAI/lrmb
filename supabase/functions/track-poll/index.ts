@@ -55,6 +55,12 @@ const COLLECTIONS = [
 const MAX_RETRY = 3;
 const PAGE_SIZE = 50;
 
+// Request-scoped tracker of unknown TRACK status strings seen during this
+// poll cycle. Cleared at the start of each Deno.serve invocation. If any
+// new TRACK enum value sneaks in past our known list, it surfaces here and
+// gets logged to audit_logs at the end of the run.
+const _unknownStatuses = new Set<string>();
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -63,6 +69,9 @@ Deno.serve(async (req) => {
   // QA P1 Q-SEC-10: cron-only endpoint. Require x-cron-secret header.
   const cronErr = requireCronSecret(req);
   if (cronErr) return cronErr;
+
+  // Reset per-run telemetry (Supabase may warm-reuse isolates between cron fires).
+  _unknownStatuses.clear();
 
   const startedAt = Date.now();
   const runId = crypto.randomUUID();
@@ -117,6 +126,29 @@ Deno.serve(async (req) => {
   const elapsedMs = Date.now() - startedAt;
   summary.elapsedMs = elapsedMs;
   summary.completedAt = new Date().toISOString();
+  summary.unknownTrackStatuses = Array.from(_unknownStatuses);
+
+  // Surface any unknown TRACK status enums as a dedicated audit_logs entry so
+  // ops-health-monitor + Tony's weekly report catch new TRACK enum values the
+  // mapper doesn't yet know about. Logged separately so it's easy to filter.
+  if (_unknownStatuses.size > 0) {
+    try {
+      await supabase.from("audit_logs").insert({
+        action: "track_poll_unknown_status",
+        entity_type: "edge_function",
+        entity_id: runId,
+        description: `track-poll saw ${_unknownStatuses.size} unknown TRACK status value(s): ${Array.from(_unknownStatuses).join(", ")}`,
+        payload_json: {
+          severity: "warning",
+          runId,
+          unknownStatuses: Array.from(_unknownStatuses),
+          hint: "Update mapTrackStatus() in track-poll/track-catchup-units/track-webhook to handle these.",
+        },
+      });
+    } catch (_unknownLogErr) {
+      // swallow — we still log the heartbeat below
+    }
+  }
 
   // Heartbeat (best-effort; if this fails we still return the summary).
   // audit_logs schema: entity_type/entity_id (uuid)/action/payload_json/description/actor_id
@@ -417,7 +449,7 @@ async function upsertTaskFromTrackWO(
 
   // Map TRACK status to AiiA status (best-effort, conservative)
   const trackStatus = String(row.status ?? "").toLowerCase();
-  const aiiaStatus = mapTrackStatus(trackStatus);
+  const aiiaStatus = mapTrackStatus(trackStatus, _unknownStatuses);
 
   const reservationId = row.reservationId ?? row.nextReservationId ?? null;
 
@@ -489,7 +521,15 @@ async function upsertTaskFromTrackWO(
   }
 }
 
-function mapTrackStatus(s: string): string {
+// Statuses we deliberately catch with the "new" fallback because they
+// semantically ARE new in AiiA terms. Anything outside this set that still
+// hits the fallback is a TRACK enum addition we don't know about — those
+// get surfaced via unknownTracker so the next run flags them.
+const KNOWN_NEW_TRACK_STATUSES = new Set([
+  "pending", "open", "new", "scheduled", "draft", "queued", "", "null",
+]);
+
+function mapTrackStatus(s: string, unknownTracker?: Set<string>): string {
   // Map onto the AiiA task_status enum:
   // new / assigned / vendor_not_started / in_progress / waiting_parts /
   // blocked / completed / verified / processed
@@ -520,6 +560,12 @@ function mapTrackStatus(s: string): string {
   if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
   if (t.includes("exception") || t.includes("hold") || t.includes("block")) return "blocked";
   if (t.includes("wait")) return "waiting_parts";
+  // Fell through to "new". Track if this was an actually-unknown status
+  // (vs the legitimate pending/open we expect) so we can surface enum
+  // additions in audit_logs at the end of the run.
+  if (unknownTracker && !KNOWN_NEW_TRACK_STATUSES.has(t)) {
+    unknownTracker.add(t);
+  }
   return "new";
 }
 
