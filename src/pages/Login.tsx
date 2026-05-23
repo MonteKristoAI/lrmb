@@ -12,6 +12,8 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [magicSending, setMagicSending] = useState(false);
+  const [magicSent, setMagicSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,6 +38,30 @@ const Login = () => {
       toast({ title: "Login failed", description: error.message, variant: "destructive" });
     } else {
       navigate(from, { replace: true });
+    }
+  };
+
+  // Per Nemr Directive §15 + Emma reply: field staff log in via magic link.
+  // Sends a one-time login link to the email; user clicks → straight in.
+  const handleMagicLink = async () => {
+    setErrorMessage(null);
+    if (!email) {
+      setErrorMessage("Enter your email first.");
+      return;
+    }
+    setMagicSending(true);
+    const redirectTo = `${window.location.origin}${from}`;
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { emailRedirectTo: redirectTo, shouldCreateUser: false },
+    });
+    setMagicSending(false);
+    if (error) {
+      setErrorMessage(error.message);
+      toast({ title: "Could not send link", description: error.message, variant: "destructive" });
+    } else {
+      setMagicSent(true);
+      toast({ title: "Check your email", description: "We sent you a one-time login link." });
     }
   };
 
@@ -81,10 +107,27 @@ const Login = () => {
             type="submit"
             className="w-full tap-target text-sm font-semibold tracking-wide mt-2"
             style={{ background: "#C4BAB1", color: "#080E1A", borderRadius: "6px", height: "48px" }}
-            disabled={loading}
+            disabled={loading || magicSending}
           >
             {loading ? "Signing in..." : "Sign In"}
           </Button>
+
+          <div className="flex items-center gap-2 my-1">
+            <div className="flex-1 h-px" style={{ background: "rgba(196,186,177,0.1)" }} />
+            <span className="text-[10px] tracking-wider uppercase" style={{ color: "#4A4540" }}>or</span>
+            <div className="flex-1 h-px" style={{ background: "rgba(196,186,177,0.1)" }} />
+          </div>
+
+          <Button
+            type="button"
+            onClick={handleMagicLink}
+            className="w-full tap-target text-sm font-medium tracking-wide"
+            style={{ background: "transparent", border: "1px solid rgba(196,186,177,0.3)", color: "#C4BAB1", borderRadius: "6px", height: "44px" }}
+            disabled={magicSending || loading || magicSent}
+          >
+            {magicSent ? "Link sent — check your email" : magicSending ? "Sending..." : "Email me a sign-in link"}
+          </Button>
+
           {errorMessage && (
             <p role="alert" aria-live="assertive" className="text-xs mt-2" style={{ color: "#FCA5A5" }}>
               {errorMessage}

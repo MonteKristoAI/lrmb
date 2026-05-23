@@ -553,7 +553,7 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string {
   const normalized = t.replace(/[-_]/g, "");
   if (t.includes("cancel") || t.includes("void") || t.includes("archive") || t.includes("reject")) return "completed";
   if (t.includes("processed")) return "processed";
-  if (t.includes("verify")) return "verified";
+  if (t.includes("verif")) return "verified";
   if (t.includes("complete")) return "completed";
   if (normalized.includes("inprogress") || t.includes("started")) return "in_progress";
   if (t.includes("assign")) return "assigned";
