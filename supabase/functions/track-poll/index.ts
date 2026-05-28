@@ -1,5 +1,10 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v19 (2026-05-28): default owner_charges_amount = 0 for TRACK-sourced
+// maintenance WOs. DB CHECK constraint requires it for status='processed'
+// and TRACK doesn't surface charges data via /maintenance/work-orders.
+// Fixes the 22 silent upsert failures seen during v18 catchup walk.
+//
 // v18 (2026-05-28): switched HK + maintenance pagination from forward-walk +
 // updatedSince to BACKWARD-WALK from last page + last_seen_external_id watermark.
 // Confirmed via track-debug 2026-05-28: TRACK API ignores sortColumn /
@@ -584,6 +589,15 @@ async function upsertTaskFromTrackWO(
     completedAt = startedAt ?? updatedAtVal;
   }
 
+  // v19: maintenance CHECK constraint requires owner_charges_amount be set
+  // (not NULL) when status='processed'. TRACK doesn't expose a charges
+  // field on /maintenance/work-orders, so default to 0 for all TRACK-sourced
+  // maintenance. Admins set the real value via the billing modal when they
+  // verify the WO in AiiA.
+  const maintenanceExtras = category === "maintenance"
+    ? { owner_charges_amount: 0 }
+    : {};
+
   const baseTask = {
     external_source: "track",
     external_id: externalId,
@@ -613,6 +627,7 @@ async function upsertTaskFromTrackWO(
       (row.dateCreated as string | undefined) ??
       updatedAtVal,
     updated_at: updatedAtVal,
+    ...maintenanceExtras,
   };
 
   const { error } = await supabase.from("tasks").upsert(
