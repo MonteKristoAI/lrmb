@@ -677,7 +677,7 @@ export default function OperationsOverview() {
           <TabsContent value="maintenance" className="space-y-6">
             <SectionHeading title="Maintenance" subtitle="Work orders across the portfolio" />
             <div className="grid gap-3 lg:grid-cols-2 xl:grid-cols-4">
-              <TaskPanel title="Open" icon={ListChecks} accent="#1D1F28" tasks={filtered.maintenance.open} emptyLabel="No open tickets" onOpenDetail={openDetail} />
+              <TaskPanel title="Open" icon={ListChecks} accent="#1D1F28" tasks={filtered.maintenance.open} emptyLabel="No open work orders" onOpenDetail={openDetail} />
               <TaskPanel title="Overdue" icon={AlertTriangle} accent="#cc0000" tasks={filtered.maintenance.overdue} emptyLabel="Nothing past due" tone="danger" onOpenDetail={openDetail} />
               <TaskPanel title="Blocked" icon={AlertCircle} accent="#FF5C5C" tasks={filtered.maintenance.blocked} emptyLabel="Nothing blocked" tone="warning" onOpenDetail={openDetail} />
               <TaskPanel title="Pending verification" icon={CheckCircle2} accent="#FF5C5C" tasks={filtered.maintenance.completedPendingVerify} emptyLabel="Caught up" tone="warning" onOpenDetail={openDetail} />
@@ -1217,7 +1217,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
                               className="truncate text-left font-medium hover:underline focus:outline-none focus:underline"
                               title={a.task_title ?? undefined}
                             >
-                              {a.task_title ?? "Work order (no title)"}
+                              {a.task_title ?? "Work Order (no title)"}
                             </button>
                             <Badge
                               variant="outline"
@@ -1556,7 +1556,7 @@ function DetailModal({ token, detailParam, onClose, onOpenDetail }: {
       <DialogContent className="max-w-3xl max-h-[90vh] p-0 gap-0">
         <DialogHeader className="px-6 pt-5 pb-3 border-b border-border">
           <DialogTitle className="text-base">
-            {kind === "task" ? "Work order detail" : kind === "res" ? "Reservation detail" : "Detail"}
+            {kind === "task" ? "Work Order Detail" : kind === "res" ? "Reservation Detail" : "Detail"}
           </DialogTitle>
           <DialogDescription className="text-xs">
             Read-only · click outside or press Esc to close
