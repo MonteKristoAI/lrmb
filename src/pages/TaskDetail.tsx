@@ -29,13 +29,20 @@ import {
   type DamageClassification,
 } from "@/types/task";
 
+// UUID v4 shape — defensive guard so typo URLs like /tasks/open don't fire
+// 3 bad-UUID PostgREST queries against tasks / task_updates / task_photos
+// (was generating noise in Supabase logs + showing "Work order not found"
+// instead of a clear "page doesn't exist" cue).
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 const TaskDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { user, hasAdminAccess } = useAuth();
   const { toast } = useToast();
-  const { data: task, isLoading } = useTask(id);
-  const { data: updates = [] } = useTaskUpdates(id);
-  const { data: photos = [] } = useTaskPhotos(id);
+  const validId = id && UUID_RE.test(id) ? id : undefined;
+  const { data: task, isLoading } = useTask(validId);
+  const { data: updates = [] } = useTaskUpdates(validId);
+  const { data: photos = [] } = useTaskPhotos(validId);
   const updateTask = useUpdateTask();
   const addUpdate = useAddTaskUpdate();
   const uploadPhoto = useUploadTaskPhoto();
