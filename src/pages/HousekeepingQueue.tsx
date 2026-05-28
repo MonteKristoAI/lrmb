@@ -30,7 +30,7 @@ const HousekeepingQueue = () => {
               return (
                 <TabsContent key={s.key} value={s.key} className="space-y-3 mt-3">
                   {filtered.length ? filtered.map((t) => <TaskCard key={t.id} task={t} />) : (
-                    <p className="text-muted-foreground text-center py-8">No {s.label.toLowerCase()} tasks.</p>
+                    <p className="text-muted-foreground text-center py-8">No {s.label.toLowerCase()} work orders.</p>
                   )}
                 </TabsContent>
               );

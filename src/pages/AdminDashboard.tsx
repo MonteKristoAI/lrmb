@@ -86,7 +86,7 @@ const AdminDashboard = () => {
               <Download className="h-4 w-4" /> Export Open
             </Button>
             <Button onClick={() => navigate("/admin/tasks/create")} size="sm" className="gap-1 tap-target">
-              <Plus className="h-4 w-4" /> New Task
+              <Plus className="h-4 w-4" /> New Work Order
             </Button>
           </div>
         </div>
@@ -95,12 +95,12 @@ const AdminDashboard = () => {
           <div className="grid grid-cols-2 gap-3">{Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-20" />)}</div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            <StatCard label="Open Tasks" value={openCount} icon={ClipboardList} color="text-status-assigned" onClick={() => navigate("/admin/tasks/open")} />
+            <StatCard label="Open Work Orders" value={openCount} icon={ClipboardList} color="text-status-assigned" onClick={() => navigate("/admin/tasks/open")} />
             <StatCard label="Overdue" value={overdueCount} icon={AlertTriangle} color="text-destructive" onClick={() => navigate("/admin/tasks/overdue")} />
             <StatCard label="Blocked" value={blockedCount} icon={Ban} color="text-status-blocked" onClick={() => navigate("/admin/tasks/blocked")} />
             <StatCard label="Due Today" value={dueTodayCount} icon={Clock} color="text-status-in-progress" />
             <StatCard label="Avg Cycle Time" value={`${avgCycleHrs}h`} icon={Timer} color="text-primary" />
-            <StatCard label="Admin Touches" value={adminTouches ?? "—"} icon={MousePointerClick} color="text-primary" subtitle="Avg per task" />
+            <StatCard label="Admin Touches" value={adminTouches ?? "—"} icon={MousePointerClick} color="text-primary" subtitle="Avg per work order" />
             <StatCard label="Active Staff" value={activeStaffCount} icon={Users} color="text-primary" />
           </div>
         )}
@@ -121,10 +121,10 @@ const AdminDashboard = () => {
           </Button>
         </div>
 
-        <h3 className="text-sm font-semibold text-foreground pt-2">Recent Open Tasks</h3>
+        <h3 className="text-sm font-semibold text-foreground pt-2">Recent Open Work Orders</h3>
         <div className="space-y-2">
           {recentOpen.map((t) => <TaskCard key={t.id} task={t} />)}
-          {recentOpen.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">No open tasks.</p>}
+          {recentOpen.length === 0 && <p className="text-sm text-muted-foreground text-center py-4">No open work orders.</p>}
         </div>
       </div>
     </AppShell>

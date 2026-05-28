@@ -9,10 +9,10 @@ const StaffTasks = () => {
   const { data: tasks = [], isLoading } = useTasks({ assigned_to: id });
 
   return (
-    <AppShell title="Staff Tasks">
+    <AppShell title="Staff Work Orders">
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
-          tasks.length ? tasks.map((t) => <TaskCard key={t.id} task={t} />) : <p className="text-muted-foreground text-center py-8">No tasks for this staff member.</p>
+          tasks.length ? tasks.map((t) => <TaskCard key={t.id} task={t} />) : <p className="text-muted-foreground text-center py-8">No work orders for this staff member.</p>
         )}
       </div>
     </AppShell>

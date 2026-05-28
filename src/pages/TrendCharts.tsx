@@ -20,7 +20,7 @@ const TrendCharts = () => {
     <AppShell title="Trends">
       <div className="p-4 space-y-4">
         {isLoading ? Array.from({ length: 2 }).map((_, i) => <Skeleton key={i} className="h-48" />) : rows.length === 0 ? (
-          <p className="text-sm text-muted-foreground text-center py-8">No task data yet.</p>
+          <p className="text-sm text-muted-foreground text-center py-8">No work order data yet.</p>
         ) : (
           <>
             <Card>
@@ -40,7 +40,7 @@ const TrendCharts = () => {
 
             <Card>
               <CardContent className="p-4">
-                <p className="text-sm font-semibold text-foreground mb-3">Overdue Tasks Trend</p>
+                <p className="text-sm font-semibold text-foreground mb-3">Overdue Work Orders Trend</p>
                 <ResponsiveContainer width="100%" height={180}>
                   <BarChart data={days}>
                     <XAxis dataKey="day" tick={{ fontSize: 9, fill: "hsl(var(--muted-foreground))" }} angle={-30} textAnchor="end" height={40} />

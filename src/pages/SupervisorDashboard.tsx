@@ -50,7 +50,7 @@ const SupervisorDashboard = () => {
               <KPICard label="Avg Cycle Time" value={`${avgCycleHrs}h`} icon={Clock} />
               <KPICard label="Overdue" value={summary.overdue} icon={AlertTriangle} />
               <KPICard label="Photo Compliance" value={`${photoCompliance}%`} sub={`${summary.photoComplianceDone} completed / ${summary.photoComplianceTotal} requiring photos`} icon={BarChart3} />
-              <KPICard label="Total Tasks" value={summary.total} sub="all-time" icon={RotateCcw} />
+              <KPICard label="Total Work Orders" value={summary.total} sub="all-time" icon={RotateCcw} />
             </div>
 
             <div className="grid grid-cols-2 gap-2">
@@ -62,9 +62,9 @@ const SupervisorDashboard = () => {
 
             <Card>
               <CardContent className="p-4">
-                <p className="text-sm font-semibold text-foreground mb-3">Tasks by Category</p>
+                <p className="text-sm font-semibold text-foreground mb-3">Work Orders by Category</p>
                 {totalRows === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-8">No task data yet.</p>
+                  <p className="text-sm text-muted-foreground text-center py-8">No work order data yet.</p>
                 ) : (
                   <ResponsiveContainer width="100%" height={160}>
                     <BarChart data={byCategory}>

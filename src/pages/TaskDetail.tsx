@@ -98,8 +98,8 @@ const TaskDetail = () => {
     if (photos.length > 0) loadUrls();
   }, [photos]);
 
-  if (isLoading) return <AppShell title="Task"><div className="p-4 space-y-3">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-8" />)}</div></AppShell>;
-  if (!task) return <AppShell title="Task"><div className="p-4 text-muted-foreground">Task not found.</div></AppShell>;
+  if (isLoading) return <AppShell title="Work Order"><div className="p-4 space-y-3">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-8" />)}</div></AppShell>;
+  if (!task) return <AppShell title="Work Order"><div className="p-4 text-muted-foreground">Work order not found.</div></AppShell>;
 
   const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !["completed", "verified", "processed"].includes(task.status);
   // v33: unassigned "new" tasks should be claimable by any field staff (not just the
@@ -127,9 +127,9 @@ const TaskDetail = () => {
       } catch {
         // Status changed but audit trail failed - log but don't block the user
       }
-      toast({ title: `Task ${newStatus.replace(/_/g, " ")}` });
+      toast({ title: `Work order ${newStatus.replace(/_/g, " ")}` });
     } catch {
-      toast({ title: "Action failed", description: "Could not update task status.", variant: "destructive" });
+      toast({ title: "Action failed", description: "Could not update work order status.", variant: "destructive" });
     } finally {
       transitioningRef.current = false;
     }
@@ -165,10 +165,10 @@ const TaskDetail = () => {
     if (!user) return;
     try {
       await updateTask.mutateAsync({ id: task.id, status: "in_progress", completed_at: null, verified_at: null, processed_at: null, processed_by: null, reopened_count: (task.reopened_count || 0) + 1 });
-      await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "status_change", old_status: task.status, new_status: "in_progress", note: "Task reopened" });
-      toast({ title: "Task reopened" });
+      await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "status_change", old_status: task.status, new_status: "in_progress", note: "Work order reopened" });
+      toast({ title: "Work order reopened" });
     } catch {
-      toast({ title: "Failed to reopen task", variant: "destructive" });
+      toast({ title: "Failed to reopen work order", variant: "destructive" });
     }
   };
 
@@ -224,7 +224,7 @@ const TaskDetail = () => {
   const dmgClass = task.damage_classification as DamageClassification | null;
 
   return (
-    <AppShell title="Task Detail">
+    <AppShell title="Work Order Detail">
       <div className="p-4 space-y-4 pb-24">
         {/* Header */}
         <div className="space-y-2">
@@ -403,7 +403,7 @@ const TaskDetail = () => {
               {photos.map((p) => (
                 <div key={p.id} className="relative aspect-square rounded-md overflow-hidden bg-muted group">
                   {photoUrls[p.storage_path] ? (
-                    <img src={photoUrls[p.storage_path]} alt="Task proof" loading="lazy" decoding="async" className="w-full h-full object-cover" />
+                    <img src={photoUrls[p.storage_path]} alt="Work order proof" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                   ) : (
                     <Skeleton className="w-full h-full" />
                   )}
@@ -457,10 +457,10 @@ const TaskDetail = () => {
       {/* Block Modal */}
       <Dialog open={blockOpen} onOpenChange={setBlockOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Block Task</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Block Work Order</DialogTitle></DialogHeader>
           <Textarea placeholder="Reason for blocking..." value={blockReason} onChange={(e) => setBlockReason(e.target.value)} rows={3} />
           <DialogFooter>
-            <Button variant="destructive" onClick={handleBlock} disabled={!blockReason.trim()} className="tap-target">Block Task</Button>
+            <Button variant="destructive" onClick={handleBlock} disabled={!blockReason.trim()} className="tap-target">Block Work Order</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -479,8 +479,8 @@ const TaskDetail = () => {
       {/* Complete Confirmation */}
       <Dialog open={completeOpen} onOpenChange={setCompleteOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Complete Task</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Mark this task as completed?</p>
+          <DialogHeader><DialogTitle>Complete Work Order</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground">Mark this work order as completed?</p>
           {task.requires_photo && photos.length === 0 && <p className="text-sm text-destructive">Warning: Photo proof is required.</p>}
           {task.requires_note && !updates.some((u) => u.update_type === "note") && <p className="text-sm text-destructive">Warning: A note is required.</p>}
           <DialogFooter>

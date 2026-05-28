@@ -27,7 +27,7 @@ const StaffWorkload = () => {
           <>
             <Card>
               <CardContent className="p-4">
-                <p className="text-sm font-semibold text-foreground mb-3">Active Tasks by Staff</p>
+                <p className="text-sm font-semibold text-foreground mb-3">Active Work Orders by Staff</p>
                 <ResponsiveContainer width="100%" height={Math.max(160, staffData.length * 40)}>
                   <BarChart data={staffData} layout="vertical">
                     <XAxis type="number" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />

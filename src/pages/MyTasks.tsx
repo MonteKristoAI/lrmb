@@ -23,7 +23,7 @@ const MyTasks = () => {
   });
 
   return (
-    <AppShell title="My Tasks">
+    <AppShell title="My Work Orders">
       <div className="p-4 space-y-3">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-lg" />)
@@ -31,7 +31,7 @@ const MyTasks = () => {
           sorted.map((t) => <TaskCard key={t.id} task={t} />)
         ) : (
           <div className="rounded-lg border border-border bg-card p-6 text-center">
-            <p className="text-muted-foreground">No active tasks assigned yet.</p>
+            <p className="text-muted-foreground">No active work orders assigned yet.</p>
           </div>
         )}
       </div>

@@ -37,7 +37,7 @@ const NotFound = () => {
           <h1 className="text-4xl font-bold text-foreground">404</h1>
           <p className="text-lg text-muted-foreground">Page not found</p>
           <Button onClick={() => navigate("/tasks")} className="tap-target">
-            Back to Tasks
+            Back to Work Orders
           </Button>
         </div>
       </div>

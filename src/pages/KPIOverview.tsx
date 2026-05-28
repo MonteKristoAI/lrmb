@@ -52,7 +52,7 @@ const KPIOverview = () => {
                 <MousePointerClick className="h-8 w-8 text-primary shrink-0" />
                 <div>
                   <p className="text-2xl font-bold text-foreground">{adminTouches ?? "—"}</p>
-                  <p className="text-xs text-muted-foreground">Avg Admin Touches / Task</p>
+                  <p className="text-xs text-muted-foreground">Avg Admin Touches / Work Order</p>
                   <p className="text-[10px] text-muted-foreground">Target: reduce by 40-60%</p>
                 </div>
               </CardContent>
@@ -60,9 +60,9 @@ const KPIOverview = () => {
 
             <Card>
               <CardContent className="p-4">
-                <p className="text-sm font-semibold text-foreground mb-3">Tasks by Status</p>
+                <p className="text-sm font-semibold text-foreground mb-3">Work Orders by Status</p>
                 {totalRows === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-8">No task data yet.</p>
+                  <p className="text-sm text-muted-foreground text-center py-8">No work order data yet.</p>
                 ) : (
                   <ResponsiveContainer width="100%" height={200}>
                     <BarChart data={byStatus}>
@@ -80,7 +80,7 @@ const KPIOverview = () => {
               <CardContent className="p-4">
                 <p className="text-sm font-semibold text-foreground mb-3">Priority Distribution</p>
                 {totalRows === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-8">No task data yet.</p>
+                  <p className="text-sm text-muted-foreground text-center py-8">No work order data yet.</p>
                 ) : (
                   <ResponsiveContainer width="100%" height={180}>
                     <PieChart>
