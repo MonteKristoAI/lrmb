@@ -9,10 +9,10 @@ const OverdueQueue = () => {
   const { data: overdue = [], isLoading } = useOverdueTasks();
 
   return (
-    <AppShell title="Overdue Tasks">
+    <AppShell title="Overdue Work Orders">
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
-          overdue.length ? overdue.map((t) => <TaskCard key={t.id} task={t} />) : <p className="text-muted-foreground text-center py-8">No overdue tasks.</p>
+          overdue.length ? overdue.map((t) => <TaskCard key={t.id} task={t} />) : <p className="text-muted-foreground text-center py-8">No overdue work orders.</p>
         )}
       </div>
     </AppShell>

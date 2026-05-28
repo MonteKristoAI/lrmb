@@ -64,7 +64,7 @@ const InspectionChecklist = () => {
           created_by: user?.id ?? null,
         });
       }
-      toast({ title: item.auto_create_task_on_flag ? "Issue flagged & task created" : "Issue flagged" });
+      toast({ title: item.auto_create_task_on_flag ? "Issue flagged & work order created" : "Issue flagged" });
     } catch {
       toast({ title: "Failed to flag issue", variant: "destructive" });
     }

@@ -36,9 +36,9 @@ const VerificationQueue = () => {
         verified_at: new Date().toISOString(),
       });
       await addUpdate.mutateAsync({ task_id: taskId, actor_id: user.id, update_type: "status_change", old_status: "completed", new_status: "verified" });
-      toast({ title: "Task verified" });
+      toast({ title: "Work order verified" });
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to verify task";
+      const msg = err instanceof Error ? err.message : "Failed to verify work order";
       toast({ title: msg, variant: "destructive" });
     } finally {
       setVerifyingId(null);
@@ -62,7 +62,7 @@ const VerificationQueue = () => {
                 </Button>
               </CardContent>
             </Card>
-          )) : <p className="text-muted-foreground text-center py-8">No tasks pending verification.</p>
+          )) : <p className="text-muted-foreground text-center py-8">No work orders pending verification.</p>
         )}
       </div>
     </AppShell>

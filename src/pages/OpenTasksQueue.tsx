@@ -51,16 +51,16 @@ const OpenTasksQueue = () => {
         // Don't fail the reassignment if the audit row fails — log it.
         console.warn("audit log for reassignment failed", logErr);
       }
-      toast({ title: "Task reassigned" });
+      toast({ title: "Work order reassigned" });
       setReassignId(null);
       setNewAssignee("");
     } catch {
-      toast({ title: "Failed to reassign task", variant: "destructive" });
+      toast({ title: "Failed to reassign work order", variant: "destructive" });
     }
   };
 
   return (
-    <AppShell title="Open Tasks">
+    <AppShell title="Open Work Orders">
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
           open.length ? open.map((t) => (
@@ -77,13 +77,13 @@ const OpenTasksQueue = () => {
                 </Button>
               </div>
             </div>
-          )) : <p className="text-muted-foreground text-center py-8">No open tasks yet.</p>
+          )) : <p className="text-muted-foreground text-center py-8">No open work orders yet.</p>
         )}
       </div>
 
       <Dialog open={!!reassignId} onOpenChange={(open) => { if (!open) setReassignId(null); }}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Reassign Task</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>Reassign Work Order</DialogTitle></DialogHeader>
           <Select value={newAssignee} onValueChange={setNewAssignee}>
             <SelectTrigger className="tap-target"><SelectValue placeholder="Select staff" /></SelectTrigger>
             <SelectContent>{profiles.map((p) => <SelectItem key={p.id} value={p.id}>{p.full_name || p.email}</SelectItem>)}</SelectContent>

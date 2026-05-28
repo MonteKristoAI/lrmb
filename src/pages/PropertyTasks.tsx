@@ -11,10 +11,10 @@ const PropertyTasks = () => {
   const propertyName = tasks[0]?.properties?.name || "Property";
 
   return (
-    <AppShell title={`${propertyName} Tasks`}>
+    <AppShell title={`${propertyName} Work Orders`}>
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
-          tasks.length ? tasks.map((t) => <TaskCard key={t.id} task={t} />) : <p className="text-muted-foreground text-center py-8">No tasks for this property.</p>
+          tasks.length ? tasks.map((t) => <TaskCard key={t.id} task={t} />) : <p className="text-muted-foreground text-center py-8">No work orders for this property.</p>
         )}
       </div>
     </AppShell>

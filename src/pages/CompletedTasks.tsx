@@ -31,7 +31,7 @@ const CompletedTasks = () => {
           tasks.map((t) => <TaskCard key={t.id} task={t} />)
         ) : (
           <div className="rounded-lg border border-border bg-card p-6 text-center">
-            <p className="text-muted-foreground">No completed tasks yet.</p>
+            <p className="text-muted-foreground">No completed work orders yet.</p>
           </div>
         )}
       </div>

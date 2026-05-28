@@ -65,7 +65,7 @@ const CreateTask = () => {
 
   const set = (key: string, value: unknown) => setForm((prev) => ({ ...prev, [key]: value }));
 
-  if (!mounted) return <AppShell title="Create Task"><div className="p-4">Loading...</div></AppShell>;
+  if (!mounted) return <AppShell title="Create Work Order"><div className="p-4">Loading...</div></AppShell>;
 
   const isHousekeeping = form.task_category === "housekeeping";
   const showDamage = form.task_category === "maintenance";
@@ -109,25 +109,25 @@ const CreateTask = () => {
         created_by: user?.id ?? null,
         source_type: "manual",
       });
-      toast({ title: "Task created" });
+      toast({ title: "Work order created" });
       navigate("/admin");
     } catch {
-      toast({ title: "Failed to create task", variant: "destructive" });
+      toast({ title: "Failed to create work order", variant: "destructive" });
     }
   };
 
   return (
-    <AppShell title="Create Task">
+    <AppShell title="Create Work Order">
       <form onSubmit={handleSubmit} className="p-4 space-y-4 pb-24">
         {/* Title & Description */}
         <div className="space-y-2">
           <Label>Title *</Label>
-          <Input value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Task title" className="tap-target" required />
+          <Input value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Work order title" className="tap-target" required />
         </div>
         {/* Duplicate detection warning */}
         {similarTasks.length > 0 && (
           <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 space-y-1">
-            <p className="text-xs font-semibold text-amber-700">Possible duplicate - similar open tasks found:</p>
+            <p className="text-xs font-semibold text-amber-700">Possible duplicate - similar open work orders found:</p>
             {similarTasks.map((st) => (
               <p key={st.id} className="text-xs text-amber-600">
                 {st.title} ({st.status})
@@ -228,9 +228,9 @@ const CreateTask = () => {
           </div>
         )}
 
-        {/* Task Type */}
+        {/* Work Order Type */}
         <div className="space-y-2">
-          <Label>Task Type</Label>
+          <Label>Work Order Type</Label>
           <Input value={form.task_type} onChange={(e) => set("task_type", e.target.value)} placeholder="e.g. plumbing, AC repair, light bulb" className="tap-target" />
         </div>
 
@@ -272,7 +272,7 @@ const CreateTask = () => {
 
         {/* Guest Context */}
         <div className="flex items-center justify-between py-2">
-          <Label>Guest-Facing Task</Label>
+          <Label>Guest-Facing Work Order</Label>
           <Switch checked={form.is_guest_facing} onCheckedChange={(v) => set("is_guest_facing", v)} />
         </div>
         {showGuestFields && (
@@ -299,7 +299,7 @@ const CreateTask = () => {
         </div>
 
         <Button type="submit" className="w-full tap-target text-base font-semibold" disabled={createTask.isPending}>
-          {createTask.isPending ? "Creating..." : "Create Task"}
+          {createTask.isPending ? "Creating..." : "Create Work Order"}
         </Button>
       </form>
     </AppShell>

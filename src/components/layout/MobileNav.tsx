@@ -12,7 +12,7 @@ export function MobileNav() {
   const navigate = useNavigate();
 
   const items: NavItem[] = [
-    { label: t("Tasks"), icon: ClipboardList, path: "/tasks" },
+    { label: t("Work Orders"), icon: ClipboardList, path: "/tasks" },
   ];
 
   if (hasAdminAccess()) {

@@ -277,8 +277,8 @@ function displayTitle(t: TaskCard): string {
     return hkLabel;
   }
   // Maintenance: title is usually description summary, keep but trim TRACK fluff
-  const raw = t.title ?? "Maintenance task";
-  if (raw.includes("TRACK") && raw.length < 30) return "Maintenance task";
+  const raw = t.title ?? "Maintenance work order";
+  if (raw.includes("TRACK") && raw.length < 30) return "Maintenance work order";
   return raw;
 }
 
@@ -703,7 +703,7 @@ export default function OperationsOverview() {
           {/* CLAIMS */}
           {data.damageClaims && data.damageClaims.total > 0 && (
             <TabsContent value="claims" className="space-y-3">
-              <SectionHeading title="Active damage claims" subtitle="Guest-damage tasks with deadline tracking" />
+              <SectionHeading title="Active damage claims" subtitle="Guest-damage work orders with deadline tracking" />
               <DamageClaimsTable claims={data.damageClaims} />
             </TabsContent>
           )}
@@ -778,9 +778,9 @@ function FilterBar({
             type="search"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search tasks, units, properties, IDs…"
+            placeholder="Search work orders, units, properties, IDs…"
             className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-9 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
-            aria-label="Search tasks and reservations"
+            aria-label="Search work orders and reservations"
           />
           {searchQuery && (
             <button
@@ -1217,7 +1217,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
                               className="truncate text-left font-medium hover:underline focus:outline-none focus:underline"
                               title={a.task_title ?? undefined}
                             >
-                              {a.task_title ?? "Task (no title)"}
+                              {a.task_title ?? "Work order (no title)"}
                             </button>
                             <Badge
                               variant="outline"
@@ -1312,7 +1312,7 @@ function DamageClaimsTable({ claims }: { claims: { total: number; overdue: numbe
               <tr>
                 <th className="text-left py-2 pr-3 font-medium">Deadline</th>
                 <th className="text-left py-2 pr-3 font-medium">Property / Unit</th>
-                <th className="text-left py-2 pr-3 font-medium">Task</th>
+                <th className="text-left py-2 pr-3 font-medium">Work Order</th>
                 <th className="text-left py-2 pr-3 font-medium">Status</th>
                 <th className="text-right py-2 pr-3 font-medium">Filed amount</th>
               </tr>
@@ -1556,7 +1556,7 @@ function DetailModal({ token, detailParam, onClose, onOpenDetail }: {
       <DialogContent className="max-w-3xl max-h-[90vh] p-0 gap-0">
         <DialogHeader className="px-6 pt-5 pb-3 border-b border-border">
           <DialogTitle className="text-base">
-            {kind === "task" ? "Task detail" : kind === "res" ? "Reservation detail" : "Detail"}
+            {kind === "task" ? "Work order detail" : kind === "res" ? "Reservation detail" : "Detail"}
           </DialogTitle>
           <DialogDescription className="text-xs">
             Read-only · click outside or press Esc to close
