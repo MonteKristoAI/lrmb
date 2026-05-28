@@ -1,5 +1,16 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v20 (2026-05-28): race-safety hardening:
+//   - autoImportUnit + getOrCreateAutoImportProperty switched from INSERT
+//     to UPSERT (onConflict) leveraging the new partial-unique indexes
+//     in migration 20260528170000. Eliminates duplicate-row risk if two
+//     concurrent poll invocations (cron + manual) race past the race-safe
+//     re-check.
+//   - TRACK 'processed' HK WOs demoted to AiiA 'verified'. AiiA's CHECK
+//     constraint requires vendor_invoice_received=true before status can
+//     reach 'processed', and TRACK doesn't expose invoice data. Tony
+//     marks processed via the billing modal once the invoice is received.
+//
 // v19 (2026-05-28): default owner_charges_amount = 0 for TRACK-sourced
 // maintenance WOs. DB CHECK constraint requires it for status='processed'
 // and TRACK doesn't surface charges data via /maintenance/work-orders.
@@ -573,7 +584,16 @@ async function upsertTaskFromTrackWO(
   }
 
   const trackStatus = String(row.status ?? "").toLowerCase();
-  const aiiaStatus = mapTrackStatus(trackStatus, _unknownStatuses);
+  let aiiaStatus = mapTrackStatus(trackStatus, _unknownStatuses);
+
+  // v20: demote TRACK 'processed' HK to 'verified'. AiiA's CHECK constraint
+  // tasks_hk_invoice_check requires vendor_invoice_received=true before
+  // status can reach 'processed', and TRACK doesn't surface invoice data.
+  // Tony advances the WO to 'processed' via the billing modal in our admin
+  // UI once the invoice arrives — that's the intended billing handshake.
+  if (category === "housekeeping" && aiiaStatus === "processed") {
+    aiiaStatus = "verified";
+  }
 
   const reservationId = row.reservationId ?? row.nextReservationId ?? null;
   const updatedAtVal = (row.updatedAt as string | undefined) ?? new Date().toISOString();
@@ -686,12 +706,25 @@ async function autoImportUnit(
       active: unit.isActive !== false,
     };
 
+    // v20: UPSERT (not INSERT) so concurrent races land on the same row.
+    // units_track_id_uniq (migration 20260528170000) backs the onConflict.
     const { data: inserted, error } = await supabase
-      .from("units").insert(insert).select("id, property_id").single();
+      .from("units")
+      .upsert(insert, { onConflict: "track_id" })
+      .select("id, property_id")
+      .single();
     if (error || !inserted) {
+      // Race fallback: another invocation may have inserted the same row
+      // between our re-check and our upsert. Re-fetch.
+      const { data: raced } = await supabase
+        .from("units").select("id, property_id")
+        .eq("track_id", trackUnitId).maybeSingle();
+      if (raced) {
+        return { unit_id: raced.id as string, property_id: raced.property_id as string };
+      }
       await logError(
         supabase, "auto-import-unit",
-        `INSERT failed: ${error?.message ?? "unknown"}`,
+        `UPSERT failed: ${error?.message ?? "unknown"}`,
         { trackUnitId, unitCode },
       );
       return null;
@@ -729,13 +762,25 @@ async function getOrCreateAutoImportProperty(
     .eq("external_id", "catch-all").maybeSingle();
   if (existing) return existing.id as string;
 
+  // v20: UPSERT against properties_external_uniq (migration 20260528170000)
+  // so two concurrent first-import races don't create duplicate catch-all
+  // properties.
   const { data: created, error } = await supabase
-    .from("properties").insert({
+    .from("properties")
+    .upsert({
       name: AUTO_IMPORT_PROPERTY_NAME,
       external_source: "track-auto-import",
       external_id: "catch-all",
-    }).select("id").single();
+    }, { onConflict: "external_source,external_id" })
+    .select("id")
+    .single();
   if (error || !created) {
+    // Race fallback.
+    const { data: raced } = await supabase
+      .from("properties").select("id")
+      .eq("external_source", "track-auto-import")
+      .eq("external_id", "catch-all").maybeSingle();
+    if (raced) return raced.id as string;
     await logError(
       supabase, "auto-import-unit",
       `getOrCreateAutoImportProperty failed: ${error?.message ?? "unknown"}`,
