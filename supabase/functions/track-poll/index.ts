@@ -1,5 +1,20 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v22 (2026-05-28): capture TRACK assignment metadata.
+//   TRACK assigns HK work orders to a VENDOR (e.g. row.vendorId 1473 →
+//   "Emma Benson CO Test"), not to a specific staff user. Old behavior
+//   dropped both `vendorId` and `assignees[]` on the floor, so field
+//   staff saw nothing in their app even when TRACK had them as the
+//   assignee inside the vendor company.
+//
+//   v22 surfaces the assignment so admins can act on it:
+//     - tasks.assigned_vendor_name = row._embedded.vendor.name OR
+//                                    row.assignees[0].name OR null
+//   No FK link yet (profiles → vendor mapping is a separate schema
+//   change). Field-staff visibility still requires Tony to manually
+//   `assigned_to` the right local user in the admin UI, or a future
+//   profiles.vendor_id + RLS update.
+//
 // v21 (2026-05-28): level-10 adversarial audit fixes:
 //   - CRON_SECRET now fail-CLOSED always (was fail-open if env unset).
 //     The graceful-rollout backdoor from initial v3-era deploy is gone.
@@ -709,6 +724,16 @@ async function upsertTaskFromTrackWO(
     ? { owner_charges_amount: preserveCharge ? Number(existingCharge) : 0 }
     : {};
 
+  // v22: capture TRACK vendor / assignee label (informational only — no FK
+  // link yet, profiles → vendor mapping is a separate schema change).
+  const embedded = row._embedded as Record<string, unknown> | undefined;
+  const trackVendor = embedded?.vendor as Record<string, unknown> | undefined;
+  const trackAssignees = row.assignees as Array<Record<string, unknown>> | undefined;
+  const vendorLabel =
+    (trackVendor?.name as string | undefined) ??
+    (trackAssignees && trackAssignees[0]?.name as string | undefined) ??
+    null;
+
   const baseTask = {
     external_source: "track",
     external_id: externalId,
@@ -738,6 +763,7 @@ async function upsertTaskFromTrackWO(
       (row.dateCreated as string | undefined) ??
       updatedAtVal,
     updated_at: updatedAtVal,
+    assigned_vendor_name: vendorLabel,
     ...maintenanceExtras,
   };
 
