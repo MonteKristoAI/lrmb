@@ -1,24 +1,53 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
-// Reads:    reservations, maintenance work orders, housekeeping work orders
-// Writes:   reservation_events (audit trail), tasks (new + status sync), audit_logs (errors)
-// Mode:     passive observer (no TRACK writes). Switch to active orchestrator after
-//           Emma confirms Q3 write scope and LRMB picks active vs passive.
+// v18 (2026-05-28): switched HK + maintenance pagination from forward-walk +
+// updatedSince to BACKWARD-WALK from last page + last_seen_external_id watermark.
+// Confirmed via track-debug 2026-05-28: TRACK API ignores sortColumn /
+// sortDirection / updatedSince on those two endpoints (returns ID ASC default).
+// Old forward+timestamp logic was stuck on Apr 10 for maintenance and only
+// caught some HK rows by accident.
 //
-// Idempotency: per-collection state in track_poll_state. UNIQUE
-// (external_source='track', external_id) on reservation_events + tasks.
+// Also added: auto-import of unmapped TRACK units. When a WO references a
+// unitId we don't have in public.units, fetch /units/{id} from TRACK and
+// INSERT into our units table (under the catch-all "TRACK Auto-Imported"
+// property), then proceed with the task upsert. Eliminates the silent-drop
+// path that bit Emma's "Emma Benson CO Test" tenant 2026-05-28.
 //
-// Triggered by pg_cron every 5 min via the SQL migration that pairs with this fn.
-// Manual invocation:
-//   curl -X POST 'https://{ref}.functions.supabase.co/track-poll' \
-//        -H 'Authorization: Bearer {SERVICE_ROLE_KEY}'
+// Reservations collection still uses forward-walk + updatedSince — that
+// endpoint respects the filter and has been working fine.
 //
-// Environment variables required (set via supabase secrets):
-//   TRACK_API_KEY, TRACK_API_SECRET, TRACK_TENANT (default: lrmb)
-//   SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (auto-injected)
+// Reads:    reservations, maintenance work orders, housekeeping work orders, units
+// Writes:   reservation_events, tasks, units (auto-import), properties (catch-all), audit_logs
+// Mode:     passive observer (no TRACK writes).
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { requireCronSecret } from "../_shared/cron-auth.ts";
+
+// Inlined from ../_shared/cron-auth.ts to keep deploy single-file. Kept in
+// sync with that file — if you change one, change the other. Same behavior:
+// require x-cron-secret header matching CRON_SECRET env var.
+const _CRON_AUTH_TEXT = new TextEncoder();
+function _timingSafeEqualBytes(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) diff |= a[i] ^ b[i];
+  return diff === 0;
+}
+function requireCronSecret(req: Request): Response | null {
+  const expected = Deno.env.get("CRON_SECRET");
+  if (!expected) {
+    console.warn("cron-auth: CRON_SECRET unset, accepting unauthenticated invocation");
+    return null;
+  }
+  const received = req.headers.get("x-cron-secret") ?? req.headers.get("X-Cron-Secret") ?? "";
+  if (!received || !_timingSafeEqualBytes(
+    _CRON_AUTH_TEXT.encode(received), _CRON_AUTH_TEXT.encode(expected),
+  )) {
+    return new Response(JSON.stringify({ error: "cron_unauthorized" }), {
+      status: 401, headers: { "Content-Type": "application/json" },
+    });
+  }
+  return null;
+}
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -31,47 +60,63 @@ const TRACK_KEY = Deno.env.get("TRACK_API_KEY");
 const TRACK_SECRET = Deno.env.get("TRACK_API_SECRET");
 const BASE = `https://${TENANT}.trackhs.com/api/pms`;
 
-const COLLECTIONS = [
+const PAGE_SIZE = 50;             // TRACK caps response at 25 regardless
+const MAX_RETRY = 3;
+const BACKWARD_PAGE_CAP = 100;    // walk at most this many pages back per run (~2500 WOs)
+const AUTO_IMPORT_PROPERTY_NAME = "TRACK Auto-Imported";
+
+// Per-run trackers (cleared each invocation).
+const _unknownStatuses = new Set<string>();
+const _autoImportedUnits = new Set<number>();
+
+type Strategy = "forward" | "backward";
+
+interface CollectionDef {
+  name: string;
+  path: string;
+  embeddedKey: string;
+  strategy: Strategy;
+  onRow: (
+    supabase: ReturnType<typeof createClient>,
+    row: Record<string, unknown>,
+    auth: string,
+  ) => Promise<void>;
+}
+
+const COLLECTIONS: CollectionDef[] = [
   {
     name: "reservations",
     path: "/reservations",
     embeddedKey: "reservations",
+    strategy: "forward",
     onRow: handleReservationRow,
   },
   {
     name: "maintenance-work-orders",
     path: "/maintenance/work-orders",
     embeddedKey: "workOrders",
+    strategy: "backward",
     onRow: handleMaintenanceWorkOrderRow,
   },
   {
     name: "housekeeping-work-orders",
     path: "/housekeeping/work-orders",
     embeddedKey: "workOrders",
+    strategy: "backward",
     onRow: handleHousekeepingWorkOrderRow,
   },
 ];
-
-const MAX_RETRY = 3;
-const PAGE_SIZE = 50;
-
-// Request-scoped tracker of unknown TRACK status strings seen during this
-// poll cycle. Cleared at the start of each Deno.serve invocation. If any
-// new TRACK enum value sneaks in past our known list, it surfaces here and
-// gets logged to audit_logs at the end of the run.
-const _unknownStatuses = new Set<string>();
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // QA P1 Q-SEC-10: cron-only endpoint. Require x-cron-secret header.
   const cronErr = requireCronSecret(req);
   if (cronErr) return cronErr;
 
-  // Reset per-run telemetry (Supabase may warm-reuse isolates between cron fires).
   _unknownStatuses.clear();
+  _autoImportedUnits.clear();
 
   const startedAt = Date.now();
   const runId = crypto.randomUUID();
@@ -86,10 +131,7 @@ Deno.serve(async (req) => {
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   if (!supabaseUrl || !serviceRoleKey) {
-    return jsonResponse(500, {
-      runId,
-      error: "Missing Supabase env vars",
-    });
+    return jsonResponse(500, { runId, error: "Missing Supabase env vars" });
   }
 
   const supabase = createClient(supabaseUrl, serviceRoleKey);
@@ -98,19 +140,18 @@ Deno.serve(async (req) => {
   const summary: Record<string, unknown> = {
     runId,
     startedAt: new Date(startedAt).toISOString(),
-    collections: {} as Record<string, { fetched: number; processed: number; errors: number; nextSinceTs: string | null }>,
+    collections: {} as Record<string, unknown>,
   };
 
   try {
     for (const c of COLLECTIONS) {
       try {
-        summary.collections[c.name] = await pollCollection(supabase, auth, c);
+        (summary.collections as Record<string, unknown>)[c.name] = c.strategy === "forward"
+          ? await pollCollectionForward(supabase, auth, c)
+          : await pollCollectionBackward(supabase, auth, c);
       } catch (collErr) {
-        summary.collections[c.name] = {
-          fetched: 0,
-          processed: 0,
-          errors: 1,
-          nextSinceTs: null,
+        (summary.collections as Record<string, unknown>)[c.name] = {
+          fetched: 0, processed: 0, errors: 1,
           fatal: collErr instanceof Error ? collErr.message : String(collErr),
         };
         await logError(supabase, c.name, "Collection-level fatal error", {
@@ -127,10 +168,8 @@ Deno.serve(async (req) => {
   summary.elapsedMs = elapsedMs;
   summary.completedAt = new Date().toISOString();
   summary.unknownTrackStatuses = Array.from(_unknownStatuses);
+  summary.autoImportedUnits = Array.from(_autoImportedUnits);
 
-  // Surface any unknown TRACK status enums as a dedicated audit_logs entry so
-  // ops-health-monitor + Tony's weekly report catch new TRACK enum values the
-  // mapper doesn't yet know about. Logged separately so it's easy to filter.
   if (_unknownStatuses.size > 0) {
     try {
       await supabase.from("audit_logs").insert({
@@ -142,16 +181,12 @@ Deno.serve(async (req) => {
           severity: "warning",
           runId,
           unknownStatuses: Array.from(_unknownStatuses),
-          hint: "Update mapTrackStatus() in track-poll/track-catchup-units/track-webhook to handle these.",
+          hint: "Update mapTrackStatus() to handle these.",
         },
       });
-    } catch (_unknownLogErr) {
-      // swallow — we still log the heartbeat below
-    }
+    } catch (_) { /* swallow */ }
   }
 
-  // Heartbeat (best-effort; if this fails we still return the summary).
-  // audit_logs schema: entity_type/entity_id (uuid)/action/payload_json/description/actor_id
   try {
     await supabase.from("audit_logs").insert({
       action: "track_poll_run",
@@ -162,9 +197,7 @@ Deno.serve(async (req) => {
         : `track-poll run ok in ${summary.elapsedMs as number}ms`,
       payload_json: { ...summary, severity: anyErrors(summary) ? "warning" : "info" },
     });
-  } catch (_heartbeatErr) {
-    // swallow - returning the summary is more useful than failing the response
-  }
+  } catch (_) { /* swallow */ }
 
   return jsonResponse(200, summary);
 });
@@ -172,23 +205,34 @@ Deno.serve(async (req) => {
 function summarizeErrors(summary: Record<string, unknown>): string {
   const c = summary.collections as Record<string, { errors: number }>;
   return Object.entries(c)
-    .filter(([_, s]) => s.errors > 0)
+    .filter(([_, s]) => s && s.errors > 0)
     .map(([name, s]) => `${name}=${s.errors}`)
     .join(", ");
 }
 
-interface CollectionDef {
-  name: string;
-  path: string;
-  embeddedKey: string;
-  onRow: (supabase: ReturnType<typeof createClient>, row: Record<string, unknown>) => Promise<void>;
+function anyErrors(summary: Record<string, unknown>): boolean {
+  const c = summary.collections as Record<string, { errors: number }>;
+  return Object.values(c).some((s) => s && s.errors > 0);
 }
 
-async function pollCollection(
+// ===========================================================================
+// Polling strategies
+// ===========================================================================
+
+interface PollResult {
+  fetched: number;
+  processed: number;
+  errors: number;
+  pagesWalked?: number;
+  watermark?: string | number | null;
+}
+
+// Forward walk + updatedSince filter — used for /reservations only.
+async function pollCollectionForward(
   supabase: ReturnType<typeof createClient>,
   auth: string,
   c: CollectionDef,
-): Promise<{ fetched: number; processed: number; errors: number; nextSinceTs: string | null }> {
+): Promise<PollResult> {
   const state = await getPollState(supabase, c.name);
   const sinceTs = state?.last_seen_updated_at ?? null;
 
@@ -197,10 +241,6 @@ async function pollCollection(
   let errors = 0;
   let newestSeenTs = sinceTs;
 
-  // Pull most-recently-updated first, walk back until we hit sinceTs or end of data.
-  // TRACK PMS supports sortColumn=updatedAt + sortDirection=desc. updatedSince filter
-  // is attempted but not guaranteed to be supported by every tenant; we client-side
-  // filter as a safety net.
   let page = 1;
   let keepPaging = true;
   while (keepPaging) {
@@ -211,14 +251,7 @@ async function pollCollection(
     url.searchParams.set("page", String(page));
     if (sinceTs) url.searchParams.set("updatedSince", sinceTs);
 
-    const res = await fetchWithRetry(url.toString(), {
-      headers: {
-        Authorization: auth,
-        Accept: "application/json",
-        "User-Agent": "MonteKristo-AI/LRMB-track-poll/1.0",
-      },
-    });
-
+    const res = await fetchWithRetry(url.toString(), { headers: trackHeaders(auth) });
     if (!res.ok) {
       await logError(supabase, c.name, `HTTP ${res.status} fetching ${url.pathname}`, { page });
       errors++;
@@ -226,39 +259,27 @@ async function pollCollection(
     }
 
     const json = await res.json();
-    const embedded = json?._embedded ?? {};
-    const rows: Array<Record<string, unknown>> =
-      (embedded[c.embeddedKey] as Array<Record<string, unknown>>) ??
-      (Array.isArray(embedded[Object.keys(embedded)[0] ?? ""])
-        ? (embedded[Object.keys(embedded)[0] ?? ""] as Array<Record<string, unknown>>)
-        : []);
-
+    const rows = extractRows(json, c.embeddedKey);
     fetched += rows.length;
     if (rows.length === 0) break;
 
     for (const row of rows) {
       const updatedAt = (row.updatedAt as string | undefined) ?? null;
-
-      // Client-side stop: if TRACK ignored updatedSince, walk back until we cross the boundary.
       if (sinceTs && updatedAt && updatedAt <= sinceTs) {
         keepPaging = false;
         continue;
       }
-
       try {
-        await c.onRow(supabase, row);
+        await c.onRow(supabase, row, auth);
         processed++;
         if (!newestSeenTs || (updatedAt && updatedAt > newestSeenTs)) {
           newestSeenTs = updatedAt;
         }
       } catch (err) {
         errors++;
-        await logError(
-          supabase,
-          c.name,
-          err instanceof Error ? err.message : String(err),
-          { externalId: row.id, page },
-        );
+        await logError(supabase, c.name, err instanceof Error ? err.message : String(err), {
+          externalId: row.id, page,
+        });
       }
     }
 
@@ -266,38 +287,143 @@ async function pollCollection(
     if (!hasNext) keepPaging = false;
     page++;
     if (page > 50) {
-      // Safety guard: do not poll forever
-      await logError(supabase, c.name, "Page cap (50) reached, stopping", { page });
+      await logError(supabase, c.name, "Page cap (50) reached", { page });
       break;
     }
   }
 
-  // Update poll state
-  await supabase
-    .from("track_poll_state")
-    .upsert({
-      collection_name: c.name,
-      last_seen_updated_at: newestSeenTs,
-      last_run_at: new Date().toISOString(),
-      last_run_outcome: errors === 0 ? "ok" : "partial",
-      records_processed: processed,
-      records_errored: errors,
-    }, { onConflict: "collection_name" });
+  await supabase.from("track_poll_state").upsert({
+    collection_name: c.name,
+    last_seen_updated_at: newestSeenTs,
+    last_run_at: new Date().toISOString(),
+    last_run_outcome: errors === 0 ? "ok" : "partial",
+    records_processed: processed,
+    records_errored: errors,
+  }, { onConflict: "collection_name" });
 
-  return { fetched, processed, errors, nextSinceTs: newestSeenTs };
+  return { fetched, processed, errors, watermark: newestSeenTs };
+}
+
+// Backward walk from last page — used for /maintenance/work-orders and
+// /housekeeping/work-orders. TRACK ignores sortColumn / updatedSince on
+// these endpoints (default sort is ID ASC), so newest WOs live at the
+// END of pagination.
+async function pollCollectionBackward(
+  supabase: ReturnType<typeof createClient>,
+  auth: string,
+  c: CollectionDef,
+): Promise<PollResult> {
+  const state = await getPollState(supabase, c.name);
+  const lastSeenId = Number(state?.last_seen_external_id ?? 0) || 0;
+
+  // 1. Fetch page 1 to learn total page_count (TRACK rejects page=0).
+  const firstUrl = `${BASE}${c.path}?limit=${PAGE_SIZE}&page=1`;
+  const firstRes = await fetchWithRetry(firstUrl, { headers: trackHeaders(auth) });
+  if (!firstRes.ok) {
+    await logError(supabase, c.name, `HTTP ${firstRes.status} probing page 1`, {});
+    return { fetched: 0, processed: 0, errors: 1, pagesWalked: 0, watermark: lastSeenId };
+  }
+  const firstJson = await firstRes.json();
+  const pageCount = Number(firstJson?.page_count) || 1;
+
+  let page = pageCount;
+  let pagesWalked = 0;
+  let fetched = 0;
+  let processed = 0;
+  let errors = 0;
+  let newestSeenId = lastSeenId;
+
+  while (page >= 1 && pagesWalked < BACKWARD_PAGE_CAP) {
+    const url = `${BASE}${c.path}?limit=${PAGE_SIZE}&page=${page}`;
+    const res = await fetchWithRetry(url, { headers: trackHeaders(auth) });
+    if (!res.ok) {
+      await logError(supabase, c.name, `HTTP ${res.status} on page ${page}`, { page });
+      errors++;
+      break;
+    }
+    const json = await res.json();
+    const rows = extractRows(json, c.embeddedKey);
+    pagesWalked++;
+    fetched += rows.length;
+
+    // Process newest first within each page so the watermark advances cleanly.
+    rows.sort((a, b) => Number(b.id ?? 0) - Number(a.id ?? 0));
+
+    let hitOld = false;
+    for (const row of rows) {
+      const rowId = Number(row.id);
+      if (!Number.isFinite(rowId)) continue;
+      if (rowId <= lastSeenId) {
+        // We've crossed back into known-processed territory.
+        hitOld = true;
+        continue;
+      }
+      try {
+        await c.onRow(supabase, row, auth);
+        processed++;
+        if (rowId > newestSeenId) newestSeenId = rowId;
+      } catch (err) {
+        errors++;
+        await logError(supabase, c.name, err instanceof Error ? err.message : String(err), {
+          externalId: row.id, page,
+        });
+      }
+    }
+
+    if (hitOld) break;
+    page--;
+  }
+
+  if (pagesWalked >= BACKWARD_PAGE_CAP) {
+    await logError(
+      supabase, c.name,
+      `Backward page cap (${BACKWARD_PAGE_CAP}) reached — more pages remain, will resume next cron`,
+      { pageCount, stoppedAtPage: page, watermark: newestSeenId },
+      "warning",
+    );
+  }
+
+  await supabase.from("track_poll_state").upsert({
+    collection_name: c.name,
+    last_seen_external_id: newestSeenId,
+    last_run_at: new Date().toISOString(),
+    last_run_outcome: errors === 0 ? "ok" : "partial",
+    records_processed: processed,
+    records_errored: errors,
+  }, { onConflict: "collection_name" });
+
+  return { fetched, processed, errors, pagesWalked, watermark: newestSeenId };
+}
+
+function extractRows(json: unknown, key: string): Array<Record<string, unknown>> {
+  if (!json || typeof json !== "object") return [];
+  const embedded = (json as Record<string, unknown>)._embedded as
+    | Record<string, unknown>
+    | undefined;
+  if (!embedded) return [];
+  const k = key in embedded ? key : Object.keys(embedded)[0];
+  if (!k) return [];
+  const arr = embedded[k];
+  return Array.isArray(arr) ? (arr as Array<Record<string, unknown>>) : [];
 }
 
 async function getPollState(
   supabase: ReturnType<typeof createClient>,
   collection: string,
-): Promise<{ last_seen_updated_at: string | null } | null> {
+): Promise<{
+  last_seen_updated_at: string | null;
+  last_seen_external_id: number | null;
+} | null> {
   const { data, error } = await supabase
     .from("track_poll_state")
-    .select("last_seen_updated_at")
+    .select("last_seen_updated_at, last_seen_external_id")
     .eq("collection_name", collection)
     .maybeSingle();
   if (error) return null;
-  return data;
+  return data as {
+    last_seen_updated_at: string | null;
+    last_seen_external_id: number | null;
+  } | null;
 }
 
 async function logError(
@@ -307,9 +433,6 @@ async function logError(
   context: Record<string, unknown>,
   severity: "error" | "warning" | "info" = "error",
 ) {
-  // v8: severity parameter so unit-not-mapped (expected for TRACK-only/archived
-  // units) can be demoted to severity=info under action='track_poll_info'.
-  // Keeps poll-health metric clean (only true errors hit records_errored).
   await supabase.from("audit_logs").insert({
     action: severity === "info" ? "track_poll_info" : "track_poll_error",
     entity_type: "edge_function",
@@ -319,9 +442,12 @@ async function logError(
   });
 }
 
-function anyErrors(summary: Record<string, unknown>): boolean {
-  const c = summary.collections as Record<string, { errors: number }>;
-  return Object.values(c).some((s) => s.errors > 0);
+function trackHeaders(auth: string): HeadersInit {
+  return {
+    Authorization: auth,
+    Accept: "application/json",
+    "User-Agent": "MonteKristo-AI/LRMB-track-poll/1.0",
+  };
 }
 
 async function fetchWithRetry(url: string, init: RequestInit): Promise<Response> {
@@ -330,7 +456,6 @@ async function fetchWithRetry(url: string, init: RequestInit): Promise<Response>
     try {
       const res = await fetch(url, init);
       if (res.status >= 500 || res.status === 429) {
-        // Retryable
         await sleep(2 ** attempt * 500);
         continue;
       }
@@ -354,19 +479,16 @@ function jsonResponse(status: number, body: unknown): Response {
   });
 }
 
-// ------------- Row handlers -------------
+// ===========================================================================
+// Row handlers
+// ===========================================================================
 
 async function handleReservationRow(
   supabase: ReturnType<typeof createClient>,
   row: Record<string, unknown>,
+  _auth: string,
 ): Promise<void> {
   const externalId = String(row.id);
-
-  // Mirror to reservation_events as a sync event ONLY. We intentionally do NOT
-  // insert a 'checkout' event_type because the existing trigger
-  // `trg_reservation_event_to_housekeeping` would fire `create_housekeeping_task_from_reservation_event()`,
-  // creating a duplicate task alongside our `tasks` upsert in upsertTaskFromTrackWO.
-  // The 'sync' event_type is ignored by that trigger (event_type filter), so we're safe.
   await supabase.from("reservation_events").upsert(
     {
       external_source: "track",
@@ -382,37 +504,36 @@ async function handleReservationRow(
 async function handleMaintenanceWorkOrderRow(
   supabase: ReturnType<typeof createClient>,
   row: Record<string, unknown>,
+  auth: string,
 ): Promise<void> {
-  await upsertTaskFromTrackWO(supabase, row, "maintenance");
+  await upsertTaskFromTrackWO(supabase, row, "maintenance", auth);
 }
 
 async function handleHousekeepingWorkOrderRow(
   supabase: ReturnType<typeof createClient>,
   row: Record<string, unknown>,
+  auth: string,
 ): Promise<void> {
-  await upsertTaskFromTrackWO(supabase, row, "housekeeping");
+  await upsertTaskFromTrackWO(supabase, row, "housekeeping", auth);
 }
 
 async function upsertTaskFromTrackWO(
   supabase: ReturnType<typeof createClient>,
   row: Record<string, unknown>,
   category: "maintenance" | "housekeeping",
+  auth: string,
 ): Promise<void> {
   const externalId = String(row.id);
   const trackUnitIdNum = typeof row.unitId === "number" ? row.unitId : Number(row.unitId ?? NaN);
   const trackUnitIdStr = Number.isFinite(trackUnitIdNum) ? String(trackUnitIdNum) : null;
 
-  // Resolve our local unit. Prefer the dedicated track_id integer column (set by
-  // the existing 2026-04-21 reconciliation migration). Fall back to the generic
-  // (external_source='track', external_id=...) pair populated by sync-track-units.mjs.
   let localUnitId: string | null = null;
   let propertyId: string | null = null;
+
   if (Number.isFinite(trackUnitIdNum)) {
     const { data: unitByTrackId } = await supabase
-      .from("units")
-      .select("id, property_id")
-      .eq("track_id", trackUnitIdNum)
-      .maybeSingle();
+      .from("units").select("id, property_id")
+      .eq("track_id", trackUnitIdNum).maybeSingle();
     if (unitByTrackId) {
       localUnitId = unitByTrackId.id as string;
       propertyId = unitByTrackId.property_id as string;
@@ -420,51 +541,42 @@ async function upsertTaskFromTrackWO(
   }
   if (!localUnitId && trackUnitIdStr) {
     const { data: unitByExternal } = await supabase
-      .from("units")
-      .select("id, property_id")
-      .eq("external_source", "track")
-      .eq("external_id", trackUnitIdStr)
-      .maybeSingle();
+      .from("units").select("id, property_id")
+      .eq("external_source", "track").eq("external_id", trackUnitIdStr).maybeSingle();
     if (unitByExternal) {
       localUnitId = unitByExternal.id as string;
       propertyId = unitByExternal.property_id as string;
     }
   }
 
+  // v18: auto-import unit from TRACK if we don't have it locally.
+  if (!localUnitId && Number.isFinite(trackUnitIdNum)) {
+    const imported = await autoImportUnit(supabase, trackUnitIdNum, auth);
+    if (imported) {
+      localUnitId = imported.unit_id;
+      propertyId = imported.property_id;
+    }
+  }
+
   if (!localUnitId || !propertyId) {
-    // v8: demote to severity=info. Expected for TRACK-only units (archived
-    // listings, units LRMB hasn't imported into AiiA — see
-    // documents/TONY-BRIEFING-2026-05-20.md Q1+Q2 for the 34 unmapped units).
-    // Surfaces in audit_logs under action='track_poll_info' so poll-health
-    // metric stays clean.
     await logError(
-      supabase,
-      `${category}-work-orders`,
+      supabase, `${category}-work-orders`,
       "Unit not yet mapped from TRACK",
-      { externalId, trackUnitId: trackUnitIdNum },
-      "info",
+      { externalId, trackUnitId: trackUnitIdNum }, "info",
     );
     return;
   }
 
-  // Map TRACK status to AiiA status (best-effort, conservative)
   const trackStatus = String(row.status ?? "").toLowerCase();
   const aiiaStatus = mapTrackStatus(trackStatus, _unknownStatuses);
 
   const reservationId = row.reservationId ?? row.nextReservationId ?? null;
-
   const updatedAtVal = (row.updatedAt as string | undefined) ?? new Date().toISOString();
   let startedAt = (row.dateStarted as string | undefined) ??
     (row.scheduledAt as string | undefined) ?? null;
   let completedAt = (row.dateCompleted as string | undefined) ??
     (row.completedAt as string | undefined) ?? null;
 
-  // CHECK constraint tasks_status_timestamp_consistency requires:
-  //   started_at NOT NULL for in_progress / completed / verified / processed
-  //   completed_at NOT NULL for completed / verified / processed
-  // TRACK frequently leaves those timestamps NULL on cancelled WOs even
-  // though the row reaches terminal state. Use updatedAt as a defensible
-  // fallback so the constraint never blocks an INSERT.
   if (["in_progress", "completed", "verified", "processed"].includes(aiiaStatus) && !startedAt) {
     startedAt = completedAt ?? updatedAtVal;
   }
@@ -473,12 +585,10 @@ async function upsertTaskFromTrackWO(
   }
 
   const baseTask = {
-    // Identification + linkage
     external_source: "track",
     external_id: externalId,
-    source_type: "travelnet", // matches existing SQL function's dedup check
+    source_type: "travelnet",
     reservation_id: reservationId ? String(reservationId) : null,
-    // Categorization
     task_category: category,
     task_type: category === "housekeeping" ? "checkout_turnover" : "maintenance",
     housekeeping_type: category === "housekeeping" ? deriveHousekeepingType(row) : null,
@@ -486,14 +596,11 @@ async function upsertTaskFromTrackWO(
     description: (row.description as string | undefined) ??
       (row.comments as string | undefined) ?? null,
     priority: derivePriority(row),
-    // Linkage
     unit_id: localUnitId,
     property_id: propertyId,
-    // Enforcement flags (AiiA's value-prop: photo+note required)
     requires_photo: true,
     requires_note: true,
     requires_timestamp: true,
-    // Lifecycle
     status: aiiaStatus,
     started_at: startedAt,
     completed_at: completedAt,
@@ -501,9 +608,6 @@ async function upsertTaskFromTrackWO(
       (row.processedAt as string | undefined) ?? null,
     scheduled_for: (row.scheduledAt as string | undefined) ??
       (row.dateScheduled as string | undefined) ?? null,
-    // QA P1 Q-DB-1: map TRACK's createdAt to our created_at on insert so
-    // cycle-time analytics don't see updated_at < created_at. UPSERT on
-    // conflict ignores created_at (column not in the update set by default).
     created_at: (row.createdAt as string | undefined) ??
       (row.dateOpened as string | undefined) ??
       (row.dateCreated as string | undefined) ??
@@ -511,43 +615,131 @@ async function upsertTaskFromTrackWO(
     updated_at: updatedAtVal,
   };
 
-  // Upsert on (external_source, external_id)
-  const { error } = await supabase
-    .from("tasks")
-    .upsert(baseTask, { onConflict: "external_source,external_id", ignoreDuplicates: false });
+  const { error } = await supabase.from("tasks").upsert(
+    baseTask,
+    { onConflict: "external_source,external_id", ignoreDuplicates: false },
+  );
+  if (error) throw new Error(`upsert task failed: ${error.message}`);
+}
 
-  if (error) {
-    throw new Error(`upsert task failed: ${error.message}`);
+// ===========================================================================
+// Auto-import unit on demand
+// ===========================================================================
+
+async function autoImportUnit(
+  supabase: ReturnType<typeof createClient>,
+  trackUnitId: number,
+  auth: string,
+): Promise<{ unit_id: string; property_id: string } | null> {
+  try {
+    const url = `${BASE}/units/${trackUnitId}`;
+    const res = await fetchWithRetry(url, { headers: trackHeaders(auth) });
+    if (!res.ok) {
+      await logError(
+        supabase, "auto-import-unit",
+        `HTTP ${res.status} fetching /units/${trackUnitId}`,
+        { trackUnitId },
+      );
+      return null;
+    }
+    const unit = (await res.json()) as Record<string, unknown>;
+
+    // Race-safe re-check: another concurrent invocation may have imported it.
+    const { data: existing } = await supabase
+      .from("units").select("id, property_id")
+      .eq("track_id", trackUnitId).maybeSingle();
+    if (existing) {
+      return { unit_id: existing.id as string, property_id: existing.property_id as string };
+    }
+
+    const propertyId = await getOrCreateAutoImportProperty(supabase);
+    if (!propertyId) return null;
+
+    const unitCode = String(
+      unit.unitCode ?? unit.name ?? unit.shortName ?? `TRACK-${trackUnitId}`,
+    ).slice(0, 80);
+
+    const insert = {
+      property_id: propertyId,
+      track_id: trackUnitId,
+      external_source: "track",
+      external_id: String(trackUnitId),
+      unit_code: unitCode,
+      short_name: (unit.shortName as string | undefined) ?? (unit.name as string | undefined) ?? null,
+      bedrooms: Number(unit.bedrooms ?? 0) || 0,
+      max_occupancy: Number(unit.maxOccupancy ?? 0) || 0,
+      active: unit.isActive !== false,
+    };
+
+    const { data: inserted, error } = await supabase
+      .from("units").insert(insert).select("id, property_id").single();
+    if (error || !inserted) {
+      await logError(
+        supabase, "auto-import-unit",
+        `INSERT failed: ${error?.message ?? "unknown"}`,
+        { trackUnitId, unitCode },
+      );
+      return null;
+    }
+
+    _autoImportedUnits.add(trackUnitId);
+    await supabase.from("audit_logs").insert({
+      action: "track_unit_auto_imported",
+      entity_type: "edge_function",
+      entity_id: crypto.randomUUID(),
+      description: `Auto-imported TRACK unit ${trackUnitId} (${unitCode})`,
+      payload_json: {
+        severity: "info", trackUnitId, unitCode,
+        propertyId, unitId: inserted.id,
+      },
+    });
+
+    return { unit_id: inserted.id as string, property_id: inserted.property_id as string };
+  } catch (err) {
+    await logError(
+      supabase, "auto-import-unit",
+      err instanceof Error ? err.message : String(err),
+      { trackUnitId },
+    );
+    return null;
   }
 }
 
-// Statuses we deliberately catch with the "new" fallback because they
-// semantically ARE new in AiiA terms. Anything outside this set that still
-// hits the fallback is a TRACK enum addition we don't know about — those
-// get surfaced via unknownTracker so the next run flags them.
+async function getOrCreateAutoImportProperty(
+  supabase: ReturnType<typeof createClient>,
+): Promise<string | null> {
+  const { data: existing } = await supabase
+    .from("properties").select("id")
+    .eq("external_source", "track-auto-import")
+    .eq("external_id", "catch-all").maybeSingle();
+  if (existing) return existing.id as string;
+
+  const { data: created, error } = await supabase
+    .from("properties").insert({
+      name: AUTO_IMPORT_PROPERTY_NAME,
+      external_source: "track-auto-import",
+      external_id: "catch-all",
+    }).select("id").single();
+  if (error || !created) {
+    await logError(
+      supabase, "auto-import-unit",
+      `getOrCreateAutoImportProperty failed: ${error?.message ?? "unknown"}`,
+      {},
+    );
+    return null;
+  }
+  return created.id as string;
+}
+
+// ===========================================================================
+// Mappers
+// ===========================================================================
+
 const KNOWN_NEW_TRACK_STATUSES = new Set([
   "pending", "open", "new", "scheduled", "draft", "queued", "", "null",
 ]);
 
 function mapTrackStatus(s: string, unknownTracker?: Set<string>): string {
-  // Map onto the AiiA task_status enum:
-  // new / assigned / vendor_not_started / in_progress / waiting_parts /
-  // blocked / completed / verified / processed
-  //
-  // 2026-05-23: live TRACK probe revealed the full status enum is wider
-  // than the original mapper handled. Real-world values:
-  //   cancelled, processed, completed, verified
-  //   pending, open                            -> still new (future / unstarted)
-  //   in-progress (with hyphen!)               -> in_progress
-  //   vendor-not-start                         -> vendor_not_started
-  //   vendor-assigned                          -> assigned
-  //   exception                                -> blocked
-  // The old mapper missed cancelled / in-progress / vendor-not-start /
-  // exception and dumped them all into "new", causing ~11.9K terminal
-  // or in-flight WOs to surface as Open on the Admin Dashboard. cancelled
-  // is terminal in TRACK (no further work happens) so we surface it as
-  // completed; if a downstream report ever needs to distinguish cancelled
-  // from completed we can extend the enum then.
   if (!s) return "new";
   const t = s.toLowerCase();
   const normalized = t.replace(/[-_]/g, "");
@@ -560,9 +752,6 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string {
   if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
   if (t.includes("exception") || t.includes("hold") || t.includes("block")) return "blocked";
   if (t.includes("wait")) return "waiting_parts";
-  // Fell through to "new". Track if this was an actually-unknown status
-  // (vs the legitimate pending/open we expect) so we can surface enum
-  // additions in audit_logs at the end of the run.
   if (unknownTracker && !KNOWN_NEW_TRACK_STATUSES.has(t)) {
     unknownTracker.add(t);
   }
@@ -570,11 +759,8 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string {
 }
 
 function deriveHousekeepingType(row: Record<string, unknown>): string {
-  // Map onto the AiiA housekeeping_type enum:
-  // checkout_clean / mid_stay_clean / deep_clean / linen_change /
-  // intermittent_clean / owner_specific_clean
   const raw = String(row.cleanType ?? "").toLowerCase();
-  if (row.isInspection) return "checkout_clean"; // inspections paired with cleans
+  if (row.isInspection) return "checkout_clean";
   if (raw.includes("deep")) return "deep_clean";
   if (raw.includes("linen")) return "linen_change";
   if (raw.includes("mid")) return "mid_stay_clean";
