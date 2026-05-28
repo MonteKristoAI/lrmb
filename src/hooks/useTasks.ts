@@ -6,7 +6,19 @@ import type { Database } from "@/integrations/supabase/types";
 
 type TaskUpdateInsert = Database["public"]["Tables"]["task_updates"]["Insert"];
 
-export function useTasks(filters?: { status?: TaskStatus[]; category?: TaskCategory; assigned_to?: string; property_id?: string }) {
+// 2026-05-29: `vendor_id_or_assigned_to` accepts the auth.uid() of the
+// signed-in user AND that user's profiles.vendor_id (if any). Yields a
+// PostgREST OR filter so My Work Orders shows tasks assigned directly to
+// the user OR assigned to their vendor company (the way TRACK actually
+// routes HK work). Pass `assigned_to` for the legacy strict filter when
+// only personal assignment matters (e.g. admin queues).
+export function useTasks(filters?: {
+  status?: TaskStatus[];
+  category?: TaskCategory;
+  assigned_to?: string;
+  property_id?: string;
+  vendor_id_or_assigned_to?: { user_id: string; vendor_id: string | null };
+}) {
   return useQuery({
     queryKey: ["tasks", filters],
     queryFn: async () => {
@@ -15,6 +27,14 @@ export function useTasks(filters?: { status?: TaskStatus[]; category?: TaskCateg
       if (filters?.category) q = q.eq("task_category", filters.category);
       if (filters?.assigned_to) q = q.eq("assigned_to", filters.assigned_to);
       if (filters?.property_id) q = q.eq("property_id", filters.property_id);
+      if (filters?.vendor_id_or_assigned_to) {
+        const { user_id, vendor_id } = filters.vendor_id_or_assigned_to;
+        if (vendor_id) {
+          q = q.or(`assigned_to.eq.${user_id},vendor_id.eq.${vendor_id}`);
+        } else {
+          q = q.eq("assigned_to", user_id);
+        }
+      }
       const { data, error } = await q.order("created_at", { ascending: false });
       if (error) throw error;
       return data as (Task & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null; bedrooms: number | null } | null })[];

@@ -9,8 +9,19 @@ import type { TaskStatus } from "@/types/task";
 const ACTIVE_STATUSES: TaskStatus[] = ["new", "assigned", "vendor_not_started", "in_progress", "waiting_parts", "blocked"];
 
 const MyTasks = () => {
-  const { user } = useAuth();
-  const { data: tasks, isLoading } = useTasks(user ? { assigned_to: user.id, status: ACTIVE_STATUSES } : undefined);
+  const { user, profile } = useAuth();
+  // 2026-05-29: include WOs assigned to the user's vendor (TRACK assigns HK
+  // work to a vendor company, not a specific staff user). profile.vendor_id
+  // links staff to their vendor; null when the user isn't a member of any.
+  const vendorId = (profile as (typeof profile & { vendor_id?: string | null }) | null)?.vendor_id ?? null;
+  const { data: tasks, isLoading } = useTasks(
+    user
+      ? {
+          vendor_id_or_assigned_to: { user_id: user.id, vendor_id: vendorId },
+          status: ACTIVE_STATUSES,
+        }
+      : undefined,
+  );
 
   const sorted = tasks?.slice().sort((a, b) => {
     const pa = PRIORITY_ORDER[a.priority] ?? 2;
