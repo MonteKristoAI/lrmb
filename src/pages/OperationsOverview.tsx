@@ -1256,7 +1256,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
                               onClick={handleRowClick}
                               className="mt-1 text-[10px] font-medium uppercase tracking-wide text-muted-foreground opacity-0 transition group-hover:opacity-100 hover:text-accent hover:underline"
                             >
-                              Open task →
+                              Open work order →
                             </button>
                           ) : null}
                         </div>
@@ -1607,7 +1607,7 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
   const taskActivity = payload.activity ?? [];
   const displayName = t.task_category === "housekeeping"
     ? (t.housekeeping_type ? hkTypeLabel(t.housekeeping_type) : "Clean")
-    : (t.title ?? "Maintenance task");
+    : (t.title ?? "Maintenance work order");
   const locLabel = u && p
     ? `${u.short_name ?? u.unit_code ?? ""} · ${p.name}`
     : (p?.name ?? "Unknown property");
