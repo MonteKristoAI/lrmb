@@ -64,7 +64,14 @@ async function verifyShareToken(
 
   if (payload.v === 2) {
     if (!payload.aud || !payload.jti) throw new ShareLinkError("bad_format", "v2 missing aud/jti");
-    if (payload.aud !== "ops_detail" && payload.aud !== "ops_full" && payload.aud !== "ops_overview") {
+    // L10 EF-27 (2026-05-29): dropped `ops_overview` from the accept list.
+    // The /track-detail endpoint returns full task PII (description,
+    // blocked_reason, claim_amount, audit_log activity); ops_overview was
+    // intended as an aggregated-metrics-only audience (Tony's weekly
+    // report). Allowing it here let any ops_overview share-link viewer
+    // pivot to detail records by guessing UUIDs. ops_full keeps full
+    // access; ops_detail is the per-record audience.
+    if (payload.aud !== "ops_detail" && payload.aud !== "ops_full") {
       throw new ShareLinkError("wrong_audience", `aud=${payload.aud}`);
     }
     if (isRevoked && (await isRevoked(payload.jti))) {
@@ -139,9 +146,13 @@ Deno.serve(async (req) => {
         .select("id, storage_path, photo_type, photo_subtype, caption, created_at, uploaded_by, track_attachment_id, track_synced_at")
         .eq("task_id", taskId)
         .order("created_at", { ascending: false }),
+      // L10 EF-28 (2026-05-29): drop `payload_json` from the select. Whatever
+      // any future writer dumps into payload_json (service_role context,
+      // user emails, internal IDs) used to land in the share-link viewer's
+      // response. Limit to display fields only.
       supabase
         .from("audit_logs")
-        .select("id, action, actor_name, actor_id, payload_json, description, created_at")
+        .select("id, action, actor_name, actor_id, description, created_at")
         .eq("entity_type", "tasks")
         .eq("entity_id", taskId)
         .order("created_at", { ascending: false })
@@ -187,7 +198,23 @@ Deno.serve(async (req) => {
         .limit(1)
         .maybeSingle();
       if (resData) {
-        linkedReservation = resData.payload_json as Record<string, unknown>;
+        // L10 EF-28 (2026-05-29): whitelist non-PII fields from the
+        // TRACK reservation payload. Before, we dumped the full
+        // payload_json which includes guest name + email + phone +
+        // address + total_amount — exposing them to vendor share-link
+        // holders. Show stay logistics only.
+        const raw = (resData.payload_json ?? {}) as Record<string, unknown>;
+        const RES_WHITELIST = [
+          "id", "checkin", "checkout", "arrivalDate", "departureDate",
+          "status", "nights", "adultCount", "childCount", "petCount",
+          "channelName", "source", "type",
+          "isOwnerBlock", "isHold",
+          "updatedAt", "createdAt",
+        ] as const;
+        linkedReservation = {};
+        for (const k of RES_WHITELIST) {
+          if (k in raw) (linkedReservation as Record<string, unknown>)[k] = raw[k];
+        }
         (linkedReservation as Record<string, unknown>).eventAt = resData.event_at;
       }
     }

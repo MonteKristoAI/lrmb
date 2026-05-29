@@ -42,7 +42,12 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
           </Button>
         </div>
       </header>
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      {/* L10 BUG-004 (2026-05-29): pb-24 (~88px) reserves space for the
+          fixed MobileNav. Without it, the last item in any scrollable
+          list sits behind the nav bar on desktop AND iOS Safari with
+          tab-bar visible. The MobileNav height is ~80px; pb-24 covers
+          it with breathing room. */}
+      <main className="flex-1 overflow-y-auto pb-24">{children}</main>
       <MobileNav />
     </div>
   );

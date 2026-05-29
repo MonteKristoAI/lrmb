@@ -10,10 +10,7 @@ const ACTIVE_STATUSES: TaskStatus[] = ["new", "assigned", "vendor_not_started", 
 
 const MyTasks = () => {
   const { user, profile } = useAuth();
-  // 2026-05-29: include WOs assigned to the user's vendor (TRACK assigns HK
-  // work to a vendor company, not a specific staff user). profile.vendor_id
-  // links staff to their vendor; null when the user isn't a member of any.
-  const vendorId = (profile as (typeof profile & { vendor_id?: string | null }) | null)?.vendor_id ?? null;
+  const vendorId = profile?.vendor_id ?? null;
   const { data: tasks, isLoading } = useTasks(
     user
       ? {

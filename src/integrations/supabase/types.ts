@@ -361,28 +361,41 @@ export type Database = {
           id: string
           phone: string | null
           updated_at: string
+          vendor_id: string | null
         }
         Insert: {
           active?: boolean
           avatar_url?: string | null
           created_at?: string
+          department?: string | null
           email?: string | null
           full_name?: string
           id: string
           phone?: string | null
           updated_at?: string
+          vendor_id?: string | null
         }
         Update: {
           active?: boolean
           avatar_url?: string | null
           created_at?: string
+          department?: string | null
           email?: string | null
           full_name?: string
           id?: string
           phone?: string | null
           updated_at?: string
+          vendor_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_vendor_id_fkey"
+            columns: ["vendor_id"]
+            isOneToOne: false
+            referencedRelation: "vendors"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       properties: {
         Row: {

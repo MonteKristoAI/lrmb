@@ -1,5 +1,28 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v26 (2026-05-29): drop raw error.stack from audit_logs payload_json.
+//   Deno error stacks include esm.sh module paths and on some SDK
+//   errors the .cause chain can carry request URLs with auth headers.
+//   Log errorName + truncated errorMessage instead. (EF-40/EF-45.)
+//
+// v25 (2026-05-29): codex L10 sweep hardening:
+//   - extractRows: strict _embedded key match. Drop the
+//     Object.keys()[0] fallback so a TRACK shape change can't silently
+//     redirect rows through the wrong handler.
+//   - resolveTrackVendor: log the catch path. A network-level fetch
+//     throw used to swallow into vendor_id=null with no audit row.
+//   - autoImportUnit + getOrCreateAutoImportProperty: ignoreDuplicates
+//     so admin renames/deactivations stick. First-import wins.
+//   - mapTrackStatus: negative-prefix regex guards so "uncancelled",
+//     "restarted", "approval_unblocked" don't fall into the wrong
+//     bucket. Drop the literal "null" from KNOWN_NEW so a real "null"
+//     status string surfaces in the unknown-status alert.
+//
+// v24 (2026-05-29): atomic vendor resolution via upsert_track_vendor
+//   RPC with SELECT FOR UPDATE. Closes a race where two concurrent
+//   polls could attach the same track_vendor_id to different local
+//   vendors or stamp it on the wrong name-matched row.
+//
 // v23 (2026-05-29): vendor auto-import. When a TRACK HK WO surfaces a
 //   vendorId we don't have locally, fetch /crm/companies/{id} (TRACK's
 //   vendor record) and INSERT into public.vendors with track_vendor_id
@@ -222,8 +245,12 @@ Deno.serve(async (req) => {
           fatal: collErr instanceof Error ? collErr.message : String(collErr),
         };
         await logError(supabase, c.name, "Collection-level fatal error", {
-          error: collErr instanceof Error ? collErr.message : String(collErr),
-          stack: collErr instanceof Error ? collErr.stack : undefined,
+          errorName: collErr instanceof Error ? collErr.name : "unknown",
+          errorMessage: (collErr instanceof Error ? collErr.message : String(collErr)).slice(0, 500),
+          // L10 EF-40 (2026-05-29): dropped `stack`. Deno error stacks
+          // contain esm.sh module paths + on some SDK errors the .cause
+          // chain can include request URLs with auth tokens. Surface
+          // name + message only.
         });
       }
     }
@@ -468,15 +495,21 @@ async function pollCollectionBackward(
   return { fetched, processed, errors, pagesWalked, watermark: persistedWatermark };
 }
 
+// v25: strict — no Object.keys()[0] fallback. If TRACK changes the
+// _embedded shape (adds warnings/meta/errors at top) the old fallback
+// would silently process the wrong array as work orders, every row's
+// row.id would be undefined, validateExternalId would throw, errors
+// would climb forever. Better to return [] + let the page loop see
+// fetched=0 and move on; the unknown shape gets surfaced via the
+// audit-log fatal path on the collection summary.
 function extractRows(json: unknown, key: string): Array<Record<string, unknown>> {
   if (!json || typeof json !== "object") return [];
   const embedded = (json as Record<string, unknown>)._embedded as
     | Record<string, unknown>
     | undefined;
-  if (!embedded) return [];
-  const k = key in embedded ? key : Object.keys(embedded)[0];
-  if (!k) return [];
-  const arr = embedded[k];
+  if (!embedded || typeof embedded !== "object" || Array.isArray(embedded)) return [];
+  if (!(key in embedded)) return [];
+  const arr = embedded[key];
   return Array.isArray(arr) ? (arr as Array<Record<string, unknown>>) : [];
 }
 
@@ -841,7 +874,29 @@ async function resolveTrackVendor(
     }
     const first = Array.isArray(data) ? data[0] : data;
     return (first?.vendor_id as string | null) ?? null;
-  } catch (_) { /* fall through to null */ }
+  } catch (err) {
+    // v25: log instead of swallow. A network blip / Deno fetch timeout
+    // in the supabase-js client throws AFTER the RPC body would set
+    // `error`, so we'd return null with no audit row and the upserted
+    // task would have vendor_id=null → vendor-membership RLS misses →
+    // field_staff can't see the WO. Make the failure visible.
+    try {
+      await supabase.from("audit_logs").insert({
+        action: "track_vendor_resolve_exception",
+        entity_type: "edge_function",
+        entity_id: crypto.randomUUID(),
+        description: `resolveTrackVendor exception: ${err instanceof Error ? err.message : String(err)}`,
+        payload_json: {
+          severity: "error",
+          trackVendorId: idNum,
+          name,
+          errorName: err instanceof Error ? err.name : "unknown",
+          // L10 EF-45 (2026-05-29): dropped raw `stack`. Same reasoning
+          // as EF-40 above.
+        },
+      });
+    } catch (_) { /* swallow audit-log failure to avoid cascading */ }
+  }
 
   return null;
 }
@@ -930,14 +985,19 @@ async function autoImportUnit(
     // v20: UPSERT (not INSERT) so concurrent races land on the same row.
     // units_track_id_uniq (migration 20260528180000) is now a regular
     // (non-partial) unique index that ON CONFLICT can resolve.
+    // v25: ignoreDuplicates so an admin who manually deactivated the
+    // unit or renamed unit_code won't see the cron flip it back every
+    // 5 minutes. First-import wins; later poll cycles short-circuit at
+    // the re-check above.
     const { data: inserted, error } = await supabase
       .from("units")
-      .upsert(insert, { onConflict: "track_id" })
+      .upsert(insert, { onConflict: "track_id", ignoreDuplicates: true })
       .select("id, property_id")
-      .single();
+      .maybeSingle();
     if (error || !inserted) {
       // Race fallback: another invocation may have inserted the same row
-      // between our re-check and our upsert. Re-fetch.
+      // between our re-check and our upsert. Re-fetch. Also catches the
+      // ignoreDuplicates=true no-op case where inserted is null.
       const { data: raced } = await supabase
         .from("units").select("id, property_id")
         .eq("track_id", trackUnitId).maybeSingle();
@@ -987,15 +1047,18 @@ async function getOrCreateAutoImportProperty(
   // v20: UPSERT against properties_external_uniq (migration 20260528170000)
   // so two concurrent first-import races don't create duplicate catch-all
   // properties.
+  // v25: ignoreDuplicates so admin can rename "TRACK Auto-Imported" to
+  // something friendlier without the cron resetting it every 5 min.
+  // First-import wins; later cycles short-circuit at the SELECT above.
   const { data: created, error } = await supabase
     .from("properties")
     .upsert({
       name: AUTO_IMPORT_PROPERTY_NAME,
       external_source: "track-auto-import",
       external_id: "catch-all",
-    }, { onConflict: "external_source,external_id" })
+    }, { onConflict: "external_source,external_id", ignoreDuplicates: true })
     .select("id")
-    .single();
+    .maybeSingle();
   if (error || !created) {
     // Race fallback.
     const { data: raced } = await supabase
@@ -1017,9 +1080,21 @@ async function getOrCreateAutoImportProperty(
 // Mappers
 // ===========================================================================
 
+// v25: dropped the literal "null" — if TRACK ever sends a real "null"
+// status string it should land as unknown and surface in the alert,
+// not silently default to "new".
 const KNOWN_NEW_TRACK_STATUSES = new Set([
-  "pending", "open", "new", "scheduled", "draft", "queued", "", "null",
+  "pending", "open", "new", "scheduled", "draft", "queued", "",
 ]);
+
+// v25: negative-prefix regex guards so "uncancelled" / "restarted" /
+// "approval_unblocked" don't slip into the wrong bucket. Substring
+// matching is greedy by default; word-boundary + un-prefix exclusion
+// keeps the original "contains X" semantics for the common case while
+// rejecting the obvious antonyms.
+const RE_CANCEL  = /(?<![a-z])(?<!un)(?:cancel|void|archive|reject)/;
+const RE_BLOCK   = /(?<![a-z])(?<!un)(?:block|hold|exception)/;
+const RE_STARTED = /(?<![a-z])(?<!re)(?:started|inprogress|in_progress|in-progress)/;
 
 // v21: returns null for cancelled / voided / archived / rejected so the
 // caller skips the upsert entirely. Old behavior mapped these to AiiA
@@ -1029,10 +1104,9 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string | null 
   const t = s.toLowerCase();
   const normalized = t.replace(/[-_]/g, "");
 
-  // v21: hard skip for terminal-cancelled. Returns null → caller returns
-  // without writing to tasks. Watermark still advances (we observed the
-  // row), but no row is upserted.
-  if (t.includes("cancel") || t.includes("void") || t.includes("archive") || t.includes("reject")) {
+  // v21+v25: hard skip for terminal-cancelled. RE_CANCEL excludes
+  // "uncancelled" / "reinstated".
+  if (RE_CANCEL.test(normalized)) {
     return null;
   }
 
@@ -1045,9 +1119,12 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string | null 
   // and maps to in_progress.
   if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
 
-  if (normalized.includes("inprogress") || t.includes("started")) return "in_progress";
+  // v25: RE_STARTED rejects "restarted" (so it falls through to "new"
+  // rather than misclassifying a revived WO as in_progress).
+  if (RE_STARTED.test(normalized)) return "in_progress";
   if (t.includes("assign")) return "assigned";
-  if (t.includes("exception") || t.includes("hold") || t.includes("block")) return "blocked";
+  // v25: RE_BLOCK rejects "unblocked" / "approval_unblocked".
+  if (RE_BLOCK.test(normalized)) return "blocked";
   if (t.includes("wait")) return "waiting_parts";
   if (unknownTracker && !KNOWN_NEW_TRACK_STATUSES.has(t)) {
     unknownTracker.add(t);

@@ -23,13 +23,18 @@ function timingSafeEqualBytes(a: Uint8Array, b: Uint8Array): boolean {
 export function requireCronSecret(req: Request): Response | null {
   const expected = Deno.env.get("CRON_SECRET");
   if (!expected) {
-    // Graceful rollout: when CRON_SECRET env is not yet configured, log a
-    // single warning per invocation and accept the call. This lets the new
-    // code deploy ahead of secret provisioning without breaking the cron
-    // pipeline. Once Milan sets CRON_SECRET in the Supabase function env,
-    // enforcement automatically activates on the next cold start.
-    console.warn("cron-auth: CRON_SECRET unset, accepting unauthenticated invocation");
-    return null;
+    // L10 EF-1 (2026-05-29): fail-CLOSED when env unset. The original
+    // "graceful rollout" warn-and-accept was a deployment backdoor —
+    // 5 cron-gated edge fns (ops-health-monitor, tony-weekly-report,
+    // track-attachment-push, track-catchup-units, escalate-overdue-tasks)
+    // inherited the fail-open, so any holder of an anon JWT could replay-
+    // invoke them while CRON_SECRET was unset (e.g. during rotation or a
+    // misconfigured staging env). track-poll never used the helper and
+    // had inline fail-closed; this brings the rest in line.
+    return new Response(
+      JSON.stringify({ error: "cron_misconfigured", hint: "CRON_SECRET env unset" }),
+      { status: 503, headers: { "Content-Type": "application/json" } },
+    );
   }
   const received = req.headers.get("x-cron-secret")
     ?? req.headers.get("X-Cron-Secret")
