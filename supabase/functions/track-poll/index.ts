@@ -963,7 +963,10 @@ async function resolveTrackVendor(
           description: `upsert_track_vendor RPC failed: ${error.message}`,
           payload_json: { severity: "warning", trackVendorId: idNum, name, error: error.message },
         });
-      } catch (_) {}
+      } catch (_) {
+        // swallow audit-log failure so the upstream caller still
+        // returns null cleanly.
+      }
       return null;
     }
     const first = Array.isArray(data) ? data[0] : data;

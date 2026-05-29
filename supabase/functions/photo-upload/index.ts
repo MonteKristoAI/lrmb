@@ -142,7 +142,10 @@ Deno.serve(async (req) => {
   if (dbErr) {
     try {
       await supabase.storage.from("task-photos").remove([path]);
-    } catch (_) {}
+    } catch (_) {
+      // best-effort cleanup; the orphaned object will be GC'd by a
+      // periodic janitor (out of band).
+    }
     return json(500, { error: "db_insert_failed", detail: dbErr.message });
   }
 
