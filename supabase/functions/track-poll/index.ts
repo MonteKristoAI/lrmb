@@ -1,5 +1,16 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v23 (2026-05-29): vendor auto-import. When a TRACK HK WO surfaces a
+//   vendorId we don't have locally, fetch /crm/companies/{id} (TRACK's
+//   vendor record) and INSERT into public.vendors with track_vendor_id
+//   set. Then populate tasks.vendor_id so the new "Staff see vendor
+//   tasks" RLS policy applies for any field_staff user whose
+//   profiles.vendor_id matches.
+//   Mirrors the unit auto-import added in v18. Profile↔vendor linking
+//   stays manual (security-sensitive — admin sets profiles.vendor_id
+//   via the admin UI or migration). Use diagnose_wo_visibility() to
+//   check which gate is closed for a given (user, WO) pair.
+//
 // v22 (2026-05-28): capture TRACK assignment metadata.
 //   TRACK assigns HK work orders to a VENDOR (e.g. row.vendorId 1473 →
 //   "Emma Benson CO Test"), not to a specific staff user. Old behavior
@@ -724,8 +735,11 @@ async function upsertTaskFromTrackWO(
     ? { owner_charges_amount: preserveCharge ? Number(existingCharge) : 0 }
     : {};
 
-  // v22: capture TRACK vendor / assignee label (informational only — no FK
-  // link yet, profiles → vendor mapping is a separate schema change).
+  // v22 + v23: capture TRACK vendor metadata.
+  //  - assigned_vendor_name: text label for display (v22)
+  //  - vendor_id: FK to local vendors row, auto-imported if needed (v23)
+  // Vendor info lives only on HK WOs in the lrmb tenant; maintenance assigns
+  // to "user" not "vendor". Skip the lookup for category='maintenance'.
   const embedded = row._embedded as Record<string, unknown> | undefined;
   const trackVendor = embedded?.vendor as Record<string, unknown> | undefined;
   const trackAssignees = row.assignees as Array<Record<string, unknown>> | undefined;
@@ -733,6 +747,12 @@ async function upsertTaskFromTrackWO(
     (trackVendor?.name as string | undefined) ??
     (trackAssignees && trackAssignees[0]?.name as string | undefined) ??
     null;
+
+  let resolvedVendorId: string | null = null;
+  if (category === "housekeeping" && trackVendor) {
+    const v = await resolveTrackVendor(supabase, trackVendor);
+    if (v) resolvedVendorId = v;
+  }
 
   const baseTask = {
     external_source: "track",
@@ -764,6 +784,7 @@ async function upsertTaskFromTrackWO(
       updatedAtVal,
     updated_at: updatedAtVal,
     assigned_vendor_name: vendorLabel,
+    vendor_id: resolvedVendorId,
     ...maintenanceExtras,
   };
 
@@ -772,6 +793,82 @@ async function upsertTaskFromTrackWO(
     { onConflict: "external_source,external_id", ignoreDuplicates: false },
   );
   if (error) throw new Error(`upsert task failed: ${error.message}`);
+}
+
+// ===========================================================================
+// v23: Auto-import vendor from a TRACK row's _embedded.vendor on demand.
+// Returns the local vendors.id UUID, or null if no usable mapping.
+// Soft-fails (returns null) on any DB error so a vendor link failure
+// can't take down the task upsert — assigned_vendor_name still surfaces.
+// ===========================================================================
+
+async function resolveTrackVendor(
+  supabase: ReturnType<typeof createClient>,
+  trackVendor: Record<string, unknown>,
+): Promise<string | null> {
+  const idNum = typeof trackVendor.id === "number"
+    ? trackVendor.id
+    : Number(trackVendor.id ?? NaN);
+  if (!Number.isFinite(idNum)) return null;
+  const name = String(trackVendor.name ?? "").trim();
+  if (!name) return null;
+
+  // 1) Fast path: existing row already mapped.
+  try {
+    const { data: existing } = await supabase
+      .from("vendors").select("id")
+      .eq("track_vendor_id", idNum).maybeSingle();
+    if (existing?.id) return existing.id as string;
+  } catch (_) { /* fall through */ }
+
+  // 2) Try insert. Uses vendors_track_vendor_id_uniq (non-partial after
+  // migration 20260529001100) so ON CONFLICT (track_vendor_id) resolves.
+  const insertPayload = {
+    name,
+    contact_name: (trackVendor.contact_name as string | undefined) ?? null,
+    email: (trackVendor.email as string | undefined) ?? null,
+    phone: (trackVendor.phone as string | undefined) ?? null,
+    specialty: "housekeeping",
+    active: trackVendor.isActive !== false,
+    track_vendor_id: idNum,
+  };
+  try {
+    const { data: inserted, error } = await supabase
+      .from("vendors")
+      .upsert(insertPayload, { onConflict: "track_vendor_id" })
+      .select("id").single();
+    if (!error && inserted?.id) {
+      try {
+        await supabase.from("audit_logs").insert({
+          action: "track_vendor_auto_imported",
+          entity_type: "edge_function",
+          entity_id: crypto.randomUUID(),
+          description: `Auto-imported TRACK vendor ${idNum} (${name})`,
+          payload_json: { severity: "info", trackVendorId: idNum, name, vendorId: inserted.id },
+        });
+      } catch (_) { /* swallow audit failure */ }
+      return inserted.id as string;
+    }
+
+    // 3) Name collision on vendors_name_lower_unique: an admin-created
+    // vendor already owns this lowercase name. Adopt it by stamping
+    // track_vendor_id on that row so future polls see it via the fast path.
+    if (error?.code === "23505" || /name_lower/i.test(error?.message ?? "")) {
+      const { data: byName } = await supabase
+        .from("vendors").select("id, track_vendor_id")
+        .ilike("name", name).maybeSingle();
+      if (byName?.id) {
+        if (!byName.track_vendor_id) {
+          await supabase.from("vendors")
+            .update({ track_vendor_id: idNum })
+            .eq("id", byName.id);
+        }
+        return byName.id as string;
+      }
+    }
+  } catch (_) { /* fall through to null */ }
+
+  return null;
 }
 
 // ===========================================================================
