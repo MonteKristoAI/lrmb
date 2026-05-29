@@ -1,5 +1,18 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v30 (2026-05-29): Emma round 3 feedback:
+//   - resolveTrackVendor now runs for maintenance category too (was
+//     HK-only). 19 maintenance WOs were missing vendor_id locally
+//     even though TRACK had it; backfilled separately.
+//   - Cancellation: when mapTrackStatus returns null AND the local row
+//     already exists, UPDATE status='cancelled' instead of skipping.
+//     Caught when #32390 was cancelled in TRACK yesterday and stayed
+//     open in AiiA. New 'cancelled' enum value added in mig
+//     20260529011000.
+//   - Inspection WO synthetic clean type: when isInspection=true and
+//     cleanTypeId is null, set clean_type_name='Inspection' so the
+//     detail page label matches the title.
+//
 // v29 (2026-05-29): TRACK's "not-started" status (seen on WO #32419
 //   surfaced by ops-health-monitor alert) now maps to
 //   vendor_not_started instead of falling to "new".
@@ -738,10 +751,25 @@ async function upsertTaskFromTrackWO(
   const trackStatus = String(row.status ?? "").toLowerCase();
   const mappedStatus = mapTrackStatus(trackStatus, _unknownStatuses);
 
-  // v21: skip cancelled/voided/archived/rejected. Mapper returns null for
-  // these so they never enter our task queues. Watermark still advances
-  // (we observed the row).
+  // v21 + v30: when TRACK returns cancelled/voided/archived/rejected
+  // (mapper returns null), DON'T just skip — if the local row already
+  // exists, update its status to 'cancelled' so Emma's queue stops
+  // showing a job she retired in TRACK. New rows still skip (we don't
+  // pre-create cancelled WOs in AiiA).
   if (mappedStatus === null) {
+    const { data: existingForCancel } = await supabase
+      .from("tasks")
+      .select("id, status")
+      .eq("external_source", "track")
+      .eq("external_id", externalId)
+      .maybeSingle();
+    if (existingForCancel && existingForCancel.status !== "cancelled") {
+      const { error: cancelErr } = await supabase
+        .from("tasks")
+        .update({ status: "cancelled", updated_at: new Date().toISOString() })
+        .eq("id", existingForCancel.id);
+      if (cancelErr) throw new Error(`cancel local task failed: ${cancelErr.message}`);
+    }
     return;
   }
   let aiiaStatus = mappedStatus;
@@ -810,7 +838,11 @@ async function upsertTaskFromTrackWO(
     null;
 
   let resolvedVendorId: string | null = null;
-  if (category === "housekeeping" && trackVendor) {
+  // v30 (2026-05-29): also resolve vendor for maintenance. Emma's TEST WO
+  // #30726 and Maurice's #30725 are both maintenance WOs assigned to
+  // vendors (Emma Benson CO Test, PM LRMB). Without this, vendor_id stays
+  // null and the vendor-membership RLS doesn't match.
+  if (trackVendor) {
     const v = await resolveTrackVendor(supabase, trackVendor);
     if (v) resolvedVendorId = v;
   }
@@ -828,6 +860,13 @@ async function upsertTaskFromTrackWO(
       const resolved = await resolveCleanType(supabase, ctid);
       if (resolved) resolvedCleanTypeName = resolved.name;
     }
+  }
+
+  // v30 (2026-05-29): WO with isInspection=true gets a synthetic
+  // "Inspection" clean type name when TRACK didn't supply a cleanTypeId
+  // (matches what Emma + Maurice see on the WO header).
+  if (category === "housekeeping" && (row.isInspection === true) && resolvedCleanTypeName === null) {
+    resolvedCleanTypeName = "Inspection";
   }
 
   // v28 (2026-05-29): TRACK timeEstimate (minutes) -> display on TaskDetail.

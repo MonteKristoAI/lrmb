@@ -222,6 +222,7 @@ const TaskDetail = () => {
     try {
       await uploadPhoto.mutateAsync({ taskId: task.id, propertyId: task.property_id, file, userId: user.id });
       toast({ title: "Photo uploaded" });
+      await bumpStartedIfPending();
     } catch (err) {
       toast({ title: "Upload failed", description: err instanceof Error ? err.message : "Unknown error", variant: "destructive" });
     } finally {
@@ -229,15 +230,45 @@ const TaskDetail = () => {
     }
   };
 
+  // Emma feedback 2026-05-29: every WO starts at "Not Started" (TRACK's
+  // not-started maps to vendor_not_started, our default for new rows is
+  // new). First real action — checklist tick OR photo upload — should
+  // auto-bump the WO to In Progress so the queue tells the team which
+  // ones are actually being worked.
+  const bumpStartedIfPending = async () => {
+    if (!task || !user) return;
+    if (task.status === "vendor_not_started" || task.status === "new") {
+      try {
+        await updateTask.mutateAsync({ id: task.id, status: "in_progress", started_at: new Date().toISOString() });
+        await addUpdate.mutateAsync({
+          task_id: task.id,
+          actor_id: user.id,
+          update_type: "status_change",
+          old_status: task.status,
+          new_status: "in_progress",
+        });
+      } catch { /* swallow — race / idempotency trigger may reject; UI stays */ }
+    }
+  };
+
   const handleComplete = async () => {
+    // Emma feedback 2026-05-29: photos required + checklist required.
+    // Notes optional. Each WO needs all checklist items checked off and
+    // (when applicable) at least one photo of completion proof.
     if (task.requires_photo && photos.length === 0) {
       toast({ title: "Photo required", description: "Upload at least one photo before completing.", variant: "destructive" });
       return;
     }
-    const hasNote = updates.some((u) => u.update_type === "note");
-    if (task.requires_note && !hasNote) {
-      toast({ title: "Note required", description: "Add a note before completing.", variant: "destructive" });
-      return;
+    if (subtasks.length > 0) {
+      const unchecked = subtasks.filter((s) => !s.is_completed);
+      if (unchecked.length > 0) {
+        toast({
+          title: "Checklist incomplete",
+          description: `${unchecked.length} item${unchecked.length === 1 ? "" : "s"} still need to be checked off.`,
+          variant: "destructive",
+        });
+        return;
+      }
     }
     await transition("completed");
     setCompleteOpen(false);
@@ -496,7 +527,10 @@ const TaskDetail = () => {
                   <input
                     type="checkbox"
                     checked={st.is_completed}
-                    onChange={(e) => toggleSubtask.mutate({ trackId: st.track_id, isCompleted: e.target.checked })}
+                    onChange={(e) => {
+                      toggleSubtask.mutate({ trackId: st.track_id, isCompleted: e.target.checked });
+                      bumpStartedIfPending();
+                    }}
                     disabled={!canAct || isTerminal}
                     className="mt-0.5 h-5 w-5 shrink-0"
                   />
