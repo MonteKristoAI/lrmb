@@ -184,6 +184,33 @@ Deno.serve(async (req) => {
     }
   }
 
+  // Signal 8: TRACK sync data-quality anti-regression (2026-05-29).
+  // Reads public.v_track_sync_health which exposes 7 sub-metrics
+  // covering clean-type coverage, generic title fingerprint, enum
+  // collapse, vendor coverage, and reference freshness. Any 'fail' is
+  // escalated to severity=error; any 'warn' to severity=warning.
+  // Closes the class of silent-fallback bugs Emma surfaced 2026-05-29.
+  {
+    const { data: healthRows } = await supabase
+      .from("v_track_sync_health")
+      .select("metric, observed, threshold, status, description");
+    const fails = (healthRows ?? []).filter((r) => r.status === "fail");
+    const warns = (healthRows ?? []).filter((r) => r.status === "warn");
+    if (fails.length > 0) {
+      issues.push({
+        signal: "track_sync_data_quality",
+        severity: "error",
+        detail: `TRACK sync data-quality FAIL: ${fails.map((f) => `${f.metric}=${f.observed} (threshold ${f.threshold})`).join("; ")}`,
+      });
+    } else if (warns.length > 0) {
+      issues.push({
+        signal: "track_sync_data_quality",
+        severity: "warning",
+        detail: `TRACK sync data-quality WARN: ${warns.map((w) => `${w.metric}=${w.observed} (threshold ${w.threshold})`).join("; ")}`,
+      });
+    }
+  }
+
   const overallSeverity: "info" | "warning" | "error" =
     issues.some((i) => i.severity === "error")
       ? "error"
@@ -196,7 +223,7 @@ Deno.serve(async (req) => {
     startedAt: new Date(startedAt).toISOString(),
     elapsedMs: Date.now() - startedAt,
     overallSeverity,
-    signalsChecked: 6,
+    signalsChecked: 8,
     issuesFound: issues.length,
     issues,
   };
@@ -209,7 +236,7 @@ Deno.serve(async (req) => {
       entity_id: runId,
       description:
         issues.length === 0
-          ? "ops_health_check: all 6 signals healthy"
+          ? "ops_health_check: all 8 signals healthy"
           : `ops_health_check: ${issues.length} issues — ${issues.map((i) => i.signal).join(", ")}`,
       payload_json: { ...summary, severity: overallSeverity },
     });
