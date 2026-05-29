@@ -38,17 +38,20 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 
 const TaskDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { user, hasAdminAccess } = useAuth();
+  const { user, profile, hasAdminAccess } = useAuth();
   const { toast } = useToast();
   const validId = id && UUID_RE.test(id) ? id : undefined;
   const { data: task, isLoading } = useTask(validId);
   const { data: updates = [] } = useTaskUpdates(validId);
   const { data: photos = [] } = useTaskPhotos(validId);
   // Emma feedback 2026-05-29: per-WO checklist from TRACK.
+  // Gated on task_category=housekeeping so maintenance/inspection WOs
+  // don't surface HK checklist leakage from TRACK upstream.
   const { data: subtasks = [] } = useWorkOrderSubtasks(
     validId,
     (task as { external_source?: string | null } | undefined)?.external_source ?? null,
     (task as { external_id?: string | null } | undefined)?.external_id ?? null,
+    (task as { task_category?: string | null } | undefined)?.task_category ?? null,
   );
   const toggleSubtask = useToggleSubtask(validId);
   const updateTask = useUpdateTask();
@@ -144,8 +147,16 @@ const TaskDetail = () => {
   // v33: unassigned "new" tasks should be claimable by any field staff (not just the
   // person they're already assigned to). Previously Accept never appeared for
   // unclaimed work, so cleaners had no way to grab their own next job.
+  // Emma round 4 (2026-05-29): vendor-membership grants action permission.
+  // Previously canAct required task.assigned_to === user.id, which locked
+  // out vendor team members on WOs that only had a vendor_id linkage (no
+  // per-person assigned_to). TEST WO #30726 surfaced this — vendor was
+  // Emma's "Emma Benson CO Test", assigned_to=NULL, status=Assigned, and
+  // she had no Photo / Note / Waiting Parts buttons because canAct=false.
+  const vendorMember = !!(task.vendor_id && profile?.vendor_id && task.vendor_id === profile.vendor_id);
   const canAct = task.assigned_to === user?.id
     || hasAdminAccess()
+    || vendorMember
     || (task.status === "new" && !task.assigned_to);
   const isTerminal = ["completed", "verified", "processed"].includes(task.status);
 

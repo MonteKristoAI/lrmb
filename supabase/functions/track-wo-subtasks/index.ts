@@ -61,6 +61,23 @@ Deno.serve(async (req) => {
     return json(404, { error: "task_not_found" });
   }
 
+  // Emma round 4 (2026-05-29): hard gate by category. TRACK upstream
+  // returns HK-style checklist items even for maintenance WO IDs (the
+  // /housekeeping/work-orders/{id}/tasks endpoint does not enforce
+  // category matching). Caused Emma's TEST WO #30726 (maintenance) to
+  // surface 23 HK subtasks ("Remove trash", "Strip linen on the bed",
+  // etc.). Skip the upstream fetch entirely if parent isn't HK; return
+  // an empty payload so the frontend can render its non-checklist
+  // surface. Defense-in-depth — a DB trigger rejects insertion at the
+  // row level too.
+  if (parent.task_category !== "housekeeping") {
+    return json(200, {
+      from_cache: false,
+      items: [],
+      skipped_reason: "non_housekeeping_no_checklist",
+    });
+  }
+
   // Stale-check: skip TRACK fetch if we synced in the last 5 min and not forced.
   if (!body.force) {
     const { data: latest } = await supabase

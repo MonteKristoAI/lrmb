@@ -41,9 +41,15 @@ export function useWorkOrderSubtasks(
   taskId: string | undefined,
   externalSource: string | null | undefined,
   externalId: string | null | undefined,
+  taskCategory: string | null | undefined,
 ) {
   // First read from local cache.
-  const enabled = !!taskId && externalSource === "track" && !!externalId;
+  // Emma round 4 (2026-05-29): hard gate — only housekeeping WOs carry
+  // a per-WO checklist. Maintenance + inspection categories don't have
+  // one; if upstream TRACK leaks HK items into a maint WO (which it
+  // does), we never query for them client-side and the lazy-fetch edge
+  // fn also rejects non-HK callers as a defense layer.
+  const enabled = !!taskId && externalSource === "track" && !!externalId && taskCategory === "housekeeping";
   const [didLazyFetch, setDidLazyFetch] = useState(false);
 
   const query = useQuery({
