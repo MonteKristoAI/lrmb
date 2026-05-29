@@ -813,59 +813,34 @@ async function resolveTrackVendor(
   const name = String(trackVendor.name ?? "").trim();
   if (!name) return null;
 
-  // 1) Fast path: existing row already mapped.
+  // v24: atomic resolution via Postgres RPC with SELECT FOR UPDATE.
+  // Old multi-roundtrip path (select → upsert → name-fallback update)
+  // had a window where two concurrent polls could attach the same
+  // track_vendor_id to different local vendors, or stamp it on the
+  // wrong name-matched row. Codex L10 review flagged as P1.
   try {
-    const { data: existing } = await supabase
-      .from("vendors").select("id")
-      .eq("track_vendor_id", idNum).maybeSingle();
-    if (existing?.id) return existing.id as string;
-  } catch (_) { /* fall through */ }
-
-  // 2) Try insert. Uses vendors_track_vendor_id_uniq (non-partial after
-  // migration 20260529001100) so ON CONFLICT (track_vendor_id) resolves.
-  const insertPayload = {
-    name,
-    contact_name: (trackVendor.contact_name as string | undefined) ?? null,
-    email: (trackVendor.email as string | undefined) ?? null,
-    phone: (trackVendor.phone as string | undefined) ?? null,
-    specialty: "housekeeping",
-    active: trackVendor.isActive !== false,
-    track_vendor_id: idNum,
-  };
-  try {
-    const { data: inserted, error } = await supabase
-      .from("vendors")
-      .upsert(insertPayload, { onConflict: "track_vendor_id" })
-      .select("id").single();
-    if (!error && inserted?.id) {
+    const { data, error } = await supabase.rpc("upsert_track_vendor", {
+      p_track_vendor_id: idNum,
+      p_name: name,
+      p_contact_name: (trackVendor.contact_name as string | undefined) ?? null,
+      p_email: (trackVendor.email as string | undefined) ?? null,
+      p_phone: (trackVendor.phone as string | undefined) ?? null,
+      p_is_active: trackVendor.isActive !== false,
+    });
+    if (error) {
       try {
         await supabase.from("audit_logs").insert({
-          action: "track_vendor_auto_imported",
+          action: "track_vendor_resolve_failed",
           entity_type: "edge_function",
           entity_id: crypto.randomUUID(),
-          description: `Auto-imported TRACK vendor ${idNum} (${name})`,
-          payload_json: { severity: "info", trackVendorId: idNum, name, vendorId: inserted.id },
+          description: `upsert_track_vendor RPC failed: ${error.message}`,
+          payload_json: { severity: "warning", trackVendorId: idNum, name, error: error.message },
         });
-      } catch (_) { /* swallow audit failure */ }
-      return inserted.id as string;
+      } catch (_) {}
+      return null;
     }
-
-    // 3) Name collision on vendors_name_lower_unique: an admin-created
-    // vendor already owns this lowercase name. Adopt it by stamping
-    // track_vendor_id on that row so future polls see it via the fast path.
-    if (error?.code === "23505" || /name_lower/i.test(error?.message ?? "")) {
-      const { data: byName } = await supabase
-        .from("vendors").select("id, track_vendor_id")
-        .ilike("name", name).maybeSingle();
-      if (byName?.id) {
-        if (!byName.track_vendor_id) {
-          await supabase.from("vendors")
-            .update({ track_vendor_id: idNum })
-            .eq("id", byName.id);
-        }
-        return byName.id as string;
-      }
-    }
+    const first = Array.isArray(data) ? data[0] : data;
+    return (first?.vendor_id as string | null) ?? null;
   } catch (_) { /* fall through to null */ }
 
   return null;
