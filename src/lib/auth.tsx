@@ -11,6 +11,13 @@ interface Profile {
   phone: string | null;
   avatar_url: string | null;
   active: boolean;
+  // 2026-05-29: vendor_id powers vendor-membership visibility on tasks
+  // (the .or() filter in useTasks). Was being read at runtime via
+  // TS-erasure; making it explicit so future readers know it's a real
+  // load-bearing field. department is included for the same reason
+  // (admin UI surfaces it).
+  vendor_id: string | null;
+  department: string | null;
 }
 
 interface AuthContextType {
