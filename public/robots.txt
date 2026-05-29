@@ -1,14 +1,6 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
+# QA Agent A P2 (2026-05-29): LRMB is an auth-gated internal field-ops
+# PWA. The SPA shell exposes the title + meta description + a comment
+# referencing the onboarding form, all of which Google had been
+# crawling. Block all bots.
 User-agent: *
-Allow: /
+Disallow: /

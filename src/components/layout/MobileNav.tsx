@@ -24,7 +24,10 @@ export function MobileNav() {
   items.push({ label: t("Completed"), icon: CheckSquare, path: "/tasks/completed" });
 
   return (
-    <nav className="sticky bottom-0 z-30 flex" style={{ background: "rgba(8,14,26,0.97)", borderTop: "1px solid rgba(196,186,177,0.06)", backdropFilter: "blur(12px)" }}>
+    // QA Agent A P1 (2026-05-29): md:hidden so the mobile-only bottom
+    // nav stops rendering on tablet+ widths. Was leaking onto the desktop
+    // /admin view at y=840 with no role/touch affordance.
+    <nav className="sticky bottom-0 z-30 flex md:hidden" style={{ background: "rgba(8,14,26,0.97)", borderTop: "1px solid rgba(196,186,177,0.06)", backdropFilter: "blur(12px)" }}>
       {items.map((item) => {
         const isActive = item.path === "/tasks"
           ? location.pathname === "/tasks" || (location.pathname.startsWith("/tasks/") && !location.pathname.startsWith("/tasks/completed"))
