@@ -1,5 +1,20 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v27 (2026-05-29): TRACK clean-type names. TRACK's polling response
+//   exposes cleanTypeId (int) on housekeeping WOs but the cleanType
+//   (name string) is always null. We were only reading the name, so
+//   every HK WO collapsed to "Clean - TRACK WO #X" in the field-staff
+//   list. v27 resolves cleanTypeId against the public.track_clean_types
+//   reference table (77 rows, seeded from /api/pms/housekeeping/
+//   clean-types) and writes:
+//     - tasks.track_clean_type_id (FK to reference)
+//     - tasks.clean_type_name (denormalized for fast list rendering)
+//     - tasks.title = "<Clean Type Name> - TRACK WO #X" so the WO list
+//       shows "Final Clean", "Deep Clean", "Linen Change",
+//       "Inspection", etc. instead of generic "Clean".
+//   The deriveHousekeepingType enum mapping now uses the resolved name
+//   (much more reliable than the always-null TRACK string).
+//
 // v26 (2026-05-29): drop raw error.stack from audit_logs payload_json.
 //   Deno error stacks include esm.sh module paths and on some SDK
 //   errors the .cause chain can carry request URLs with auth headers.
@@ -207,6 +222,10 @@ Deno.serve(async (req) => {
 
   _unknownStatuses.clear();
   _autoImportedUnits.clear();
+  // v27: reset clean-type cache so a fresh poll picks up any reference
+  // table churn (e.g., a new TRACK clean type added by housekeeping mgmt
+  // since the last cron).
+  _cleanTypeCache = null;
 
   const startedAt = Date.now();
   const runId = crypto.randomUUID();
@@ -787,6 +806,21 @@ async function upsertTaskFromTrackWO(
     if (v) resolvedVendorId = v;
   }
 
+  // v27: resolve TRACK cleanTypeId -> name from public.track_clean_types
+  // reference table. Only applies to housekeeping; maintenance WOs don't
+  // carry cleanTypeId.
+  let trackCleanTypeId: number | null = null;
+  let resolvedCleanTypeName: string | null = null;
+  if (category === "housekeeping") {
+    const ctidRaw = row.cleanTypeId;
+    const ctid = typeof ctidRaw === "number" ? ctidRaw : Number(ctidRaw ?? NaN);
+    if (Number.isFinite(ctid)) {
+      trackCleanTypeId = ctid;
+      const resolved = await resolveCleanType(supabase, ctid);
+      if (resolved) resolvedCleanTypeName = resolved.name;
+    }
+  }
+
   const baseTask = {
     external_source: "track",
     external_id: externalId,
@@ -794,8 +828,10 @@ async function upsertTaskFromTrackWO(
     reservation_id: reservationId ? String(reservationId) : null,
     task_category: category,
     task_type: category === "housekeeping" ? "checkout_turnover" : "maintenance",
-    housekeeping_type: category === "housekeeping" ? deriveHousekeepingType(row) : null,
-    title: derivedTitle(row, category),
+    housekeeping_type: category === "housekeeping" ? deriveHousekeepingType(row, resolvedCleanTypeName) : null,
+    track_clean_type_id: trackCleanTypeId,
+    clean_type_name: resolvedCleanTypeName,
+    title: derivedTitle(row, category, resolvedCleanTypeName),
     description: (row.description as string | undefined) ??
       (row.comments as string | undefined) ?? null,
     priority: derivePriority(row),
@@ -1132,14 +1168,22 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string | null 
   return "new";
 }
 
-function deriveHousekeepingType(row: Record<string, unknown>): string {
-  const raw = String(row.cleanType ?? "").toLowerCase();
-  if (row.isInspection) return "checkout_clean";
+// v27: deriveHousekeepingType now reads the RESOLVED clean type name
+// (from public.track_clean_types) when available — the TRACK polling
+// response always sends cleanType (name) as null and cleanTypeId
+// (integer) as the real signal. The fallback to row.cleanType string
+// stays for safety (if reference lookup misses).
+function deriveHousekeepingType(row: Record<string, unknown>, resolvedName: string | null): string {
+  const raw = (resolvedName ?? String(row.cleanType ?? "")).toLowerCase();
+  if (row.isInspection || raw.includes("inspect")) return "checkout_clean";
   if (raw.includes("deep")) return "deep_clean";
   if (raw.includes("linen")) return "linen_change";
   if (raw.includes("mid")) return "mid_stay_clean";
+  if (raw.includes("daily")) return "mid_stay_clean";
+  if (raw.includes("intermittent") || raw.includes("random")) return "intermittent_clean";
   if (raw.includes("owner")) return "owner_specific_clean";
-  if (raw.includes("intermittent")) return "intermittent_clean";
+  if (raw.includes("touch")) return "checkout_clean";
+  if (raw.includes("final")) return "checkout_clean";
   return "checkout_clean";
 }
 
@@ -1150,12 +1194,49 @@ function derivePriority(row: Record<string, unknown>): string {
   return "medium";
 }
 
-function derivedTitle(row: Record<string, unknown>, category: "maintenance" | "housekeeping"): string {
+// v27: derivedTitle for HK now takes the resolved clean type NAME from
+// the local reference table. Old behavior fell back to literal "Clean"
+// because row.cleanType is null on every TRACK polling response.
+function derivedTitle(
+  row: Record<string, unknown>,
+  category: "maintenance" | "housekeeping",
+  resolvedCleanTypeName: string | null,
+): string {
   if (category === "maintenance") {
     return (row.summary as string | undefined) ??
       (row.description as string | undefined) ??
       `TRACK maintenance WO #${row.id}`;
   }
-  const cleanType = row.cleanType ? String(row.cleanType) : "Clean";
-  return `${cleanType} – TRACK WO #${row.id}`;
+  const label = resolvedCleanTypeName ?? (row.cleanType ? String(row.cleanType) : "Clean");
+  return `${label} – TRACK WO #${row.id}`;
+}
+
+// v27: lazy module-level cache of the track_clean_types reference. Loaded
+// on first HK row of each cron invocation (Deno edge fn cold-starts reset
+// it), then reused for every subsequent row in the same run. 77 rows is
+// trivial to hold in memory.
+let _cleanTypeCache: Map<number, { name: string; type: string }> | null = null;
+
+async function resolveCleanType(
+  supabase: ReturnType<typeof createClient>,
+  cleanTypeId: number,
+): Promise<{ name: string; type: string } | null> {
+  if (_cleanTypeCache === null) {
+    _cleanTypeCache = new Map();
+    try {
+      const { data, error } = await supabase
+        .from("track_clean_types")
+        .select("track_id, name, type");
+      if (!error && Array.isArray(data)) {
+        for (const r of data) {
+          const id = (r as { track_id: number }).track_id;
+          _cleanTypeCache.set(id, {
+            name: (r as { name: string }).name,
+            type: (r as { type: string }).type,
+          });
+        }
+      }
+    } catch (_) { /* swallow; cache stays empty, lookups return null */ }
+  }
+  return _cleanTypeCache.get(cleanTypeId) ?? null;
 }
