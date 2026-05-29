@@ -194,25 +194,40 @@ const ALLOWED_PHOTO_EXT = new Set(["jpg", "jpeg", "png", "webp", "heic", "heif"]
 export function useUploadTaskPhoto() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async ({ taskId, propertyId, file, userId }: { taskId: string; propertyId: string; file: File; userId: string }) => {
+    mutationFn: async ({ taskId, propertyId, file }: { taskId: string; propertyId: string; file: File; userId?: string }) => {
+      // QA Agent B P1-9 (2026-05-29): route uploads through the
+      // photo-upload edge fn which validates the file's magic bytes
+      // server-side. Direct supabase.storage.upload(..., contentType:
+      // 'image/jpeg') with SVG / HTML bytes used to bypass the client
+      // allowlist; the edge fn now re-validates and rejects with 400.
+      // Client allowlist stays as the first-line UX check.
       const ext = (file.name.split(".").pop() || "jpg").toLowerCase();
       const mime = (file.type || "").toLowerCase();
       if (!ALLOWED_PHOTO_EXT.has(ext) || !ALLOWED_PHOTO_MIME.has(mime)) {
         throw new Error(`Unsupported photo format: ${mime || ext}. Use JPEG, PNG, WebP, or HEIC.`);
       }
-      const path = `${propertyId}/${taskId}/${crypto.randomUUID()}.${ext}`;
-      const { error: uploadErr } = await supabase.storage.from("task-photos").upload(path, file, {
-        contentType: mime,
-        cacheControl: "3600",
-        upsert: false,
+      const { data: { session } } = await supabase.auth.getSession();
+      const accessToken = session?.access_token;
+      if (!accessToken) throw new Error("Not signed in.");
+      const form = new FormData();
+      form.append("file", file);
+      form.append("task_id", taskId);
+      form.append("property_id", propertyId);
+      form.append("photo_type", "proof");
+      const supabaseUrl = (import.meta as ImportMeta & { env: { VITE_SUPABASE_URL?: string } }).env.VITE_SUPABASE_URL
+        ?? "https://hfpvnsbiewudpqbtlvte.supabase.co";
+      const res = await fetch(`${supabaseUrl}/functions/v1/photo-upload`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${accessToken}` },
+        body: form,
       });
-      if (uploadErr) throw uploadErr;
-      const { error: dbErr } = await supabase.from("task_photos").insert({ task_id: taskId, storage_path: path, uploaded_by: userId, photo_type: "proof" });
-      if (dbErr) {
-        try { await supabase.storage.from("task-photos").remove([path]); } catch { /* swallow rollback error */ }
-        throw dbErr;
+      if (!res.ok) {
+        let detail = "";
+        try { detail = JSON.stringify(await res.json()); } catch { /* ignore */ }
+        throw new Error(`Upload rejected (${res.status}): ${detail}`);
       }
-      return path;
+      const payload = await res.json() as { path: string };
+      return payload.path;
     },
     onSuccess: (_d, v) => qc.invalidateQueries({ queryKey: ["task_photos", v.taskId] }),
   });
@@ -294,12 +309,15 @@ export function useDashboardKpis() {
   return useQuery({
     queryKey: ["dashboard_kpis"],
     queryFn: async (): Promise<DashboardKpis> => {
+      // QA Agent D P2 (2026-05-29): direct SELECT on the MV is REVOKED
+      // from authenticated. The new get_dashboard_kpis() RPC enforces
+      // has_admin_access(auth.uid()) and returns an empty set for non
+      // admins, which we coerce to the zero shape.
       const { data, error } = await supabase
-        .from("mv_ops_dashboard_kpis")
-        .select("*")
-        .maybeSingle();
+        .rpc("get_dashboard_kpis");
       if (error) throw error;
-      return (data ?? {
+      const row = Array.isArray(data) && data.length > 0 ? data[0] : null;
+      return (row ?? {
         hk_in_progress: 0, maint_in_progress: 0, maint_overdue: 0,
         hk_completed_this_week: 0, hk_completed_last_week: 0,
         maint_completed_this_week: 0, maint_completed_last_week: 0,

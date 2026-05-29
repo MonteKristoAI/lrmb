@@ -65,6 +65,30 @@ const TaskDetail = () => {
   const [photoUrls, setPhotoUrls] = useState<Record<string, string>>({});
   const loadedPathsRef = useRef<Set<string>>(new Set());
 
+  // QA Agent B P2-09 (2026-05-29): reset all modal/form state when the
+  // active WO changes. Without this, blockReason / noteText / ownerCharges
+  // / waitingReason / billingNotes typed into WO #X bleed into WO #Y when
+  // the user navigates between detail pages in the same session — both a
+  // PII leak and a wrong-data submit risk (typing a block reason on the
+  // wrong WO).
+  useEffect(() => {
+    setNoteOpen(false);
+    setBlockOpen(false);
+    setWaitingOpen(false);
+    setCompleteOpen(false);
+    setBillingOpen(false);
+    setNoteText("");
+    setBlockReason("");
+    setWaitingReason("");
+    setOwnerCharges("");
+    setBillingNotes("");
+    setDeletePhotoId(null);
+    setPhotoUrls({});
+    loadedPathsRef.current = new Set();
+    transitioningRef.current = false;
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  }, [id]);
+
   useEffect(() => {
     const loadUrls = async () => {
       const newPhotos = photos.filter((p) => !loadedPathsRef.current.has(p.storage_path));
@@ -212,9 +236,22 @@ const TaskDetail = () => {
   };
 
   const handleProcessBilling = async () => {
-    const charges = ownerCharges ? parseFloat(ownerCharges) : null;
-    if (charges !== null && isNaN(charges)) {
-      toast({ title: "Invalid amount", description: "Enter a valid number for owner charges.", variant: "destructive" });
+    // QA Agent B P2-10 (2026-05-29): parseFloat alone happily accepts
+    // "1e20", "Infinity", "-Infinity" and feeds NaN downstream. Reject
+    // scientific notation and clamp to the same 0..100000 window the DB
+    // CHECK constraint enforces (mig 20260529007000).
+    const safeParseAmount = (raw: string): number | null => {
+      const trimmed = raw.trim();
+      if (!trimmed) return null;
+      if (/[eE]/.test(trimmed)) return null;
+      if (!/^[0-9]+(\.[0-9]{1,2})?$/.test(trimmed)) return null;
+      const n = Number(trimmed);
+      if (!Number.isFinite(n) || n < 0 || n > 100000) return null;
+      return n;
+    };
+    const charges = ownerCharges ? safeParseAmount(ownerCharges) : null;
+    if (ownerCharges && charges === null) {
+      toast({ title: "Invalid amount", description: "Enter 0 to 100000 with up to 2 decimals (no scientific notation).", variant: "destructive" });
       return;
     }
     await transition("processed", {

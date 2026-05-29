@@ -67,10 +67,11 @@ const OpenTasksQueue = () => {
             <div key={t.id} className="space-y-1">
               <TaskCard task={t} />
               <div className="flex justify-end px-1">
+                {/* QA Agent A P2 (2026-05-29): bump tap target to >=44px */}
                 <Button
                   size="sm"
                   variant="ghost"
-                  className="text-xs text-muted-foreground h-7"
+                  className="text-xs text-muted-foreground min-h-11 min-w-11 px-3"
                   onClick={() => setReassignId(t.id)}
                 >
                   Reassign

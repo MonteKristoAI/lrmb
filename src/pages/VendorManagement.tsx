@@ -121,7 +121,8 @@ const VendorManagement = () => {
                         <Wrench className="h-3 w-3 mr-1" />{v.specialty}
                       </Badge>
                     )}
-                    <Button variant="ghost" size="sm" onClick={() => openEdit(v)}>
+                    {/* QA Agent A P2 (2026-05-29): bump tap target to >=44px */}
+                    <Button variant="ghost" size="sm" onClick={() => openEdit(v)} className="min-h-11 min-w-11">
                       <Edit2 className="h-4 w-4" />
                     </Button>
                   </div>
@@ -142,7 +143,7 @@ const VendorManagement = () => {
                   <div key={v.id} className="rounded-lg border border-border bg-card/50 p-4 opacity-60">
                     <div className="flex items-center justify-between">
                       <span className="font-medium">{v.name}</span>
-                      <Button variant="ghost" size="sm" onClick={() => openEdit(v)}>
+                      <Button variant="ghost" size="sm" onClick={() => openEdit(v)} className="min-h-11 min-w-11">
                         <Edit2 className="h-4 w-4" />
                       </Button>
                     </div>

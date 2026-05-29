@@ -4,6 +4,7 @@
   "outputDirectory": "dist",
   "framework": "vite",
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "/index.html" },
     { "source": "/((?!api/|assets/|icons/|favicon.ico|apple-touch-icon.png|manifest.webmanifest|robots.txt|sw.js).*)", "destination": "/index.html" }
   ],
   "headers": [

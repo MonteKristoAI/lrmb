@@ -1,7 +1,6 @@
-import { useState, useMemo } from "react";
 import { AppShell } from "@/components/layout/AppShell";
-import { useAllTasks, useDashboardKpis, useTaskCount, useActiveStaffCount, useTasksByStatus } from "@/hooks/useTasks";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useTasksByStatus } from "@/hooks/useTasks";
+import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TaskCard } from "@/components/tasks/TaskCard";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +9,21 @@ import { exportToCSV, tasksToCSV } from "@/lib/csv-export";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+
+// QA Agent C P1-04 (2026-05-29): the dashboard used to fire 9 parallel
+// queries on mount (5 useTaskCount + useActiveStaffCount + useDashboardKpis +
+// 2 RPCs). Consolidate via the admin_dashboard_bundle RPC into one
+// round-trip. Keeps the same StatCard projections so visual is unchanged.
+interface AdminBundle {
+  open_count: number;
+  overdue_count: number;
+  blocked_count: number;
+  due_today_count: number;
+  active_staff_count: number;
+  avg_cycle_hours: number;
+  admin_touches_avg: number;
+  computed_at: string;
+}
 
 function StatCard({ label, value, icon: Icon, color, onClick, subtitle }: { label: string; value: number | string; icon: React.ElementType; color: string; onClick?: () => void; subtitle?: string }) {
   return (
@@ -29,42 +43,33 @@ function StatCard({ label, value, icon: Icon, color, onClick, subtitle }: { labe
 const AdminDashboard = () => {
   const navigate = useNavigate();
 
-  // v32: Real KPIs from materialized view + dedicated counts, not from a 500-row slice.
-  const { data: kpis, isLoading: kpisLoading } = useDashboardKpis();
-  const { data: openCount = 0 } = useTaskCount({ statuses: ["new", "assigned", "in_progress", "vendor_not_started", "waiting_parts", "blocked"] });
-  const { data: overdueCount = 0 } = useTaskCount({ overdue: true });
-  const { data: blockedCount = 0 } = useTaskCount({ statuses: ["blocked"] });
-  const { data: dueTodayCount = 0 } = useTaskCount({ dueToday: true });
-  const { data: activeStaffCount = 0 } = useActiveStaffCount();
-  // Recent open list (top 10 by due_at, real query — not a slice of 500-by-created_at)
+  // Single round-trip — replaces 9 separate REST calls.
+  const { data: bundle, isLoading: bundleLoading } = useQuery({
+    queryKey: ["admin_dashboard_bundle"],
+    queryFn: async (): Promise<AdminBundle> => {
+      const { data, error } = await supabase.rpc("admin_dashboard_bundle");
+      if (error) throw error;
+      return (data ?? {}) as unknown as AdminBundle;
+    },
+    refetchInterval: 60_000,
+    staleTime: 30_000,
+  });
+
+  // Recent open list — kept separate because it's a list of rows, not a count.
   const { data: recentOpen = [], isLoading: recentLoading } = useTasksByStatus(
     ["new", "assigned", "in_progress", "vendor_not_started", "waiting_parts", "blocked"],
     { orderBy: "due_at", ascending: true, limit: 10 },
   );
 
-  const { data: adminTouches } = useQuery({
-    queryKey: ["admin_touches_avg"],
-    queryFn: async () => {
-      const { data, error } = await supabase.rpc("avg_admin_touches_per_task");
-      if (error) throw error;
-      return Number(data) || 0;
-    },
-  });
+  const openCount = bundle?.open_count ?? 0;
+  const overdueCount = bundle?.overdue_count ?? 0;
+  const blockedCount = bundle?.blocked_count ?? 0;
+  const dueTodayCount = bundle?.due_today_count ?? 0;
+  const activeStaffCount = bundle?.active_staff_count ?? 0;
+  const avgCycleHrs = Math.max(0, Math.round(Number(bundle?.avg_cycle_hours ?? 0)));
+  const adminTouches = bundle?.admin_touches_avg ?? 0;
 
-  // Avg cycle time — pulls completed-this-week count from MV, plus a small
-  // sample query for the actual cycle-time average. The earlier inline
-  // arithmetic over 500 random rows was unreliable; we keep it simple here
-  // and let the per-task display show real times.
-  const { data: avgCycleHrs = 0 } = useQuery({
-    queryKey: ["avg_cycle_hrs"],
-    queryFn: async () => {
-      const { data, error } = await supabase.rpc("avg_cycle_time_hours");
-      if (error) return 0; // RPC may not exist yet; degrade gracefully
-      return Math.max(0, Math.round(Number(data) || 0));
-    },
-  });
-
-  const isLoading = kpisLoading || recentLoading;
+  const isLoading = bundleLoading || recentLoading;
 
   return (
     <AppShell title="Admin Dashboard">

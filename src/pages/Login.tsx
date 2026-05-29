@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
@@ -6,6 +6,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+
+// QA Agent C P2-07 (2026-05-29): client-side brute-force gate.
+// Supabase server-side rate-limits exist but are not user-visible.
+// Track failed attempts in localStorage, gate the form for 60s after
+// 5 failures within the same 60s window. Counter survives page reload
+// (so refreshing doesn't reset the gate).
+const BF_KEY = "lrmb_login_bf_v1";
+const BF_WINDOW_MS = 60_000;
+const BF_MAX = 5;
+const BF_LOCKOUT_MS = 60_000;
+type BFState = { attempts: number[]; lockedUntil?: number };
+const loadBF = (): BFState => {
+  try {
+    const raw = localStorage.getItem(BF_KEY);
+    if (!raw) return { attempts: [] };
+    const s = JSON.parse(raw) as BFState;
+    const now = Date.now();
+    s.attempts = (s.attempts ?? []).filter((t) => now - t < BF_WINDOW_MS);
+    if (s.lockedUntil && s.lockedUntil < now) delete s.lockedUntil;
+    return s;
+  } catch {
+    return { attempts: [] };
+  }
+};
+const saveBF = (s: BFState) => {
+  try { localStorage.setItem(BF_KEY, JSON.stringify(s)); } catch { /* ignore */ }
+};
 
 const Login = () => {
   const { session, loading: authLoading } = useAuth();
@@ -15,10 +42,23 @@ const Login = () => {
   const [magicSending, setMagicSending] = useState(false);
   const [magicSent, setMagicSent] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [lockoutLeft, setLockoutLeft] = useState<number>(0);
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
   const from = (location.state as { from?: string })?.from || "/tasks";
+
+  // Countdown tick when locked out.
+  useEffect(() => {
+    const tick = () => {
+      const s = loadBF();
+      const left = s.lockedUntil ? Math.max(0, s.lockedUntil - Date.now()) : 0;
+      setLockoutLeft(left);
+    };
+    tick();
+    const id = window.setInterval(tick, 1000);
+    return () => window.clearInterval(id);
+  }, []);
 
   if (authLoading) return (
     <div className="flex min-h-screen items-center justify-center" style={{ background: "linear-gradient(180deg, #060B14 0%, #0D1526 50%, #080E1A 100%)" }}>
@@ -29,14 +69,33 @@ const Login = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    const state = loadBF();
+    const now = Date.now();
+    if (state.lockedUntil && state.lockedUntil > now) {
+      const left = Math.ceil((state.lockedUntil - now) / 1000);
+      setErrorMessage(`Too many attempts. Try again in ${left}s.`);
+      return;
+    }
     setErrorMessage(null);
     setLoading(true);
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
     if (error) {
-      setErrorMessage(error.message);
+      // Record failure + lock if over threshold.
+      const next: BFState = { attempts: [...state.attempts, now] };
+      if (next.attempts.length >= BF_MAX) {
+        next.lockedUntil = now + BF_LOCKOUT_MS;
+        next.attempts = [];
+        setLockoutLeft(BF_LOCKOUT_MS);
+        setErrorMessage(`Too many attempts. Try again in ${Math.ceil(BF_LOCKOUT_MS / 1000)}s.`);
+      } else {
+        setErrorMessage(error.message);
+      }
+      saveBF(next);
       toast({ title: "Login failed", description: error.message, variant: "destructive" });
     } else {
+      // Clear counter on success.
+      saveBF({ attempts: [] });
       navigate(from, { replace: true });
     }
   };
@@ -107,9 +166,13 @@ const Login = () => {
             type="submit"
             className="w-full tap-target text-sm font-semibold tracking-wide mt-2"
             style={{ background: "#C4BAB1", color: "#080E1A", borderRadius: "6px", height: "48px" }}
-            disabled={loading || magicSending}
+            disabled={loading || magicSending || lockoutLeft > 0}
           >
-            {loading ? "Signing in..." : "Sign In"}
+            {lockoutLeft > 0
+              ? `Locked (${Math.ceil(lockoutLeft / 1000)}s)`
+              : loading
+                ? "Signing in..."
+                : "Sign In"}
           </Button>
 
           <div className="flex items-center gap-2 my-1">

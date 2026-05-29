@@ -920,6 +920,7 @@ export type Database = {
     }
     Functions: {
       avg_admin_touches_per_task: { Args: never; Returns: number }
+      avg_cycle_time_hours: { Args: never; Returns: number }
       has_admin_access: { Args: { _user_id: string }; Returns: boolean }
       has_role: {
         Args: {
@@ -928,6 +929,14 @@ export type Database = {
         }
         Returns: boolean
       }
+      admin_dashboard_bundle: { Args: never; Returns: Json }
+      get_dashboard_kpis: { Args: never; Returns: unknown[] }
+      get_dashboard_kpis_by_property: { Args: never; Returns: unknown[] }
+      reopen_task: { Args: { p_task_id: string; p_expected_status: string }; Returns: unknown[] }
+      analytics_dashboard_summary: { Args: never; Returns: Json }
+      analytics_trends_daily: { Args: { p_days?: number }; Returns: unknown[] }
+      analytics_staff_workload: { Args: never; Returns: unknown[] }
+      find_similar_tasks: { Args: { p_property_id: string; p_unit_id?: string | null; p_title?: string | null }; Returns: unknown[] }
     }
     Enums: {
       app_role: "field_staff" | "admin" | "supervisor" | "manager"
