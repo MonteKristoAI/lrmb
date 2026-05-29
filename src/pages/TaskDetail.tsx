@@ -5,6 +5,7 @@ import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/tasks/StatusBadge";
 import { PriorityBadge } from "@/components/tasks/PriorityBadge";
 import { useTask, useTaskUpdates, useTaskPhotos, useUpdateTask, useAddTaskUpdate, useUploadTaskPhoto, useDeleteTaskPhoto } from "@/hooks/useTasks";
+import { useWorkOrderSubtasks, useToggleSubtask } from "@/hooks/useWorkOrderSubtasks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,6 +44,13 @@ const TaskDetail = () => {
   const { data: task, isLoading } = useTask(validId);
   const { data: updates = [] } = useTaskUpdates(validId);
   const { data: photos = [] } = useTaskPhotos(validId);
+  // Emma feedback 2026-05-29: per-WO checklist from TRACK.
+  const { data: subtasks = [] } = useWorkOrderSubtasks(
+    validId,
+    (task as { external_source?: string | null } | undefined)?.external_source ?? null,
+    (task as { external_id?: string | null } | undefined)?.external_id ?? null,
+  );
+  const toggleSubtask = useToggleSubtask(validId);
   const updateTask = useUpdateTask();
   const addUpdate = useAddTaskUpdate();
   const uploadPhoto = useUploadTaskPhoto();
@@ -394,12 +402,23 @@ const TaskDetail = () => {
             <Button variant="outline" onClick={() => fileInputRef.current?.click()} className="tap-target gap-2">
               <Camera className="h-4 w-4" /> Photo
             </Button>
-            <Button variant="outline" onClick={() => setBlockOpen(true)} disabled={updateTask.isPending} className="tap-target gap-2 text-destructive">
-              <Ban className="h-4 w-4" /> Block
-            </Button>
-            <Button variant="outline" onClick={() => setWaitingOpen(true)} disabled={updateTask.isPending} className="tap-target gap-2 text-status-waiting">
-              <Pause className="h-4 w-4" /> Waiting Parts
-            </Button>
+            {/* Emma feedback 2026-05-29: Block reserved for admin /
+                supervisor / manager. LRMB policy is that field staff do
+                not block a residence directly — they flag it up and a
+                manager makes the call. hasAdminAccess() covers all three
+                roles (admin, supervisor, manager). */}
+            {hasAdminAccess() && (
+              <Button variant="outline" onClick={() => setBlockOpen(true)} disabled={updateTask.isPending} className="tap-target gap-2 text-destructive">
+                <Ban className="h-4 w-4" /> Block
+              </Button>
+            )}
+            {/* Emma feedback 2026-05-29: Waiting Parts only applies to
+                maintenance WOs — housekeeping has no parts to wait on. */}
+            {task.task_category === "maintenance" && (
+              <Button variant="outline" onClick={() => setWaitingOpen(true)} disabled={updateTask.isPending} className="tap-target gap-2 text-status-waiting">
+                <Pause className="h-4 w-4" /> Waiting Parts
+              </Button>
+            )}
             {["in_progress", "assigned", "vendor_not_started", "waiting_parts"].includes(task.status) && (
               <Button onClick={() => setCompleteOpen(true)} className="tap-target gap-2 col-span-2 bg-status-completed hover:bg-status-completed/90 text-primary-foreground">
                 <CheckCircle2 className="h-4 w-4" /> Complete
@@ -459,6 +478,36 @@ const TaskDetail = () => {
 
         {/* Hidden file input for photo upload (shared by action buttons) */}
         <input ref={fileInputRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhotoUpload} />
+
+        {/* Emma feedback 2026-05-29: TRACK per-WO checklist. Surfaces the
+            specific tasks-within-a-clean-type that the cleaner needs to
+            complete. Lazy-fetched on first detail view via track-wo-
+            subtasks edge fn. Toggles persist via PostgREST UPDATE
+            (RLS gates by parent-task visibility). */}
+        {subtasks.length > 0 && (
+          <div className="space-y-2">
+            <h3 className="text-sm font-semibold text-foreground flex items-center gap-1">
+              <FileCheck className="h-4 w-4" />
+              Checklist ({subtasks.filter((s) => s.is_completed).length} / {subtasks.length})
+            </h3>
+            <div className="rounded-lg border border-border bg-card divide-y divide-border">
+              {subtasks.map((st) => (
+                <label key={st.track_id} className="flex items-start gap-3 p-3 cursor-pointer hover:bg-secondary/30">
+                  <input
+                    type="checkbox"
+                    checked={st.is_completed}
+                    onChange={(e) => toggleSubtask.mutate({ trackId: st.track_id, isCompleted: e.target.checked })}
+                    disabled={!canAct || isTerminal}
+                    className="mt-0.5 h-5 w-5 shrink-0"
+                  />
+                  <span className={`text-sm ${st.is_completed ? "line-through text-muted-foreground" : "text-foreground"}`}>
+                    {st.name}
+                  </span>
+                </label>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Photos */}
         {photos.length > 0 && (

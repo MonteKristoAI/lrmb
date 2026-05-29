@@ -914,6 +914,47 @@ export type Database = {
         }
         Relationships: []
       }
+      track_wo_subtasks: {
+        Row: {
+          track_id: number
+          task_id: string
+          name: string
+          sort_order: number | null
+          is_completed: boolean
+          completed_at: string | null
+          completed_by: string | null
+          synced_at: string
+        }
+        Insert: {
+          track_id: number
+          task_id: string
+          name: string
+          sort_order?: number | null
+          is_completed?: boolean
+          completed_at?: string | null
+          completed_by?: string | null
+          synced_at?: string
+        }
+        Update: {
+          track_id?: number
+          task_id?: string
+          name?: string
+          sort_order?: number | null
+          is_completed?: boolean
+          completed_at?: string | null
+          completed_by?: string | null
+          synced_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "track_wo_subtasks_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never

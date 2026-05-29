@@ -1,5 +1,9 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v29 (2026-05-29): TRACK's "not-started" status (seen on WO #32419
+//   surfaced by ops-health-monitor alert) now maps to
+//   vendor_not_started instead of falling to "new".
+//
 // v28 (2026-05-29): capture TRACK timeEstimate (minutes) into
 //   tasks.time_estimate_minutes so the WO detail page can show "Est: 2h"
 //   for shift planning. TRACK's observed values: 0, 60, 120, 180; treat
@@ -1169,6 +1173,12 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string | null 
   // substring. Otherwise "vendor not started" trips the started branch
   // and maps to in_progress.
   if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
+
+  // v29 (2026-05-29): TRACK literally sends "not-started" as a status
+  // string for vendor-assigned WOs that haven't kicked off (uncovered
+  // by ops-health-monitor signal #7 after Maurice's #32419 surfaced).
+  // Map to vendor_not_started — same semantic.
+  if (normalized.includes("notstarted")) return "vendor_not_started";
 
   // v25: RE_STARTED rejects "restarted" (so it falls through to "new"
   // rather than misclassifying a revived WO as in_progress).
