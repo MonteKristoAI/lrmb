@@ -16,7 +16,7 @@ import { supabase } from "@/integrations/supabase/client";
 import {
   MapPin, Clock, Camera, MessageSquare, Ban, CheckCircle2, Play,
   UserCheck, Image as ImageIcon, AlertTriangle, Pause, RotateCcw,
-  X, DollarSign, FileCheck, Truck, User, Building2
+  X, DollarSign, FileCheck, Truck, User, Building2, Calendar, Hourglass
 } from "lucide-react";
 import { isPast } from "date-fns";
 import { safeFormat, safeDistance } from "@/lib/utils";
@@ -255,10 +255,31 @@ const TaskDetail = () => {
             {task.units && (
               <span className="flex items-center gap-1"><MapPin className="h-3 w-3" />{task.units.short_name || task.units.unit_code}</span>
             )}
-            {task.due_at && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{safeFormat(task.due_at, "MMM d, h:mm a")}</span>}
+            {task.due_at && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />Due {safeFormat(task.due_at, "MMM d, h:mm a")}</span>}
+            {/* 2026-05-29 Emma polish: surface scheduled_for (from TRACK
+                scheduledAt). Important for HK shift planning — was missing
+                from the detail page entirely. */}
+            {task.scheduled_for && <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />Scheduled {safeFormat(task.scheduled_for, "MMM d, h:mm a")}</span>}
+            {/* 2026-05-29 Emma polish: surface TRACK timeEstimate (minutes).
+                Treat 0 as null upstream. Format as "Est: 2h" or "Est: 90m". */}
+            {task.time_estimate_minutes != null && task.time_estimate_minutes > 0 && (
+              <span className="flex items-center gap-1">
+                <Hourglass className="h-3 w-3" />
+                Est: {task.time_estimate_minutes >= 60
+                  ? `${Math.floor(task.time_estimate_minutes / 60)}h${task.time_estimate_minutes % 60 ? ` ${task.time_estimate_minutes % 60}m` : ""}`
+                  : `${task.time_estimate_minutes}m`}
+              </span>
+            )}
             <span>Category: {TASK_CATEGORY_LABELS[task.task_category]}</span>
-            {task.task_type && <span>Type: {task.task_type}</span>}
-            {hkType && <span>HK: {HOUSEKEEPING_TYPE_LABELS[hkType]}</span>}
+            {/* 2026-05-29 Emma polish: hide redundant "Type: checkout_turnover"
+                for housekeeping. Every HK WO from TRACK is hard-coded to
+                checkout_turnover by track-poll, so the row adds no signal
+                — Category + clean_type_name already cover it. Keep for
+                maintenance where task_type can vary. */}
+            {task.task_type && task.task_category !== "housekeeping" && <span>Type: {task.task_type}</span>}
+            {/* 2026-05-29 Emma polish: rename "HK:" prefix to "Clean type:"
+                — "HK" is internal jargon. */}
+            {hkType && <span>Clean type: {HOUSEKEEPING_TYPE_LABELS[hkType]}</span>}
             {dmgClass && dmgClass !== "unclassified" && <span>Damage: {DAMAGE_CLASSIFICATION_LABELS[dmgClass]}</span>}
           </div>
 

@@ -1,5 +1,10 @@
 // Polls TRACK PMS every 5 min and reconciles state into AiiA.
 //
+// v28 (2026-05-29): capture TRACK timeEstimate (minutes) into
+//   tasks.time_estimate_minutes so the WO detail page can show "Est: 2h"
+//   for shift planning. TRACK's observed values: 0, 60, 120, 180; treat
+//   0 as "not set" (null).
+//
 // v27 (2026-05-29): TRACK clean-type names. TRACK's polling response
 //   exposes cleanTypeId (int) on housekeeping WOs but the cleanType
 //   (name string) is always null. We were only reading the name, so
@@ -821,6 +826,15 @@ async function upsertTaskFromTrackWO(
     }
   }
 
+  // v28 (2026-05-29): TRACK timeEstimate (minutes) -> display on TaskDetail.
+  // Observed values: 0, 60, 120, 180. Treat 0 as "not set" (null).
+  let timeEstimateMin: number | null = null;
+  {
+    const raw = row.timeEstimate;
+    const n = typeof raw === "number" ? raw : Number(raw ?? NaN);
+    if (Number.isFinite(n) && n > 0) timeEstimateMin = n;
+  }
+
   const baseTask = {
     external_source: "track",
     external_id: externalId,
@@ -831,6 +845,7 @@ async function upsertTaskFromTrackWO(
     housekeeping_type: category === "housekeeping" ? deriveHousekeepingType(row, resolvedCleanTypeName) : null,
     track_clean_type_id: trackCleanTypeId,
     clean_type_name: resolvedCleanTypeName,
+    time_estimate_minutes: timeEstimateMin,
     title: derivedTitle(row, category, resolvedCleanTypeName),
     description: (row.description as string | undefined) ??
       (row.comments as string | undefined) ?? null,

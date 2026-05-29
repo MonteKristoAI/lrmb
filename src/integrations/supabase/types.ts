@@ -647,6 +647,9 @@ export type Database = {
           started_at: string | null
           status: Database["public"]["Enums"]["task_status"]
           task_category: Database["public"]["Enums"]["task_category"]
+          time_estimate_minutes: number | null
+          track_clean_type_id: number | null
+          clean_type_name: string | null
           task_type: string | null
           title: string
           unit_id: string | null
@@ -701,6 +704,9 @@ export type Database = {
           started_at?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task_category?: Database["public"]["Enums"]["task_category"]
+          time_estimate_minutes?: number | null
+          track_clean_type_id?: number | null
+          clean_type_name?: string | null
           task_type?: string | null
           title: string
           unit_id?: string | null
@@ -747,6 +753,9 @@ export type Database = {
           started_at?: string | null
           status?: Database["public"]["Enums"]["task_status"]
           task_category?: Database["public"]["Enums"]["task_category"]
+          time_estimate_minutes?: number | null
+          track_clean_type_id?: number | null
+          clean_type_name?: string | null
           task_type?: string | null
           title?: string
           unit_id?: string | null
