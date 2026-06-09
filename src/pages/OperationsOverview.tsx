@@ -1592,16 +1592,18 @@ function ModalSkeleton() {
 }
 
 function ModalError({ detail }: { detail: string }) {
+  const { t } = useI18n();
   return (
     <div className="flex flex-col items-center gap-3 py-8 text-center">
       <AlertCircle className="h-8 w-8 text-destructive" />
-      <p className="text-sm font-medium">Could not load detail</p>
+      <p className="text-sm font-medium">{t("Could not load detail")}</p>
       <p className="text-xs text-muted-foreground">{detail}</p>
     </div>
   );
 }
 
 function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload; onOpenDetail: (kind: "task" | "res", id: string) => void }) {
+  const { t: tx } = useI18n();
   const t = payload.task;
   const u = t.units;
   const p = t.properties;
@@ -1609,11 +1611,11 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
   const taskPhotos = payload.photos ?? [];
   const taskActivity = payload.activity ?? [];
   const displayName = t.task_category === "housekeeping"
-    ? (t.housekeeping_type ? hkTypeLabel(t.housekeeping_type) : "Clean")
-    : (t.title ?? "Maintenance work order");
+    ? (t.housekeeping_type ? hkTypeLabel(t.housekeeping_type) : tx("Clean"))
+    : (t.title ?? tx("Maintenance work order"));
   const locLabel = u && p
     ? `${u.short_name ?? u.unit_code ?? ""} · ${p.name}`
-    : (p?.name ?? "Unknown property");
+    : (p?.name ?? tx("Unknown property"));
 
   return (
     <div className="space-y-5">
@@ -1648,13 +1650,13 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
       {/* Description / blocked reason */}
       {t.description && (
         <div className="rounded-md border border-border bg-muted/30 p-3">
-          <p className="text-xs font-medium text-muted-foreground mb-1">Description</p>
+          <p className="text-xs font-medium text-muted-foreground mb-1">{tx("Description")}</p>
           <p className="text-sm">{t.description}</p>
         </div>
       )}
       {t.blocked_reason && (
         <div className="rounded-md border border-destructive/40 bg-destructive/10 p-3">
-          <p className="text-xs font-medium text-destructive mb-1">Blocked</p>
+          <p className="text-xs font-medium text-destructive mb-1">{tx("Blocked")}</p>
           <p className="text-sm">{t.blocked_reason}</p>
         </div>
       )}
@@ -1662,16 +1664,16 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
       {/* Photos */}
       {taskPhotos.length > 0 && (
         <div>
-          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">Photos ({taskPhotos.length})</h4>
+          <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2">{tx("Photos")} ({taskPhotos.length})</h4>
           <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
             {taskPhotos.map((ph) =>
               ph.signed_url ? (
                 <a key={ph.id} href={ph.signed_url} target="_blank" rel="noreferrer noopener" className="block aspect-square overflow-hidden rounded-md border border-border bg-card hover:ring-2 hover:ring-accent/40 transition">
-                  <img src={ph.signed_url} alt={ph.caption ?? "Photo proof"} loading="lazy" className="h-full w-full object-cover" />
+                  <img src={ph.signed_url} alt={ph.caption ?? tx("Photo proof")} loading="lazy" className="h-full w-full object-cover" />
                 </a>
               ) : (
-                <div key={ph.id} className="flex aspect-square w-full items-center justify-center rounded-md border border-border bg-card text-xs text-muted-foreground" title="No preview available">
-                  No preview
+                <div key={ph.id} className="flex aspect-square w-full items-center justify-center rounded-md border border-border bg-card text-xs text-muted-foreground" title={tx("No preview available")}>
+                  {tx("No preview")}
                 </div>
               ),
             )}
@@ -1733,6 +1735,7 @@ function TaskDetailView({ payload, onOpenDetail }: { payload: TaskDetailPayload;
 }
 
 function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPayload; onOpenDetail: (kind: "task" | "res", id: string) => void }) {
+  const { t } = useI18n();
   const r = (payload.reservation ?? {}) as Record<string, unknown>;
   const linkedTasks = payload.linkedTasks ?? [];
   const eventHistory = payload.eventHistory ?? [];
@@ -1740,24 +1743,24 @@ function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPa
     <div className="space-y-5">
       <div>
         <div className="flex flex-wrap items-center gap-2 mb-2">
-          <h3 className="text-lg font-semibold">Reservation #{String(r.id ?? "")}</h3>
+          <h3 className="text-lg font-semibold">{t("Reservation")} #{String(r.id ?? "")}</h3>
           {r.status && <Badge variant="outline">{String(r.status)}</Badge>}
         </div>
-        {r.unitId != null && <p className="text-sm text-muted-foreground">TRACK unit #{String(r.unitId)}</p>}
+        {r.unitId != null && <p className="text-sm text-muted-foreground">{t("TRACK unit")} #{String(r.unitId)}</p>}
       </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        {r.arrivalDate && <KV icon={ArrowDownToLine} label="Arrival" value={safeFormat(String(r.arrivalDate), "PPP")} />}
-        {r.departureDate && <KV icon={ArrowUpFromLine} label="Departure" value={safeFormat(String(r.departureDate), "PPP")} />}
-        {r.nights != null && <KV icon={Clock} label="Nights" value={String(r.nights)} />}
-        {r.occupants != null && <KV icon={Users} label="Occupants" value={occupantsLabel(r.occupants as ReservationCard["occupants"])} />}
+        {r.arrivalDate && <KV icon={ArrowDownToLine} label={t("Arrival")} value={safeFormat(String(r.arrivalDate), "PPP")} />}
+        {r.departureDate && <KV icon={ArrowUpFromLine} label={t("Departure")} value={safeFormat(String(r.departureDate), "PPP")} />}
+        {r.nights != null && <KV icon={Clock} label={t("Nights")} value={String(r.nights)} />}
+        {r.occupants != null && <KV icon={Users} label={t("Occupants")} value={occupantsLabel(r.occupants as ReservationCard["occupants"])} />}
       </div>
 
       {linkedTasks.length > 0 && (
         <div>
           <h4 className="text-xs font-medium uppercase tracking-wide text-muted-foreground mb-2 flex items-center gap-1.5">
             <ListChecks className="h-3 w-3" />
-            Linked work orders ({linkedTasks.length})
+            {t("Linked work orders")} ({linkedTasks.length})
           </h4>
           <ul className="space-y-1.5">
             {linkedTasks.map((t) => {

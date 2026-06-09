@@ -313,6 +313,37 @@ const translations = {
   "Search work orders, units, properties, IDs…": { es: "Buscar ordenes de trabajo, residencias, propiedades, IDs…" },
   "Search work orders and reservations": { es: "Buscar ordenes de trabajo y reservaciones" },
 
+  // Wave 9-14 sweep
+  "You are offline.": { es: "Estas sin conexion." },
+  "Your changes will sync when you reconnect.": { es: "Tus cambios se sincronizaran cuando te reconectes." },
+  "Activity": { es: "Actividad" },
+  "No activity yet.": { es: "Aun no hay actividad." },
+  "OVERDUE": { es: "VENCIDA" },
+  "Install LRMB Ops": { es: "Instalar LRMB Ops" },
+  "Add to home screen for quick access": { es: "Agregar a la pantalla de inicio para acceso rapido" },
+  "Install": { es: "Instalar" },
+  "Dismiss install prompt": { es: "Descartar mensaje de instalacion" },
+  "New version available": { es: "Nueva version disponible" },
+  "Update": { es: "Actualizar" },
+
+  // Wave 15 — OperationsOverview deep dialogs
+  "Could not load detail": { es: "No se pudo cargar el detalle" },
+  "Clean": { es: "Limpieza" },
+  "Maintenance work order": { es: "Orden de mantenimiento" },
+  "Unknown property": { es: "Propiedad desconocida" },
+  "Blocked": { es: "Bloqueado" },
+  "Photos": { es: "Fotos" },
+  "Photo proof": { es: "Prueba con foto" },
+  "No preview available": { es: "Sin vista previa disponible" },
+  "No preview": { es: "Sin vista previa" },
+  "Reservation": { es: "Reservacion" },
+  "TRACK unit": { es: "Unidad TRACK" },
+  "Arrival": { es: "Llegada" },
+  "Departure": { es: "Salida" },
+  "Nights": { es: "Noches" },
+  "Occupants": { es: "Ocupantes" },
+  "Linked work orders": { es: "Ordenes de trabajo vinculadas" },
+
   // Common
   "Loading...": { es: "Cargando..." },
   "No active work orders assigned.": { es: "No hay ordenes de trabajo activas asignadas." },

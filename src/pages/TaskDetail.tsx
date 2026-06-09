@@ -22,10 +22,16 @@ import {
 } from "lucide-react";
 import { isPast } from "date-fns";
 import { safeFormat, safeDistance } from "@/lib/utils";
+import { preparePhotoForUpload } from "@/lib/photo-prep";
 import {
   TASK_CATEGORY_LABELS,
+  TASK_CATEGORY_LABELS_ES,
   HOUSEKEEPING_TYPE_LABELS,
+  HOUSEKEEPING_TYPE_LABELS_ES,
   DAMAGE_CLASSIFICATION_LABELS,
+  DAMAGE_CLASSIFICATION_LABELS_ES,
+  UPDATE_TYPE_LABELS,
+  UPDATE_TYPE_LABELS_ES,
   type TaskStatus,
   type HousekeepingType,
   type DamageClassification,
@@ -40,8 +46,9 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const TaskDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { user, profile, hasAdminAccess } = useAuth();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { toast } = useToast();
+  const UPDATE_TYPE_MAP = locale === "es" ? UPDATE_TYPE_LABELS_ES : UPDATE_TYPE_LABELS;
   const validId = id && UUID_RE.test(id) ? id : undefined;
   const { data: task, isLoading } = useTask(validId);
   const { data: updates = [] } = useTaskUpdates(validId);
@@ -233,7 +240,12 @@ const TaskDetail = () => {
       return;
     }
     try {
-      await uploadPhoto.mutateAsync({ taskId: task.id, propertyId: task.property_id, file, userId: user.id });
+      // L10 wave 9 (2026-06-10): client-side resize + EXIF strip BEFORE
+      // upload. Maria's iPhone HEIC goes from ~5 MB to ~400 KB on 3G,
+      // and GPS coordinates + camera serial in EXIF never leave the
+      // device. See src/lib/photo-prep.ts for the rationale.
+      const prepared = await preparePhotoForUpload(file);
+      await uploadPhoto.mutateAsync({ taskId: task.id, propertyId: task.property_id, file: prepared.file, userId: user.id });
       toast({ title: t("Photo uploaded") });
       await bumpStartedIfPending();
     } catch (err) {
@@ -335,7 +347,7 @@ const TaskDetail = () => {
           <div className="flex items-center gap-2 flex-wrap">
             <StatusBadge status={task.status} />
             <PriorityBadge priority={task.priority} />
-            {isOverdue && <span className="text-xs text-destructive font-semibold flex items-center gap-1"><AlertTriangle className="h-3 w-3" />OVERDUE</span>}
+            {isOverdue && <span className="text-xs text-red-300 font-semibold flex items-center gap-1" aria-label={t("Overdue")}><AlertTriangle className="h-3 w-3" aria-hidden="true" />{t("OVERDUE")}</span>}
             {task.reopened_count > 0 && <span className="text-xs bg-status-in-progress/20 text-foreground px-2 py-0.5 rounded">Reopened x{task.reopened_count}</span>}
             {task.is_guest_facing && <span className="text-xs bg-blue-500/20 text-blue-600 px-2 py-0.5 rounded flex items-center gap-1"><User className="h-3 w-3" />Guest-Facing</span>}
           </div>
@@ -591,19 +603,21 @@ const TaskDetail = () => {
 
         {/* Activity Timeline */}
         <div className="space-y-2">
-          <h3 className="text-sm font-semibold text-foreground">Activity</h3>
+          <h3 className="text-sm font-semibold text-foreground">{t("Activity")}</h3>
           {updates.length === 0 ? (
-            <p className="text-xs text-muted-foreground">No activity yet.</p>
+            <p className="text-xs text-muted-foreground">{t("No activity yet.")}</p>
           ) : (
             <div className="space-y-2">
               {updates.map((u) => (
                 <div key={u.id} className="rounded border border-border bg-card p-3 text-xs space-y-1">
                   <div className="flex justify-between">
-                    <span className="font-medium text-foreground capitalize">{u.update_type.replace(/_/g, " ")}</span>
+                    <span className="font-medium text-foreground">
+                      {UPDATE_TYPE_MAP[u.update_type] ?? u.update_type.replace(/_/g, " ")}
+                    </span>
                     <span className="text-muted-foreground">{safeDistance(u.created_at)}</span>
                   </div>
                   {u.note && <p className="text-muted-foreground">{u.note}</p>}
-                  {u.old_status && u.new_status && <p className="text-muted-foreground">{u.old_status} &rarr; {u.new_status}</p>}
+                  {u.old_status && u.new_status && <p className="text-muted-foreground">{t(`status:${u.old_status}`)} &rarr; {t(`status:${u.new_status}`)}</p>}
                 </div>
               ))}
             </div>

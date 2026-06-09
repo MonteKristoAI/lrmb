@@ -148,7 +148,7 @@ const Login = () => {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="tap-target bg-transparent border-0 text-sm"
-              style={{ borderBottom: "1px solid rgba(196,186,177,0.15)", borderRadius: 0, paddingLeft: 0, color: "#E8E2DC" }}
+              style={{ borderBottom: "1px solid rgba(196,186,177,0.4)", borderRadius: 0, paddingLeft: 0, color: "#E8E2DC" }}
             />
           </div>
           <div className="space-y-1.5">
@@ -161,7 +161,7 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
               required
               className="tap-target bg-transparent border-0 text-sm"
-              style={{ borderBottom: "1px solid rgba(196,186,177,0.15)", borderRadius: 0, paddingLeft: 0, color: "#E8E2DC" }}
+              style={{ borderBottom: "1px solid rgba(196,186,177,0.4)", borderRadius: 0, paddingLeft: 0, color: "#E8E2DC" }}
             />
           </div>
           <Button

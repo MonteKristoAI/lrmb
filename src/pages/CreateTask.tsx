@@ -15,9 +15,13 @@ import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/hooks/use-toast";
 import {
   TASK_CATEGORY_LABELS,
+  TASK_CATEGORY_LABELS_ES,
   TASK_PRIORITY_LABELS,
+  TASK_PRIORITY_LABELS_ES,
   HOUSEKEEPING_TYPE_LABELS,
+  HOUSEKEEPING_TYPE_LABELS_ES,
   DAMAGE_CLASSIFICATION_LABELS,
+  DAMAGE_CLASSIFICATION_LABELS_ES,
   type TaskCategory,
   type TaskPriority,
   type HousekeepingType,
@@ -27,7 +31,11 @@ import {
 const CreateTask = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const CAT_MAP = locale === "es" ? TASK_CATEGORY_LABELS_ES : TASK_CATEGORY_LABELS;
+  const PRIO_MAP = locale === "es" ? TASK_PRIORITY_LABELS_ES : TASK_PRIORITY_LABELS;
+  const HK_MAP = locale === "es" ? HOUSEKEEPING_TYPE_LABELS_ES : HOUSEKEEPING_TYPE_LABELS;
+  const DMG_MAP = locale === "es" ? DAMAGE_CLASSIFICATION_LABELS_ES : DAMAGE_CLASSIFICATION_LABELS;
   const { toast } = useToast();
   const createTask = useCreateTask();
   const { data: properties = [] } = useProperties();
@@ -65,14 +73,22 @@ const CreateTask = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
-  // L10 audit 2026-06-09 P1-5: client-side min for datetime-local inputs
-  // so admins don't accidentally backdate a WO and instantly mark it overdue.
-  // Local YYYY-MM-DDTHH:mm format expected by <input type="datetime-local">.
-  const nowLocalIso = (() => {
+  // L10 audit 2026-06-09 P1-5 + wave 14 (2026-06-10): client-side min for
+  // datetime-local inputs so admins don't accidentally backdate a WO and
+  // instantly mark it overdue. Re-computed on a 60s interval — without
+  // this, an admin who opens the form, goes to a meeting, and returns
+  // 2 hours later can still backdate a WO by ~2h because the min hasn't
+  // moved.
+  const computeNowLocal = () => {
     const d = new Date();
     const off = d.getTimezoneOffset();
     return new Date(d.getTime() - off * 60_000).toISOString().slice(0, 16);
-  })();
+  };
+  const [nowLocalIso, setNowLocalIso] = useState<string>(computeNowLocal);
+  useEffect(() => {
+    const id = window.setInterval(() => setNowLocalIso(computeNowLocal()), 60_000);
+    return () => window.clearInterval(id);
+  }, []);
 
   const set = (key: string, value: unknown) => setForm((prev) => ({ ...prev, [key]: value }));
 
@@ -190,7 +206,7 @@ const CreateTask = () => {
             <Select value={form.task_category} onValueChange={(v) => { set("task_category", v); set("housekeeping_type", ""); set("damage_classification", ""); }}>
               <SelectTrigger className="tap-target"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {Object.entries(TASK_CATEGORY_LABELS).map(([val, label]) => (
+                {Object.entries(CAT_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
                 ))}
               </SelectContent>
@@ -201,7 +217,7 @@ const CreateTask = () => {
             <Select value={form.priority} onValueChange={(v) => set("priority", v)}>
               <SelectTrigger className="tap-target"><SelectValue /></SelectTrigger>
               <SelectContent>
-                {Object.entries(TASK_PRIORITY_LABELS).map(([val, label]) => (
+                {Object.entries(PRIO_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
                 ))}
               </SelectContent>
@@ -216,7 +232,7 @@ const CreateTask = () => {
             <Select value={form.housekeeping_type || undefined} onValueChange={(v) => set("housekeeping_type", v)}>
               <SelectTrigger className="tap-target"><SelectValue placeholder={t("Select type")} /></SelectTrigger>
               <SelectContent>
-                {Object.entries(HOUSEKEEPING_TYPE_LABELS).map(([val, label]) => (
+                {Object.entries(HK_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
                 ))}
               </SelectContent>
@@ -231,7 +247,7 @@ const CreateTask = () => {
             <Select value={form.damage_classification || undefined} onValueChange={(v) => set("damage_classification", v)}>
               <SelectTrigger className="tap-target"><SelectValue placeholder={t("Optional")} /></SelectTrigger>
               <SelectContent>
-                {Object.entries(DAMAGE_CLASSIFICATION_LABELS).map(([val, label]) => (
+                {Object.entries(DMG_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
                 ))}
               </SelectContent>

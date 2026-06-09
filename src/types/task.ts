@@ -102,6 +102,46 @@ export const DAMAGE_CLASSIFICATION_LABELS: Record<DamageClassification, string> 
   unclassified: "Unclassified",
 };
 
+// L10 wave 13 (2026-06-10): Spanish counterpart so CreateTask + TaskDetail
+// can branch by locale instead of always showing the English label.
+export const DAMAGE_CLASSIFICATION_LABELS_ES: Record<DamageClassification, string> = {
+  wear_and_tear: "Desgaste Normal",
+  guest_damage: "Daño del Huésped",
+  unclassified: "Sin Clasificar",
+};
+
+// Update-type strings the Activity feed renders. We use the keys
+// 1:1 with the existing public.task_updates.update_type enum so a new
+// enum value surfaces in both locales the moment it's added here.
+export const UPDATE_TYPE_LABELS: Record<string, string> = {
+  status_change: "Status change",
+  note: "Note",
+  note_added: "Note added",
+  photo: "Photo",
+  reassign: "Reassigned",
+  assignment_change: "Reassigned",
+  block: "Blocked",
+  unblock: "Unblocked",
+  reopen: "Reopened",
+  verify: "Verified",
+  complete: "Completed",
+  start: "Started",
+};
+export const UPDATE_TYPE_LABELS_ES: Record<string, string> = {
+  status_change: "Cambio de estado",
+  note: "Nota",
+  note_added: "Nota agregada",
+  photo: "Foto",
+  reassign: "Reasignado",
+  assignment_change: "Reasignado",
+  block: "Bloqueado",
+  unblock: "Desbloqueado",
+  reopen: "Reabierto",
+  verify: "Verificado",
+  complete: "Completado",
+  start: "Iniciado",
+};
+
 export const PRIORITY_ORDER: Record<TaskPriority, number> = {
   urgent: 0,
   high: 1,

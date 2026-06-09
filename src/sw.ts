@@ -4,6 +4,7 @@ import { clientsClaim } from "workbox-core";
 import { registerRoute } from "workbox-routing";
 import { NetworkFirst, CacheFirst, NetworkOnly } from "workbox-strategies";
 import { ExpirationPlugin } from "workbox-expiration";
+import { BackgroundSyncPlugin } from "workbox-background-sync";
 
 declare let self: ServiceWorkerGlobalScope;
 
@@ -15,9 +16,54 @@ cleanupOutdatedCaches();
 self.skipWaiting();
 clientsClaim();
 
-// Supabase API: network first with 3s timeout
+// L10 wave 10 (2026-06-10): offline mutation queue. When Maria taps
+// "Complete" / "Start" / "Block" / "Add Note" on 3G/EDGE and the request
+// fails (timeout, no signal), the BackgroundSyncPlugin captures the
+// request body and replays it when the browser regains connectivity.
+//
+// Window: 24h. If she's offline longer than that the queued mutation is
+// dropped (better than firing a stale write — the WO may have moved on).
+// Max retries handled by the browser's BackgroundSync registration.
+const supabaseMutationQueue = new BackgroundSyncPlugin("lrmb-supabase-mutations", {
+  maxRetentionTime: 24 * 60,
+});
+
+// Mutating REST calls (POST/PATCH/PUT/DELETE) → queue on failure.
+// MUST be registered BEFORE the NetworkFirst GET route so the matcher
+// hits this route first for non-GET methods.
+const isSupabaseRestMutation = ({ url, request }: { url: URL; request: Request }) =>
+  url.hostname.includes("supabase.co") &&
+  url.pathname.includes("/rest/") &&
+  ["POST", "PATCH", "PUT", "DELETE"].includes(request.method);
+
 registerRoute(
-  ({ url }) => url.hostname.includes("supabase.co") && url.pathname.includes("/rest/"),
+  isSupabaseRestMutation,
+  new NetworkOnly({ plugins: [supabaseMutationQueue] }),
+  "POST",
+);
+registerRoute(
+  isSupabaseRestMutation,
+  new NetworkOnly({ plugins: [supabaseMutationQueue] }),
+  "PATCH",
+);
+registerRoute(
+  isSupabaseRestMutation,
+  new NetworkOnly({ plugins: [supabaseMutationQueue] }),
+  "PUT",
+);
+registerRoute(
+  isSupabaseRestMutation,
+  new NetworkOnly({ plugins: [supabaseMutationQueue] }),
+  "DELETE",
+);
+
+// Supabase API: network first with 3s timeout (READS only — mutations
+// handled above).
+registerRoute(
+  ({ url, request }) =>
+    request.method === "GET" &&
+    url.hostname.includes("supabase.co") &&
+    url.pathname.includes("/rest/"),
   new NetworkFirst({
     cacheName: "supabase-api-cache",
     plugins: [new ExpirationPlugin({ maxEntries: 100, maxAgeSeconds: 300 })],

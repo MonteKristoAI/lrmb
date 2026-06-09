@@ -109,15 +109,26 @@ Deno.serve(async (req) => {
       });
     }
 
-    if (notifications.length > 0) {
+    // L10 wave 11 (2026-06-10) — P1-1 from verify agent: chunked insert.
+    // Old single .insert(notifications) was all-or-nothing — if one row hit
+    // a FK violation, the whole 152-row batch rolled back and EVERY admin
+    // missed every alert. Chunks of 200 isolate failure to a single chunk.
+    // failedChunks counted so audit shows partial-failure runs.
+    const INSERT_CHUNK = 200;
+    let failedChunks = 0;
+    for (let i = 0; i < notifications.length; i += INSERT_CHUNK) {
+      const slice = notifications.slice(i, i + INSERT_CHUNK);
       const { error: insertErr } = await supabase
         .from("notification_events")
-        .insert(notifications);
-      if (insertErr) throw insertErr;
+        .insert(slice);
+      if (insertErr) {
+        failedChunks++;
+        console.error(`escalate-overdue chunk ${i}..${i + slice.length} failed:`, insertErr);
+      }
     }
 
     return new Response(
-      JSON.stringify({ escalated: notifications.length }),
+      JSON.stringify({ escalated: notifications.length, failed_chunks: failedChunks }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
