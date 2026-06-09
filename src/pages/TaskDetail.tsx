@@ -143,7 +143,7 @@ const TaskDetail = () => {
   if (isLoading) return <AppShell title="Work Order"><div className="p-4 space-y-3">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-8" />)}</div></AppShell>;
   if (!task) return <AppShell title="Work Order"><div className="p-4 text-muted-foreground">Work order not found.</div></AppShell>;
 
-  const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !["completed", "verified", "processed"].includes(task.status);
+  const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !["cancelled", "completed", "verified", "processed"].includes(task.status);
   // v33: unassigned "new" tasks should be claimable by any field staff (not just the
   // person they're already assigned to). Previously Accept never appeared for
   // unclaimed work, so cleaners had no way to grab their own next job.
@@ -158,7 +158,7 @@ const TaskDetail = () => {
     || hasAdminAccess()
     || vendorMember
     || (task.status === "new" && !task.assigned_to);
-  const isTerminal = ["completed", "verified", "processed"].includes(task.status);
+  const isTerminal = ["cancelled", "completed", "verified", "processed"].includes(task.status);
 
   const transition = async (newStatus: TaskStatus, extra?: Record<string, unknown>) => {
     if (!user || transitioningRef.current) return;
@@ -268,6 +268,13 @@ const TaskDetail = () => {
     // (when applicable) at least one photo of completion proof.
     if (task.requires_photo && photos.length === 0) {
       toast({ title: "Photo required", description: "Upload at least one photo before completing.", variant: "destructive" });
+      return;
+    }
+    // L10 audit 2026-06-09 P1-7: requires_note was cosmetic only — dialog
+    // showed a warning, but the Confirm button still fired. Now actually
+    // blocks completion when no note exists.
+    if (task.requires_note && !updates.some((u) => u.update_type === "note")) {
+      toast({ title: "Note required", description: "Add a completion note before completing.", variant: "destructive" });
       return;
     }
     if (subtasks.length > 0) {

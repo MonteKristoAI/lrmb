@@ -9,7 +9,7 @@ import { MousePointerClick } from "lucide-react";
 
 const COLORS = ["hsl(var(--primary))", "hsl(var(--status-completed))", "hsl(var(--status-in-progress))", "hsl(var(--status-blocked))"];
 
-const STATUS_ORDER = ["new", "assigned", "vendor_not_started", "in_progress", "waiting_parts", "blocked", "completed", "verified", "processed"];
+const STATUS_ORDER = ["new", "assigned", "vendor_not_started", "in_progress", "waiting_parts", "blocked", "cancelled", "completed", "verified", "processed"];
 const PRIORITY_ORDER = ["low", "medium", "high", "urgent"];
 
 const KPIOverview = () => {

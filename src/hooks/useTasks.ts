@@ -99,6 +99,28 @@ export function useTaskPhotos(taskId: string | undefined) {
   });
 }
 
+// 2026-06-09 L10 audit P0-1: queue + dashboard query keys (`tasks_by_status`,
+// `overdue_tasks`, `dashboard_kpis`, `task_count`, `admin_dashboard_bundle`,
+// `analytics_summary`, etc.) were NOT invalidated by mutations. Result: user
+// transitioned a task and the badge / number didn't update until react-query
+// staleTime expired (30-60s+). Now broadcast invalidation across every
+// task-derived key. Kept in one place so the next added query gets covered
+// without dragging out individual mutation hooks.
+const TASK_DERIVED_QUERY_KEYS = [
+  "tasks", "task", "all_tasks",
+  "tasks_by_status", "overdue_tasks", "tasks_count",
+  "task_count", "dashboard_kpis", "admin_dashboard_bundle",
+  "analytics_summary", "analytics_trends", "analytics_staff_workload",
+  "active_staff_count", "wo_subtasks",
+] as const;
+
+function invalidateTaskDerived(qc: ReturnType<typeof useQueryClient>, includeId?: string) {
+  for (const k of TASK_DERIVED_QUERY_KEYS) {
+    qc.invalidateQueries({ queryKey: [k] });
+  }
+  if (includeId) qc.invalidateQueries({ queryKey: ["task", includeId] });
+}
+
 export function useUpdateTask() {
   const qc = useQueryClient();
   return useMutation({
@@ -107,11 +129,7 @@ export function useUpdateTask() {
       if (error) throw error;
       return data;
     },
-    onSuccess: (data) => {
-      qc.invalidateQueries({ queryKey: ["tasks"] });
-      qc.invalidateQueries({ queryKey: ["task", data.id] });
-      qc.invalidateQueries({ queryKey: ["all_tasks"] });
-    },
+    onSuccess: (data) => invalidateTaskDerived(qc, data.id),
   });
 }
 
@@ -140,11 +158,7 @@ export function useGuardedTaskTransition() {
       }
       return data[0];
     },
-    onSuccess: (data) => {
-      qc.invalidateQueries({ queryKey: ["tasks"] });
-      qc.invalidateQueries({ queryKey: ["task", data.id] });
-      qc.invalidateQueries({ queryKey: ["all_tasks"] });
-    },
+    onSuccess: (data) => invalidateTaskDerived(qc, data.id),
   });
 }
 
@@ -156,10 +170,7 @@ export function useCreateTask() {
       if (error) throw error;
       return data;
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["tasks"] });
-      qc.invalidateQueries({ queryKey: ["all_tasks"] });
-    },
+    onSuccess: () => invalidateTaskDerived(qc),
   });
 }
 
@@ -172,7 +183,7 @@ export function useAddTaskUpdate() {
     },
     onSuccess: (_d, v) => {
       qc.invalidateQueries({ queryKey: ["task_updates", v.task_id] });
-      qc.invalidateQueries({ queryKey: ["tasks"] });
+      invalidateTaskDerived(qc, v.task_id);
     },
   });
 }

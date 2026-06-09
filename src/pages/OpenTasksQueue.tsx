@@ -28,6 +28,16 @@ const OpenTasksQueue = () => {
   const handleReassign = async () => {
     if (!reassignId || !newAssignee || !user) return;
     const task = open.find((t) => t.id === reassignId);
+    // L10 audit 2026-06-09 P1-4: guard against reassigning a terminal task
+    // (race window between list render and click — another admin may have
+    // verified/completed it). Reassigning a completed task leaves a confusing
+    // audit row ("Reassigned X to Y on a completed task").
+    if (task && ["cancelled", "completed", "verified", "processed"].includes(task.status)) {
+      toast({ title: "Task moved on", description: "This work order has been finalized and can't be reassigned.", variant: "destructive" });
+      setReassignId(null);
+      setNewAssignee("");
+      return;
+    }
     const newStatus = task && task.status === "new" ? "assigned" : undefined;
     const previousAssignee = task?.assigned_to ?? null;
     try {

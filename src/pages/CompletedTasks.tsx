@@ -5,7 +5,10 @@ import { useTasks, useTasksByStatus } from "@/hooks/useTasks";
 import { Skeleton } from "@/components/ui/skeleton";
 import type { TaskStatus } from "@/types/task";
 
-const DONE_STATUSES: TaskStatus[] = ["completed", "verified", "processed"];
+// 2026-06-09: include 'cancelled' so cancelled-in-TRACK WOs remain findable
+// in the Completed view. Otherwise they vanish from every UI surface and
+// staff has no way to audit "what got cancelled this week".
+const DONE_STATUSES: TaskStatus[] = ["completed", "verified", "processed", "cancelled"];
 
 const CompletedTasks = () => {
   const { user, hasAdminAccess } = useAuth();

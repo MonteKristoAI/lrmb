@@ -10,6 +10,7 @@ const statusClasses: Record<TaskStatus, string> = {
   in_progress: "bg-status-in-progress/20 text-status-in-progress border-status-in-progress/30",
   waiting_parts: "bg-status-waiting/20 text-status-waiting border-status-waiting/30",
   blocked: "bg-status-blocked/20 text-status-blocked border-status-blocked/30",
+  cancelled: "bg-slate-500/20 text-slate-600 border-slate-500/30 line-through",
   completed: "bg-status-completed/20 text-status-completed border-status-completed/30",
   verified: "bg-status-verified/20 text-status-verified border-status-verified/30",
   processed: "bg-emerald-600/20 text-emerald-700 border-emerald-600/30",

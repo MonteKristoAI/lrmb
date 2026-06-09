@@ -63,6 +63,15 @@ const CreateTask = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
+  // L10 audit 2026-06-09 P1-5: client-side min for datetime-local inputs
+  // so admins don't accidentally backdate a WO and instantly mark it overdue.
+  // Local YYYY-MM-DDTHH:mm format expected by <input type="datetime-local">.
+  const nowLocalIso = (() => {
+    const d = new Date();
+    const off = d.getTimezoneOffset();
+    return new Date(d.getTime() - off * 60_000).toISOString().slice(0, 16);
+  })();
+
   const set = (key: string, value: unknown) => setForm((prev) => ({ ...prev, [key]: value }));
 
   if (!mounted) return <AppShell title="Create Work Order"><div className="p-4">Loading...</div></AppShell>;
@@ -262,11 +271,11 @@ const CreateTask = () => {
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
             <Label>Due Date</Label>
-            <Input type="datetime-local" value={form.due_at} onChange={(e) => set("due_at", e.target.value)} className="tap-target" />
+            <Input type="datetime-local" min={nowLocalIso} value={form.due_at} onChange={(e) => set("due_at", e.target.value)} className="tap-target" />
           </div>
           <div className="space-y-2">
             <Label>Scheduled For</Label>
-            <Input type="datetime-local" value={form.scheduled_for} onChange={(e) => set("scheduled_for", e.target.value)} className="tap-target" />
+            <Input type="datetime-local" min={nowLocalIso} value={form.scheduled_for} onChange={(e) => set("scheduled_for", e.target.value)} className="tap-target" />
           </div>
         </div>
 

@@ -1012,6 +1012,7 @@ export type Database = {
         | "in_progress"
         | "waiting_parts"
         | "blocked"
+        | "cancelled"
         | "completed"
         | "verified"
         | "processed"
