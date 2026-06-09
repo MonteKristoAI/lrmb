@@ -1,3 +1,13 @@
+// v4 (2026-06-09): L10 audit storage P0-2 — IDOR write-gate closed.
+// v3 verified the JWT signature but never checked authorization for the
+// (property_id, task_id) pair the caller chose. Storage RLS is bypassed
+// because the upload runs as service_role, so the only gate was UUID
+// format validation — meaning field staff A could plant evidence on
+// tasks assigned to staff B and trigger payouts/closeouts.
+// v4 calls `can_write_task_photo(p_path)` via a user-scoped client BEFORE
+// the upload. The RPC checks `tasks.assigned_to = auth.uid()
+// OR has_admin_access(auth.uid())`. Forbidden writes return 403.
+//
 // v3 (2026-06-09): L10 audit P0-1 — JWT trust hole closed.
 // Old `decodeJwtSub(token)` did `atob(parts[1])` and trusted whatever
 // `sub` claim was in the payload, with NO signature verification.
@@ -133,6 +143,28 @@ Deno.serve(async (req) => {
 
   const supabase = createClient(sbUrl, srKey);
   const path = `${propertyId}/${taskId}/${crypto.randomUUID()}.${kind.ext}`;
+
+  // v4 (2026-06-09): write-gate via user-scoped RPC. can_write_task_photo
+  // reads `auth.uid()` and returns true iff the caller is admin or has
+  // tasks.assigned_to = auth.uid() for this task. Without this gate, any
+  // authenticated user could write to ANY (property_id, task_id) pair
+  // (storage RLS is bypassed because the upload below is service_role).
+  // The user-scoped client carries the verified JWT so RPC sees the real
+  // auth.uid() context.
+  const userClient = createClient(sbUrl, srKey, {
+    global: { headers: { Authorization: `Bearer ${token}` } },
+    auth: { persistSession: false, autoRefreshToken: false },
+  });
+  const { data: canWrite, error: gateErr } = await userClient.rpc(
+    "can_write_task_photo",
+    { p_path: path },
+  );
+  if (gateErr) {
+    return json(500, { error: "authorization_check_failed", detail: gateErr.message });
+  }
+  if (!canWrite) {
+    return json(403, { error: "forbidden", detail: "not authorized to upload to this task" });
+  }
 
   const { error: upErr } = await supabase.storage
     .from("task-photos")

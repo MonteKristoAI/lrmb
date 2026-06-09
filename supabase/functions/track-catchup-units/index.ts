@@ -151,6 +151,14 @@ async function upsertTask(
   const trackStatus = String(row.status ?? "").toLowerCase();
   const aiiaStatus = mapTrackStatus(trackStatus);
 
+  // v2 (2026-06-09): mapTrackStatus now returns null for terminal-cancelled
+  // (mirrors track-poll v25). Historical TRACK cancellations should NEVER be
+  // re-upserted as "completed" (the old behavior contaminated the billable
+  // queue — a single catchup run could revive years of cancelled WOs as
+  // billable rows). Skip the upsert; track-refresh-stale's 404 path keeps
+  // local cancellations in sync if the row already exists.
+  if (aiiaStatus === null) return;
+
   const updatedAtVal = (row.updatedAt as string | undefined) ?? new Date().toISOString();
   let startedAt = (row.dateStarted as string | undefined) ?? (row.scheduledAt as string | undefined) ?? null;
   let completedAt = (row.dateCompleted as string | undefined) ?? (row.completedAt as string | undefined) ?? null;
@@ -200,21 +208,34 @@ async function upsertTask(
   if (error) throw new Error(error.message);
 }
 
-function mapTrackStatus(s: string): string {
-  // See track-poll/index.ts mapTrackStatus for the full TRACK status enum
-  // and rationale. Real values: cancelled, processed, completed, verified,
-  // pending, open, in-progress, vendor-not-start, vendor-assigned, exception.
+// v2 (2026-06-09): mirror track-poll v25+v26 mapTrackStatus EXACTLY.
+// Previous inline copy diverged:
+//   - cancellation returned "completed" (contaminated billable queue —
+//     same prod bug that hit track-webhook + the catchup tool's blast
+//     radius is much bigger because it walks WO history in bulk)
+//   - no negative-prefix guards (uncancelled → completed, restarted →
+//     in_progress, unblocked → blocked)
+//   - vendor_not_started precedence missing — "vendor not started" trip
+//     `started` branch and mis-classify as in_progress
+//   - on-hold mis-classified as "new" because RE_BLOCK applied to
+//     hyphen-stripped string
+const RE_CANCEL  = /(?<![a-z])(?<!un)(?:cancel|void|archive|reject)/;
+const RE_BLOCK   = /(?<![a-z])(?<!un)(?:block|hold|exception)/;
+const RE_STARTED = /(?<![a-z])(?<!re)(?:started|inprogress|in_progress|in-progress)/;
+
+function mapTrackStatus(s: string): string | null {
   if (!s) return "new";
   const t = s.toLowerCase();
   const normalized = t.replace(/[-_]/g, "");
-  if (t.includes("cancel") || t.includes("void") || t.includes("archive") || t.includes("reject")) return "completed";
+  if (RE_CANCEL.test(t)) return null;
   if (t.includes("processed")) return "processed";
   if (t.includes("verif")) return "verified";
   if (t.includes("complete")) return "completed";
-  if (normalized.includes("inprogress") || t.includes("started")) return "in_progress";
-  if (t.includes("assign")) return "assigned";
   if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
-  if (t.includes("exception") || t.includes("hold") || t.includes("block")) return "blocked";
+  if (normalized.includes("notstarted")) return "vendor_not_started";
+  if (RE_STARTED.test(t)) return "in_progress";
+  if (t.includes("assign")) return "assigned";
+  if (RE_BLOCK.test(t)) return "blocked";
   if (t.includes("wait")) return "waiting_parts";
   return "new";
 }

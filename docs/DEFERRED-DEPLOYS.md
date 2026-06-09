@@ -1,0 +1,110 @@
+# LRMB — Deferred deploys + resync
+
+State of edge functions + migrations + repo as of 2026-06-09 wave 2.
+
+## ✅ Shipped this round (live on edge runtime)
+
+| Function | Version | Notes |
+|---|---|---|
+| `photo-upload` | v4 | Sig-verified JWT (v3) + 0-byte guard + `can_write_task_photo` write-gate (v4 closes IDOR — field staff A can no longer plant evidence on tasks assigned to staff B). |
+| `track-webhook` | v10 | Cancel→null skip path + mirror of track-poll v25 mapper. Cancelled WOs no longer contaminate billable queue from webhook delivery. |
+| `track-refresh-stale` | v3 | Version-marker bump (forced cold restart). Audit row confirmed: `version=3 checked=250 bumped=210`. |
+| `track-detail` | v12 | PII whitelist on BOTH task-link and reservation-detail branches. Guest name/email/phone/address/total no longer leak via share-link viewer. |
+| `track-catchup-units` | v12 | Full mirror of track-poll v25+v26 mapper. cancel→null skip + on-hold fix + vendor_not_started precedence + negative-prefix guards. Counts `cancelledSkipped` separately in audit row. |
+
+## ⏳ Source on disk, not yet deployed
+
+| Function | Status | Reason | Fix to deploy |
+|---|---|---|---|
+| `track-poll` | v26 on disk (committed 65c75db) | 54KB file — large MCP inline payload. CLI deploy is cleaner. | `supabase functions deploy track-poll` |
+
+### What track-poll v26 fixes
+
+The `on-hold` regex bug. Old `RE_BLOCK.test(normalized)` collapsed `"on-hold"` → `"onhold"` which then failed the `(?<![a-z])hold` lookbehind because `n` precedes `h`. Result: every TRACK WO with `status="on-hold"` was classified as `"new"` instead of `"blocked"`. Emma saw them in the active queue instead of the blocked queue.
+
+v26 applies the three REs (`RE_CANCEL`, `RE_BLOCK`, `RE_STARTED`) to the original `t` instead of `normalized` — hyphens and underscores act as non-alpha word boundaries.
+
+**Impact while deferred**: ~1,137 WOs currently sit at `status="new"` in prod. Some unknown fraction are TRACK `on-hold` mis-classifications. Until v26 ships, new on-hold WOs continue to land in the wrong bucket. UX bug; no data corruption; no billing impact.
+
+**To ship**: `cd clients/lrmb/app && supabase functions deploy track-poll`
+
+## 📋 Repo migration resync (16 versions)
+
+77 migration files in repo vs 93 migrations in DB → **16 dashboard-applied migrations missing from repo**.
+
+### Missing versions
+
+DB version timestamps with no corresponding repo file:
+
+| Version | DB name | Likely contents |
+|---|---|---|
+| 20260505141612 | vendors_add_address_and_uniqueness | vendor schema |
+| 20260505142025 | fix_write_audit_log_compile_time_field_reference | audit fn fix |
+| 20260505142604 | damage_claim_sop_alignment | SOP |
+| 20260505142640 | damage_claim_45day_deadline_via_trigger | 45-day SLA |
+| 20260505180815 | units_default_housekeeper_id_fk_to_vendors | units FK |
+| 20260505180931 | revoke_rpc_exec_on_pure_trigger_functions | RPC security |
+| 20260505181015 | cover_fk_indexes_perf | perf indexes |
+| 20260520005319 | security_definer_hardening (rev) | SECDEF |
+| 20260520005506 | security_definer_hardening_v2_revoke_from_public | SECDEF v2 |
+| 20260522114720 | v_track_reservations_latest | view |
+| 20260522114757 | v_track_reservations_latest_v2 | view v2 |
+| 20260522114844 | mv_track_reservations_latest | matview |
+| 20260522154052 | mv_ops_dashboard_kpis_by_property | matview |
+| 20260522195644 | qa_p1_drop_authenticated_audit_insert | RLS audit |
+| 20260522195756 | qa_p1_trigger_service_role_bypass | trigger security |
+| 20260529162206 | lrmb_regrant_avg_admin_touches_per_task | RPC regrant |
+| 20260529162800 | lrmb_drop_legacy_task_photo_policies | storage RLS |
+
+Some repo files exist with similar names but DIFFERENT version timestamps — the repo was tidied to use clean timestamps while dashboard keeps the original wall-clock versions. Cannot mechanically resolve without per-migration content diff.
+
+### How to resync
+
+```bash
+# 1. Install supabase CLI
+brew install supabase/tap/supabase   # macOS
+# or: npm install -g supabase
+
+# 2. Link to project
+cd clients/lrmb/app
+supabase link --project-ref hfpvnsbiewudpqbtlvte
+
+# 3. Pull schema deltas
+supabase db pull --schema public,extensions,vault
+# This produces a new file under supabase/migrations/.
+
+# 4. Diff vs existing migrations, consolidate as one resync file:
+#    20260609240000_lrmb_dashboard_migrations_resync.sql
+
+# 5. Same deploy goes for track-poll v26 (above):
+supabase functions deploy track-poll
+
+# 6. Commit + push.
+```
+
+### Risk if unresolved
+
+- Disaster recovery (`supabase db reset && supabase db push`) lands in **prod-minus-16-migrations** state.
+- Several missing migrations are security hardening (qa_p1_drop_authenticated_audit_insert, qa_p1_trigger_service_role_bypass, lrmb_drop_legacy_task_photo_policies).
+- New env clones (staging branches, dev databases) silently diverge from prod.
+- Future migration replay against a clean slate breaks (FK dependencies on dashboard-applied schema).
+
+## 🔒 Service-role JWT rotation (Milan-only)
+
+Still hardcoded in 5 migration files. Exp = 2068. HS256 master key.
+
+| File | Line(s) |
+|---|---|
+| `supabase/migrations/20260522000000_ops_health_monitor_cron.sql` | 21 |
+| `supabase/migrations/20260522010000_tony_weekly_report_cron.sql` | 13 |
+| `supabase/migrations/20260522100000_qa_p1_cron_secret_headers.sql` | 33, 51, 69, 87 |
+| `supabase/migrations/20260524030000_lrmb_cron_secret_via_vault.sql` | 31, 44, 57, 70 |
+| `supabase/migrations/20260529010000_lrmb_service_role_jwt_to_vault.sql` | (already moved to vault, but historical bodies still in DB) |
+
+To rotate:
+1. Supabase dashboard → Settings → API → Rotate service_role JWT.
+2. `vault.update_secret(<secret_id>, '<new_jwt>', 'service_role_jwt')` so all cron jobs pick up the new one.
+3. `git filter-repo --replace-text` to scrub the old JWT from history.
+4. Force-push (coordinate with Tony's local clones).
+
+Skipped this round per user direction ("nastavi dalje bez rotacije ključeva").
