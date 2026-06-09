@@ -12,21 +12,10 @@ State of edge functions + migrations + repo as of 2026-06-09 wave 2.
 | `track-detail` | v12 | PII whitelist on BOTH task-link and reservation-detail branches. Guest name/email/phone/address/total no longer leak via share-link viewer. |
 | `track-catchup-units` | v12 | Full mirror of track-poll v25+v26 mapper. cancel→null skip + on-hold fix + vendor_not_started precedence + negative-prefix guards. Counts `cancelledSkipped` separately in audit row. |
 
-## ⏳ Source on disk, not yet deployed
+## ✅ Wave 6 (2026-06-09 follow-up) — both formerly-deferred items shipped
 
-| Function | Status | Reason | Fix to deploy |
-|---|---|---|---|
-| `track-poll` | v26 on disk (committed 65c75db) | 54KB file — large MCP inline payload. CLI deploy is cleaner. | `supabase functions deploy track-poll` |
-
-### What track-poll v26 fixes
-
-The `on-hold` regex bug. Old `RE_BLOCK.test(normalized)` collapsed `"on-hold"` → `"onhold"` which then failed the `(?<![a-z])hold` lookbehind because `n` precedes `h`. Result: every TRACK WO with `status="on-hold"` was classified as `"new"` instead of `"blocked"`. Emma saw them in the active queue instead of the blocked queue.
-
-v26 applies the three REs (`RE_CANCEL`, `RE_BLOCK`, `RE_STARTED`) to the original `t` instead of `normalized` — hyphens and underscores act as non-alpha word boundaries.
-
-**Impact while deferred**: ~1,137 WOs currently sit at `status="new"` in prod. Some unknown fraction are TRACK `on-hold` mis-classifications. Until v26 ships, new on-hold WOs continue to land in the wrong bucket. UX bug; no data corruption; no billing impact.
-
-**To ship**: `cd clients/lrmb/app && supabase functions deploy track-poll`
+- **track-poll v26 (version 31)** — DEPLOYED via MCP. on-hold regex fix LIVE. First poll completed in 2854ms (success, no errors). New TRACK `on-hold` WOs now correctly classify to `blocked` instead of leaking into `new`.
+- **task-photos orphan janitor (v2)** — DEPLOYED. Uses Storage REST API path via `net.http_delete` with vault `service_role_jwt` (bypasses `protect_delete()` trigger). One-shot already cleared 1 known orphan from 2026-05-29 test artifact. Daily cron at 03:15 UTC.
 
 ## ✅ Repo migration resync — DONE (wave 4, 2026-06-09)
 
