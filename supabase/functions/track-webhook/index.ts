@@ -156,6 +156,15 @@ Deno.serve(async (req) => {
           .maybeSingle();
         if (unit) {
           const status = mapStatus(String(data?.status ?? "").toLowerCase());
+          // v26 (2026-06-09): mapStatus returns null for terminal-cancelled.
+          // Skip the upsert — never let a cancelled WO from webhook flip a
+          // local row into "completed" (which would send it to billing).
+          // track-refresh-stale will cancel the row on next sweep via 404.
+          if (status === null) {
+            await logEvent(supabase, runId, "event_skipped_cancellation", { event, entityId, externalStatus: data?.status });
+            routed = true;
+            return ok({ ok: true, runId, event, entityId, routed, skipped: "cancellation" });
+          }
           const nowIso = new Date().toISOString();
           // Same defensive timestamp backfill as track-poll so a terminal
           // status from TRACK never violates the CHECK constraint.
@@ -283,19 +292,32 @@ function base64Decode(s: string): Uint8Array | null {
   }
 }
 
-function mapStatus(s: string): string {
-  // See track-poll/index.ts mapTrackStatus for full TRACK status enum.
+// v26 (2026-06-09): mirror track-poll's mapTrackStatus EXACTLY. Previous
+// inline copy diverged from track-poll's v21+v25 semantics:
+//   - cancellation returned "completed" (sent cancelled WOs into the
+//     billable queue — real prod bug; #32390 stayed billable for days)
+//   - no negative-prefix guards, so "uncancelled" → completed, "restarted"
+//     → in_progress, "unblocked" → blocked
+//   - "started" precedence ahead of vendor_not_started → "vendor not start"
+//     misclassified as in_progress
+// Returns null for terminal-cancelled so caller skips the upsert entirely.
+const RE_CANCEL  = /(?<![a-z])(?<!un)(?:cancel|void|archive|reject)/;
+const RE_BLOCK   = /(?<![a-z])(?<!un)(?:block|hold|exception)/;
+const RE_STARTED = /(?<![a-z])(?<!re)(?:started|inprogress|in_progress|in-progress)/;
+
+function mapStatus(s: string): string | null {
   if (!s) return "new";
   const t = s.toLowerCase();
   const normalized = t.replace(/[-_]/g, "");
-  if (t.includes("cancel") || t.includes("void") || t.includes("archive") || t.includes("reject")) return "completed";
+  if (RE_CANCEL.test(t)) return null;
   if (t.includes("processed")) return "processed";
   if (t.includes("verif")) return "verified";
   if (t.includes("complete")) return "completed";
-  if (normalized.includes("inprogress") || t.includes("started")) return "in_progress";
-  if (t.includes("assign")) return "assigned";
   if (t.includes("vendor") && t.includes("not") && t.includes("start")) return "vendor_not_started";
-  if (t.includes("exception") || t.includes("hold") || t.includes("block")) return "blocked";
+  if (normalized.includes("notstarted")) return "vendor_not_started";
+  if (RE_STARTED.test(t)) return "in_progress";
+  if (t.includes("assign")) return "assigned";
+  if (RE_BLOCK.test(t)) return "blocked";
   if (t.includes("wait")) return "waiting_parts";
   return "new";
 }

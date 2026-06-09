@@ -1,3 +1,11 @@
+// v3 (2026-06-09): L10 audit P0-1 — JWT trust hole closed.
+// Old `decodeJwtSub(token)` did `atob(parts[1])` and trusted whatever
+// `sub` claim was in the payload, with NO signature verification.
+// Any caller could forge `header.{"sub":"<arbitrary-uuid>"}.anything`
+// and the function would write a task_photos row with arbitrary
+// `uploaded_by`. Now uses `supabase.auth.getUser(token)` which verifies
+// the JWT signature against the project's auth secret.
+//
 // QA Agent B P1-9 (2026-05-29): server-side photo validation.
 // Closes the bypass where supabase.storage.upload(..., contentType:
 // 'image/jpeg') with SVG/HTML bytes would be accepted because the
@@ -58,16 +66,8 @@ function detectImageKind(b: Uint8Array): { mime: string; ext: string } | null {
   return null;
 }
 
-function decodeJwtSub(jwt: string): string | null {
-  try {
-    const parts = jwt.split(".");
-    if (parts.length !== 3) return null;
-    const payload = JSON.parse(atob(parts[1].replace(/-/g, "+").replace(/_/g, "/")));
-    return typeof payload?.sub === "string" ? payload.sub : null;
-  } catch {
-    return null;
-  }
-}
+// v3 (2026-06-09): replaced with supabase.auth.getUser(token) inside
+// the request handler — see the call site for the verified-sub path.
 
 function json(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
@@ -86,10 +86,18 @@ Deno.serve(async (req) => {
 
   const authz = req.headers.get("Authorization") ?? "";
   const token = authz.startsWith("Bearer ") ? authz.slice(7) : "";
-  const userId = decodeJwtSub(token);
-  if (!userId || !UUID_RE.test(userId)) {
-    return json(401, { error: "unauthorized" });
+  if (!token) return json(401, { error: "missing_bearer_token" });
+
+  // v3: SIGNATURE-VERIFIED auth. supabase.auth.getUser(token) validates
+  // the JWT against the project's auth secret and returns the real user
+  // row. Forged JWTs (header.{"sub":"<arbitrary>"}.anything) get rejected
+  // because the signature doesn't match.
+  const authClient = createClient(sbUrl, srKey);
+  const { data: authData, error: authErr } = await authClient.auth.getUser(token);
+  if (authErr || !authData?.user?.id || !UUID_RE.test(authData.user.id)) {
+    return json(401, { error: "unauthorized", detail: authErr?.message ?? "invalid_token" });
   }
+  const userId = authData.user.id;
 
   let form: FormData;
   try {
@@ -100,6 +108,10 @@ Deno.serve(async (req) => {
 
   const file = form.get("file");
   if (!(file instanceof File)) return json(400, { error: "file_required" });
+  // v3: 0-byte guard (L10 audit P1-6). Broken share intents on Android
+  // sometimes send 0-byte attachments; old behavior bubbled through to a
+  // generic "Upload rejected" because magic-byte detection failed silently.
+  if (file.size === 0) return json(400, { error: "empty_file" });
   if (file.size > MAX_BYTES) return json(413, { error: "file_too_large" });
 
   const taskId = String(form.get("task_id") ?? "");

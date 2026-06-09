@@ -1201,9 +1201,12 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string | null 
   const t = s.toLowerCase();
   const normalized = t.replace(/[-_]/g, "");
 
-  // v21+v25: hard skip for terminal-cancelled. RE_CANCEL excludes
-  // "uncancelled" / "reinstated".
-  if (RE_CANCEL.test(normalized)) {
+  // v21+v25+v26 (2026-06-09): hard skip for terminal-cancelled. REs apply to
+  // the ORIGINAL `t` (not `normalized`) so hyphens/underscores act as word
+  // boundaries. Stripping them collapses "on-hold" → "onhold" which then
+  // failed `(?<![a-z])hold` because 'n' precedes 'h'. Test agent surfaced
+  // this as a real prod bug: "on-hold" was returning "new" not "blocked".
+  if (RE_CANCEL.test(t)) {
     return null;
   }
 
@@ -1222,12 +1225,14 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string | null 
   // Map to vendor_not_started — same semantic.
   if (normalized.includes("notstarted")) return "vendor_not_started";
 
-  // v25: RE_STARTED rejects "restarted" (so it falls through to "new"
-  // rather than misclassifying a revived WO as in_progress).
-  if (RE_STARTED.test(normalized)) return "in_progress";
+  // v25+v26 (2026-06-09): RE_STARTED rejects "restarted". Apply to `t`,
+  // not `normalized`, so "in-progress" still matches via the explicit
+  // hyphen alternation while "restarted" fails the `(?<!re)` guard.
+  if (RE_STARTED.test(t)) return "in_progress";
   if (t.includes("assign")) return "assigned";
-  // v25: RE_BLOCK rejects "unblocked" / "approval_unblocked".
-  if (RE_BLOCK.test(normalized)) return "blocked";
+  // v25+v26: RE_BLOCK rejects "unblocked" / "approval_unblocked". Apply to
+  // `t` so "on-hold" / "on_hold" match (hyphen is non-alpha boundary).
+  if (RE_BLOCK.test(t)) return "blocked";
   if (t.includes("wait")) return "waiting_parts";
   if (unknownTracker && !KNOWN_NEW_TRACK_STATUSES.has(t)) {
     unknownTracker.add(t);

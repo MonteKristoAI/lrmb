@@ -261,8 +261,25 @@ Deno.serve(async (req) => {
       return json(404, { error: "reservation_not_found" });
     }
 
+    // L10 EF-29 (2026-06-09): mirror the task-link branch whitelist on the
+    // reservation-detail branch too. Previously this returned the raw
+    // payload_json which carries guest PII (name, email, phone, address,
+    // total_amount) — exposed to vendor share-link holders + admin
+    // dashboards alike. Show stay logistics only.
+    const rawReservation = (resRes.data[0].payload_json ?? {}) as Record<string, unknown>;
+    const RES_WHITELIST = [
+      "id", "checkin", "checkout", "arrivalDate", "departureDate",
+      "status", "nights", "adultCount", "childCount", "petCount",
+      "channelName", "source", "type",
+      "isOwnerBlock", "isHold",
+      "updatedAt", "createdAt",
+    ] as const;
+    const reservationSafe: Record<string, unknown> = {};
+    for (const k of RES_WHITELIST) {
+      if (k in rawReservation) reservationSafe[k] = rawReservation[k];
+    }
     return json(200, {
-      reservation: resRes.data[0].payload_json,
+      reservation: reservationSafe,
       eventHistory: resRes.data.map((r) => ({
         eventType: r.event_type,
         eventAt: r.event_at,
