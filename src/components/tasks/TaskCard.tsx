@@ -3,9 +3,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "./StatusBadge";
 import { PriorityBadge } from "./PriorityBadge";
 import type { Task } from "@/types/task";
-import { MapPin, Clock, ChevronRight, User, Bot } from "lucide-react";
-import { isPast } from "date-fns";
-import { safeDistance } from "@/lib/utils";
+import { MapPin, Clock, ChevronRight, User, Bot, Calendar } from "lucide-react";
+import { isPast, isToday, isTomorrow } from "date-fns";
+import { safeDistance, safeFormat } from "@/lib/utils";
 
 interface TaskUnit { unit_code: string; short_name?: string | null; bedrooms?: number | null }
 interface TaskProperty { name: string; region?: string | null; zone?: string | null }
@@ -15,7 +15,23 @@ interface TaskCardProps {
 
 export function TaskCard({ task }: TaskCardProps) {
   const navigate = useNavigate();
-  const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !["completed", "verified", "processed"].includes(task.status);
+  const isTerminalStatus = ["cancelled", "completed", "verified", "processed"].includes(task.status);
+  const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !isTerminalStatus;
+
+  // Emma 2026-06-09 feedback: "we don't know what day things are scheduled
+  // or if It is past due" — surface scheduled_for on the card. TRACK
+  // populates this for HK WOs (Final Clean, Inspection, etc.) more often
+  // than due_at, so for many cards this will be the only timing signal.
+  const scheduledDate = task.scheduled_for ? new Date(task.scheduled_for) : null;
+  const isScheduledPast = scheduledDate && isPast(scheduledDate) && !isToday(scheduledDate) && !isTerminalStatus;
+  const scheduledLabel = scheduledDate
+    ? isToday(scheduledDate)
+      ? "Today"
+      : isTomorrow(scheduledDate)
+        ? "Tomorrow"
+        : safeFormat(task.scheduled_for, "MMM d")
+    : null;
+
   const unitLabel = task.units?.short_name || task.units?.unit_code || null;
 
   return (
@@ -40,12 +56,18 @@ export function TaskCard({ task }: TaskCardProps) {
               </span>
             )}
           </div>
-          <div className="flex items-center gap-3 text-xs text-muted-foreground">
+          <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
             {task.properties && (
               <span className="flex items-center gap-1">
                 <MapPin className="h-3 w-3" />
                 {task.properties.name}
                 {unitLabel && ` - ${unitLabel}`}
+              </span>
+            )}
+            {scheduledLabel && (
+              <span className={`flex items-center gap-1 ${isScheduledPast ? "text-destructive font-medium" : ""}`}>
+                <Calendar className="h-3 w-3" />
+                {isScheduledPast ? "Past due " : ""}{scheduledLabel}
               </span>
             )}
             {task.due_at && (
