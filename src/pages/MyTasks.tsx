@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { AppShell } from "@/components/layout/AppShell";
 import { TaskCard } from "@/components/tasks/TaskCard";
 import { useTasks } from "@/hooks/useTasks";
@@ -15,6 +16,7 @@ const ACTIVE_STATUSES: TaskStatus[] = ["new", "assigned", "vendor_not_started", 
 
 const MyTasks = () => {
   const { user, profile } = useAuth();
+  const { t } = useI18n();
   const queryClient = useQueryClient();
   const vendorId = profile?.vendor_id ?? null;
   const { data: tasks, isLoading } = useTasks(
@@ -54,17 +56,17 @@ const MyTasks = () => {
   });
 
   return (
-    <AppShell title="My Work Orders">
+    <AppShell title={t("My Work Orders")}>
       <div className="p-4 space-y-3">
         {isLoading ? (
           Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-lg" />)
         ) : sorted?.length ? (
-          sorted.map((t) => <TaskCard key={t.id} task={t} />)
+          sorted.map((task) => <TaskCard key={task.id} task={task} />)
         ) : (
           <div className="rounded-lg border border-border bg-card p-6 text-center space-y-3">
-            <p className="text-muted-foreground">No active work orders assigned yet.</p>
+            <p className="text-muted-foreground">{t("No active work orders assigned yet.")}</p>
             <p className="text-xs text-muted-foreground">
-              If you just got a new assignment notification, tap below to refresh.
+              {t("If you just got a new assignment notification, tap below to refresh.")}
             </p>
             <Button
               variant="outline"
@@ -74,7 +76,7 @@ const MyTasks = () => {
               className="mx-auto"
             >
               <RefreshCw className={refreshing ? "h-4 w-4 mr-2 animate-spin" : "h-4 w-4 mr-2"} />
-              {refreshing ? "Refreshing…" : "Refresh"}
+              {refreshing ? t("Refreshing…") : t("Refresh")}
             </Button>
           </div>
         )}

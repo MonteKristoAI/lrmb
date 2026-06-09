@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
+import { useI18n } from "@/lib/i18n";
 import { useTasksByStatus, useUpdateTask, useAddTaskUpdate } from "@/hooks/useTasks";
 import { useProfiles } from "@/hooks/useProperties";
 import { useAuth } from "@/lib/auth";
@@ -18,6 +19,7 @@ const OpenTasksQueue = () => {
   );
   const { data: profiles = [] } = useProfiles();
   const { user } = useAuth();
+  const { t } = useI18n();
   const updateTask = useUpdateTask();
   const addUpdate = useAddTaskUpdate();
   const { toast } = useToast();
@@ -33,7 +35,7 @@ const OpenTasksQueue = () => {
     // verified/completed it). Reassigning a completed task leaves a confusing
     // audit row ("Reassigned X to Y on a completed task").
     if (task && ["cancelled", "completed", "verified", "processed"].includes(task.status)) {
-      toast({ title: "Task moved on", description: "This work order has been finalized and can't be reassigned.", variant: "destructive" });
+      toast({ title: t("Task moved on"), description: t("This work order has been finalized and can't be reassigned."), variant: "destructive" });
       setReassignId(null);
       setNewAssignee("");
       return;
@@ -61,46 +63,46 @@ const OpenTasksQueue = () => {
         // Don't fail the reassignment if the audit row fails — log it.
         console.warn("audit log for reassignment failed", logErr);
       }
-      toast({ title: "Work order reassigned" });
+      toast({ title: t("Work order reassigned") });
       setReassignId(null);
       setNewAssignee("");
     } catch {
-      toast({ title: "Failed to reassign work order", variant: "destructive" });
+      toast({ title: t("Failed to reassign work order"), variant: "destructive" });
     }
   };
 
   return (
-    <AppShell title="Open Work Orders">
+    <AppShell title={t("Open Work Orders")}>
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
-          open.length ? open.map((t) => (
-            <div key={t.id} className="space-y-1">
-              <TaskCard task={t} />
+          open.length ? open.map((task) => (
+            <div key={task.id} className="space-y-1">
+              <TaskCard task={task} />
               <div className="flex justify-end px-1">
                 {/* QA Agent A P2 (2026-05-29): bump tap target to >=44px */}
                 <Button
                   size="sm"
                   variant="ghost"
                   className="text-xs text-muted-foreground min-h-11 min-w-11 px-3"
-                  onClick={() => setReassignId(t.id)}
+                  onClick={() => setReassignId(task.id)}
                 >
-                  Reassign
+                  {t("Reassign")}
                 </Button>
               </div>
             </div>
-          )) : <p className="text-muted-foreground text-center py-8">No open work orders yet.</p>
+          )) : <p className="text-muted-foreground text-center py-8">{t("No open work orders.")}</p>
         )}
       </div>
 
       <Dialog open={!!reassignId} onOpenChange={(open) => { if (!open) setReassignId(null); }}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Reassign Work Order</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{t("Reassign Work Order")}</DialogTitle></DialogHeader>
           <Select value={newAssignee} onValueChange={setNewAssignee}>
-            <SelectTrigger className="tap-target"><SelectValue placeholder="Select staff" /></SelectTrigger>
+            <SelectTrigger className="tap-target"><SelectValue placeholder={t("Select staff")} /></SelectTrigger>
             <SelectContent>{profiles.map((p) => <SelectItem key={p.id} value={p.id}>{p.full_name || p.email}</SelectItem>)}</SelectContent>
           </Select>
           <DialogFooter>
-            <Button onClick={handleReassign} disabled={!newAssignee} className="tap-target">Reassign</Button>
+            <Button onClick={handleReassign} disabled={!newAssignee} className="tap-target">{t("Reassign")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

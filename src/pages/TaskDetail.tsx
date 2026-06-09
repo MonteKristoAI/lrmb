@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/tasks/StatusBadge";
 import { PriorityBadge } from "@/components/tasks/PriorityBadge";
@@ -39,6 +40,7 @@ const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
 const TaskDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { user, profile, hasAdminAccess } = useAuth();
+  const { t } = useI18n();
   const { toast } = useToast();
   const validId = id && UUID_RE.test(id) ? id : undefined;
   const { data: task, isLoading } = useTask(validId);
@@ -140,8 +142,8 @@ const TaskDetail = () => {
     if (photos.length > 0) loadUrls();
   }, [photos]);
 
-  if (isLoading) return <AppShell title="Work Order"><div className="p-4 space-y-3">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-8" />)}</div></AppShell>;
-  if (!task) return <AppShell title="Work Order"><div className="p-4 text-muted-foreground">Work order not found.</div></AppShell>;
+  if (isLoading) return <AppShell title={t("Work Order")}><div className="p-4 space-y-3">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-8" />)}</div></AppShell>;
+  if (!task) return <AppShell title={t("Work Order")}><div className="p-4 text-muted-foreground">{t("Work order not found.")}</div></AppShell>;
 
   const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !["cancelled", "completed", "verified", "processed"].includes(task.status);
   // v33: unassigned "new" tasks should be claimable by any field staff (not just the
@@ -177,9 +179,9 @@ const TaskDetail = () => {
       } catch {
         // Status changed but audit trail failed - log but don't block the user
       }
-      toast({ title: `Work order ${newStatus.replace(/_/g, " ")}` });
+      toast({ title: `${t("Work order")} ${t(`status:${newStatus}`)}` });
     } catch {
-      toast({ title: "Action failed", description: "Could not update work order status.", variant: "destructive" });
+      toast({ title: t("Action failed"), description: t("Could not update work order status."), variant: "destructive" });
     } finally {
       transitioningRef.current = false;
     }
@@ -191,9 +193,9 @@ const TaskDetail = () => {
       await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "note", note: noteText.trim() });
       setNoteText("");
       setNoteOpen(false);
-      toast({ title: "Note added" });
+      toast({ title: t("Note added") });
     } catch {
-      toast({ title: "Failed to add note", variant: "destructive" });
+      toast({ title: t("Failed to add note"), variant: "destructive" });
     }
   };
 
@@ -216,9 +218,9 @@ const TaskDetail = () => {
     try {
       await updateTask.mutateAsync({ id: task.id, status: "in_progress", completed_at: null, verified_at: null, processed_at: null, processed_by: null, reopened_count: (task.reopened_count || 0) + 1 });
       await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "status_change", old_status: task.status, new_status: "in_progress", note: "Work order reopened" });
-      toast({ title: "Work order reopened" });
+      toast({ title: t("Work order reopened") });
     } catch {
-      toast({ title: "Failed to reopen work order", variant: "destructive" });
+      toast({ title: t("Failed to reopen work order"), variant: "destructive" });
     }
   };
 
@@ -226,16 +228,16 @@ const TaskDetail = () => {
     const file = e.target.files?.[0];
     if (!file || !user) return;
     if (file.size > 10 * 1024 * 1024) {
-      toast({ title: "File too large", description: "Maximum photo size is 10 MB.", variant: "destructive" });
+      toast({ title: t("File too large"), description: t("Maximum photo size is 10 MB."), variant: "destructive" });
       if (fileInputRef.current) fileInputRef.current.value = "";
       return;
     }
     try {
       await uploadPhoto.mutateAsync({ taskId: task.id, propertyId: task.property_id, file, userId: user.id });
-      toast({ title: "Photo uploaded" });
+      toast({ title: t("Photo uploaded") });
       await bumpStartedIfPending();
     } catch (err) {
-      toast({ title: "Upload failed", description: err instanceof Error ? err.message : "Unknown error", variant: "destructive" });
+      toast({ title: t("Upload failed"), description: err instanceof Error ? err.message : t("Unknown error"), variant: "destructive" });
     } finally {
       if (fileInputRef.current) fileInputRef.current.value = "";
     }
@@ -267,22 +269,22 @@ const TaskDetail = () => {
     // Notes optional. Each WO needs all checklist items checked off and
     // (when applicable) at least one photo of completion proof.
     if (task.requires_photo && photos.length === 0) {
-      toast({ title: "Photo required", description: "Upload at least one photo before completing.", variant: "destructive" });
+      toast({ title: t("Photo required"), description: t("Upload at least one photo before completing."), variant: "destructive" });
       return;
     }
     // L10 audit 2026-06-09 P1-7: requires_note was cosmetic only — dialog
     // showed a warning, but the Confirm button still fired. Now actually
     // blocks completion when no note exists.
     if (task.requires_note && !updates.some((u) => u.update_type === "note")) {
-      toast({ title: "Note required", description: "Add a completion note before completing.", variant: "destructive" });
+      toast({ title: t("Note required"), description: t("Add a completion note before completing."), variant: "destructive" });
       return;
     }
     if (subtasks.length > 0) {
       const unchecked = subtasks.filter((s) => !s.is_completed);
       if (unchecked.length > 0) {
         toast({
-          title: "Checklist incomplete",
-          description: `${unchecked.length} item${unchecked.length === 1 ? "" : "s"} still need to be checked off.`,
+          title: t("Checklist incomplete"),
+          description: `${unchecked.length} ${unchecked.length === 1 ? t("item still needs to be checked off.") : t("items still need to be checked off.")}`,
           variant: "destructive",
         });
         return;
@@ -308,7 +310,7 @@ const TaskDetail = () => {
     };
     const charges = ownerCharges ? safeParseAmount(ownerCharges) : null;
     if (ownerCharges && charges === null) {
-      toast({ title: "Invalid amount", description: "Enter 0 to 100000 with up to 2 decimals (no scientific notation).", variant: "destructive" });
+      toast({ title: t("Invalid amount"), description: t("Enter 0 to 100000 with up to 2 decimals (no scientific notation)."), variant: "destructive" });
       return;
     }
     await transition("processed", {
@@ -325,7 +327,7 @@ const TaskDetail = () => {
   const dmgClass = task.damage_classification as DamageClassification | null;
 
   return (
-    <AppShell title="Work Order Detail">
+    <AppShell title={t("Work Order Detail")}>
       <div className="p-4 space-y-4 pb-24">
         {/* Header */}
         <div className="space-y-2">
@@ -612,10 +614,10 @@ const TaskDetail = () => {
       {/* Note Modal */}
       <Dialog open={noteOpen} onOpenChange={setNoteOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Add Note</DialogTitle></DialogHeader>
-          <Textarea placeholder="Enter note..." value={noteText} onChange={(e) => setNoteText(e.target.value)} rows={4} />
+          <DialogHeader><DialogTitle>{t("Add Note")}</DialogTitle></DialogHeader>
+          <Textarea placeholder={t("Enter note...")} value={noteText} onChange={(e) => setNoteText(e.target.value)} rows={4} />
           <DialogFooter>
-            <Button onClick={handleNote} disabled={!noteText.trim()} className="tap-target">Save Note</Button>
+            <Button onClick={handleNote} disabled={!noteText.trim()} className="tap-target">{t("Save Note")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -623,10 +625,10 @@ const TaskDetail = () => {
       {/* Block Modal */}
       <Dialog open={blockOpen} onOpenChange={setBlockOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Block Work Order</DialogTitle></DialogHeader>
-          <Textarea placeholder="Reason for blocking..." value={blockReason} onChange={(e) => setBlockReason(e.target.value)} rows={3} />
+          <DialogHeader><DialogTitle>{t("Block Work Order")}</DialogTitle></DialogHeader>
+          <Textarea placeholder={t("Reason for blocking...")} value={blockReason} onChange={(e) => setBlockReason(e.target.value)} rows={3} />
           <DialogFooter>
-            <Button variant="destructive" onClick={handleBlock} disabled={!blockReason.trim()} className="tap-target">Block Work Order</Button>
+            <Button variant="destructive" onClick={handleBlock} disabled={!blockReason.trim()} className="tap-target">{t("Block Work Order")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -634,10 +636,10 @@ const TaskDetail = () => {
       {/* Waiting Parts Modal */}
       <Dialog open={waitingOpen} onOpenChange={setWaitingOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Waiting for Parts</DialogTitle></DialogHeader>
-          <Textarea placeholder="What parts are needed..." value={waitingReason} onChange={(e) => setWaitingReason(e.target.value)} rows={3} />
+          <DialogHeader><DialogTitle>{t("Waiting for Parts")}</DialogTitle></DialogHeader>
+          <Textarea placeholder={t("What parts are needed...")} value={waitingReason} onChange={(e) => setWaitingReason(e.target.value)} rows={3} />
           <DialogFooter>
-            <Button onClick={handleWaitingParts} disabled={!waitingReason.trim()} className="tap-target">Mark Waiting</Button>
+            <Button onClick={handleWaitingParts} disabled={!waitingReason.trim()} className="tap-target">{t("Mark Waiting")}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -645,13 +647,13 @@ const TaskDetail = () => {
       {/* Complete Confirmation */}
       <Dialog open={completeOpen} onOpenChange={setCompleteOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Complete Work Order</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Mark this work order as completed?</p>
-          {task.requires_photo && photos.length === 0 && <p className="text-sm text-destructive">Warning: Photo proof is required.</p>}
-          {task.requires_note && !updates.some((u) => u.update_type === "note") && <p className="text-sm text-destructive">Warning: A note is required.</p>}
+          <DialogHeader><DialogTitle>{t("Complete Work Order")}</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground">{t("Mark this work order as completed?")}</p>
+          {task.requires_photo && photos.length === 0 && <p className="text-sm text-destructive">{t("Warning: Photo proof is required.")}</p>}
+          {task.requires_note && !updates.some((u) => u.update_type === "note") && <p className="text-sm text-destructive">{t("Warning: A note is required.")}</p>}
           <DialogFooter>
             <Button onClick={handleComplete} disabled={updateTask.isPending} className="tap-target bg-status-completed hover:bg-status-completed/90">
-              {updateTask.isPending ? "Completing..." : "Confirm Complete"}
+              {updateTask.isPending ? t("Completing...") : t("Confirm Complete")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -660,15 +662,15 @@ const TaskDetail = () => {
       {/* Billing Modal (for verified maintenance/HK tasks) */}
       <Dialog open={billingOpen} onOpenChange={setBillingOpen}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Complete Billing</DialogTitle></DialogHeader>
+          <DialogHeader><DialogTitle>{t("Complete Billing")}</DialogTitle></DialogHeader>
           <div className="space-y-3">
             <p className="text-sm text-muted-foreground">
               {task.task_category === "housekeeping"
-                ? "Housekeeping: confirm invoice received before processing."
-                : "Maintenance: add any owner charges before processing."}
+                ? t("Housekeeping: confirm invoice received before processing.")
+                : t("Maintenance: add any owner charges before processing.")}
             </p>
             <div className="space-y-2">
-              <Label>Owner Charges ($)</Label>
+              <Label>{t("Owner Charges ($)")}</Label>
               <Input
                 type="number"
                 step="0.01"
@@ -679,9 +681,9 @@ const TaskDetail = () => {
               />
             </div>
             <div className="space-y-2">
-              <Label>Billing Notes</Label>
+              <Label>{t("Billing Notes")}</Label>
               <Textarea
-                placeholder="Any billing notes..."
+                placeholder={t("Any billing notes...")}
                 value={billingNotes}
                 onChange={(e) => setBillingNotes(e.target.value)}
                 rows={2}
@@ -690,7 +692,7 @@ const TaskDetail = () => {
           </div>
           <DialogFooter>
             <Button onClick={handleProcessBilling} disabled={updateTask.isPending} className="tap-target bg-emerald-600 hover:bg-emerald-700 text-white">
-              <DollarSign className="h-4 w-4 mr-1" /> {updateTask.isPending ? "Processing..." : "Process Billing"}
+              <DollarSign className="h-4 w-4 mr-1" /> {updateTask.isPending ? t("Processing...") : t("Process Billing")}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -699,22 +701,22 @@ const TaskDetail = () => {
       {/* Delete Photo Confirmation */}
       <Dialog open={!!deletePhotoId} onOpenChange={(open) => { if (!open) setDeletePhotoId(null); }}>
         <DialogContent>
-          <DialogHeader><DialogTitle>Remove Photo</DialogTitle></DialogHeader>
-          <p className="text-sm text-muted-foreground">Are you sure you want to remove this photo?</p>
+          <DialogHeader><DialogTitle>{t("Remove Photo")}</DialogTitle></DialogHeader>
+          <p className="text-sm text-muted-foreground">{t("Are you sure you want to remove this photo?")}</p>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeletePhotoId(null)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setDeletePhotoId(null)}>{t("Cancel")}</Button>
             <Button
               variant="destructive"
               disabled={deletePhoto.isPending}
               onClick={() => {
                 if (!deletePhotoId) return;
                 deletePhoto.mutate({ id: deletePhotoId.id, storagePath: deletePhotoId.path }, {
-                  onSuccess: () => { toast({ title: "Photo removed" }); setDeletePhotoId(null); },
-                  onError: () => toast({ title: "Failed to remove photo", variant: "destructive" }),
+                  onSuccess: () => { toast({ title: t("Photo removed") }); setDeletePhotoId(null); },
+                  onError: () => toast({ title: t("Failed to remove photo"), variant: "destructive" }),
                 });
               }}
             >
-              {deletePhoto.isPending ? "Removing..." : "Remove"}
+              {deletePhoto.isPending ? t("Removing...") : t("Remove")}
             </Button>
           </DialogFooter>
         </DialogContent>

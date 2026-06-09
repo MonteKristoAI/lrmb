@@ -1,4 +1,5 @@
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { AppShell } from "@/components/layout/AppShell";
 import { TaskCard } from "@/components/tasks/TaskCard";
 import { useTasks, useTasksByStatus } from "@/hooks/useTasks";
@@ -12,6 +13,7 @@ const DONE_STATUSES: TaskStatus[] = ["completed", "verified", "processed", "canc
 
 const CompletedTasks = () => {
   const { user, hasAdminAccess } = useAuth();
+  const { t } = useI18n();
   const isAdmin = hasAdminAccess();
   // v35: admin path now reads a real status=done query ordered by completed_at,
   // not a filter on the 500-newest-by-created_at slice that lost older work.
@@ -26,15 +28,15 @@ const CompletedTasks = () => {
   const tasks = rawTasks?.slice(0, 200);
 
   return (
-    <AppShell title="Completed">
+    <AppShell title={t("Completed")}>
       <div className="p-4 space-y-3">
         {isLoading ? (
           Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24 rounded-lg" />)
         ) : tasks?.length ? (
-          tasks.map((t) => <TaskCard key={t.id} task={t} />)
+          tasks.map((task) => <TaskCard key={task.id} task={task} />)
         ) : (
           <div className="rounded-lg border border-border bg-card p-6 text-center">
-            <p className="text-muted-foreground">No completed work orders yet.</p>
+            <p className="text-muted-foreground">{t("No completed work orders yet.")}</p>
           </div>
         )}
       </div>

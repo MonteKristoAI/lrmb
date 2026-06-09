@@ -17,6 +17,26 @@ State of edge functions + migrations + repo as of 2026-06-09 wave 2.
 - **track-poll v26 (version 31)** — DEPLOYED via MCP. on-hold regex fix LIVE. First poll completed in 2854ms (success, no errors). New TRACK `on-hold` WOs now correctly classify to `blocked` instead of leaking into `new`.
 - **task-photos orphan janitor (v2)** — DEPLOYED. Uses Storage REST API path via `net.http_delete` with vault `service_role_jwt` (bypasses `protect_delete()` trigger). One-shot already cleared 1 known orphan from 2026-05-29 test artifact. Daily cron at 03:15 UTC.
 
+## ✅ Wave 7 (2026-06-10) — i18n Tier 1 shipped
+
+- **Tier 1 pages wired with `t()`**: MyTasks · TaskDetail (toasts + modals + page header) · CompletedTasks · OverdueQueue · BlockedQueue · OpenTasksQueue · HousekeepingQueue · Login (form labels + lockout messages + magic-link toasts) · InspectionChecklist (toasts + completion gate + flag dialog).
+- **`safeFormat` / `safeDistance`** now read `localStorage.getItem("lrmb_locale")` at format time and pass `date-fns` `es` locale when set. "hace 2 horas" instead of "2 hours ago".
+- **translations.ts grew 188 → 310 keys (+122)** covering all Tier 1 surfaces + status enum labels (`status:new` through `status:cancelled`) for the `Work order ${status}` toast.
+- **Login.test.tsx** wrapped in `I18nProvider` so 127/127 tests stay green.
+- **AppShell + NotificationBell** already wired in wave 5.
+
+## ⏳ i18n Tier 2 deferred to next round
+
+Lower-traffic admin/supervisor surfaces still in English (Spanish HK staff see Spanish chrome + Tier 1 pages; English only on dashboards they rarely open):
+
+- AdminDashboard, SupervisorDashboard, KPIOverview
+- OperationsOverview (the biggest single file, ~1700 lines)
+- StaffTasks, PropertyTasks, StaffWorkload, VendorManagement
+- CreateTask (toast strings + form labels)
+- VerificationQueue, InspectionQueue, TrendCharts, NotFound
+
+Approach: same pattern as Tier 1 (`import { useI18n }`, wrap in `t()`, add keys to translations.ts). The mechanical work is straightforward; just a sprint of edits.
+
 ## ✅ Repo migration resync — DONE (wave 4, 2026-06-09)
 
 Previously: 77 migration files in repo vs 93 migrations in DB → 17 dashboard-applied migrations missing from repo.

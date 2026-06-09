@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -36,6 +37,7 @@ const saveBF = (s: BFState) => {
 
 const Login = () => {
   const { session, loading: authLoading } = useAuth();
+  const { t } = useI18n();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -62,7 +64,7 @@ const Login = () => {
 
   if (authLoading) return (
     <div className="flex min-h-screen items-center justify-center" style={{ background: "linear-gradient(180deg, #060B14 0%, #0D1526 50%, #080E1A 100%)" }}>
-      <div className="text-lg animate-pulse" style={{ color: "#C4BAB1" }}>Loading...</div>
+      <div className="text-lg animate-pulse" style={{ color: "#C4BAB1" }}>{t("Loading...")}</div>
     </div>
   );
   if (session) return <Navigate to={from} replace />;
@@ -73,7 +75,7 @@ const Login = () => {
     const now = Date.now();
     if (state.lockedUntil && state.lockedUntil > now) {
       const left = Math.ceil((state.lockedUntil - now) / 1000);
-      setErrorMessage(`Too many attempts. Try again in ${left}s.`);
+      setErrorMessage(`${t("Too many attempts. Try again in")} ${left}s.`);
       return;
     }
     setErrorMessage(null);
@@ -87,12 +89,12 @@ const Login = () => {
         next.lockedUntil = now + BF_LOCKOUT_MS;
         next.attempts = [];
         setLockoutLeft(BF_LOCKOUT_MS);
-        setErrorMessage(`Too many attempts. Try again in ${Math.ceil(BF_LOCKOUT_MS / 1000)}s.`);
+        setErrorMessage(`${t("Too many attempts. Try again in")} ${Math.ceil(BF_LOCKOUT_MS / 1000)}s.`);
       } else {
         setErrorMessage(error.message);
       }
       saveBF(next);
-      toast({ title: "Login failed", description: error.message, variant: "destructive" });
+      toast({ title: t("Login failed"), description: error.message, variant: "destructive" });
     } else {
       // Clear counter on success.
       saveBF({ attempts: [] });
@@ -105,7 +107,7 @@ const Login = () => {
   const handleMagicLink = async () => {
     setErrorMessage(null);
     if (!email) {
-      setErrorMessage("Enter your email first.");
+      setErrorMessage(t("Enter your email first."));
       return;
     }
     setMagicSending(true);
@@ -117,10 +119,10 @@ const Login = () => {
     setMagicSending(false);
     if (error) {
       setErrorMessage(error.message);
-      toast({ title: "Could not send link", description: error.message, variant: "destructive" });
+      toast({ title: t("Could not send link"), description: error.message, variant: "destructive" });
     } else {
       setMagicSent(true);
-      toast({ title: "Check your email", description: "We sent you a one-time login link." });
+      toast({ title: t("Check your email"), description: t("We sent you a one-time login link.") });
     }
   };
 
@@ -130,14 +132,14 @@ const Login = () => {
       <div className="mb-10 text-center">
         <img src="/lrmb-logo-white.png" alt="Luxury Rentals Miami Beach" className="h-24 w-auto mx-auto object-contain mb-4" />
         <div className="h-px w-16 mx-auto" style={{ background: "linear-gradient(90deg, transparent, #C4BAB1, transparent)" }} />
-        <p className="text-xs tracking-[0.25em] uppercase mt-4" style={{ color: "#8A8078" }}>Field Operations</p>
+        <p className="text-xs tracking-[0.25em] uppercase mt-4" style={{ color: "#8A8078" }}>{t("Field Operations")}</p>
       </div>
 
       {/* Login card */}
       <div className="w-full max-w-sm">
         <form onSubmit={handleLogin} className="rounded-xl p-6 space-y-5" style={{ background: "rgba(13,21,38,0.8)", border: "1px solid rgba(196,186,177,0.1)", backdropFilter: "blur(12px)" }}>
           <div className="space-y-1.5">
-            <Label htmlFor="email" className="text-xs font-medium" style={{ color: "#8A8078" }}>Email</Label>
+            <Label htmlFor="email" className="text-xs font-medium" style={{ color: "#8A8078" }}>{t("Email")}</Label>
             <Input
               id="email"
               type="email"
@@ -150,7 +152,7 @@ const Login = () => {
             />
           </div>
           <div className="space-y-1.5">
-            <Label htmlFor="password" className="text-xs font-medium" style={{ color: "#8A8078" }}>Password</Label>
+            <Label htmlFor="password" className="text-xs font-medium" style={{ color: "#8A8078" }}>{t("Password")}</Label>
             <Input
               id="password"
               type="password"
@@ -169,15 +171,15 @@ const Login = () => {
             disabled={loading || magicSending || lockoutLeft > 0}
           >
             {lockoutLeft > 0
-              ? `Locked (${Math.ceil(lockoutLeft / 1000)}s)`
+              ? `${t("Locked")} (${Math.ceil(lockoutLeft / 1000)}s)`
               : loading
-                ? "Signing in..."
-                : "Sign In"}
+                ? t("Signing in...")
+                : t("Sign In")}
           </Button>
 
           <div className="flex items-center gap-2 my-1">
             <div className="flex-1 h-px" style={{ background: "rgba(196,186,177,0.1)" }} />
-            <span className="text-[10px] tracking-wider uppercase" style={{ color: "#4A4540" }}>or</span>
+            <span className="text-[10px] tracking-wider uppercase" style={{ color: "#4A4540" }}>{t("or")}</span>
             <div className="flex-1 h-px" style={{ background: "rgba(196,186,177,0.1)" }} />
           </div>
 
@@ -188,7 +190,7 @@ const Login = () => {
             style={{ background: "transparent", border: "1px solid rgba(196,186,177,0.3)", color: "#C4BAB1", borderRadius: "6px", height: "44px" }}
             disabled={magicSending || loading || magicSent}
           >
-            {magicSent ? "Link sent — check your email" : magicSending ? "Sending..." : "Email me a sign-in link"}
+            {magicSent ? t("Link sent — check your email") : magicSending ? t("Sending...") : t("Email me a sign-in link")}
           </Button>
 
           {errorMessage && (
@@ -199,7 +201,7 @@ const Login = () => {
         </form>
 
         <p className="text-center text-[11px] mt-6" style={{ color: "#4A4540" }}>
-          Accounts are admin-provisioned. Contact your administrator for access.
+          {t("Accounts are admin-provisioned. Contact your administrator for access.")}
         </p>
       </div>
     </div>

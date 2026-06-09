@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
 import Login from "@/pages/Login";
+import { I18nProvider } from "@/lib/i18n";
 
 const { signInWithPassword, toast } = vi.hoisted(() => ({
   signInWithPassword: vi.fn(),
@@ -37,7 +38,9 @@ describe("Login", () => {
 
     render(
       <MemoryRouter initialEntries={["/login"]} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-        <Login />
+        <I18nProvider>
+          <Login />
+        </I18nProvider>
       </MemoryRouter>,
     );
 
