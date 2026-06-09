@@ -6,6 +6,17 @@ const translations = {
   "Admin": { es: "Admin" },
   "Admin Dashboard": { es: "Panel de Admin" },
 
+  // A11y / chrome (L10 wave 5)
+  "Back": { es: "Atras" },
+  "Sign out": { es: "Cerrar sesion" },
+  "Skip to main content": { es: "Saltar al contenido principal" },
+  "Disable push notifications": { es: "Desactivar notificaciones push" },
+  "Enable push notifications": { es: "Activar notificaciones push" },
+  "Notifications": { es: "Notificaciones" },
+  "Mark all read": { es: "Marcar todo como leido" },
+  "No notifications": { es: "No hay notificaciones" },
+  "unread": { es: "no leidas" },
+
   // Common
   "Loading...": { es: "Cargando..." },
   "No active work orders assigned.": { es: "No hay ordenes de trabajo activas asignadas." },

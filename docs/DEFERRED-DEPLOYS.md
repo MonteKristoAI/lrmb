@@ -6,7 +6,7 @@ State of edge functions + migrations + repo as of 2026-06-09 wave 2.
 
 | Function | Version | Notes |
 |---|---|---|
-| `photo-upload` | v4 | Sig-verified JWT (v3) + 0-byte guard + `can_write_task_photo` write-gate (v4 closes IDOR — field staff A can no longer plant evidence on tasks assigned to staff B). |
+| `photo-upload` | v5 | v3 sig-JWT + v4 write-gate + v5 wave: AVIF/AVIS magic-byte support + dropped bogus `hevc` brand + signed URL TTL 24h → 1h + CORS Allow-Origin locked to LRMB origins. |
 | `track-webhook` | v10 | Cancel→null skip path + mirror of track-poll v25 mapper. Cancelled WOs no longer contaminate billable queue from webhook delivery. |
 | `track-refresh-stale` | v3 | Version-marker bump (forced cold restart). Audit row confirmed: `version=3 checked=250 bumped=210`. |
 | `track-detail` | v12 | PII whitelist on BOTH task-link and reservation-detail branches. Guest name/email/phone/address/total no longer leak via share-link viewer. |

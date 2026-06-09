@@ -2,24 +2,32 @@ import { Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { useNotifications, useUnreadCount, useMarkRead, useMarkAllRead } from "@/hooks/useNotifications";
 import { safeDistance } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function NotificationBell() {
   const { user } = useAuth();
+  const { t } = useI18n();
   const { data: count = 0 } = useUnreadCount(user?.id);
   const { data: notifications = [] } = useNotifications(user?.id);
   const markRead = useMarkRead();
   const markAllRead = useMarkAllRead();
 
+  // L10 wave 5 a11y: screen-reader announces "Notifications, 3 unread" instead
+  // of the unlabeled icon button.
+  const ariaLabel = count > 0
+    ? `${t("Notifications")}, ${count} ${t("unread")}`
+    : t("Notifications");
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="tap-target relative">
-          <Bell className="h-5 w-5" style={{ color: "#5A5550" }} />
+        <Button variant="ghost" size="icon" className="tap-target relative" aria-label={ariaLabel}>
+          <Bell className="h-5 w-5" style={{ color: "#5A5550" }} aria-hidden="true" />
           {count > 0 && (
-            <span className="absolute top-1 right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center">
+            <span className="absolute top-1 right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center" aria-hidden="true">
               {count > 9 ? "9+" : count}
             </span>
           )}
@@ -27,16 +35,16 @@ export function NotificationBell() {
       </PopoverTrigger>
       <PopoverContent className="w-80 p-0" align="end">
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-          <p className="text-sm font-semibold text-foreground">Notifications</p>
+          <p className="text-sm font-semibold text-foreground">{t("Notifications")}</p>
           {count > 0 && (
             <button onClick={() => user && markAllRead.mutate(user.id)} className="text-xs text-primary hover:underline">
-              Mark all read
+              {t("Mark all read")}
             </button>
           )}
         </div>
         <ScrollArea className="max-h-72">
           {notifications.length === 0 ? (
-            <p className="p-4 text-sm text-muted-foreground text-center">No notifications</p>
+            <p className="p-4 text-sm text-muted-foreground text-center">{t("No notifications")}</p>
           ) : (
             notifications.map((n) => (
               <button
