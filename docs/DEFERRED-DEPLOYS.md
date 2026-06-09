@@ -28,9 +28,15 @@ v26 applies the three REs (`RE_CANCEL`, `RE_BLOCK`, `RE_STARTED`) to the origina
 
 **To ship**: `cd clients/lrmb/app && supabase functions deploy track-poll`
 
-## 📋 Repo migration resync (16 versions)
+## ✅ Repo migration resync — DONE (wave 4, 2026-06-09)
 
-77 migration files in repo vs 93 migrations in DB → **16 dashboard-applied migrations missing from repo**.
+Previously: 77 migration files in repo vs 93 migrations in DB → 17 dashboard-applied migrations missing from repo.
+
+**Resolved this round (wave 4):** Pulled 17 migration bodies via MCP `execute_sql` against `supabase_migrations.schema_migrations.statements` and wrote them to `supabase/migrations/<version>_dashboard_<name>.sql`. Header on every file documents origin.
+
+Repo file count is now 94 vs DB count 93. The extra file is the L10 lockdown that was applied this session (`20260609230000_lrmb_l10_rls_lockdown.sql`) which still maps 1:1 to the DB row at version `20260609201510_lrmb_l10_rls_lockdown_wave_2`. Migration timestamps remain slightly off between repo and DB on a few entries because the dashboard records the wall-clock apply time, not the file timestamp — this is cosmetic, not load-bearing.
+
+### Historical migration audit context
 
 ### Missing versions
 
