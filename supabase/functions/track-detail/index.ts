@@ -142,17 +142,23 @@ Deno.serve(async (req) => {
         .eq("id", taskId)
         .maybeSingle(),
       supabase
+        // v13 (2026-06-10) L10 wave 16: drop uploaded_by + storage_path
+        // from the share-link response. uploaded_by is an internal user
+        // UUID a vendor share-link viewer should never see; storage_path
+        // is a server-only key we re-sign into signed_url anyway.
         .from("task_photos")
-        .select("id, storage_path, photo_type, photo_subtype, caption, created_at, uploaded_by, track_attachment_id, track_synced_at")
+        .select("id, photo_type, photo_subtype, caption, created_at, track_attachment_id, track_synced_at, storage_path")
         .eq("task_id", taskId)
-        .order("created_at", { ascending: false }),
+        .order("created_at", { ascending: false })
+        .limit(100),
       // L10 EF-28 (2026-05-29): drop `payload_json` from the select. Whatever
       // any future writer dumps into payload_json (service_role context,
       // user emails, internal IDs) used to land in the share-link viewer's
       // response. Limit to display fields only.
       supabase
+        // v13: drop actor_id (internal UUID). Keep actor_name only.
         .from("audit_logs")
-        .select("id, action, actor_name, actor_id, description, created_at")
+        .select("id, action, actor_name, description, created_at")
         .eq("entity_type", "tasks")
         .eq("entity_id", taskId)
         .order("created_at", { ascending: false })
@@ -177,13 +183,19 @@ Deno.serve(async (req) => {
 
     // Sign photo URLs
     const STORAGE_BUCKET = "task-photos";
+    // v13: strip storage_path BEFORE returning. We use it only to sign
+    // the URL server-side; the share-link viewer never needs the raw key.
     const photos = await Promise.all((photosRes.data ?? []).map(async (p) => {
+      const storagePath = (p as { storage_path?: string }).storage_path ?? "";
+      let signedUrl: string | null = null;
       try {
-        const { data } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(p.storage_path as string, 3600);
-        return { ...p, signed_url: data?.signedUrl ?? null };
-      } catch {
-        return { ...p, signed_url: null };
-      }
+        const { data } = await supabase.storage.from(STORAGE_BUCKET).createSignedUrl(storagePath, 3600);
+        signedUrl = data?.signedUrl ?? null;
+      } catch { /* swallow; return null URL */ }
+      // Drop storage_path before returning.
+      const { storage_path: _drop, ...rest } = p as Record<string, unknown>;
+      void _drop;
+      return { ...rest, signed_url: signedUrl };
     }));
 
     // Linked reservation (if any)
@@ -235,7 +247,8 @@ Deno.serve(async (req) => {
         .select("payload_json, event_at, event_type, created_at")
         .eq("external_source", "track")
         .eq("external_id", reservationId)
-        .order("event_at", { ascending: false }),
+        .order("event_at", { ascending: false })
+        .limit(50),
       supabase
         .from("tasks")
         .select(`

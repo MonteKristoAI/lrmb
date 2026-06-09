@@ -74,7 +74,10 @@ Deno.serve(async (req) => {
   const authClient = createClient(sbUrl, srKey);
   const { data: authData, error: authErr } = await authClient.auth.getUser(token);
   if (authErr || !authData?.user?.id || !UUID_RE.test(authData.user.id)) {
-    return json(401, { error: "unauthorized", detail: authErr?.message ?? "invalid_token" }, origin);
+    // v6 (2026-06-10) L10 wave 16: generic error messages. Old `detail`
+    // leaked RLS policy names, column hints, Supabase internal paths.
+    if (authErr) console.error("photo-upload auth failed", authErr);
+    return json(401, { error: "unauthorized" }, origin);
   }
   const userId = authData.user.id;
 
@@ -88,7 +91,12 @@ Deno.serve(async (req) => {
 
   const taskId = String(form.get("task_id") ?? "");
   const propertyId = String(form.get("property_id") ?? "");
-  const photoType = String(form.get("photo_type") ?? "proof");
+  // v6 L10 wave 16: photo_type allowlist (was free text — client could
+  // write any string into task_photos.photo_type and break the analytics
+  // pivot that filters by photo_type).
+  const PHOTO_TYPE_ALLOWLIST = new Set(["proof", "arrival", "damage", "before", "after", "receipt", "other"]);
+  const rawPhotoType = String(form.get("photo_type") ?? "proof");
+  const photoType = PHOTO_TYPE_ALLOWLIST.has(rawPhotoType) ? rawPhotoType : "other";
   if (!UUID_RE.test(taskId)) return json(400, { error: "invalid_task_id" }, origin);
   if (!UUID_RE.test(propertyId)) return json(400, { error: "invalid_property_id" }, origin);
 
@@ -106,20 +114,27 @@ Deno.serve(async (req) => {
     auth: { persistSession: false, autoRefreshToken: false },
   });
   const { data: canWrite, error: gateErr } = await userClient.rpc("can_write_task_photo", { p_path: path });
-  if (gateErr) return json(500, { error: "authorization_check_failed", detail: gateErr.message }, origin);
-  if (!canWrite) return json(403, { error: "forbidden", detail: "not authorized to upload to this task" }, origin);
+  if (gateErr) {
+    console.error("photo-upload gate failed", gateErr);
+    return json(500, { error: "authorization_check_failed" }, origin);
+  }
+  if (!canWrite) return json(403, { error: "forbidden" }, origin);
 
   const { error: upErr } = await supabase.storage.from("task-photos").upload(path, bytes, {
     contentType: kind.mime, cacheControl: "3600", upsert: false,
   });
-  if (upErr) return json(500, { error: "upload_failed", detail: upErr.message }, origin);
+  if (upErr) {
+    console.error("photo-upload storage upload failed", upErr);
+    return json(500, { error: "upload_failed" }, origin);
+  }
 
   const { error: dbErr } = await supabase.from("task_photos").insert({
     task_id: taskId, storage_path: path, photo_type: photoType, uploaded_by: userId,
   });
   if (dbErr) {
+    console.error("photo-upload db insert failed", dbErr);
     try { await supabase.storage.from("task-photos").remove([path]); } catch (_) { /* best-effort */ }
-    return json(500, { error: "db_insert_failed", detail: dbErr.message }, origin);
+    return json(500, { error: "db_insert_failed" }, origin);
   }
 
   // v5: 1h TTL (was 24h). Reduces blast radius of leaked signed URLs.

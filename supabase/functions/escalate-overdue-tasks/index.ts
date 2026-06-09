@@ -59,12 +59,23 @@ Deno.serve(async (req) => {
     const alreadyNotified = new Set<string>();
     for (let i = 0; i < overdueTaskIds.length; i += CHUNK) {
       const slice = overdueTaskIds.slice(i, i + CHUNK);
-      const { data: existingNotifs } = await supabase
+      // L10 wave 16 (2026-06-10): capture error. Old version destructured
+      // only `data` and silently dropped failures — alreadyNotified came
+      // back incomplete, every admin got re-notified, the chunking guard
+      // was useless.
+      const { data: existingNotifs, error: lookupErr } = await supabase
         .from("notification_events")
         .select("task_id")
         .eq("event_type", "task_overdue")
         .in("task_id", slice)
         .gte("created_at", oneDayAgo);
+      if (lookupErr) {
+        console.error(`escalate-overdue alreadyNotified lookup failed at offset ${i}`, lookupErr);
+        return new Response(
+          JSON.stringify({ error: "lookup_failed", offset: i }),
+          { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
       for (const n of (existingNotifs ?? []) as NotificationRow[]) {
         alreadyNotified.add(n.task_id);
       }
@@ -127,9 +138,14 @@ Deno.serve(async (req) => {
       }
     }
 
+    // L10 wave 16: 207 Multi-Status on partial failure so Healthchecks
+    // surfaces the partial-failure instead of green-200ing every run.
     return new Response(
       JSON.stringify({ escalated: notifications.length, failed_chunks: failedChunks }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      {
+        status: failedChunks > 0 ? 207 : 200,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
     );
   } catch (err) {
     // QA P2 Q-SEC-23: don't leak DB error text to caller; log server-side only.

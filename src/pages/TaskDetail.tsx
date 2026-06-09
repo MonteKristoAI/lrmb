@@ -5,7 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { AppShell } from "@/components/layout/AppShell";
 import { StatusBadge } from "@/components/tasks/StatusBadge";
 import { PriorityBadge } from "@/components/tasks/PriorityBadge";
-import { useTask, useTaskUpdates, useTaskPhotos, useUpdateTask, useAddTaskUpdate, useUploadTaskPhoto, useDeleteTaskPhoto } from "@/hooks/useTasks";
+import { useTask, useTaskUpdates, useTaskPhotos, useUpdateTask, useGuardedTaskTransition, useAddTaskUpdate, useUploadTaskPhoto, useDeleteTaskPhoto } from "@/hooks/useTasks";
 import { useWorkOrderSubtasks, useToggleSubtask } from "@/hooks/useWorkOrderSubtasks";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,6 +64,7 @@ const TaskDetail = () => {
   );
   const toggleSubtask = useToggleSubtask(validId);
   const updateTask = useUpdateTask();
+  const guardedTransition = useGuardedTaskTransition();
   const addUpdate = useAddTaskUpdate();
   const uploadPhoto = useUploadTaskPhoto();
   const deletePhoto = useDeleteTaskPhoto();
@@ -180,15 +181,27 @@ const TaskDetail = () => {
       if (newStatus === "verified") taskUpdates.verified_at = now;
       if (newStatus === "processed") { taskUpdates.processed_at = now; taskUpdates.processed_by = user.id; }
 
-      await updateTask.mutateAsync({ id: task.id, ...taskUpdates });
+      // L10 wave 16 (2026-06-10): guarded transition. Without expectedStatus
+      // two admins clicking Verify/Complete/Reopen on the same WO at the
+      // same moment overwrite each other and the audit row records a
+      // stale old_status. .eq("status", expectedStatus) returns 0 rows
+      // affected when somebody beat us, surfaced as an actionable toast.
+      await guardedTransition.mutateAsync({
+        id: task.id,
+        expectedStatus: task.status,
+        ...taskUpdates,
+      });
       try {
         await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "status_change", old_status: task.status, new_status: newStatus });
       } catch {
         // Status changed but audit trail failed - log but don't block the user
       }
       toast({ title: `${t("Work order")} ${t(`status:${newStatus}`)}` });
-    } catch {
-      toast({ title: t("Action failed"), description: t("Could not update work order status."), variant: "destructive" });
+    } catch (err) {
+      const message = err instanceof Error && err.message.includes("no longer in")
+        ? t("Someone else updated this work order — refresh and try again.")
+        : t("Could not update work order status.");
+      toast({ title: t("Action failed"), description: message, variant: "destructive" });
     } finally {
       transitioningRef.current = false;
     }

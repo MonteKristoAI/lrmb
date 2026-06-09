@@ -32,7 +32,7 @@ const supabaseMutationQueue = new BackgroundSyncPlugin("lrmb-supabase-mutations"
 // MUST be registered BEFORE the NetworkFirst GET route so the matcher
 // hits this route first for non-GET methods.
 const isSupabaseRestMutation = ({ url, request }: { url: URL; request: Request }) =>
-  url.hostname.includes("supabase.co") &&
+  url.hostname.endsWith(".supabase.co") &&
   url.pathname.includes("/rest/") &&
   ["POST", "PATCH", "PUT", "DELETE"].includes(request.method);
 
@@ -62,7 +62,7 @@ registerRoute(
 registerRoute(
   ({ url, request }) =>
     request.method === "GET" &&
-    url.hostname.includes("supabase.co") &&
+    url.hostname.endsWith(".supabase.co") &&
     url.pathname.includes("/rest/"),
   new NetworkFirst({
     cacheName: "supabase-api-cache",
@@ -71,18 +71,21 @@ registerRoute(
   })
 );
 
-// Supabase storage (photos): cache first
+// Supabase storage (photos): cache first.
+// L10 wave 16 (2026-06-10): TTL 1h → 5m to match photo-upload v5's
+// signed URL drop (1h server-side). Stale cached URLs after revoke
+// would otherwise serve for nearly an hour past revocation.
 registerRoute(
-  ({ url }) => url.hostname.includes("supabase.co") && url.pathname.includes("/storage/"),
+  ({ url }) => url.hostname.endsWith(".supabase.co") && url.pathname.includes("/storage/"),
   new CacheFirst({
     cacheName: "supabase-storage-cache",
-    plugins: [new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 3600 })],
+    plugins: [new ExpirationPlugin({ maxEntries: 50, maxAgeSeconds: 300 })],
   })
 );
 
 // Supabase auth: network only (never cache auth)
 registerRoute(
-  ({ url }) => url.hostname.includes("supabase.co") && url.pathname.includes("/auth/"),
+  ({ url }) => url.hostname.endsWith(".supabase.co") && url.pathname.includes("/auth/"),
   new NetworkOnly()
 );
 
@@ -126,7 +129,13 @@ self.addEventListener("push", (event) => {
 self.addEventListener("notificationclick", (event) => {
   event.notification.close();
 
-  const url = (event.notification.data as { url?: string })?.url || "/tasks";
+  // L10 wave 16 (2026-06-10): validate URL is a same-origin path. A leaked
+  // VAPID key (or a compromised admin able to push to send-push) could
+  // otherwise redirect users off-app to a phishing target.
+  const rawUrl = (event.notification.data as { url?: string })?.url ?? "/tasks";
+  const url = (typeof rawUrl === "string" && rawUrl.startsWith("/") && !rawUrl.startsWith("//"))
+    ? rawUrl
+    : "/tasks";
 
   if (event.action === "dismiss") return;
 
@@ -141,4 +150,20 @@ self.addEventListener("notificationclick", (event) => {
       return self.clients.openWindow(url);
     })
   );
+});
+
+// L10 wave 16: cache wipe on auth state change. Triggered by a postMessage
+// from src/lib/auth.tsx whenever signOut() or signIn happens. Without
+// this, user A's NetworkFirst-cached RLS-filtered REST responses can
+// briefly appear on user B's first paint after sign-in.
+self.addEventListener("message", (event) => {
+  const data = event.data as { type?: string } | undefined;
+  if (data?.type === "lrmb_wipe_supabase_cache") {
+    event.waitUntil(
+      Promise.all([
+        caches.delete("supabase-api-cache"),
+        caches.delete("supabase-storage-cache"),
+      ]),
+    );
+  }
 });

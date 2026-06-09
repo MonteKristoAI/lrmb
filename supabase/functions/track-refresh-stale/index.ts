@@ -87,7 +87,27 @@ Deno.serve(async (req) => {
           summary.bumped++;
           continue;
         }
-        await supabase.from("tasks").update({ status: "cancelled", updated_at: new Date().toISOString() }).eq("id", row.id);
+        // v4 (2026-06-10) L10 wave 16: race guard. Without `.eq("status",
+        // row.status)`, a user advancing the row between our SELECT
+        // (line 47) and this UPDATE gets silently clobbered to 'cancelled'.
+        // .select("id") returns the affected rows; 0 = somebody beat us.
+        const { data: updated, error: cErr } = await supabase
+          .from("tasks")
+          .update({ status: "cancelled", updated_at: new Date().toISOString() })
+          .eq("id", row.id)
+          .eq("status", row.status)
+          .select("id");
+        if (cErr) {
+          summary.errors++;
+          if (summary.failedSample.length < 10) summary.failedSample.push({ external_id: row.external_id, reason: `cancel_${cErr.code ?? "err"}` });
+          continue;
+        }
+        if (!updated || updated.length === 0) {
+          summary.terminalSkipped++;
+          await bumpUpdatedAt(supabase, row.id);
+          summary.bumped++;
+          continue;
+        }
         summary.cancelled++;
         summary.notFound++;
         if (summary.sample.length < 10) summary.sample.push({ external_id: row.external_id, from: row.status, to: "cancelled", reason: "track_404" });
@@ -116,13 +136,23 @@ Deno.serve(async (req) => {
         summary.unchanged++;
         continue;
       }
-      const { error: uErr } = await supabase
+      // v4 (2026-06-10): same race guard as the 404 branch.
+      const { data: changed, error: uErr } = await supabase
         .from("tasks")
         .update({ status: newStatus, updated_at: new Date().toISOString() })
-        .eq("id", row.id);
+        .eq("id", row.id)
+        .eq("status", row.status)
+        .select("id");
       if (uErr) {
         summary.errors++;
         if (summary.failedSample.length < 10) summary.failedSample.push({ external_id: row.external_id, reason: `update_${uErr.code ?? "err"}: ${uErr.message?.slice(0, 80)}` });
+        continue;
+      }
+      if (!changed || changed.length === 0) {
+        // Status moved on between SELECT and UPDATE; honor the new state.
+        summary.terminalSkipped++;
+        await bumpUpdatedAt(supabase, row.id);
+        summary.bumped++;
         continue;
       }
       if (newStatus === "cancelled") summary.cancelled++;

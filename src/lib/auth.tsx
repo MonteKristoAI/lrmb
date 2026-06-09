@@ -110,6 +110,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       queueMicrotask(() => {
         void syncSessionState(nextSession);
       });
+      // L10 wave 16 (2026-06-10): tell the SW to wipe Supabase REST/storage
+      // caches on sign-in/sign-out so user A's NetworkFirst-cached RLS-
+      // filtered responses can't flash onto user B's first paint.
+      if (_event === "SIGNED_OUT" || _event === "SIGNED_IN" || _event === "TOKEN_REFRESHED") {
+        try {
+          navigator.serviceWorker?.controller?.postMessage({ type: "lrmb_wipe_supabase_cache" });
+        } catch { /* SW may not be ready yet */ }
+      }
     });
 
     const initialize = async () => {
