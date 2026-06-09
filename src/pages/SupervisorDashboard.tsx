@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/layout/AppShell";
+import { useI18n } from "@/lib/i18n";
 import { useAnalyticsSummary } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -26,6 +27,7 @@ const CATEGORY_ORDER = ["maintenance", "housekeeping", "inspection", "general", 
 
 const SupervisorDashboard = () => {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const { data: summary, isLoading } = useAnalyticsSummary();
 
   const avgCycleHrs = summary?.avgCycleHours != null ? Math.round(summary.avgCycleHours) : 0;
@@ -33,38 +35,38 @@ const SupervisorDashboard = () => {
     ? Math.round((summary.photoComplianceDone / summary.photoComplianceTotal) * 100)
     : 100;
   const byCategory = CATEGORY_ORDER.map((cat) => ({
-    name: cat.charAt(0).toUpperCase() + cat.slice(1),
+    name: t(`category:${cat}`),
     count: summary?.byCategory?.[cat] ?? 0,
   }));
   const totalRows = summary?.total ?? 0;
 
   return (
-    <AppShell title="Supervisor">
+    <AppShell title={t("Supervisor")}>
       <div className="p-4 space-y-4">
         {isLoading || !summary ? (
           <div className="grid grid-cols-2 gap-3">{Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-20" />)}</div>
         ) : (
           <>
             <div className="grid grid-cols-2 gap-3">
-              <KPICard label="Pending Verification" value={summary.pendingVerify} icon={CheckCircle2} />
-              <KPICard label="Avg Cycle Time" value={`${avgCycleHrs}h`} icon={Clock} />
-              <KPICard label="Overdue" value={summary.overdue} icon={AlertTriangle} />
-              <KPICard label="Photo Compliance" value={`${photoCompliance}%`} sub={`${summary.photoComplianceDone} completed / ${summary.photoComplianceTotal} requiring photos`} icon={BarChart3} />
-              <KPICard label="Total Work Orders" value={summary.total} sub="all-time" icon={RotateCcw} />
+              <KPICard label={t("Pending Verification")} value={summary.pendingVerify} icon={CheckCircle2} />
+              <KPICard label={t("Avg Cycle Time")} value={`${avgCycleHrs}h`} icon={Clock} />
+              <KPICard label={t("Overdue")} value={summary.overdue} icon={AlertTriangle} />
+              <KPICard label={t("Photo Compliance")} value={`${photoCompliance}%`} sub={`${summary.photoComplianceDone} ${t("completed")} / ${summary.photoComplianceTotal} ${t("requiring photos")}`} icon={BarChart3} />
+              <KPICard label={t("Total Work Orders")} value={summary.total} sub={t("all-time")} icon={RotateCcw} />
             </div>
 
             <div className="grid grid-cols-2 gap-2">
-              <Button variant="outline" onClick={() => navigate("/supervisor/verify")} className="tap-target">Verify Queue</Button>
-              <Button variant="outline" onClick={() => navigate("/supervisor/kpi")} className="tap-target">KPI Details</Button>
-              <Button variant="outline" onClick={() => navigate("/supervisor/staff")} className="tap-target">Staff Workload</Button>
-              <Button variant="outline" onClick={() => navigate("/supervisor/trends")} className="tap-target">Trends</Button>
+              <Button variant="outline" onClick={() => navigate("/supervisor/verify")} className="tap-target">{t("Verify Queue")}</Button>
+              <Button variant="outline" onClick={() => navigate("/supervisor/kpi")} className="tap-target">{t("KPI Details")}</Button>
+              <Button variant="outline" onClick={() => navigate("/supervisor/staff")} className="tap-target">{t("Staff Workload")}</Button>
+              <Button variant="outline" onClick={() => navigate("/supervisor/trends")} className="tap-target">{t("Trends")}</Button>
             </div>
 
             <Card>
               <CardContent className="p-4">
-                <p className="text-sm font-semibold text-foreground mb-3">Work Orders by Category</p>
+                <p className="text-sm font-semibold text-foreground mb-3">{t("Work Orders by Category")}</p>
                 {totalRows === 0 ? (
-                  <p className="text-sm text-muted-foreground text-center py-8">No work order data yet.</p>
+                  <p className="text-sm text-muted-foreground text-center py-8">{t("No work order data yet.")}</p>
                 ) : (
                   <ResponsiveContainer width="100%" height={160}>
                     <BarChart data={byCategory}>

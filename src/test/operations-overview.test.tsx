@@ -10,6 +10,7 @@ import { render, screen, waitFor, cleanup } from "@testing-library/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter } from "react-router-dom";
 import OperationsOverview from "../pages/OperationsOverview";
+import { I18nProvider } from "../lib/i18n";
 
 // VITE_SUPABASE_URL is read by the page on module import. Set it before mount.
 vi.stubEnv("VITE_SUPABASE_URL", "http://localhost-test:54321");
@@ -19,7 +20,9 @@ function renderAt(path: string) {
   return render(
     <QueryClientProvider client={qc}>
       <MemoryRouter initialEntries={[path]}>
-        <OperationsOverview />
+        <I18nProvider>
+          <OperationsOverview />
+        </I18nProvider>
       </MemoryRouter>
     </QueryClientProvider>,
   );

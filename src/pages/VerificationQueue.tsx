@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
+import { useI18n } from "@/lib/i18n";
 import { useTasksByStatus, useGuardedTaskTransition, useAddTaskUpdate } from "@/hooks/useTasks";
 import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "@/components/tasks/StatusBadge";
@@ -14,6 +15,7 @@ import { CheckCircle2 } from "lucide-react";
 const VerificationQueue = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useI18n();
   const { toast } = useToast();
   // v32: real status=completed query for verification queue, not a filter on 500-row slice.
   const { data: pending = [], isLoading } = useTasksByStatus(["completed"], {
@@ -36,9 +38,9 @@ const VerificationQueue = () => {
         verified_at: new Date().toISOString(),
       });
       await addUpdate.mutateAsync({ task_id: taskId, actor_id: user.id, update_type: "status_change", old_status: "completed", new_status: "verified" });
-      toast({ title: "Work order verified" });
+      toast({ title: t("Work order verified") });
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to verify work order";
+      const msg = err instanceof Error ? err.message : t("Failed to verify work order");
       toast({ title: msg, variant: "destructive" });
     } finally {
       setVerifyingId(null);
@@ -46,23 +48,23 @@ const VerificationQueue = () => {
   };
 
   return (
-    <AppShell title="Verification Queue">
+    <AppShell title={t("Verification Queue")}>
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
-          pending.length ? pending.map((t) => (
-            <Card key={t.id} className="cursor-pointer hover:bg-secondary/50 transition-colors" onClick={() => navigate(`/tasks/${t.id}`)}>
+          pending.length ? pending.map((task) => (
+            <Card key={task.id} className="cursor-pointer hover:bg-secondary/50 transition-colors" onClick={() => navigate(`/tasks/${task.id}`)}>
               <CardContent className="p-4 flex items-center gap-3">
                 <div className="flex-1 min-w-0 space-y-1">
-                  <p className="font-medium text-sm text-foreground truncate">{t.title}</p>
-                  <div className="flex gap-2"><StatusBadge status={t.status} /><PriorityBadge priority={t.priority} /></div>
-                  <p className="text-xs text-muted-foreground">{t.properties?.name}</p>
+                  <p className="font-medium text-sm text-foreground truncate">{task.title}</p>
+                  <div className="flex gap-2"><StatusBadge status={task.status} /><PriorityBadge priority={task.priority} /></div>
+                  <p className="text-xs text-muted-foreground">{task.properties?.name}</p>
                 </div>
-                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleVerify(t.id); }} disabled={verifyingId === t.id} className="tap-target gap-1 bg-status-verified hover:bg-status-verified/90 text-primary-foreground shrink-0">
-                  <CheckCircle2 className="h-4 w-4" /> {verifyingId === t.id ? "Verifying..." : "Verify"}
+                <Button size="sm" onClick={(e) => { e.stopPropagation(); handleVerify(task.id); }} disabled={verifyingId === task.id} className="tap-target gap-1 bg-status-verified hover:bg-status-verified/90 text-primary-foreground shrink-0">
+                  <CheckCircle2 className="h-4 w-4" /> {verifyingId === task.id ? t("Verifying...") : t("Verify")}
                 </Button>
               </CardContent>
             </Card>
-          )) : <p className="text-muted-foreground text-center py-8">No work orders pending verification.</p>
+          )) : <p className="text-muted-foreground text-center py-8">{t("No work orders pending verification.")}</p>
         )}
       </div>
     </AppShell>

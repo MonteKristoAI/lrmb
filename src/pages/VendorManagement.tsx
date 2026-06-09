@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
+import { useI18n } from "@/lib/i18n";
 import { useVendors, useCreateVendor, useUpdateVendor } from "@/hooks/useVendors";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,6 +28,7 @@ const EMPTY_FORM = {
 
 const VendorManagement = () => {
   const { toast } = useToast();
+  const { t } = useI18n();
   const { data: vendors = [], isLoading } = useVendors();
   const createVendor = useCreateVendor();
   const updateVendor = useUpdateVendor();
@@ -60,7 +62,7 @@ const VendorManagement = () => {
 
   const handleSave = async () => {
     if (!form.name.trim()) {
-      toast({ title: "Name required", variant: "destructive" });
+      toast({ title: t("Name required"), variant: "destructive" });
       return;
     }
     const payload = {
@@ -77,14 +79,14 @@ const VendorManagement = () => {
     try {
       if (editingId) {
         await updateVendor.mutateAsync({ id: editingId, ...payload });
-        toast({ title: "Vendor updated" });
+        toast({ title: t("Vendor updated") });
       } else {
         await createVendor.mutateAsync(payload);
-        toast({ title: "Vendor created" });
+        toast({ title: t("Vendor created") });
       }
       setDialogOpen(false);
     } catch {
-      toast({ title: "Failed to save vendor", variant: "destructive" });
+      toast({ title: t("Failed to save vendor"), variant: "destructive" });
     }
   };
 
@@ -92,15 +94,15 @@ const VendorManagement = () => {
   const inactiveVendors = vendors.filter((v) => v.active === false);
 
   return (
-    <AppShell title="Vendors">
+    <AppShell title={t("Vendors")}>
       <div className="p-4 space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h2 className="text-lg font-bold">Vendor Management</h2>
-            <p className="text-sm text-muted-foreground">{vendors.length} vendors</p>
+            <h2 className="text-lg font-bold">{t("Vendor Management")}</h2>
+            <p className="text-sm text-muted-foreground">{vendors.length} {t("vendors")}</p>
           </div>
           <Button onClick={openCreate} className="tap-target gap-2">
-            <Plus className="h-4 w-4" /> Add Vendor
+            <Plus className="h-4 w-4" /> {t("Add Vendor")}
           </Button>
         </div>
 
@@ -130,7 +132,7 @@ const VendorManagement = () => {
                 <div className="flex gap-4 text-xs text-muted-foreground">
                   {v.phone && <span className="flex items-center gap-1"><Phone className="h-3 w-3" />{v.phone}</span>}
                   {v.email && <span className="flex items-center gap-1"><Mail className="h-3 w-3" />{v.email}</span>}
-                  {v.payment_method && <span>Payment: {v.payment_method}</span>}
+                  {v.payment_method && <span>{t("Payment")}: {v.payment_method}</span>}
                 </div>
                 {v.notes && <p className="text-xs text-muted-foreground">{v.notes}</p>}
               </div>
@@ -138,7 +140,7 @@ const VendorManagement = () => {
 
             {inactiveVendors.length > 0 && (
               <>
-                <h3 className="text-sm font-semibold text-muted-foreground pt-4">Inactive ({inactiveVendors.length})</h3>
+                <h3 className="text-sm font-semibold text-muted-foreground pt-4">{t("Inactive")} ({inactiveVendors.length})</h3>
                 {inactiveVendors.map((v) => (
                   <div key={v.id} className="rounded-lg border border-border bg-card/50 p-4 opacity-60">
                     <div className="flex items-center justify-between">
@@ -159,70 +161,70 @@ const VendorManagement = () => {
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editingId ? "Edit Vendor" : "Add Vendor"}</DialogTitle>
+            <DialogTitle>{editingId ? t("Edit Vendor") : t("Add Vendor")}</DialogTitle>
           </DialogHeader>
           <div className="space-y-3">
             <div className="space-y-2">
-              <Label>Company Name *</Label>
-              <Input value={form.name} onChange={(e) => set("name", e.target.value)} placeholder="Vendor name" />
+              <Label>{t("Company Name *")}</Label>
+              <Input value={form.name} onChange={(e) => set("name", e.target.value)} placeholder={t("Vendor name")} />
             </div>
             <div className="space-y-2">
-              <Label>Contact Person</Label>
-              <Input value={form.contact_name} onChange={(e) => set("contact_name", e.target.value)} placeholder="Primary contact" />
+              <Label>{t("Contact Person")}</Label>
+              <Input value={form.contact_name} onChange={(e) => set("contact_name", e.target.value)} placeholder={t("Primary contact")} />
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label>Phone</Label>
-                <Input value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder="Phone number" type="tel" />
+                <Label>{t("Phone")}</Label>
+                <Input value={form.phone} onChange={(e) => set("phone", e.target.value)} placeholder={t("Phone number")} type="tel" />
               </div>
               <div className="space-y-2">
-                <Label>Email</Label>
-                <Input value={form.email} onChange={(e) => set("email", e.target.value)} placeholder="Email" type="email" />
+                <Label>{t("Email")}</Label>
+                <Input value={form.email} onChange={(e) => set("email", e.target.value)} placeholder={t("Email")} type="email" />
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label>Specialty</Label>
+                <Label>{t("Specialty")}</Label>
                 <Select value={form.specialty} onValueChange={(v) => set("specialty", v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="housekeeping">Housekeeping</SelectItem>
-                    <SelectItem value="maintenance">Maintenance</SelectItem>
-                    <SelectItem value="plumbing">Plumbing</SelectItem>
-                    <SelectItem value="electrical">Electrical</SelectItem>
-                    <SelectItem value="ac_hvac">AC / HVAC</SelectItem>
-                    <SelectItem value="appliances">Appliances</SelectItem>
-                    <SelectItem value="furniture">Furniture Restoration</SelectItem>
-                    <SelectItem value="general">General</SelectItem>
+                    <SelectItem value="housekeeping">{t("Housekeeping")}</SelectItem>
+                    <SelectItem value="maintenance">{t("Maintenance")}</SelectItem>
+                    <SelectItem value="plumbing">{t("Plumbing")}</SelectItem>
+                    <SelectItem value="electrical">{t("Electrical")}</SelectItem>
+                    <SelectItem value="ac_hvac">{t("AC / HVAC")}</SelectItem>
+                    <SelectItem value="appliances">{t("Appliances")}</SelectItem>
+                    <SelectItem value="furniture">{t("Furniture Restoration")}</SelectItem>
+                    <SelectItem value="general">{t("General")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Payment Method</Label>
+                <Label>{t("Payment Method")}</Label>
                 <Select value={form.payment_method} onValueChange={(v) => set("payment_method", v)}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="square">Square</SelectItem>
-                    <SelectItem value="invoice">Invoice</SelectItem>
-                    <SelectItem value="check">Check</SelectItem>
+                    <SelectItem value="invoice">{t("Invoice")}</SelectItem>
+                    <SelectItem value="check">{t("Check")}</SelectItem>
                     <SelectItem value="ach">ACH</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
+                    <SelectItem value="other">{t("Other")}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
             <div className="space-y-2">
-              <Label>Notes</Label>
-              <Textarea value={form.notes} onChange={(e) => set("notes", e.target.value)} placeholder="Internal notes about this vendor..." rows={2} />
+              <Label>{t("Notes")}</Label>
+              <Textarea value={form.notes} onChange={(e) => set("notes", e.target.value)} placeholder={t("Internal notes about this vendor...")} rows={2} />
             </div>
             <div className="flex items-center justify-between py-2">
-              <Label>Active</Label>
+              <Label>{t("Active")}</Label>
               <Switch checked={form.active} onCheckedChange={(v) => set("active", v)} />
             </div>
           </div>
           <DialogFooter>
             <Button onClick={handleSave} disabled={createVendor.isPending || updateVendor.isPending} className="tap-target">
-              {editingId ? "Save Changes" : "Add Vendor"}
+              {editingId ? t("Save Changes") : t("Add Vendor")}
             </Button>
           </DialogFooter>
         </DialogContent>

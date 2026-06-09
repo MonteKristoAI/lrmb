@@ -5,6 +5,7 @@ import { useCreateTask, useSimilarTasks } from "@/hooks/useTasks";
 import { useProperties, useUnits, useProfiles } from "@/hooks/useProperties";
 import { useActiveVendors } from "@/hooks/useVendors";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -26,6 +27,7 @@ import {
 const CreateTask = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useI18n();
   const { toast } = useToast();
   const createTask = useCreateTask();
   const { data: properties = [] } = useProperties();
@@ -74,7 +76,7 @@ const CreateTask = () => {
 
   const set = (key: string, value: unknown) => setForm((prev) => ({ ...prev, [key]: value }));
 
-  if (!mounted) return <AppShell title="Create Work Order"><div className="p-4">Loading...</div></AppShell>;
+  if (!mounted) return <AppShell title={t("Create Work Order")}><div className="p-4">{t("Loading...")}</div></AppShell>;
 
   const isHousekeeping = form.task_category === "housekeeping";
   const showDamage = form.task_category === "maintenance";
@@ -83,7 +85,7 @@ const CreateTask = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.title || !form.property_id) {
-      toast({ title: "Missing fields", description: "Title and property are required.", variant: "destructive" });
+      toast({ title: t("Missing fields"), description: t("Title and property are required."), variant: "destructive" });
       return;
     }
 
@@ -118,25 +120,25 @@ const CreateTask = () => {
         created_by: user?.id ?? null,
         source_type: "manual",
       });
-      toast({ title: "Work order created" });
+      toast({ title: t("Work order created") });
       navigate("/admin");
     } catch {
-      toast({ title: "Failed to create work order", variant: "destructive" });
+      toast({ title: t("Failed to create work order"), variant: "destructive" });
     }
   };
 
   return (
-    <AppShell title="Create Work Order">
+    <AppShell title={t("Create Work Order")}>
       <form onSubmit={handleSubmit} className="p-4 space-y-4 pb-24">
         {/* Title & Description */}
         <div className="space-y-2">
-          <Label>Title *</Label>
-          <Input value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="Work order title" className="tap-target" required />
+          <Label>{t("Title *")}</Label>
+          <Input value={form.title} onChange={(e) => set("title", e.target.value)} placeholder={t("Work order title")} className="tap-target" required />
         </div>
         {/* Duplicate detection warning */}
         {similarTasks.length > 0 && (
           <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 space-y-1">
-            <p className="text-xs font-semibold text-amber-700">Possible duplicate - similar open work orders found:</p>
+            <p className="text-xs font-semibold text-amber-700">{t("Possible duplicate - similar open work orders found:")}</p>
             {similarTasks.map((st) => (
               <p key={st.id} className="text-xs text-amber-600">
                 {st.title} ({st.status})
@@ -146,16 +148,16 @@ const CreateTask = () => {
         )}
 
         <div className="space-y-2">
-          <Label>Description</Label>
-          <Textarea value={form.description} onChange={(e) => set("description", e.target.value)} placeholder="Details..." rows={3} />
+          <Label>{t("Description")}</Label>
+          <Textarea value={form.description} onChange={(e) => set("description", e.target.value)} placeholder={t("Details...")} rows={3} />
         </div>
 
         {/* Property & Unit (Residence) */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label>Building *</Label>
+            <Label>{t("Building *")}</Label>
             <Select value={form.property_id || undefined} onValueChange={(v) => { set("property_id", v); set("unit_id", ""); }}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder="Select building" /></SelectTrigger>
+              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Select building")} /></SelectTrigger>
               <SelectContent>
                 {properties.map((p) => (
                   <SelectItem key={p.id} value={p.id}>
@@ -166,9 +168,9 @@ const CreateTask = () => {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Residence</Label>
+            <Label>{t("Residence")}</Label>
             <Select value={form.unit_id || undefined} onValueChange={(v) => set("unit_id", v)} disabled={!form.property_id}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder="Optional" /></SelectTrigger>
+              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Optional")} /></SelectTrigger>
               <SelectContent>
                 {units.map((u) => (
                   <SelectItem key={u.id} value={u.id}>
@@ -184,7 +186,7 @@ const CreateTask = () => {
         {/* Category & Priority */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label>Category</Label>
+            <Label>{t("Category")}</Label>
             <Select value={form.task_category} onValueChange={(v) => { set("task_category", v); set("housekeeping_type", ""); set("damage_classification", ""); }}>
               <SelectTrigger className="tap-target"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -195,7 +197,7 @@ const CreateTask = () => {
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Priority</Label>
+            <Label>{t("Priority")}</Label>
             <Select value={form.priority} onValueChange={(v) => set("priority", v)}>
               <SelectTrigger className="tap-target"><SelectValue /></SelectTrigger>
               <SelectContent>
@@ -210,9 +212,9 @@ const CreateTask = () => {
         {/* Housekeeping Type (conditional) */}
         {isHousekeeping && (
           <div className="space-y-2">
-            <Label>Housekeeping Type</Label>
+            <Label>{t("Housekeeping Type")}</Label>
             <Select value={form.housekeeping_type || undefined} onValueChange={(v) => set("housekeeping_type", v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder="Select type" /></SelectTrigger>
+              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Select type")} /></SelectTrigger>
               <SelectContent>
                 {Object.entries(HOUSEKEEPING_TYPE_LABELS).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
@@ -225,9 +227,9 @@ const CreateTask = () => {
         {/* Damage Classification (conditional) */}
         {showDamage && (
           <div className="space-y-2">
-            <Label>Damage Classification</Label>
+            <Label>{t("Damage Classification")}</Label>
             <Select value={form.damage_classification || undefined} onValueChange={(v) => set("damage_classification", v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder="Optional" /></SelectTrigger>
+              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Optional")} /></SelectTrigger>
               <SelectContent>
                 {Object.entries(DAMAGE_CLASSIFICATION_LABELS).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
@@ -239,28 +241,28 @@ const CreateTask = () => {
 
         {/* Work Order Type */}
         <div className="space-y-2">
-          <Label>Work Order Type</Label>
-          <Input value={form.task_type} onChange={(e) => set("task_type", e.target.value)} placeholder="e.g. plumbing, AC repair, light bulb" className="tap-target" />
+          <Label>{t("Work Order Type")}</Label>
+          <Input value={form.task_type} onChange={(e) => set("task_type", e.target.value)} placeholder={t("e.g. plumbing, AC repair, light bulb")} className="tap-target" />
         </div>
 
         {/* Assignment: Staff or Vendor */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label>Assign to Staff</Label>
+            <Label>{t("Assign to Staff")}</Label>
             <Select value={form.assigned_to || "__none__"} onValueChange={(v) => set("assigned_to", v === "__none__" ? "" : v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder="Unassigned" /></SelectTrigger>
+              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Unassigned")} /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="__none__">Unassigned</SelectItem>
+                <SelectItem value="__none__">{t("Unassigned")}</SelectItem>
                 {profiles.map((p) => <SelectItem key={p.id} value={p.id}>{p.full_name || p.email}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           <div className="space-y-2">
-            <Label>Assign to Vendor</Label>
+            <Label>{t("Assign to Vendor")}</Label>
             <Select value={form.vendor_id || "__none__"} onValueChange={(v) => set("vendor_id", v === "__none__" ? "" : v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder="None" /></SelectTrigger>
+              <SelectTrigger className="tap-target"><SelectValue placeholder={t("None")} /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="__none__">None</SelectItem>
+                <SelectItem value="__none__">{t("None")}</SelectItem>
                 {vendors.map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}
               </SelectContent>
             </Select>
@@ -270,45 +272,45 @@ const CreateTask = () => {
         {/* Dates */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label>Due Date</Label>
+            <Label>{t("Due Date")}</Label>
             <Input type="datetime-local" min={nowLocalIso} value={form.due_at} onChange={(e) => set("due_at", e.target.value)} className="tap-target" />
           </div>
           <div className="space-y-2">
-            <Label>Scheduled For</Label>
+            <Label>{t("Scheduled For")}</Label>
             <Input type="datetime-local" min={nowLocalIso} value={form.scheduled_for} onChange={(e) => set("scheduled_for", e.target.value)} className="tap-target" />
           </div>
         </div>
 
         {/* Guest Context */}
         <div className="flex items-center justify-between py-2">
-          <Label>Guest-Facing Work Order</Label>
+          <Label>{t("Guest-Facing Work Order")}</Label>
           <Switch checked={form.is_guest_facing} onCheckedChange={(v) => set("is_guest_facing", v)} />
         </div>
         {showGuestFields && (
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label>Guest Name</Label>
-              <Input value={form.guest_name} onChange={(e) => set("guest_name", e.target.value)} placeholder="Guest name" className="tap-target" />
+              <Label>{t("Guest Name")}</Label>
+              <Input value={form.guest_name} onChange={(e) => set("guest_name", e.target.value)} placeholder={t("Guest name")} className="tap-target" />
             </div>
             <div className="space-y-2">
-              <Label>Reservation ID</Label>
-              <Input value={form.reservation_id} onChange={(e) => set("reservation_id", e.target.value)} placeholder="TRACK ID" className="tap-target" />
+              <Label>{t("Reservation ID")}</Label>
+              <Input value={form.reservation_id} onChange={(e) => set("reservation_id", e.target.value)} placeholder={t("TRACK ID")} className="tap-target" />
             </div>
           </div>
         )}
 
         {/* Requirements */}
         <div className="flex items-center justify-between py-2">
-          <Label>Require Photo Proof</Label>
+          <Label>{t("Require Photo Proof")}</Label>
           <Switch checked={form.requires_photo} onCheckedChange={(v) => set("requires_photo", v)} />
         </div>
         <div className="flex items-center justify-between py-2">
-          <Label>Require Completion Note</Label>
+          <Label>{t("Require Completion Note")}</Label>
           <Switch checked={form.requires_note} onCheckedChange={(v) => set("requires_note", v)} />
         </div>
 
         <Button type="submit" className="w-full tap-target text-base font-semibold" disabled={createTask.isPending}>
-          {createTask.isPending ? "Creating..." : "Create Work Order"}
+          {createTask.isPending ? t("Creating...") : t("Create Work Order")}
         </Button>
       </form>
     </AppShell>

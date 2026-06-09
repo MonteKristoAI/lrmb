@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 import {
   AlertCircle, CheckCircle2, Clock, RefreshCw, Wrench, Sparkles,
   ArrowDownToLine, ArrowUpFromLine, Camera, Activity, Building2,
@@ -312,6 +313,7 @@ function statusLabel(s: string): string {
 // Top-level component
 // ============================================================
 export default function OperationsOverview() {
+  const { t } = useI18n();
   const [params, setParams] = useSearchParams();
   const token = params.get("t") ?? "";
   // v27: derive filter state directly from URL params so browser back/forward
@@ -456,15 +458,15 @@ export default function OperationsOverview() {
     });
   }, [setParams]);
 
-  if (!token) return <ErrorState title="Missing share link token" detail="Open this page via the shareable URL with a token in the query string." />;
+  if (!token) return <ErrorState title={t("Missing share link token")} detail={t("Open this page via the shareable URL with a token in the query string.")} />;
   if (isLoading) return <LoadingState />;
   if (error) {
     const code = (error as { code?: string }).code ?? "";
-    if (code === "expired") return <ErrorState title="Share link has expired" detail="Ask your contact at LRMB for a new link." />;
-    if (code === "bad_signature" || code === "bad_format") return <ErrorState title="Invalid share link" detail="The token in this URL has been tampered with or is malformed." />;
-    return <ErrorState title="Could not load operations data" detail={String(error.message ?? error)} />;
+    if (code === "expired") return <ErrorState title={t("Share link has expired")} detail={t("Ask your contact at LRMB for a new link.")} />;
+    if (code === "bad_signature" || code === "bad_format") return <ErrorState title={t("Invalid share link")} detail={t("The token in this URL has been tampered with or is malformed.")} />;
+    return <ErrorState title={t("Could not load operations data")} detail={String(error.message ?? error)} />;
   }
-  if (!data || !filtered) return <ErrorState title="No data" detail="The overview returned empty." />;
+  if (!data || !filtered) return <ErrorState title={t("No data")} detail={t("The overview returned empty.")} />;
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -757,11 +759,12 @@ function FilterBar({
   totalFilteredItems: number;
   onClear: () => void;
 }) {
+  const { t } = useI18n();
   const priorities = [
-    { value: "ALL", label: "All priorities" },
-    { value: "high", label: "High" },
-    { value: "medium", label: "Medium" },
-    { value: "low", label: "Low" },
+    { value: "ALL", label: t("All priorities") },
+    { value: "high", label: t("priority:high") },
+    { value: "medium", label: t("priority:medium") },
+    { value: "low", label: t("priority:low") },
   ] as const;
 
   return (
@@ -778,9 +781,9 @@ function FilterBar({
             type="search"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search work orders, units, properties, IDs…"
+            placeholder={t("Search work orders, units, properties, IDs…")}
             className="w-full rounded-md border border-border bg-background py-2 pl-9 pr-9 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-accent/40"
-            aria-label="Search work orders and reservations"
+            aria-label={t("Search work orders and reservations")}
           />
           {searchQuery && (
             <button
