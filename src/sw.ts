@@ -24,6 +24,33 @@ clientsClaim();
 // Window: 24h. If she's offline longer than that the queued mutation is
 // dropped (better than firing a stale write — the WO may have moved on).
 // Max retries handled by the browser's BackgroundSync registration.
+//
+// ─── L10 wave 17 (2026-06-10) — known limitations ───────────────
+//
+// 1. JWT EXPIRY: a mutation queued >1h before reconnect will replay with
+//    an expired Bearer header → 401. The browser will surface that as a
+//    failed sync (Workbox drops it from the queue) and the SPA will not
+//    notify the user retroactively. Acceptable trade-off: the queue's
+//    job is to ride out short network blips, not multi-hour outages.
+//
+// 2. STALE WRITES: if a WO is reassigned away from Maria, or moved to a
+//    terminal state by another admin while her mutation sits in the
+//    queue, the replay will still execute the original update. The
+//    server-side guarded-transition guard (.eq(status, expected)) on
+//    TaskDetail.transition() catches MOST of these — the replay
+//    returns 0 rows + the SPA is no longer mounted so the user toast
+//    is missed, but no bad write lands.
+//
+// 3. NON-IDEMPOTENT WRITES: photo uploads and audit-log adds are
+//    intentionally NOT queued — they're FormData/multipart through the
+//    photo-upload edge fn, which sits OUTSIDE /rest/ and is not matched
+//    by the BackgroundSync route. Status transitions ARE queued
+//    (PATCH on /rest/v1/tasks). Re-running a status PATCH is safe
+//    because of the guarded-transition .eq guard.
+//
+// Future hardening (deferred): pass If-Unmodified-Since or a precondition
+// header so the server can 412 stale replays explicitly. Requires
+// schema + edge-fn coordination, beyond this wave's scope.
 const supabaseMutationQueue = new BackgroundSyncPlugin("lrmb-supabase-mutations", {
   maxRetentionTime: 24 * 60,
 });

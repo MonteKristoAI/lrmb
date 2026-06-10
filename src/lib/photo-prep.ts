@@ -25,6 +25,13 @@
 const MAX_DIMENSION_PX = 1920;
 const JPEG_QUALITY = 0.8;
 
+export class PhotoPrepError extends Error {
+  constructor(public readonly code: string, public readonly originalType: string) {
+    super(`photo-prep ${code} (${originalType})`);
+    this.name = "PhotoPrepError";
+  }
+}
+
 export interface PreparedPhoto {
   file: File;
   originalSize: number;
@@ -47,15 +54,14 @@ export async function preparePhotoForUpload(input: File): Promise<PreparedPhoto>
       bitmap = await loadViaImage(input);
     }
   } catch {
-    // Decode failed — return original (server validates magic bytes anyway).
-    return {
-      file: input,
-      originalSize,
-      finalSize: input.size,
-      originalType,
-      finalType: originalType,
-      resized: false,
-    };
+    // L10 wave 17 (2026-06-10): decode failure now THROWS instead of
+    // silently returning the raw file. The raw HEIC carries EXIF GPS,
+    // device serial, owner name — exactly what the canvas re-encode was
+    // supposed to strip. The wider promise was "EXIF stripped"; that
+    // promise must not silently degrade.
+    // Caller catches and shows toast: "Could not process photo.
+    // Try a JPEG/PNG instead."
+    throw new PhotoPrepError("decode_failed", originalType);
   }
 
   const srcW = "width" in bitmap ? bitmap.width : (bitmap as HTMLImageElement).naturalWidth;
@@ -73,7 +79,9 @@ export async function preparePhotoForUpload(input: File): Promise<PreparedPhoto>
   canvas.height = dstH;
   const ctx = canvas.getContext("2d");
   if (!ctx) {
-    return { file: input, originalSize, finalSize: input.size, originalType, finalType: originalType, resized: false };
+    // No canvas context — environment is broken. Same logic as decode
+    // fail: don't silently return raw file with EXIF intact.
+    throw new PhotoPrepError("canvas_context_unavailable", originalType);
   }
 
   // White background prevents transparent PNGs becoming black JPEGs.
@@ -86,7 +94,7 @@ export async function preparePhotoForUpload(input: File): Promise<PreparedPhoto>
     canvas.toBlob((b) => resolve(b), "image/jpeg", JPEG_QUALITY);
   });
   if (!blob) {
-    return { file: input, originalSize, finalSize: input.size, originalType, finalType: originalType, resized: false };
+    throw new PhotoPrepError("encode_failed", originalType);
   }
 
   const baseName = input.name.replace(/\.[^.]+$/, "");

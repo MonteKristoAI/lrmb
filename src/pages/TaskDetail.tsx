@@ -22,7 +22,7 @@ import {
 } from "lucide-react";
 import { isPast } from "date-fns";
 import { safeFormat, safeDistance } from "@/lib/utils";
-import { preparePhotoForUpload } from "@/lib/photo-prep";
+import { preparePhotoForUpload, PhotoPrepError } from "@/lib/photo-prep";
 import {
   TASK_CATEGORY_LABELS,
   TASK_CATEGORY_LABELS_ES,
@@ -111,17 +111,22 @@ const TaskDetail = () => {
   }, [id]);
 
   useEffect(() => {
+    // L10 wave 17 (2026-06-10): cancel in-flight signed-URL loads when
+    // the user navigates to another WO before the request resolves.
+    // Without this, stale URLs from the previous task can leak into the
+    // new task's photoUrls state. AbortController short-circuits the
+    // setPhotoUrls write.
+    let cancelled = false;
     const loadUrls = async () => {
       const newPhotos = photos.filter((p) => !loadedPathsRef.current.has(p.storage_path));
       if (newPhotos.length === 0) return;
-      // QA P1 Q-PERF-3: batch signed-URL creation in a single round-trip
-      // instead of N parallel HTTP calls. Falls back to per-photo on error.
       const paths = newPhotos.map((p) => p.storage_path);
       const urls: Record<string, string> = {};
       try {
         const { data: signed, error } = await supabase.storage
           .from("task-photos")
           .createSignedUrls(paths, 86400);
+        if (cancelled) return;
         if (error) throw error;
         for (const r of signed ?? []) {
           if (r.signedUrl && r.path) {
@@ -136,6 +141,7 @@ const TaskDetail = () => {
               .then(({ data }) => ({ path: p.storage_path, url: data?.signedUrl }))
           )
         );
+        if (cancelled) return;
         for (const r of fallback) {
           if (r.url) {
             urls[r.path] = r.url;
@@ -143,11 +149,13 @@ const TaskDetail = () => {
           }
         }
       }
+      if (cancelled) return;
       if (Object.keys(urls).length > 0) {
         setPhotoUrls((prev) => ({ ...prev, ...urls }));
       }
     };
     if (photos.length > 0) loadUrls();
+    return () => { cancelled = true; };
   }, [photos]);
 
   if (isLoading) return <AppShell title={t("Work Order")}><div className="p-4 space-y-3">{Array.from({ length: 5 }).map((_, i) => <Skeleton key={i} className="h-8" />)}</div></AppShell>;
@@ -236,11 +244,28 @@ const TaskDetail = () => {
   const handleReopen = async () => {
     if (!user) return;
     try {
-      await updateTask.mutateAsync({ id: task.id, status: "in_progress", completed_at: null, verified_at: null, processed_at: null, processed_by: null, reopened_count: (task.reopened_count || 0) + 1 });
+      // L10 wave 17 (2026-06-10): guarded transition + idempotent increment.
+      // Two admins reopening at the same moment would otherwise both
+      // increment reopened_count from the stale render value (both write
+      // N+1, not N+2). Guard ensures only one wins; the other gets a
+      // refresh prompt.
+      await guardedTransition.mutateAsync({
+        id: task.id,
+        expectedStatus: task.status,
+        status: "in_progress",
+        completed_at: null,
+        verified_at: null,
+        processed_at: null,
+        processed_by: null,
+        reopened_count: (task.reopened_count || 0) + 1,
+      });
       await addUpdate.mutateAsync({ task_id: task.id, actor_id: user.id, update_type: "status_change", old_status: task.status, new_status: "in_progress", note: "Work order reopened" });
       toast({ title: t("Work order reopened") });
-    } catch {
-      toast({ title: t("Failed to reopen work order"), variant: "destructive" });
+    } catch (err) {
+      const message = err instanceof Error && err.message.includes("no longer in")
+        ? t("Someone else updated this work order — refresh and try again.")
+        : undefined;
+      toast({ title: t("Failed to reopen work order"), description: message, variant: "destructive" });
     }
   };
 
@@ -257,7 +282,23 @@ const TaskDetail = () => {
       // upload. Maria's iPhone HEIC goes from ~5 MB to ~400 KB on 3G,
       // and GPS coordinates + camera serial in EXIF never leave the
       // device. See src/lib/photo-prep.ts for the rationale.
-      const prepared = await preparePhotoForUpload(file);
+      let prepared;
+      try {
+        prepared = await preparePhotoForUpload(file);
+      } catch (prepErr) {
+        // L10 wave 17 (2026-06-10): photo-prep now THROWS on decode/
+        // encode failure instead of silently returning the raw file with
+        // EXIF intact. Surface as actionable toast.
+        if (prepErr instanceof PhotoPrepError) {
+          toast({
+            title: t("Could not process photo"),
+            description: t("Try a JPEG or PNG instead."),
+            variant: "destructive",
+          });
+          return;
+        }
+        throw prepErr;
+      }
       await uploadPhoto.mutateAsync({ taskId: task.id, propertyId: task.property_id, file: prepared.file, userId: user.id });
       toast({ title: t("Photo uploaded") });
       await bumpStartedIfPending();
@@ -348,8 +389,20 @@ const TaskDetail = () => {
     setBillingNotes("");
   };
 
-  const hkType = task.housekeeping_type as HousekeepingType | null;
-  const dmgClass = task.damage_classification as DamageClassification | null;
+  // L10 wave 17 (2026-06-10): runtime enum guards instead of unchecked
+  // `as` casts. If TRACK ever introduces a new housekeeping_type or
+  // damage_classification value, the LABELS lookup would silently return
+  // undefined and the badge would render blank. Validate before cast.
+  const HK_MAP_FOR_VALIDATION = locale === "es" ? HOUSEKEEPING_TYPE_LABELS_ES : HOUSEKEEPING_TYPE_LABELS;
+  const DMG_MAP_FOR_VALIDATION = locale === "es" ? DAMAGE_CLASSIFICATION_LABELS_ES : DAMAGE_CLASSIFICATION_LABELS;
+  const rawHkType = task.housekeeping_type as string | null | undefined;
+  const rawDmgClass = task.damage_classification as string | null | undefined;
+  const hkType = rawHkType && rawHkType in HK_MAP_FOR_VALIDATION
+    ? (rawHkType as HousekeepingType)
+    : null;
+  const dmgClass = rawDmgClass && rawDmgClass in DMG_MAP_FOR_VALIDATION
+    ? (rawDmgClass as DamageClassification)
+    : null;
 
   return (
     <AppShell title={t("Work Order Detail")}>

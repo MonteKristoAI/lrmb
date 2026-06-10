@@ -49,36 +49,42 @@ async function verifyShareToken(
   const sig = b64UrlDecode(sigB64);
   const ok = await crypto.subtle.verify("HMAC", key, sig, TEXT.encode(payloadB64));
   if (!ok) throw new ShareLinkError("bad_signature", "sig mismatch");
-  let payload: TokenPayload;
+  let rawPayload: unknown;
   try {
-    payload = JSON.parse(new TextDecoder().decode(b64UrlDecode(payloadB64)));
+    rawPayload = JSON.parse(new TextDecoder().decode(b64UrlDecode(payloadB64)));
   } catch {
     throw new ShareLinkError("bad_format", "payload not json");
   }
-  if (payload.v !== 1 && payload.v !== 2) {
-    throw new ShareLinkError("unsupported_version", `v=${(payload as { v: unknown }).v}`);
+  // L10 wave 17 (2026-06-10): runtime typecheck. Even with a valid HMAC
+  // signature an attacker who somehow got the secret could craft a
+  // payload with string-coerced numerics, null fields, array claims, etc.
+  // Validate every field's type before time/aud checks.
+  if (!rawPayload || typeof rawPayload !== "object" || Array.isArray(rawPayload)) {
+    throw new ShareLinkError("bad_format", "payload not object");
+  }
+  const obj = rawPayload as Record<string, unknown>;
+  if (obj.v !== 1 && obj.v !== 2) {
+    throw new ShareLinkError("unsupported_version", `v=${String(obj.v)}`);
+  }
+  if (typeof obj.iat !== "number" || typeof obj.exp !== "number") {
+    throw new ShareLinkError("bad_format", "iat/exp must be numbers");
   }
   const now = Math.floor(Date.now() / 1000);
-  if (payload.iat > now + 60) throw new ShareLinkError("future_iat", "iat in future");
-  if (payload.exp <= now) throw new ShareLinkError("expired", "expired");
+  if (obj.iat > now + 60) throw new ShareLinkError("future_iat", "iat in future");
+  if (obj.exp <= now) throw new ShareLinkError("expired", "expired");
 
-  if (payload.v === 2) {
-    if (!payload.aud || !payload.jti) throw new ShareLinkError("bad_format", "v2 missing aud/jti");
-    // L10 EF-27 (2026-05-29): dropped `ops_overview` from the accept list.
-    // The /track-detail endpoint returns full task PII (description,
-    // blocked_reason, claim_amount, audit_log activity); ops_overview was
-    // intended as an aggregated-metrics-only audience (Tony's weekly
-    // report). Allowing it here let any ops_overview share-link viewer
-    // pivot to detail records by guessing UUIDs. ops_full keeps full
-    // access; ops_detail is the per-record audience.
-    if (payload.aud !== "ops_detail" && payload.aud !== "ops_full") {
-      throw new ShareLinkError("wrong_audience", `aud=${payload.aud}`);
+  if (obj.v === 2) {
+    if (typeof obj.aud !== "string" || typeof obj.jti !== "string") {
+      throw new ShareLinkError("bad_format", "v2 aud/jti must be strings");
     }
-    if (isRevoked && (await isRevoked(payload.jti))) {
+    if (obj.aud !== "ops_detail" && obj.aud !== "ops_full") {
+      throw new ShareLinkError("wrong_audience", `aud=${obj.aud}`);
+    }
+    if (isRevoked && (await isRevoked(obj.jti))) {
       throw new ShareLinkError("revoked", "token revoked");
     }
   }
-  return payload;
+  return obj as unknown as TokenPayload;
 }
 
 Deno.serve(async (req) => {

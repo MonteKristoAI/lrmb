@@ -138,7 +138,22 @@ Deno.serve(async (req) => {
   }
 
   // v5: 1h TTL (was 24h). Reduces blast radius of leaked signed URLs.
-  const { data: signed } = await supabase.storage.from("task-photos").createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
+  // v7 (2026-06-10) L10 wave 17: capture sign error + surface to client
+  // as a soft warning (signed_url_warning). The upload succeeded; the
+  // SPA can still re-sign on demand, but caller should know preview
+  // won't render this round.
+  const { data: signed, error: signErr } = await supabase.storage
+    .from("task-photos")
+    .createSignedUrl(path, SIGNED_URL_TTL_SECONDS);
+  if (signErr) {
+    console.error("photo-upload sign url failed (non-fatal)", signErr);
+  }
 
-  return json(200, { ok: true, path, signed_url: signed?.signedUrl ?? null, detected_mime: kind.mime }, origin);
+  return json(200, {
+    ok: true,
+    path,
+    signed_url: signed?.signedUrl ?? null,
+    signed_url_warning: signErr ? "sign_failed" : undefined,
+    detected_mime: kind.mime,
+  }, origin);
 });

@@ -344,6 +344,11 @@ const translations = {
   "Occupants": { es: "Ocupantes" },
   "Linked work orders": { es: "Ordenes de trabajo vinculadas" },
 
+  // Wave 16-17 race + photo-prep messages
+  "Someone else updated this work order — refresh and try again.": { es: "Alguien mas actualizo esta orden de trabajo — actualiza e intenta de nuevo." },
+  "Could not process photo": { es: "No se pudo procesar la foto" },
+  "Try a JPEG or PNG instead.": { es: "Intenta con un JPEG o PNG." },
+
   // Common
   "Loading...": { es: "Cargando..." },
   "No active work orders assigned.": { es: "No hay ordenes de trabajo activas asignadas." },

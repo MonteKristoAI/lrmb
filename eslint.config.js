@@ -23,4 +23,20 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  // L10 wave 17 (2026-06-10): shadcn/ui vendor files ship with
+  // class-variance-authority `variants` consts alongside the component,
+  // and React contexts (auth, i18n) need to export hooks alongside the
+  // provider. These exports are intentional — disable the fast-refresh
+  // hint for these specific files instead of polluting them with
+  // /* eslint-disable */ headers.
+  {
+    files: [
+      "src/components/ui/**/*.{ts,tsx}",
+      "src/lib/auth.tsx",
+      "src/lib/i18n.tsx",
+    ],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
 );
