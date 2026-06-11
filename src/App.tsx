@@ -20,6 +20,7 @@ const CreateTask = lazy(() => import("./pages/CreateTask"));
 const OpenTasksQueue = lazy(() => import("./pages/OpenTasksQueue"));
 const OverdueQueue = lazy(() => import("./pages/OverdueQueue"));
 const BlockedQueue = lazy(() => import("./pages/BlockedQueue"));
+const UnassignedQueue = lazy(() => import("./pages/UnassignedQueue"));
 const HousekeepingQueue = lazy(() => import("./pages/HousekeepingQueue"));
 const InspectionQueue = lazy(() => import("./pages/InspectionQueue"));
 const InspectionChecklist = lazy(() => import("./pages/InspectionChecklist"));
@@ -75,6 +76,7 @@ const App = () => (
               <Route path="/admin/tasks/open" element={<ProtectedRoute requireAdminAccess><OpenTasksQueue /></ProtectedRoute>} />
               <Route path="/admin/tasks/overdue" element={<ProtectedRoute requireAdminAccess><OverdueQueue /></ProtectedRoute>} />
               <Route path="/admin/tasks/blocked" element={<ProtectedRoute requireAdminAccess><BlockedQueue /></ProtectedRoute>} />
+              <Route path="/admin/tasks/unassigned" element={<ProtectedRoute requireAdminAccess><UnassignedQueue /></ProtectedRoute>} />
               <Route path="/admin/tasks/property/:id" element={<ProtectedRoute requireAdminAccess><PropertyTasks /></ProtectedRoute>} />
               <Route path="/admin/tasks/staff/:id" element={<ProtectedRoute requireAdminAccess><StaffTasks /></ProtectedRoute>} />
               <Route path="/admin/housekeeping" element={<ProtectedRoute requireAdminAccess><HousekeepingQueue /></ProtectedRoute>} />

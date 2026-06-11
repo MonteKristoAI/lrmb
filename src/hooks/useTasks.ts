@@ -372,6 +372,27 @@ export function useTasksByStatus(
   });
 }
 
+// Q3 root-cause fix (2026-06-11): unassigned WOs — neither personally
+// assigned nor routed to a vendor. These never show on any staff home,
+// so admin needs a dedicated queue to triage them.
+export function useUnassignedTasks() {
+  return useQuery({
+    queryKey: ["unassigned_tasks"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("id, title, status, priority, task_category, housekeeping_type, due_at, scheduled_for, started_at, completed_at, created_at, updated_at, external_id, unit_id, property_id, assigned_to, vendor_id, blocked_reason, properties(name, region, zone), units(unit_code, short_name, bedrooms)")
+        .is("assigned_to", null)
+        .is("vendor_id", null)
+        .in("status", ["new", "assigned", "in_progress", "vendor_not_started", "waiting_parts", "blocked"])
+        .order("created_at", { ascending: false })
+        .limit(500);
+      if (error) throw error;
+      return data as (Task & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null; bedrooms: number | null } | null })[];
+    },
+  });
+}
+
 // v32: overdue tasks specifically (due_at < now, not in done states).
 // Done as a direct query so the page renders ALL overdue, not just from a slice.
 export function useOverdueTasks() {

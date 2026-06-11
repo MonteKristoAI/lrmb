@@ -44,6 +44,17 @@ const translations = {
   "Work order reassigned": { es: "Orden de trabajo reasignada" },
   "Failed to reassign work order": { es: "Fallo al reasignar la orden de trabajo" },
 
+  // Q3 root-cause fix (2026-06-11) — Unassigned queue
+  "Unassigned Work Orders": { es: "Ordenes de Trabajo Sin Asignar" },
+  "Needs routing": { es: "Necesita enrutar" },
+  "Assign": { es: "Asignar" },
+  "Assign Work Order": { es: "Asignar Orden de Trabajo" },
+  "Select staff member": { es: "Seleccionar miembro del personal" },
+  "Work order assigned": { es: "Orden de trabajo asignada" },
+  "Failed to assign work order": { es: "Fallo al asignar la orden de trabajo" },
+  "No unassigned work orders.": { es: "No hay ordenes de trabajo sin asignar." },
+  "These work orders have no staff member and no vendor — they won't appear on any staff home until routed.": { es: "Estas ordenes de trabajo no tienen miembro del personal ni proveedor — no apareceran en ninguna pagina del personal hasta ser enrutadas." },
+
   // TaskDetail (L10 wave 7)
   "Work Order": { es: "Orden de Trabajo" },
   "Work Order Detail": { es: "Detalle de Orden de Trabajo" },

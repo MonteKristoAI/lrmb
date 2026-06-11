@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { TaskCard } from "@/components/tasks/TaskCard";
 import { useNavigate } from "react-router-dom";
-import { ClipboardList, AlertTriangle, Ban, Clock, Plus, Timer, Users, MousePointerClick, Truck, Home, Download } from "lucide-react";
+import { ClipboardList, AlertTriangle, Ban, Clock, Plus, Timer, Users, MousePointerClick, Truck, Home, Download, UserX } from "lucide-react";
 import { exportToCSV, tasksToCSV } from "@/lib/csv-export";
 import { Button } from "@/components/ui/button";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ interface AdminBundle {
   open_count: number;
   overdue_count: number;
   blocked_count: number;
+  unassigned_count: number;
   due_today_count: number;
   active_staff_count: number;
   avg_cycle_hours: number;
@@ -66,6 +67,7 @@ const AdminDashboard = () => {
   const openCount = bundle?.open_count ?? 0;
   const overdueCount = bundle?.overdue_count ?? 0;
   const blockedCount = bundle?.blocked_count ?? 0;
+  const unassignedCount = bundle?.unassigned_count ?? 0;
   const dueTodayCount = bundle?.due_today_count ?? 0;
   const activeStaffCount = bundle?.active_staff_count ?? 0;
   const avgCycleHrs = Math.max(0, Math.round(Number(bundle?.avg_cycle_hours ?? 0)));
@@ -105,6 +107,7 @@ const AdminDashboard = () => {
             <StatCard label={t("Open Work Orders")} value={openCount} icon={ClipboardList} color="text-status-assigned" onClick={() => navigate("/admin/tasks/open")} />
             <StatCard label={t("Overdue")} value={overdueCount} icon={AlertTriangle} color="text-destructive" onClick={() => navigate("/admin/tasks/overdue")} />
             <StatCard label={t("Blocked")} value={blockedCount} icon={Ban} color="text-status-blocked" onClick={() => navigate("/admin/tasks/blocked")} />
+            <StatCard label={t("Unassigned")} value={unassignedCount} icon={UserX} color={unassignedCount > 0 ? "text-destructive" : "text-primary"} onClick={() => navigate("/admin/tasks/unassigned")} subtitle={unassignedCount > 0 ? t("Needs routing") : undefined} />
             <StatCard label={t("Due Today")} value={dueTodayCount} icon={Clock} color="text-status-in-progress" />
             <StatCard label={t("Avg Cycle Time")} value={`${avgCycleHrs}h`} icon={Timer} color="text-primary" />
             <StatCard label={t("Admin Touches")} value={adminTouches ?? "—"} icon={MousePointerClick} color="text-primary" subtitle={t("Avg per work order")} />
