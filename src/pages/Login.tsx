@@ -48,7 +48,11 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
-  const from = (location.state as { from?: string })?.from || "/tasks";
+  // v3.0 Wave 1: default to "/" so post-login bounces through RoleHome and
+  // each role lands on their own home (admin/manager -> /admin, supervisor ->
+  // /supervisor/today, else -> /tasks). Was "/tasks" which forced everyone
+  // through the field-staff home regardless of role.
+  const from = (location.state as { from?: string })?.from || "/";
 
   // Countdown tick when locked out.
   useEffect(() => {

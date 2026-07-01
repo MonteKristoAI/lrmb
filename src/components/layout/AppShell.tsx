@@ -9,7 +9,7 @@ import { LogOut, BellRing, BellOff, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
 
-const ROOT_PATHS = ["/tasks", "/admin", "/supervisor", "/tasks/completed"];
+const ROOT_PATHS = ["/tasks", "/admin", "/supervisor", "/supervisor/today", "/tasks/completed"];
 
 export function AppShell({ children, title }: { children: ReactNode; title?: string }) {
   const { profile, signOut } = useAuth();

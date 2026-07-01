@@ -12,6 +12,8 @@ import { OfflineBanner } from "@/components/pwa/OfflineBanner";
 import { lazy, Suspense } from "react";
 
 const Login = lazy(() => import("./pages/Login"));
+const RoleHome = lazy(() => import("./pages/RoleHome"));
+const SupervisorTodayBrief = lazy(() => import("./pages/SupervisorTodayBrief"));
 const MyTasks = lazy(() => import("./pages/MyTasks"));
 const CompletedTasks = lazy(() => import("./pages/CompletedTasks"));
 const TaskDetail = lazy(() => import("./pages/TaskDetail"));
@@ -67,7 +69,8 @@ const App = () => (
               <Route path="/login" element={<Login />} />
               {/* Public read-only leadership view — HMAC-token validated inside the page (no Supabase session) */}
               <Route path="/operations" element={<OperationsOverview />} />
-              <Route path="/" element={<Navigate to="/tasks" replace />} />
+              {/* v3.0 Wave 1: role-based post-login landing. Was <Navigate to="/tasks"/> */}
+              <Route path="/" element={<ProtectedRoute><RoleHome /></ProtectedRoute>} />
               <Route path="/tasks" element={<ProtectedRoute><MyTasks /></ProtectedRoute>} />
               <Route path="/tasks/completed" element={<ProtectedRoute><CompletedTasks /></ProtectedRoute>} />
               <Route path="/tasks/:id" element={<ProtectedRoute><TaskDetail /></ProtectedRoute>} />
@@ -84,6 +87,7 @@ const App = () => (
               <Route path="/admin/vendors" element={<ProtectedRoute requireAdminAccess><VendorManagement /></ProtectedRoute>} />
               <Route path="/inspections/:id" element={<ProtectedRoute><InspectionChecklist /></ProtectedRoute>} />
               <Route path="/supervisor" element={<ProtectedRoute requireSupervisorAccess><SupervisorDashboard /></ProtectedRoute>} />
+              <Route path="/supervisor/today" element={<ProtectedRoute requireSupervisorAccess><SupervisorTodayBrief /></ProtectedRoute>} />
               <Route path="/supervisor/verify" element={<ProtectedRoute requireSupervisorAccess><VerificationQueue /></ProtectedRoute>} />
               <Route path="/supervisor/kpi" element={<ProtectedRoute requireSupervisorAccess><KPIOverview /></ProtectedRoute>} />
               <Route path="/supervisor/staff" element={<ProtectedRoute requireSupervisorAccess><StaffWorkload /></ProtectedRoute>} />
