@@ -32,11 +32,17 @@ const OpenTasksQueue = () => {
     staleTime: 30_000,
   });
 
+  // L10 fix: "priority" sort now orders by priority enum (urgent > high > medium > low).
   const orderByForHook =
-    sort === "priority" ? "created_at" : sort === "due_at" ? "due_at" : "created_at";
+    sort === "priority" ? "priority" : sort === "due_at" ? "due_at" : "created_at";
   const { data: standardOpen = [], isLoading: standardLoading } = useTasksByStatus(
     ["new", "assigned", "in_progress", "vendor_not_started", "waiting_parts", "blocked"],
-    { orderBy: orderByForHook, ascending: sort !== "created_at", limit: 500 },
+    {
+      orderBy: orderByForHook,
+      // priority DESC (urgent first), due_at ASC (soonest first), created_at ASC (oldest first)
+      ascending: sort === "due_at" || sort === "created_at",
+      limit: 500,
+    },
   );
 
   const open = useMemo(() => sort === "smart" ? smartOpen : standardOpen, [sort, smartOpen, standardOpen]);
