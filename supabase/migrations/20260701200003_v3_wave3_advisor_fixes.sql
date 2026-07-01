@@ -1,0 +1,6 @@
+-- v3.0 Wave 3 advisor hygiene:
+-- 1. Recreate v_tasks_ranked with security_invoker=true (fixes ERROR-level SECDEF view advisor)
+-- 2. Enable RLS on task_priority_scores with read policy for authenticated (fixes ERROR-level RLS disabled advisor)
+-- 3. REVOKE EXECUTE FROM PUBLIC on all v3 SECDEF functions (clears anon_security_definer WARNs)
+-- 4. REVOKE SELECT ON new MVs from PUBLIC (frontend reads via RPCs, not direct)
+-- Applied via MCP apply_migration. See v3_wave3_advisor_fixes.
