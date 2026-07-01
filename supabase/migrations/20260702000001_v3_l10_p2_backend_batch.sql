@@ -1,0 +1,26 @@
+-- v3.0 L10 P2/P3 batch (2026-07-02).
+-- See daily/2026-07-01.md and project memory for the audit findings.
+--
+-- P2: my_smart_queue tie-break did not include priority so field staff saw
+--     old stale tasks outrank newer urgent ones at the same score.
+--     Fix: ORDER BY score DESC, priority DESC, due_at ASC, created_at ASC.
+--
+-- P2: task_priority_scores RLS was USING (true), letting any authenticated
+--     user read scores for tasks their tasks-RLS forbids. Reason strings
+--     include VIP status and revenue hints - real leak.
+--     Fix: scope reads to admin OR (my assigned OR my vendor's).
+--
+-- P2: sla_targets had no optimistic locking so two admins editing the same
+--     row overwrote each other silently.
+--     Fix: row_version integer column + BEFORE UPDATE trigger that either
+--     auto-bumps (single-writer case) or raises 40001 (concurrent conflict).
+--
+-- P2: task_priority_scores stale-cache when admin changes priority. Score
+--     stayed at old value until next 2-min cron cycle.
+--     Fix: AFTER INSERT/UPDATE/DELETE trigger on tasks recomputes the row's
+--     score in-place. Cheaper than full refresh, immediate.
+--
+-- P2: p2_health_dropped could not fire for a property's first 30 min of
+--     history because it required a snapshot >=30 min old.
+--     Fix: fall back to the earliest available snapshot as long as it is
+--     >=15 min old.

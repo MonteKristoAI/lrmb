@@ -15,10 +15,26 @@ interface KpiTileProps {
 }
 
 export function KpiTile({ label, value, icon: Icon, color = "text-primary", subtitle, chips, onClick }: KpiTileProps) {
+  // L10 fix: when interactive, expose as button role with keyboard handler so
+  // keyboard-only users can activate the tile and screen readers announce it.
+  const interactiveProps = onClick
+    ? {
+        role: "button" as const,
+        tabIndex: 0,
+        onKeyDown: (e: React.KeyboardEvent) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onClick();
+          }
+        },
+        "aria-label": typeof value === "string" || typeof value === "number" ? `${label}: ${value}` : label,
+      }
+    : {};
   return (
     <Card
-      className={onClick ? "cursor-pointer transition-colors hover:bg-secondary/50 tap-target" : ""}
+      className={onClick ? "cursor-pointer transition-colors hover:bg-secondary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring tap-target" : ""}
       onClick={onClick}
+      {...interactiveProps}
     >
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-2">

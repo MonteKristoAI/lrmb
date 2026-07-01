@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { AppShell } from "@/components/layout/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { useQuery } from "@tanstack/react-query";
@@ -57,7 +57,7 @@ interface SupervisorBrief {
 }
 
 const SupervisorTodayBrief = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const navigate = useNavigate();
 
   const { data: brief, isLoading } = useQuery({
@@ -71,11 +71,18 @@ const SupervisorTodayBrief = () => {
     staleTime: 30_000,
   });
 
-  const dateLabel = useMemo(() => {
-    return new Date().toLocaleDateString("en-US", {
-      weekday: "long", month: "long", day: "numeric", year: "numeric",
-    });
+  // L10 fix: derive date from state that refreshes every minute so the
+  // "Today's Brief" header does not stay on yesterday past midnight.
+  // Locale comes from i18n so Spanish users see the Spanish day name.
+  const [nowTick, setNowTick] = useState(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNowTick(Date.now()), 60_000);
+    return () => clearInterval(id);
   }, []);
+  const dateLabel = new Date(nowTick).toLocaleDateString(
+    locale === "es" ? "es-US" : "en-US",
+    { weekday: "long", month: "long", day: "numeric", year: "numeric" },
+  );
 
   return (
     <AppShell title={t("Today's Brief")}>

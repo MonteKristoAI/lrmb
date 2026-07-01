@@ -21,6 +21,16 @@ interface ExceptionFeedProps {
 
 // v3.0 Wave 3 (2026-07-01): live P1/P2/P3 severity feed on the Command Center.
 // Polls every 15s via parent hook.
+// L10 fix: guard entity_link so a bad row cannot navigate to an external URL.
+// Rows come from mv_operational_exceptions where we always emit /tasks/,
+// /admin/*, but a future rule change could accidentally emit an absolute URL.
+function isSafeInternalPath(link: string | undefined): link is string {
+  if (!link) return false;
+  if (!link.startsWith("/")) return false;
+  if (link.startsWith("//")) return false;
+  return true;
+}
+
 export function ExceptionFeed({ rows, loading }: ExceptionFeedProps) {
   const { t } = useI18n();
   const navigate = useNavigate();
@@ -62,7 +72,7 @@ export function ExceptionFeed({ rows, loading }: ExceptionFeedProps) {
           {rows.map((r) => (
             <button
               key={r.dedupe_key}
-              onClick={() => r.entity_link && navigate(r.entity_link)}
+              onClick={() => { if (isSafeInternalPath(r.entity_link)) navigate(r.entity_link); }}
               className={`w-full text-left p-2.5 rounded-md border transition-colors hover:bg-secondary/50 ${severityColor(r.severity)}`}
             >
               <div className="flex items-start gap-2">

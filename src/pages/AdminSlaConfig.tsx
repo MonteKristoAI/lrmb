@@ -92,9 +92,9 @@ const AdminSlaConfig = () => {
                     const dirty = edit !== undefined;
                     return (
                       <tr key={r.id} className={dirty ? "bg-primary/5" : ""}>
-                        <td className="p-3 font-medium capitalize">{r.task_category}</td>
-                        <td className="p-3 text-muted-foreground">{r.task_type ?? <span className="italic opacity-60">any</span>}</td>
-                        <td className="p-3 text-muted-foreground capitalize">{r.priority ?? <span className="italic opacity-60">any</span>}</td>
+                        <td className="p-3 font-medium capitalize">{t(r.task_category)}</td>
+                        <td className="p-3 text-muted-foreground">{r.task_type ? t(r.task_type) : <span className="italic opacity-60">{t("any")}</span>}</td>
+                        <td className="p-3 text-muted-foreground capitalize">{r.priority ? t(r.priority) : <span className="italic opacity-60">{t("any")}</span>}</td>
                         <td className="p-3">
                           <Input
                             type="number"

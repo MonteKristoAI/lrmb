@@ -41,7 +41,10 @@ export function HealthScoreHero({ score, band, components, history = [] }: Healt
   const strokeWidth = 14;
   const circumference = 2 * Math.PI * radius;
   const halfArc = circumference / 2;
-  const progress = Math.max(0, Math.min(100, score));
+  // L10 fix: guard NaN if partial RPC bundle returns null score. NaN in
+  // strokeDasharray would render nothing and log an SVG attribute error.
+  const safeScore = Number.isFinite(score) ? (score as number) : 0;
+  const progress = Math.max(0, Math.min(100, safeScore));
   const dashArray = `${(progress / 100) * halfArc} ${circumference}`;
 
   return (
@@ -72,7 +75,7 @@ export function HealthScoreHero({ score, band, components, history = [] }: Healt
                 x="100" y="90" textAnchor="middle"
                 fill="#c4bab1" fontSize="42" fontWeight="700"
               >
-                {score}
+                {Number.isFinite(score) ? score : "-"}
               </text>
               <text
                 x="100" y="112" textAnchor="middle"
@@ -122,7 +125,7 @@ export function HealthScoreHero({ score, band, components, history = [] }: Healt
             )}
             <p className="text-[10px] text-muted-foreground text-right mt-1">
               {history.length > 0
-                ? `${history.length} ${t("hourly snapshots")}`
+                ? `${history.length} ${t("snapshots (last 24h)")}`
                 : ""}
             </p>
           </div>
