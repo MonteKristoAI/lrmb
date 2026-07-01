@@ -1,26 +1,25 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
 
 // v3.0 Wave 1/2 (2026-07-01): role-based post-login landing.
-// L10 fix: only wait on auth.loading, not on roles.length. A signed-in user
-// with zero user_roles rows would infinite-load forever otherwise.
-// Also translated the loading string.
+// L10 fix: 4s safety timeout so a signed-in user with zero user_roles
+// rows falls through to /tasks instead of hanging on a spinner. Uses
+// useState so the timer actually triggers a re-render (a useRef flip
+// does not).
 export default function RoleHome() {
-  const { loading, hasAdminAccess, hasRole } = useAuth();
+  const { loading, roles, hasAdminAccess, hasRole } = useAuth();
   const { t } = useI18n();
-  const timeoutFired = useRef(false);
+  const [safetyElapsed, setSafetyElapsed] = useState(false);
 
-  // Safety net: if auth still says loading after 4s, fall through to /tasks
-  // rather than trap the user on a spinner. Real hydration usually completes
-  // in <1s.
   useEffect(() => {
-    const id = setTimeout(() => { timeoutFired.current = true; }, 4000);
+    const id = setTimeout(() => setSafetyElapsed(true), 4000);
     return () => clearTimeout(id);
   }, []);
 
-  if (loading && !timeoutFired.current) {
+  const stillHydrating = (loading || roles.length === 0) && !safetyElapsed;
+  if (stillHydrating) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
         <div className="text-primary text-lg animate-pulse">{t("Loading…")}</div>
