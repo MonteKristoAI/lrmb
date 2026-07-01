@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 
-// v3.0 Wave 1 (2026-07-01): role-based post-login landing.
+// v3.0 Wave 1/2 (2026-07-01): role-based post-login landing.
 // Sits at the root path so a fresh sign-in bounces here first. Reads
 // useAuth() roles and forwards each role to their own home:
-//   admin OR manager -> /admin        (Wave 2 will move to /command-center)
+//   admin OR manager -> /command-center
 //   supervisor       -> /supervisor/today
 //   else             -> /tasks
 // Renders a Loading placeholder until roles hydrate to prevent a brief
@@ -21,7 +21,7 @@ export default function RoleHome() {
   }
 
   if (hasAdminAccess()) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/command-center" replace />;
   }
   if (hasRole("supervisor")) {
     return <Navigate to="/supervisor/today" replace />;

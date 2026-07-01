@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { ClipboardList, LayoutDashboard, ShieldCheck, CheckSquare, LogOut, BellRing, BellOff } from "lucide-react";
+import { ClipboardList, LayoutDashboard, ShieldCheck, CheckSquare, LogOut, BellRing, BellOff, Command, Building2, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { usePushNotifications } from "@/hooks/usePushNotifications";
@@ -22,11 +22,16 @@ export function DesktopSidebar() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const items: NavItem[] = [
-    { label: t("Work Orders"), icon: ClipboardList, path: "/tasks" },
-  ];
+  const items: NavItem[] = [];
+  // v3.0 Wave 2: Command Center goes first for admin/manager since that is their home now
+  if (hasAdminAccess()) {
+    items.push({ label: t("Command Center"), icon: Command, path: "/command-center" });
+  }
+  items.push({ label: t("Work Orders"), icon: ClipboardList, path: "/tasks" });
   if (hasAdminAccess()) {
     items.push({ label: t("Admin"), icon: LayoutDashboard, path: "/admin" });
+    items.push({ label: t("Properties"), icon: Building2, path: "/admin/properties" });
+    items.push({ label: t("SLA Config"), icon: SlidersHorizontal, path: "/admin/sla" });
   }
   if (hasRole("supervisor") || hasRole("manager") || hasRole("admin")) {
     items.push({ label: t("Supervisor"), icon: ShieldCheck, path: "/supervisor" });

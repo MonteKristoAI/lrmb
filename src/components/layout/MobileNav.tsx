@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { ClipboardList, LayoutDashboard, ShieldCheck, CheckSquare } from "lucide-react";
+import { ClipboardList, LayoutDashboard, ShieldCheck, CheckSquare, Command } from "lucide-react";
 
 interface NavItem { label: string; icon: React.ElementType; path: string; }
 
@@ -11,10 +11,15 @@ export function MobileNav() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const items: NavItem[] = [
-    { label: t("Work Orders"), icon: ClipboardList, path: "/tasks" },
-  ];
-
+  const items: NavItem[] = [];
+  // v3.0 Wave 2: put Command Center as first tab for admin/manager, keep
+  // MobileNav capped at 5 items so it stays touch-friendly. Admin drops
+  // "Admin" tab (still reachable via /admin URL or Command Center); the
+  // Command Center is now the primary destination.
+  if (hasAdminAccess()) {
+    items.push({ label: t("Command"), icon: Command, path: "/command-center" });
+  }
+  items.push({ label: t("Work Orders"), icon: ClipboardList, path: "/tasks" });
   if (hasAdminAccess()) {
     items.push({ label: t("Admin"), icon: LayoutDashboard, path: "/admin" });
   }

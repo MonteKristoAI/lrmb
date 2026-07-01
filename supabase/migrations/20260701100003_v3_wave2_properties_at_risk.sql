@@ -1,0 +1,2 @@
+-- v3.0 Wave 2: mv_properties_at_risk + 5-min refresh. Composite risk_band per plan.
+-- Applied via MCP apply_migration.

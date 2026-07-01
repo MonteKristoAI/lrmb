@@ -1,0 +1,2 @@
+-- v3.0 Wave 2: exec_command_center_bundle, health_score_history,
+-- properties_overview_bundle, property_kpis RPCs. Applied via MCP.

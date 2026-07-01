@@ -1,0 +1,2 @@
+-- v3.0 Wave 2: mv_vendor_performance_30d + 15-min refresh + vendor_performance_detail RPC.
+-- Applied via MCP apply_migration.

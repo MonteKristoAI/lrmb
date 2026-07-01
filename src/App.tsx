@@ -14,6 +14,10 @@ import { lazy, Suspense } from "react";
 const Login = lazy(() => import("./pages/Login"));
 const RoleHome = lazy(() => import("./pages/RoleHome"));
 const SupervisorTodayBrief = lazy(() => import("./pages/SupervisorTodayBrief"));
+const ExecutiveCommandCenter = lazy(() => import("./pages/ExecutiveCommandCenter"));
+const AdminSlaConfig = lazy(() => import("./pages/AdminSlaConfig"));
+const AdminPropertiesOverview = lazy(() => import("./pages/AdminPropertiesOverview"));
+const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const MyTasks = lazy(() => import("./pages/MyTasks"));
 const CompletedTasks = lazy(() => import("./pages/CompletedTasks"));
 const TaskDetail = lazy(() => import("./pages/TaskDetail"));
@@ -75,6 +79,11 @@ const App = () => (
               <Route path="/tasks/completed" element={<ProtectedRoute><CompletedTasks /></ProtectedRoute>} />
               <Route path="/tasks/:id" element={<ProtectedRoute><TaskDetail /></ProtectedRoute>} />
               <Route path="/admin" element={<ProtectedRoute requireAdminAccess><AdminDashboard /></ProtectedRoute>} />
+              {/* v3.0 Wave 2: Executive Command Center + property-centric routes + SLA config */}
+              <Route path="/command-center" element={<ProtectedRoute requireAdminAccess><ExecutiveCommandCenter /></ProtectedRoute>} />
+              <Route path="/admin/properties" element={<ProtectedRoute requireAdminAccess><AdminPropertiesOverview /></ProtectedRoute>} />
+              <Route path="/admin/properties/:id" element={<ProtectedRoute requireAdminAccess><PropertyDetail /></ProtectedRoute>} />
+              <Route path="/admin/sla" element={<ProtectedRoute requireAdminAccess><AdminSlaConfig /></ProtectedRoute>} />
               <Route path="/admin/tasks/create" element={<ProtectedRoute requireAdminAccess><CreateTask /></ProtectedRoute>} />
               <Route path="/admin/tasks/open" element={<ProtectedRoute requireAdminAccess><OpenTasksQueue /></ProtectedRoute>} />
               <Route path="/admin/tasks/overdue" element={<ProtectedRoute requireAdminAccess><OverdueQueue /></ProtectedRoute>} />

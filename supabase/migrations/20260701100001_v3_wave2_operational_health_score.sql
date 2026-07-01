@@ -1,0 +1,3 @@
+-- v3.0 Wave 2 (2026-07-01): Operational Health Score + ops_health_snapshots + hourly cron.
+-- Applied via MCP apply_migration. See plan file for weighted formula spec.
+-- File committed for DR parity; MCP is source of truth.
