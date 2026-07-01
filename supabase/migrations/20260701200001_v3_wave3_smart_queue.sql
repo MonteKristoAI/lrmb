@@ -1,0 +1,3 @@
+-- v3.0 Wave 3: smart_queue_score + smart_queue_reason + task_priority_scores +
+-- refresh_task_priority_scores + smart_queue_open + my_smart_queue.
+-- Applied via MCP apply_migration. See plan file for score composition.

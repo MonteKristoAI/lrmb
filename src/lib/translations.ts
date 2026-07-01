@@ -139,6 +139,19 @@ const translations = {
   "Save": { es: "Guardar" },
   "Saving": { es: "Guardando" },
 
+  // v3.0 Wave 3 (2026-07-01) — Smart Queue + Exception Feed + Next Up hero
+  "Live Exceptions": { es: "Excepciones en Vivo" },
+  "Loading exceptions…": { es: "Cargando excepciones…" },
+  "No exceptions in the last hour.": { es: "Sin excepciones en la ultima hora." },
+  "Sort": { es: "Ordenar" },
+  "Smart Queue": { es: "Cola Inteligente" },
+  "Due date": { es: "Fecha limite" },
+  "Newest": { es: "Mas nuevo" },
+  "Next Up": { es: "Siguiente" },
+  "Past due": { es: "Vencido" },
+  "Open work order": { es: "Abrir orden" },
+  "Up next": { es: "Siguientes" },
+
   // TaskDetail (L10 wave 7)
   "Work Order": { es: "Orden de Trabajo" },
   "Work Order Detail": { es: "Detalle de Orden de Trabajo" },

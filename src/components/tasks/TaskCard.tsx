@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatusBadge } from "./StatusBadge";
 import { PriorityBadge } from "./PriorityBadge";
 import type { Task } from "@/types/task";
-import { MapPin, Clock, ChevronRight, User, Bot, Calendar } from "lucide-react";
+import { MapPin, Clock, ChevronRight, User, Bot, Calendar, Zap } from "lucide-react";
 import { isPast, isToday, isTomorrow } from "date-fns";
 import { safeDistance, safeFormat } from "@/lib/utils";
 
@@ -11,9 +11,13 @@ interface TaskUnit { unit_code: string; short_name?: string | null; bedrooms?: n
 interface TaskProperty { name: string; region?: string | null; zone?: string | null }
 interface TaskCardProps {
   task: Task & { properties?: TaskProperty | null; units?: TaskUnit | null };
+  // v3.0 Wave 3: optional Smart Queue score badge with reason tooltip. Only
+  // rendered by OpenTasksQueue / MyTasks when sort=smart is active. Prevents
+  // cluttering the layout in every other list.
+  scoreBadge?: { score: number; reason: string };
 }
 
-export function TaskCard({ task }: TaskCardProps) {
+export function TaskCard({ task, scoreBadge }: TaskCardProps) {
   const navigate = useNavigate();
   const isTerminalStatus = ["cancelled", "completed", "verified", "processed"].includes(task.status);
   const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !isTerminalStatus;
@@ -41,7 +45,18 @@ export function TaskCard({ task }: TaskCardProps) {
     >
       <CardContent className="p-4 flex items-center gap-3">
         <div className="flex-1 min-w-0 space-y-1">
-          <p className="font-medium text-sm text-foreground truncate">{task.title}</p>
+          <div className="flex items-center gap-2">
+            <p className="font-medium text-sm text-foreground truncate flex-1 min-w-0">{task.title}</p>
+            {scoreBadge && (
+              <span
+                title={scoreBadge.reason || "Smart Queue score"}
+                className="text-[10px] font-bold bg-primary/15 text-primary border border-primary/30 px-1.5 py-0.5 rounded flex items-center gap-0.5 shrink-0"
+              >
+                <Zap className="h-2.5 w-2.5" />
+                {scoreBadge.score}
+              </span>
+            )}
+          </div>
           <div className="flex items-center gap-2 flex-wrap">
             <StatusBadge status={task.status} />
             <PriorityBadge priority={task.priority} />

@@ -1,0 +1,5 @@
+-- v3.0 Wave 3: mv_operational_exceptions + 1-min refresh + exception_feed RPC.
+-- P1 detections: unit not ready, VIP arrival with open WO.
+-- P2 detections: vendor SLA missed, property health dropped.
+-- P3 detections: overdue on VIP-tagged unit.
+-- Applied via MCP apply_migration.

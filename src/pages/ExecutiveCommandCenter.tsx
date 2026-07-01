@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { KpiTile } from "@/components/dashboard/KpiTile";
 import { HealthScoreHero } from "@/components/dashboard/HealthScoreHero";
 import { PropertiesAtRiskTable } from "@/components/dashboard/PropertiesAtRiskTable";
+import { ExceptionFeed } from "@/components/dashboard/ExceptionFeed";
 import {
   DollarSign, Building, Star, Repeat, Sparkles, Wrench, TrendingUp, TrendingDown,
 } from "lucide-react";
@@ -68,6 +69,18 @@ const ExecutiveCommandCenter = () => {
     },
     refetchInterval: 5 * 60_000,
     staleTime: 4 * 60_000,
+  });
+
+  // v3.0 Wave 3: live exception feed. Polls every 15s.
+  const { data: exceptions = [], isLoading: exceptionsLoading } = useQuery({
+    queryKey: ["exception_feed"],
+    queryFn: async (): Promise<Array<{ severity: string; title: string; subtitle?: string; entity_type: string; entity_id: string; entity_link?: string; dedupe_key: string; created_at: string }>> => {
+      const { data, error } = await supabase.rpc("exception_feed", { p_limit: 50 });
+      if (error) throw error;
+      return (data ?? []) as Array<{ severity: string; title: string; subtitle?: string; entity_type: string; entity_id: string; entity_link?: string; dedupe_key: string; created_at: string }>;
+    },
+    refetchInterval: 15_000,
+    staleTime: 10_000,
   });
 
   const fmtUsd = (n: number) => `$${(n ?? 0).toLocaleString("en-US", { maximumFractionDigits: 0 })}`;
@@ -158,7 +171,7 @@ const ExecutiveCommandCenter = () => {
           </div>
         )}
 
-        {/* Row 3: VIP arrivals detail + Properties at risk */}
+        {/* Row 3: Properties at Risk (2 cols) + Exception Feed (1 col) */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div className="lg:col-span-2" id="properties-at-risk-table">
             <h3 className="text-sm font-semibold text-foreground mb-2">{t("Properties at Risk")}</h3>
@@ -170,7 +183,19 @@ const ExecutiveCommandCenter = () => {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-foreground mb-2">{t("VIP Watch")}</h3>
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-foreground">{t("Live Exceptions")}</h3>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                {exceptions.length} {t("open")}
+              </span>
+            </div>
+            <ExceptionFeed rows={exceptions} loading={exceptionsLoading} />
+          </div>
+        </div>
+
+        {/* Row 4: VIP watch card */}
+        <div>
+          <h3 className="text-sm font-semibold text-foreground mb-2">{t("VIP Watch")}</h3>
             <Card>
               <CardContent className="p-3 space-y-2">
                 {isLoading ? (
@@ -207,7 +232,6 @@ const ExecutiveCommandCenter = () => {
                 )}
               </CardContent>
             </Card>
-          </div>
         </div>
       </div>
     </AppShell>
