@@ -128,7 +128,7 @@ const translations = {
   "Invalid property URL.": { es: "URL de propiedad invalida." },
   "Back to properties": { es: "Volver a propiedades" },
   "SLA Config": { es: "Configuración SLA" },
-  "Target hours per category/type/priority. Resolver picks the most specific active row.": {
+  "Target hours per category/type/priority. Resolver picks the most specific active row.": { es: "Horas objetivo por categoría/tipo/prioridad. El resolvedor selecciona la fila activa más específica." },
   "Category": { es: "Categoría" },
   "Type": { es: "Tipo" },
   "Priority": { es: "Prioridad" },
