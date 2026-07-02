@@ -1,0 +1,4 @@
+-- F5 photo gate final: SLA push edge fn v5 uses raw Web Crypto (Deno native)
+-- for VAPID JWT + AES-128-GCM RFC 8291 encryption because web-push npm
+-- and jsr:@negrel/webpush both had Deno compatibility issues.
+-- Actual edge fn source lives in supabase/functions/sla-push-fanout/index.ts.
