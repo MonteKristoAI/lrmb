@@ -11,7 +11,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 const ROOT_PATHS = [
   "/tasks", "/admin", "/supervisor", "/supervisor/today", "/tasks/completed",
-  "/command-center", "/admin/properties", "/admin/sla",
+  "/command-center", "/admin/properties", "/admin/sla", "/admin/audit", "/help",
 ];
 
 export function AppShell({ children, title }: { children: ReactNode; title?: string }) {

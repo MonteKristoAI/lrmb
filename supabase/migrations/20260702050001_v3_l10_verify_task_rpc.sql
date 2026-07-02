@@ -1,0 +1,3 @@
+-- F5: verify_task + process_task RPCs so admin/supervisor can transition
+-- completed tasks to verified and processed. Unblocks 25% dead weight in
+-- health score. Full DDL in prod; recreate via consolidated batch.

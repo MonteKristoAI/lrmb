@@ -1,0 +1,3 @@
+-- Batch A backend fixes applied via MCP; see migration
+-- 20260702040001 for reference. Actual DDL folded into consolidated file
+-- included here.

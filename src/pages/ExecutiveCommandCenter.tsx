@@ -29,11 +29,13 @@ interface CommandCenterBundle {
     blocked_wo_count?: number; top_arrivals?: Array<{ unit_code?: string; guest_name?: string; is_vip?: boolean }>;
   }>;
   vip_arrivals_today_count: number;
-  vip_arrivals_today: Array<{ external_id: string; unit_code?: string; guest_name?: string; arrival_time?: string; adr?: number }>;
-  vip_arrivals_tomorrow: Array<{ external_id: string; unit_code?: string; guest_name?: string }>;
+  vip_arrivals_today: Array<{ unit_id?: number; unit_code?: string; guest_name?: string; arrival_time?: string; is_vip?: boolean }>;
+  vip_arrivals_tomorrow: Array<{ unit_id?: number; unit_code?: string; guest_name?: string; arrival_time?: string; is_vip?: boolean }>;
   turnovers_remaining: number;
   housekeeping_completion_pct: number;
+  housekeeping_completion_n?: number;
   maintenance_sla_pct: number;
+  maintenance_sla_n?: number;
   vendor_top3: Array<{ vendor_id: string; vendor_name: string; score: number; on_time_pct: number; task_count: number }>;
   vendor_bottom3: Array<{ vendor_id: string; vendor_name: string; score: number; no_show_pct?: number; task_count: number }>;
   computed_at: string;
@@ -142,31 +144,39 @@ const ExecutiveCommandCenter = () => {
             />
             <KpiTile
               label={t("HK Completion")}
-              value={`${bundle?.housekeeping_completion_pct ?? 0}%`}
+              value={`${Math.round((bundle?.housekeeping_completion_pct ?? 0) * 100)}%`}
               icon={Sparkles}
               color="text-primary"
-              subtitle={t("Today's HK done")}
+              subtitle={`${t("Today's HK done")} (n=${bundle?.housekeeping_completion_n ?? 0})`}
             />
             <KpiTile
               label={t("Maintenance SLA")}
-              value={`${bundle?.maintenance_sla_pct ?? 0}%`}
+              value={`${Math.round((bundle?.maintenance_sla_pct ?? 0) * 100)}%`}
               icon={Wrench}
-              color={(bundle?.maintenance_sla_pct ?? 0) < 80 ? "text-destructive" : "text-primary"}
-              subtitle={t("30-day on-time")}
+              color={(bundle?.maintenance_sla_pct ?? 0) < 0.8 ? "text-destructive" : "text-primary"}
+              subtitle={`${t("90-day on-time")} (n=${bundle?.maintenance_sla_n ?? 0})`}
             />
             <KpiTile
               label={t("Vendor Top")}
-              value={bundle?.vendor_top3?.[0]?.score ?? "—"}
+              value={bundle?.vendor_top3?.[0]?.score ?? "-"}
               icon={TrendingUp}
               color="text-primary"
-              subtitle={bundle?.vendor_top3?.[0]?.vendor_name ?? t("No data")}
+              subtitle={
+                bundle?.vendor_top3?.length
+                  ? bundle.vendor_top3.map((v) => `${v.vendor_name} (${v.score})`).join(", ")
+                  : t("No data")
+              }
             />
             <KpiTile
               label={t("Vendor Bottom")}
-              value={bundle?.vendor_bottom3?.[0]?.score ?? "—"}
+              value={bundle?.vendor_bottom3?.[0]?.score ?? "-"}
               icon={TrendingDown}
               color={(bundle?.vendor_bottom3?.[0]?.score ?? 100) < 60 ? "text-destructive" : "text-muted-foreground"}
-              subtitle={bundle?.vendor_bottom3?.[0]?.vendor_name ?? t("No data")}
+              subtitle={
+                bundle?.vendor_bottom3?.length
+                  ? bundle.vendor_bottom3.map((v) => `${v.vendor_name} (${v.score})`).join(", ")
+                  : t("No data")
+              }
             />
           </div>
         )}
