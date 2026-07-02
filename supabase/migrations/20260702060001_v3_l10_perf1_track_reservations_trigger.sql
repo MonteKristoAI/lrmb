@@ -1,0 +1,5 @@
+-- PERF-1 marker: mv_track_reservations_latest replaced with trigger-maintained
+-- track_reservations_latest_tbl + view (same name). See prod-applied DDL
+-- via supabase_migrations.schema_migrations at 20260702* versions.
+-- Full DDL: reservation_events_project_row(), upsert_track_reservations_latest_from_event(),
+-- reservation_events_upsert_latest_tg trigger, plus view + backfill.

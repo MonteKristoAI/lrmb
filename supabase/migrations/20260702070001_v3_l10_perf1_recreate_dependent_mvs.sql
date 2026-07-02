@@ -1,0 +1,3 @@
+-- PERF-1 dependency recreation: mv_operational_exceptions + mv_properties_at_risk
+-- had to be recreated after mv_track_reservations_latest CASCADE drop. Applied
+-- via MCP; body matches prior definitions with the units.short_name titles.

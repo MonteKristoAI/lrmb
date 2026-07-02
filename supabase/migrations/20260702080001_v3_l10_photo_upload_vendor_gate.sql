@@ -1,0 +1,4 @@
+-- F5: can_write_task_photo gate + task_photos INSERT policy extended to permit
+-- vendor-role uploads (was 100% blocking uploads since 2026-05-29 because
+-- 965/1520 recent tasks are vendor_id-only, no assigned_to).
+-- Also allows supervisor role. Full DDL in prod.

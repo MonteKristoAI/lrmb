@@ -1,0 +1,4 @@
+-- SPRINT-05: sla-push-fanout edge function deployed (v2, verify_jwt=false),
+-- push_config table with VAPID keypair + get_vapid_public_key() SECDEF RPC,
+-- cron sla-push-fanout-dispatch every 3 min via net.http_post.
+-- Applied via MCP.
