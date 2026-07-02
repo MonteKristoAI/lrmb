@@ -2,7 +2,21 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
 
-const VAPID_PUBLIC_KEY = import.meta.env.VITE_VAPID_PUBLIC_KEY as string | undefined;
+// FBE-4 (2026-07-02): fetch VAPID public key from DB at subscribe time so a
+// key rotation via public.push_config takes effect without an FE redeploy.
+// Env var kept as offline fallback for initial page load.
+const VAPID_PUBLIC_KEY_ENV = import.meta.env.VITE_VAPID_PUBLIC_KEY as string | undefined;
+
+async function loadVapidPublicKey(): Promise<string | null> {
+  try {
+    const { data, error } = await supabase.rpc("get_vapid_public_key");
+    if (error) throw error;
+    if (typeof data === "string" && data.length > 0) return data;
+  } catch (e) {
+    console.warn("get_vapid_public_key RPC failed, falling back to env", e);
+  }
+  return VAPID_PUBLIC_KEY_ENV ?? null;
+}
 
 function urlBase64ToUint8Array(base64String: string): Uint8Array {
   const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
@@ -24,8 +38,9 @@ export function usePushNotifications() {
   const [isSupported, setIsSupported] = useState(false);
 
   useEffect(() => {
+    // Optimistic: assume supported if the platform primitives are present.
+    // The subscribe() call will fetch the DB VAPID key; if it fails, subscribe returns false.
     setIsSupported(
-      !!VAPID_PUBLIC_KEY &&
       "serviceWorker" in navigator &&
       "PushManager" in window &&
       "Notification" in window
@@ -43,9 +58,15 @@ export function usePushNotifications() {
   }, [isSupported, user]);
 
   const subscribe = async () => {
-    if (!isSupported || !user || !VAPID_PUBLIC_KEY) return false;
+    if (!isSupported || !user) return false;
 
     try {
+      const vapidKey = await loadVapidPublicKey();
+      if (!vapidKey) {
+        console.error("no VAPID public key available");
+        return false;
+      }
+
       const perm = await Notification.requestPermission();
       setPermission(perm);
       if (perm !== "granted") return false;
@@ -56,7 +77,7 @@ export function usePushNotifications() {
       if (!sub) {
         sub = await reg.pushManager.subscribe({
           userVisibleOnly: true,
-          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+          applicationServerKey: urlBase64ToUint8Array(vapidKey),
         });
       }
 

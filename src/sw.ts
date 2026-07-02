@@ -183,6 +183,37 @@ self.addEventListener("notificationclick", (event) => {
 // from src/lib/auth.tsx whenever signOut() or signIn happens. Without
 // this, user A's NetworkFirst-cached RLS-filtered REST responses can
 // briefly appear on user B's first paint after sign-in.
+// COMP-02 (2026-07-02): also wipe the Workbox bgSync mutation queue on
+// sign-out so User A's queued PATCH with A's bearer token cannot replay
+// under User B on a shared field iPad. IndexedDB store name is
+// `workbox-background-sync` and record queue name is
+// `bgSyncQueue-lrmb-supabase-mutations`.
+async function wipeBgSyncQueue(): Promise<void> {
+  try {
+    // Open the workbox-background-sync IDB db and clear the "requests" store
+    // filtered to our queue name. Cheapest reliable approach: delete the whole
+    // requests store; other queues in the app will re-enqueue on their next
+    // failed attempt if any exist. We only ship one queue right now
+    // ("lrmb-supabase-mutations") so this is safe.
+    await new Promise<void>((resolve) => {
+      const req = indexedDB.open("workbox-background-sync");
+      req.onerror = () => resolve();
+      req.onsuccess = () => {
+        const db = req.result;
+        if (!db.objectStoreNames.contains("requests")) { db.close(); resolve(); return; }
+        const tx = db.transaction("requests", "readwrite");
+        const store = tx.objectStore("requests");
+        const clearReq = store.clear();
+        clearReq.onsuccess = () => { db.close(); resolve(); };
+        clearReq.onerror = () => { db.close(); resolve(); };
+      };
+    });
+  } catch (e) {
+    // best-effort; queue wipe should never block cache wipe
+    console.warn("bgSync queue wipe failed", e);
+  }
+}
+
 self.addEventListener("message", (event) => {
   const data = event.data as { type?: string } | undefined;
   if (data?.type === "lrmb_wipe_supabase_cache") {
@@ -190,6 +221,7 @@ self.addEventListener("message", (event) => {
       Promise.all([
         caches.delete("supabase-api-cache"),
         caches.delete("supabase-storage-cache"),
+        wipeBgSyncQueue(),
       ]),
     );
   }

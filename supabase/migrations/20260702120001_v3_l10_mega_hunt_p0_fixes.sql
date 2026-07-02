@@ -1,0 +1,6 @@
+-- L10 mega-hunt P0 marker: has_admin_or_manager helper, exec/health gates
+-- rebased to strict admin_or_manager (supervisors no longer callable),
+-- smart_queue_score/reason rewritten to use units.track_id direct join
+-- (PERF-M2 fix). SEC-1 gate on sla-push-fanout via x-cron-secret.
+-- SEC-2 REVOKE ALL on sla_push_queue from anon+authenticated.
+-- Full DDL applied via MCP; see prod for the canonical bodies.
