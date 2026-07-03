@@ -31,6 +31,27 @@ interface HealthScoreHeroProps {
 export function HealthScoreHero({ score, band, components, history = [] }: HealthScoreHeroProps) {
   const { t } = useI18n();
 
+  // Cold-start guard: on fresh boot before the first snapshot lands the RPC
+  // returns null/NaN score with no band and no components. Rendering the
+  // red "At Risk" gauge in that state would be a false alarm, so show a
+  // neutral gray "computing" card instead. Matches the sparkline's existing
+  // "Building history…" fallback.
+  const isBooting =
+    (!Number.isFinite(score) || score === null) &&
+    !components &&
+    history.length === 0;
+  if (isBooting) {
+    return (
+      <Card>
+        <CardContent className="p-5">
+          <div className="h-[120px] flex items-center justify-center text-xs text-muted-foreground">
+            {t("No data yet. Health score computing.")}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   const color =
     band === "healthy" ? "#10b981" : band === "watch" ? "#f59e0b" : "#ef4444";
   const bandLabel =

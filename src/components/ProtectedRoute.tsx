@@ -1,5 +1,6 @@
 import { Navigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
+import { useI18n } from "@/lib/i18n";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -11,11 +12,12 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children, requiredRole, requireAdminAccess, requireSupervisorAccess }: ProtectedRouteProps) {
   const { session, loading, hasRole, hasAdminAccess } = useAuth();
   const location = useLocation();
+  const { t } = useI18n();
 
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-background">
-        <div className="text-primary text-lg animate-pulse">Loading…</div>
+        <div className="text-primary text-lg animate-pulse">{t("Loading…")}</div>
       </div>
     );
   }

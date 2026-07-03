@@ -6,8 +6,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 const OverdueQueue = () => {
   const { t } = useI18n();
-  // v32: real overdue query (due_at < now and not in done state).
-  // Was: filtered useAllTasks(500) which missed any overdue task older than the most recent 500.
   const { data: overdue = [], isLoading } = useOverdueTasks();
 
   return (

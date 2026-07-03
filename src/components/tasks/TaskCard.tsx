@@ -6,6 +6,7 @@ import type { Task } from "@/types/task";
 import { MapPin, Clock, ChevronRight, User, Bot, Calendar, Zap } from "lucide-react";
 import { isPast, isToday, isTomorrow } from "date-fns";
 import { safeDistance, safeFormat } from "@/lib/utils";
+import { useI18n } from "@/lib/i18n";
 
 interface TaskUnit { unit_code: string; short_name?: string | null; bedrooms?: number | null }
 interface TaskProperty { name: string; region?: string | null; zone?: string | null }
@@ -19,6 +20,7 @@ interface TaskCardProps {
 
 export function TaskCard({ task, scoreBadge }: TaskCardProps) {
   const navigate = useNavigate();
+  const { t } = useI18n();
   const isTerminalStatus = ["cancelled", "completed", "verified", "processed"].includes(task.status);
   const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !isTerminalStatus;
 
@@ -49,7 +51,7 @@ export function TaskCard({ task, scoreBadge }: TaskCardProps) {
             <p className="font-medium text-sm text-foreground truncate flex-1 min-w-0">{task.title}</p>
             {scoreBadge && (
               <span
-                title={scoreBadge.reason || "Smart Queue score"}
+                title={scoreBadge.reason || t("Smart Queue score")}
                 className="text-[10px] font-bold bg-primary/15 text-primary border border-primary/30 px-1.5 py-0.5 rounded flex items-center gap-0.5 shrink-0"
               >
                 <Zap className="h-2.5 w-2.5" />

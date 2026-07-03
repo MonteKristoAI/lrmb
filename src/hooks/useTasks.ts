@@ -281,26 +281,6 @@ export function useSimilarTasks(propertyId: string | undefined, unitId: string |
   });
 }
 
-// DEPRECATED for KPI aggregation. v32: this hook returns the 500 newest
-// tasks by created_at — useful for "recent activity" lists but MUST NOT be
-// used to compute counts like "Open Tasks" or "Overdue" because the database
-// has 30K+ rows and the slice produces lies.
-// For KPI numbers, use `useDashboardKpis()`. For status-filtered queue pages,
-// use `useTasksByStatus(...)`.
-export function useAllTasks() {
-  return useQuery({
-    queryKey: ["all_tasks"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("tasks")
-        .select("id, title, status, priority, task_category, housekeeping_type, due_at, scheduled_for, started_at, completed_at, created_at, updated_at, external_id, unit_id, property_id, assigned_to, blocked_reason, properties(name, region, zone), units(unit_code, short_name, bedrooms)")
-        .order("created_at", { ascending: false })
-        .limit(500);
-      if (error) throw error;
-      return data as (Task & { properties: { name: string; region: string | null; zone: string | null } | null; units: { unit_code: string; short_name: string | null; bedrooms: number | null } | null })[];
-    },
-  });
-}
 
 // v32: real dashboard KPI counts from materialized view (refreshed every minute).
 // Replaces local-filter aggregates that were lying because they only saw 500 rows.
@@ -509,26 +489,6 @@ export function useAnalyticsStaffWorkload() {
       const { data, error } = await supabase.rpc("analytics_staff_workload");
       if (error) throw error;
       return (data ?? []) as AnalyticsStaffWorkload[];
-    },
-    staleTime: 5 * 60_000,
-    refetchInterval: 5 * 60_000,
-  });
-}
-
-// DEPRECATED — analytics pages now use the per-page RPC hooks above.
-// Kept available with a tighter limit (5K vs 50K) to avoid main-thread block
-// if a caller still references it during migration.
-export function useTasksForAnalytics() {
-  return useQuery({
-    queryKey: ["tasks_for_analytics"],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("tasks")
-        .select("id, status, priority, task_category, assigned_to, due_at, completed_at, created_at, property_id")
-        .order("created_at", { ascending: false })
-        .limit(5000);
-      if (error) throw error;
-      return data ?? [];
     },
     staleTime: 5 * 60_000,
     refetchInterval: 5 * 60_000,
