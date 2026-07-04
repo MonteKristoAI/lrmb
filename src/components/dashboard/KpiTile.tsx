@@ -38,10 +38,22 @@ export function KpiTile({ label, value, icon: Icon, color = "text-primary", subt
     >
       <CardContent className="p-4">
         <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <p className="text-2xl font-bold text-foreground">{value}</p>
-            <p className="text-xs text-muted-foreground mt-0.5">{label}</p>
-            {subtitle && <p className="text-[10px] text-muted-foreground mt-0.5">{subtitle}</p>}
+          <div className="min-w-0 flex-1">
+            <p className="text-2xl font-bold text-foreground leading-tight">{value}</p>
+            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{label}</p>
+            {subtitle && (
+              // v3.0 polish (2026-07-04): line-clamp-2 + title tooltip on subtitle
+              // so vendor lists like "Service Cleaning Pro (75), Lux Handyman (68),
+              // ROD Cleaning Solution Inc (59)" wrap at most 2 lines on narrow tiles
+              // instead of stretching the card 5 lines tall on tablet portrait.
+              // Full text still reachable via hover tooltip.
+              <p
+                className="text-[10px] text-muted-foreground mt-0.5 line-clamp-2 leading-snug"
+                title={subtitle}
+              >
+                {subtitle}
+              </p>
+            )}
           </div>
           <Icon className={`h-5 w-5 shrink-0 ${color}`} />
         </div>

@@ -97,11 +97,11 @@ const PropertyDetail = () => {
         )}
 
         {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
             {Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-20" />)}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
             <KpiTile
               label={t("Health")}
               value={kpis?.risk?.health_score ?? "—"}

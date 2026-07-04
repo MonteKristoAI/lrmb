@@ -71,7 +71,7 @@ export function HealthScoreHero({ score, band, components, history = [] }: Healt
   return (
     <Card>
       <CardContent className="p-5">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
           {/* Gauge */}
           <div className="flex items-center gap-5">
             <svg width="200" height="120" viewBox="0 0 200 120" className="shrink-0">
