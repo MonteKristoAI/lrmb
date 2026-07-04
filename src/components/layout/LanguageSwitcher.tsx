@@ -1,34 +1,115 @@
-import { Globe } from "lucide-react";
+import { Globe, Check } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
-// Small toggle button that flips locale between EN and ES.
-// Before 2026-07-04 the app auto-detected browser locale but had no UI
-// override, so a user whose browser language did not match their working
-// language had no way to switch. Adding the toggle here surfaces the
-// setLocale that useI18n already exposes.
-export function LanguageSwitcher({ className }: { className?: string }) {
+// Full language picker: Globe icon + short language code, opens a dropdown
+// listing every locale with the active one checked. Compact enough to fit
+// in the AppShell header and the DesktopSidebar footer, tall enough to be
+// obviously interactive.
+//
+// Before this, the app auto-detected browser locale but had no in-app
+// override, so a user whose browser reported en-US had no way to see the
+// Spanish accent polish render. `useI18n` already exposed setLocale, this
+// component just puts a visible entry point on it.
+
+const LANGUAGES: Array<{ code: "en" | "es"; label: string; short: string }> = [
+  { code: "en", label: "English", short: "EN" },
+  { code: "es", label: "Español", short: "ES" },
+];
+
+export function LanguageSwitcher({
+  className,
+  variant = "compact",
+}: {
+  className?: string;
+  // "compact" = icon + short code (header/sidebar footer)
+  // "full"    = icon + full language name (settings pages, wider surfaces)
+  variant?: "compact" | "full";
+}) {
   const { locale, setLocale, t } = useI18n();
-  const next = locale === "en" ? "es" : "en";
-  const label = locale === "en" ? "ES" : "EN";
+  const current = LANGUAGES.find((l) => l.code === locale) ?? LANGUAGES[0];
+
   return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setLocale(next)}
-      aria-label={t("Switch language")}
-      title={t("Switch language")}
-      className={"relative h-9 w-9 " + (className ?? "")}
-      data-testid="language-switcher"
-    >
-      <Globe className="h-4 w-4" style={{ color: "#5A5550" }} aria-hidden="true" />
-      <span
-        aria-hidden="true"
-        className="absolute -bottom-0.5 -right-0.5 rounded px-0.5 text-[8px] font-bold leading-none"
-        style={{ color: "#C4BAB1", background: "rgba(8,14,26,0.85)" }}
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="ghost"
+          size={variant === "compact" ? "icon" : "sm"}
+          aria-label={t("Switch language")}
+          title={t("Switch language")}
+          className={
+            (variant === "compact"
+              ? "h-9 w-9 gap-1 px-0"
+              : "h-9 gap-1.5 px-2.5") +
+            " " +
+            (className ?? "")
+          }
+          data-testid="language-switcher"
+        >
+          <Globe
+            className="h-4 w-4 shrink-0"
+            style={{ color: "#C4BAB1" }}
+            aria-hidden="true"
+          />
+          <span
+            className="text-[10px] font-semibold uppercase tracking-wider leading-none"
+            style={{ color: "#C4BAB1" }}
+            aria-hidden="true"
+          >
+            {variant === "compact" ? current.short : current.label}
+          </span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        align="end"
+        sideOffset={6}
+        className="min-w-[10rem]"
+        style={{
+          background: "#0f1524",
+          border: "1px solid rgba(196,186,177,0.16)",
+          color: "#C4BAB1",
+        }}
       >
-        {label}
-      </span>
-    </Button>
+        {LANGUAGES.map((lang) => {
+          const isActive = lang.code === locale;
+          return (
+            <DropdownMenuItem
+              key={lang.code}
+              onSelect={() => setLocale(lang.code)}
+              data-testid={`language-option-${lang.code}`}
+              aria-current={isActive ? "true" : undefined}
+              className="flex items-center justify-between gap-6 cursor-pointer focus:bg-white/5"
+              style={{ color: "#C4BAB1" }}
+            >
+              <span className="flex items-center gap-2">
+                <span
+                  className="text-[10px] font-semibold uppercase tracking-wider"
+                  style={{ color: isActive ? "#c9a84c" : "#7a7570" }}
+                >
+                  {lang.short}
+                </span>
+                <span
+                  className="text-sm"
+                  style={{ color: isActive ? "#C4BAB1" : "#a19a91" }}
+                >
+                  {lang.label}
+                </span>
+              </span>
+              <Check
+                className={"h-4 w-4 shrink-0 " + (isActive ? "opacity-100" : "opacity-0")}
+                style={{ color: "#c9a84c" }}
+                aria-hidden="true"
+              />
+            </DropdownMenuItem>
+          );
+        })}
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }
