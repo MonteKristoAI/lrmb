@@ -1,6 +1,6 @@
 // L10 audit 2026-06-09: the existing track-status-mapper.test.ts holds
 // a STALE inline copy of mapTrackStatus that returns "completed" for
-// cancelled — supabase/functions/track-poll/index.ts at v25 now returns
+// cancelled - supabase/functions/track-poll/index.ts at v25 now returns
 // `null` for cancelled / voided / archived / rejected so the caller can
 // hard-skip the row instead of misclassifying it as completed (which
 // historically made cancelled WOs eligible for billing).
@@ -44,7 +44,7 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string | null 
   return "new";
 }
 
-describe("mapTrackStatus v25 — cancellation returns null (NOT completed)", () => {
+describe("mapTrackStatus v25 - cancellation returns null (NOT completed)", () => {
   it("cancelled => null so caller hard-skips the upsert", () => {
     expect(mapTrackStatus("cancelled")).toBeNull();
     expect(mapTrackStatus("Cancelled")).toBeNull();
@@ -58,7 +58,7 @@ describe("mapTrackStatus v25 — cancellation returns null (NOT completed)", () 
   });
 
   it("negative-prefix antonyms do NOT match cancel/block/start regex", () => {
-    // These should fall through to "new" — they are revived/reopened WOs.
+    // These should fall through to "new" - they are revived/reopened WOs.
     expect(mapTrackStatus("uncancelled")).toBe("new");
     expect(mapTrackStatus("unblocked")).toBe("new");
     expect(mapTrackStatus("approval_unblocked")).toBe("new");
@@ -66,7 +66,7 @@ describe("mapTrackStatus v25 — cancellation returns null (NOT completed)", () 
   });
 });
 
-describe("mapTrackStatus v25 — vendor_not_started precedence", () => {
+describe("mapTrackStatus v25 - vendor_not_started precedence", () => {
   it("'not-started' (TRACK literal v29) => vendor_not_started", () => {
     expect(mapTrackStatus("not-started")).toBe("vendor_not_started");
     expect(mapTrackStatus("not_started")).toBe("vendor_not_started");
@@ -80,7 +80,7 @@ describe("mapTrackStatus v25 — vendor_not_started precedence", () => {
   });
 });
 
-describe("mapTrackStatus v25 — synonym + boundary checks", () => {
+describe("mapTrackStatus v25 - synonym + boundary checks", () => {
   it("in-progress family => in_progress", () => {
     expect(mapTrackStatus("in-progress")).toBe("in_progress");
     expect(mapTrackStatus("in_progress")).toBe("in_progress");
@@ -95,7 +95,7 @@ describe("mapTrackStatus v25 — synonym + boundary checks", () => {
   });
 
   // BUG FIX 2026-06-09 (v26): on-hold now correctly maps to 'blocked'.
-  // The original v25 test surfaced this as a DOCUMENTED GAP — applying
+  // The original v25 test surfaced this as a DOCUMENTED GAP - applying
   // RE_BLOCK to `normalized` (with hyphens stripped) collapsed "on-hold"
   // to "onhold", which then failed the `(?<![a-z])` lookbehind because
   // 'n' precedes 'h'. Fix: apply RE_BLOCK to `t` so the hyphen acts as
@@ -104,7 +104,7 @@ describe("mapTrackStatus v25 — synonym + boundary checks", () => {
   it("v26 FIX: 'on-hold' / 'on_hold' map to 'blocked' via hyphen/underscore boundary", () => {
     expect(mapTrackStatus("on-hold")).toBe("blocked");
     expect(mapTrackStatus("on_hold")).toBe("blocked");
-    // Concatenated "onhold" without any boundary still falls through —
+    // Concatenated "onhold" without any boundary still falls through -
     // there is no boundary between 'on' and 'hold', so RE_BLOCK's
     // (?<![a-z]) correctly rejects. TRACK never sends this literal form.
     expect(mapTrackStatus("onhold")).toBe("new");
@@ -121,7 +121,7 @@ describe("mapTrackStatus v25 — synonym + boundary checks", () => {
   });
 });
 
-describe("mapTrackStatus v25 — unknown tracker", () => {
+describe("mapTrackStatus v25 - unknown tracker", () => {
   it("known fallbacks not logged", () => {
     const tracker = new Set<string>();
     mapTrackStatus("pending", tracker);
@@ -147,7 +147,7 @@ describe("mapTrackStatus v25 — unknown tracker", () => {
   });
 });
 
-describe("mapTrackStatus v25 — empty / nullish input", () => {
+describe("mapTrackStatus v25 - empty / nullish input", () => {
   it("empty string => 'new'", () => {
     expect(mapTrackStatus("")).toBe("new");
   });

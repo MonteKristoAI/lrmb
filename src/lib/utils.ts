@@ -21,17 +21,17 @@ function currentDateLocale() {
   }
 }
 
-// v34: safe date formatters — null/undefined/empty string/Invalid Date all
-// return the fallback instead of throwing "RangeError: Invalid time value".
+// v34: safe date formatters. null, undefined, empty string, and Invalid Date
+// all return the fallback instead of throwing "RangeError: Invalid time value".
 // Use everywhere we render a possibly-null date column from Supabase.
-export function safeFormat(value: string | null | undefined, pattern: string, fallback = "—"): string {
+export function safeFormat(value: string | null | undefined, pattern: string, fallback = "-"): string {
   if (!value) return fallback;
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return fallback;
   try { return format(d, pattern, { locale: currentDateLocale() }); } catch { return fallback; }
 }
 
-export function safeDistance(value: string | null | undefined, fallback = "—"): string {
+export function safeDistance(value: string | null | undefined, fallback = "-"): string {
   if (!value) return fallback;
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return fallback;

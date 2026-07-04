@@ -44,7 +44,7 @@ export function useWorkOrderSubtasks(
   taskCategory: string | null | undefined,
 ) {
   // First read from local cache.
-  // Emma round 4 (2026-05-29): hard gate — only housekeeping WOs carry
+  // Emma round 4 (2026-05-29): hard gate - only housekeeping WOs carry
   // a per-WO checklist. Maintenance + inspection categories don't have
   // one; if upstream TRACK leaks HK items into a maint WO (which it
   // does), we never query for them client-side and the lazy-fetch edge

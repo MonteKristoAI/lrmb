@@ -46,7 +46,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const { t } = useI18n();
 
-  // Single round-trip — replaces 9 separate REST calls.
+  // Single round-trip - replaces 9 separate REST calls.
   const { data: bundle, isLoading: bundleLoading } = useQuery({
     queryKey: ["admin_dashboard_bundle"],
     queryFn: async (): Promise<AdminBundle> => {
@@ -58,7 +58,7 @@ const AdminDashboard = () => {
     staleTime: 30_000,
   });
 
-  // Recent open list — kept separate because it's a list of rows, not a count.
+  // Recent open list - kept separate because it's a list of rows, not a count.
   const { data: recentOpen = [], isLoading: recentLoading } = useTasksByStatus(
     ["new", "assigned", "in_progress", "vendor_not_started", "waiting_parts", "blocked"],
     { orderBy: "due_at", ascending: true, limit: 10 },
@@ -110,7 +110,7 @@ const AdminDashboard = () => {
             <StatCard label={t("Unassigned")} value={unassignedCount} icon={UserX} color={unassignedCount > 0 ? "text-destructive" : "text-primary"} onClick={() => navigate("/admin/tasks/unassigned")} subtitle={unassignedCount > 0 ? t("Needs routing") : undefined} />
             <StatCard label={t("Due Today")} value={dueTodayCount} icon={Clock} color="text-status-in-progress" />
             <StatCard label={t("Avg Cycle Time")} value={`${avgCycleHrs}h`} icon={Timer} color="text-primary" />
-            <StatCard label={t("Admin Touches")} value={adminTouches ?? "—"} icon={MousePointerClick} color="text-primary" subtitle={t("Avg per work order")} />
+            <StatCard label={t("Admin Touches")} value={adminTouches ?? "-"} icon={MousePointerClick} color="text-primary" subtitle={t("Avg per work order")} />
             <StatCard label={t("Active Staff")} value={activeStaffCount} icon={Users} color="text-primary" />
           </div>
         )}

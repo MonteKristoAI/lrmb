@@ -3,7 +3,7 @@
 // Why: Maria-the-HK-lead in Miami uploads completion photos from her iPhone
 // on 3G/EDGE. iPhone HEIC photos are 3-12 MB. At 3G's ~500 kbps that's
 // 30-90 seconds blocking the "Complete" tap. Plus the raw file carries
-// EXIF GPS coordinates + camera serial + owner name — a privacy hazard
+// EXIF GPS coordinates + camera serial + owner name - a privacy hazard
 // every time a signed URL gets screenshotted.
 //
 // Fix: pipe the file through a canvas at max 1920px wide. Re-encode as
@@ -45,7 +45,7 @@ export async function preparePhotoForUpload(input: File): Promise<PreparedPhoto>
   const originalSize = input.size;
   const originalType = input.type || "image/jpeg";
 
-  // Try to decode via Image. HEIC may fail on some browsers — fall back.
+  // Try to decode via Image. HEIC may fail on some browsers - fall back.
   let bitmap: ImageBitmap | HTMLImageElement;
   try {
     if (typeof createImageBitmap === "function") {
@@ -56,7 +56,7 @@ export async function preparePhotoForUpload(input: File): Promise<PreparedPhoto>
   } catch {
     // L10 wave 17 (2026-06-10): decode failure now THROWS instead of
     // silently returning the raw file. The raw HEIC carries EXIF GPS,
-    // device serial, owner name — exactly what the canvas re-encode was
+    // device serial, owner name - exactly what the canvas re-encode was
     // supposed to strip. The wider promise was "EXIF stripped"; that
     // promise must not silently degrade.
     // Caller catches and shows toast: "Could not process photo.
@@ -79,7 +79,7 @@ export async function preparePhotoForUpload(input: File): Promise<PreparedPhoto>
   canvas.height = dstH;
   const ctx = canvas.getContext("2d");
   if (!ctx) {
-    // No canvas context — environment is broken. Same logic as decode
+    // No canvas context - environment is broken. Same logic as decode
     // fail: don't silently return raw file with EXIF intact.
     throw new PhotoPrepError("canvas_context_unavailable", originalType);
   }

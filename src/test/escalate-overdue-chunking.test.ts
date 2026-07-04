@@ -83,7 +83,7 @@ function simulateNotificationGeneration(
   return notifications;
 }
 
-describe("escalate-overdue-tasks — chunked .in() lookup", () => {
+describe("escalate-overdue-tasks - chunked .in() lookup", () => {
   it("100 ids => exactly 1 lookup, all matches recovered", () => {
     const ids = Array.from({ length: 100 }, (_, i) => `task-${i}`);
     const { lookups, alreadyNotified } = simulateAlreadyNotifiedLookup(ids, () => true);
@@ -127,7 +127,7 @@ describe("escalate-overdue-tasks — chunked .in() lookup", () => {
   });
 });
 
-describe("escalate-overdue-tasks — per-admin cap with summary fold", () => {
+describe("escalate-overdue-tasks - per-admin cap with summary fold", () => {
   it("under cap => no summary row", () => {
     const tasks: Task[] = Array.from({ length: 5 }, (_, i) => ({ id: `t${i}`, title: `T${i}` }));
     const notifs = simulateNotificationGeneration(tasks, ["admin-1"], new Set());

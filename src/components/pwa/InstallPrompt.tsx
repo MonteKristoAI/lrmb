@@ -31,7 +31,7 @@ export function InstallPrompt() {
   }, []);
 
   // L10 wave 14 (2026-06-10) a11y P1-8: don't show the banner over admin
-  // forms (CreateTask, OperationsOverview, etc.) — it covers the inputs.
+  // forms (CreateTask, OperationsOverview, etc.) - it covers the inputs.
   // Field-staff routes (/tasks, /inspections) keep the prompt because
   // installation is the whole point on mobile.
   const isAdminRoute = location.pathname.startsWith("/admin") ||

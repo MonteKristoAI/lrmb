@@ -21,7 +21,7 @@ function validateExternalId(raw: unknown): string {
   return s;
 }
 
-describe("validateExternalId — sentinel rejection", () => {
+describe("validateExternalId - sentinel rejection", () => {
   it("rejects null", () => {
     expect(() => validateExternalId(null)).toThrow(/row\.id missing/);
   });
@@ -52,12 +52,12 @@ describe("validateExternalId — sentinel rejection", () => {
   });
 
   it("rejects NaN as a number", () => {
-    // String(NaN) === "NaN" — caught by the sentinel branch.
+    // String(NaN) === "NaN" - caught by the sentinel branch.
     expect(() => validateExternalId(NaN)).toThrow(/row\.id invalid/);
   });
 });
 
-describe("validateExternalId — valid identifiers", () => {
+describe("validateExternalId - valid identifiers", () => {
   it("accepts a normal integer id and stringifies it", () => {
     expect(validateExternalId(32390)).toBe("32390");
   });

@@ -194,7 +194,7 @@ const Login = () => {
             style={{ background: "transparent", border: "1px solid rgba(196,186,177,0.3)", color: "#C4BAB1", borderRadius: "6px", height: "44px" }}
             disabled={magicSending || loading || magicSent}
           >
-            {magicSent ? t("Link sent — check your email") : magicSending ? t("Sending...") : t("Email me a sign-in link")}
+            {magicSent ? t("Link sent. Check your email.") : magicSending ? t("Sending...") : t("Email me a sign-in link")}
           </Button>
 
           {errorMessage && (

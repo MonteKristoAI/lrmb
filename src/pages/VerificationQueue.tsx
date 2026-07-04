@@ -29,7 +29,7 @@ const VerificationQueue = () => {
     if (!user || verifyingId) return;
     setVerifyingId(taskId);
     try {
-      // v33: guarded transition — only verifies if the task is still "completed".
+      // v33: guarded transition - only verifies if the task is still "completed".
       // If someone else verified or reopened it in the meantime, this throws.
       await guardedTransition.mutateAsync({
         id: taskId,

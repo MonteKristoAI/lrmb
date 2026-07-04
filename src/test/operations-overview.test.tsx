@@ -2,7 +2,7 @@
 // bad-signature, network error, loading skeleton, and the happy-path render.
 //
 // We mock `fetch` directly because the page calls the edge function over the
-// network. MSW is not in the project's dep tree — global fetch stub is enough
+// network. MSW is not in the project's dep tree - global fetch stub is enough
 // for this surface.
 
 import { describe, it, expect, beforeEach, vi, afterEach } from "vitest";
@@ -48,7 +48,7 @@ afterEach(() => {
   vi.unstubAllGlobals();
 });
 
-describe("OperationsOverview — loading state", () => {
+describe("OperationsOverview - loading state", () => {
   it("renders the structured skeleton while the fetch is pending", async () => {
     // Mock a fetch that never resolves so the loading state stays mounted
     vi.stubGlobal("fetch", vi.fn(() => new Promise(() => {})));
@@ -63,7 +63,7 @@ describe("OperationsOverview — loading state", () => {
   });
 });
 
-describe("OperationsOverview — error states", () => {
+describe("OperationsOverview - error states", () => {
   it("renders the missing-token error when no ?t= is present", () => {
     renderAt("/operations");
     expect(screen.getByText(/Missing share link token/i)).toBeInTheDocument();
@@ -96,7 +96,7 @@ describe("OperationsOverview — error states", () => {
   it("falls back to a generic error message on an unknown HTTP failure", async () => {
     mockFetchResponse(500, { error: "internal", message: "Boom" });
     renderAt("/operations?t=eyJ.fake");
-    // The page retries unknown errors up to 2 times with backoff — wait longer.
+    // The page retries unknown errors up to 2 times with backoff - wait longer.
     await waitFor(
       () => {
         expect(screen.getByText(/Could not load operations data/i)).toBeInTheDocument();
@@ -106,9 +106,9 @@ describe("OperationsOverview — error states", () => {
   }, 10000);
 });
 
-describe("OperationsOverview — happy path", () => {
+describe("OperationsOverview - happy path", () => {
   // Full payload matching the current track-overview-data edge function shape
-  // (v15+ — includes totals, kpis, propertyList, recentPhotos, damageClaims,
+  // (v15+ - includes totals, kpis, propertyList, recentPhotos, damageClaims,
   // and per-panel *Total counts).
   const successPayload = {
     viewer: "Tony",
@@ -145,13 +145,13 @@ describe("OperationsOverview — happy path", () => {
     },
     housekeeping: {
       scheduledToday: [
-        { id: "uuid-a", title: "Final Clean — TRACK WO #501", status: "new", category: "housekeeping", priority: "medium", housekeepingType: "checkout_clean", unitId: "u-10", unitCode: "1HH 1544", propertyName: "1 Hotel & Homes", externalId: "501", reservationId: null, dueAt: "2026-05-20T13:00:00Z", startedAt: null, completedAt: null, scheduledFor: "2026-05-20T13:00:00Z", blockedReason: null, updatedAt: "2026-05-20T11:55:00Z" },
+        { id: "uuid-a", title: "Final Clean - TRACK WO #501", status: "new", category: "housekeeping", priority: "medium", housekeepingType: "checkout_clean", unitId: "u-10", unitCode: "1HH 1544", propertyName: "1 Hotel & Homes", externalId: "501", reservationId: null, dueAt: "2026-05-20T13:00:00Z", startedAt: null, completedAt: null, scheduledFor: "2026-05-20T13:00:00Z", blockedReason: null, updatedAt: "2026-05-20T11:55:00Z" },
       ],
       scheduledTodayTotal: 1,
       inProgress: [],
       inProgressTotal: 0,
       completedPendingVerify: [
-        { id: "uuid-b", title: "Final Clean — TRACK WO #495", status: "completed", category: "housekeeping", priority: "medium", housekeepingType: "checkout_clean", unitId: "u-09", unitCode: "Setai 705", propertyName: "Setai", externalId: "495", reservationId: null, dueAt: null, startedAt: "2026-05-20T09:00:00Z", completedAt: "2026-05-20T10:30:00Z", scheduledFor: null, blockedReason: null, updatedAt: "2026-05-20T10:30:00Z" },
+        { id: "uuid-b", title: "Final Clean - TRACK WO #495", status: "completed", category: "housekeeping", priority: "medium", housekeepingType: "checkout_clean", unitId: "u-09", unitCode: "Setai 705", propertyName: "Setai", externalId: "495", reservationId: null, dueAt: null, startedAt: "2026-05-20T09:00:00Z", completedAt: "2026-05-20T10:30:00Z", scheduledFor: null, blockedReason: null, updatedAt: "2026-05-20T10:30:00Z" },
       ],
       completedPendingVerifyTotal: 1,
     },

@@ -12,6 +12,22 @@ import { Building, AlertTriangle, Timer, ClipboardList, MapPin, Star } from "luc
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
+// property_kpis RPC returns arrival_time as either a full ISO timestamp
+// ("2026-07-04T21:00:00+00:00") or a naked "HH:MM" clock string, depending on
+// which upstream feed (TRACK vs Streamline) sourced the reservation. Rendering
+// the raw ISO reads as "2026-07-04T21:00:00+00:00" in the UI, so normalize to
+// the guest-facing "H:MM AM/PM" time. Falls back to the raw string if it does
+// not parse (defensive - keeps the info visible rather than blank).
+function formatArrivalTime(raw: string): string {
+  if (/^\d{4}-\d{2}-\d{2}T/.test(raw)) {
+    const d = new Date(raw);
+    if (!Number.isNaN(d.getTime())) {
+      return d.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+    }
+  }
+  return raw;
+}
+
 interface PropertyKpis {
   property: { id: string; name: string; region?: string; zone?: string; address?: string } | null;
   risk: { health_score: number; health_band: string; risk_band: string; vip_arrivals_next_48h: number; arrivals_next_24h: number } | null;
@@ -104,7 +120,7 @@ const PropertyDetail = () => {
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">
             <KpiTile
               label={t("Health")}
-              value={kpis?.risk?.health_score ?? "—"}
+              value={kpis?.risk?.health_score ?? "-"}
               icon={Building}
               color={((kpis?.risk?.health_score ?? 0) < 70) ? "text-destructive" : "text-primary"}
             />
@@ -137,12 +153,12 @@ const PropertyDetail = () => {
               <h3 className="text-sm font-semibold text-foreground mb-2">{t("Arrivals Today")}</h3>
               <div className="space-y-1.5">
                 {kpis.arrivals_today.map((a) => (
-                  <div key={a.external_id} className="flex items-center gap-2 text-sm">
-                    {a.is_vip && <Star className="h-3 w-3 text-primary" />}
-                    <span className="font-medium text-foreground">{a.guest_name || t("Guest")}</span>
-                    <span className="text-xs text-muted-foreground">{a.unit_code}</span>
+                  <div key={a.external_id} className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-sm">
+                    {a.is_vip && <Star className="h-3 w-3 text-primary shrink-0" />}
+                    <span className="font-medium text-foreground min-w-0 break-words">{a.guest_name || t("Guest")}</span>
+                    <span className="text-xs text-muted-foreground whitespace-nowrap">{a.unit_code}</span>
                     {a.arrival_time && (
-                      <span className="text-xs text-muted-foreground ml-auto">{a.arrival_time}</span>
+                      <span className="text-xs text-muted-foreground ml-auto whitespace-nowrap">{formatArrivalTime(a.arrival_time)}</span>
                     )}
                   </div>
                 ))}

@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const fetchProfileAndRoles = async (userId: string): Promise<boolean> => {
-    // v31: harden auth flow — any failure mode in profile or roles fetch
+    // v31: harden auth flow - any failure mode in profile or roles fetch
     // must sign the user out instead of leaving them in a half-authenticated
     // state with stale roles. Previously a profile fetch error silently kept
     // the prior roles, and an inactive profile that errored on fetch would

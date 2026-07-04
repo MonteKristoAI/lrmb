@@ -57,8 +57,16 @@ export function LanguageSwitcher({
             style={{ color: "#C4BAB1" }}
             aria-hidden="true"
           />
+          {/* Sub-380px viewports (older iPhone SE, Android S8/S9) don't have
+              room for the short code alongside the header's other icons - the
+              page title truncates ("Work Order D..."). Hide the code on those
+              widths; the dropdown itself is still the source of truth for the
+              current locale. */}
           <span
-            className="text-[10px] font-semibold uppercase tracking-wider leading-none"
+            className={
+              "text-[10px] font-semibold uppercase tracking-wider leading-none " +
+              (variant === "compact" ? "hidden min-[380px]:inline" : "")
+            }
             style={{ color: "#C4BAB1" }}
             aria-hidden="true"
           >

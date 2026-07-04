@@ -53,7 +53,7 @@ const KPIOverview = () => {
               <CardContent className="p-4 flex items-center gap-3">
                 <MousePointerClick className="h-8 w-8 text-primary shrink-0" />
                 <div>
-                  <p className="text-2xl font-bold text-foreground">{adminTouches ?? "—"}</p>
+                  <p className="text-2xl font-bold text-foreground">{adminTouches ?? "-"}</p>
                   <p className="text-xs text-muted-foreground">{t("Avg Admin Touches / Work Order")}</p>
                   <p className="text-[10px] text-muted-foreground">{t("Target: reduce by 40-60%")}</p>
                 </div>

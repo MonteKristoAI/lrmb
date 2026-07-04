@@ -15,7 +15,7 @@ import { UserPlus } from "lucide-react";
 // Q3 root-cause fix (2026-06-11): unassigned WO queue. Emma 2026-06-11:
 // "I also made two work orders for today and they are not showing up."
 // Root cause: TRACK auto-imports land assigned_to=NULL + vendor_id=NULL.
-// Those WOs never appear on any staff home — admin must route them.
+// Those WOs never appear on any staff home - admin must route them.
 // Surfaced here so the triage step is unmistakable.
 
 const UnassignedQueue = () => {
@@ -71,7 +71,7 @@ const UnassignedQueue = () => {
       <div className="p-4 space-y-3">
         {!isLoading && unassigned.length > 0 && (
           <p className="text-sm text-muted-foreground -mt-1 mb-2">
-            {t("These work orders have no staff member and no vendor — they won't appear on any staff home until routed.")}
+            {t("These work orders have no staff member and no vendor. They won't appear on any staff home until routed.")}
           </p>
         )}
         {isLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (

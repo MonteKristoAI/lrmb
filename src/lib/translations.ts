@@ -100,7 +100,7 @@ const translations = {
   "Work order reassigned": { es: "Orden de trabajo reasignada" },
   "Failed to reassign work order": { es: "Error al reasignar orden de trabajo" },
 
-  // Q3 root-cause fix (2026-06-11) — Unassigned queue
+  // Q3 root-cause fix (2026-06-11) - Unassigned queue
   "Unassigned Work Orders": { es: "Órdenes de Trabajo Sin Asignar" },
   "Needs routing": { es: "Necesita enrutar" },
   "Assign": { es: "Asignar" },
@@ -109,9 +109,9 @@ const translations = {
   "Work order assigned": { es: "Orden de trabajo asignada" },
   "Failed to assign work order": { es: "Fallo al asignar la orden de trabajo" },
   "No unassigned work orders.": { es: "No hay ordenes de trabajo sin asignar." },
-  "These work orders have no staff member and no vendor — they won't appear on any staff home until routed.": { es: "Estas órdenes de trabajo no tienen miembro del personal ni proveedor. No aparecerán en ninguna página del personal hasta ser enrutadas." },
+  "These work orders have no staff member and no vendor. They won't appear on any staff home until routed.": { es: "Estas órdenes de trabajo no tienen miembro del personal ni proveedor. No aparecerán en ninguna página del personal hasta ser enrutadas." },
 
-  // v3.0 Wave 1 (2026-07-01) — Supervisor Today's Brief
+  // v3.0 Wave 1 (2026-07-01) - Supervisor Today's Brief
   "Today's Brief": { es: "Resumen de Hoy" },
   "Live tempo, refreshed every minute": { es: "Ritmo en vivo, actualizado cada minuto" },
   "Good": { es: "Bien" },
@@ -134,7 +134,7 @@ const translations = {
   "Today": { es: "Hoy" },
   "30-day average": { es: "Promedio 30 días" },
 
-  // v3.0 Wave 2 (2026-07-01) — Executive Command Center + property-centric
+  // v3.0 Wave 2 (2026-07-01) - Executive Command Center + property-centric
   "Command Center": { es: "Centro de Mando" },
   "Command": { es: "Mando" },
   "Operational Health": { es: "Salud Operacional" },
@@ -192,7 +192,7 @@ const translations = {
   "Save": { es: "Guardar" },
   "Saving": { es: "Guardando" },
 
-  // v3.0 Wave 3 (2026-07-01) — Smart Queue + Exception Feed + Next Up hero
+  // v3.0 Wave 3 (2026-07-01) - Smart Queue + Exception Feed + Next Up hero
   "Live Exceptions": { es: "Excepciones en Vivo" },
   "Loading exceptions…": { es: "Cargando excepciones…" },
   "No exceptions in the last hour.": { es: "Sin excepciones en la última hora." },
@@ -290,7 +290,7 @@ const translations = {
   "or": { es: "o" },
   "Email me a sign-in link": { es: "Enviame un enlace para iniciar sesión" },
   "Sending...": { es: "Enviando..." },
-  "Link sent — check your email": { es: "Enlace enviado — revisa tu correo" },
+  "Link sent. Check your email.": { es: "Enlace enviado. Revisa tu correo." },
   "Accounts are admin-provisioned. Contact your administrator for access.": { es: "Las cuentas son provisionadas por el admin. Contacta a tu administrador para obtener acceso." },
   "Too many attempts. Try again in": { es: "Demasiados intentos. Intenta de nuevo en" },
   "Enter your email first.": { es: "Ingresa tu correo primero." },
@@ -485,7 +485,7 @@ const translations = {
   "New version available": { es: "Nueva version disponible" },
   "Update": { es: "Actualizar" },
 
-  // Wave 15 — OperationsOverview deep dialogs
+  // Wave 15 - OperationsOverview deep dialogs
   "Could not load detail": { es: "No se pudo cargar el detalle" },
   "Clean": { es: "Limpieza" },
   "Maintenance work order": { es: "Orden de mantenimiento" },
@@ -503,7 +503,7 @@ const translations = {
   "Linked work orders": { es: "Órdenes de trabajo vinculadas" },
 
   // Wave 16-17 race + photo-prep messages
-  "Someone else updated this work order — refresh and try again.": { es: "Alguien más actualizo esta orden de trabajo — actualiza e intenta de nuevo." },
+  "Someone else updated this work order. Refresh and try again.": { es: "Alguien más actualizó esta orden de trabajo. Actualiza e intenta de nuevo." },
   "Could not process photo": { es: "No se pudo procesar la foto" },
   "Try a JPEG or PNG instead.": { es: "Intenta con un JPEG o PNG." },
 

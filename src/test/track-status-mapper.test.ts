@@ -30,7 +30,7 @@ function mapTrackStatus(s: string, unknownTracker?: Set<string>): string {
   return "new";
 }
 
-describe("mapTrackStatus — live-probed TRACK enum", () => {
+describe("mapTrackStatus - live-probed TRACK enum", () => {
   it("maps cancelled -> completed (terminal)", () => {
     expect(mapTrackStatus("cancelled")).toBe("completed");
     expect(mapTrackStatus("Cancelled")).toBe("completed");
@@ -72,7 +72,7 @@ describe("mapTrackStatus — live-probed TRACK enum", () => {
   });
 });
 
-describe("mapTrackStatus — unknown status tracker", () => {
+describe("mapTrackStatus - unknown status tracker", () => {
   it("does not log known fallback statuses as unknown", () => {
     const tracker = new Set<string>();
     mapTrackStatus("pending", tracker);
@@ -91,7 +91,7 @@ describe("mapTrackStatus — unknown status tracker", () => {
   });
 });
 
-describe("mapTrackStatus — synonym coverage", () => {
+describe("mapTrackStatus - synonym coverage", () => {
   it("treats void / archive / reject as terminal completed", () => {
     expect(mapTrackStatus("voided")).toBe("completed");
     expect(mapTrackStatus("archived")).toBe("completed");

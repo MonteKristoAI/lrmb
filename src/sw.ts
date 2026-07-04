@@ -22,10 +22,10 @@ clientsClaim();
 // request body and replays it when the browser regains connectivity.
 //
 // Window: 24h. If she's offline longer than that the queued mutation is
-// dropped (better than firing a stale write — the WO may have moved on).
+// dropped (better than firing a stale write - the WO may have moved on).
 // Max retries handled by the browser's BackgroundSync registration.
 //
-// ─── L10 wave 17 (2026-06-10) — known limitations ───────────────
+// ─── L10 wave 17 (2026-06-10) - known limitations ───────────────
 //
 // 1. JWT EXPIRY: a mutation queued >1h before reconnect will replay with
 //    an expired Bearer header → 401. The browser will surface that as a
@@ -37,12 +37,12 @@ clientsClaim();
 //    terminal state by another admin while her mutation sits in the
 //    queue, the replay will still execute the original update. The
 //    server-side guarded-transition guard (.eq(status, expected)) on
-//    TaskDetail.transition() catches MOST of these — the replay
+//    TaskDetail.transition() catches MOST of these - the replay
 //    returns 0 rows + the SPA is no longer mounted so the user toast
 //    is missed, but no bad write lands.
 //
 // 3. NON-IDEMPOTENT WRITES: photo uploads and audit-log adds are
-//    intentionally NOT queued — they're FormData/multipart through the
+//    intentionally NOT queued - they're FormData/multipart through the
 //    photo-upload edge fn, which sits OUTSIDE /rest/ and is not matched
 //    by the BackgroundSync route. Status transitions ARE queued
 //    (PATCH on /rest/v1/tasks). Re-running a status PATCH is safe
@@ -84,7 +84,7 @@ registerRoute(
   "DELETE",
 );
 
-// Supabase API: network first with 3s timeout (READS only — mutations
+// Supabase API: network first with 3s timeout (READS only - mutations
 // handled above).
 registerRoute(
   ({ url, request }) =>

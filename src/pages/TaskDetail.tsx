@@ -37,7 +37,7 @@ import {
   type DamageClassification,
 } from "@/types/task";
 
-// UUID v4 shape — defensive guard so typo URLs like /tasks/open don't fire
+// UUID v4 shape - defensive guard so typo URLs like /tasks/open don't fire
 // 3 bad-UUID PostgREST queries against tasks / task_updates / task_photos
 // (was generating noise in Supabase logs + showing "Work order not found"
 // instead of a clear "page doesn't exist" cue).
@@ -89,7 +89,7 @@ const TaskDetail = () => {
   // QA Agent B P2-09 (2026-05-29): reset all modal/form state when the
   // active WO changes. Without this, blockReason / noteText / ownerCharges
   // / waitingReason / billingNotes typed into WO #X bleed into WO #Y when
-  // the user navigates between detail pages in the same session — both a
+  // the user navigates between detail pages in the same session - both a
   // PII leak and a wrong-data submit risk (typing a block reason on the
   // wrong WO).
   useEffect(() => {
@@ -168,7 +168,7 @@ const TaskDetail = () => {
   // Emma round 4 (2026-05-29): vendor-membership grants action permission.
   // Previously canAct required task.assigned_to === user.id, which locked
   // out vendor team members on WOs that only had a vendor_id linkage (no
-  // per-person assigned_to). TEST WO #30726 surfaced this — vendor was
+  // per-person assigned_to). TEST WO #30726 surfaced this - vendor was
   // Emma's "Emma Benson CO Test", assigned_to=NULL, status=Assigned, and
   // she had no Photo / Note / Waiting Parts buttons because canAct=false.
   const vendorMember = !!(task.vendor_id && profile?.vendor_id && task.vendor_id === profile.vendor_id);
@@ -207,7 +207,7 @@ const TaskDetail = () => {
       toast({ title: `${t("Work order")} ${t(`status:${newStatus}`)}` });
     } catch (err) {
       const message = err instanceof Error && err.message.includes("no longer in")
-        ? t("Someone else updated this work order — refresh and try again.")
+        ? t("Someone else updated this work order. Refresh and try again.")
         : t("Could not update work order status.");
       toast({ title: t("Action failed"), description: message, variant: "destructive" });
     } finally {
@@ -263,7 +263,7 @@ const TaskDetail = () => {
       toast({ title: t("Work order reopened") });
     } catch (err) {
       const message = err instanceof Error && err.message.includes("no longer in")
-        ? t("Someone else updated this work order — refresh and try again.")
+        ? t("Someone else updated this work order. Refresh and try again.")
         : undefined;
       toast({ title: t("Failed to reopen work order"), description: message, variant: "destructive" });
     }
@@ -311,7 +311,7 @@ const TaskDetail = () => {
 
   // Emma feedback 2026-05-29: every WO starts at "Not Started" (TRACK's
   // not-started maps to vendor_not_started, our default for new rows is
-  // new). First real action — checklist tick OR photo upload — should
+  // new). First real action - checklist tick OR photo upload - should
   // auto-bump the WO to In Progress so the queue tells the team which
   // ones are actually being worked.
   const bumpStartedIfPending = async () => {
@@ -326,7 +326,7 @@ const TaskDetail = () => {
           old_status: task.status,
           new_status: "in_progress",
         });
-      } catch { /* swallow — race / idempotency trigger may reject; UI stays */ }
+      } catch { /* swallow - race / idempotency trigger may reject; UI stays */ }
     }
   };
 
@@ -338,7 +338,7 @@ const TaskDetail = () => {
       toast({ title: t("Photo required"), description: t("Upload at least one photo before completing."), variant: "destructive" });
       return;
     }
-    // L10 audit 2026-06-09 P1-7: requires_note was cosmetic only — dialog
+    // L10 audit 2026-06-09 P1-7: requires_note was cosmetic only - dialog
     // showed a warning, but the Confirm button still fired. Now actually
     // blocks completion when no note exists.
     if (task.requires_note && !updates.some((u) => u.update_type === "note")) {
@@ -405,7 +405,7 @@ const TaskDetail = () => {
     : null;
 
   return (
-    <AppShell title={t("Work Order Detail")}>
+    <AppShell title={t("Work Order")}>
       <div className="p-4 space-y-4 pb-24">
         {/* Header */}
         <div className="space-y-2">
@@ -431,7 +431,7 @@ const TaskDetail = () => {
             )}
             {task.due_at && <span className="flex items-center gap-1"><Clock className="h-3 w-3" />Due {safeFormat(task.due_at, "MMM d, h:mm a")}</span>}
             {/* 2026-05-29 Emma polish: surface scheduled_for (from TRACK
-                scheduledAt). Important for HK shift planning — was missing
+                scheduledAt). Important for HK shift planning - was missing
                 from the detail page entirely. */}
             {task.scheduled_for && <span className="flex items-center gap-1"><Calendar className="h-3 w-3" />Scheduled {safeFormat(task.scheduled_for, "MMM d, h:mm a")}</span>}
             {/* 2026-05-29 Emma polish: surface TRACK timeEstimate (minutes).
@@ -448,11 +448,11 @@ const TaskDetail = () => {
             {/* 2026-05-29 Emma polish: hide redundant "Type: checkout_turnover"
                 for housekeeping. Every HK WO from TRACK is hard-coded to
                 checkout_turnover by track-poll, so the row adds no signal
-                — Category + clean_type_name already cover it. Keep for
+                - Category + clean_type_name already cover it. Keep for
                 maintenance where task_type can vary. */}
             {task.task_type && task.task_category !== "housekeeping" && <span>Type: {task.task_type}</span>}
             {/* 2026-05-29 Emma polish: rename "HK:" prefix to "Clean type:"
-                — "HK" is internal jargon. */}
+                - "HK" is internal jargon. */}
             {hkType && <span>Clean type: {HOUSEKEEPING_TYPE_LABELS[hkType]}</span>}
             {dmgClass && dmgClass !== "unclassified" && <span>Damage: {DAMAGE_CLASSIFICATION_LABELS[dmgClass]}</span>}
           </div>
@@ -533,7 +533,7 @@ const TaskDetail = () => {
             </Button>
             {/* Emma feedback 2026-05-29: Block reserved for admin /
                 supervisor / manager. LRMB policy is that field staff do
-                not block a residence directly — they flag it up and a
+                not block a residence directly - they flag it up and a
                 manager makes the call. hasAdminAccess() covers all three
                 roles (admin, supervisor, manager). */}
             {hasAdminAccess() && (
@@ -542,7 +542,7 @@ const TaskDetail = () => {
               </Button>
             )}
             {/* Emma feedback 2026-05-29: Waiting Parts only applies to
-                maintenance WOs — housekeeping has no parts to wait on. */}
+                maintenance WOs - housekeeping has no parts to wait on. */}
             {task.task_category === "maintenance" && (
               <Button variant="outline" onClick={() => setWaitingOpen(true)} disabled={updateTask.isPending} className="tap-target gap-2 text-status-waiting">
                 <Pause className="h-4 w-4" /> Waiting Parts

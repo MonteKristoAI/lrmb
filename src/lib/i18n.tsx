@@ -13,7 +13,7 @@ const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>(() => {
-    // L10 wave 5 (2026-06-09) — i18n P0-2: auto-detect browser language for
+    // L10 wave 5 (2026-06-09) - i18n P0-2: auto-detect browser language for
     // first-time visitors. Maria-the-HK-lead with es-MX browser used to land
     // on English splash because the only locale signal was localStorage.
     // Explicit user toggle still wins (saved value takes priority).

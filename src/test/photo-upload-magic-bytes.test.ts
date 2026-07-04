@@ -45,14 +45,14 @@ function bytesOf(hex: string): Uint8Array {
   return out;
 }
 
-describe("detectImageKind — accepted image types", () => {
+describe("detectImageKind - accepted image types", () => {
   it("JPEG (FF D8 FF E0 ...)", () => {
     // JFIF header
     const buf = bytesOf("FF D8 FF E0 00 10 4A 46 49 46 00 01");
     expect(detectImageKind(buf)).toEqual({ mime: "image/jpeg", ext: "jpg" });
   });
 
-  it("JPEG (FF D8 FF DB) — EXIF-less variant", () => {
+  it("JPEG (FF D8 FF DB) - EXIF-less variant", () => {
     const buf = bytesOf("FF D8 FF DB 00 84 00 08 06 06 07 06");
     expect(detectImageKind(buf)).toEqual({ mime: "image/jpeg", ext: "jpg" });
   });
@@ -84,7 +84,7 @@ describe("detectImageKind — accepted image types", () => {
   });
 });
 
-describe("detectImageKind — rejected payloads (security gate)", () => {
+describe("detectImageKind - rejected payloads (security gate)", () => {
   it("HTML masquerading as image/jpeg", () => {
     const buf = new TextEncoder().encode("<!DOCTYPE html><html></html>");
     expect(detectImageKind(buf)).toBeNull();
@@ -111,7 +111,7 @@ describe("detectImageKind — rejected payloads (security gate)", () => {
   });
 
   it("ftyp but UNKNOWN brand (e.g. mp4)", () => {
-    // mp4 has ftypisom — not in the allowed brand list.
+    // mp4 has ftypisom - not in the allowed brand list.
     const buf = bytesOf("00 00 00 20 66 74 79 70 69 73 6F 6D");
     expect(detectImageKind(buf)).toBeNull();
   });

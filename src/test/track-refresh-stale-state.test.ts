@@ -4,7 +4,7 @@
 //   - LOCAL_TERMINAL guard: never downgrade processed/verified/completed/cancelled
 //     even if TRACK returns 404 or a different status.
 //   - 404 path on a non-terminal local: status becomes 'cancelled'.
-//   - mapStatusForUpdate is intentionally NARROW — it only returns when TRACK
+//   - mapStatusForUpdate is intentionally NARROW - it only returns when TRACK
 //     reports a terminal status. Any active state returns null so the row gets
 //     its updated_at bumped (leaves stale window) without overwriting status.
 //
@@ -59,7 +59,7 @@ function decide(
   return "status_change";
 }
 
-describe("track-refresh-stale — mapStatusForUpdate (terminal-only)", () => {
+describe("track-refresh-stale - mapStatusForUpdate (terminal-only)", () => {
   it("cancellation family => 'cancelled'", () => {
     expect(mapStatusForUpdate("cancelled")).toBe("cancelled");
     expect(mapStatusForUpdate("voided")).toBe("cancelled");
@@ -73,7 +73,7 @@ describe("track-refresh-stale — mapStatusForUpdate (terminal-only)", () => {
     expect(mapStatusForUpdate("completed")).toBe("completed");
   });
 
-  it("active states => null (deliberately narrow — DON'T overwrite active local state)", () => {
+  it("active states => null (deliberately narrow - DON'T overwrite active local state)", () => {
     expect(mapStatusForUpdate("in_progress")).toBeNull();
     expect(mapStatusForUpdate("assigned")).toBeNull();
     expect(mapStatusForUpdate("on-hold")).toBeNull();
@@ -86,7 +86,7 @@ describe("track-refresh-stale — mapStatusForUpdate (terminal-only)", () => {
   });
 });
 
-describe("track-refresh-stale — 404 state machine", () => {
+describe("track-refresh-stale - 404 state machine", () => {
   it("404 against in_progress local => cancel_row", () => {
     expect(decide(404, "", "in_progress")).toBe("cancel_row");
   });
@@ -112,13 +112,13 @@ describe("track-refresh-stale — 404 state machine", () => {
   });
 });
 
-describe("track-refresh-stale — 200 status reconciliation", () => {
+describe("track-refresh-stale - 200 status reconciliation", () => {
   it("local in_progress + TRACK cancelled => status_change to cancelled", () => {
     expect(decide(200, "cancelled", "in_progress")).toBe("status_change");
   });
 
   it("local in_progress + TRACK in_progress (active) => bump_no_change (narrow mapper)", () => {
-    // mapStatusForUpdate('in_progress') is null — we deliberately don't
+    // mapStatusForUpdate('in_progress') is null - we deliberately don't
     // overwrite an active state. Row just leaves the stale window.
     expect(decide(200, "in_progress", "in_progress")).toBe("bump_no_change");
   });
@@ -147,7 +147,7 @@ describe("track-refresh-stale — 200 status reconciliation", () => {
   });
 });
 
-describe("track-refresh-stale — rate limit + error paths", () => {
+describe("track-refresh-stale - rate limit + error paths", () => {
   it("429 from TRACK => skip_rate_limited (caller flips global flag)", () => {
     expect(decide(429, "", "in_progress")).toBe("skip_rate_limited");
   });
@@ -160,7 +160,7 @@ describe("track-refresh-stale — rate limit + error paths", () => {
     expect(decide(500, "", "in_progress")).toBe("http_error");
   });
 
-  it("403 (auth blip) => http_error (NOT cancel_row — only 404 cancels)", () => {
+  it("403 (auth blip) => http_error (NOT cancel_row - only 404 cancels)", () => {
     expect(decide(403, "", "in_progress")).toBe("http_error");
   });
 });

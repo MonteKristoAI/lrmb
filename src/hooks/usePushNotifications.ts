@@ -113,7 +113,7 @@ export function usePushNotifications() {
       if (sub) {
         await sub.unsubscribe();
         // v34: check delete error before flipping local state. If the DB row still
-        // exists, the server will keep sending pushes — better to know than pretend.
+        // exists, the server will keep sending pushes - better to know than pretend.
         const { error: delErr } = await supabase
           .from("push_subscriptions")
           .delete()

@@ -24,7 +24,7 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
   const showBack = !ROOT_PATHS.includes(location.pathname);
 
   // L10 wave 5 (2026-06-09) a11y: deep-linked landings (push notif click,
-  // share-link viewer) have history.length <= 1 — Back button strands them
+  // share-link viewer) have history.length <= 1 - Back button strands them
   // on about:blank. Fall back to /tasks (the role-home shell decides where).
   const handleBack = () => {
     if (window.history.length <= 1) {

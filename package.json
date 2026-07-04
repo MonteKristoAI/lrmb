@@ -8,10 +8,11 @@
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
+    "lint:no-emdash": "bash scripts/check-no-emdash.sh",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "verify:prod": "npm run lint && npm run test && npm run build && node ./scripts/production-smoke.mjs"
+    "verify:prod": "npm run lint && npm run lint:no-emdash && npm run test && npm run build && node ./scripts/production-smoke.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

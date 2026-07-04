@@ -135,7 +135,7 @@ export function useUpdateTask() {
 
 // v33: guarded status transition. Use this when you know what status the task
 // SHOULD be in before your change applies. Prevents lost updates if two devices
-// race to verify/complete/reopen the same task — only the first one wins.
+// race to verify/complete/reopen the same task - only the first one wins.
 //
 // Throws if the task is no longer in `expectedStatus` (likely because someone
 // else changed it). Caller should refetch + show a "this task was updated by
@@ -154,7 +154,7 @@ export function useGuardedTaskTransition() {
         .select();
       if (error) throw error;
       if (!data || data.length === 0) {
-        throw new Error(`Task is no longer in '${expectedStatus}' state — refresh and try again. Someone else may have updated it.`);
+        throw new Error(`Task is no longer in '${expectedStatus}' state - refresh and try again. Someone else may have updated it.`);
       }
       return data[0];
     },
@@ -352,7 +352,7 @@ export function useTasksByStatus(
   });
 }
 
-// Q3 root-cause fix (2026-06-11): unassigned WOs — neither personally
+// Q3 root-cause fix (2026-06-11): unassigned WOs - neither personally
 // assigned nor routed to a vendor. These never show on any staff home,
 // so admin needs a dedicated queue to triage them.
 export function useUnassignedTasks() {

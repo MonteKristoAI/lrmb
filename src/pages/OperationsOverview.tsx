@@ -180,17 +180,17 @@ function propertyMatchesFilter(item: { propertyName: string | null }, filter: st
   return item.propertyName === filter;
 }
 
-// Safe date formatters — production crashed with "Invalid time value" because
+// Safe date formatters. Production crashed with "Invalid time value" because
 // new Date(null|undefined|"") yields Invalid Date and format()/formatDistanceToNow()
 // then throw a RangeError that takes down the whole modal.
 // Use these everywhere instead of calling format() directly.
-function safeFormat(value: string | null | undefined, pattern: string, fallback = "—"): string {
+function safeFormat(value: string | null | undefined, pattern: string, fallback = "-"): string {
   if (!value) return fallback;
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return fallback;
   try { return format(d, pattern); } catch { return fallback; }
 }
-function safeDistance(value: string | null | undefined, fallback = "—"): string {
+function safeDistance(value: string | null | undefined, fallback = "-"): string {
   if (!value) return fallback;
   const d = new Date(value);
   if (Number.isNaN(d.getTime())) return fallback;
@@ -262,7 +262,7 @@ function occupantsLabel(o: ReservationCard["occupants"]): string {
     const total = Object.values(o).reduce<number>((acc, n) => acc + (typeof n === "number" ? n : 0), 0);
     if (total) return `${total} guest${total === 1 ? "" : "s"}`;
   }
-  return "—";
+  return "-";
 }
 
 function priorityBadge(priority: string) {
@@ -272,7 +272,7 @@ function priorityBadge(priority: string) {
 }
 
 function displayTitle(t: TaskCard): string {
-  // Most TRACK titles are like "Clean - TRACK WO #31451" — replace with human-friendly derived title.
+  // Most TRACK titles are like "Clean - TRACK WO #31451" - replace with human-friendly derived title.
   if (t.category === "housekeeping") {
     const hkLabel = t.housekeepingType ? hkTypeLabel(t.housekeepingType) : "Clean";
     return hkLabel;
@@ -491,7 +491,7 @@ export default function OperationsOverview() {
               />
               <span className="hidden items-center gap-1.5 sm:flex">
                 <Clock className="h-3.5 w-3.5" />
-                <span>{dataUpdatedAt ? safeDistance(new Date(dataUpdatedAt).toISOString()) : "—"}</span>
+                <span>{dataUpdatedAt ? safeDistance(new Date(dataUpdatedAt).toISOString()) : "-"}</span>
               </span>
               <button
                 type="button"
@@ -537,7 +537,7 @@ export default function OperationsOverview() {
           onClear={clearAllFilters}
         />
 
-        {/* KPI STRIP — v16: per-property breakdown when property filter is active.
+        {/* KPI STRIP - v16: per-property breakdown when property filter is active.
             Backend serves a kpisByProperty[] array (sourced from mv_ops_dashboard_kpis_by_property,
             refreshed every 2 minutes) so even week-over-week tiles reflect the filtered property. */}
         <section aria-label="Key metrics">
@@ -557,7 +557,7 @@ export default function OperationsOverview() {
               ?? (propertyFiltered ? filtered.maintenance.open.filter((t) => t.status === "in_progress").length : (data.kpis.maintInProgress ?? 0));
             const maintOverdueNow = perPropertyKpi?.maintOverdue
               ?? (propertyFiltered ? filtered.maintenance.overdue.length : (data.kpis.maintOverdue ?? filtered.maintenance.overdue.length));
-            const labelSuffix = propertyFiltered ? ` — ${propertyFilter}` : "";
+            const labelSuffix = propertyFiltered ? ` - ${propertyFilter}` : "";
 
             return (
               <>
@@ -596,7 +596,7 @@ export default function OperationsOverview() {
                 </div>
                 {propertyFiltered && !perPropertyKpi && (
                   <p className="mt-2 text-xs text-muted-foreground">
-                    Per-property breakdown for <strong className="text-foreground">{propertyFilter}</strong> not in cache yet — showing live counts; week-over-week is portfolio-wide.
+                    Per-property breakdown for <strong className="text-foreground">{propertyFilter}</strong> not in cache yet - showing live counts; week-over-week is portfolio-wide.
                   </p>
                 )}
               </>
@@ -716,7 +716,7 @@ export default function OperationsOverview() {
         </footer>
       </main>
 
-      {/* Drill-down modal — controlled by ?detail=task:UUID or res:ID URL param */}
+      {/* Drill-down modal - controlled by ?detail=task:UUID or res:ID URL param */}
       <DetailModal token={token} detailParam={detailParam} onClose={closeDetail} onOpenDetail={openDetail} />
     </div>
   );
@@ -1006,7 +1006,7 @@ function PhotoGallery({ photos }: { photos: PhotoRow[] }) {
   return (
     <div className="grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
       {(photos ?? []).map((p) => {
-        const tooltip = `${p.task_title ?? ""} — ${p.task_status} — ${p.uploaded_by_name ?? "unknown"}`;
+        const tooltip = `${p.task_title ?? ""} · ${p.task_status} · ${p.uploaded_by_name ?? "unknown"}`;
         const caption = (
           <span className="absolute bottom-0 inset-x-0 truncate bg-gradient-to-t from-black/85 to-transparent px-2 py-1 text-[10px] text-white">
             {p.task_title ?? "Photo"} · {safeDistance(p.uploaded_at)}
@@ -1052,7 +1052,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
   const [newSinceRefresh, setNewSinceRefresh] = useState<string[]>([]);
   useEffect(() => {
     if (isFirstRenderRef.current) {
-      // First render — seed seen set without showing badge
+      // First render - seed seen set without showing badge
       isFirstRenderRef.current = false;
       seenIdsRef.current = new Set(activity.map((a) => a.id));
       return;
@@ -1163,7 +1163,7 @@ function ActivityFeed({ activity, onOpenDetail }: { activity: ActivityRow[]; onO
               type="button"
               onClick={dismissNewBadge}
               className="inline-flex items-center gap-1.5 rounded-full border border-accent/40 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-accent hover:bg-accent/15 transition"
-              aria-label={`${newSinceRefresh.length} new event${newSinceRefresh.length === 1 ? "" : "s"} since last refresh — click to dismiss`}
+              aria-label={`${newSinceRefresh.length} new event${newSinceRefresh.length === 1 ? "" : "s"} since last refresh - click to dismiss`}
             >
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-60" aria-hidden="true"></span>
@@ -1327,7 +1327,7 @@ function DamageClaimsTable({ claims }: { claims: { total: number; overdue: numbe
                     {c.deadline_status === "overdue" && <Badge variant="destructive" className="text-[10px]">Overdue</Badge>}
                     {c.deadline_status === "urgent" && <Badge className="bg-amber-500 text-white text-[10px]">Urgent</Badge>}
                     {c.deadline_status === "approaching" && <Badge variant="secondary" className="text-[10px]">Approaching</Badge>}
-                    {c.deadline_status === "fine" && <span className="text-muted-foreground">—</span>}
+                    {c.deadline_status === "fine" && <span className="text-muted-foreground">-</span>}
                     {c.hours_to_deadline != null && (
                       <span className="ml-2 text-muted-foreground tabular-nums">
                         {Math.abs(c.hours_to_deadline) < 48 ? `${Math.round(c.hours_to_deadline)}h` : `${Math.round(c.hours_to_deadline / 24)}d`}
@@ -1335,12 +1335,12 @@ function DamageClaimsTable({ claims }: { claims: { total: number; overdue: numbe
                     )}
                   </td>
                   <td className="py-2 pr-3">
-                    <div className="font-medium">{c.property ?? "—"}</div>
+                    <div className="font-medium">{c.property ?? "-"}</div>
                     {c.unit_code && <div className="text-muted-foreground text-[11px]">{c.unit_code}</div>}
                   </td>
                   <td className="py-2 pr-3 max-w-md truncate">{c.title}</td>
                   <td className="py-2 pr-3">{c.claim_status ?? "pending"}</td>
-                  <td className="py-2 pr-3 text-right tabular-nums">{c.claim_filed_amount != null ? `$${c.claim_filed_amount.toLocaleString()}` : "—"}</td>
+                  <td className="py-2 pr-3 text-right tabular-nums">{c.claim_filed_amount != null ? `$${c.claim_filed_amount.toLocaleString()}` : "-"}</td>
                 </tr>
               ))}
             </tbody>
@@ -1368,7 +1368,7 @@ function EmptyState({ message, icon: Icon = CheckCircle2, hint }: { message: str
 function LoadingState() {
   return (
     <div className="min-h-screen bg-background">
-      {/* Header skeleton — mirror real header so transition to data is seamless */}
+      {/* Header skeleton - mirror real header so transition to data is seamless */}
       <header className="sticky top-0 z-30 border-b border-border bg-card/95 backdrop-blur">
         <div className="mx-auto max-w-screen-2xl px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -1771,7 +1771,7 @@ function ReservationDetailView({ payload, onOpenDetail }: { payload: ResDetailPa
                 ? "Inspection"
                 : t.housekeeping_type
                   ? hkTypeLabel(t.housekeeping_type)
-                  : (t.title ?? "—");
+                  : (t.title ?? "-");
               return (
                 <li key={t.id}>
                   <button

@@ -6,7 +6,7 @@ import type { Database } from "@/integrations/supabase/types";
 type InspectionUpdate = Database["public"]["Tables"]["inspections"]["Update"];
 
 // QA P1 Q-PERF-4: explicit column lists + page cap.
-// L10 BUG-002 (2026-05-29): dropped `started_at` — column was never in
+// L10 BUG-002 (2026-05-29): dropped `started_at` - column was never in
 // public.inspections (verified via information_schema). Every list +
 // detail load was throwing PostgREST 400. inspection_type / score /
 // flagged_items / photo_compliance_pct are the real timestamps-adjacent

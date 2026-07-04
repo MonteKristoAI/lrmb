@@ -25,7 +25,7 @@ export function TaskCard({ task, scoreBadge }: TaskCardProps) {
   const isOverdue = task.due_at && isPast(new Date(task.due_at)) && !isTerminalStatus;
 
   // Emma 2026-06-09 feedback: "we don't know what day things are scheduled
-  // or if It is past due" — surface scheduled_for on the card. TRACK
+  // or if It is past due" - surface scheduled_for on the card. TRACK
   // populates this for HK WOs (Final Clean, Inspection, etc.) more often
   // than due_at, so for many cards this will be the only timing signal.
   const scheduledDate = task.scheduled_for ? new Date(task.scheduled_for) : null;
