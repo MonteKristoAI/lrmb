@@ -105,16 +105,18 @@ const AdminPropertiesOverview = () => {
                           </Badge>
                         )}
                       </div>
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground mt-1">
-                        <span>{t("Health")}: <span className="text-foreground font-semibold">{p.health_score}</span></span>
-                        <span>{p.active_wo_count} {t("active WO")}</span>
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-0.5 text-xs text-muted-foreground mt-1">
+                        <span className="whitespace-nowrap">
+                          {t("Health")}: <span className="text-foreground font-semibold">{p.health_score}</span>
+                        </span>
+                        <span className="whitespace-nowrap">{p.active_wo_count} {t("active WO")}</span>
                         {p.overdue_wo_count > 0 && (
-                          <span className="text-destructive flex items-center gap-1">
-                            <AlertTriangle className="h-3 w-3" />
+                          <span className="text-destructive flex items-center gap-1 whitespace-nowrap">
+                            <AlertTriangle className="h-3 w-3 shrink-0" />
                             {p.overdue_wo_count} {t("overdue")}
                           </span>
                         )}
-                        <span>{p.arrivals_next_24h} {t("arriving 24h")}</span>
+                        <span className="whitespace-nowrap">{p.arrivals_next_24h} {t("arriving 24h")}</span>
                       </div>
                     </div>
                     <ChevronRight className="h-4 w-4 text-muted-foreground shrink-0" />

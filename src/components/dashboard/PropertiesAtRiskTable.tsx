@@ -58,23 +58,32 @@ export function PropertiesAtRiskTable({ rows }: PropertiesAtRiskTableProps) {
             >
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <p className="font-medium text-foreground truncate">{r.property_name}</p>
-                  <Badge variant="outline" className={`text-[10px] uppercase tracking-wider ${bandColor(r.risk_band)}`}>
+                  <p className="font-medium text-foreground truncate min-w-0">{r.property_name}</p>
+                  <Badge variant="outline" className={`text-[10px] uppercase tracking-wider shrink-0 ${bandColor(r.risk_band)}`}>
                     {r.risk_band === "critical" ? t("Critical") : r.risk_band === "at_risk" ? t("At Risk") : r.risk_band === "watch" ? t("Watch") : t("Healthy")}
                   </Badge>
                   {r.vip_arrivals_next_48h > 0 && (
-                    <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/30">
+                    <Badge variant="outline" className="text-[10px] bg-primary/10 text-primary border-primary/30 shrink-0">
                       <Star className="h-2.5 w-2.5 mr-1" />
                       {r.vip_arrivals_next_48h} {t("VIP")}
                     </Badge>
                   )}
                 </div>
-                <div className="flex items-center gap-3 text-xs text-muted-foreground mt-1">
-                  <span>{t("Health")}: <span className="font-semibold text-foreground">{r.health_score}</span></span>
-                  <span>{r.arrivals_next_24h} {t("arriving 24h")}</span>
+                {/* flex-wrap + gap-x-3 gap-y-0.5 keeps each metric as an
+                    unbreakable pill on narrow viewports (whitespace-nowrap on
+                    each span). At 320px the three metrics wrap to a second
+                    line as complete units instead of mid-span line breaks like
+                    "7 arriving / 24h" and "568 / overdue". */}
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-muted-foreground mt-1">
+                  <span className="whitespace-nowrap">
+                    {t("Health")}: <span className="font-semibold text-foreground">{r.health_score}</span>
+                  </span>
+                  <span className="whitespace-nowrap">
+                    {r.arrivals_next_24h} {t("arriving 24h")}
+                  </span>
                   {r.overdue_wo_count > 0 && (
-                    <span className="text-destructive flex items-center gap-1">
-                      <AlertTriangle className="h-3 w-3" />
+                    <span className="text-destructive flex items-center gap-1 whitespace-nowrap">
+                      <AlertTriangle className="h-3 w-3 shrink-0" />
                       {r.overdue_wo_count} {t("overdue")}
                     </span>
                   )}
