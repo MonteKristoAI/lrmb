@@ -133,7 +133,7 @@ const InspectionChecklist = () => {
                           {item.required && <span className="text-destructive"> *</span>}
                           {item.min_photos && item.min_photos > 0 && <span className="text-xs text-muted-foreground ml-1">({item.min_photos} {t("photos")})</span>}
                         </p>
-                        {flagged && <span className="text-xs text-destructive flex items-center gap-1 mt-1"><AlertTriangle className="h-3 w-3" />{t("Flagged")}</span>}
+                        {flagged && <span className="text-xs text-red-400 flex items-center gap-1 mt-1"><AlertTriangle className="h-3 w-3" />{t("Flagged")}</span>}
                       </div>
                     </div>
                     {!passed && !flagged && (

@@ -68,7 +68,7 @@ const PropertyDetail = () => {
   }
 
   const bandColor = (b: string) =>
-    b === "critical" ? "bg-red-500/20 text-red-500 border-red-500/40"
+    b === "critical" ? "bg-red-500/20 text-red-400 border-red-500/40"
     : b === "at_risk" ? "bg-orange-500/15 text-orange-500 border-orange-500/30"
     : b === "watch" ? "bg-amber-500/15 text-amber-500 border-amber-500/30"
     : "bg-green-500/15 text-green-500 border-green-500/30";

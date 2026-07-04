@@ -124,8 +124,8 @@ const VendorManagement = () => {
                       </Badge>
                     )}
                     {/* QA Agent A P2 (2026-05-29): bump tap target to >=44px */}
-                    <Button variant="ghost" size="sm" onClick={() => openEdit(v)} className="min-h-11 min-w-11">
-                      <Edit2 className="h-4 w-4" />
+                    <Button variant="ghost" size="sm" onClick={() => openEdit(v)} className="min-h-11 min-w-11" aria-label={`${t("Edit")} ${v.name}`}>
+                      <Edit2 className="h-4 w-4" aria-hidden="true" />
                     </Button>
                   </div>
                 </div>
@@ -145,8 +145,8 @@ const VendorManagement = () => {
                   <div key={v.id} className="rounded-lg border border-border bg-card/50 p-4 opacity-60">
                     <div className="flex items-center justify-between">
                       <span className="font-medium">{v.name}</span>
-                      <Button variant="ghost" size="sm" onClick={() => openEdit(v)} className="min-h-11 min-w-11">
-                        <Edit2 className="h-4 w-4" />
+                      <Button variant="ghost" size="sm" onClick={() => openEdit(v)} className="min-h-11 min-w-11" aria-label={`${t("Edit")} ${v.name}`}>
+                        <Edit2 className="h-4 w-4" aria-hidden="true" />
                       </Button>
                     </div>
                   </div>
@@ -186,7 +186,7 @@ const VendorManagement = () => {
               <div className="space-y-2">
                 <Label>{t("Specialty")}</Label>
                 <Select value={form.specialty} onValueChange={(v) => set("specialty", v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger aria-label={t("Specialty")}><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="housekeeping">{t("Housekeeping")}</SelectItem>
                     <SelectItem value="maintenance">{t("Maintenance")}</SelectItem>
@@ -202,7 +202,7 @@ const VendorManagement = () => {
               <div className="space-y-2">
                 <Label>{t("Payment Method")}</Label>
                 <Select value={form.payment_method} onValueChange={(v) => set("payment_method", v)}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger aria-label={t("Payment Method")}><SelectValue /></SelectTrigger>
                   <SelectContent>
                     <SelectItem value="square">Square</SelectItem>
                     <SelectItem value="invoice">{t("Invoice")}</SelectItem>
@@ -219,7 +219,7 @@ const VendorManagement = () => {
             </div>
             <div className="flex items-center justify-between py-2">
               <Label>{t("Active")}</Label>
-              <Switch checked={form.active} onCheckedChange={(v) => set("active", v)} />
+              <Switch checked={form.active} onCheckedChange={(v) => set("active", v)} aria-label={t("Active")} />
             </div>
           </div>
           <DialogFooter>

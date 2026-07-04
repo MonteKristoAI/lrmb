@@ -76,7 +76,7 @@ export function NextUpHero({ task }: NextUpHeroProps) {
             </span>
           )}
           {scheduledLabel && (
-            <span className={`flex items-center gap-1.5 ${isScheduledPast ? "text-destructive font-medium" : ""}`}>
+            <span className={`flex items-center gap-1.5 ${isScheduledPast ? "text-red-400 font-medium" : ""}`}>
               <Calendar className="h-3.5 w-3.5" />
               {isScheduledPast ? `${t("Past due")} ` : ""}{scheduledLabel}
             </span>

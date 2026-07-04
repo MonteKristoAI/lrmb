@@ -69,7 +69,7 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
             )}
             <div className="min-w-0">
               <h1 className="text-sm font-semibold truncate" style={{ color: "#C4BAB1" }}>{title || "LRMB Ops"}</h1>
-              <p className="text-[10px] truncate" style={{ color: "#5A5550" }}>{profile?.full_name || ""}</p>
+              <p className="text-[10px] truncate" style={{ color: "#8B8680" }}>{profile?.full_name || ""}</p>
             </div>
           </div>
           <div className="flex items-center gap-0.5">

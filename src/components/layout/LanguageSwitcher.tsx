@@ -98,7 +98,7 @@ export function LanguageSwitcher({
               <span className="flex items-center gap-2">
                 <span
                   className="text-[10px] font-semibold uppercase tracking-wider"
-                  style={{ color: isActive ? "#c9a84c" : "#7a7570" }}
+                  style={{ color: isActive ? "#c9a84c" : "#8B8680" }}
                 >
                   {lang.short}
                 </span>

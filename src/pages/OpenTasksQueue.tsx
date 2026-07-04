@@ -112,7 +112,7 @@ const OpenTasksQueue = () => {
           <div className="flex items-center gap-2">
             <span className="text-xs text-muted-foreground">{t("Sort")}:</span>
             <Select value={sort} onValueChange={(v) => setSort(v as SortMode)}>
-              <SelectTrigger className="h-8 w-40 text-xs">
+              <SelectTrigger className="h-8 w-40 text-xs" aria-label={t("Sort")}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>

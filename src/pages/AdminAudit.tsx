@@ -69,7 +69,7 @@ export default function AdminAudit() {
             <div className="flex-1 min-w-40">
               <label className="text-xs text-muted-foreground">{t("Entity type")}</label>
               <Select value={entityType || "any"} onValueChange={(v) => setEntityType(v === "any" ? "" : v)}>
-                <SelectTrigger><SelectValue placeholder={t("any")} /></SelectTrigger>
+                <SelectTrigger aria-label={t("Entity type")}><SelectValue placeholder={t("any")} /></SelectTrigger>
                 <SelectContent>
                   <SelectItem value="any">{t("any")}</SelectItem>
                   <SelectItem value="task">{t("task")}</SelectItem>
@@ -83,11 +83,11 @@ export default function AdminAudit() {
             </div>
             <div className="flex-1 min-w-40">
               <label className="text-xs text-muted-foreground">{t("Entity ID")}</label>
-              <Input value={entityId} onChange={(e) => setEntityId(e.target.value)} placeholder="UUID" />
+              <Input value={entityId} onChange={(e) => setEntityId(e.target.value)} placeholder="UUID" aria-label={t("Entity ID")} />
             </div>
             <div className="w-24">
               <label className="text-xs text-muted-foreground">{t("Limit")}</label>
-              <Input type="number" value={limit} onChange={(e) => setLimit(Number(e.target.value) || 200)} />
+              <Input type="number" value={limit} onChange={(e) => setLimit(Number(e.target.value) || 200)} aria-label={t("Limit")} />
             </div>
             <Button variant="outline" onClick={downloadCsv} disabled={rows.length === 0}>
               <Download className="h-4 w-4 mr-1" />
@@ -98,7 +98,7 @@ export default function AdminAudit() {
 
         <Card>
           <CardContent className="p-0">
-            <div className="max-h-[70vh] overflow-y-auto">
+            <div className="max-h-[70vh] overflow-y-auto" tabIndex={0} role="region" aria-label={t("Audit log")}>
               <table className="w-full text-sm">
                 <thead className="bg-muted/50 sticky top-0">
                   <tr>

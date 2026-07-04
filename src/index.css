@@ -26,13 +26,22 @@
     --secondary-foreground: 30 20% 85%;
 
     --muted: 222 25% 14%;
-    --muted-foreground: 222 12% 48%;
+    /* QA a11y 2026-07-04: was 48% (#6c7589) = 4.18:1 on the app bg / 3.94:1 on
+       cards, which fails WCAG 2.1 AA (needs 4.5). text-muted-foreground drives
+       hundreds of secondary-text nodes, so this one token failing meant every
+       screen flagged color-contrast. 55% (#7e879a) clears 5.35:1 / 5.05:1 while
+       keeping the same hue+saturation, so the muted look is preserved. */
+    --muted-foreground: 222 12% 55%;
 
     /* Accent = Emma's #0680A2 (deep teal) */
     --accent: 193 93% 33%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
+    /* QA a11y 2026-07-04: was 51% (#dc2828) = 3.80:1 as text-destructive on the
+       dark cards, which fails AA on overdue/error labels. 58% (#e14747) clears
+       4.50:1 for text while staying dark enough that white destructive-foreground
+       on a bg-destructive button keeps its large-text/UI 3:1 contrast. */
+    --destructive: 0 72% 58%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 222 20% 16%;
@@ -42,20 +51,34 @@
 
     --radius: 0.5rem;
 
-    /* Status colors */
-    --status-new: 205 65% 52%;
-    --status-assigned: 200 60% 48%;
-    --status-in-progress: 38 85% 52%;
-    --status-waiting: 30 70% 55%;
-    --status-blocked: 0 72% 51%;
-    --status-completed: 152 55% 42%;
-    --status-verified: 165 50% 40%;
+    /* Status colors. QA a11y 2026-07-04: lightness lifted so text-status-* on
+       the /20 tint background clears WCAG AA (4.5:1). The old values (new 52%,
+       assigned 48%, in-progress 52%, waiting 55%) failed at 3.8-4.1:1 on every
+       status badge across the queue pages (hundreds of nodes). New values were
+       computed against each token's composited tint bg. */
+    --status-new: 205 65% 60%;
+    --status-assigned: 200 60% 53%;
+    --status-in-progress: 38 85% 58%;
+    --status-waiting: 30 70% 60%;
+    /* QA a11y 2026-07-04: 51% (#dc2828) as text-status-blocked on the /20 tint
+       was 3.2:1 (fails AA on every blocked-WO badge). 58% clears it, matching
+       the completed/destructive lift. */
+    --status-blocked: 0 72% 58%;
+    /* QA a11y 2026-07-04: bumped lightness so text-status-* on the /20 tint bg
+       clears WCAG AA. completed was 42% (#30a66f) = 4.42:1 on its own green
+       tint (fails on every verified-WO card); 46% clears 5.28:1. verified
+       lifted in step to keep the family consistent. */
+    --status-completed: 152 55% 46%;
+    --status-verified: 165 50% 46%;
 
     /* Priority colors */
-    --priority-low: 222 12% 48%;
+    /* QA a11y 2026-07-04: lightness lifted so text-priority-* on the /20 tint
+       clears WCAG AA. low was 48% (4.2:1), high 55%, urgent 51% (3.3:1 on its
+       red tint, on every high/urgent card). medium at 75% already passed. */
+    --priority-low: 222 12% 55%;
     --priority-medium: 30 22% 75%;
-    --priority-high: 25 85% 55%;
-    --priority-urgent: 0 72% 51%;
+    --priority-high: 25 85% 60%;
+    --priority-urgent: 0 72% 72%;
 
     --sidebar-background: 222 45% 8%;
     --sidebar-foreground: 30 20% 90%;

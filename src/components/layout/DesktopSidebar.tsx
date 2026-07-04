@@ -48,7 +48,7 @@ export function DesktopSidebar() {
     >
       <div className="px-5 py-5" style={{ borderBottom: "1px solid rgba(196,186,177,0.08)" }}>
         <h1 className="text-base font-bold tracking-tight" style={{ color: "#C4BAB1" }}>LRMB Ops</h1>
-        <p className="text-[11px] truncate mt-0.5" style={{ color: "#5A5550" }}>{profile?.full_name || ""}</p>
+        <p className="text-[11px] truncate mt-0.5" style={{ color: "#8B8680" }}>{profile?.full_name || ""}</p>
       </div>
 
       <nav className="flex-1 flex flex-col gap-1 px-3 py-4">
@@ -62,7 +62,7 @@ export function DesktopSidebar() {
               onClick={() => navigate(item.path)}
               className="flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors"
               style={{
-                color: isActive ? "#C4BAB1" : "#7A7570",
+                color: isActive ? "#C4BAB1" : "#8B8680",
                 background: isActive ? "rgba(196,186,177,0.08)" : "transparent",
               }}
               onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = "rgba(196,186,177,0.04)"; }}

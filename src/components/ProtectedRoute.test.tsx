@@ -21,6 +21,13 @@ vi.mock("@/lib/auth", () => ({
   useAuth: () => authState,
 }));
 
+// ProtectedRoute calls useI18n() for its loading-state label. The unit test
+// renders it outside <I18nProvider>, so mock the hook the same way we mock
+// auth. Identity t() (returns the key) is enough for these redirect assertions.
+vi.mock("@/lib/i18n", () => ({
+  useI18n: () => ({ t: (key: string) => key, locale: "en", setLocale: () => {} }),
+}));
+
 describe("ProtectedRoute", () => {
   it("redirects unauthenticated users to login", () => {
     authState.session = null;

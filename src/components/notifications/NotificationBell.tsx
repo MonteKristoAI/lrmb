@@ -27,7 +27,7 @@ export function NotificationBell() {
         <Button variant="ghost" size="icon" className="tap-target relative" aria-label={ariaLabel}>
           <Bell className="h-5 w-5" style={{ color: "#5A5550" }} aria-hidden="true" />
           {count > 0 && (
-            <span className="absolute top-1 right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center" aria-hidden="true">
+            <span className="absolute top-1 right-1 bg-red-600 text-white text-[10px] font-bold rounded-full h-4 min-w-4 px-1 flex items-center justify-center" aria-hidden="true">
               {count > 9 ? "9+" : count}
             </span>
           )}

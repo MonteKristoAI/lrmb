@@ -32,9 +32,9 @@ export function TaskCard({ task, scoreBadge }: TaskCardProps) {
   const isScheduledPast = scheduledDate && isPast(scheduledDate) && !isToday(scheduledDate) && !isTerminalStatus;
   const scheduledLabel = scheduledDate
     ? isToday(scheduledDate)
-      ? "Today"
+      ? t("Today")
       : isTomorrow(scheduledDate)
-        ? "Tomorrow"
+        ? t("Tomorrow")
         : safeFormat(task.scheduled_for, "MMM d")
     : null;
 
@@ -63,13 +63,13 @@ export function TaskCard({ task, scoreBadge }: TaskCardProps) {
             <StatusBadge status={task.status} />
             <PriorityBadge priority={task.priority} />
             {task.is_guest_facing && (
-              <span className="text-[10px] bg-blue-500/20 text-blue-600 px-1.5 py-0.5 rounded flex items-center gap-0.5">
-                <User className="h-2.5 w-2.5" />Guest
+              <span className="text-[10px] bg-blue-500/20 text-blue-400 px-1.5 py-0.5 rounded flex items-center gap-0.5">
+                <User className="h-2.5 w-2.5" />{t("Guest")}
               </span>
             )}
             {task.external_source === "aiia_generated" && (
-              <span className="text-[10px] bg-amber-500/20 text-amber-600 px-1.5 py-0.5 rounded flex items-center gap-0.5" title="Auto-created by AiiA Final Clean orchestrator">
-                <Bot className="h-2.5 w-2.5" />Auto
+              <span className="text-[10px] bg-amber-500/20 text-amber-400 px-1.5 py-0.5 rounded flex items-center gap-0.5" title="Auto-created by AiiA Final Clean orchestrator">
+                <Bot className="h-2.5 w-2.5" />{t("Auto")}
               </span>
             )}
           </div>
@@ -82,15 +82,15 @@ export function TaskCard({ task, scoreBadge }: TaskCardProps) {
               </span>
             )}
             {scheduledLabel && (
-              <span className={`flex items-center gap-1 ${isScheduledPast ? "text-destructive font-medium" : ""}`}>
+              <span className={`flex items-center gap-1 ${isScheduledPast ? "text-red-400 font-medium" : ""}`}>
                 <Calendar className="h-3 w-3" />
-                {isScheduledPast ? "Past due " : ""}{scheduledLabel}
+                {isScheduledPast ? `${t("Past due")} ` : ""}{scheduledLabel}
               </span>
             )}
             {task.due_at && (
-              <span className={`flex items-center gap-1 ${isOverdue ? "text-destructive font-medium" : ""}`}>
+              <span className={`flex items-center gap-1 ${isOverdue ? "text-red-400 font-medium" : ""}`}>
                 <Clock className="h-3 w-3" />
-                {isOverdue ? "Overdue " : "Due "}
+                {isOverdue ? `${t("Overdue")} ` : `${t("Due")} `}
                 {safeDistance(task.due_at)}
               </span>
             )}

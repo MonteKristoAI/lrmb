@@ -56,7 +56,7 @@ export function ExceptionFeed({ rows, loading }: ExceptionFeedProps) {
   }
 
   const iconFor = (sev: string) =>
-    sev === "P1" ? <AlertOctagon className="h-4 w-4 text-red-500" />
+    sev === "P1" ? <AlertOctagon className="h-4 w-4 text-red-400" />
     : sev === "P2" ? <AlertTriangle className="h-4 w-4 text-amber-500" />
     : <Info className="h-4 w-4 text-muted-foreground" />;
 

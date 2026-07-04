@@ -93,8 +93,8 @@ const AdminSlaConfig = () => {
                     return (
                       <tr key={r.id} className={dirty ? "bg-primary/5" : ""}>
                         <td className="p-3 font-medium capitalize">{t(r.task_category)}</td>
-                        <td className="p-3 text-muted-foreground">{r.task_type ? t(r.task_type) : <span className="italic opacity-60">{t("any")}</span>}</td>
-                        <td className="p-3 text-muted-foreground capitalize">{r.priority ? t(r.priority) : <span className="italic opacity-60">{t("any")}</span>}</td>
+                        <td className="p-3 text-muted-foreground">{r.task_type ? t(r.task_type) : <span className="italic text-muted-foreground">{t("any")}</span>}</td>
+                        <td className="p-3 text-muted-foreground capitalize">{r.priority ? t(r.priority) : <span className="italic text-muted-foreground">{t("any")}</span>}</td>
                         <td className="p-3">
                           <Input
                             type="number"
@@ -103,12 +103,14 @@ const AdminSlaConfig = () => {
                             value={edit?.target_hours ?? r.target_hours}
                             onChange={(e) => setEdits((prev) => ({ ...prev, [r.id]: { ...prev[r.id], target_hours: Number(e.target.value) } }))}
                             className="h-8 w-24"
+                            aria-label={`${t("Target hours")}: ${t(r.task_category)}${r.priority ? " " + t(r.priority) : ""}`}
                           />
                         </td>
                         <td className="p-3">
                           <Switch
                             checked={edit?.active ?? r.active}
                             onCheckedChange={(v) => setEdits((prev) => ({ ...prev, [r.id]: { ...prev[r.id], active: v } }))}
+                            aria-label={`${t("Active")}: ${t(r.task_category)}${r.priority ? " " + t(r.priority) : ""}`}
                           />
                         </td>
                         <td className="p-3">

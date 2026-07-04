@@ -507,6 +507,11 @@ const translations = {
   "Could not process photo": { es: "No se pudo procesar la foto" },
   "Try a JPEG or PNG instead.": { es: "Intenta con un JPEG o PNG." },
 
+  // QA i18n 2026-07-04: TaskCard hardcoded these in English (t() was missing),
+  // so they leaked English into the Spanish UI on every work-order card.
+  "Due": { es: "Vence" },
+  "Auto": { es: "Auto" },
+
   // Common
   "Loading...": { es: "Cargando..." },
   "No active work orders assigned.": { es: "No hay ordenes de trabajo activas asignadas." },

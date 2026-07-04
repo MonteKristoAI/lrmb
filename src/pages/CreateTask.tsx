@@ -154,9 +154,9 @@ const CreateTask = () => {
         {/* Duplicate detection warning */}
         {similarTasks.length > 0 && (
           <div className="rounded-lg border border-amber-500/50 bg-amber-500/10 p-3 space-y-1">
-            <p className="text-xs font-semibold text-amber-700">{t("Possible duplicate - similar open work orders found:")}</p>
+            <p className="text-xs font-semibold text-amber-400">{t("Possible duplicate - similar open work orders found:")}</p>
             {similarTasks.map((st) => (
-              <p key={st.id} className="text-xs text-amber-600">
+              <p key={st.id} className="text-xs text-amber-400">
                 {st.title} ({st.status})
               </p>
             ))}
@@ -173,7 +173,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Building *")}</Label>
             <Select value={form.property_id || undefined} onValueChange={(v) => { set("property_id", v); set("unit_id", ""); }}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Select building")} /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Building *")}><SelectValue placeholder={t("Select building")} /></SelectTrigger>
               <SelectContent>
                 {properties.map((p) => (
                   <SelectItem key={p.id} value={p.id}>
@@ -186,7 +186,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Residence")}</Label>
             <Select value={form.unit_id || undefined} onValueChange={(v) => set("unit_id", v)} disabled={!form.property_id}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Optional")} /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Residence")}><SelectValue placeholder={t("Optional")} /></SelectTrigger>
               <SelectContent>
                 {units.map((u) => (
                   <SelectItem key={u.id} value={u.id}>
@@ -204,7 +204,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Category")}</Label>
             <Select value={form.task_category} onValueChange={(v) => { set("task_category", v); set("housekeeping_type", ""); set("damage_classification", ""); }}>
-              <SelectTrigger className="tap-target"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Category")}><SelectValue /></SelectTrigger>
               <SelectContent>
                 {Object.entries(CAT_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
@@ -215,7 +215,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Priority")}</Label>
             <Select value={form.priority} onValueChange={(v) => set("priority", v)}>
-              <SelectTrigger className="tap-target"><SelectValue /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Priority")}><SelectValue /></SelectTrigger>
               <SelectContent>
                 {Object.entries(PRIO_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
@@ -230,7 +230,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Housekeeping Type")}</Label>
             <Select value={form.housekeeping_type || undefined} onValueChange={(v) => set("housekeeping_type", v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Select type")} /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Housekeeping Type")}><SelectValue placeholder={t("Select type")} /></SelectTrigger>
               <SelectContent>
                 {Object.entries(HK_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
@@ -245,7 +245,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Damage Classification")}</Label>
             <Select value={form.damage_classification || undefined} onValueChange={(v) => set("damage_classification", v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Optional")} /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Damage Classification")}><SelectValue placeholder={t("Optional")} /></SelectTrigger>
               <SelectContent>
                 {Object.entries(DMG_MAP).map(([val, label]) => (
                   <SelectItem key={val} value={val}>{label}</SelectItem>
@@ -266,7 +266,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Assign to Staff")}</Label>
             <Select value={form.assigned_to || "__none__"} onValueChange={(v) => set("assigned_to", v === "__none__" ? "" : v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder={t("Unassigned")} /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Assign to Staff")}><SelectValue placeholder={t("Unassigned")} /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">{t("Unassigned")}</SelectItem>
                 {profiles.map((p) => <SelectItem key={p.id} value={p.id}>{p.full_name || p.email}</SelectItem>)}
@@ -276,7 +276,7 @@ const CreateTask = () => {
           <div className="space-y-2">
             <Label>{t("Assign to Vendor")}</Label>
             <Select value={form.vendor_id || "__none__"} onValueChange={(v) => set("vendor_id", v === "__none__" ? "" : v)}>
-              <SelectTrigger className="tap-target"><SelectValue placeholder={t("None")} /></SelectTrigger>
+              <SelectTrigger className="tap-target" aria-label={t("Assign to Vendor")}><SelectValue placeholder={t("None")} /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="__none__">{t("None")}</SelectItem>
                 {vendors.map((v) => <SelectItem key={v.id} value={v.id}>{v.name}</SelectItem>)}
@@ -288,19 +288,19 @@ const CreateTask = () => {
         {/* Dates */}
         <div className="grid grid-cols-2 gap-3">
           <div className="space-y-2">
-            <Label>{t("Due Date")}</Label>
-            <Input type="datetime-local" min={nowLocalIso} value={form.due_at} onChange={(e) => set("due_at", e.target.value)} className="tap-target" />
+            <Label htmlFor="wo-due-date">{t("Due Date")}</Label>
+            <Input id="wo-due-date" type="datetime-local" min={nowLocalIso} value={form.due_at} onChange={(e) => set("due_at", e.target.value)} className="tap-target" />
           </div>
           <div className="space-y-2">
-            <Label>{t("Scheduled For")}</Label>
-            <Input type="datetime-local" min={nowLocalIso} value={form.scheduled_for} onChange={(e) => set("scheduled_for", e.target.value)} className="tap-target" />
+            <Label htmlFor="wo-scheduled-for">{t("Scheduled For")}</Label>
+            <Input id="wo-scheduled-for" type="datetime-local" min={nowLocalIso} value={form.scheduled_for} onChange={(e) => set("scheduled_for", e.target.value)} className="tap-target" />
           </div>
         </div>
 
         {/* Guest Context */}
         <div className="flex items-center justify-between py-2">
           <Label>{t("Guest-Facing Work Order")}</Label>
-          <Switch checked={form.is_guest_facing} onCheckedChange={(v) => set("is_guest_facing", v)} />
+          <Switch checked={form.is_guest_facing} onCheckedChange={(v) => set("is_guest_facing", v)} aria-label={t("Guest-Facing Work Order")} />
         </div>
         {showGuestFields && (
           <div className="grid grid-cols-2 gap-3">
@@ -318,11 +318,11 @@ const CreateTask = () => {
         {/* Requirements */}
         <div className="flex items-center justify-between py-2">
           <Label>{t("Require Photo Proof")}</Label>
-          <Switch checked={form.requires_photo} onCheckedChange={(v) => set("requires_photo", v)} />
+          <Switch checked={form.requires_photo} onCheckedChange={(v) => set("requires_photo", v)} aria-label={t("Require Photo Proof")} />
         </div>
         <div className="flex items-center justify-between py-2">
           <Label>{t("Require Completion Note")}</Label>
-          <Switch checked={form.requires_note} onCheckedChange={(v) => set("requires_note", v)} />
+          <Switch checked={form.requires_note} onCheckedChange={(v) => set("requires_note", v)} aria-label={t("Require Completion Note")} />
         </div>
 
         <Button type="submit" className="w-full tap-target text-base font-semibold" disabled={createTask.isPending}>

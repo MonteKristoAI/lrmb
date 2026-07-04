@@ -106,7 +106,7 @@ export function HealthScoreHero({ score, band, components, history = [] }: Healt
               </text>
               <text
                 x="100" y="112" textAnchor="middle"
-                fill="#7a7570" fontSize="10" letterSpacing="2"
+                fill="#8B8680" fontSize="10" letterSpacing="2"
                 fontWeight="600"
               >
                 {t("HEALTH")}

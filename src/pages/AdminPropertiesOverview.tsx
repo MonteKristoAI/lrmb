@@ -52,7 +52,7 @@ const AdminPropertiesOverview = () => {
 
   const bandColor = (b: string) =>
     b === "critical"
-      ? "bg-red-500/20 text-red-500 border-red-500/40"
+      ? "bg-red-500/20 text-red-400 border-red-500/40"
       : b === "at_risk"
         ? "bg-orange-500/15 text-orange-500 border-orange-500/30"
         : b === "watch"
@@ -111,7 +111,7 @@ const AdminPropertiesOverview = () => {
                         </span>
                         <span className="whitespace-nowrap">{p.active_wo_count} {t("active WO")}</span>
                         {p.overdue_wo_count > 0 && (
-                          <span className="text-destructive flex items-center gap-1 whitespace-nowrap">
+                          <span className="text-red-400 flex items-center gap-1 whitespace-nowrap">
                             <AlertTriangle className="h-3 w-3 shrink-0" />
                             {p.overdue_wo_count} {t("overdue")}
                           </span>

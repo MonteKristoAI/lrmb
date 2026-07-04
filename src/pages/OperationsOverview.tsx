@@ -1284,7 +1284,7 @@ function PollHealthBanner({ health }: { health: Health[] }) {
   if (issues.length === 0) return null;
   return (
     <div className="flex items-start gap-3 rounded-md border border-amber-600/40 bg-amber-500/10 px-4 py-3 text-sm">
-      <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-amber-600" />
+      <AlertCircle className="h-4 w-4 shrink-0 mt-0.5 text-amber-400" />
       <div className="flex-1">
         <p className="font-medium text-amber-200">Data sync notice</p>
         <p className="text-xs text-amber-300/80">

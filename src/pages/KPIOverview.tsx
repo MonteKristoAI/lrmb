@@ -84,14 +84,16 @@ const KPIOverview = () => {
                 {totalRows === 0 ? (
                   <p className="text-sm text-muted-foreground text-center py-8">{t("No work order data yet.")}</p>
                 ) : (
-                  <ResponsiveContainer width="100%" height={180}>
-                    <PieChart>
-                      <Pie data={byPriority} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={({ name, count }) => `${name}: ${count}`}>
-                        {byPriority.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
-                      </Pie>
-                      <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
-                    </PieChart>
-                  </ResponsiveContainer>
+                  <div role="img" aria-label={`${t("Priority Distribution")}: ${byPriority.map((d) => `${d.name} ${d.count}`).join(", ")}`}>
+                    <ResponsiveContainer width="100%" height={180}>
+                      <PieChart>
+                        <Pie data={byPriority} dataKey="count" cx="50%" cy="50%" outerRadius={70} isAnimationActive={false} aria-hidden="true" label={({ name, count }) => `${name}: ${count}`}>
+                          {byPriority.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
+                        </Pie>
+                        <Tooltip contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, color: "hsl(var(--foreground))" }} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
                 )}
               </CardContent>
             </Card>

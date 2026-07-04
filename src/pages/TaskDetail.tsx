@@ -415,7 +415,7 @@ const TaskDetail = () => {
             <PriorityBadge priority={task.priority} />
             {isOverdue && <span className="text-xs text-red-300 font-semibold flex items-center gap-1" aria-label={t("Overdue")}><AlertTriangle className="h-3 w-3" aria-hidden="true" />{t("OVERDUE")}</span>}
             {task.reopened_count > 0 && <span className="text-xs bg-status-in-progress/20 text-foreground px-2 py-0.5 rounded">Reopened x{task.reopened_count}</span>}
-            {task.is_guest_facing && <span className="text-xs bg-blue-500/20 text-blue-600 px-2 py-0.5 rounded flex items-center gap-1"><User className="h-3 w-3" />Guest-Facing</span>}
+            {task.is_guest_facing && <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded flex items-center gap-1"><User className="h-3 w-3" />Guest-Facing</span>}
           </div>
         </div>
 
@@ -459,7 +459,7 @@ const TaskDetail = () => {
 
           {/* Guest Info */}
           {(task.guest_name || task.reservation_id) && (
-            <div className="flex gap-2 pt-1 text-xs text-blue-600">
+            <div className="flex gap-2 pt-1 text-xs text-blue-400">
               {task.guest_name && <span>Guest: {task.guest_name}</span>}
               {task.reservation_id && <span>Reservation: {task.reservation_id}</span>}
             </div>
@@ -467,17 +467,17 @@ const TaskDetail = () => {
 
           {/* Vendor Info */}
           {task.assigned_vendor_name && (
-            <div className="flex items-center gap-1 pt-1 text-xs text-orange-600">
+            <div className="flex items-center gap-1 pt-1 text-xs text-orange-400">
               <Truck className="h-3 w-3" />
               Vendor: {task.assigned_vendor_name}
-              {task.vendor_invoice_received && <span className="ml-2 text-green-600">Invoice received</span>}
+              {task.vendor_invoice_received && <span className="ml-2 text-green-400">Invoice received</span>}
               {task.vendor_invoice_amount != null && <span className="ml-2">${task.vendor_invoice_amount.toFixed(2)}</span>}
             </div>
           )}
 
           {/* Billing Info */}
           {task.billing_ready && (
-            <div className="flex items-center gap-1 pt-1 text-xs text-emerald-600">
+            <div className="flex items-center gap-1 pt-1 text-xs text-emerald-400">
               <DollarSign className="h-3 w-3" />
               Billing processed
               {task.owner_charges_amount != null && <span className="ml-2">Owner charges: ${task.owner_charges_amount.toFixed(2)}</span>}

@@ -23,7 +23,7 @@ const NotFound = () => {
       <div className="flex min-h-screen items-center justify-center p-6" style={{ background: "#080E1A" }}>
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold" style={{ color: "#C4BAB1" }}>404</h1>
-          <p className="text-lg" style={{ color: "#5A5550" }}>{t("Page not found")}</p>
+          <p className="text-lg" style={{ color: "#8B8680" }}>{t("Page not found")}</p>
           <Button onClick={() => navigate("/login")} className="tap-target" style={{ background: "#C4BAB1", color: "#080E1A" }}>
             {t("Go to Login")}
           </Button>
