@@ -1117,11 +1117,21 @@ BEGIN
       'SELECT public.refresh_task_priority_scores();');
   END IF;
   IF NOT EXISTS (SELECT 1 FROM cron.job WHERE jobname='ops-health-snapshot-hourly') THEN
+    -- operational_health_score() RETURNS jsonb (COMP-03 rebase), not TABLE.
+    -- Must unpack via ->> / -> instead of projecting columns directly, else
+    -- the cron fails with "column score does not exist" on every run.
+    -- See 20260704000001_v3_fix_ops_health_snapshot_hourly_cron.sql for the
+    -- production hotfix history.
     PERFORM cron.schedule('ops-health-snapshot-hourly', '5 * * * *', $CRON$
+      WITH platform AS (SELECT public.operational_health_score() AS h)
       INSERT INTO public.ops_health_snapshots (property_id, score, band, components, captured_at)
-      SELECT NULL, score, band, components, computed_at FROM public.operational_health_score();
+      SELECT NULL, (h->>'score')::int, h->>'band', h->'components',
+             COALESCE((h->>'computed_at')::timestamptz, now())
+      FROM platform;
+
       INSERT INTO public.ops_health_snapshots (property_id, score, band, components, captured_at)
-      SELECT property_id, score, band, components, now() FROM public.operational_health_score_by_property();
+      SELECT property_id, score, band, components, now()
+      FROM public.operational_health_score_by_property();
     $CRON$);
   END IF;
   IF NOT EXISTS (SELECT 1 FROM cron.job WHERE jobname='ops-health-snapshots-prune-daily') THEN
