@@ -36,11 +36,13 @@ export function KpiTile({ label, value, icon: Icon, color = "text-primary", subt
       onClick={onClick}
       {...interactiveProps}
     >
-      <CardContent className="p-4">
-        <div className="flex items-start justify-between gap-2">
+      {/* p-3 on very narrow viewports (<640) so KPI values + labels have room
+          to breathe. Icon shrinks to h-4 to reclaim more px for text. */}
+      <CardContent className="p-3 sm:p-4">
+        <div className="flex items-start justify-between gap-1.5 sm:gap-2">
           <div className="min-w-0 flex-1">
-            <p className="text-2xl font-bold text-foreground leading-tight">{value}</p>
-            <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{label}</p>
+            <p className="text-xl sm:text-2xl font-bold text-foreground leading-tight break-words">{value}</p>
+            <p className="text-[11px] sm:text-xs text-muted-foreground mt-0.5 line-clamp-2 leading-snug">{label}</p>
             {subtitle && (
               // v3.0 polish (2026-07-04): line-clamp-2 + title tooltip on subtitle
               // so vendor lists like "Service Cleaning Pro (75), Lux Handyman (68),
@@ -55,7 +57,7 @@ export function KpiTile({ label, value, icon: Icon, color = "text-primary", subt
               </p>
             )}
           </div>
-          <Icon className={`h-5 w-5 shrink-0 ${color}`} />
+          <Icon className={`h-4 w-4 sm:h-5 sm:w-5 shrink-0 ${color}`} />
         </div>
         {chips && <div className="flex flex-wrap gap-1 mt-2">{chips}</div>}
       </CardContent>

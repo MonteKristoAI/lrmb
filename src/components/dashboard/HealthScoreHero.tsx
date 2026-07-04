@@ -70,11 +70,17 @@ export function HealthScoreHero({ score, band, components, history = [] }: Healt
 
   return (
     <Card>
-      <CardContent className="p-5">
+      <CardContent className="p-4 sm:p-5">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center">
-          {/* Gauge */}
-          <div className="flex items-center gap-5">
-            <svg width="200" height="120" viewBox="0 0 200 120" className="shrink-0">
+          {/* Gauge + label. On viewports below sm (640) the SVG shrinks and the
+              gap collapses, so the "At Risk" text and 2604 overdue / 2658 open
+              lines still fit inside the card at 320px viewport widths. */}
+          <div className="flex items-center gap-3 sm:gap-5 min-w-0">
+            <svg
+              viewBox="0 0 200 120"
+              className="shrink-0 w-32 h-[76px] sm:w-[200px] sm:h-[120px]"
+              aria-hidden="true"
+            >
               <path
                 d={`M ${100 - radius} 100 A ${radius} ${radius} 0 0 1 ${100 + radius} 100`}
                 fill="none"
@@ -106,13 +112,21 @@ export function HealthScoreHero({ score, band, components, history = [] }: Healt
                 {t("HEALTH")}
               </text>
             </svg>
-            <div>
-              <p className="text-xs uppercase tracking-wider text-muted-foreground">{t("Operational Health")}</p>
-              <p className="text-2xl font-bold" style={{ color }}>{bandLabel}</p>
+            <div className="min-w-0 flex-1">
+              <p className="text-[10px] sm:text-xs uppercase tracking-wider text-muted-foreground leading-tight">
+                {t("Operational Health")}
+              </p>
+              <p className="text-xl sm:text-2xl font-bold leading-tight break-words" style={{ color }}>
+                {bandLabel}
+              </p>
               {components && (
-                <div className="text-xs text-muted-foreground mt-1 space-y-0.5">
-                  <p>{components.overdue_count ?? 0} {t("overdue")} · {components.open_count ?? 0} {t("open")}</p>
-                  <p>{Math.round((components.on_time_rate ?? 0) * 100)}% {t("on-time (30d)")}</p>
+                <div className="text-[11px] sm:text-xs text-muted-foreground mt-1 space-y-0.5">
+                  <p className="break-words">
+                    {components.overdue_count ?? 0} {t("overdue")} · {components.open_count ?? 0} {t("open")}
+                  </p>
+                  <p className="break-words">
+                    {Math.round((components.on_time_rate ?? 0) * 100)}% {t("on-time (30d)")}
+                  </p>
                 </div>
               )}
             </div>
