@@ -5,6 +5,7 @@ import { usePushNotifications } from "@/hooks/usePushNotifications";
 import { MobileNav } from "./MobileNav";
 import { DesktopSidebar } from "./DesktopSidebar";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { LogOut, BellRing, BellOff, ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -80,10 +81,12 @@ export function AppShell({ children, title }: { children: ReactNode; title?: str
                 aria-label={isSubscribed ? t("Disable push notifications") : t("Enable push notifications")}
                 className="tap-target h-9 w-9"
                 title={isSubscribed ? t("Disable push notifications") : t("Enable push notifications")}
+                data-testid="push-notifications-toggle"
               >
                 {isSubscribed ? <BellRing className="h-4 w-4" style={{ color: "#C4BAB1" }} aria-hidden="true" /> : <BellOff className="h-4 w-4" style={{ color: "#5A5550" }} aria-hidden="true" />}
               </Button>
             )}
+            <LanguageSwitcher />
             <NotificationBell />
             <Button
               variant="ghost"

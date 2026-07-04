@@ -3,6 +3,7 @@ const translations = {
   "Loading…": { es: "Cargando…" },
   "Smart Queue score": { es: "Puntuación Smart Queue" },
   "No data yet. Health score computing.": { es: "Aún no hay datos. Puntuación de salud en cálculo." },
+  "Switch language": { es: "Cambiar idioma" },
 
   // L10 v2 additions (2026-07-02)
   "Help": { es: "Ayuda" },
