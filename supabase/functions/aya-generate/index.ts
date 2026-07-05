@@ -24,6 +24,7 @@ const corsHeaders = {
 
 const GATEWAY_URL = Deno.env.get("MK_GW_URL") ?? "https://gateway.montekristo.co/v1";
 const MODEL = Deno.env.get("AYA_MODEL") ?? "gpt-4o-mini";
+const LOCALES = ["en", "es"] as const;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
@@ -98,10 +99,13 @@ Deno.serve(async (req) => {
     properties_at_risk: atRisk,
   });
 
-  const platform = await generate(gwKey, platformSignals, validLinks);
-  if (platform) {
-    const err = await persist(supabase, "platform", null, today, platform, platformSignals);
-    results.push({ scope: "platform", ok: !err, bullets: platform.bullets.length, err });
+  // The app is bilingual, so narrate in each locale (viewer sees their own).
+  for (const locale of LOCALES) {
+    const platform = await generate(gwKey, platformSignals, validLinks, locale);
+    if (platform) {
+      const err = await persist(supabase, "platform", null, today, locale, platform, platformSignals);
+      results.push({ scope: "platform", locale, ok: !err, bullets: platform.bullets.length, err });
+    }
   }
 
   // 3b. Per-property, only for properties that are NOT healthy (save tokens).
@@ -109,10 +113,12 @@ Deno.serve(async (req) => {
 
   for (const p of props) {
     const propSignals = maskSignals({ scope: "property", date: today, property: p });
-    const insight = await generate(gwKey, propSignals, validLinks);
-    if (!insight) continue;
-    const err = await persist(supabase, "property", p.property_id as string, today, insight, propSignals);
-    results.push({ scope: "property", property_id: p.property_id, ok: !err, bullets: insight.bullets.length, err });
+    for (const locale of LOCALES) {
+      const insight = await generate(gwKey, propSignals, validLinks, locale);
+      if (!insight) continue;
+      const err = await persist(supabase, "property", p.property_id as string, today, locale, insight, propSignals);
+      results.push({ scope: "property", property_id: p.property_id, locale, ok: !err, bullets: insight.bullets.length, err });
+    }
   }
 
   return json(200, { generated: results.length, results, elapsedMs: Date.now() - startedAt });
@@ -128,10 +134,11 @@ async function persist(
   scope: "platform" | "property",
   propertyId: string | null,
   today: string,
+  locale: string,
   out: AyaOut,
   signals: unknown,
 ): Promise<string | null> {
-  let del = supabase.from("aya_insights").delete().eq("scope", scope).eq("generated_for", today);
+  let del = supabase.from("aya_insights").delete().eq("scope", scope).eq("generated_for", today).eq("locale", locale);
   del = propertyId === null ? del.is("property_id", null) : del.eq("property_id", propertyId);
   const { error: delErr } = await del;
   if (delErr) return `delete: ${delErr.message}`;
@@ -139,6 +146,7 @@ async function persist(
     scope,
     property_id: propertyId,
     generated_for: today,
+    locale,
     headline: out.headline,
     narrative: out.narrative,
     bullets: out.bullets,
@@ -167,7 +175,10 @@ const SYSTEM_PROMPT = [
   "Only use entity_link values that appear verbatim in the input signals.",
 ].join(" ");
 
-async function generate(gwKey: string, signals: unknown, validLinks: Set<string>): Promise<AyaOut | null> {
+async function generate(gwKey: string, signals: unknown, validLinks: Set<string>, locale: string): Promise<AyaOut | null> {
+  const langLine = locale === "es"
+    ? " Write headline, narrative, and bullet text in Spanish (es). Keep entity_link values exactly as given, do not translate them."
+    : "";
   try {
     const res = await fetch(`${GATEWAY_URL}/chat/completions`, {
       method: "POST",
@@ -177,7 +188,7 @@ async function generate(gwKey: string, signals: unknown, validLinks: Set<string>
         temperature: 0.2,
         response_format: { type: "json_object" },
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: SYSTEM_PROMPT + langLine },
           { role: "user", content: "Signals:\n" + JSON.stringify(signals) },
         ],
       }),
@@ -205,19 +216,42 @@ async function generate(gwKey: string, signals: unknown, validLinks: Set<string>
 
 // --- PHI masking ----------------------------------------------------------
 
-// Recursively replace any guest_name field with initials (e.g. "Heather Kostek"
-// -> "H.K.") before the payload leaves our infra for the LLM. Keeps VIP/arrival
-// signal intact without shipping full guest PII to the model.
+// Two-pass PHI redaction before the payload leaves our infra for the LLM.
+// Pass 1 collects every guest name (from guest_name fields). Pass 2 replaces
+// those names to initials EVERYWHERE: both the guest_name fields AND any free-
+// text string that embeds the name (the exception feed subtitle is literally
+// "Arriving <Full Name> at ...", which a field-only mask misses).
 function maskSignals(obj: unknown): unknown {
-  if (Array.isArray(obj)) return obj.map(maskSignals);
+  const names = new Set<string>();
+  collectNames(obj, names);
+  const map = new Map<string, string>();
+  for (const n of names) if (n.trim()) map.set(n, initials(n));
+  return redact(obj, map);
+}
+
+function collectNames(obj: unknown, into: Set<string>): void {
+  if (Array.isArray(obj)) { for (const v of obj) collectNames(v, into); return; }
+  if (obj && typeof obj === "object") {
+    for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
+      if ((k === "guest_name" || k === "guestName") && typeof v === "string" && v.trim()) into.add(v);
+      else collectNames(v, into);
+    }
+  }
+}
+
+function redactString(s: string, map: Map<string, string>): string {
+  let out = s;
+  for (const [name, init] of map) if (out.includes(name)) out = out.split(name).join(init);
+  return out;
+}
+
+function redact(obj: unknown, map: Map<string, string>): unknown {
+  if (typeof obj === "string") return redactString(obj, map);
+  if (Array.isArray(obj)) return obj.map((v) => redact(v, map));
   if (obj && typeof obj === "object") {
     const out: Record<string, unknown> = {};
     for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
-      if ((k === "guest_name" || k === "guestName") && typeof v === "string") {
-        out[k] = initials(v);
-      } else {
-        out[k] = maskSignals(v);
-      }
+      out[k] = (k === "guest_name" || k === "guestName") && typeof v === "string" ? initials(v) : redact(v, map);
     }
     return out;
   }
