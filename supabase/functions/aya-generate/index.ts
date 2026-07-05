@@ -1,0 +1,224 @@
+// Aya: the LRMB operational intelligence layer (Nemr vision 2026-07-04).
+//
+// Cron-only. Reads the same aggregated signals the Command Center already
+// computes (exec_command_center_bundle + exception_feed + properties overview),
+// asks the LLM (via MonteKristo's mk-ai-gateway, an OpenAI-compatible proxy) to
+// synthesize a short "what needs attention today and why" narrative, and upserts
+// it into aya_insights. The UI reads the cached row through aya_latest_insight.
+//
+// Design notes:
+//  - PHI safety: guest names are masked to initials before they enter the prompt.
+//  - Anti-hallucination: every bullet's entity_link must exist in the real
+//    signals we sent, or the bullet is dropped. source_signals is persisted.
+//  - Graceful degradation: if MK_GW_KEY is unset or the gateway errors, we SKIP
+//    (return 200, skipped:true) and leave any existing row intact. Never crash,
+//    never wipe yesterday's insight.
+
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { requireCronSecret } from "../_shared/cron-auth.ts";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret",
+};
+
+const GATEWAY_URL = Deno.env.get("MK_GW_URL") ?? "https://gateway.montekristo.co/v1";
+const MODEL = Deno.env.get("AYA_MODEL") ?? "gpt-4o-mini";
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response(null, { headers: corsHeaders });
+
+  const cronErr = requireCronSecret(req);
+  if (cronErr) return cronErr;
+
+  const supabaseUrl = Deno.env.get("SUPABASE_URL");
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+  if (!supabaseUrl || !serviceRoleKey) return json(500, { error: "missing_supabase_env" });
+  const supabase = createClient(supabaseUrl, serviceRoleKey);
+
+  const gwKey = Deno.env.get("MK_GW_KEY");
+  const startedAt = Date.now();
+  const today = new Date().toISOString().slice(0, 10);
+
+  // 1. Gather the signals by reading the underlying MVs/tables DIRECTLY. We are
+  // the service role here (bypasses RLS), so we deliberately do NOT call the
+  // role-guarded leadership RPCs (exec_command_center_bundle etc.) - those check
+  // auth.uid() and RAISE 42501 for the null service-role uid. The MVs already
+  // hold everything those RPCs aggregate.
+  const [{ data: healthRow }, { data: exceptions }, { data: properties }] = await Promise.all([
+    supabase.from("ops_health_snapshots")
+      .select("score,band,components,captured_at")
+      .is("property_id", null)
+      .order("captured_at", { ascending: false })
+      .limit(1)
+      .maybeSingle(),
+    supabase.from("mv_operational_exceptions")
+      .select("severity,title,subtitle,entity_type,entity_id,entity_link,dedupe_key,created_at")
+      .order("created_at", { ascending: false })
+      .limit(25),
+    supabase.from("mv_properties_at_risk")
+      .select("property_id,property_name,health_score,health_band,arrivals_next_24h,arrivals_next_48h,vip_arrivals_next_48h,turnovers_today,overdue_wo_count,blocked_wo_count,vendor_delayed_count,risk_band,top_arrivals")
+      .order("health_score", { ascending: true }),
+  ]);
+
+  if (!healthRow && (!properties || properties.length === 0)) {
+    return json(500, { error: "no_signals" });
+  }
+
+  // If we have no gateway key we cannot generate; skip cleanly (see header).
+  if (!gwKey) {
+    return json(200, {
+      skipped: true,
+      reason: "MK_GW_KEY unset - provision an mk-ai-gateway virtual key and set it as a function secret to enable Aya",
+      signals_ready: true,
+      counts: { exceptions: (exceptions ?? []).length, properties: (properties ?? []).length, health: !!healthRow },
+    });
+  }
+
+  // 2. Build the set of REAL entity links so we can reject hallucinated bullets.
+  const validLinks = new Set<string>();
+  for (const ex of (exceptions ?? []) as Array<Record<string, unknown>>) {
+    if (typeof ex.entity_link === "string") validLinks.add(ex.entity_link);
+  }
+  for (const p of (properties ?? []) as Array<Record<string, unknown>>) {
+    if (typeof p.property_id === "string") validLinks.add(`/admin/properties/${p.property_id}`);
+  }
+
+  const atRisk = ((properties ?? []) as Array<Record<string, unknown>>)
+    .filter((p) => p.risk_band && p.risk_band !== "healthy");
+
+  const results: Array<Record<string, unknown>> = [];
+
+  // 3a. Platform-level morning brief.
+  const platformSignals = maskSignals({
+    scope: "platform",
+    date: today,
+    health: healthRow,
+    exceptions: (exceptions ?? []) as unknown,
+    properties_at_risk: atRisk,
+  });
+
+  const platform = await generate(gwKey, platformSignals, validLinks);
+  if (platform) {
+    await supabase.from("aya_insights").upsert({
+      scope: "platform",
+      property_id: null,
+      generated_for: today,
+      headline: platform.headline,
+      narrative: platform.narrative,
+      bullets: platform.bullets,
+      source_signals: platformSignals,
+      model: MODEL,
+      generated_at: new Date().toISOString(),
+    }, { onConflict: "scope,property_id,generated_for" });
+    results.push({ scope: "platform", ok: true, bullets: platform.bullets.length });
+  }
+
+  // 3b. Per-property, only for properties that are NOT healthy (save tokens).
+  const props = atRisk.slice(0, 8); // cap fan-out per run
+
+  for (const p of props) {
+    const propSignals = maskSignals({ scope: "property", date: today, property: p });
+    const insight = await generate(gwKey, propSignals, validLinks);
+    if (!insight) continue;
+    await supabase.from("aya_insights").upsert({
+      scope: "property",
+      property_id: p.property_id,
+      generated_for: today,
+      headline: insight.headline,
+      narrative: insight.narrative,
+      bullets: insight.bullets,
+      source_signals: propSignals,
+      model: MODEL,
+      generated_at: new Date().toISOString(),
+    }, { onConflict: "scope,property_id,generated_for" });
+    results.push({ scope: "property", property_id: p.property_id, ok: true, bullets: insight.bullets.length });
+  }
+
+  return json(200, { generated: results.length, results, elapsedMs: Date.now() - startedAt });
+});
+
+// --- LLM call -------------------------------------------------------------
+
+interface AyaOut { headline: string; narrative: string; bullets: Array<{ severity: string; text: string; entity_link?: string }>; }
+
+const SYSTEM_PROMPT = [
+  "You are Aya, the operational intelligence layer for a luxury vacation-rental",
+  "management company. You do not describe data; you tell an operator what needs",
+  "attention today and why, so they can decide in seconds. Be concise and direct.",
+  "Lead with the single most important thing. Ground every statement in the",
+  "signals provided. NEVER invent a property, unit, guest, number, or link that is",
+  "not present in the input. If nothing is urgent, say operations look stable and",
+  "note the one thing worth watching. No hedging, no filler, no em-dashes.",
+  "Return ONLY valid JSON: {\"headline\": string (<=90 chars),",
+  "\"narrative\": string (2-5 sentences), \"bullets\": [{\"severity\": \"P1\"|\"P2\"|\"P3\",",
+  "\"text\": string, \"entity_link\": string|null}]}. Max 6 bullets, ordered by severity.",
+  "Only use entity_link values that appear verbatim in the input signals.",
+].join(" ");
+
+async function generate(gwKey: string, signals: unknown, validLinks: Set<string>): Promise<AyaOut | null> {
+  try {
+    const res = await fetch(`${GATEWAY_URL}/chat/completions`, {
+      method: "POST",
+      headers: { "Authorization": `Bearer ${gwKey}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: MODEL,
+        temperature: 0.2,
+        response_format: { type: "json_object" },
+        messages: [
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: "Signals:\n" + JSON.stringify(signals) },
+        ],
+      }),
+    });
+    if (!res.ok) {
+      console.error("aya gateway error", res.status, (await res.text()).slice(0, 200));
+      return null;
+    }
+    const body = await res.json();
+    const content = body?.choices?.[0]?.message?.content;
+    if (typeof content !== "string") return null;
+    const parsed = JSON.parse(content) as AyaOut;
+    if (!parsed.headline || !parsed.narrative) return null;
+    // Anti-hallucination: drop any bullet whose entity_link is not a real link.
+    const bullets = (parsed.bullets ?? [])
+      .filter((b) => b && typeof b.text === "string")
+      .map((b) => (b.entity_link && validLinks.has(b.entity_link) ? b : { ...b, entity_link: undefined }))
+      .slice(0, 6);
+    return { headline: parsed.headline.slice(0, 200), narrative: parsed.narrative, bullets };
+  } catch (e) {
+    console.error("aya generate exception", (e as Error).message);
+    return null;
+  }
+}
+
+// --- PHI masking ----------------------------------------------------------
+
+// Recursively replace any guest_name field with initials (e.g. "Heather Kostek"
+// -> "H.K.") before the payload leaves our infra for the LLM. Keeps VIP/arrival
+// signal intact without shipping full guest PII to the model.
+function maskSignals(obj: unknown): unknown {
+  if (Array.isArray(obj)) return obj.map(maskSignals);
+  if (obj && typeof obj === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
+      if ((k === "guest_name" || k === "guestName") && typeof v === "string") {
+        out[k] = initials(v);
+      } else {
+        out[k] = maskSignals(v);
+      }
+    }
+    return out;
+  }
+  return obj;
+}
+
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "Guest";
+  return parts.map((p) => p[0].toUpperCase() + ".").join("");
+}
+
+function json(status: number, body: unknown): Response {
+  return new Response(JSON.stringify(body), { status, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+}

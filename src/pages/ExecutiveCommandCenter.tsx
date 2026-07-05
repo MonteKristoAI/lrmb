@@ -8,6 +8,7 @@ import { KpiTile } from "@/components/dashboard/KpiTile";
 import { HealthScoreHero } from "@/components/dashboard/HealthScoreHero";
 import { PropertiesAtRiskTable } from "@/components/dashboard/PropertiesAtRiskTable";
 import { ExceptionFeed } from "@/components/dashboard/ExceptionFeed";
+import { AyaBrief } from "@/components/dashboard/AyaBrief";
 import {
   DollarSign, Building, Star, Repeat, Sparkles, Wrench, TrendingUp, TrendingDown,
 } from "lucide-react";
@@ -90,6 +91,10 @@ const ExecutiveCommandCenter = () => {
   return (
     <AppShell title={t("Command Center")}>
       <div className="p-4 space-y-4">
+        {/* Aya: operational-awareness narrative on top. Renders only once the
+            Aya layer has produced an insight, so the page is unchanged until live. */}
+        <AyaBrief scope="platform" />
+
         {/* Row 1: Health hero */}
         {isLoading || !bundle ? (
           <Skeleton className="h-40" />
@@ -215,8 +220,8 @@ const ExecutiveCommandCenter = () => {
                     {bundle.vip_arrivals_today.length > 0 && (
                       <div>
                         <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("Today")}</p>
-                        {bundle.vip_arrivals_today.map((v) => (
-                          <div key={v.external_id} className="flex items-center gap-2 text-sm py-1">
+                        {bundle.vip_arrivals_today.map((v, i) => (
+                          <div key={v.unit_id ?? v.unit_code ?? i} className="flex items-center gap-2 text-sm py-1">
                             <Star className="h-3 w-3 text-primary shrink-0" />
                             <span className="font-medium text-foreground truncate">{v.guest_name || t("Guest")}</span>
                             <span className="text-xs text-muted-foreground ml-auto">{v.unit_code}</span>
@@ -227,8 +232,8 @@ const ExecutiveCommandCenter = () => {
                     {bundle.vip_arrivals_tomorrow.length > 0 && (
                       <div className="pt-2 border-t border-border">
                         <p className="text-[10px] uppercase tracking-widest text-muted-foreground">{t("Tomorrow")}</p>
-                        {bundle.vip_arrivals_tomorrow.map((v) => (
-                          <div key={v.external_id} className="flex items-center gap-2 text-sm py-1">
+                        {bundle.vip_arrivals_tomorrow.map((v, i) => (
+                          <div key={v.unit_id ?? v.unit_code ?? i} className="flex items-center gap-2 text-sm py-1">
                             <Star className="h-3 w-3 text-muted-foreground shrink-0" />
                             <span className="text-foreground truncate">{v.guest_name || t("Guest")}</span>
                             <span className="text-xs text-muted-foreground ml-auto">{v.unit_code}</span>

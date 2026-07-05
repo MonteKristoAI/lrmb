@@ -331,6 +331,10 @@ export function useTasksByStatus(
     orderBy?: "due_at" | "created_at" | "updated_at" | "completed_at";
     ascending?: boolean;
     limit?: number;
+    // Hide historical from operational views (Nemr 2026-07-05): bound the query
+    // to the last N days on a date field so an operational queue (e.g. pending
+    // verification) shows live work, not the all-time backlog.
+    since?: { field: "completed_at" | "created_at" | "updated_at" | "due_at"; days: number };
   },
 ) {
   return useQuery({
@@ -343,6 +347,10 @@ export function useTasksByStatus(
       if (opts?.category) q = q.eq("task_category", opts.category);
       if (opts?.propertyId) q = q.eq("property_id", opts.propertyId);
       if (opts?.assignedTo) q = q.eq("assigned_to", opts.assignedTo);
+      if (opts?.since) {
+        const cutoff = new Date(Date.now() - opts.since.days * 24 * 3600 * 1000).toISOString();
+        q = q.gte(opts.since.field, cutoff);
+      }
       q = q.order(opts?.orderBy ?? "due_at", { ascending: opts?.ascending ?? true, nullsFirst: false });
       q = q.limit(opts?.limit ?? 200);
       const { data, error } = await q;

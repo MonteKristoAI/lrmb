@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { KpiTile } from "@/components/dashboard/KpiTile";
 import { PropertyTaskList } from "@/components/property/PropertyTaskList";
 import { Building, AlertTriangle, Timer, ClipboardList, MapPin, Star } from "lucide-react";
+import { AyaBrief } from "@/components/dashboard/AyaBrief";
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
@@ -111,6 +112,9 @@ const PropertyDetail = () => {
             </CardContent>
           </Card>
         )}
+
+        {/* Aya per-property note (only renders for at-risk properties Aya narrated). */}
+        {validId && <AyaBrief scope="property" propertyId={id!} compact />}
 
         {isLoading ? (
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-3">

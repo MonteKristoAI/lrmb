@@ -18,8 +18,13 @@ const VerificationQueue = () => {
   const { t } = useI18n();
   const { toast } = useToast();
   // v32: real status=completed query for verification queue, not a filter on 500-row slice.
+  // Nemr 2026-07-05 (hide historical from operational views): bound to the last
+  // 14 days of completions. Older completed-but-unverified WOs are historical
+  // backlog, not today's operational decision, so they no longer flood the queue.
+  const VERIFY_WINDOW_DAYS = 14;
   const { data: pending = [], isLoading } = useTasksByStatus(["completed"], {
     orderBy: "completed_at", ascending: false, limit: 500,
+    since: { field: "completed_at", days: VERIFY_WINDOW_DAYS },
   });
   const guardedTransition = useGuardedTaskTransition();
   const addUpdate = useAddTaskUpdate();
@@ -50,6 +55,7 @@ const VerificationQueue = () => {
   return (
     <AppShell title={t("Verification Queue")}>
       <div className="p-4 space-y-3">
+        <p className="text-xs text-muted-foreground -mt-1">{t("Showing the last 14 days.")}</p>
         {isLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
           pending.length ? pending.map((task) => (
             <Card key={task.id} className="cursor-pointer hover:bg-secondary/50 transition-colors" onClick={() => navigate(`/tasks/${task.id}`)}>

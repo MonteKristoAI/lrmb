@@ -512,6 +512,18 @@ const translations = {
   "Due": { es: "Vence" },
   "Auto": { es: "Auto" },
 
+  // Aya intelligence layer (2026-07-05)
+  "Aya": { es: "Aya" },
+  "updated": { es: "actualizado" },
+  "Showing the last 14 days.": { es: "Mostrando los últimos 14 días." },
+  "By event": { es: "Por evento" },
+  "Flat list": { es: "Lista simple" },
+  "Checkout Clean": { es: "Limpieza de salida" },
+  "Arrival": { es: "Llegada" },
+  "Departure": { es: "Salida" },
+  "Turnover": { es: "Recambio" },
+  "Other work": { es: "Otros trabajos" },
+
   // Common
   "Loading...": { es: "Cargando..." },
   "No active work orders assigned.": { es: "No hay ordenes de trabajo activas asignadas." },
