@@ -100,18 +100,8 @@ Deno.serve(async (req) => {
 
   const platform = await generate(gwKey, platformSignals, validLinks);
   if (platform) {
-    await supabase.from("aya_insights").upsert({
-      scope: "platform",
-      property_id: null,
-      generated_for: today,
-      headline: platform.headline,
-      narrative: platform.narrative,
-      bullets: platform.bullets,
-      source_signals: platformSignals,
-      model: MODEL,
-      generated_at: new Date().toISOString(),
-    }, { onConflict: "scope,property_id,generated_for" });
-    results.push({ scope: "platform", ok: true, bullets: platform.bullets.length });
+    const err = await persist(supabase, "platform", null, today, platform, platformSignals);
+    results.push({ scope: "platform", ok: !err, bullets: platform.bullets.length, err });
   }
 
   // 3b. Per-property, only for properties that are NOT healthy (save tokens).
@@ -121,22 +111,43 @@ Deno.serve(async (req) => {
     const propSignals = maskSignals({ scope: "property", date: today, property: p });
     const insight = await generate(gwKey, propSignals, validLinks);
     if (!insight) continue;
-    await supabase.from("aya_insights").upsert({
-      scope: "property",
-      property_id: p.property_id,
-      generated_for: today,
-      headline: insight.headline,
-      narrative: insight.narrative,
-      bullets: insight.bullets,
-      source_signals: propSignals,
-      model: MODEL,
-      generated_at: new Date().toISOString(),
-    }, { onConflict: "scope,property_id,generated_for" });
-    results.push({ scope: "property", property_id: p.property_id, ok: true, bullets: insight.bullets.length });
+    const err = await persist(supabase, "property", p.property_id as string, today, insight, propSignals);
+    results.push({ scope: "property", property_id: p.property_id, ok: !err, bullets: insight.bullets.length, err });
   }
 
   return json(200, { generated: results.length, results, elapsedMs: Date.now() - startedAt });
 });
+
+// Idempotent write: delete today's row for this scope/property, then insert.
+// We do NOT use PostgREST upsert(onConflict) because the dedupe uniqueness is an
+// expression index (COALESCE(property_id, sentinel)) that onConflict can't target,
+// which silently no-ops the write. Delete+insert doesn't depend on the constraint
+// shape. Returns an error string on failure, or null on success.
+async function persist(
+  supabase: ReturnType<typeof createClient>,
+  scope: "platform" | "property",
+  propertyId: string | null,
+  today: string,
+  out: AyaOut,
+  signals: unknown,
+): Promise<string | null> {
+  let del = supabase.from("aya_insights").delete().eq("scope", scope).eq("generated_for", today);
+  del = propertyId === null ? del.is("property_id", null) : del.eq("property_id", propertyId);
+  const { error: delErr } = await del;
+  if (delErr) return `delete: ${delErr.message}`;
+  const { error: insErr } = await supabase.from("aya_insights").insert({
+    scope,
+    property_id: propertyId,
+    generated_for: today,
+    headline: out.headline,
+    narrative: out.narrative,
+    bullets: out.bullets,
+    source_signals: signals,
+    model: MODEL,
+    generated_at: new Date().toISOString(),
+  });
+  return insErr ? `insert: ${insErr.message}` : null;
+}
 
 // --- LLM call -------------------------------------------------------------
 
