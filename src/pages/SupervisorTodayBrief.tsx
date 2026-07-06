@@ -12,6 +12,7 @@ import { TempoBadge } from "@/components/dashboard/TempoBadge";
 import { VendorDelayList } from "@/components/dashboard/VendorDelayList";
 import { Plane, PlaneLanding, PlaneTakeoff, Repeat, AlertOctagon, CheckCircle2, Star, Timer } from "lucide-react";
 import { safeFormat } from "@/lib/utils";
+import { AyaBrief } from "@/components/dashboard/AyaBrief";
 
 // v3.0 Wave 1 (2026-07-01): Supervisor Today's Brief.
 // Route /supervisor/today. Data via supervisor_brief_bundle() RPC (one round-trip).
@@ -87,6 +88,10 @@ const SupervisorTodayBrief = () => {
   return (
     <AppShell title={t("Today's Brief")}>
       <div className="p-4 space-y-4">
+        {/* Aya: the same operational-awareness narrative leadership sees, so a
+            supervisor opens to "what needs attention today and why". */}
+        <AyaBrief scope="platform" />
+
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-lg font-bold text-foreground">{dateLabel}</h2>

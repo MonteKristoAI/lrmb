@@ -54,9 +54,21 @@ BEGIN
     'exceptions', (SELECT COALESCE(jsonb_agg(row_to_json(e)),'[]'::jsonb) FROM (
         SELECT severity,title,subtitle,entity_type,entity_id,entity_link FROM public.mv_operational_exceptions
         ORDER BY severity, created_at DESC LIMIT 30) e),
-    'properties_at_risk', (SELECT COALESCE(jsonb_agg(row_to_json(m) ORDER BY
-        CASE risk_band WHEN 'critical' THEN 1 WHEN 'at_risk' THEN 2 WHEN 'watch' THEN 3 ELSE 4 END, health_score ASC)
-        FILTER (WHERE risk_band!='healthy'), '[]'::jsonb) FROM public.mv_properties_at_risk m),
+    -- Each at-risk property carries its own health_delta_24h so the per-property
+    -- brief can state a REAL trend. The field is OMITTED (not null) when there is
+    -- no ~24h-ago snapshot, so the model has no ambiguous null to fabricate from.
+    'properties_at_risk', (
+      SELECT COALESCE(jsonb_agg(pj ORDER BY sort_key, hs ASC), '[]'::jsonb) FROM (
+        SELECT (to_jsonb(m) ||
+                CASE WHEN d.delta IS NULL THEN '{}'::jsonb ELSE jsonb_build_object('health_delta_24h', d.delta) END) AS pj,
+               CASE m.risk_band WHEN 'critical' THEN 1 WHEN 'at_risk' THEN 2 WHEN 'watch' THEN 3 ELSE 4 END AS sort_key,
+               m.health_score AS hs
+        FROM public.mv_properties_at_risk m
+        LEFT JOIN LATERAL (SELECT m.health_score - s.score AS delta FROM public.ops_health_snapshots s
+                           WHERE s.property_id=m.property_id AND s.captured_at <= now()-interval '24 hours'
+                           ORDER BY s.captured_at DESC LIMIT 1) d ON true
+        WHERE m.risk_band!='healthy'
+      ) q),
     'computed_at', now(),
     -- Redaction seed: EVERY arrival guest name in a +/-2 day window (VIP or not).
     -- The edge fn uses this only to build the PHI redaction set, then strips it

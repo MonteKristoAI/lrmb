@@ -75,7 +75,7 @@ Deno.serve(async (req) => {
       let brief = await generate(gwKey, pModel, platformSignals, validLinks, locale, false);
       if (brief && !fast) brief = await refine(gwKey, pModel, platformSignals, brief, validLinks, locale) ?? brief;
       if (brief) {
-        const err = await persist(supabase, "platform", null, today, locale, brief, platformSignals);
+        const err = await persist(supabase, "platform", null, today, locale, pModel, brief, platformSignals);
         results.push({ scope: "platform", locale, ok: !err, bullets: brief.bullets.length, err });
       }
     }
@@ -89,7 +89,7 @@ Deno.serve(async (req) => {
       for (const locale of LOCALES) {
         const brief = await generate(gwKey, PROPERTY_MODEL, propSignals, validLinks, locale, true);
         if (!brief) continue;
-        const err = await persist(supabase, "property", p.property_id as string, today, locale, brief, propSignals);
+        const err = await persist(supabase, "property", p.property_id as string, today, locale, PROPERTY_MODEL, brief, propSignals);
         results.push({ scope: "property", property_id: p.property_id, locale, ok: !err, bullets: brief.bullets.length, err });
       }
     }
@@ -124,14 +124,14 @@ function stripForPlatform(b: Record<string, unknown>): Record<string, unknown> {
   };
 }
 
-async function persist(supabase: ReturnType<typeof createClient>, scope: "platform" | "property", propertyId: string | null, today: string, locale: string, out: AyaOut, signals: unknown): Promise<string | null> {
+async function persist(supabase: ReturnType<typeof createClient>, scope: "platform" | "property", propertyId: string | null, today: string, locale: string, model: string, out: AyaOut, signals: unknown): Promise<string | null> {
   let del = supabase.from("aya_insights").delete().eq("scope", scope).eq("generated_for", today).eq("locale", locale);
   del = propertyId === null ? del.is("property_id", null) : del.eq("property_id", propertyId);
   const { error: delErr } = await del;
   if (delErr) return `delete: ${delErr.message}`;
   const { error: insErr } = await supabase.from("aya_insights").insert({
     scope, property_id: propertyId, generated_for: today, locale, headline: out.headline, narrative: out.narrative,
-    bullets: out.bullets, source_signals: signals, model: scope === "platform" ? PLATFORM_MODEL : PROPERTY_MODEL, generated_at: new Date().toISOString(),
+    bullets: out.bullets, source_signals: signals, model, generated_at: new Date().toISOString(),
   });
   return insErr ? `insert: ${insErr.message}` : null;
 }
@@ -146,8 +146,9 @@ const SYSTEM_PROMPT =
   "From the operational signals, tell the operator ONLY the few things that actually matter right now, " +
   "ranked by business impact: revenue at risk, VIP guests arriving, SLA breaches, and units not guest-ready " +
   "for imminent arrivals. Do not describe the data or enumerate everything; synthesize the top 3 to 5. " +
-  "Quantify impact using the real numbers in the signals (dollars, counts, hours). State the health trend " +
-  "(improving or worsening vs 24h ago) when relevant. The headline is the single highest-leverage decision " +
+  "Quantify impact using the real numbers in the signals (dollars, counts, hours). Only mention a health " +
+  "trend (better or worse vs 24h ago) if a delta value (e.g. health_delta) is present in the signals; if no " +
+  "delta is given, do NOT claim any 24h comparison. The headline is the single highest-leverage decision " +
   "to make today. Every claim must be traceable to the signals; never invent a property, unit, guest, number, " +
   "or link. Be direct and specific, name the unit or property, no filler, no hedging, no em-dashes. " +
   "For each item give a concrete next action, not a restatement of the problem. " +
