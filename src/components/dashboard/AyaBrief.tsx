@@ -26,7 +26,7 @@ export function AyaBrief({
   propertyId,
   compact = false,
 }: {
-  scope: "platform" | "property";
+  scope: "platform" | "property" | "housekeeping" | "maintenance";
   propertyId?: string;
   compact?: boolean;
 }) {

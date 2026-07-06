@@ -18,11 +18,13 @@ export interface AyaInsight {
   generated_at: string;
 }
 
-export function useAyaInsight(scope: "platform" | "property", propertyId?: string) {
+export function useAyaInsight(scope: "platform" | "property" | "housekeeping" | "maintenance", propertyId?: string) {
   const { locale } = useI18n();
   return useQuery({
     queryKey: ["aya_insight", scope, propertyId ?? null, locale],
-    enabled: scope === "platform" || !!propertyId,
+    // Property scope needs an id; every other scope (platform, team) is enabled
+    // without one.
+    enabled: scope !== "property" || !!propertyId,
     queryFn: async (): Promise<AyaInsight | null> => {
       const { data, error } = await supabase.rpc("aya_latest_insight", {
         p_scope: scope,
