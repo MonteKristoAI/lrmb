@@ -107,8 +107,14 @@ Deno.serve(async (req) => {
     const atRisk = (bundle.properties_at_risk ?? []) as Array<Record<string, unknown>>;
     for (const p of atRisk.slice(0, 8)) {
       const propSignals = maskSignals({ scope: "property", date: today, property: p }, redactNames);
+      // The property carries its own top open tasks (with /tasks links); allow
+      // those so per-property bullets can point at specific work orders.
+      const propLinks = new Set(validLinks);
+      for (const tu of ((p.top_urgent ?? []) as Array<Record<string, unknown>>)) {
+        if (typeof tu.entity_link === "string") propLinks.add(tu.entity_link);
+      }
       for (const locale of LOCALES) {
-        const brief = await generate(gwKey, PROPERTY_MODEL, propSignals, validLinks, locale, true);
+        const brief = await generate(gwKey, PROPERTY_MODEL, propSignals, propLinks, locale, true);
         if (!brief) continue;
         const err = await persist(supabase, "property", p.property_id as string, today, locale, PROPERTY_MODEL, brief, propSignals);
         results.push({ scope: "property", property_id: p.property_id, locale, ok: !err, bullets: brief.bullets.length, err });

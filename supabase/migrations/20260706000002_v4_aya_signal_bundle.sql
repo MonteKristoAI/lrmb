@@ -54,13 +54,23 @@ BEGIN
     'exceptions', (SELECT COALESCE(jsonb_agg(row_to_json(e)),'[]'::jsonb) FROM (
         SELECT severity,title,subtitle,entity_type,entity_id,entity_link FROM public.mv_operational_exceptions
         ORDER BY severity, created_at DESC LIMIT 30) e),
-    -- Each at-risk property carries its own health_delta_24h so the per-property
-    -- brief can state a REAL trend. The field is OMITTED (not null) when there is
-    -- no ~24h-ago snapshot, so the model has no ambiguous null to fabricate from.
+    -- Each at-risk property carries its own health_delta_24h (OMITTED, not null,
+    -- when there is no ~24h snapshot so the model cannot fabricate a trend) plus
+    -- its top 5 open tasks with /tasks links, so per-property bullets are specific
+    -- and clickable rather than count summaries.
     'properties_at_risk', (
       SELECT COALESCE(jsonb_agg(pj ORDER BY sort_key, hs ASC), '[]'::jsonb) FROM (
-        SELECT (to_jsonb(m) ||
-                CASE WHEN d.delta IS NULL THEN '{}'::jsonb ELSE jsonb_build_object('health_delta_24h', d.delta) END) AS pj,
+        SELECT (to_jsonb(m)
+                || CASE WHEN d.delta IS NULL THEN '{}'::jsonb ELSE jsonb_build_object('health_delta_24h', d.delta) END
+                || jsonb_build_object('top_urgent', COALESCE((
+                     SELECT jsonb_agg(row_to_json(tu) ORDER BY tu.score DESC) FROM (
+                       SELECT ('/tasks/'||t.id) AS entity_link, t.title, t.status, t.priority, t.housekeeping_type, t.task_category,
+                              u.unit_code, COALESCE(s.score,0) AS score,
+                              (SELECT dd.deadline < now() FROM public.task_sla_deadlines dd WHERE dd.task_id=t.id) AS past_sla
+                       FROM public.tasks t LEFT JOIN public.task_priority_scores s ON s.task_id=t.id LEFT JOIN public.units u ON u.id=t.unit_id
+                       WHERE t.property_id=m.property_id AND t.status IN ('new','assigned','in_progress','vendor_not_started','waiting_parts','blocked')
+                       ORDER BY COALESCE(s.score,0) DESC LIMIT 5) tu), '[]'::jsonb))
+               ) AS pj,
                CASE m.risk_band WHEN 'critical' THEN 1 WHEN 'at_risk' THEN 2 WHEN 'watch' THEN 3 ELSE 4 END AS sort_key,
                m.health_score AS hs
         FROM public.mv_properties_at_risk m
