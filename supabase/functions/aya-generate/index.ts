@@ -44,6 +44,7 @@ Deno.serve(async (req) => {
   const startedAt = Date.now();
   const runId = crypto.randomUUID();
   const cost = newCost();
+  let attempts = 0; // (scope, locale) briefs we tried to generate; results.length = succeeded
   const today = new Date().toISOString().slice(0, 10);
   const url = new URL(req.url);
   const onlyScope = url.searchParams.get("scope"); // 'platform' | 'property' | null(both)
@@ -52,7 +53,12 @@ Deno.serve(async (req) => {
   const fast = url.searchParams.get("fast") === "1";
 
   const { data: bundle, error: bundleErr } = await supabase.rpc("aya_signal_bundle");
-  if (bundleErr || !bundle) return json(500, { error: "signal_bundle_failed", detail: bundleErr?.message });
+  if (bundleErr || !bundle) {
+    // A real outage (the signal RPC failed). Log an error row so the n8n handler
+    // alerts, then 500 (previously invisible: it returned before any audit).
+    await writeRunAudit(supabase, runId, { fast, scopes: onlyScope ?? "all" }, cost, startedAt, [], 0, "signal_bundle_failed");
+    return json(500, { error: "signal_bundle_failed", detail: bundleErr?.message });
+  }
 
   // Redaction seed: every arrival guest name (incl. non-VIP names that only
   // appear inside exception subtitles, which have no guest_name field). Used to
@@ -62,7 +68,7 @@ Deno.serve(async (req) => {
   if (!gwKey) {
     // Config error, not a transient blip: the key that lets Aya think is gone.
     // Log it as an error row so the n8n handler alerts, then skip cleanly.
-    await writeRunAudit(supabase, runId, { fast, scopes: onlyScope ?? "all" }, cost, startedAt, [], "MK_GW_KEY unset");
+    await writeRunAudit(supabase, runId, { fast, scopes: onlyScope ?? "all" }, cost, startedAt, [], 0, "MK_GW_KEY unset");
     return json(200, {
       skipped: true, reason: "MK_GW_KEY unset", signals_ready: true,
       counts: { exceptions: (bundle.exceptions ?? []).length, at_risk: (bundle.properties_at_risk ?? []).length },
@@ -85,6 +91,7 @@ Deno.serve(async (req) => {
     const platformSignals = maskSignals(stripForPlatform(bundle), redactNames);
     const pModel = fast ? PROPERTY_MODEL : PLATFORM_MODEL;
     for (const locale of LOCALES) {
+      attempts++;
       let brief = await generate(cost, gwKey, pModel, platformSignals, validLinks, locale, false);
       if (brief && !fast) brief = await refine(cost, gwKey, pModel, platformSignals, brief, validLinks, locale) ?? brief;
       if (brief) {
@@ -107,6 +114,7 @@ Deno.serve(async (req) => {
       }
       const teamSignals = maskSignals(tb, redactNames);
       for (const locale of LOCALES) {
+        attempts++;
         const brief = await generate(cost, gwKey, PROPERTY_MODEL, teamSignals, teamLinks, locale, false);
         if (!brief) continue;
         const err = await persist(supabase, cat, null, today, locale, PROPERTY_MODEL, brief, teamSignals);
@@ -127,6 +135,7 @@ Deno.serve(async (req) => {
         if (typeof tu.entity_link === "string") propLinks.add(tu.entity_link);
       }
       for (const locale of LOCALES) {
+        attempts++;
         const brief = await generate(cost, gwKey, PROPERTY_MODEL, propSignals, propLinks, locale, true);
         if (!brief) continue;
         const err = await persist(supabase, "property", p.property_id as string, today, locale, PROPERTY_MODEL, brief, propSignals);
@@ -135,13 +144,20 @@ Deno.serve(async (req) => {
     }
   }
 
-  await writeRunAudit(supabase, runId, { fast, scopes: onlyScope ?? "all" }, cost, startedAt, results, null);
+  await writeRunAudit(supabase, runId, { fast, scopes: onlyScope ?? "all" }, cost, startedAt, results, attempts, null);
   return json(200, { generated: results.length, results, elapsedMs: Date.now() - startedAt });
 });
 
 // One structured cost/health row per run, same shape as ops-health-monitor so it
 // surfaces in /admin/audit and the n8n error handler picks up severity:"error".
 // Never throws: a failed audit insert must not fail the run.
+//
+// Severity is derived from the attempted-vs-succeeded ratio, not just total
+// wipeout: a partial failure (some locales/scopes did not survive) is a
+// "warning" so it is visible without paging; a total failure, a write error, or
+// a bundle outage is "error". An unset key (a stable known config state) escalates
+// to "error" only ONCE per day, then de-escalates to "warning" to avoid alert spam
+// on the intraday cron.
 async function writeRunAudit(
   supabase: ReturnType<typeof createClient>,
   runId: string,
@@ -149,16 +165,38 @@ async function writeRunAudit(
   cost: CostAccumulator,
   startedAt: number,
   results: Array<Record<string, unknown>>,
+  attempts: number,
   skipReason: string | null,
 ): Promise<void> {
   const persistErrors = results.filter((r) => r.err).length;
-  // Error when the key is gone, when we called the model but nothing survived, or
-  // when a write failed. A normal run that produced briefs is info.
-  const isError = !!skipReason || (cost.calls > 0 && results.length === 0) || persistErrors > 0;
-  const severity = isError ? "error" : "info";
+  const failedGenerate = Math.max(0, attempts - results.length);
+
+  let severity: "info" | "warning" | "error";
+  if (skipReason) {
+    // De-dupe: only the first skip/outage of the day pages; later ones warn.
+    let priorToday = 0;
+    try {
+      const since = new Date().toISOString().slice(0, 10);
+      const { count } = await supabase
+        .from("audit_logs")
+        .select("id", { count: "exact", head: true })
+        .eq("action", "aya_generate_run")
+        .gte("created_at", `${since}T00:00:00Z`)
+        .not("payload_json->>skip_reason", "is", null);
+      priorToday = count ?? 0;
+    } catch { /* if the count fails, default to error (louder is safer) */ }
+    severity = priorToday > 0 ? "warning" : "error";
+  } else if (persistErrors > 0 || (attempts > 0 && results.length === 0)) {
+    severity = "error";
+  } else if (failedGenerate > 0) {
+    severity = "warning";
+  } else {
+    severity = "info";
+  }
+
   const desc = skipReason
-    ? `aya_generate_run skipped: ${skipReason}`
-    : `aya_generate_run: ${results.length} insights, $${cost.est_cost_usd.toFixed(4)}, ${cost.total_tokens} tok, ${Date.now() - startedAt}ms`;
+    ? `aya_generate_run ${severity}: ${skipReason}`
+    : `aya_generate_run: ${results.length}/${attempts} briefs, $${cost.est_cost_usd.toFixed(4)}, ${cost.total_tokens} tok, ${Date.now() - startedAt}ms${failedGenerate ? ` (${failedGenerate} failed)` : ""}`;
   try {
     await supabase.from("audit_logs").insert({
       action: "aya_generate_run",
@@ -169,10 +207,14 @@ async function writeRunAudit(
         fast: ctx.fast,
         scopes: ctx.scopes,
         generated: results.length,
+        attempted: attempts,
+        failed_generate: failedGenerate,
         persist_errors: persistErrors,
         llm_calls: cost.calls,
         tokens: { prompt: cost.prompt_tokens, completion: cost.completion_tokens, total: cost.total_tokens },
         est_cost_usd: Number(cost.est_cost_usd.toFixed(5)),
+        price_unknown: cost.price_unknown,
+        usage_missing: cost.usage_missing,
         by_model: cost.by_model,
         elapsed_ms: Date.now() - startedAt,
         skip_reason: skipReason,

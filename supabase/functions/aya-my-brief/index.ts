@@ -27,8 +27,34 @@ function corsHeadersFor(origin: string | null): Record<string, string> {
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const STAFF_MODEL = Deno.env.get("AYA_MODEL") ?? "gpt-4o-mini";
-const CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2h: the cache is also the rate limit.
+const CACHE_TTL_MS = 2 * 60 * 60 * 1000; // 2h TTL backstop; the queue-signature key busts it sooner.
 const QUEUE_LIMIT = 15;
+const STAFF_MAX_TOKENS = 700; // a staff brief is 3-5 short bullets; cap runaway completions.
+// LRMB is a US operation. Key the cache day + the LLM's "today" to the operational
+// TZ, not UTC, so an evening brief is not filed under tomorrow's date.
+const OPS_TZ = Deno.env.get("AYA_OPS_TZ") ?? "America/New_York";
+function opsToday(): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: OPS_TZ, year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+}
+function isoDaysFromNow(days: number): string {
+  return new Date(Date.now() + days * 86400_000).toISOString().slice(0, 10);
+}
+// Stable short signature of the queue: which tasks, in which order, at which
+// status. Any completion / reorder / status change flips it and busts the cache.
+function sigOf(tasks: Array<Record<string, unknown>>): string {
+  const s = tasks.map((t) => `${t.id}:${t.status}`).join(",");
+  let h = 0;
+  for (let i = 0; i < s.length; i++) h = (Math.imul(31, h) + s.charCodeAt(i)) | 0;
+  return `${tasks.length}.${(h >>> 0).toString(36)}`;
+}
+// A name candidate is a person only if it has 2+ tokens and at least one is not a
+// service word, so junk in guest_name (e.g. "Steam Clean") does not get redacted
+// into task titles.
+const NAME_STOP = new Set(["steam","clean","cleaning","final","deep","checkout","check","in","out","arrival","departure","delivery","deliver","inspection","maintenance","turnover","service","move","auto","luxe","hvac","repair","filter","guest","owner","vip","unit","residence","amenities","onboarding","water","waters"]);
+function isPersonName(s: string): boolean {
+  const toks = s.trim().split(/[\s-]+/).filter(Boolean);
+  return toks.length >= 2 && toks.some((t) => !NAME_STOP.has(t.toLowerCase().replace(/[.,]/g, "")));
+}
 
 const STAFF_PROMPT =
   "You are Aya, briefing ONE field worker at a luxury vacation-rental operation. " +
@@ -67,22 +93,13 @@ Deno.serve(async (req) => {
   let body: Record<string, unknown> = {};
   try { body = await req.json(); } catch { /* empty body is fine */ }
   const locale = body.locale === "es" ? "es" : "en";
-  const today = new Date().toISOString().slice(0, 10);
+  const today = opsToday();
 
   const service = createClient(sbUrl, srKey);
 
-  // Cache: a fresh brief for this (user, day, locale) short-circuits the model.
-  const { data: cached } = await service
-    .from("aya_user_briefs")
-    .select("headline, narrative, bullets, model, generated_at")
-    .eq("user_id", userId).eq("generated_for", today).eq("locale", locale)
-    .maybeSingle();
-  if (cached && (Date.now() - new Date(cached.generated_at as string).getTime()) < CACHE_TTL_MS) {
-    return json(200, { brief: shape(cached), cached: true }, origin);
-  }
-
-  // The caller's own ranked queue, resolved by auth.uid() inside my_smart_queue
-  // (user-scoped: srKey client carrying the user's bearer, same as photo-upload).
+  // Fetch the queue FIRST so the cache can be keyed on what the brief actually
+  // summarizes. The caller's own ranked queue, resolved by auth.uid() inside
+  // my_smart_queue (user-scoped: srKey client carrying the user's bearer).
   const userClient = createClient(sbUrl, srKey, {
     global: { headers: { Authorization: `Bearer ${token}` } },
     auth: { persistSession: false, autoRefreshToken: false },
@@ -92,34 +109,67 @@ Deno.serve(async (req) => {
   const tasks = (queue ?? []) as Array<Record<string, unknown>>;
   if (tasks.length === 0) return json(200, { brief: null, reason: "empty_queue" }, origin);
 
-  const gwKey = Deno.env.get("MK_GW_KEY");
-  if (!gwKey) return json(200, { brief: cached ? shape(cached) : null, skipped: true, reason: "MK_GW_KEY unset" }, origin);
+  // Cache key = the queue signature (top task ids + statuses). When the worker
+  // completes or reorders a task the signature changes and the brief regenerates,
+  // so it never keeps naming a finished task. The 2h TTL is only a backstop.
+  const queueSig = sigOf(tasks);
+  const { data: cached } = await service
+    .from("aya_user_briefs")
+    .select("headline, narrative, bullets, model, generated_at, queue_sig")
+    .eq("user_id", userId).eq("generated_for", today).eq("locale", locale)
+    .maybeSingle();
+  if (cached && cached.queue_sig === queueSig && (Date.now() - new Date(cached.generated_at as string).getTime()) < CACHE_TTL_MS) {
+    return json(200, { brief: shape(cached), cached: true }, origin);
+  }
 
-  // Compact, grounded signals + the allowlist of real /tasks links.
+  const gwKey = Deno.env.get("MK_GW_KEY");
+  if (!gwKey) return json(200, { brief: cached ? shape(cached) : null, cached: !!cached, stale: true, skipped: true, reason: "MK_GW_KEY unset" }, origin);
+
+  // Compact, grounded signals + the allowlist of real /tasks links. Guard the id:
+  // a row without a valid uuid would otherwise emit "/tasks/undefined".
   const validLinks = new Set<string>();
-  const signalTasks = tasks.map((t) => {
-    const link = `/tasks/${t.id}`;
-    validLinks.add(link);
-    const unit = t.units as Record<string, unknown> | null;
-    const prop = t.properties as Record<string, unknown> | null;
-    return {
-      entity_link: link,
-      title: t.title,
-      status: t.status,
-      priority: t.priority,
-      task_category: t.task_category,
-      housekeeping_type: t.housekeeping_type,
-      due_at: t.due_at,
-      blocked_reason: t.blocked_reason,
-      unit_code: unit?.unit_code ?? null,
-      property_name: prop?.name ?? null,
-      queue_reason: t.smart_queue_reason,
-      past_sla: t.due_at ? new Date(String(t.due_at)).getTime() < Date.now() : false,
-    };
-  });
-  // No guest_name fields on tasks, but run redaction anyway so a future field or
-  // an embedded name is masked before it reaches the model.
-  const signals = maskSignals({ scope: "staff", date: today, tasks: signalTasks });
+  const signalTasks = tasks
+    .filter((t) => UUID_RE.test(String(t.id)))
+    .map((t) => {
+      const link = `/tasks/${t.id}`;
+      validLinks.add(link);
+      const unit = t.units as Record<string, unknown> | null;
+      const prop = t.properties as Record<string, unknown> | null;
+      return {
+        entity_link: link,
+        title: t.title,
+        status: t.status,
+        priority: t.priority,
+        task_category: t.task_category,
+        housekeeping_type: t.housekeeping_type,
+        due_at: t.due_at,
+        blocked_reason: t.blocked_reason,
+        unit_code: unit?.unit_code ?? null,
+        property_name: prop?.name ?? null,
+        queue_reason: t.smart_queue_reason,
+        past_sla: t.due_at ? new Date(String(t.due_at)).getTime() < Date.now() : false,
+      };
+    });
+  if (signalTasks.length === 0) return json(200, { brief: null, reason: "empty_queue" }, origin);
+
+  // PHI seed: redact any real guest name (from recent arrivals) that might be
+  // embedded in a free-text task title / blocked_reason before the signals reach
+  // the model. maskSignals is a no-op without this seed, since tasks carry no
+  // guest_name field of their own. Filter to plausible person names so junk in
+  // guest_name (service phrases) does not mangle task titles.
+  let redactNames: string[] = [];
+  try {
+    const { data: arrivals } = await service
+      .from("mv_track_reservations_latest")
+      .select("guest_name")
+      .not("guest_name", "is", null)
+      .gte("arrival_date", isoDaysFromNow(-2))
+      .lte("arrival_date", isoDaysFromNow(3));
+    redactNames = ((arrivals ?? []) as Array<{ guest_name: string }>)
+      .map((r) => r.guest_name).filter((n) => typeof n === "string" && isPersonName(n));
+  } catch (e) { console.error("aya-my-brief redact-seed failed", (e as Error).message); }
+
+  const signals = maskSignals({ scope: "staff", date: today, tasks: signalTasks }, redactNames);
 
   const cost = newCost();
   const lang = locale === "es"
@@ -128,15 +178,15 @@ Deno.serve(async (req) => {
   const { content, usage } = await callLLM(gwKey, STAFF_MODEL, [
     { role: "system", content: STAFF_PROMPT + lang },
     { role: "user", content: "Signals:\n" + JSON.stringify(signals) },
-  ]);
+  ], STAFF_MAX_TOKENS);
   accrue(cost, STAFF_MODEL, usage);
   const brief = parseBrief(content, validLinks);
-  if (!brief) return json(200, { brief: cached ? shape(cached) : null, error: "generation_failed" }, origin);
+  if (!brief) return json(200, { brief: cached ? shape(cached) : null, cached: !!cached, stale: !!cached, error: "generation_failed" }, origin);
 
   // Cache it. The unique index is on real columns, so onConflict upsert works
   // (unlike aya_insights' expression index, which silently no-ops).
   const { error: upErr } = await service.from("aya_user_briefs").upsert({
-    user_id: userId, generated_for: today, locale,
+    user_id: userId, generated_for: today, locale, queue_sig: queueSig,
     headline: brief.headline, narrative: brief.narrative, bullets: brief.bullets,
     model: STAFF_MODEL, generated_at: new Date().toISOString(),
   }, { onConflict: "user_id,generated_for,locale" });

@@ -32,12 +32,19 @@ export async function callLLM(
   gwKey: string,
   model: string,
   messages: unknown,
+  maxTokens?: number,
 ): Promise<{ content: string | null; usage: Usage | null }> {
   try {
     const res = await fetch(`${GATEWAY_URL}/chat/completions`, {
       method: "POST",
       headers: { "Authorization": `Bearer ${gwKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model, temperature: 0.2, response_format: { type: "json_object" }, messages }),
+      body: JSON.stringify({
+        model,
+        temperature: 0.2,
+        response_format: { type: "json_object" },
+        ...(maxTokens ? { max_tokens: maxTokens } : {}),
+        messages,
+      }),
     });
     if (!res.ok) {
       console.error("aya gateway error", res.status, (await res.text()).slice(0, 200));
@@ -66,10 +73,15 @@ const PRICE_PER_1M: Record<string, [number, number]> = {
   "gpt-4o": [2.5, 10],
   "gpt-4o-mini": [0.15, 0.6],
 };
-export function estimateCostUsd(model: string, usage: Usage | null): number {
-  if (!usage) return 0;
-  const [inP, outP] = PRICE_PER_1M[model] ?? [0, 0];
-  return (usage.prompt_tokens / 1_000_000) * inP + (usage.completion_tokens / 1_000_000) * outP;
+// Returns [usd, priceKnown]. An unknown model falls back to the gpt-4o rate
+// (over-estimate, fail loud) rather than $0, so the cost row can't read as a
+// false all-clear when the model is overridden via env.
+export function estimateCostUsd(model: string, usage: Usage | null): [number, boolean] {
+  if (!usage) return [0, true];
+  const known = PRICE_PER_1M[model];
+  const [inP, outP] = known ?? PRICE_PER_1M["gpt-4o"];
+  const usd = (usage.prompt_tokens / 1_000_000) * inP + (usage.completion_tokens / 1_000_000) * outP;
+  return [usd, !!known];
 }
 
 // A running total the callers accrue into across a whole run.
@@ -80,28 +92,45 @@ export interface CostAccumulator {
   total_tokens: number;
   est_cost_usd: number;
   by_model: Record<string, { calls: number; total_tokens: number }>;
+  price_unknown: boolean; // a model with no price table was hit; cost is an estimate
+  usage_missing: number; // calls where the gateway returned no usage (tokens/$ undercounted)
 }
 export function newCost(): CostAccumulator {
-  return { calls: 0, prompt_tokens: 0, completion_tokens: 0, total_tokens: 0, est_cost_usd: 0, by_model: {} };
+  return { calls: 0, prompt_tokens: 0, completion_tokens: 0, total_tokens: 0, est_cost_usd: 0, by_model: {}, price_unknown: false, usage_missing: 0 };
 }
 export function accrue(cost: CostAccumulator, model: string, usage: Usage | null): void {
   cost.calls += 1;
   const m = (cost.by_model[model] ??= { calls: 0, total_tokens: 0 });
   m.calls += 1;
-  if (!usage) return;
+  if (!usage) {
+    // A non-null content with null usage means real spend we can't see: flag it
+    // so a $0 reading is never mistaken for "no spend".
+    cost.usage_missing += 1;
+    return;
+  }
   cost.prompt_tokens += usage.prompt_tokens;
   cost.completion_tokens += usage.completion_tokens;
   cost.total_tokens += usage.total_tokens;
-  cost.est_cost_usd += estimateCostUsd(model, usage);
+  const [usd, known] = estimateCostUsd(model, usage);
+  cost.est_cost_usd += usd;
+  if (!known) cost.price_unknown = true;
   m.total_tokens += usage.total_tokens;
 }
 
 // Strip the AI-tell glyphs the model still emits despite the prompt (an en-dash
 // as a separator in Spanish, an em-dash, an arrow). Guarantees no banned glyph
 // reaches the client, from any brief, without depending on the model behaving.
+// Strip AI-tell dash glyphs + arrow. Collapses only HORIZONTAL whitespace runs
+// (`[^\S\n]` = whitespace that is not a newline) so intentional line breaks in a
+// narrative survive; a bare em/en-dash with no spaces gets " - " so ranges stay
+// readable.
 function deGlyph(s: string): string {
-  return s.replace(/\s*[\u2014\u2013]\s*/g, " - ").replace(/\s*\u2192\s*/g, " ").replace(/\s{2,}/g, " ").trim();
+  return s.replace(/\s*[\u2014\u2013]\s*/g, " - ").replace(/\s*\u2192\s*/g, " ").replace(/[^\S\n]{2,}/g, " ").trim();
 }
+function cap(s: string, n: number): string {
+  return s.length > n ? s.slice(0, n) : s;
+}
+const SEVERITIES = new Set(["P1", "P2", "P3"]);
 
 export function parseBrief(content: string | null, validLinks: Set<string>): AyaOut | null {
   if (!content) return null;
@@ -109,16 +138,21 @@ export function parseBrief(content: string | null, validLinks: Set<string>): Aya
     const parsed = JSON.parse(content) as AyaOut;
     if (!parsed.headline || !parsed.narrative) return null;
     const bullets = (parsed.bullets ?? [])
-      .filter((b) => b && typeof b.text === "string")
+      // Require non-empty text so an empty-text bullet can never render a meaningless card.
+      .filter((b) => b && typeof b.text === "string" && b.text.trim().length > 0)
       .map((b) => ({
-        ...b,
-        text: deGlyph(String(b.text)),
-        impact: b.impact ? deGlyph(String(b.impact)) : b.impact,
-        action: b.action ? deGlyph(String(b.action)) : b.action,
+        // Length caps bound the blast radius of model output (prompt-injected or
+        // runaway) into the persisted brief.
+        severity: SEVERITIES.has(String(b.severity)) ? b.severity : "P3",
+        text: cap(deGlyph(String(b.text)), 300),
+        impact: b.impact ? cap(deGlyph(String(b.impact)), 300) : b.impact,
+        action: b.action ? cap(deGlyph(String(b.action)), 300) : b.action,
         entity_link: (b.entity_link && validLinks.has(b.entity_link)) ? b.entity_link : undefined,
       }))
       .slice(0, 5);
-    return { headline: deGlyph(String(parsed.headline)).slice(0, 200), narrative: deGlyph(String(parsed.narrative)), bullets };
+    const headline = deGlyph(String(parsed.headline)).slice(0, 200);
+    if (!headline.trim()) return null;
+    return { headline, narrative: cap(deGlyph(String(parsed.narrative)), 600), bullets };
   } catch {
     return null;
   }

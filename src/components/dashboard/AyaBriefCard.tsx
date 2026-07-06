@@ -15,20 +15,33 @@ export interface AyaBriefData {
   generated_at?: string;
 }
 
-// Same guard the ExceptionFeed uses: never navigate to an off-origin URL.
+// Same guard the ExceptionFeed uses: never navigate off-origin. Rejects `//host`
+// and the backslash tricks (`/\evil`, `/\\`) some routers normalize to `//`.
 function isSafeInternalPath(link: string | undefined): link is string {
-  return !!link && link.startsWith("/") && !link.startsWith("//");
+  return !!link && link.startsWith("/") && !link.startsWith("//") && !link.includes("\\");
 }
 
 function severityDot(sev?: string) {
   if (sev === "P1") return "bg-red-400";
   if (sev === "P2") return "bg-amber-400";
+  if (sev === "P3") return "bg-sky-400";
   return "bg-muted-foreground";
+}
+function severityLabel(sev?: string) {
+  if (sev === "P1") return "Priority 1";
+  if (sev === "P2") return "Priority 2";
+  if (sev === "P3") return "Priority 3";
+  return "";
 }
 
 export function AyaBriefCard({ brief, compact = false }: { brief: AyaBriefData; compact?: boolean }) {
   const { t } = useI18n();
   const navigate = useNavigate();
+
+  // Contract guard in one place: never render a headless card, whichever feed
+  // regresses. The hooks also guard, but the card is the shared surface.
+  if (!brief?.headline?.trim()) return null;
+  const bullets = brief.bullets ?? [];
 
   return (
     <Card className="border-l-4" style={{ borderLeftColor: "#c9a84c" }}>
@@ -50,14 +63,17 @@ export function AyaBriefCard({ brief, compact = false }: { brief: AyaBriefData; 
         </p>
         <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{brief.narrative}</p>
 
-        {brief.bullets.length > 0 && (
+        {bullets.length > 0 && (
           <ul className="mt-3 space-y-2">
-            {brief.bullets.map((b, i) => {
+            {bullets.map((b, i) => {
               const clickable = isSafeInternalPath(b.entity_link);
+              const sevLabel = severityLabel(b.severity);
               const inner = (
                 <span className="flex items-start gap-2">
                   <span className={`mt-1.5 h-1.5 w-1.5 rounded-full shrink-0 ${severityDot(b.severity)}`} aria-hidden="true" />
                   <span className="min-w-0 flex-1">
+                    {/* Severity by shape/color AND text, not color alone (WCAG 1.4.1). */}
+                    {sevLabel && <span className="sr-only">{sevLabel}. </span>}
                     <span className="block text-sm font-medium text-foreground">{b.text}</span>
                     {b.impact && <span className="block text-xs text-muted-foreground mt-0.5">{b.impact}</span>}
                     {b.action && (
@@ -69,19 +85,23 @@ export function AyaBriefCard({ brief, compact = false }: { brief: AyaBriefData; 
                   </span>
                 </span>
               );
+              // Accessible name carries the full visible content (impact included),
+              // so a screen-reader user hears why it is urgent, not just the label.
+              const label = [sevLabel, b.text, b.impact, b.action].filter(Boolean).join(". ");
+              const key = b.entity_link ?? `${b.text}-${i}`;
               return clickable ? (
-                <li key={i}>
+                <li key={key}>
                   <button
                     type="button"
                     onClick={() => navigate(b.entity_link!)}
                     className="w-full text-left rounded-md px-1.5 py-1.5 -mx-1.5 hover:bg-secondary/50 transition-colors"
-                    aria-label={`${b.text}. ${b.action ?? ""}`}
+                    aria-label={label}
                   >
                     {inner}
                   </button>
                 </li>
               ) : (
-                <li key={i} className="px-1.5 py-1.5">{inner}</li>
+                <li key={key} className="px-1.5 py-1.5">{inner}</li>
               );
             })}
           </ul>

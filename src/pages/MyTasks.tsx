@@ -44,6 +44,7 @@ const MyTasks = () => {
     try {
       await supabase.auth.refreshSession();
       await queryClient.invalidateQueries({ queryKey: ["my_smart_queue"] });
+      await queryClient.invalidateQueries({ queryKey: ["aya_my_brief"] });
     } finally {
       setRefreshing(false);
     }

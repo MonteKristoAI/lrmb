@@ -23,8 +23,12 @@ export function useMyAyaBrief() {
       const brief = (data as { brief?: AyaBriefData | null } | null)?.brief;
       return brief && brief.headline ? brief : null;
     },
-    staleTime: 30 * 60_000,
-    refetchInterval: false,
+    // Track the queue it summarizes: the smart queue refetches every 60s, so the
+    // brief refetches a beat later. The edge fn returns its cached brief (no LLM)
+    // unless the queue signature changed, so this is cheap; it only regenerates
+    // when the worker's queue actually changes (e.g. they finish a task).
+    staleTime: 60_000,
+    refetchInterval: 90_000,
     retry: false,
   });
 }
