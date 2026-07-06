@@ -5,6 +5,7 @@ import { useI18n } from "@/lib/i18n";
 import { AppShell } from "@/components/layout/AppShell";
 import { TaskCard } from "@/components/tasks/TaskCard";
 import { NextUpHero } from "@/components/tasks/NextUpHero";
+import { MyAyaBrief } from "@/components/dashboard/MyAyaBrief";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { RefreshCw } from "lucide-react";
@@ -54,6 +55,7 @@ const MyTasks = () => {
   return (
     <AppShell title={t("My Work Orders")}>
       <div className="p-4 space-y-4">
+        <MyAyaBrief />
         {isLoading ? (
           <>
             <Skeleton className="h-40 rounded-lg" />

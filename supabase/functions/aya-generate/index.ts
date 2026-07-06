@@ -9,13 +9,21 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { requireCronSecret } from "../_shared/cron-auth.ts";
+import {
+  accrue,
+  type AyaOut,
+  callLLM,
+  type CostAccumulator,
+  maskSignals,
+  newCost,
+  parseBrief,
+} from "../_shared/aya-llm.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-cron-secret",
 };
 
-const GATEWAY_URL = Deno.env.get("MK_GW_URL") ?? "https://gateway.montekristo.co/v1";
 // The platform brief is the headline; give it the stronger model. Per-property
 // notes are many + change slowly, so the cheap model is fine.
 const PLATFORM_MODEL = Deno.env.get("AYA_PLATFORM_MODEL") ?? "gpt-4o";
@@ -34,6 +42,8 @@ Deno.serve(async (req) => {
 
   const gwKey = Deno.env.get("MK_GW_KEY");
   const startedAt = Date.now();
+  const runId = crypto.randomUUID();
+  const cost = newCost();
   const today = new Date().toISOString().slice(0, 10);
   const url = new URL(req.url);
   const onlyScope = url.searchParams.get("scope"); // 'platform' | 'property' | null(both)
@@ -50,6 +60,9 @@ Deno.serve(async (req) => {
   const redactNames = ((bundle._redact_names ?? []) as string[]).filter((n) => typeof n === "string");
 
   if (!gwKey) {
+    // Config error, not a transient blip: the key that lets Aya think is gone.
+    // Log it as an error row so the n8n handler alerts, then skip cleanly.
+    await writeRunAudit(supabase, runId, { fast, scopes: onlyScope ?? "all" }, cost, startedAt, [], "MK_GW_KEY unset");
     return json(200, {
       skipped: true, reason: "MK_GW_KEY unset", signals_ready: true,
       counts: { exceptions: (bundle.exceptions ?? []).length, at_risk: (bundle.properties_at_risk ?? []).length },
@@ -72,8 +85,8 @@ Deno.serve(async (req) => {
     const platformSignals = maskSignals(stripForPlatform(bundle), redactNames);
     const pModel = fast ? PROPERTY_MODEL : PLATFORM_MODEL;
     for (const locale of LOCALES) {
-      let brief = await generate(gwKey, pModel, platformSignals, validLinks, locale, false);
-      if (brief && !fast) brief = await refine(gwKey, pModel, platformSignals, brief, validLinks, locale) ?? brief;
+      let brief = await generate(cost, gwKey, pModel, platformSignals, validLinks, locale, false);
+      if (brief && !fast) brief = await refine(cost, gwKey, pModel, platformSignals, brief, validLinks, locale) ?? brief;
       if (brief) {
         const err = await persist(supabase, "platform", null, today, locale, pModel, brief, platformSignals);
         results.push({ scope: "platform", locale, ok: !err, bullets: brief.bullets.length, err });
@@ -94,7 +107,7 @@ Deno.serve(async (req) => {
       }
       const teamSignals = maskSignals(tb, redactNames);
       for (const locale of LOCALES) {
-        const brief = await generate(gwKey, PROPERTY_MODEL, teamSignals, teamLinks, locale, false);
+        const brief = await generate(cost, gwKey, PROPERTY_MODEL, teamSignals, teamLinks, locale, false);
         if (!brief) continue;
         const err = await persist(supabase, cat, null, today, locale, PROPERTY_MODEL, brief, teamSignals);
         results.push({ scope: cat, locale, ok: !err, bullets: brief.bullets.length, err });
@@ -114,7 +127,7 @@ Deno.serve(async (req) => {
         if (typeof tu.entity_link === "string") propLinks.add(tu.entity_link);
       }
       for (const locale of LOCALES) {
-        const brief = await generate(gwKey, PROPERTY_MODEL, propSignals, propLinks, locale, true);
+        const brief = await generate(cost, gwKey, PROPERTY_MODEL, propSignals, propLinks, locale, true);
         if (!brief) continue;
         const err = await persist(supabase, "property", p.property_id as string, today, locale, PROPERTY_MODEL, brief, propSignals);
         results.push({ scope: "property", property_id: p.property_id, locale, ok: !err, bullets: brief.bullets.length, err });
@@ -122,8 +135,54 @@ Deno.serve(async (req) => {
     }
   }
 
+  await writeRunAudit(supabase, runId, { fast, scopes: onlyScope ?? "all" }, cost, startedAt, results, null);
   return json(200, { generated: results.length, results, elapsedMs: Date.now() - startedAt });
 });
+
+// One structured cost/health row per run, same shape as ops-health-monitor so it
+// surfaces in /admin/audit and the n8n error handler picks up severity:"error".
+// Never throws: a failed audit insert must not fail the run.
+async function writeRunAudit(
+  supabase: ReturnType<typeof createClient>,
+  runId: string,
+  ctx: { fast: boolean; scopes: string },
+  cost: CostAccumulator,
+  startedAt: number,
+  results: Array<Record<string, unknown>>,
+  skipReason: string | null,
+): Promise<void> {
+  const persistErrors = results.filter((r) => r.err).length;
+  // Error when the key is gone, when we called the model but nothing survived, or
+  // when a write failed. A normal run that produced briefs is info.
+  const isError = !!skipReason || (cost.calls > 0 && results.length === 0) || persistErrors > 0;
+  const severity = isError ? "error" : "info";
+  const desc = skipReason
+    ? `aya_generate_run skipped: ${skipReason}`
+    : `aya_generate_run: ${results.length} insights, $${cost.est_cost_usd.toFixed(4)}, ${cost.total_tokens} tok, ${Date.now() - startedAt}ms`;
+  try {
+    await supabase.from("audit_logs").insert({
+      action: "aya_generate_run",
+      entity_type: "system",
+      entity_id: runId,
+      description: desc,
+      payload_json: {
+        fast: ctx.fast,
+        scopes: ctx.scopes,
+        generated: results.length,
+        persist_errors: persistErrors,
+        llm_calls: cost.calls,
+        tokens: { prompt: cost.prompt_tokens, completion: cost.completion_tokens, total: cost.total_tokens },
+        est_cost_usd: Number(cost.est_cost_usd.toFixed(5)),
+        by_model: cost.by_model,
+        elapsed_ms: Date.now() - startedAt,
+        skip_reason: skipReason,
+        severity,
+      },
+    });
+  } catch (err) {
+    console.error("aya audit insert failed:", (err as Error).message);
+  }
+}
 
 // Trim the bundle to what the platform prompt needs (drop noisy nested arrays we
 // do not want the model to over-enumerate; keep the summary numbers + top rows).
@@ -165,9 +224,6 @@ async function persist(supabase: ReturnType<typeof createClient>, scope: string,
 
 // --- LLM --------------------------------------------------------------------
 
-interface Bullet { severity: string; text: string; impact?: string; action?: string; entity_link?: string }
-interface AyaOut { headline: string; narrative: string; bullets: Bullet[] }
-
 const SYSTEM_PROMPT =
   "You are Aya, chief of staff to the COO of a luxury vacation-rental operation. " +
   "From the operational signals, tell the operator ONLY the few things that actually matter right now, " +
@@ -184,50 +240,24 @@ const SYSTEM_PROMPT =
   "\"impact\": quantified why it matters, \"action\": the specific next step, \"entity_link\": string|null}]}. " +
   "Max 5 bullets, ordered by impact. Only use entity_link values that appear verbatim in the signals.";
 
-async function callLLM(gwKey: string, model: string, messages: unknown): Promise<string | null> {
-  try {
-    const res = await fetch(`${GATEWAY_URL}/chat/completions`, {
-      method: "POST",
-      headers: { "Authorization": `Bearer ${gwKey}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ model, temperature: 0.2, response_format: { type: "json_object" }, messages }),
-    });
-    if (!res.ok) { console.error("aya gateway error", res.status, (await res.text()).slice(0, 200)); return null; }
-    const body = await res.json();
-    const c = body?.choices?.[0]?.message?.content;
-    return typeof c === "string" ? c : null;
-  } catch (e) { console.error("aya llm exception", (e as Error).message); return null; }
-}
-
-function parseBrief(content: string | null, validLinks: Set<string>): AyaOut | null {
-  if (!content) return null;
-  try {
-    const parsed = JSON.parse(content) as AyaOut;
-    if (!parsed.headline || !parsed.narrative) return null;
-    const bullets = (parsed.bullets ?? [])
-      .filter((b) => b && typeof b.text === "string")
-      .map((b) => ({ ...b, entity_link: (b.entity_link && validLinks.has(b.entity_link)) ? b.entity_link : undefined }))
-      .slice(0, 5);
-    return { headline: String(parsed.headline).slice(0, 200), narrative: String(parsed.narrative), bullets };
-  } catch { return null; }
-}
-
-async function generate(gwKey: string, model: string, signals: unknown, validLinks: Set<string>, locale: string, actionOptional: boolean): Promise<AyaOut | null> {
+async function generate(cost: CostAccumulator, gwKey: string, model: string, signals: unknown, validLinks: Set<string>, locale: string, actionOptional: boolean): Promise<AyaOut | null> {
   const lang = locale === "es"
     ? " Write headline, narrative, text, impact, and action in Spanish (es). Keep entity_link values exactly as given."
     : "";
   const softer = actionOptional ? " For a single property, 2 to 4 bullets is enough." : "";
-  const content = await callLLM(gwKey, model, [
+  const { content, usage } = await callLLM(gwKey, model, [
     { role: "system", content: SYSTEM_PROMPT + lang + softer },
     { role: "user", content: "Signals:\n" + JSON.stringify(signals) },
   ]);
+  accrue(cost, model, usage);
   return parseBrief(content, validLinks);
 }
 
 // Self-critique + rewrite once. Forces every bullet to be quantified + actionable
 // and drops anything not grounded, before we persist the headline brief.
-async function refine(gwKey: string, model: string, signals: unknown, draft: AyaOut, validLinks: Set<string>, locale: string): Promise<AyaOut | null> {
+async function refine(cost: CostAccumulator, gwKey: string, model: string, signals: unknown, draft: AyaOut, validLinks: Set<string>, locale: string): Promise<AyaOut | null> {
   const lang = locale === "es" ? " Respond in Spanish (es)." : "";
-  const content = await callLLM(gwKey, model, [
+  const { content, usage } = await callLLM(gwKey, model, [
     { role: "system", content: SYSTEM_PROMPT + lang },
     { role: "user", content:
         "Signals:\n" + JSON.stringify(signals) +
@@ -237,50 +267,8 @@ async function refine(gwKey: string, model: string, signals: unknown, draft: Aya
         "and a concrete action, is ranked by impact, and names a specific unit or property. Drop any claim not " +
         "backed by the signals. Do not add entity_link values that are not in the signals." },
   ]);
+  accrue(cost, model, usage);
   return parseBrief(content, validLinks);
-}
-
-// --- PHI redaction ----------------------------------------------------------
-
-function maskSignals(obj: unknown, extraNames: string[] = []): unknown {
-  const names = new Set<string>(extraNames);
-  collectNames(obj, names);
-  const map = new Map<string, string>();
-  // Redact longer names first so "Patricia Merodio Bassan" is replaced before a
-  // substring like "Patricia" would partially match.
-  for (const n of [...names].filter((n) => n.trim()).sort((a, b) => b.length - a.length)) map.set(n, initials(n));
-  return redact(obj, map);
-}
-function collectNames(obj: unknown, into: Set<string>): void {
-  if (Array.isArray(obj)) { for (const v of obj) collectNames(v, into); return; }
-  if (obj && typeof obj === "object") {
-    for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
-      if ((k === "guest_name" || k === "guestName") && typeof v === "string" && v.trim()) into.add(v);
-      else collectNames(v, into);
-    }
-  }
-}
-function redactString(s: string, map: Map<string, string>): string {
-  let out = s;
-  for (const [name, init] of map) if (out.includes(name)) out = out.split(name).join(init);
-  return out;
-}
-function redact(obj: unknown, map: Map<string, string>): unknown {
-  if (typeof obj === "string") return redactString(obj, map);
-  if (Array.isArray(obj)) return obj.map((v) => redact(v, map));
-  if (obj && typeof obj === "object") {
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(obj as Record<string, unknown>)) {
-      out[k] = (k === "guest_name" || k === "guestName") && typeof v === "string" ? initials(v) : redact(v, map);
-    }
-    return out;
-  }
-  return obj;
-}
-function initials(name: string): string {
-  const parts = name.trim().split(/\s+/).filter(Boolean);
-  if (parts.length === 0) return "Guest";
-  return parts.map((p) => p[0].toUpperCase() + ".").join("");
 }
 
 function json(status: number, body: unknown): Response {
