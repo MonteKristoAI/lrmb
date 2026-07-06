@@ -1,7 +1,7 @@
 import { AppShell } from "@/components/layout/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { useTasksByStatus } from "@/hooks/useTasks";
-import { TaskCard } from "@/components/tasks/TaskCard";
+import { EventGroupedList } from "@/components/tasks/EventGroupedList";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const BlockedQueue = () => {
@@ -15,7 +15,7 @@ const BlockedQueue = () => {
     <AppShell title={t("Blocked Work Orders")}>
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
-          blocked.length ? blocked.map((task) => <TaskCard key={task.id} task={task} />) : <p className="text-muted-foreground text-center py-8">{t("No blocked work orders.")}</p>
+          blocked.length ? <EventGroupedList tasks={blocked} /> : <p className="text-muted-foreground text-center py-8">{t("No blocked work orders.")}</p>
         )}
       </div>
     </AppShell>

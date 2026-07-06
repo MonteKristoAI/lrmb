@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { AppShell } from "@/components/layout/AppShell";
 import { useI18n } from "@/lib/i18n";
 import { useTasks } from "@/hooks/useTasks";
-import { TaskCard } from "@/components/tasks/TaskCard";
+import { EventGroupedList } from "@/components/tasks/EventGroupedList";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // QA Agent A P2 (2026-05-29): UUID guard. Without it, a URL like
@@ -34,7 +34,7 @@ const PropertyTasks = () => {
     <AppShell title={`${propertyName} ${t("Work Orders")}`}>
       <div className="p-4 space-y-3">
         {isLoading ? Array.from({ length: 4 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
-          tasks.length ? tasks.map((task) => <TaskCard key={task.id} task={task} />) : <p className="text-muted-foreground text-center py-8">{t("No work orders for this property.")}</p>
+          tasks.length ? <EventGroupedList tasks={tasks} /> : <p className="text-muted-foreground text-center py-8">{t("No work orders for this property.")}</p>
         )}
       </div>
     </AppShell>

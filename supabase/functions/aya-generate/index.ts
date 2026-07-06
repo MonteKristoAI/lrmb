@@ -81,6 +81,27 @@ Deno.serve(async (req) => {
     }
   }
 
+  // 1b. Team briefs (housekeeping, maintenance): grounded team signals so a team
+  // lead (Nemr's "Jennifer") opens the queue to exactly what to tackle first and
+  // why. Cheap model; generated on the platform-inclusive runs (full + fast).
+  if (onlyScope !== "property") {
+    for (const cat of ["housekeeping", "maintenance"] as const) {
+      const { data: tb } = await supabase.rpc("aya_team_bundle", { p_category: cat });
+      if (!tb) continue;
+      const teamLinks = new Set<string>();
+      for (const x of ((tb as Record<string, unknown>).top_urgent ?? []) as Array<Record<string, unknown>>) {
+        if (typeof x.entity_link === "string") teamLinks.add(x.entity_link);
+      }
+      const teamSignals = maskSignals(tb, redactNames);
+      for (const locale of LOCALES) {
+        const brief = await generate(gwKey, PROPERTY_MODEL, teamSignals, teamLinks, locale, false);
+        if (!brief) continue;
+        const err = await persist(supabase, cat, null, today, locale, PROPERTY_MODEL, brief, teamSignals);
+        results.push({ scope: cat, locale, ok: !err, bullets: brief.bullets.length, err });
+      }
+    }
+  }
+
   // 2. Per-property notes for at-risk properties (cheaper model, single pass).
   if (onlyScope !== "platform") {
     const atRisk = (bundle.properties_at_risk ?? []) as Array<Record<string, unknown>>;
@@ -124,7 +145,7 @@ function stripForPlatform(b: Record<string, unknown>): Record<string, unknown> {
   };
 }
 
-async function persist(supabase: ReturnType<typeof createClient>, scope: "platform" | "property", propertyId: string | null, today: string, locale: string, model: string, out: AyaOut, signals: unknown): Promise<string | null> {
+async function persist(supabase: ReturnType<typeof createClient>, scope: string, propertyId: string | null, today: string, locale: string, model: string, out: AyaOut, signals: unknown): Promise<string | null> {
   let del = supabase.from("aya_insights").delete().eq("scope", scope).eq("generated_for", today).eq("locale", locale);
   del = propertyId === null ? del.is("property_id", null) : del.eq("property_id", propertyId);
   const { error: delErr } = await del;

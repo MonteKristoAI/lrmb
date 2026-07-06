@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { LayoutList, CalendarRange } from "lucide-react";
+import { AyaBrief } from "@/components/dashboard/AyaBrief";
 
 const STAGE_DEFS: { key: string; labelKey: string; statuses: string[] }[] = [
   { key: "scheduled", labelKey: "Scheduled", statuses: ["new", "assigned", "vendor_not_started"] },
@@ -26,6 +27,9 @@ const HousekeepingQueue = () => {
   return (
     <AppShell title={t("Housekeeping")}>
       <div className="p-4 space-y-3">
+        {/* Aya for the housekeeping lead: what to tackle first and why. */}
+        <AyaBrief scope="housekeeping" />
+
         {isLoading ? Array.from({ length: 3 }).map((_, i) => <Skeleton key={i} className="h-24" />) : (
           <Tabs defaultValue="scheduled" className="w-full">
             <div className="flex items-center gap-2">
