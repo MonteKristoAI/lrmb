@@ -13,7 +13,7 @@ export interface AyaInsight {
   generated_for: string;
   headline: string;
   narrative: string;
-  bullets: Array<{ severity?: string; text: string; entity_link?: string }>;
+  bullets: Array<{ severity?: string; text: string; impact?: string; action?: string; entity_link?: string }>;
   model: string;
   generated_at: string;
 }
