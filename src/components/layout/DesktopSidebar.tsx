@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/auth";
 import { useI18n } from "@/lib/i18n";
-import { ClipboardList, LayoutDashboard, ShieldCheck, CheckSquare, LogOut, BellRing, BellOff, Command, Building2, SlidersHorizontal, FileSearch, HelpCircle } from "lucide-react";
+import { ClipboardList, LayoutDashboard, ShieldCheck, CheckSquare, LogOut, BellRing, BellOff, Command, Building2, SlidersHorizontal, FileSearch, HelpCircle, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { NotificationBell } from "@/components/notifications/NotificationBell";
 import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
@@ -34,6 +34,10 @@ export function DesktopSidebar() {
     items.push({ label: t("Properties"), icon: Building2, path: "/admin/properties" });
     items.push({ label: t("SLA Config"), icon: SlidersHorizontal, path: "/admin/sla" });
     items.push({ label: t("Audit Log"), icon: FileSearch, path: "/admin/audit" });
+  }
+  // Managing who can sign in is an admin's alone; the server checks it too.
+  if (hasRole("admin")) {
+    items.push({ label: t("Users"), icon: Users, path: "/admin/users" });
   }
   if (hasRole("supervisor") || hasRole("manager") || hasRole("admin")) {
     items.push({ label: t("Supervisor"), icon: ShieldCheck, path: "/supervisor" });

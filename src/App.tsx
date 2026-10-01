@@ -18,6 +18,7 @@ const ExecutiveCommandCenter = lazy(() => import("./pages/ExecutiveCommandCenter
 const AdminSlaConfig = lazy(() => import("./pages/AdminSlaConfig"));
 const AdminPropertiesOverview = lazy(() => import("./pages/AdminPropertiesOverview"));
 const AdminAudit = lazy(() => import("./pages/AdminAudit"));
+const AdminUsers = lazy(() => import("./pages/AdminUsers"));
 const HelpPage = lazy(() => import("./pages/Help"));
 const PropertyDetail = lazy(() => import("./pages/PropertyDetail"));
 const MyTasks = lazy(() => import("./pages/MyTasks"));
@@ -87,6 +88,7 @@ const App = () => (
               <Route path="/admin/properties/:id" element={<ProtectedRoute requireAdminAccess><PropertyDetail /></ProtectedRoute>} />
               <Route path="/admin/sla" element={<ProtectedRoute requireAdminAccess><AdminSlaConfig /></ProtectedRoute>} />
               <Route path="/admin/audit" element={<ProtectedRoute requireAdminAccess><AdminAudit /></ProtectedRoute>} />
+              <Route path="/admin/users" element={<ProtectedRoute requiredRole="admin"><AdminUsers /></ProtectedRoute>} />
               <Route path="/help" element={<ProtectedRoute><HelpPage /></ProtectedRoute>} />
               <Route path="/admin/tasks/create" element={<ProtectedRoute requireAdminAccess><CreateTask /></ProtectedRoute>} />
               <Route path="/admin/tasks/open" element={<ProtectedRoute requireAdminAccess><OpenTasksQueue /></ProtectedRoute>} />
